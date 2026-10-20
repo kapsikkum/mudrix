@@ -27,7 +27,7 @@ mac:
       arch: [arm64]
     - target: zip
       arch: [arm64]
-  icon: icons/icon.icns
+  icon: icons/icon.icon
   identity: null
   hardenedRuntime: true
   gatekeeperAssess: false
