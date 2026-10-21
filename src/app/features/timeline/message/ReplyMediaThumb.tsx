@@ -32,9 +32,21 @@ interface Props {
   event: MatrixEvent;
   client: MatrixClient;
   body: string;
+  thumbClassName?: string;
+  thumbWrapClassName?: string;
+  rowClassName?: string;
+  animate?: boolean;
 }
 
-export function ReplyMediaThumb({ event, client, body }: Props) {
+export function ReplyMediaThumb({
+  event,
+  client,
+  body,
+  thumbClassName = css.replyMediaThumb,
+  thumbWrapClassName = css.replyMediaThumbWrap,
+  rowClassName = css.replyMediaRow,
+  animate = false,
+}: Props) {
   const { t } = useTranslation();
   const content = event.getContent() as Record<string, unknown>;
   const msgtype = content?.msgtype as string | undefined;
@@ -91,13 +103,13 @@ export function ReplyMediaThumb({ event, client, body }: Props) {
           (content.info as Record<string, unknown> | undefined)?.mimetype as string | undefined
         }
         isAnimated={getMediaAnimates(event)}
-        className={css.replyMediaThumb}
-        wrapperClassName={css.replyMediaThumbWrap}
-        alwaysStatic
+        className={thumbClassName}
+        wrapperClassName={thumbWrapClassName}
+        alwaysStatic={!animate}
       />
     );
   } else if (isVideo && thumbnailSrc) {
-    visual = <img className={css.replyMediaThumb} src={thumbnailSrc} alt={label} />;
+    visual = <img className={thumbClassName} src={thumbnailSrc} alt={label} />;
   } else {
     const Icon = isVideo
       ? VideoCameraIcon
@@ -114,7 +126,7 @@ export function ReplyMediaThumb({ event, client, body }: Props) {
   }
 
   return (
-    <span className={css.replyMediaRow}>
+    <span className={rowClassName}>
       {visual}
       {text && <span className={css.replyMediaText}>{text}</span>}
     </span>

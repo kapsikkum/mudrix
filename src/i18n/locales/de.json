@@ -209,6 +209,7 @@
     "header": {
       "pinnedMessages": "Angeheftete Nachrichten",
       "noPinnedMessages": "Keine angehefteten Nachrichten in diesem Raum.",
+      "jumpToMessage": "Zur Nachricht springen",
       "searchMessages": "Nachrichten durchsuchen...",
       "noResults": "Keine Ergebnisse",
       "searchResultCount": "{{active}} / {{total}}",

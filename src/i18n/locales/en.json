@@ -209,6 +209,7 @@
     "header": {
       "pinnedMessages": "Pinned Messages",
       "noPinnedMessages": "No pinned messages in this room.",
+      "jumpToMessage": "Jump to message",
       "searchMessages": "Search messages...",
       "noResults": "No results",
       "searchResultCount": "{{active}} / {{total}}",

@@ -153,6 +153,11 @@ export const headerBtn = style({
   },
 });
 
+export const headerBtnAnchor = style({
+  display: 'flex',
+  flexShrink: 0,
+});
+
 export const headerBtnActive = style([
   headerBtn,
   {
@@ -198,87 +203,6 @@ export const searchBar = style({
 const slideDown = keyframes({
   from: { opacity: 0, transform: 'translateY(-8px)' },
   to: { opacity: 1, transform: 'translateY(0)' },
-});
-
-export const pinnedPanel = style({
-  position: 'absolute',
-  top: '49px',
-  left: 0,
-  right: 0,
-  zIndex: 20,
-  backgroundColor: vars.color.bgSecondary,
-  borderBottom: `1px solid ${vars.color.border}`,
-  animation: `${slideDown} ${fast} ease-out`,
-  maxHeight: '320px',
-  overflowY: 'auto',
-});
-
-export const pinnedPanelHeader = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '10px 16px 8px',
-  borderBottom: `1px solid ${vars.color.border}`,
-});
-
-export const pinnedPanelTitle = style({
-  fontSize: '0.82rem',
-  fontWeight: 700,
-  color: vars.color.textMuted,
-  letterSpacing: '0.05em',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-});
-
-export const pinnedItem = style({
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '10px',
-  padding: '10px 16px',
-  cursor: 'pointer',
-  borderBottom: `1px solid ${vars.color.border}`,
-  transition: `background-color ${fast}`,
-  ':hover': {
-    backgroundColor: vars.color.bgHover,
-  },
-  ':last-child': {
-    borderBottom: 'none',
-  },
-});
-
-export const pinnedPin = style({
-  color: vars.color.accent,
-  fontSize: '0.75rem',
-  marginTop: '2px',
-  flexShrink: 0,
-});
-
-export const pinnedContent = style({
-  flex: 1,
-  minWidth: 0,
-});
-
-export const pinnedSender = style({
-  fontSize: '0.82rem',
-  fontWeight: 600,
-  color: vars.color.accent,
-  marginBottom: '2px',
-});
-
-export const pinnedBody = style({
-  fontSize: '0.95rem',
-  color: vars.color.textPrimary,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-});
-
-export const pinnedEmpty = style({
-  padding: '24px 16px',
-  fontSize: '0.95rem',
-  color: vars.color.textMuted,
-  textAlign: 'center',
 });
 
 export const topicPanel = style({

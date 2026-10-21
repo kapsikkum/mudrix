@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { EventType } from 'matrix-js-sdk';
-import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
+import type { MatrixClient } from 'matrix-js-sdk';
 import {
   PushPinIcon,
-  XIcon,
   PhoneIcon,
   HashStraightIcon,
   SpeakerHighIcon,
@@ -14,117 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Tooltip } from '@/app/components/Tooltip';
 import { membersPanelOpenAtom, threadsPanelViewAtom } from '@/app/store/atoms';
-import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
-import { formatUserId, isVoiceRoom, roomState, roomStateMaybe } from '@/util/matrix';
+import { isVoiceRoom, roomStateMaybe } from '@/util/matrix';
+import { PinnedMessagesPopover } from './PinnedMessagesPopover';
 import * as css from './RoomHeader.css';
-
-function usePinnedMessages(client: MatrixClient, roomId: string) {
-  const room = client.getRoom(roomId);
-
-  const getPinned = useCallback((): MatrixEvent[] => {
-    if (!room) return [];
-    const stateEvent = roomState(room).getStateEvents('m.room.pinned_events', '');
-    const event = Array.isArray(stateEvent) ? stateEvent[0] : stateEvent;
-    const content = event?.getContent() as { pinned?: string[] } | undefined;
-    const ids: string[] = content?.pinned ?? [];
-    const events: MatrixEvent[] = [];
-    for (const id of ids) {
-      const ev = room.findEventById(id);
-      if (ev) events.push(ev);
-    }
-    return events;
-  }, [room]);
-
-  const [pinned, setPinned] = useState<MatrixEvent[]>(getPinned);
-
-  const refresh = useCallback(() => setPinned(getPinned()), [getPinned]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-  useMatrixEvent(client, 'RoomState.events', refresh);
-
-  return pinned;
-}
-
-interface PinnedPanelProps {
-  client: MatrixClient;
-  roomId: string;
-  onJumpTo: (eventId: string) => void;
-  onClose: () => void;
-}
-
-function PinnedPanel({ client, roomId, onJumpTo, onClose }: PinnedPanelProps) {
-  const { t } = useTranslation();
-  const pinned = usePinnedMessages(client, roomId);
-
-  return (
-    <div className={css.pinnedPanel}>
-      <div className={css.pinnedPanelHeader}>
-        <span className={css.pinnedPanelTitle}>
-          <PushPinIcon size={14} />
-          {t('room.header.pinnedMessages')}
-          {pinned.length > 0 && ` (${pinned.length})`}
-        </span>
-        <button
-          type="button"
-          className={css.headerBtn}
-          onClick={onClose}
-          aria-label={t('common.close')}
-        >
-          <XIcon size={16} />
-        </button>
-      </div>
-
-      {pinned.length === 0 ? (
-        <div className={css.pinnedEmpty}>{t('room.header.noPinnedMessages')}</div>
-      ) : (
-        [...pinned].reverse().map((ev) => {
-          const room = client.getRoom(roomId);
-          const senderId = ev.getSender() ?? '';
-          const member = room?.getMember(senderId);
-          const senderName = member?.name ?? formatUserId(senderId);
-          const content = ev.getContent();
-          const body: string = ev.isDecryptionFailure()
-            ? t('timeline.couldNotDecrypt')
-            : ev.isRedacted()
-              ? '(deleted)'
-              : ((content?.body as string) ?? '(media)');
-
-          return (
-            <div
-              key={ev.getId()}
-              className={css.pinnedItem}
-              role="button"
-              tabIndex={0}
-              onClick={() => {
-                onJumpTo(ev.getId() ?? '');
-                onClose();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onJumpTo(ev.getId() ?? '');
-                  onClose();
-                }
-              }}
-            >
-              <PushPinIcon size={12} className={css.pinnedPin} />
-              <div className={css.pinnedContent}>
-                <div className={css.pinnedSender}>{senderName}</div>
-                <div className={css.pinnedBody} title={body}>
-                  {body}
-                </div>
-              </div>
-            </div>
-          );
-        })
-      )}
-    </div>
-  );
-}
 
 interface RoomHeaderProps {
   client: MatrixClient;
@@ -174,25 +67,7 @@ export function RoomHeader({
   const hasLeftHeaderActions =
     (callSupported && onStartCall !== undefined) || onJumpToEvent !== undefined;
 
-  // Close pinned panel on outside click
-  const panelRef = useRef<HTMLDivElement>(null);
-  const pinnedBtnRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (!showPinned) return;
-    const handler = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        panelRef.current &&
-        !panelRef.current.contains(target) &&
-        pinnedBtnRef.current &&
-        !pinnedBtnRef.current.contains(target)
-      ) {
-        setShowPinned(false);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [showPinned]);
+  const pinnedAnchorRef = useRef<HTMLDivElement>(null);
 
   const topicPanelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -281,20 +156,21 @@ export function RoomHeader({
 
         {/* Pinned button */}
         {onJumpToEvent && (
-          <Tooltip content={t('room.header.pinnedMessages')}>
-            <button
-              type="button"
-              ref={pinnedBtnRef}
-              className={showPinned ? css.headerBtnActive : css.headerBtn}
-              aria-label={t('room.header.pinnedMessages')}
-              onClick={() => {
-                setShowPinned((v) => !v);
-                setShowTopic(false);
-              }}
-            >
-              <PushPinIcon size={16} weight={showPinned ? 'fill' : 'regular'} />
-            </button>
-          </Tooltip>
+          <div ref={pinnedAnchorRef} className={css.headerBtnAnchor}>
+            <Tooltip content={t('room.header.pinnedMessages')}>
+              <button
+                type="button"
+                className={showPinned ? css.headerBtnActive : css.headerBtn}
+                aria-label={t('room.header.pinnedMessages')}
+                onClick={() => {
+                  setShowPinned((v) => !v);
+                  setShowTopic(false);
+                }}
+              >
+                <PushPinIcon size={16} weight={showPinned ? 'fill' : 'regular'} />
+              </button>
+            </Tooltip>
+          </div>
         )}
 
         <div className={css.desktopOnly}>
@@ -329,16 +205,16 @@ export function RoomHeader({
         </div>
       </div>
 
-      {/* Pinned panel */}
+      {/* Pinned messages */}
       {showPinned && onJumpToEvent && (
-        <div ref={panelRef}>
-          <PinnedPanel
-            client={client}
-            roomId={roomId}
-            onJumpTo={onJumpToEvent}
-            onClose={() => setShowPinned(false)}
-          />
-        </div>
+        <PinnedMessagesPopover
+          client={client}
+          roomId={roomId}
+          open
+          onClose={() => setShowPinned(false)}
+          anchorRef={pinnedAnchorRef}
+          onJumpTo={onJumpToEvent}
+        />
       )}
 
       {showTopic && (
