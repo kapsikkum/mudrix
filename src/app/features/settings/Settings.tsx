@@ -212,16 +212,16 @@ export function Settings() {
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
-    if (open) {
-      const page = targetPageRef.current;
-      if (page) {
-        setActivePage(page);
-        setTargetPage(null);
-      } else {
-        setActivePage('account');
-      }
+    if (open && !targetPageRef.current) {
+      setActivePage('account');
     }
-  }, [open, setTargetPage]);
+  }, [open]);
+
+  useLayoutEffect(() => {
+    if (!open || !targetPage) return;
+    setActivePage(targetPage);
+    setTargetPage(null);
+  }, [open, targetPage, setTargetPage]);
 
   return (
     <Dialog

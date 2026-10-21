@@ -2,17 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { XIcon } from '@phosphor-icons/react';
-import { keybindsAtom, type Keybinds as KeybindsState } from '@/app/store/atoms';
+import { keybindsAtom } from '@/app/store/atoms';
+import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
 import * as css from '../Settings.css';
-
-type KeybindAction = keyof KeybindsState;
-
-const ACTIONS: { action: KeybindAction; labelKey: string }[] = [
-  { action: 'toggleMute', labelKey: 'settings.keybinds.toggleMute' },
-  { action: 'toggleDeafen', labelKey: 'settings.keybinds.toggleDeafen' },
-  { action: 'toggleVideo', labelKey: 'settings.keybinds.toggleVideo' },
-  { action: 'disconnect', labelKey: 'settings.keybinds.disconnect' },
-];
 
 export function Keybinds() {
   const { t } = useTranslation();
@@ -55,48 +47,60 @@ export function Keybinds() {
     <div>
       <h2 className={css.panelTitle}>{t('settings.keybinds.title')}</h2>
 
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('settings.keybinds.voiceRoom')}</h3>
-        {listening && (
-          <p className={css.keybindHint}>
-            <kbd className={css.kbd}>Esc</kbd>
-            {t('settings.keybinds.escToCancel')}
-          </p>
-        )}
-        {ACTIONS.map(({ action, labelKey }) => (
-          <div key={action} className={`${css.settingRow} ${css.settingRowClickable}`}>
-            <span className={css.settingLabel}>{t(labelKey)}</span>
-            <div className={css.flexRow}>
-              {keybinds[action] && (
-                <button
-                  type="button"
-                  className={css.clearBtn}
-                  onClick={() => clear(action)}
-                  aria-label={t('common.clear')}
-                >
-                  <XIcon size={14} />
-                </button>
-              )}
-              <button
-                type="button"
-                className={[
-                  'keybind-input',
-                  listening === action
-                    ? css.keybindBtnListening
-                    : keybinds[action]
-                      ? css.keybindBtnSet
-                      : css.keybindBtnEmpty,
-                ].join(' ')}
-                onClick={() => startListening(action)}
-              >
-                {listening === action
-                  ? t('settings.keybinds.pressAKey')
-                  : displayKey(keybinds[action])}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {SHORTCUT_GROUPS.map((group) => (
+        <div key={group.id} className={css.section}>
+          <h3 className={css.sectionTitle}>{t(group.labelKey)}</h3>
+          {listening && group.items.some((item) => item.editable && item.id === listening) && (
+            <p className={css.keybindHint}>
+              <kbd className={css.kbd}>Esc</kbd>
+              {t('settings.keybinds.escToCancel')}
+            </p>
+          )}
+          {group.items.map((item) => {
+            if (!item.editable) {
+              return (
+                <div key={item.id} className={css.settingRow}>
+                  <span className={css.settingLabel}>{t(item.labelKey)}</span>
+                  <kbd className={css.kbd}>{item.keys}</kbd>
+                </div>
+              );
+            }
+
+            const current = keybinds[item.id];
+            return (
+              <div key={item.id} className={css.settingRow}>
+                <span className={css.settingLabel}>{t(item.labelKey)}</span>
+                <div className={css.flexRow}>
+                  {current && (
+                    <button
+                      type="button"
+                      className={css.clearBtn}
+                      onClick={() => clear(item.id)}
+                      aria-label={t('common.clear')}
+                    >
+                      <XIcon size={14} />
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={[
+                      'keybind-input',
+                      listening === item.id
+                        ? css.keybindBtnListening
+                        : current
+                          ? css.keybindBtnSet
+                          : css.keybindBtnEmpty,
+                    ].join(' ')}
+                    onClick={() => startListening(item.id)}
+                  >
+                    {listening === item.id ? t('settings.keybinds.pressAKey') : displayKey(current)}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }

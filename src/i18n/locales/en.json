@@ -925,7 +925,15 @@
     },
     "keybinds": {
       "title": "Keybinds",
+      "groupGeneral": "General",
+      "groupMessaging": "Messaging",
       "voiceRoom": "Voice Room",
+      "searchGlobal": "Search rooms and messages",
+      "searchInRoom": "Search in room",
+      "close": "Close overlay / cancel",
+      "send": "Send message",
+      "newLine": "New line",
+      "showHelp": "Show keyboard shortcuts",
       "toggleMute": "Toggle Mute",
       "toggleDeafen": "Toggle Deafen",
       "toggleVideo": "Toggle Video",
@@ -1029,17 +1037,8 @@
       "elementCall": "The <elementCallLink>Element Call</elementCallLink> is © New Vector Ltd (Element), used under the terms of the GNU Affero General Public License v3.0."
     }
   },
-  "keyboardShortcuts": {
-    "title": "Keyboard Shortcuts",
-    "searchGlobal": "Go to room / DM / space",
-    "searchInRoom": "Search in room",
-    "close": "Close overlay / cancel",
-    "send": "Send message",
-    "newLine": "New line",
-    "showHelp": "Keyboard shortcuts"
-  },
   "titleBar": {
-    "search": "Search rooms and messages…"
+    "search": "Search rooms and messages..."
   },
   "globalSearch": {
     "places": "Places",

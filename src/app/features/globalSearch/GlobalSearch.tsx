@@ -75,7 +75,7 @@ function snippet(body: string, query: string): string {
   const flat = body.replace(/\s+/g, ' ');
   const idx = flat.toLowerCase().indexOf(query.toLowerCase());
   const start = Math.max(0, idx - 30);
-  return (start > 0 ? '…' : '') + flat.slice(start, start + 140);
+  return (start > 0 ? '...' : '') + flat.slice(start, start + 140);
 }
 
 function roomPath(entry: RoomEntry): string {

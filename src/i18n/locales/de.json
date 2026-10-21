@@ -911,7 +911,15 @@
     },
     "keybinds": {
       "title": "Tastenkürzel",
+      "groupGeneral": "Allgemein",
+      "groupMessaging": "Nachrichten",
       "voiceRoom": "Sprachraum",
+      "searchGlobal": "Räume und Nachrichten durchsuchen...",
+      "searchInRoom": "Im Raum suchen",
+      "close": "Overlay schließen / abbrechen",
+      "send": "Nachricht senden",
+      "newLine": "Neue Zeile",
+      "showHelp": "Tastenkürzel anzeigen",
       "toggleMute": "Mikrofon Ein/Aus",
       "toggleDeafen": "Audio Ein/Aus",
       "toggleVideo": "Video Ein/Aus",
@@ -1029,17 +1037,8 @@
       "imageCount_other": "{{count}} Bilder"
     }
   },
-  "keyboardShortcuts": {
-    "title": "Tastenkürzel",
-    "searchGlobal": "Zu Raum / DM / Space wechseln",
-    "searchInRoom": "Im Raum suchen",
-    "close": "Overlay schließen / abbrechen",
-    "send": "Nachricht senden",
-    "newLine": "Neue Zeile",
-    "showHelp": "Tastenkürzel"
-  },
   "titleBar": {
-    "search": "Räume und Nachrichten durchsuchen…"
+    "search": "Räume und Nachrichten durchsuchen..."
   },
   "globalSearch": {
     "places": "Orte",
