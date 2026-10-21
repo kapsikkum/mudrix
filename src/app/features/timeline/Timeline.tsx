@@ -622,7 +622,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           setUnreadInfo(getRoomUnreadInfo());
         }
         scrollToBottomRef.current.count += 1;
-        scrollToBottomRef.current.smooth = true;
+        scrollToBottomRef.current.smooth = false;
         liveArrive(true);
         return;
       }
@@ -884,7 +884,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       }
     }
 
-    const itemClass = isActiveMatch ? css.searchMatchActive : isLive ? css.msgLive : undefined;
+    const animateIn = isLive && !timelineItem.isOwn;
+    const itemClass = isActiveMatch ? css.searchMatchActive : animateIn ? css.msgLive : undefined;
 
     const messageProps = {
       event: timelineItem.event,
@@ -929,7 +930,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
     return (
       <div
-        key={eventId}
+        key={timelineItem.event.getTxnId() ?? eventId}
         data-event-id={eventId}
         {...(typeof opts.index === 'number' ? { 'data-message-item': String(opts.index) } : {})}
         className={itemClass}

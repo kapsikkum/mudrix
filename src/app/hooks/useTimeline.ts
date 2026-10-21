@@ -770,7 +770,7 @@ export function useTimeline(
     debounceRef.current = setTimeout(() => {
       debounceRef.current = null;
       setRebuildVersion((v) => v + 1);
-    }, 80);
+    }, 16);
   }, []);
 
   const clearUnreadDivider = useCallback(() => {

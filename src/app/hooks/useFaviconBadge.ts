@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useAtomValue } from 'jotai';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
+import { useThrottle } from '@/app/hooks/useThrottle';
 import { themeAtom, themedAppIconAtom } from '@/app/store/atoms';
 import { resolveLogoAssets } from '@/theme/themeLogos';
 
@@ -40,8 +41,9 @@ export function useFaviconBadge() {
     checkUnread();
   }, [checkUnread]);
 
-  useMatrixEvent(client, 'Room.UnreadNotifications', checkUnread);
-  useMatrixEvent(client, 'Room.timeline', checkUnread);
-  useMatrixEvent(client, 'Room.receipt', checkUnread);
-  useMatrixEvent(client, 'sync', checkUnread);
+  const throttledCheck = useThrottle(checkUnread, 300);
+  useMatrixEvent(client, 'Room.UnreadNotifications', throttledCheck);
+  useMatrixEvent(client, 'Room.timeline', throttledCheck);
+  useMatrixEvent(client, 'Room.receipt', throttledCheck);
+  useMatrixEvent(client, 'sync', throttledCheck);
 }

@@ -214,14 +214,29 @@ export function useComposer({
     setMentionInsert(null);
   }, [mentionInsert, editor, setMentionInsert]);
 
+  const lastEncryptPrepRef = useRef(0);
+  const prepareToEncrypt = useCallback(() => {
+    const now = Date.now();
+    if (now - lastEncryptPrepRef.current < 60_000) return;
+    lastEncryptPrepRef.current = now;
+    const room = client.getRoom(roomId);
+    if (room) client.getCrypto()?.prepareToEncrypt(room);
+  }, [client, roomId]);
+
+  useEffect(() => {
+    lastEncryptPrepRef.current = 0;
+    prepareToEncrypt();
+  }, [prepareToEncrypt]);
+
   const handleEditorChange = useCallback(
     (value: Descendant[]) => {
       handleRichChange(value);
+      prepareToEncrypt();
       sendTyping(true);
       if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
       typingTimerRef.current = setTimeout(() => sendTyping(false), 4000);
     },
-    [handleRichChange, sendTyping]
+    [handleRichChange, sendTyping, prepareToEncrypt]
   );
 
   const sendingRef = useRef(false);
