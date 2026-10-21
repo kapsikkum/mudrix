@@ -48,12 +48,40 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
     ],
   },
   {
-    id: 'messaging',
-    labelKey: 'settings.keybinds.groupMessaging',
+    id: 'composer',
+    labelKey: 'settings.keybinds.groupComposer',
     items: [
       { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Escape' },
       { id: 'send', labelKey: 'settings.keybinds.send', keys: 'Enter' },
       { id: 'newLine', labelKey: 'settings.keybinds.newLine', keys: 'Shift + Enter' },
+      { id: 'bold', labelKey: 'settings.keybinds.bold', keys: `${MODIFIER_KEY} + B` },
+      { id: 'italic', labelKey: 'settings.keybinds.italic', keys: `${MODIFIER_KEY} + I` },
+      {
+        id: 'strikethrough',
+        labelKey: 'settings.keybinds.strikethrough',
+        keys: `${MODIFIER_KEY} + Shift + S`,
+      },
+      { id: 'inlineCode', labelKey: 'settings.keybinds.inlineCode', keys: `${MODIFIER_KEY} + E` },
+      {
+        id: 'editPrevious',
+        labelKey: 'settings.keybinds.editPrevious',
+        keys: '↑',
+      },
+      {
+        id: 'editNext',
+        labelKey: 'settings.keybinds.editNext',
+        keys: '↓',
+      },
+      {
+        id: 'emojiPicker',
+        labelKey: 'settings.keybinds.emojiPicker',
+        keys: `${MODIFIER_KEY} + ;`,
+      },
+      {
+        id: 'acceptSuggestion',
+        labelKey: 'settings.keybinds.acceptSuggestion',
+        keys: 'Tab',
+      },
     ],
   },
   {

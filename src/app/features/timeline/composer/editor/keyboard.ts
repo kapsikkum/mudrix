@@ -4,7 +4,7 @@ import type { CustomEditor } from './types';
 
 const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
 
-function isMod(e: KeyboardEvent): boolean {
+export function isMod(e: KeyboardEvent): boolean {
   return isMac ? e.metaKey : e.ctrlKey;
 }
 

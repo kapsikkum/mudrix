@@ -37,6 +37,8 @@ import { VoiceRecordComposerTile } from './VoiceRecordComposerTile';
 import { AttachmentTray } from './AttachmentTray';
 import { RichComposer } from './editor/RichComposer';
 import { insertEmoji } from './editor/insertEmoji';
+import { isMod } from './editor/keyboard';
+import { ReactEditor } from 'slate-react';
 import { anchorFromElement, isMenuOpenKey, useContextMenu } from '@/app/hooks/useContextMenu';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
@@ -173,6 +175,18 @@ export function Composer({
       <div
         ref={composerWrapRef}
         className={`${css.composerWrap}${className ? ` ${className}` : ''}`}
+        onKeyDown={(e) => {
+          if (isMod(e) && e.key === ';') {
+            e.preventDefault();
+            if (mediaPickerOpen && mediaPickerTab === 'emoji') {
+              setMediaPickerOpen(false);
+              requestAnimationFrame(() => ReactEditor.focus(editor));
+            } else {
+              setMediaPickerTab('emoji');
+              setMediaPickerOpen(true);
+            }
+          }
+        }}
       >
         {!threadId && <TypingIndicator client={client} roomId={roomId} />}
 

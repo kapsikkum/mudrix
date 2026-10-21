@@ -4,12 +4,15 @@ import { useSetAtom } from 'jotai';
 import { MatrixEventEvent } from 'matrix-js-sdk';
 import type { MatrixClient } from 'matrix-js-sdk';
 import type { RoomMessageEventContent } from 'matrix-js-sdk/lib/@types/events';
-import { Editor, Transforms } from 'slate';
+import { Editor, Range, Transforms } from 'slate';
+import { editStateFor, findAdjacentEditableMessage } from './editNavigation';
 import { ReactEditor } from 'slate-react';
 import {
   optimisticEditBodiesAtom,
   editMessageAtom,
   editComposerEmojiInserterAtom,
+  composerFocusRequestAtom,
+  composerDraftKey,
 } from '@/app/store/atoms';
 import type { EditMessageState } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';
@@ -84,6 +87,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
   const { t } = useTranslation();
   const setOptimisticEditBodies = useSetAtom(optimisticEditBodiesAtom);
   const setEditMessage = useSetAtom(editMessageAtom);
+  const requestComposerFocus = useSetAtom(composerFocusRequestAtom);
   const setEditComposerEmojiInserter = useSetAtom(editComposerEmojiInserterAtom);
   const toast = useToast();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -162,6 +166,41 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editState.eventId, editState.body, client]);
+
+  const handleEditKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (handleKeyDown(e)) return true;
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return false;
+      if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return false;
+      const { selection } = editor;
+      if (!selection || !Range.isCollapsed(selection)) return false;
+      const up = e.key === 'ArrowUp';
+      const atEdge = up
+        ? Editor.isStart(editor, selection.anchor, [])
+        : Editor.isEnd(editor, selection.anchor, []);
+      if (!atEdge) return false;
+      const target = findAdjacentEditableMessage(
+        client,
+        editState.roomId,
+        editState.threadId,
+        editState.eventId,
+        up ? 'previous' : 'next'
+      );
+      if (!target && up) return false;
+      e.preventDefault();
+      if (target) {
+        setEditMessage(editStateFor(target, editState.roomId, editState.threadId));
+      } else {
+        onClose();
+        requestComposerFocus({
+          key: composerDraftKey(editState.roomId, editState.threadId),
+          at: Date.now(),
+        });
+      }
+      return true;
+    },
+    [handleKeyDown, editor, client, editState, setEditMessage, onClose, requestComposerFocus]
+  );
 
   const saveEdit = useCallback(async () => {
     if (savingRef.current) return;
@@ -262,7 +301,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
           value={value}
           onChange={handleChange}
           onSend={saveEdit}
-          onKeyDown={handleKeyDown}
+          onKeyDown={handleEditKeyDown}
           onSelectionChange={updateToolbar}
           placeholder={t('timeline.editPlaceholder')}
           className={css.editRichEditor}
