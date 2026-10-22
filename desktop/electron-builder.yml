@@ -27,13 +27,17 @@ mac:
       arch: [arm64]
     - target: zip
       arch: [arm64]
-  icon: icons/icon.icon
+  icon: icons/icon.icns
+  extraResources:
+   - from: icons/Assets.car
+     to: Assets.car
   identity: null
   hardenedRuntime: true
   gatekeeperAssess: false
   entitlements: build-resources/entitlements.mac.plist
   entitlementsInherit: build-resources/entitlements.mac.plist
   extendInfo:
+    CFBundleIconName: Icon
     NSCameraUsageDescription: "WizardChat needs camera access for video calls"
     NSMicrophoneUsageDescription: "WizardChat needs microphone access for voice calls"
     NSScreenCaptureUsageDescription: "WizardChat needs screen access for sharing during calls"
