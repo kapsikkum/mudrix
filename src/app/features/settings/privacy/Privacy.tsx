@@ -9,6 +9,12 @@ import {
 } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Select } from '@/app/components/Select';
+import { ArrowCounterClockwiseIcon } from '@phosphor-icons/react';
+import { Avatar } from '@/app/components/Avatar';
+import { IconButton } from '@/app/components/Button';
+import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
+import { getMatrixClientOrNull } from '@/client/initMatrix';
+import { formatUserId } from '@/util/matrix';
 import * as css from '../Settings.css';
 
 const MEDIA_VISIBILITY_OPTIONS: Record<MediaVisibility, string> = {
@@ -78,6 +84,54 @@ export function Privacy() {
           onChange={setShowPresence}
         />
       </div>
+
+      <div className={css.divider} />
+
+      <IgnoredUsers />
+    </div>
+  );
+}
+
+function IgnoredUsers() {
+  const { t } = useTranslation();
+  const client = getMatrixClientOrNull();
+  const ignored = useIgnoredUsers(client);
+  const unignore = useUnignoreUser(client);
+
+  return (
+    <div className={css.section}>
+      <h3 className={css.sectionTitle}>{t('settings.privacy.ignoredUsers')}</h3>
+      {ignored.length === 0 ? (
+        <div className={css.noResults}>{t('settings.privacy.noIgnoredUsers')}</div>
+      ) : (
+        ignored.map((userId) => {
+          const user = client?.getUser(userId);
+          const name = user?.displayName || formatUserId(userId);
+          return (
+            <div key={userId} className={css.permRow}>
+              <Avatar
+                name={name}
+                mxcUrl={user?.avatarUrl}
+                client={client ?? undefined}
+                size="sm"
+                placeholder="logo"
+              />
+              <div className={css.permRowName}>
+                <div>{name}</div>
+                <div className={css.permRowId}>{userId}</div>
+              </div>
+              <IconButton
+                size="xs"
+                tooltip={t('profile.unignoreUser')}
+                aria-label={t('profile.unignoreUser')}
+                onClick={() => void unignore(userId, name)}
+              >
+                <ArrowCounterClockwiseIcon size={14} />
+              </IconButton>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }

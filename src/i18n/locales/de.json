@@ -864,6 +864,8 @@
     },
     "privacy": {
       "title": "Datenschutz",
+      "ignoredUsers": "Ignorierte Personen",
+      "noIgnoredUsers": "Du ignorierst niemanden.",
       "chat": "Chat",
       "typingIndicators": "Schreibindikatoren",
       "typingIndicatorsNote": "Anzeigen, wenn andere schreiben, und deinen Schreibstatus senden.",
@@ -1142,6 +1144,9 @@
     ]
   },
   "profile": {
+    "unignoreReloadTitle": "Neu laden, um die Nachrichten anzuzeigen?",
+    "unignoreReloadBody": "Nachrichten von {{name}}, die während des Ignorierens ausgeblendet waren, erscheinen erst nach einem vollständigen Neuladen wieder. Das kann einen Moment dauern.",
+    "unignoreReloadConfirm": "Jetzt neu laden",
     "message": "Nachricht",
     "viewFullScreen": "Vollbild anzeigen",
     "bannerSaveFailed": "Banner konnte nicht gespeichert werden: {{error}}",

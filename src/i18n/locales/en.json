@@ -864,6 +864,8 @@
     },
     "privacy": {
       "title": "Privacy",
+      "ignoredUsers": "Ignored users",
+      "noIgnoredUsers": "You haven't ignored anyone.",
       "chat": "Chat",
       "typingIndicators": "Typing indicators",
       "typingIndicatorsNote": "Show when others are typing, and send your typing status.",
@@ -1142,6 +1144,9 @@
     ]
   },
   "profile": {
+    "unignoreReloadTitle": "Reload to show their messages?",
+    "unignoreReloadBody": "Messages from {{name}} that were hidden while they were ignored only come back after a full reload. This can take a moment.",
+    "unignoreReloadConfirm": "Reload now",
     "message": "Message",
     "viewFullScreen": "View full screen",
     "bannerSaveFailed": "Could not save banner: {{error}}",

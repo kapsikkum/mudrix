@@ -411,6 +411,16 @@ export async function resetClientForNewSession(userId: string): Promise<void> {
   await deleteAccountData(userId);
 }
 
+export async function clearSyncCacheAndReload(client: MatrixClient): Promise<void> {
+  client.stopClient();
+  try {
+    await client.store.deleteAllData();
+  } catch {
+    // Reloading still starts a fresh sync if the cache couldn't be cleared
+  }
+  window.location.reload();
+}
+
 export function switchAccount(userId: string): void {
   if (getActiveAccountId() === userId) return;
   setActiveAccountId(userId);

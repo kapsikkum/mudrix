@@ -47,6 +47,7 @@ import { useUserBanner, useUserBannerBlob } from '@/app/hooks/useUserBanner';
 import { useProfile } from '@/app/hooks/useProfile';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { useToast } from '@/app/hooks/useToast';
+import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
 import { startDm } from '@/app/hooks/useDms';
 import { fetchMediaBlobUrl, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { getErrorMessage } from '@/util/error';
@@ -282,24 +283,16 @@ export function UserProfilePopup() {
     }
   }, [client, profileState, profile, toast, t, confirmDialog]);
 
+  const ignoredUsers = useIgnoredUsers(client);
+  const isIgnored = !!profile && ignoredUsers.includes(profile.userId);
+  const unignoreUser = useUnignoreUser(client);
+
   const handleIgnore = useCallback(async () => {
     if (!client || !profileState || !profile) return;
     const targetUserId = profile.userId;
-    const isIgnored = client.isUserIgnored(targetUserId);
 
     if (isIgnored) {
-      const ok = await confirmDialog({
-        title: t('profile.unignoreUserConfirmTitle', { name: profile.displayName }),
-        message: t('profile.unignoreUserConfirmBody', { name: profile.displayName }),
-        danger: false,
-      });
-      if (!ok) return;
-      try {
-        const current = client.getIgnoredUsers();
-        await client.setIgnoredUsers(current.filter((u) => u !== targetUserId));
-      } catch (err) {
-        toast.error(t('profile.ignoreFailed', { error: getErrorMessage(err) }));
-      }
+      await unignoreUser(targetUserId, profile.displayName);
       return;
     }
 
@@ -328,7 +321,7 @@ export function UserProfilePopup() {
     } catch (err) {
       toast.error(t('profile.ignoreFailed', { error: getErrorMessage(err) }));
     }
-  }, [client, profileState, profile, toast, t, confirmDialog]);
+  }, [client, profileState, profile, toast, t, confirmDialog, isIgnored, unignoreUser]);
 
   // Close on Escape
   useEffect(() => {
@@ -640,22 +633,12 @@ export function UserProfilePopup() {
             />
 
             {!isOwn && (
-              <Tooltip
-                content={
-                  client?.isUserIgnored(profile.userId)
-                    ? t('profile.unignoreUser')
-                    : t('profile.ignoreUser')
-                }
-              >
+              <Tooltip content={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}>
                 <IconButton
                   size="xs"
-                  danger={!client?.isUserIgnored(profile.userId)}
+                  danger={!isIgnored}
                   onClick={handleIgnore}
-                  aria-label={
-                    client?.isUserIgnored(profile.userId)
-                      ? t('profile.unignoreUser')
-                      : t('profile.ignoreUser')
-                  }
+                  aria-label={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}
                 >
                   <ProhibitInsetIcon size={14} />
                 </IconButton>
