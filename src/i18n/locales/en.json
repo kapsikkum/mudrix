@@ -1058,6 +1058,14 @@
     "noMessages": "No matches in this room's loaded messages",
     "noResults": "No results"
   },
+  "home": {
+    "activeNow": "Active now",
+    "activeNowEmpty": "If someone you know joins a voice room, it will show up here.",
+    "join": "Join",
+    "open": "Open",
+    "morePeople_one": "+{{count}} more",
+    "morePeople_other": "+{{count}} more"
+  },
   "roomSwitcher": {
     "title": "Search",
     "noResults": "No rooms or DMs found",

@@ -1058,6 +1058,14 @@
     "noMessages": "Keine Treffer in den geladenen Nachrichten dieses Raums",
     "noResults": "Keine Ergebnisse"
   },
+  "home": {
+    "activeNow": "Gerade aktiv",
+    "activeNowEmpty": "Wenn jemand, den du kennst, einem Sprachraum beitritt, erscheint das hier.",
+    "join": "Beitreten",
+    "open": "Öffnen",
+    "morePeople_one": "+{{count}} weitere Person",
+    "morePeople_other": "+{{count}} weitere"
+  },
   "roomSwitcher": {
     "title": "Suchen",
     "noResults": "Keine Räume oder DMs gefunden",

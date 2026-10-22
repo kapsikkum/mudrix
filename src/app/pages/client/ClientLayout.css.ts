@@ -66,7 +66,15 @@ export const mainContentHidden = style({
   },
 });
 
+export const homeLayout = style({
+  display: 'flex',
+  height: '100%',
+  minHeight: 0,
+});
+
 export const welcomeHome = style({
+  flex: 1,
+  minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

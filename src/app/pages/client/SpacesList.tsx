@@ -281,7 +281,14 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
             color: sidebarView !== 'home' && homeHasNotif ? vars.color.textPrimary : undefined,
           }}
           aria-label={t('room.home')}
-          onClick={() => onSelectView('home', null)}
+          onClick={() => {
+            if (sidebarView === 'home') {
+              setDrawerOpen(false);
+              navigate('/', { state: { sidebarView: 'home', currentSpaceId: null } });
+            } else {
+              onSelectView('home', null);
+            }
+          }}
           {...homeMenuTrigger}
         >
           <span className={css.spacePill} />
