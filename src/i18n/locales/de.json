@@ -126,6 +126,7 @@
     "resetNotSupported": "Dieser Server unterstützt das Zurücksetzen des Passworts in der App nicht. Bitte verwalte dein Passwort über deine Kontoeinstellungen."
   },
   "room": {
+    "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden: {{error}}",
     "navigation": "Navigation",
     "home": "Home",
     "title": "Räume",

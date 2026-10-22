@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
+import { HOME_ORDER_EVENT, SPACE_ORDER_EVENT, getHomeOrder, sortByHomeOrder } from './roomOrder';
 import { useAtomValue } from 'jotai';
 import { pinnedSubSpacesAtom } from '@/app/store/atoms/rooms';
 import { elementCallRoomIdAtom } from '@/app/store/atoms/elementCall';
@@ -7,7 +8,14 @@ import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useThrottle } from '@/app/hooks/useThrottle';
 import type { MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk';
-import { formatUserId, isSpace, isDmRoom, isVoiceRoom, roomState } from '@/util/matrix';
+import {
+  formatUserId,
+  isSpace,
+  isDmRoom,
+  isVoiceRoom,
+  roomState,
+  getSpaceChildEvents,
+} from '@/util/matrix';
 import { getRoomUnreadCount, roomHasUnreadMention } from '@/util/mentions';
 
 export interface RoomEntry {
@@ -67,7 +75,7 @@ export function useRooms() {
     if (!client) return [];
     const rooms = client.getRooms();
 
-    return rooms
+    const entries = rooms
       .filter((room) => {
         const membership = room.getMyMembership();
         if (membership !== 'join') return false;
@@ -78,13 +86,16 @@ export function useRooms() {
         // Home: rooms not in any space.
         const allSpaces = rooms.filter(isSpace);
         return !allSpaces.some((sp) =>
-          roomState(sp)
-            .getStateEvents('m.space.child')
-            .some((e) => e.getStateKey() === room.roomId)
+          getSpaceChildEvents(sp).some((e) => e.getStateKey() === room.roomId)
         );
       })
-      .map((room) => buildRoomEntry(room, client))
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .map((room) => buildRoomEntry(room, client));
+    return sortByHomeOrder(
+      entries,
+      getHomeOrder(client),
+      (e) => e.roomId,
+      (e) => e.name
+    );
   }, [client, revision]);
 
   const handleStateEvent = useCallback(
@@ -102,6 +113,9 @@ export function useRooms() {
   );
 
   useMatrixEvent(client, 'Room', bump);
+  useMatrixEvent(client, 'accountData', (event: MatrixEvent) => {
+    if (event.getType() === HOME_ORDER_EVENT) bump();
+  });
   useMatrixEvent(client, 'Room.timeline', handleTimelineEvent);
   useMatrixEvent(client, 'Room.myMembership', bump);
   useMatrixEvent(client, 'RoomState.events', handleStateEvent);
@@ -162,7 +176,7 @@ export function useSpaces() {
 
     const childSpaceIds = new Set<string>();
     for (const sp of spaceRooms) {
-      for (const ev of roomState(sp).getStateEvents('m.space.child')) {
+      for (const ev of getSpaceChildEvents(sp)) {
         const childId = ev.getStateKey();
         if (!childId) continue;
         const childRoom = client.getRoom(childId);
@@ -179,7 +193,7 @@ export function useSpaces() {
       visited.add(spaceId);
       const space = client.getRoom(spaceId);
       if (!space) return { unreadCount: 0, hasNotif: false, hasMention: false, hasCall: false };
-      const childEvents = roomState(space).getStateEvents('m.space.child');
+      const childEvents = getSpaceChildEvents(space);
       let unreadCount = 0;
       let hasNotif = false;
       let hasMention = false;
@@ -234,9 +248,7 @@ export function useSpaces() {
       if (room.isSpaceRoom() || isDmRoom(room, client)) return false;
       if (isTombstoned(room)) return false;
       return !spaceRooms.some((sp) =>
-        roomState(sp)
-          .getStateEvents('m.space.child')
-          .some((e) => e.getStateKey() === room.roomId)
+        getSpaceChildEvents(sp).some((e) => e.getStateKey() === room.roomId)
       );
     });
     const homeHasMention = homeRooms.some((r) => roomHasUnreadMention(client, r));
@@ -267,6 +279,9 @@ export function useSpaces() {
   }, [client, pinnedSubSpacesArr, callRoomId, revision]);
 
   useMatrixEvent(client, 'Room', bump);
+  useMatrixEvent(client, 'Room.accountData', (event: MatrixEvent) => {
+    if (event.getType() === SPACE_ORDER_EVENT) bump();
+  });
   useMatrixEvent(client, 'Room.myMembership', bump);
   useMatrixEvent(client, 'RoomState.events', bump);
   useMatrixEvent(client, 'Room.receipt', throttledBump);

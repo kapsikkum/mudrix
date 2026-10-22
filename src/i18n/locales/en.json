@@ -126,6 +126,7 @@
     "resetNotSupported": "This server doesn't support in-app password reset. Please manage your password through your account settings."
   },
   "room": {
+    "reorderFailed": "Couldn't save the new order: {{error}}",
     "navigation": "Navigation",
     "home": "Home",
     "title": "Rooms",

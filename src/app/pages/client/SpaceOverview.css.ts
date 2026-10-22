@@ -97,6 +97,8 @@ export const roomRow = style({
   },
 });
 
+export const roomRowClickable = style([roomRow, { cursor: 'pointer' }]);
+
 export const roomRowDivider = style({
   width: '1px',
   height: '20px',

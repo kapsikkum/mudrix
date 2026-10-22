@@ -50,6 +50,13 @@ import { Tooltip } from '@/app/components/Tooltip';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import type { SpaceRoomEntry } from '@/app/features/room/useSpaceRoomsGrouped';
 import { getErrorMessage } from '@/util/error';
+import {
+  getSpaceChildOrders,
+  planSpaceReorder,
+  saveSpaceChildOrders,
+} from '@/app/features/room/roomOrder';
+import { canSendState } from '@/app/hooks/useCanSendState';
+import { RoomReorderProvider, SortableRoomRow } from './RoomReorder';
 import * as css from './SpaceOverview.css';
 
 interface SpaceOverviewProps {
@@ -87,7 +94,11 @@ function RoomRow({
   );
 
   return (
-    <div {...menuTrigger} className={css.roomRow}>
+    <div
+      {...menuTrigger}
+      className={entry.isJoined ? css.roomRowClickable : css.roomRow}
+      onClick={entry.isJoined ? () => onSelect(entry.roomId) : undefined}
+    >
       <Avatar name={entry.name} mxcUrl={entry.avatarMxc} client={client ?? undefined} size="sm" />
 
       <div className={css.roomInfo}>
@@ -194,6 +205,8 @@ interface SpaceSectionViewProps {
   onSubSpacesFound: (sections: SpaceSection[]) => void;
 }
 
+const noop = () => {};
+
 function SpaceSectionView({
   section,
   rootSpaceId,
@@ -299,6 +312,43 @@ function SpaceSectionView({
   useMatrixEvent(client ?? null, 'Room.myMembership', handleMembershipChange);
 
   const displayRooms = isRoot ? section.rooms : localRooms;
+
+  const toast = useToast();
+  const reorderSpaceId = section.spaceId ?? rootSpaceId;
+  const canReorder = canSendState(client?.getRoom(reorderSpaceId) ?? null, EventType.SpaceChild);
+  const [pendingIds, setPendingIds] = useState<string[] | null>(null);
+  const shownRooms = useMemo(() => {
+    if (!pendingIds || pendingIds.length !== displayRooms.length) return displayRooms;
+    const byId = new Map(displayRooms.map((r) => [r.roomId, r]));
+    if (!pendingIds.every((id) => byId.has(id))) return displayRooms;
+    return pendingIds.map((id) => byId.get(id)!);
+  }, [displayRooms, pendingIds]);
+  useEffect(() => {
+    if (!pendingIds) return;
+    if (displayRooms.map((r) => r.roomId).join('|') === pendingIds.join('|')) {
+      setPendingIds(null);
+      return;
+    }
+    const timer = setTimeout(() => setPendingIds(null), 8000);
+    return () => clearTimeout(timer);
+  }, [displayRooms, pendingIds]);
+  const handleReorder = useCallback(
+    (_section: string, orderedIds: string[], movedId: string) => {
+      const space = client?.getRoom(reorderSpaceId);
+      if (!client || !space) return;
+      setPendingIds(orderedIds);
+      const updates = planSpaceReorder(orderedIds, getSpaceChildOrders(space), movedId);
+      saveSpaceChildOrders(client, reorderSpaceId, updates).catch((err: unknown) => {
+        setPendingIds(null);
+        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+      });
+    },
+    [client, reorderSpaceId, toast, t]
+  );
+  const reorderRows = useMemo(
+    () => shownRooms.map((r) => ({ roomId: r.roomId, section: canReorder ? 'space' : null })),
+    [shownRooms, canReorder]
+  );
 
   const handleHeaderClick = () => {
     onToggle(section.categoryKey);
@@ -424,19 +474,43 @@ function SpaceSectionView({
           ) : displayRooms.length === 0 ? (
             <div className={css.emptyState}>{t('room.noRooms')}</div>
           ) : (
-            displayRooms.map((entry) => (
-              <div key={entry.roomId} className={css.spaceSectionRoomItem}>
-                <RoomRow
-                  entry={entry}
-                  parentSpaceId={section.spaceId ?? rootSpaceId}
-                  joiningRooms={joiningRooms}
-                  onSelect={onSelect}
-                  onJoin={onJoin}
-                  onKnock={onKnock}
-                  buildRoomMenu={buildRoomMenu}
-                />
-              </div>
-            ))
+            <RoomReorderProvider
+              rows={reorderRows}
+              onReorder={handleReorder}
+              renderOverlay={(roomId) => {
+                const entry = shownRooms.find((r) => r.roomId === roomId);
+                if (!entry) return null;
+                return (
+                  <div className={css.spaceSectionRoomItem}>
+                    <RoomRow
+                      entry={entry}
+                      parentSpaceId={section.spaceId ?? rootSpaceId}
+                      joiningRooms={joiningRooms}
+                      onSelect={noop}
+                      onJoin={noop}
+                      onKnock={noop}
+                      buildRoomMenu={() => []}
+                    />
+                  </div>
+                );
+              }}
+            >
+              {shownRooms.map((entry) => (
+                <SortableRoomRow key={entry.roomId} roomId={entry.roomId} disabled={!canReorder}>
+                  <div className={css.spaceSectionRoomItem}>
+                    <RoomRow
+                      entry={entry}
+                      parentSpaceId={section.spaceId ?? rootSpaceId}
+                      joiningRooms={joiningRooms}
+                      onSelect={onSelect}
+                      onJoin={onJoin}
+                      onKnock={onKnock}
+                      buildRoomMenu={buildRoomMenu}
+                    />
+                  </div>
+                </SortableRoomRow>
+              ))}
+            </RoomReorderProvider>
           )}
         </div>
       )}

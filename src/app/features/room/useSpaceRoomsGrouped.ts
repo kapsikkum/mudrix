@@ -37,14 +37,6 @@ export interface SpaceSection {
   roomsLoaded: boolean;
 }
 
-function sortRoomEntries(entries: SpaceRoomEntry[]): SpaceRoomEntry[] {
-  return [...entries].sort((a, b) => {
-    if (a.isJoined && !b.isJoined) return -1;
-    if (!a.isJoined && b.isJoined) return 1;
-    return a.name.localeCompare(b.name);
-  });
-}
-
 function buildRoomEntryFromSummary(
   childId: string,
   viaServers: string[],
@@ -218,7 +210,7 @@ export function splitHierarchyLevel(
     if (entry) rooms.push(entry);
   }
 
-  return { rooms: sortRoomEntries(rooms), subSpaces };
+  return { rooms, subSpaces };
 }
 
 export function useSpaceRoomsGrouped(spaceId: string, unknownLabel = 'Unknown') {
@@ -358,7 +350,7 @@ export function useSpaceRoomsGrouped(spaceId: string, unknownLabel = 'Unknown') 
         viaServers: [],
         memberCount:
           rootSummary.get(spaceId)?.num_joined_members ?? space?.getJoinedMemberCount?.() ?? 0,
-        rooms: sortRoomEntries(directRoomEntries),
+        rooms: directRoomEntries,
         roomsLoaded: true,
       },
       ...subSpaceSections,

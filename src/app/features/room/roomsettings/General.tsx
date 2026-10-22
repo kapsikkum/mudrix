@@ -15,7 +15,13 @@ import { Select } from '@/app/components/Select';
 import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { getErrorMessage } from '@/util/error';
-import { getStateEventContent, roomStateMaybe, isSpace, joinRuleToAccess } from '@/util/matrix';
+import {
+  getStateEventContent,
+  roomStateMaybe,
+  isSpace,
+  joinRuleToAccess,
+  getSpaceChildEvents,
+} from '@/util/matrix';
 import { Toggle } from '@/app/components/Toggle';
 import type { UntypedStateEventType } from '@/types/matrix';
 import * as css from '@/app/components/Settings/Settings.css';
@@ -65,13 +71,11 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   const canSetHistory = can(EventType.RoomHistoryVisibility);
 
   const spaceId =
-    client?.getRooms().find(
-      (r) =>
-        r.isSpaceRoom() &&
-        roomStateMaybe(r)
-          ?.getStateEvents('m.space.child')
-          .some((e) => e.getStateKey() === roomId)
-    )?.roomId ?? null;
+    client
+      ?.getRooms()
+      .find(
+        (r) => r.isSpaceRoom() && getSpaceChildEvents(r).some((e) => e.getStateKey() === roomId)
+      )?.roomId ?? null;
 
   const historyOptions: { value: HistoryVisibility; label: string }[] = [
     { value: HistoryVisibility.WorldReadable, label: t('room.settings.security.historyAnyone') },
@@ -154,13 +158,11 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
     setUpgrading(true);
     try {
       // Find parent spaces before upgrade
-      const parentSpaces = client.getRooms().filter(
-        (r) =>
-          isSpace(r) &&
-          roomStateMaybe(r)
-            ?.getStateEvents(EventType.SpaceChild)
-            ?.some((e) => e.getStateKey() === roomId)
-      );
+      const parentSpaces = client
+        .getRooms()
+        .filter(
+          (r) => isSpace(r) && getSpaceChildEvents(r).some((e) => e.getStateKey() === roomId)
+        );
       const domain = client.getDomain() ?? '';
 
       const { version: newVersion } = await room.getRecommendedVersion();

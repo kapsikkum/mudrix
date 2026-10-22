@@ -4,7 +4,8 @@ import { EventType, type MatrixClient } from 'matrix-js-sdk';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import { useThrottle } from '@/app/hooks/useThrottle';
-import { roomState } from '@/util/matrix';
+import { getSpaceChildEvents } from '@/util/matrix';
+import { compareSpaceChildren } from '@/app/features/room/roomOrder';
 
 export interface RoomSummary {
   room_id: string;
@@ -16,7 +17,11 @@ export interface RoomSummary {
   room_type?: string;
   suggested?: boolean;
   via?: string[];
-  children_state?: { state_key?: string; content?: { suggested?: boolean; via?: string[] } }[];
+  children_state?: {
+    state_key?: string;
+    origin_server_ts?: number;
+    content?: { suggested?: boolean; via?: string[]; order?: string };
+  }[];
 }
 
 export function summaryIsSpace(s: RoomSummary | undefined): boolean {
@@ -27,6 +32,8 @@ export interface SpaceChildRef {
   roomId: string;
   via: string[];
   suggested: boolean;
+  order?: string;
+  ts: number;
 }
 
 export function resolveSpaceChildren(
@@ -35,7 +42,7 @@ export function resolveSpaceChildren(
   serverMap: Map<string, RoomSummary>
 ): SpaceChildRef[] {
   const local = client.getRoom(nodeId);
-  const localEvents = local ? roomState(local).getStateEvents('m.space.child') : [];
+  const localEvents = getSpaceChildEvents(local);
 
   if (localEvents.length > 0) {
     const out: SpaceChildRef[] = [];
@@ -45,13 +52,16 @@ export function resolveSpaceChildren(
       if (!roomId || roomId === nodeId || seen.has(roomId)) continue;
       seen.add(roomId);
       const content = ev.getContent() as Record<string, unknown> | undefined;
+      const via = Array.isArray(content?.['via']) ? (content['via'] as string[]) : [];
       out.push({
         roomId,
-        via: Array.isArray(content?.['via']) ? (content['via'] as string[]) : [],
+        via,
         suggested: content?.['suggested'] === true,
+        order: typeof content?.['order'] === 'string' ? content['order'] : undefined,
+        ts: ev.getTs(),
       });
     }
-    return out;
+    return out.sort(compareSpaceChildren);
   }
 
   const rels = serverMap.get(nodeId)?.children_state ?? [];
@@ -61,9 +71,17 @@ export function resolveSpaceChildren(
     const roomId = rel.state_key;
     if (!roomId || roomId === nodeId || seen.has(roomId)) continue;
     seen.add(roomId);
-    out.push({ roomId, via: rel.content?.via ?? [], suggested: rel.content?.suggested === true });
+    const via = rel.content?.via ?? [];
+    if (via.length === 0) continue;
+    out.push({
+      roomId,
+      via,
+      suggested: rel.content?.suggested === true,
+      order: rel.content?.order,
+      ts: rel.origin_server_ts ?? 0,
+    });
   }
-  return out;
+  return out.sort(compareSpaceChildren);
 }
 
 const HIERARCHY_PAGE_LIMIT = 100;

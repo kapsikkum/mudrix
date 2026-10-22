@@ -15,7 +15,7 @@ import type { TFunction } from 'i18next';
 import type { NavigateFunction } from 'react-router-dom';
 import type { SpaceEntry } from '@/app/features/room';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
-import { isDmRoom, makeRoomPermalink, roomState } from '@/util/matrix';
+import { isDmRoom, makeRoomPermalink, roomState, getSpaceChildEvents } from '@/util/matrix';
 import { getRoomUnreadCount } from '@/util/mentions';
 
 function hasJoinedUnreadRooms(client: MatrixClient | null, roomIds: string[]): boolean {
@@ -34,12 +34,10 @@ function spaceHasJoinedUnread(client: MatrixClient | null, spaceId: string): boo
     const room = client.getRoom(roomId);
     if (!room) return false;
     if (room.isSpaceRoom()) {
-      return roomState(room)
-        .getStateEvents('m.space.child')
-        .some((ev) => {
-          const childId = ev.getStateKey();
-          return childId ? visit(childId, visited) : false;
-        });
+      return getSpaceChildEvents(room).some((ev) => {
+        const childId = ev.getStateKey();
+        return childId ? visit(childId, visited) : false;
+      });
     }
     if (room.getMyMembership() !== 'join') return false;
     return getRoomUnreadCount(client, room) > 0;
@@ -211,7 +209,7 @@ export function markSpaceAsRead(
     const room = client.getRoom(roomId);
     if (!room) return;
     if (room.isSpaceRoom()) {
-      for (const ev of roomState(room).getStateEvents('m.space.child')) {
+      for (const ev of getSpaceChildEvents(room)) {
         const childId = ev.getStateKey();
         if (childId) visit(childId, visited);
       }
@@ -246,9 +244,7 @@ export function getHomeRoomIds(client: MatrixClient | null): string[] {
       if (room.isSpaceRoom() || isDmRoom(room, client)) return false;
       if (isTombstoned(room)) return false;
       return !spaceRooms.some((sp) =>
-        roomState(sp)
-          .getStateEvents('m.space.child')
-          .some((e) => e.getStateKey() === room.roomId)
+        getSpaceChildEvents(sp).some((e) => e.getStateKey() === room.roomId)
       );
     })
     .map((r) => r.roomId);

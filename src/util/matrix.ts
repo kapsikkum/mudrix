@@ -165,15 +165,19 @@ export function getSingleStateEvent(room: Room, type: string): MatrixEvent | nul
   return events;
 }
 
+export function getSpaceChildEvents(space: Room | null | undefined): MatrixEvent[] {
+  const events = roomStateMaybe(space)?.getStateEvents('m.space.child') ?? [];
+  return events.filter((event) => {
+    const via = event.getContent()?.via;
+    return Array.isArray(via) && via.length > 0;
+  });
+}
+
 export function isChildOfSpace(roomId: string, spaceId: string, client: MatrixClient): boolean {
   const space = client.getRoom(spaceId);
   if (!space) return false;
   if (!isJoinedSpace(space)) return false;
-  return (
-    roomStateMaybe(space)
-      ?.getStateEvents('m.space.child')
-      .some((e) => e.getStateKey() === roomId) ?? false
-  );
+  return getSpaceChildEvents(space).some((e) => e.getStateKey() === roomId) ?? false;
 }
 
 function isJoinedSpace(space: Room): boolean {
@@ -184,10 +188,7 @@ export function findParentSpaceId(roomId: string, client: MatrixClient): string 
   for (const space of client.getRooms()) {
     if (!space.isSpaceRoom()) continue;
     if (!isJoinedSpace(space)) continue;
-    const isChild =
-      roomStateMaybe(space)
-        ?.getStateEvents('m.space.child')
-        .some((e) => e.getStateKey() === roomId) ?? false;
+    const isChild = getSpaceChildEvents(space).some((e) => e.getStateKey() === roomId) ?? false;
     if (isChild) return space.roomId;
   }
   return null;

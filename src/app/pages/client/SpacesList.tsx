@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, Fragment } from 'react';
+import { useCallback, useEffect, useMemo, useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   HouseIcon,
@@ -32,7 +32,6 @@ import {
   spaceSettingsRoomIdAtom,
   createSpaceOpenAtom,
   exploreOpenAtom,
-  spaceOrderAtom,
   pinnedSubSpacesAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
@@ -46,6 +45,14 @@ import { useToast } from '@/app/hooks/useToast';
 import { useRoomActions } from './hooks/useRoomActions';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import { buildSpaceMenu, markSpaceAsRead, buildHomeMenu, buildDmsMenu } from './spaceContextMenu';
+import {
+  applyPendingOrder,
+  getSpaceBarOrder,
+  planSpaceReorder,
+  saveSpaceBarOrders,
+  sortSpaceBar,
+} from '@/app/features/room/roomOrder';
+import { getErrorMessage } from '@/util/error';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -133,7 +140,6 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
     homeHasCall,
     dmsHasCall,
   } = useSpaces();
-  const [spaceOrder, setSpaceOrder] = useAtom(spaceOrderAtom);
   const [pinnedSubSpacesArr, setPinnedSubSpacesArr] = useAtom(pinnedSubSpacesAtom);
   const pinnedSubSpaces = useMemo(() => new Set(pinnedSubSpacesArr), [pinnedSubSpacesArr]);
   const roomActions = useRoomActions();
@@ -200,22 +206,31 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const homeMenuTrigger = useContextMenuTrigger(buildHomeMenuCb);
   const dmMenuTrigger = useContextMenuTrigger(buildDmsMenuCb);
 
-  // Apply persisted user order
-  const orderedSpaces = useMemo(() => {
-    if (spaceOrder.length === 0) return spaces;
-    const spaceMap = new Map(spaces.map((s) => [s.roomId, s]));
-    const ordered: SpaceEntry[] = [];
-    for (const id of spaceOrder) {
-      const s = spaceMap.get(id);
-      if (s) ordered.push(s);
+  const [pendingOrder, setPendingOrder] = useState<string[] | null>(null);
+  const sortedSpaces = useMemo(
+    () => sortSpaceBar(spaces, (s) => client?.getRoom(s.roomId)),
+    [spaces, client]
+  );
+  const orderedSpaces = useMemo(
+    () =>
+      applyPendingOrder(
+        sortedSpaces,
+        new Set(sortedSpaces.map((s) => s.roomId)),
+        pendingOrder,
+        (s) => s.roomId
+      ),
+    [sortedSpaces, pendingOrder]
+  );
+
+  useEffect(() => {
+    if (!pendingOrder) return;
+    if (sortedSpaces.map((s) => s.roomId).join('|') === pendingOrder.join('|')) {
+      setPendingOrder(null);
+      return;
     }
-    // Append spaces not in saved order (newly joined, etc.)
-    const spaceOrderSet = new Set(spaceOrder);
-    for (const s of spaces) {
-      if (!spaceOrderSet.has(s.roomId)) ordered.push(s);
-    }
-    return ordered;
-  }, [spaces, spaceOrder]);
+    const timer = setTimeout(() => setPendingOrder(null), 8000);
+    return () => clearTimeout(timer);
+  }, [sortedSpaces, pendingOrder]);
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
     setActiveDragId(event.active.id as string);
@@ -259,10 +274,19 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       const newIndex = orderedSpaces.findIndex((s) => s.roomId === over.id);
       if (oldIndex === -1 || newIndex === -1) return;
 
-      const reordered = arrayMove(orderedSpaces, oldIndex, newIndex);
-      setSpaceOrder(reordered.map((s) => s.roomId));
+      const reorderedIds = arrayMove(orderedSpaces, oldIndex, newIndex).map((s) => s.roomId);
+      if (!client) return;
+      const currentOrders = new Map(
+        orderedSpaces.map((s) => [s.roomId, getSpaceBarOrder(client.getRoom(s.roomId))])
+      );
+      setPendingOrder(reorderedIds);
+      const updates = planSpaceReorder(reorderedIds, currentOrders, String(active.id));
+      saveSpaceBarOrders(client, updates).catch((err: unknown) => {
+        setPendingOrder(null);
+        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+      });
     },
-    [orderedSpaces, setSpaceOrder]
+    [orderedSpaces, client, toast, t]
   );
 
   const activeDragSpace = useMemo(
