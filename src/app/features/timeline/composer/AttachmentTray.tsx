@@ -19,6 +19,7 @@ import { ToggleRow } from '@/app/components/Toggle';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { formatFileSize } from '@/util/format';
 import type { ComposerState } from './useComposer';
+import { useAttachmentUpload } from './attachmentUploads';
 import * as css from './AttachmentTray.css';
 
 function isImage(file: File): boolean {
@@ -144,6 +145,7 @@ function AttachmentTile({
   const { t } = useTranslation();
   const maxUploadBytes = useAtomValue(serverUploadLimitAtom);
   const { file, previewUrl, spoiler, oversized, caption } = attachment;
+  const upload = useAttachmentUpload(attachment.id);
   const image = isImage(file);
   const video = isVideo(file);
   const media = <AttachmentMedia file={file} previewUrl={previewUrl} spoiler={spoiler} />;
@@ -174,8 +176,28 @@ function AttachmentTile({
             <WarningIcon size={12} weight="fill" className={css.detailErrorIcon} />
             {t('attachment.fileTooLarge', { limit: formatFileSize(maxUploadBytes) })}
           </span>
+        ) : upload?.status === 'error' ? (
+          <span className={css.detailError}>
+            <WarningIcon size={12} weight="fill" className={css.detailErrorIcon} />
+            {t('attachment.uploadFailedRetry')}
+          </span>
         ) : (
           <span className={css.detail}>{formatFileSize(file.size)}</span>
+        )}
+        {upload?.status === 'uploading' && (
+          <div
+            className={css.progressTrack}
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(upload.progress * 100)}
+            aria-label={t('attachment.uploading')}
+          >
+            <div
+              className={css.progressFill}
+              style={{ width: `${Math.round(upload.progress * 100)}%` }}
+            />
+          </div>
         )}
         {caption && (
           <Tooltip content={caption} multiline>

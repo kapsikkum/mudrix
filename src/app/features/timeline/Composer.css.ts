@@ -53,6 +53,37 @@ export const replySnippet = style({
   marginLeft: '6px',
 });
 
+export const statusStrip = style([replyPreview, { position: 'relative' }]);
+
+export const uploadStrip = style([statusStrip, { paddingBottom: '12px' }]);
+
+export const statusName = style({
+  color: vars.color.textPrimary,
+  fontWeight: 600,
+});
+
+export const statusMeta = style({
+  marginLeft: '6px',
+});
+
+export const uploadProgressTrack = style({
+  position: 'absolute',
+  left: '14px',
+  right: '8px',
+  bottom: '4px',
+  height: '3px',
+  borderRadius: '2px',
+  backgroundColor: vars.color.border,
+  overflow: 'hidden',
+});
+
+export const uploadProgressFill = style({
+  height: '100%',
+  borderRadius: '2px',
+  backgroundColor: vars.color.accent,
+  transition: `width ${med} ease`,
+});
+
 export const replyCancel = style({
   marginLeft: 'auto',
   background: 'none',
@@ -285,74 +316,6 @@ export const emojiBtnActive = style([
     ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.accent },
   },
 ]);
-
-export const gifSendStatus = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  padding: '0 12px',
-  minHeight: '28px',
-  backgroundColor: vars.color.bgTertiary,
-  borderRadius: vars.radius.sm,
-  flexShrink: 0,
-  fontSize: '0.8rem',
-  color: vars.color.textMuted,
-});
-
-export const uploadProgressBar = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-  padding: '0 12px',
-  height: '32px',
-  backgroundColor: vars.color.bgTertiary,
-  borderRadius: vars.radius.sm,
-  flexShrink: 0,
-  position: 'relative',
-  overflow: 'hidden',
-});
-
-export const uploadProgressLabel = style({
-  fontSize: '0.8rem',
-  color: vars.color.textMuted,
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  flexShrink: 1,
-  minWidth: 0,
-  position: 'relative',
-  zIndex: 1,
-});
-
-export const uploadCancelBtn = style({
-  position: 'relative',
-  zIndex: 1,
-  width: '22px',
-  height: '22px',
-  borderRadius: '50%',
-  border: 'none',
-  background: 'none',
-  color: vars.color.textMuted,
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  marginLeft: 'auto',
-  transition: `background-color ${fast}, color ${fast}`,
-  ':hover': {
-    backgroundColor: vars.color.bgHover,
-    color: vars.color.textPrimary,
-  },
-});
-
-export const uploadProgressFill = style({
-  position: 'absolute',
-  inset: 0,
-  backgroundColor: vars.color.accent,
-  opacity: 0.15,
-  transition: `width ${med} ease`,
-});
 
 export const moreBtn = style({
   width: '28px',

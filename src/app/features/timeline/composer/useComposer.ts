@@ -30,7 +30,14 @@ import { ReactEditor } from 'slate-react';
 import { useAutocomplete } from '../useAutocomplete';
 import type { Suggestion } from '../useAutocomplete';
 import { elementCallUiAtom } from '@/app/store/atoms/elementCall';
-import { uploadEncryptedFile, buildMediaMessageContent } from '../encryptedMedia';
+import { buildMediaMessageContent, type UploadResult } from '../encryptedMedia';
+import {
+  cancelAttachmentUpload,
+  forgetAttachmentUpload,
+  getAttachmentUpload,
+  startAttachmentUpload,
+  subscribeAttachmentUpload,
+} from './attachmentUploads';
 import { getMediaCacheKey, setCachedBlobUrl } from '../message/mediaCache';
 import {
   MATRIX_SPOILER_STABLE_PROPERTY_NAME,
@@ -94,6 +101,7 @@ export interface ComposerState {
 }
 
 interface UploadQueueItem {
+  attachmentId: string;
   file: File;
   caption: string;
   spoiler: boolean;
@@ -251,6 +259,7 @@ export function useComposer({
       if (attachments.length === 0) return;
       enqueueUploadsRef.current(
         attachments.map((a, i) => ({
+          attachmentId: a.id,
           file: a.file,
           caption: a.caption.trim(),
           spoiler: a.spoiler,
@@ -415,9 +424,12 @@ export function useComposer({
         };
       });
       setAttachments((prev) => [...prev, ...items]);
+      for (const item of items) {
+        if (!item.oversized) void startAttachmentUpload(item.id, client, roomId, item.file);
+      }
       requestAnimationFrame(() => ReactEditor.focus(editor));
     },
-    [maxUploadBytes, setAttachments, editor]
+    [maxUploadBytes, setAttachments, editor, client, roomId]
   );
 
   const focusRequest = useAtomValue(composerFocusRequestAtom);
@@ -434,12 +446,14 @@ export function useComposer({
   }, [focusRequest, draftKey, editor]);
 
   const removeAttachment = useCallback(
-    (id: string) =>
+    (id: string) => {
+      cancelAttachmentUpload(id);
       setAttachments((prev) => {
         const item = prev.find((a) => a.id === id);
         if (item) revokeAttachment(item);
         return prev.filter((a) => a.id !== id);
-      }),
+      });
+    },
     [setAttachments]
   );
 
@@ -493,6 +507,7 @@ export function useComposer({
 
   const uploadOne = useCallback(
     async (
+      attachmentId: string,
       file: File,
       caption: string,
       spoiler: boolean,
@@ -504,14 +519,22 @@ export function useComposer({
       const isAudio = file.type.startsWith('audio/');
       const msgtype = isImage ? 'm.image' : isVideo ? 'm.video' : isAudio ? 'm.audio' : 'm.file';
       const body = caption.length > 0 ? caption : file.name;
-      const uploadResult = await uploadEncryptedFile(
-        client,
-        roomId,
-        file,
-        () => {},
-        setUploadProgress,
-        abortController
-      );
+      const resultPromise = startAttachmentUpload(attachmentId, client, roomId, file);
+      const syncProgress = () =>
+        setUploadProgress(getAttachmentUpload(attachmentId)?.progress ?? 0);
+      syncProgress();
+      const unsubscribe = subscribeAttachmentUpload(attachmentId, syncProgress);
+      const onAbort = () => cancelAttachmentUpload(attachmentId);
+      abortController?.signal.addEventListener('abort', onAbort);
+      let uploadResult: UploadResult;
+      try {
+        uploadResult = await resultPromise;
+      } finally {
+        unsubscribe();
+        abortController?.signal.removeEventListener('abort', onAbort);
+      }
+      if (abortController?.signal.aborted) throw new DOMException('Aborted', 'AbortError');
+      forgetAttachmentUpload(attachmentId);
       if (uploadResult.file) {
         const cacheKey = getMediaCacheKey(uploadResult.file);
         const blobUrl = URL.createObjectURL(file);
@@ -578,7 +601,14 @@ export function useComposer({
           total,
         });
         try {
-          await uploadOne(item.file, item.caption, item.spoiler, item.replyTo, controller);
+          await uploadOne(
+            item.attachmentId,
+            item.file,
+            item.caption,
+            item.spoiler,
+            item.replyTo,
+            controller
+          );
           onSent?.();
         } catch (err) {
           if (err instanceof DOMException && err.name === 'AbortError') break;
@@ -603,6 +633,7 @@ export function useComposer({
 
   const cancelUpload = useCallback(() => {
     uploadAbortRef.current?.abort();
+    uploadQueueRef.current.forEach((item) => cancelAttachmentUpload(item.attachmentId));
     uploadQueueRef.current = [];
   }, []);
 

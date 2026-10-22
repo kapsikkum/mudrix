@@ -205,38 +205,6 @@ export function Composer({
           listId={autocompleteListId}
         />
 
-        {gifSending && (
-          <div className={css.gifSendStatus}>
-            <SpinnerGapIcon size={14} className="icon-spin" />
-            <span>{t('composer.sendingGif')}</span>
-          </div>
-        )}
-
-        {uploadProgress !== null && uploadFileInfo && (
-          <div className={css.uploadProgressBar}>
-            <span className={css.uploadProgressLabel}>
-              {uploadFileInfo.name}
-              {uploadFileInfo.total > 1
-                ? ` (${uploadFileInfo.current}/${uploadFileInfo.total}) | ${formatFileSize(uploadFileInfo.size)}`
-                : ` | ${formatFileSize(uploadFileInfo.size)}`}
-            </span>
-            <Tooltip content={t('composer.cancelUpload')}>
-              <button
-                type="button"
-                className={css.uploadCancelBtn}
-                onClick={cancelUpload}
-                aria-label={t('composer.cancelUpload')}
-              >
-                <XIcon size={14} />
-              </button>
-            </Tooltip>
-            <div
-              className={css.uploadProgressFill}
-              style={{ width: `${Math.round(uploadProgress * 100)}%` }}
-            />
-          </div>
-        )}
-
         <div className={css.inputArea}>
           {toolbar && (
             <FormatToolbar activeFormats={toolbar.activeFormats} onFormat={applyFormat} />
@@ -251,6 +219,41 @@ export function Composer({
           )}
 
           <div className={css.composerBox}>
+            {gifSending && (
+              <div className={css.statusStrip} role="status">
+                <SpinnerGapIcon size={14} className={`icon-spin ${css.replyIcon}`} />
+                <span className={css.replyText}>{t('composer.sendingGif')}</span>
+              </div>
+            )}
+            {uploadProgress !== null && uploadFileInfo && (
+              <div className={css.uploadStrip} role="status">
+                <SpinnerGapIcon size={14} className={`icon-spin ${css.replyIcon}`} />
+                <span className={css.replyText}>
+                  <span className={css.statusName}>{uploadFileInfo.name}</span>
+                  <span className={css.statusMeta}>
+                    {uploadFileInfo.total > 1 &&
+                      `${uploadFileInfo.current}/${uploadFileInfo.total} · `}
+                    {formatFileSize(uploadFileInfo.size)} · {Math.round(uploadProgress * 100)}%
+                  </span>
+                </span>
+                <Tooltip content={t('composer.cancelUpload')}>
+                  <button
+                    type="button"
+                    className={css.replyCancel}
+                    onClick={cancelUpload}
+                    aria-label={t('composer.cancelUpload')}
+                  >
+                    <XIcon size={14} />
+                  </button>
+                </Tooltip>
+                <div className={css.uploadProgressTrack}>
+                  <div
+                    className={css.uploadProgressFill}
+                    style={{ width: `${Math.round(uploadProgress * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
             {replyTo && (
               <ReplyPreview
                 replyTo={replyTo}

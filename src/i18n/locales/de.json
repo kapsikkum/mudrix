@@ -687,6 +687,8 @@
     "loadFailed": "Nachrichten konnten nicht geladen werden"
   },
   "attachment": {
+    "uploading": "Wird hochgeladen",
+    "uploadFailedRetry": "Upload fehlgeschlagen, wird beim Senden wiederholt",
     "markSpoiler": "Als Spoiler markieren",
     "removeSpoiler": "Spoiler entfernen",
     "edit": "Anhang bearbeiten",

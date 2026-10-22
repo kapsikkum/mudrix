@@ -116,6 +116,21 @@ export const detailErrorIcon = style({
   marginTop: '1px',
 });
 
+export const progressTrack = style({
+  height: '3px',
+  marginTop: '3px',
+  borderRadius: '2px',
+  backgroundColor: vars.color.border,
+  overflow: 'hidden',
+});
+
+export const progressFill = style({
+  height: '100%',
+  borderRadius: '2px',
+  backgroundColor: vars.color.accent,
+  transition: `width ${fast} linear`,
+});
+
 export const caption = style({
   ...ellipsis,
   fontSize: '0.75rem',

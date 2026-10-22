@@ -687,6 +687,8 @@
     "loadFailed": "Failed to load messages"
   },
   "attachment": {
+    "uploading": "Uploading",
+    "uploadFailedRetry": "Upload failed, retries when sent",
     "markSpoiler": "Mark as spoiler",
     "removeSpoiler": "Remove spoiler",
     "edit": "Edit attachment",
