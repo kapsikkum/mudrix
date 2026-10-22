@@ -16,7 +16,7 @@ interface ReplyPreviewProps {
 export function ReplyPreview({ replyTo, onClear, client, roomId }: ReplyPreviewProps) {
   const { t } = useTranslation();
   const room = client.getRoom(roomId);
-  const preview = buildReplyContent(replyTo, client);
+  const preview = buildReplyContent(replyTo);
   const senderId = preview?.senderId ?? replyTo.getSender() ?? '';
   const displayName = room?.getMember(senderId)?.name ?? formatUserId(senderId);
   const body =

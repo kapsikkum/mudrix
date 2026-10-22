@@ -1,4 +1,4 @@
-import type { MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk';
+import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import { markdownToHtml, plainTextToHtml } from '@/util/markdownToHtml';
 
 export interface ReplyContent {
@@ -36,8 +36,6 @@ export function isEditableEvent(event: MatrixEvent): boolean {
   return msgtype !== undefined && EDITABLE_MSGTYPES.has(msgtype);
 }
 
-const MAX_REPLY_CHAIN = 10;
-
 export function stripReplyFallback(body: string): string {
   const lines = body.split('\n');
   const start = lines.findIndex((l) => {
@@ -55,49 +53,24 @@ export function stripReplyFallbackHtml(formattedBody: string): string {
     .trimEnd();
 }
 
-function resolveOriginalEvent(
-  event: MatrixEvent,
-  room: Room | null,
-  maxDepth: number
-): MatrixEvent {
-  let current = event;
-  let depth = 0;
-  while (depth < maxDepth) {
-    const relatesTo = current.getContent()?.['m.relates_to'];
-    const parentId = relatesTo?.['m.in_reply_to']?.event_id;
-    if (!parentId || relatesTo?.is_falling_back) break;
-    const parent = room?.findEventById(parentId);
-    if (!parent) break;
-    current = parent;
-    depth++;
-  }
-  return current;
-}
-
-export function buildReplyContent(
-  targetEvent: MatrixEvent,
-  client: MatrixClient
-): ReplyContent | null {
-  const room = client.getRoom(targetEvent.getRoomId() ?? '');
-  const originalEvent = resolveOriginalEvent(targetEvent, room, MAX_REPLY_CHAIN);
-  if (originalEvent.isDecryptionFailure()) {
+export function buildReplyContent(targetEvent: MatrixEvent): ReplyContent | null {
+  if (targetEvent.isDecryptionFailure()) {
     return {
-      eventId: originalEvent.getId() ?? targetEvent.getId() ?? '',
+      eventId: targetEvent.getId() ?? '',
       body: '',
-      senderId: originalEvent.getSender() ?? '',
+      senderId: targetEvent.getSender() ?? '',
       isUndecryptable: true,
     };
   }
-  const originalContent = originalEvent.getContent();
+  const content = targetEvent.getContent();
   return {
-    eventId: originalEvent.getId() ?? targetEvent.getId() ?? '',
-    body: stripReplyFallback((originalContent?.body as string | undefined) ?? ''),
+    eventId: targetEvent.getId() ?? '',
+    body: stripReplyFallback((content?.body as string | undefined) ?? ''),
     formattedBody:
-      stripReplyFallbackHtml((originalContent?.formatted_body as string | undefined) ?? '') ||
-      undefined,
-    senderId: originalEvent.getSender() ?? '',
-    mxcUrl: extractReplyMxcUrl(originalEvent.getType(), originalContent),
-    event: originalEvent,
+      stripReplyFallbackHtml((content?.formatted_body as string | undefined) ?? '') || undefined,
+    senderId: targetEvent.getSender() ?? '',
+    mxcUrl: extractReplyMxcUrl(targetEvent.getType(), content),
+    event: targetEvent,
     isUndecryptable: false,
   };
 }
@@ -113,7 +86,7 @@ export function getReplyContent(event: MatrixEvent, client: MatrixClient): Reply
   const replyEvent = room?.findEventById(replyEventId);
   if (!replyEvent) return null;
 
-  return buildReplyContent(replyEvent, client);
+  return buildReplyContent(replyEvent);
 }
 
 const EMOJI_PRESENTATION = /^\p{Emoji_Presentation}$/u;
