@@ -37,6 +37,7 @@ mac:
     NSCameraUsageDescription: "WizardChat needs camera access for video calls"
     NSMicrophoneUsageDescription: "WizardChat needs microphone access for voice calls"
     NSScreenCaptureUsageDescription: "WizardChat needs screen access for sharing during calls"
+    NSLocationWhenInUseUsageDescription: "WizardChat needs your location to share it in messages."
 
 linux:
   executableName: WizardChat

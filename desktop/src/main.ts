@@ -337,6 +337,11 @@ async function onReady(): Promise<void> {
       return;
     }
 
+    if (permission === 'geolocation') {
+      callback(true);
+      return;
+    }
+
     callback(permission === 'mediaKeySystem');
   });
 
