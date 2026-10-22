@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon, SmileyIcon, StickerIcon, GifIcon } from '@phosphor-icons/react';
 import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
@@ -14,7 +14,8 @@ interface Props {
   client: MatrixClient;
   roomId: string;
   threadId?: string | null;
-  initialTab?: MediaTab;
+  tab: MediaTab;
+  onTabChange: (tab: MediaTab) => void;
   onPickEmoji?: (emoji: string, mxcUrl?: string) => void;
   onClose: () => void;
   onGifStatusChange?: (sending: boolean) => void;
@@ -26,7 +27,8 @@ export function ComposerMediaPicker({
   client,
   roomId,
   threadId,
-  initialTab,
+  tab,
+  onTabChange,
   onPickEmoji,
   onClose,
   onGifStatusChange,
@@ -34,7 +36,6 @@ export function ComposerMediaPicker({
   onReplySent,
 }: Props) {
   const { t } = useTranslation();
-  const [tab, setTab] = useState<MediaTab>(initialTab ?? 'emoji');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export function ComposerMediaPicker({
           <button
             type="button"
             className={`${css.tab} ${tab === 'emoji' ? css.tabActive : ''}`}
-            onClick={() => setTab('emoji')}
+            onClick={() => onTabChange('emoji')}
           >
             <SmileyIcon size={16} weight={tab === 'emoji' ? 'fill' : 'regular'} />
             {t('composer.emoji')}
@@ -69,15 +70,15 @@ export function ComposerMediaPicker({
           <button
             type="button"
             className={`${css.tab} ${tab === 'sticker' ? css.tabActive : ''}`}
-            onClick={() => setTab('sticker')}
+            onClick={() => onTabChange('sticker')}
           >
-            <StickerIcon size={16} />
+            <StickerIcon size={16} weight={tab === 'sticker' ? 'fill' : 'regular'} />
             {t('composer.stickers')}
           </button>
           <button
             type="button"
             className={`${css.tab} ${tab === 'gif' ? css.tabActive : ''}`}
-            onClick={() => setTab('gif')}
+            onClick={() => onTabChange('gif')}
           >
             <GifIcon size={16} weight="bold" />
             GIF
