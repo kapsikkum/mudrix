@@ -12,7 +12,7 @@ variables:
 
 lint:
   stage: lint
-  image: node:20-alpine
+  image: node:22-alpine
   cache:
     key:
       files:
@@ -31,7 +31,7 @@ lint:
 
 prepare-release:
   stage: prepare
-  image: node:20-alpine
+  image: node:22-alpine
   before_script:
     - apk add --no-cache git curl
     - |
@@ -81,7 +81,7 @@ prepare-release:
 
 prepare-release-next:
   stage: prepare
-  image: node:20-alpine
+  image: node:22-alpine
   before_script:
     - apk add --no-cache git curl
     - |
@@ -131,7 +131,7 @@ prepare-release-next:
 
 validate-and-build:
   stage: validate
-  image: node:20-alpine
+  image: node:22-alpine
   cache:
     key:
       files:
@@ -250,7 +250,7 @@ build-docker:
 
 validate-and-build-next:
   stage: validate
-  image: node:20-alpine
+  image: node:22-alpine
   cache:
     key:
       files:
@@ -370,7 +370,7 @@ build-docker-next:
 
 deploy:
   stage: deploy
-  image: node:20-alpine
+  image: node:22-alpine
   dependencies:
     - validate-and-build
   rules:
@@ -387,7 +387,7 @@ deploy:
 
 deploy-next:
   stage: deploy
-  image: node:20-alpine
+  image: node:22-alpine
   dependencies:
     - validate-and-build-next
   rules:

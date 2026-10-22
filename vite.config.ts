@@ -1,8 +1,6 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
-import wasm from 'vite-plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -31,15 +29,14 @@ export default defineConfig({
   plugins: [
     react(),
     vanillaExtractPlugin(),
-    wasm(),
-    topLevelAwait(),
     versionFilePlugin(),
     // Ship the Element Call embedded widget alongside the app (served from /element-call/).
     viteStaticCopy({
       targets: [
         {
-          src: 'node_modules/@element-hq/element-call-embedded/dist/*',
+          src: 'node_modules/@element-hq/element-call-embedded/dist/**/*',
           dest: 'element-call',
+          rename: { stripBase: 4 },
         },
       ],
     }),
@@ -52,7 +49,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         main: 'index.html',
       },
