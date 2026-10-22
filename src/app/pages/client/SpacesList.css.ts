@@ -153,11 +153,11 @@ export const spaceAvatarWrap = style({
 
 export const callBadge = style({
   position: 'absolute',
-  top: '-2px',
-  right: '-2px',
+  top: '0px',
+  right: '0px',
   width: '18px',
   height: '18px',
-  borderRadius: '50%',
+  borderRadius: '8px',
   backgroundColor: vars.color.bgPrimary,
   color: vars.color.success,
   border: `1px solid ${vars.color.success}`,
