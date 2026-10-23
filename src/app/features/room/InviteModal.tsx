@@ -6,6 +6,7 @@ import { inviteModalRoomIdAtom, recentInvitesAtom } from '@/app/store/atoms';
 import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
+import { isInviteBlockedError } from '@/app/hooks/useInviteBlocking';
 import { formatUserId } from '@/util/matrix';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
@@ -67,7 +68,11 @@ export function InviteModal() {
 
         close();
       } catch (err) {
-        toast.error(t('invite.inviteFailed', { error: getErrorMessage(err) }));
+        toast.error(
+          isInviteBlockedError(err)
+            ? t('invite.inviteBlocked', { id })
+            : t('invite.inviteFailed', { error: getErrorMessage(err) })
+        );
       } finally {
         setLoading(false);
       }

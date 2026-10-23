@@ -782,6 +782,7 @@
     "directory": "Verzeichnis",
     "invitedTo": "{{id}} in {{name}} eingeladen",
     "inviteFailed": "Einladung fehlgeschlagen: {{error}}",
+    "inviteBlocked": "{{id}} nimmt keine Einladungen an.",
     "accept": "Annehmen",
     "decline": "Ablehnen",
     "declineInvite": "Einladung ablehnen",
@@ -881,7 +882,10 @@
       "mediaVisibilityNever": "Immer ausblenden",
       "other": "Andere",
       "showPresence": "Benutzerpräsenz anzeigen",
-      "showPresenceNote": "Zeigt an, wenn Benutzer online, offline oder nicht verfügbar sind. Deine Präsenz ist für andere sichtbar."
+      "showPresenceNote": "Zeigt an, wenn Benutzer online, offline oder nicht verfügbar sind. Deine Präsenz ist für andere sichtbar.",
+      "blockInvites": "Alle Einladungen blockieren",
+      "blockInvitesNote": "Niemand kann dich in Räume einladen oder DMs mit dir starten. Dein Homeserver lehnt die Einladungen ab.",
+      "blockInvitesFailed": "Einladungsblockierung konnte nicht geändert werden: {{error}}"
     },
     "language": {
       "title": "Sprache",

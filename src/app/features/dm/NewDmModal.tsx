@@ -6,6 +6,7 @@ import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
 import { useToast } from '@/app/hooks/useToast';
 import { startDm } from '@/app/hooks/useDms';
 import { getErrorMessage } from '@/util/error';
+import { isInviteBlockedError } from '@/app/hooks/useInviteBlocking';
 import { formatUserId } from '@/util/matrix';
 import { useNavigate } from 'react-router-dom';
 import { ChatCircleIcon } from '@phosphor-icons/react';
@@ -55,7 +56,11 @@ export function NewDmModal() {
         navigate(`/dm/${encodeURIComponent(roomId)}`);
         close();
       } catch (err) {
-        toast.error(t('room.dm.startFailed', { error: getErrorMessage(err) }));
+        toast.error(
+          isInviteBlockedError(err)
+            ? t('invite.inviteBlocked', { id })
+            : t('room.dm.startFailed', { error: getErrorMessage(err) })
+        );
       } finally {
         setLoading(false);
       }

@@ -782,6 +782,7 @@
     "directory": "Directory",
     "invitedTo": "Invited {{id}} to {{name}}",
     "inviteFailed": "Invite failed: {{error}}",
+    "inviteBlocked": "{{id}} doesn't accept invites.",
     "accept": "Accept",
     "decline": "Decline",
     "declineInvite": "Decline invite",
@@ -881,7 +882,10 @@
       "mediaVisibilityNever": "Always hide",
       "other": "Other",
       "showPresence": "Show user presence",
-      "showPresenceNote": "Display when users are online, offline, or unavailable. Your presence will be visible to others."
+      "showPresenceNote": "Display when users are online, offline, or unavailable. Your presence will be visible to others.",
+      "blockInvites": "Block all invites",
+      "blockInvitesNote": "Nobody can invite you to rooms or start DMs with you. Your homeserver rejects the invites.",
+      "blockInvitesFailed": "Failed to update invite blocking: {{error}}"
     },
     "language": {
       "title": "Language",

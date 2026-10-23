@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +14,9 @@ import { ArrowCounterClockwiseIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { IconButton } from '@/app/components/Button';
 import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
+import { useInviteBlocking } from '@/app/hooks/useInviteBlocking';
+import { useToast } from '@/app/hooks/useToast';
+import { getErrorMessage } from '@/util/error';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { formatUserId } from '@/util/matrix';
 import * as css from '../Settings.css';
@@ -83,12 +87,40 @@ export function Privacy() {
           checked={showPresence}
           onChange={setShowPresence}
         />
+        <BlockInvitesToggle />
       </div>
 
       <div className={css.divider} />
 
       <IgnoredUsers />
     </div>
+  );
+}
+
+function BlockInvitesToggle() {
+  const { t } = useTranslation();
+  const toast = useToast();
+  const { supported, blocked, setBlocked } = useInviteBlocking(getMatrixClientOrNull());
+  const [pending, setPending] = useState<boolean | null>(null);
+
+  if (!supported) return null;
+
+  return (
+    <ToggleRow
+      label={t('settings.privacy.blockInvites')}
+      description={t('settings.privacy.blockInvitesNote')}
+      checked={pending ?? blocked}
+      onChange={async (next) => {
+        setPending(next);
+        try {
+          await setBlocked(next);
+        } catch (err) {
+          toast.error(t('settings.privacy.blockInvitesFailed', { error: getErrorMessage(err) }));
+        } finally {
+          setPending(null);
+        }
+      }}
+    />
   );
 }
 
