@@ -211,11 +211,19 @@ export function ElementCallLayer({ client }: Props) {
   );
 
   useEffect(() => {
-    if (!isFullscreen) return;
+    if (!isFullscreen || isVoiceRoomCall) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      if (document.querySelector('[role="dialog"], [role="menu"]')) return;
-      showPresentation(isVoiceRoomCall ? 'tile' : 'room');
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      const target = e.target instanceof Element ? e.target : null;
+      if (
+        target?.closest(
+          'input, textarea, select, [contenteditable="true"], [role="dialog"], [role="menu"], [role="listbox"]'
+        )
+      ) {
+        return;
+      }
+      if (document.querySelector('[role="dialog"], [role="menu"], [role="listbox"]')) return;
+      showPresentation('room');
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
