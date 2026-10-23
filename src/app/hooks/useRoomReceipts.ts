@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useAtomValue } from 'jotai';
+import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import type { MatrixClient, Room, MatrixEvent } from 'matrix-js-sdk';
 import { RoomEvent, RoomStateEvent } from 'matrix-js-sdk';
 import { isTimelineRenderedEvent } from '@/app/hooks/useTimeline';
@@ -69,13 +71,14 @@ export function useRoomReceipts(
   room: Room | null
 ): Map<string, ReceiptUser[]> {
   const myId = client.getUserId() ?? '';
+  const enabled = useAtomValue(sendReadReceiptsAtom);
 
   const [receiptMap, setReceiptMap] = useState<Map<string, ReceiptUser[]>>(() =>
-    room ? buildMap(room, myId) : new Map()
+    room && enabled ? buildMap(room, myId) : new Map()
   );
 
   useEffect(() => {
-    if (!room) {
+    if (!room || !enabled) {
       setReceiptMap(new Map());
       return;
     }
@@ -118,7 +121,7 @@ export function useRoomReceipts(
       window.clearTimeout(t1);
       window.clearTimeout(t2);
     };
-  }, [room, myId]);
+  }, [room, myId, enabled]);
 
   return receiptMap;
 }
