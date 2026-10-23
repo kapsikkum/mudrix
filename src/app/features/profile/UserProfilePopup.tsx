@@ -528,14 +528,11 @@ export function UserProfilePopup() {
     openContextMenuAt(items, anchorFromElement(modMenuBtnRef.current), modMenuBtnRef.current);
   };
 
-  const roleLabel = getRoleLabel(
-    getRoleKey({ userId: profileState.userId, powerLevel: localPowerLevel }, getRoomCreators(room)),
-    t
-  );
   const roleKey = getRoleKey(
     { userId: profileState.userId, powerLevel: localPowerLevel },
     getRoomCreators(room)
   );
+  const roleLabel = getRoleLabel(roleKey, t);
   const roleClass =
     roleKey === 'founder'
       ? css.roleFounder
@@ -663,7 +660,7 @@ export function UserProfilePopup() {
           <Tooltip content={profile.homeserver}>
             <span className={css.infoValue}>{profile.homeserver}</span>
           </Tooltip>
-          {profileState.roomId && !isOwn && profile.canModify ? (
+          {profileState.roomId && !isOwn && profile.canModify && roleKey !== 'founder' ? (
             <Select
               surface="pill"
               icon={<span className={roleDotClass} />}

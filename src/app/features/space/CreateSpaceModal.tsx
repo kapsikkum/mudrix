@@ -5,7 +5,7 @@ import { EventType, Preset, Visibility } from 'matrix-js-sdk';
 import { DEFAULT_TREE_POWER_LEVELS_TEMPLATE } from 'matrix-js-sdk/lib/models/MSC3089TreeSpace';
 import { StackIcon, StackPlusIcon, LinkIcon, CompassIcon } from '@phosphor-icons/react';
 import { createSpaceOpenAtom } from '@/app/store/atoms';
-import { getMatrixClient } from '@/client/initMatrix';
+import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { viaServersFor, normalizeJoinTarget } from '@/util/matrix';
@@ -15,6 +15,11 @@ import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { ToggleRow } from '@/app/components/Toggle';
+import {
+  FoundersField,
+  useFoundersRoomVersion,
+  type Founder,
+} from '@/app/features/room/FoundersField';
 import * as css from './CreateSpaceModal.css';
 
 type View = 'choose' | 'create' | 'join';
@@ -33,6 +38,7 @@ export function CreateSpaceModal() {
   const [isPublic, setIsPublic] = useState(false);
   const [federated, setFederated] = useState(true);
   const [spaceAlias, setSpaceAlias] = useState('');
+  const [founders, setFounders] = useState<Founder[]>([]);
   const [createLoading, setCreateLoading] = useState(false);
   const [spaceId, setSpaceId] = useState('');
   const [joinLoading, setJoinLoading] = useState(false);
@@ -51,8 +57,11 @@ export function CreateSpaceModal() {
     setFederated(true);
     setSpaceAlias('');
     setSpaceId('');
+    setFounders([]);
   };
 
+  const foundersRoomVersion = useFoundersRoomVersion(open);
+  const mx = getMatrixClientOrNull();
   const canCreate = name.trim().length > 0;
   const canJoin = normalizeJoinTarget(spaceId) !== null;
 
@@ -67,13 +76,21 @@ export function CreateSpaceModal() {
         ...DEFAULT_TREE_POWER_LEVELS_TEMPLATE,
       };
       delete spacePowerLevels.users;
+      const founderIds = foundersRoomVersion ? founders.map((f) => f.userId) : [];
       const { room_id: newRoomId } = await client.createRoom({
         name: trimmedName,
         topic: description.trim() || undefined,
         visibility: isPublic ? Visibility.Public : Visibility.Private,
         preset: isPublic ? Preset.PublicChat : Preset.PrivateChat,
         power_level_content_override: spacePowerLevels,
-        creation_content: { type: 'm.space', 'm.federate': federated },
+        creation_content: {
+          type: 'm.space',
+          'm.federate': federated,
+          ...(founderIds.length > 0 ? { additional_creators: founderIds } : {}),
+        },
+        ...(founderIds.length > 0 && foundersRoomVersion
+          ? { room_version: foundersRoomVersion, invite: founderIds }
+          : {}),
       });
 
       const aliasToSet = spaceAlias.trim();
@@ -258,6 +275,9 @@ export function CreateSpaceModal() {
             onChange={setFederated}
             size="sm"
           />
+          {foundersRoomVersion && mx && (
+            <FoundersField client={mx} founders={founders} onChange={setFounders} />
+          )}
         </div>
       )}
 

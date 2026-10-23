@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useId } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { UserPlusIcon } from '@phosphor-icons/react';
@@ -9,9 +9,7 @@ import { getErrorMessage } from '@/util/error';
 import { formatUserId } from '@/util/matrix';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
-import { useInviteAutocomplete } from './useInviteAutocomplete';
-import { InviteAutocompleteDropdown } from './InviteAutocompleteDropdown';
+import { UserPickerInput } from './UserPickerInput';
 import type { UserSuggestion } from './useInviteAutocomplete';
 
 export function InviteModal() {
@@ -22,19 +20,8 @@ export function InviteModal() {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const client = getMatrixClientOrNull();
-  const listId = useId();
-
-  const autocomplete = useInviteAutocomplete(client!);
-  const { open: openAutocomplete } = autocomplete;
 
   const isOpen = !!state;
-
-  // Pre-populate with recent/DM users whenever the modal opens
-  useEffect(() => {
-    if (isOpen) {
-      openAutocomplete();
-    }
-  }, [isOpen, openAutocomplete]);
 
   // Defensive guard, you can only invite others to a room you have actually
   // joined. If somehow opened for an invited/left room, close immediately.
@@ -50,8 +37,7 @@ export function InviteModal() {
   const close = useCallback(() => {
     setState(null);
     setUserId('');
-    autocomplete.close();
-  }, [setState, autocomplete]);
+  }, [setState]);
 
   const canInvite = userId.trim().length > 0;
 
@@ -89,53 +75,10 @@ export function InviteModal() {
     [userId, state, client, close, toast, t]
   );
 
-  // Clicking a suggestion fills the input — user still confirms with Invite button
+  // Picking a suggestion fills the input, the user still confirms with Invite
   const handleSelect = useCallback((suggestion: UserSuggestion) => {
     setUserId(suggestion.userId);
   }, []);
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const val = e.target.value;
-      setUserId(val);
-      autocomplete.onInput(val);
-    },
-    [autocomplete]
-  );
-
-  const acVisible = autocomplete.state.open && autocomplete.state.suggestions.length > 0;
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        autocomplete.onArrow('down');
-        return;
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        autocomplete.onArrow('up');
-        return;
-      }
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        e.stopPropagation();
-        autocomplete.close();
-        return;
-      }
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const sel = autocomplete.confirm();
-        if (sel) {
-          handleSelect(sel);
-        } else {
-          void handleInvite();
-        }
-        return;
-      }
-    },
-    [autocomplete, handleSelect, handleInvite]
-  );
 
   if (!client) return null;
 
@@ -162,29 +105,17 @@ export function InviteModal() {
         </>
       }
     >
-      <Input
-        label={t('invite.userId')}
-        placeholder={t('invite.userIdPlaceholder')}
-        value={userId}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        data-dialog-autofocus
-        role="combobox"
-        aria-expanded={acVisible}
-        aria-autocomplete="list"
-        aria-controls={listId}
-        aria-activedescendant={
-          acVisible ? `${listId}-option-${autocomplete.state.selectedIndex}` : undefined
-        }
-      />
-
-      <InviteAutocompleteDropdown
-        state={autocomplete.state}
-        client={client}
-        maxRecent={3}
-        onSelect={handleSelect}
-        listId={listId}
-      />
+      {client && isOpen && (
+        <UserPickerInput
+          client={client}
+          value={userId}
+          onValueChange={setUserId}
+          onPick={handleSelect}
+          onSubmit={() => void handleInvite()}
+          label={t('invite.userId')}
+          autoFocus
+        />
+      )}
     </Modal>
   );
 }

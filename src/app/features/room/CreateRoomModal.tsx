@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { createRoomOpenAtom, currentRoomIdAtom } from '@/app/store/atoms';
 import { EventType, Preset } from 'matrix-js-sdk';
 import type { ICreateRoomStateEvent } from 'matrix-js-sdk/lib/@types/requests';
-import { getMatrixClient } from '@/client/initMatrix';
+import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
 import type { UntypedStateEventType } from '@/types/matrix';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
@@ -23,6 +23,7 @@ import { Select, type SelectOption } from '@/app/components/Select';
 import { ToggleRow } from '@/app/components/Toggle';
 
 import { roomState } from '@/util/matrix';
+import { FoundersField, useFoundersRoomVersion, type Founder } from './FoundersField';
 import * as css from './CreateRoomModal.css';
 
 type AccessOption = 'space' | 'invite' | 'public';
@@ -42,6 +43,7 @@ export function CreateRoomModal() {
   const [federated, setFederated] = useState(true);
   const [voiceRoom, setVoiceRoom] = useState(false);
   const [roomAlias, setRoomAlias] = useState('');
+  const [founders, setFounders] = useState<Founder[]>([]);
   const [loading, setLoading] = useState(false);
   // Default to 'space' when opened from inside a space, otherwise 'invite'
   const [access, setAccess] = useState<AccessOption>(spaceId ? 'space' : 'invite');
@@ -55,6 +57,7 @@ export function CreateRoomModal() {
     setVoiceRoom(false);
     setRoomAlias('');
     setAccess('invite');
+    setFounders([]);
   };
 
   const handleAccessChange = (opt: AccessOption) => {
@@ -64,6 +67,8 @@ export function CreateRoomModal() {
     else setEncrypted(true);
   };
 
+  const foundersRoomVersion = useFoundersRoomVersion(open);
+  const client = getMatrixClientOrNull();
   const canCreate = name.trim().length > 0;
 
   const handleCreate = async () => {
@@ -121,6 +126,8 @@ export function CreateRoomModal() {
         });
       }
 
+      const founderIds = foundersRoomVersion ? founders.map((f) => f.userId) : [];
+
       const opts: Parameters<typeof client.createRoom>[0] = {
         name: name.trim(),
         topic: topic.trim() || undefined,
@@ -130,7 +137,11 @@ export function CreateRoomModal() {
         creation_content: {
           ...(voiceRoom ? { type: 'org.matrix.msc3417.call' } : {}),
           'm.federate': federated,
+          ...(founderIds.length > 0 ? { additional_creators: founderIds } : {}),
         },
+        ...(founderIds.length > 0 && foundersRoomVersion
+          ? { room_version: foundersRoomVersion, invite: founderIds }
+          : {}),
         ...(voiceRoom
           ? {
               power_level_content_override: {
@@ -314,6 +325,10 @@ export function CreateRoomModal() {
         onChange={setFederated}
         size="sm"
       />
+
+      {foundersRoomVersion && client && (
+        <FoundersField client={client} founders={founders} onChange={setFounders} />
+      )}
     </Modal>
   );
 }

@@ -205,7 +205,9 @@
       "roomAddressPlaceholder": "#meinraum:server.org",
       "failed": "Fehler beim Erstellen des Raums: {{error}}",
       "aliasCreateFailed": "Raum erstellt, aber Adresse konnte nicht gesetzt werden: {{error}}",
-      "insufficientSpacePermission": "Du hast nicht die erforderlichen Berechtigungen, um einen Raum in diesem Space zu erstellen"
+      "insufficientSpacePermission": "Du hast nicht die erforderlichen Berechtigungen, um einen Raum in diesem Space zu erstellen",
+      "founders": "Gründer",
+      "foundersNote": "Gründer haben volle Kontrolle über den Raum. Sie können nicht herabgestuft oder entfernt werden, auch nicht von dir."
     },
     "header": {
       "pinnedMessages": "Angeheftete Nachrichten",

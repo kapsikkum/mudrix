@@ -205,7 +205,9 @@
       "roomAddressPlaceholder": "#myroom:server.org",
       "failed": "Failed to create room: {{error}}",
       "aliasCreateFailed": "Room created but failed to set address: {{error}}",
-      "insufficientSpacePermission": "You don't have sufficient permissions to create a room in this space"
+      "insufficientSpacePermission": "You don't have sufficient permissions to create a room in this space",
+      "founders": "Founders",
+      "foundersNote": "Founders have full control over the room. They can't be demoted or removed, not even by you."
     },
     "header": {
       "pinnedMessages": "Pinned Messages",
