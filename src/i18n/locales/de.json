@@ -953,7 +953,18 @@
       "enableDescription": "Zeigt zusätzliche Debug-Informationen in der App an.",
       "accessToken": "Access Token",
       "accessTokenWarning": "Teile dein Access Token niemals, es gewährt vollständige Kontrolle über dein Konto.",
-      "homeserverUrl": "Homeserver-URL"
+      "homeserverUrl": "Homeserver-URL",
+      "accountData": "Kontodaten",
+      "accountDataAdd": "Hinzufügen",
+      "accountDataNew": "Neue Kontodaten",
+      "accountDataEmpty": "Noch keine Kontodaten.",
+      "accountDataType": "Ereignistyp",
+      "accountDataContent": "Inhalt (JSON)",
+      "accountDataNotObject": "Der Inhalt muss ein JSON-Objekt sein.",
+      "accountDataSaved": "Kontodaten gespeichert.",
+      "accountDataSaveFailed": "Kontodaten konnten nicht gespeichert werden: {{error}}",
+      "accountDataCount_one": "{{count}} Ereignistyp",
+      "accountDataCount_other": "{{count}} Ereignistypen"
     },
     "keyBackup": {
       "setupRecoveryKey": "Wiederherstellungsschlüssel einrichten",

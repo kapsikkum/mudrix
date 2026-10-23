@@ -14,6 +14,7 @@ import { developerModeAtom } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { CopyButton, IconButton } from '@/app/components/Button';
+import { AccountDataExplorer } from './AccountDataExplorer';
 import * as css from '../Settings.css';
 
 function getWellKnownHsUrl(client: ReturnType<typeof getMatrixClientOrNull>): string | null {
@@ -106,6 +107,13 @@ export function DeveloperOptions() {
               <CopyButton text={homeserverUrl} />
             </div>
           </div>
+
+          {client && (
+            <>
+              <div className={css.divider} />
+              <AccountDataExplorer client={client} />
+            </>
+          )}
         </>
       )}
     </div>

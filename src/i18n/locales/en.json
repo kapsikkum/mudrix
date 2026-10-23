@@ -967,7 +967,18 @@
       "enableDescription": "Shows additional debugging information throughout the app.",
       "accessToken": "Access Token",
       "accessTokenWarning": "Never share your access token, it grants full control of your account.",
-      "homeserverUrl": "Homeserver URL"
+      "homeserverUrl": "Homeserver URL",
+      "accountData": "Account data",
+      "accountDataAdd": "Add",
+      "accountDataNew": "New account data",
+      "accountDataEmpty": "No account data yet.",
+      "accountDataType": "Event type",
+      "accountDataContent": "Content (JSON)",
+      "accountDataNotObject": "Content must be a JSON object.",
+      "accountDataSaved": "Account data saved.",
+      "accountDataSaveFailed": "Couldn't save account data: {{error}}",
+      "accountDataCount_one": "{{count}} event type",
+      "accountDataCount_other": "{{count}} event types"
     },
     "keyBackup": {
       "setupRecoveryKey": "Set Up Recovery Key",
