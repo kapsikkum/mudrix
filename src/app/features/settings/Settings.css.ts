@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { navItem } from '@/app/components/Settings/Settings.css';
 
 export * from '@/app/components/Settings/Settings.css';
 
@@ -206,3 +207,17 @@ export const externalLink = style({
     borderRadius: '2px',
   },
 });
+
+export const navFooter = style({
+  marginTop: 'auto',
+  paddingTop: '12px',
+});
+
+export const navLogout = style([
+  navItem,
+  {
+    justifyContent: 'center',
+    color: vars.color.error,
+    ':hover': { color: vars.color.error },
+  },
+]);
