@@ -2,7 +2,7 @@ import { encryptAttachment, decryptAttachment } from 'matrix-encrypt-attachment'
 import type { IEncryptedFile } from 'matrix-encrypt-attachment';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { getMediaCacheKey, setCachedBlobUrl } from './message/mediaCache';
-import { mayBeAnimated, blobIsAnimated, stillExportFormat } from './utils/imageAnimation';
+import { probeIsAnimated, stillExportFormat } from './utils/imageAnimation';
 import { mxcUrlToHttp } from '@/util/matrix/mxcUrl';
 
 export type { IEncryptedFile };
@@ -255,7 +255,7 @@ export async function uploadEncryptedFile(
       mediaWidth: thumb?.videoWidth ?? thumb?.w,
       mediaHeight: thumb?.videoHeight ?? thumb?.h,
       durationMs: thumb?.durationMs,
-      isAnimated: mayBeAnimated(fileType) ? await blobIsAnimated(fileType, file) : undefined,
+      isAnimated: await probeIsAnimated(fileType, file),
     };
   }
 
@@ -327,7 +327,7 @@ export async function uploadEncryptedFile(
     mediaWidth: thumb?.videoWidth ?? thumb?.w,
     mediaHeight: thumb?.videoHeight ?? thumb?.h,
     durationMs: thumb?.durationMs,
-    isAnimated: mayBeAnimated(fileType) ? await blobIsAnimated(fileType, file) : undefined,
+    isAnimated: await probeIsAnimated(fileType, file),
   };
 }
 

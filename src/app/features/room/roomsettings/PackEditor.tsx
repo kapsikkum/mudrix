@@ -21,6 +21,7 @@ import { Select } from '@/app/components/Select';
 import * as panelCss from '@/app/components/Settings/Settings.css';
 import { vars } from '@/theme/vars.css';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
+import { probeIsAnimated } from '@/app/features/timeline/utils/imageAnimation';
 import { getImageDimensions } from '@/app/features/timeline/encryptedMedia';
 
 export type ImageEntry = {
@@ -163,6 +164,7 @@ export function PackEditor({
             });
             const mimetype = file.type || 'image/png';
             const dims = await getImageDimensions(file);
+            const isAnimated = await probeIsAnimated(mimetype, file);
             created[uniqueShortcode] = {
               shortcode: uniqueShortcode,
               url: mxcUrl,
@@ -172,6 +174,7 @@ export function PackEditor({
                 ...(dims ? { w: dims.w, h: dims.h } : {}),
                 size: file.size,
                 mimetype,
+                ...(isAnimated !== undefined ? { is_animated: isAnimated } : {}),
               },
             };
           })
