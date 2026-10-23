@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { LogoHover } from '@/app/components/AppLoading';
-import { GitlabLogoSimpleIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
+import { GitlabLogoSimpleIcon, DownloadSimpleIcon, HeartStraightIcon } from '@phosphor-icons/react';
 import * as css from '../Settings.css';
 import * as heroCss from './About.css';
 
 const GITLAB_URL = 'https://gitlab.com/wizardchat/wizardchat-web';
 const DOWNLOAD_URL = 'https://wizardchat.org';
+const LIBERAPAY_URL = 'https://liberapay.com/JPK/donate';
 
 export function About() {
   const { t } = useTranslation();
@@ -46,6 +47,15 @@ export function About() {
             >
               <GitlabLogoSimpleIcon size={16} />
               {t('settings.about.viewSourceOnGitLab')}
+            </a>
+            <a
+              href={LIBERAPAY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={heroCss.donateBtn}
+            >
+              <HeartStraightIcon size={16} />
+              {t('settings.about.donate')}
             </a>
           </div>
         </div>

@@ -80,3 +80,15 @@ export const downloadBtn = style([
     },
   },
 ]);
+
+export const donateBtn = style([
+  sourceBtn,
+  {
+    color: vars.color.danger,
+    selectors: {
+      '&:hover': {
+        borderColor: vars.color.danger,
+      },
+    },
+  },
+]);

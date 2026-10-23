@@ -1051,7 +1051,8 @@
     "about": {
       "title": "Über",
       "viewSourceOnGitLab": "Quellcode auf GitLab ansehen",
-      "downloadDesktop": "WizardChat für Desktop herunterladen",
+      "downloadDesktop": "Desktop App herunterladen",
+      "donate": "Spenden",
       "credits": "Danksagungen",
       "matrixSdk": "Das <sdkLink>matrix-js-sdk</sdkLink> ist © The Matrix.org Foundation C.I.C. und wird unter den Bedingungen der Apache License, Version 2.0 verwendet.",
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> ist © Phosphor Icons und wird unter den Bedingungen der MIT License verwendet.",
