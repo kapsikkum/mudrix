@@ -53,6 +53,7 @@ import {
   sortSpaceBar,
 } from '@/app/features/room/roomOrder';
 import { getErrorMessage } from '@/util/error';
+import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -221,6 +222,33 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       ),
     [sortedSpaces, pendingOrder]
   );
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || !isModOnly(e) || !e.altKey || e.shiftKey) return;
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      const contexts: { view: SidebarView; spaceId: string | null }[] = [
+        { view: 'home', spaceId: null },
+        { view: 'dms', spaceId: null },
+        ...orderedSpaces.map((s) => ({ view: 'space' as const, spaceId: s.roomId })),
+      ];
+      const current = contexts.findIndex(
+        (c) => c.view === sidebarView && (c.view !== 'space' || c.spaceId === currentSpaceId)
+      );
+      const down = e.key === 'ArrowDown';
+      const nextIndex =
+        current === -1
+          ? down
+            ? 0
+            : contexts.length - 1
+          : (current + (down ? 1 : -1) + contexts.length) % contexts.length;
+      const next = contexts[nextIndex];
+      onSelectView(next.view, next.spaceId);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [orderedSpaces, sidebarView, currentSpaceId, onSelectView]);
 
   useEffect(() => {
     if (!pendingOrder) return;

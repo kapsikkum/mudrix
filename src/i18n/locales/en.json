@@ -948,8 +948,6 @@
       "italic": "Italic",
       "strikethrough": "Strikethrough",
       "inlineCode": "Inline code",
-      "editPrevious": "Edit your previous message",
-      "editNext": "Edit your next message",
       "emojiPicker": "Open emoji picker",
       "acceptSuggestion": "Accept mention or emoji suggestion",
       "showHelp": "Show keyboard shortcuts",
@@ -959,7 +957,14 @@
       "disconnect": "Disconnect",
       "clickToSet": "Click to set",
       "pressAKey": "Press a key...",
-      "escToCancel": "to cancel"
+      "escToCancel": "to cancel",
+      "groupNavigation": "Navigation",
+      "openInbox": "Open inbox",
+      "openPinned": "Open pinned messages",
+      "createJoinSpace": "Create or join a space",
+      "navigateRooms": "Previous / next room",
+      "navigateSpaces": "Previous / next space",
+      "editMessage": "Edit your previous / next message"
     },
     "developer": {
       "title": "Developer",

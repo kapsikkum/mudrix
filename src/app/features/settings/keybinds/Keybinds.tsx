@@ -61,7 +61,17 @@ export function Keybinds() {
               return (
                 <div key={item.id} className={css.settingRow}>
                   <span className={css.settingLabel}>{t(item.labelKey)}</span>
-                  <kbd className={css.kbd}>{item.keys}</kbd>
+                  {Array.isArray(item.keys) ? (
+                    <span className={css.kbdStack}>
+                      {item.keys.map((keys) => (
+                        <kbd key={keys} className={css.kbd}>
+                          {keys}
+                        </kbd>
+                      ))}
+                    </span>
+                  ) : (
+                    <kbd className={css.kbd}>{item.keys}</kbd>
+                  )}
                 </div>
               );
             }

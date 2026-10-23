@@ -1,12 +1,12 @@
 import type { Keybinds } from '@/app/store/atoms/settings';
-import { MODIFIER_KEY } from '@/app/util/platform';
+import { ALT_KEY, MODIFIER_KEY } from '@/app/util/platform';
 
 export type KeybindAction = keyof Keybinds;
 
 export interface ShortcutItem {
   id: string;
   labelKey: string;
-  keys: string;
+  keys: string | string[];
   editable?: false;
 }
 
@@ -41,9 +41,40 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
         keys: `${MODIFIER_KEY} + F`,
       },
       {
+        id: 'openInbox',
+        labelKey: 'settings.keybinds.openInbox',
+        keys: `${MODIFIER_KEY} + I`,
+      },
+      {
+        id: 'openPinned',
+        labelKey: 'settings.keybinds.openPinned',
+        keys: `${MODIFIER_KEY} + P`,
+      },
+      {
+        id: 'createJoinSpace',
+        labelKey: 'settings.keybinds.createJoinSpace',
+        keys: `${MODIFIER_KEY} + Shift + N`,
+      },
+      {
         id: 'showHelp',
         labelKey: 'settings.keybinds.showHelp',
         keys: `${MODIFIER_KEY} + /`,
+      },
+    ],
+  },
+  {
+    id: 'navigation',
+    labelKey: 'settings.keybinds.groupNavigation',
+    items: [
+      {
+        id: 'navigateRooms',
+        labelKey: 'settings.keybinds.navigateRooms',
+        keys: [`${ALT_KEY} + ↑`, `${ALT_KEY} + ↓`],
+      },
+      {
+        id: 'navigateSpaces',
+        labelKey: 'settings.keybinds.navigateSpaces',
+        keys: [`${MODIFIER_KEY} + ${ALT_KEY} + ↑`, `${MODIFIER_KEY} + ${ALT_KEY} + ↓`],
       },
     ],
   },
@@ -63,14 +94,9 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
       },
       { id: 'inlineCode', labelKey: 'settings.keybinds.inlineCode', keys: `${MODIFIER_KEY} + E` },
       {
-        id: 'editPrevious',
-        labelKey: 'settings.keybinds.editPrevious',
-        keys: '↑',
-      },
-      {
-        id: 'editNext',
-        labelKey: 'settings.keybinds.editNext',
-        keys: '↓',
+        id: 'editMessage',
+        labelKey: 'settings.keybinds.editMessage',
+        keys: ['↑', '↓'],
       },
       {
         id: 'emojiPicker',

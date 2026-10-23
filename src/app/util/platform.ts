@@ -8,3 +8,5 @@ function isMac(): boolean {
 }
 
 export const MODIFIER_KEY = isMac() ? '⌘' : 'Ctrl';
+
+export const ALT_KEY = isMac() ? '⌥' : 'Alt';

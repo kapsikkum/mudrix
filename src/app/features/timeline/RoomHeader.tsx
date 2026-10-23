@@ -16,6 +16,7 @@ import { membersPanelOpenAtom, threadsPanelViewAtom } from '@/app/store/atoms';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
 import { isVoiceRoom, roomStateMaybe } from '@/util/matrix';
+import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { PinnedMessagesPopover } from './PinnedMessagesPopover';
 import * as css from './RoomHeader.css';
 
@@ -44,6 +45,19 @@ export function RoomHeader({
   const hasUnreadThreads = useHasUnreadThreads(roomId);
   const room = client.getRoom(roomId);
   const [showPinned, setShowPinned] = useState(false);
+
+  useEffect(() => {
+    if (!onJumpToEvent) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || !isModOnly(e) || e.altKey || e.shiftKey) return;
+      if (e.key.toLowerCase() !== 'p') return;
+      e.preventDefault();
+      setShowPinned((v) => !v);
+      setShowTopic(false);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [onJumpToEvent]);
   const [showTopic, setShowTopic] = useState(false);
   // Calls are available in any joined room (DM or group) that isn't a space.
   const can = useCanSendState(room);

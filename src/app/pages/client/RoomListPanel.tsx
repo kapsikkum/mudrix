@@ -46,6 +46,7 @@ import { sendReadReceiptsAtom, showRoomAvatarsAtom } from '@/app/store/atoms/set
 import { buildSpaceMenu, markSpaceAsRead, buildHomeMenu, buildDmsMenu } from './spaceContextMenu';
 import { RoomListItem, DmListItem } from './RoomListItem';
 import { UserPanel } from './UserPanel';
+import { isTextFieldTarget } from '@/app/features/keyboardShortcuts/keyEvents';
 import * as css from './RoomListPanel.css';
 import {
   getSpaceChildOrders,
@@ -858,6 +859,60 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       setDrawerOpen,
     ]
   );
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || !e.altKey || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      if (isTextFieldTarget(e)) return;
+      let ids: string[];
+      let virtualizer: { scrollToIndex: (index: number, opts?: { align?: 'auto' }) => void };
+      if (isDmView) {
+        ids = dms.map((d) => d.roomId);
+        virtualizer = dmVirtualizer;
+      } else if (isSpaceView) {
+        ids = spaceItems.map((it) => (it.kind === 'room' ? it.item.roomId : ''));
+        virtualizer = spaceVirtualizer;
+      } else {
+        ids = homeItems.map((it) => (it.kind === 'room' ? it.entry.roomId : ''));
+        virtualizer = homeVirtualizer;
+      }
+      const roomIndexes = ids.flatMap((id, index) => (id ? [index] : []));
+      if (roomIndexes.length === 0) return;
+      e.preventDefault();
+      const down = e.key === 'ArrowDown';
+      const current = roomIndexes.findIndex((index) => ids[index] === currentRoomId);
+      const nextPos =
+        current === -1
+          ? down
+            ? 0
+            : roomIndexes.length - 1
+          : (current + (down ? 1 : -1) + roomIndexes.length) % roomIndexes.length;
+      const index = roomIndexes[nextPos];
+      const roomId = ids[index];
+      setCurrentRoomId(roomId);
+      navigate(`/${isDmView ? 'dm' : 'r'}/${encodeURIComponent(roomId)}`, {
+        state: { sidebarView, currentSpaceId },
+      });
+      virtualizer.scrollToIndex(index, { align: 'auto' });
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [
+    isDmView,
+    isSpaceView,
+    dms,
+    spaceItems,
+    homeItems,
+    dmVirtualizer,
+    spaceVirtualizer,
+    homeVirtualizer,
+    currentRoomId,
+    setCurrentRoomId,
+    navigate,
+    sidebarView,
+    currentSpaceId,
+  ]);
 
   const openRoomChat = useSetAtom(openRoomChatAtom);
 

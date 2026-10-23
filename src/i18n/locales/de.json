@@ -934,8 +934,6 @@
       "italic": "Kursiv",
       "strikethrough": "Durchgestrichen",
       "inlineCode": "Inline-Code",
-      "editPrevious": "Deine vorherige Nachricht bearbeiten",
-      "editNext": "Deine nächste Nachricht bearbeiten",
       "emojiPicker": "Emoji-Auswahl öffnen",
       "acceptSuggestion": "Erwähnungs- oder Emoji-Vorschlag übernehmen",
       "showHelp": "Tastenkürzel anzeigen",
@@ -945,7 +943,14 @@
       "disconnect": "Auflegen",
       "clickToSet": "Klicken zum Setzen",
       "pressAKey": "Taste drücken...",
-      "escToCancel": "zum Abbrechen"
+      "escToCancel": "zum Abbrechen",
+      "groupNavigation": "Navigation",
+      "openInbox": "Posteingang öffnen",
+      "openPinned": "Angeheftete Nachrichten öffnen",
+      "createJoinSpace": "Space erstellen oder beitreten",
+      "navigateRooms": "Vorheriger / nächster Raum",
+      "navigateSpaces": "Vorheriger / nächster Space",
+      "editMessage": "Deine vorherige / nächste Nachricht bearbeiten"
     },
     "developer": {
       "title": "Entwickler",

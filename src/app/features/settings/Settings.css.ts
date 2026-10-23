@@ -129,6 +129,13 @@ export const kbd = style({
   color: vars.color.textSecondary,
 });
 
+export const kbdStack = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  gap: '4px',
+});
+
 export const keybindHint = style({
   display: 'flex',
   alignItems: 'center',
