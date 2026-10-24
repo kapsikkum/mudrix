@@ -45,5 +45,8 @@ export const STORAGE_KEY_CALL_RTC_OVERRIDE = 'wz_call_rtc_override';
 // Developer
 export const STORAGE_KEY_DEVELOPER_MODE = 'wz_developer_mode';
 
+// Device ID whose session verification was skipped on purpose
+export const STORAGE_KEY_VERIFY_SKIPPED_DEVICE = 'wz_verify_skipped_device';
+
 // Newest What's new version this account has seen on this device
 export const STORAGE_KEY_WHATS_NEW_SEEN = 'wz_whats_new_seen';

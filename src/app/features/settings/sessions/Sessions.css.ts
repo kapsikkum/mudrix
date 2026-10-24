@@ -349,6 +349,7 @@ export const sessionNote = style({
 export const sessionActions = style({
   display: 'flex',
   justifyContent: 'flex-end',
+  gap: '8px',
   marginBottom: '16px',
 });
 

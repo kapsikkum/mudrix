@@ -51,6 +51,7 @@
     "matrix-js-sdk": "^41.8.0",
     "matrix-widget-api": "^1.17.0",
     "opus-recorder": "^8.0.5",
+    "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^17.0.0",
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@types/dompurify": "^3.0.5",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",

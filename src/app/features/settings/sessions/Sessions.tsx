@@ -4,14 +4,20 @@ import { useSetAtom, useAtomValue } from 'jotai';
 import {
   SpinnerGapIcon,
   ArrowClockwiseIcon,
+  QrCodeIcon,
   SignOutIcon,
-  ShieldCheckIcon,
+  DevicesIcon,
+  KeyIcon,
 } from '@phosphor-icons/react';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { getMatrixClientOrNull, logout } from '@/client/initMatrix';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
-import { emojiVerificationAtom } from '@/app/store/atoms';
+import {
+  emojiVerificationAtom,
+  sessionVerificationAtom,
+  settingsPageAtom,
+} from '@/app/store/atoms';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { AuthType } from 'matrix-js-sdk/lib/interactive-auth';
 import type { IAuthData } from 'matrix-js-sdk/lib/interactive-auth';
@@ -23,9 +29,10 @@ import type { UiaChallenge } from './UiaPanel';
 import { Button } from '@/app/components/Button';
 import { DeviceCard } from './DeviceCard';
 import type { DeviceEntry } from './DeviceCard';
-import { RecoveryKeyBox } from './RecoveryKeyBox';
-import { useRecoveryKeyActions } from './useRecoveryKeyActions';
 import { waitForSsoFallback } from '@/app/features/sso/sso';
+import { isSignInWithQRAvailable } from 'matrix-js-sdk/lib/rendezvous';
+import { LinkDeviceModal } from '@/app/features/qrLogin/LinkDeviceModal';
+import { useSessionVerificationActions } from '@/app/features/device/useSessionVerificationActions';
 import * as css from './Sessions.css';
 import * as layoutCss from '../Settings.css';
 
@@ -86,12 +93,31 @@ export function Sessions() {
   const [uiaSubmitting, setUiaSubmitting] = useState(false);
 
   const {
-    loading: recoveryLoading,
-    mode: recoveryMode,
-    handleSetup,
-    handleRestore,
-    handleRegenerate,
-  } = useRecoveryKeyActions(client);
+    status: sessionStatus,
+    hasOtherVerifiedSession,
+    hasRecoveryKey,
+  } = useAtomValue(sessionVerificationAtom);
+  const canVerify = hasOtherVerifiedSession || hasRecoveryKey;
+  const {
+    busy: verifyBusy,
+    verifyWithOtherDevice,
+    verifyWithRecoveryKey,
+  } = useSessionVerificationActions(client);
+  const setSettingsPage = useSetAtom(settingsPageAtom);
+  const [qrLinkAvailable, setQrLinkAvailable] = useState(false);
+  const [linkingDevice, setLinkingDevice] = useState(false);
+  useEffect(() => {
+    if (!client) return;
+    let cancelled = false;
+    void isSignInWithQRAvailable(client)
+      .catch(() => false)
+      .then((available) => {
+        if (!cancelled) setQrLinkAvailable(available);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [client]);
 
   const toastRef = useRef(toast);
   toastRef.current = toast;
@@ -416,43 +442,22 @@ export function Sessions() {
     [client, setEmojiModal, t]
   );
 
-  const handleVerifyCurrentDevice = useCallback(async () => {
-    if (!client) return;
-    const crypto = client.getCrypto();
-    if (!crypto) {
-      toastRef.current.error(t('settings.sessions.cryptoNotAvailable'));
-      return;
-    }
-    try {
-      const request = await crypto.requestOwnUserVerification();
-      verificationTeardownRef.current?.();
-      verificationTeardownRef.current = startSasVerification(request, setEmojiModal);
-      const waitForDone = () =>
-        new Promise<void>((resolve) => {
-          const check = () => {
-            const p = request.phase;
-            if (p === VerificationPhase.Done || p === VerificationPhase.Cancelled) resolve();
-            else request.once('change' as Parameters<typeof request.once>[0], check);
-          };
-          check();
-        });
-      waitForDone().then(() => loadDevicesRef.current());
-    } catch {
-      // No eligible verified device to approve, or the request couldn't start.
-    }
-  }, [client, setEmojiModal, t]);
-
   return (
     <div>
       <h2 className={layoutCss.panelTitle}>{t('settings.sessions.title')}</h2>
+      {linkingDevice && client && (
+        <LinkDeviceModal
+          client={client}
+          onClose={() => {
+            setLinkingDevice(false);
+            void loadDevices();
+          }}
+        />
+      )}
 
       {(() => {
         const currentDevice = devices.find((d) => d.isCurrentDevice);
         const otherDevices = devices.filter((d) => !d.isCurrentDevice);
-        const canVerifyWithOtherDevice =
-          !!currentDevice &&
-          currentDevice.isVerified === false &&
-          otherDevices.some((d) => d.isVerified === true);
 
         return (
           <>
@@ -470,48 +475,55 @@ export function Sessions() {
                   onRemove={handleRemove}
                   onRename={handleRename}
                   belowRow={
-                    <>
-                      {currentDevice.isVerified === false &&
-                      (recoveryMode === 'none' || recoveryMode === 'available') ? (
-                        <RecoveryKeyBox
-                          mode={recoveryMode}
-                          onSetup={async () => {
-                            await handleSetup();
-                            await loadDevices();
-                          }}
-                          onRestore={async () => {
-                            await handleRestore();
-                            await loadDevices();
-                          }}
-                          loading={recoveryLoading}
-                          extra={
-                            canVerifyWithOtherDevice ? (
-                              <Button
-                                variant="primary"
-                                size="sm"
-                                onClick={handleVerifyCurrentDevice}
-                                disabled={actionLoading !== null}
-                              >
-                                <ShieldCheckIcon size={14} />
-                                {t('settings.sessions.verifyWithAnotherDevice')}
-                              </Button>
-                            ) : undefined
-                          }
-                        />
-                      ) : null}
-                    </>
+                    currentDevice.isVerified === false ? (
+                      <div className={css.recoveryKeyBox}>
+                        <p className={css.recoveryKeyHint}>
+                          {canVerify
+                            ? t('settings.sessions.verifyThisSession')
+                            : t('settings.sessions.cannotVerifyThisSession')}
+                        </p>
+                        <div className={css.recoveryKeyActions}>
+                          {hasOtherVerifiedSession && (
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              loading={verifyBusy === 'device'}
+                              disabled={verifyBusy !== null}
+                              onClick={verifyWithOtherDevice}
+                            >
+                              <DevicesIcon size={14} />
+                              {t('verifySession.useOtherDevice')}
+                            </Button>
+                          )}
+                          {hasRecoveryKey && (
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              loading={verifyBusy === 'key'}
+                              disabled={verifyBusy !== null}
+                              onClick={async () => {
+                                await verifyWithRecoveryKey();
+                                await loadDevices();
+                              }}
+                            >
+                              <KeyIcon size={14} />
+                              {t('verifySession.useRecoveryKey')}
+                            </Button>
+                          )}
+                          {!canVerify && (
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setSettingsPage('encryption')}
+                            >
+                              {t('settings.encryption.title')}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ) : null
                   }
                   extraMenuItems={[
-                    {
-                      label: t('settings.keyBackup.resetEncryptionKeys'),
-                      icon: <ArrowClockwiseIcon size={16} />,
-                      danger: true,
-                      disabled: recoveryLoading,
-                      onClick: async () => {
-                        await handleRegenerate();
-                        await loadDevices();
-                      },
-                    },
                     {
                       label: t('settings.account.logout'),
                       icon: <SignOutIcon size={16} />,
@@ -552,6 +564,16 @@ export function Sessions() {
                     <ArrowClockwiseIcon size={14} />
                     {t('common.refresh')}
                   </button>
+                  {qrLinkAvailable && sessionStatus === 'verified' && (
+                    <button
+                      type="button"
+                      className={layoutCss.actionBtn}
+                      onClick={() => setLinkingDevice(true)}
+                    >
+                      <QrCodeIcon size={14} />
+                      {t('qrLogin.linkTitle')}
+                    </button>
+                  )}
                 </div>
               )}
 

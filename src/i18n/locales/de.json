@@ -51,7 +51,8 @@
     "collapse": "Minimieren",
     "create": "Erstellen",
     "markAllRead": "Alle als gelesen markieren",
-    "markRead": "Als gelesen markieren"
+    "markRead": "Als gelesen markieren",
+    "continue": "Weiter"
   },
   "auth": {
     "sessionLoadFailed": "Sitzung konnte nicht wiederhergestellt werden",
@@ -687,7 +688,16 @@
     "viewNewRoom": "Neuen Raum anzeigen",
     "roomUpgradedFrom": "Dieser Raum ist eine Fortsetzung eines vorherigen Raums.",
     "viewOldRoom": "Vorherigen Raum anzeigen",
-    "loadFailed": "Nachrichten konnten nicht geladen werden"
+    "loadFailed": "Nachrichten konnten nicht geladen werden",
+    "decryptUnverifiedSession": "Verifiziere diese Sitzung, um diese Nachricht zu lesen",
+    "decryptWithheld": "Der Absender hat den Schlüssel für diese Nachricht nicht mit dieser Sitzung geteilt",
+    "decryptUnverifiedSender": "Von einem nicht verifizierten Gerät gesendet",
+    "decryptSenderIdentityReset": "Die verifizierte Identität des Absenders wurde zurückgesetzt",
+    "decryptBeforeJoined": "Gesendet, bevor du beigetreten bist",
+    "decryptHistoryVerify": "Gesendet, bevor es diese Sitzung gab. Verifiziere diese Sitzung, um deinen Verlauf zu lesen",
+    "decryptHistoryNoKey": "Gesendet, bevor es diese Sitzung gab, und der Schlüssel ist nicht in deinem Backup",
+    "decryptWaitingForKey": "Warte auf den Schlüssel für diese Nachricht",
+    "verificationRequest": "Hat eine Identitätsverifizierung angefragt"
   },
   "attachment": {
     "uploading": "Wird hochgeladen",
@@ -976,19 +986,9 @@
       "accountDataCount_other": "{{count}} Ereignistypen"
     },
     "keyBackup": {
-      "setupRecoveryKey": "Wiederherstellungsschlüssel einrichten",
       "downloadKey": "Herunterladen",
-      "setupIncomplete": "Verschlüsselung einrichten",
-      "enterRecoveryKeyBtn": "Wiederherstellungsschlüssel eingeben",
-      "resetEncryptionKeys": "Verschlüsselungsschlüssel zurücksetzen",
-      "regenerateConfirm": "Dies erstellt einen neuen Wiederherstellungsschlüssel, macht den alten ungültig und ersetzt dein Schlüssel-Backup. Megolm-Schlüssel, die es nur auf deinen anderen Geräten gibt, können dabei verloren gehen. Fortfahren?",
-      "regenerateConfirmNoRestore": "Der aktuelle Backup-Schlüssel ist auf diesem Gerät nicht verfügbar, daher gehen alle Schlüssel, die nur im vorhandenen Backup gespeichert sind, dauerhaft verloren. Trotzdem fortfahren?",
-      "regenerateBackupNotActive": "Das neue Schlüssel-Backup konnte auf dem Server nicht als aktiv bestätigt werden.",
       "cryptoNotAvailable": "Kryptografie nicht verfügbar",
-      "invalidRecoveryKey": "Ungültiger Wiederherstellungsschlüssel. Bitte prüfe, ob du ihn korrekt kopiert hast.",
-      "noKeyBackupFound": "Kein Schlüssel-Backup auf dem Server gefunden. Richte zuerst eines ein.",
       "couldNotGenerateKey": "Konnte Wiederherstellungsschlüssel nicht generieren (encodedPrivateKey fehlt)",
-      "couldNotGenerateKeyNew": "Konnte neuen Wiederherstellungsschlüssel nicht generieren",
       "setupSuccess": "Schlüssel-Backup erfolgreich eingerichtet!",
       "setupFailed": "Einrichtung fehlgeschlagen: {{error}}",
       "crossSigningFailed": "Cross-Signing-Einrichtung fehlgeschlagen: {{error}}. Das Schlüssel-Backup ist weiterhin aktiv, aber andere Geräte vertrauen diesem nicht automatisch.",
@@ -999,12 +999,7 @@
       "uiaResetTitle": "Identität zurücksetzen",
       "uiaResetDescription": "Dein Homeserver verlangt, dass du dies zuerst in deinen Kontoeinstellungen bestätigst. Gehe zu deinem Konto, schließe die Zurücksetzung ab und versuche es dann hier erneut.",
       "uiaResetCta": "Zum Konto",
-      "restoreSuccess": "{{imported}} von {{total}} Raumschlüsseln wiederhergestellt.",
-      "restoreSuccessNoCSigning": "{{imported}} von {{total}} Raumschlüsseln wiederhergestellt. Cross-Signing konnte nicht wiederhergestellt werden — versuche, diese Sitzung von einem anderen Gerät aus zu verifizieren.",
-      "restoreFailed": "Der Wiederherstellungsschlüssel ist ungültig. Bitte versuche es erneut.",
-      "regenerateFailed": "Neugenerierung fehlgeschlagen: {{error}}",
       "enterRecoveryKeyTitle": "Wiederherstellungsschlüssel eingeben",
-      "autoPromptBanner": "Gib deinen Wiederherstellungsschlüssel ein, um deinen verschlüsselten Nachrichtenverlauf auf diesem Gerät wiederherzustellen, oder verifiziere dich über eine andere Sitzung.",
       "restoreBtn": "Wiederherstellen",
       "newRecoveryKeyGenerated": "Neuer Wiederherstellungsschlüssel generiert",
       "yourRecoveryKey": "Dein Wiederherstellungsschlüssel",
@@ -1028,7 +1023,6 @@
       "noSessionsFound": "Keine Sitzungen gefunden.",
       "yourDevices": "Deine Geräte",
       "currentDevice": "Aktuelles Gerät",
-      "verifyWithAnotherDevice": "Mit einem anderen Gerät verifizieren",
       "verified": "Verifiziert",
       "unverified": "Nicht verifiziert",
       "verify": "Verifizieren",
@@ -1050,7 +1044,9 @@
       "confirmRemove": "Entfernen bestätigen",
       "continueWithSso": "Mit SSO fortfahren",
       "ssoCancelled": "Die SSO-Authentifizierung wurde abgebrochen oder das Popup wurde geschlossen. Bitte versuche es erneut.",
-      "authMethodUnsupported": "Dein Homeserver verlangt eine Authentifizierungsmethode, die hier nicht unterstützt wird."
+      "authMethodUnsupported": "Dein Homeserver verlangt eine Authentifizierungsmethode, die hier nicht unterstützt wird.",
+      "verifyThisSession": "Diese Sitzung ist noch nicht verifiziert und kann daher nicht alle deine verschlüsselten Nachrichten lesen. Verifiziere sie:",
+      "cannotVerifyThisSession": "Diese Sitzung ist nicht verifiziert, und es gibt kein anderes verifiziertes Gerät und keinen Wiederherstellungsschlüssel dafür. Setze deine Verschlüsselung im Tab Verschlüsselung zurück, um neu zu starten."
     },
     "about": {
       "title": "Über",
@@ -1075,6 +1071,16 @@
       "noPacksFound": "Keine Packs gefunden.",
       "imageCount_one": "{{count}} Bild",
       "imageCount_other": "{{count}} Bilder"
+    },
+    "encryption": {
+      "title": "Verschlüsselung",
+      "reset": "Verschlüsselung zurücksetzen",
+      "resetNote": "Nur, wenn du keinen Zugriff mehr auf deine anderen Sitzungen und deinen Wiederherstellungsschlüssel hast. Deine anderen Sitzungen werden dann unverifiziert, und ältere verschlüsselte Nachrichten sind eventuell nicht mehr lesbar.",
+      "resetButton": "Verschlüsselung zurücksetzen",
+      "endToEnd": "Ende-zu-Ende-Verschlüsselung",
+      "active": "Aktiv",
+      "activeNote": "Deine Verschlüsselungsidentität ist eingerichtet.",
+      "notSetUpNote": "Richte die Verschlüsselung ein, um deine Identität und deinen Wiederherstellungsschlüssel zu erstellen, damit deine Nachrichten auf allen Geräten lesbar bleiben."
     }
   },
   "titleBar": {
@@ -1121,7 +1127,9 @@
     "deviceVerified": "{{user}} wurde verifiziert.",
     "deviceVerifiedOther": "Das Gerät wurde verifiziert.",
     "cancelled": "Verifizierung abgebrochen",
-    "cancelledNote": "Die Verifizierung wurde abgebrochen oder die Emojis stimmten nicht überein."
+    "cancelledNote": "Die Verifizierung wurde abgebrochen oder die Emojis stimmten nicht überein.",
+    "verifyUser": "Nutzer verifizieren",
+    "compareEmojisUser": "Vergleiche diese Emojis mit {{user}}. Wenn sie genau übereinstimmen, habt ihr euch gegenseitig verifiziert."
   },
   "explore": {
     "title": "Entdecken",
@@ -1195,7 +1203,10 @@
     "ignoreUserConfirmBody": "Alle Nachrichten und Einladungen dieses Benutzers werden ausgeblendet. Möchtest du ihn wirklich ignorieren?",
     "unignoreUserConfirmTitle": "{{name}} nicht mehr ignorieren",
     "unignoreUserConfirmBody": "Du wirst wieder Nachrichten und Einladungen von diesem Benutzer erhalten.",
-    "ignoreFailed": "Benutzer konnte nicht ignoriert werden: {{error}}"
+    "ignoreFailed": "Benutzer konnte nicht ignoriert werden: {{error}}",
+    "verified": "Verifiziert",
+    "verifyUser": "Nutzer verifizieren",
+    "verifyUserFailed": "Verifizierung konnte nicht gestartet werden: {{error}}"
   },
   "update": {
     "action": "WizardChat aktualisieren"
@@ -1210,6 +1221,58 @@
   "crypto": {
     "setupOverwritesTitle": "Vorhandene Verschlüsselung ersetzen?",
     "setupOverwritesConfirm": "Dein Konto hat bereits eine Verschlüsselung. Das Erstellen eines neuen Wiederherstellungsschlüssels und einer neuen Cross-Signing-Identität ersetzt die bestehende und kann deine anderen Geräte von deinen verschlüsselten Nachrichten aussperren. Stelle nach Möglichkeit zuerst wieder her oder verifiziere. Mit neuer Einrichtung fortfahren?"
+  },
+  "verifySession": {
+    "title": "Diese Sitzung verifizieren",
+    "body": "Bestätige, dass du es bist, um deine verschlüsselten Nachrichten zu lesen. Bis dahin teilen die Apps anderer keine Nachrichtenschlüssel mit dieser Sitzung.",
+    "useOtherDevice": "Anderes Gerät verwenden",
+    "useRecoveryKey": "Wiederherstellungsschlüssel verwenden",
+    "reset": "Bestätigen nicht möglich? Identität zurücksetzen",
+    "setupTitle": "Sichere Kommunikation einrichten",
+    "setupBody": "Erstelle deine Verschlüsselungsidentität und deinen Wiederherstellungsschlüssel, damit deine Nachrichten auf allen Geräten lesbar bleiben.",
+    "setupButton": "Verschlüsselung einrichten",
+    "skip": "Vorerst überspringen",
+    "skipConfirmTitle": "Verifizierung überspringen?",
+    "skipConfirmBody": "Diese Sitzung kann keine neuen verschlüsselten Nachrichten lesen, und andere teilen keine Nachrichtenschlüssel mit ihr. Überspringe nur, wenn du weißt, was du tust, zum Beispiel zum Testen. Du kannst später über das Warnsymbol in der Titelleiste verifizieren.",
+    "skipConfirm": "Trotzdem überspringen",
+    "verified": "Diese Sitzung ist jetzt verifiziert.",
+    "invalidKey": "Dieser Wiederherstellungsschlüssel passt nicht zu deinem Konto.",
+    "noIdentityBackup": "Deine Identität ist nicht mit einem Wiederherstellungsschlüssel gespeichert. Verifiziere mit einem anderen Gerät oder setze deine Identität zurück.",
+    "failed": "Verifizierung fehlgeschlagen: {{error}}",
+    "backupOnly": "Der Verlauf wird wiederhergestellt, aber deine Identität ist nicht mit diesem Wiederherstellungsschlüssel gespeichert. Verifiziere mit einem anderen Gerät oder setze deine Identität zurück.",
+    "noWayToVerify": "Für dieses Konto gibt es kein anderes verifiziertes Gerät und keinen Wiederherstellungsschlüssel, daher kann diese Sitzung nicht verifiziert werden. Setze deine Verschlüsselung zurück, um neu zu starten: Alte verschlüsselte Nachrichten sind dann eventuell nicht mehr lesbar, alles Neue funktioniert normal.",
+    "resetAndSetUp": "Zurücksetzen und Verschlüsselung einrichten"
+  },
+  "identityWarning": {
+    "reset": "Die Identität von {{name}} wurde zurückgesetzt.",
+    "verifiedReset": "Die verifizierte Identität von {{name}} wurde zurückgesetzt. Nachrichten können erst gesendet werden, wenn du die Verifizierung zurückziehst.",
+    "withdraw": "Verifizierung zurückziehen",
+    "failed": "Identität konnte nicht aktualisiert werden: {{error}}"
+  },
+  "qrLogin": {
+    "linkTitle": "Neues Gerät verbinden",
+    "signInTitle": "Mit QR-Code anmelden",
+    "qrLabel": "QR-Code zur Anmeldung",
+    "linkStep1": "Öffne auf dem neuen Gerät eine Matrix-App, zum Beispiel Element X.",
+    "linkStep2": "Wähle die Anmeldung per QR-Code.",
+    "linkStep3": "Scanne diesen Code.",
+    "signInStep1": "Öffne WizardChat auf einem Gerät, auf dem du schon angemeldet bist.",
+    "signInStep2": "Gehe zu Einstellungen -> Sitzungen und wähle „QR-Code scannen“.",
+    "signInStep3": "Scanne diesen Code.",
+    "enterCode": "Gib den 2-stelligen Code ein, der auf dem neuen Gerät angezeigt wird.",
+    "codeMismatch": "Der Code stimmt nicht. Prüfe das neue Gerät und versuche es erneut.",
+    "showCode": "Gib diesen Code auf deinem anderen Gerät ein:",
+    "waitingForApproval": "Bestätige dort anschließend die Anmeldung.",
+    "approveInBrowser": "Bestätige das neue Gerät auf der gerade geöffneten Kontoseite.",
+    "openApproval": "Bestätigungsseite erneut öffnen",
+    "linkDone": "Das neue Gerät ist angemeldet und verifiziert.",
+    "decline": "Ablehnen",
+    "failCancelled": "Die Anmeldung wurde abgebrochen.",
+    "failExpired": "Die Anmeldung hat zu lange gedauert und ist abgelaufen. Bitte starte neu.",
+    "failInsecure": "Die Verbindung konnte nicht gesichert werden. Bitte starte neu.",
+    "failUnsupported": "Dein Homeserver unterstützt keine Anmeldung per QR-Code.",
+    "failAlreadySignedIn": "Dieses Gerät ist bereits angemeldet.",
+    "failGeneric": "Die Anmeldung per QR-Code ist fehlgeschlagen. Bitte versuche es erneut."
   },
   "whatsNew": {
     "title": "Neuigkeiten",

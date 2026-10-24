@@ -1,6 +1,8 @@
 import { createClient, IndexedDBStore, MatrixClient, Method } from 'matrix-js-sdk';
 import { OidcTokenRefresher } from 'matrix-js-sdk/lib/oidc';
 import type { AccessTokens } from 'matrix-js-sdk/lib/http-api';
+import { OnlySignedDevicesIsolationMode } from 'matrix-js-sdk/lib/crypto-api';
+import { applyPendingQrSecrets } from './qrLoginSecrets';
 import type { MatrixCredentials, OidcSession } from './types';
 import { applySavedSettingsToLocalStorage } from './settingsSync';
 import { revokeOidcSession } from '@/app/features/oidc/oidc';
@@ -340,11 +342,16 @@ async function buildResumedClient(credentials: MatrixCredentials): Promise<Matri
   await applySavedSettingsToLocalStorage(store);
 
   await client.initRustCrypto({ cryptoDatabasePrefix: cryptoDbPrefix(credentials.userId) });
+  // MSC4153: only exchange room keys with cross-signed devices
+  client.getCrypto()?.setDeviceIsolationMode(new OnlySignedDevicesIsolationMode());
 
   // Notify first-sync subscribers exactly once, when the filter is loaded.
   const handler = (state: string) => {
     if (state === 'PREPARED' || state === 'CATCHUP') {
       client.off('sync' as Parameters<typeof client.off>[0], handler);
+      // Sign in with QR: this device's keys are uploaded by now, so it can be cross-signed
+      const crypto = client.getCrypto();
+      if (crypto) void applyPendingQrSecrets(crypto, credentials.userId, credentials.deviceId);
       notifyFirstSync();
     }
   };

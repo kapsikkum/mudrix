@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SpinnerGapIcon, ArrowSquareOutIcon, LockKeyIcon } from '@phosphor-icons/react';
+import { SpinnerGapIcon, ArrowSquareOutIcon, LockIcon } from '@phosphor-icons/react';
 import { AuthType } from 'matrix-js-sdk/lib/interactive-auth';
 import type { IAuthData, UIAFlow } from 'matrix-js-sdk/lib/interactive-auth';
 import * as css from './Sessions.css';
@@ -69,7 +69,7 @@ export function UiaPanel({
   return (
     <div className={css.uiaPanel}>
       <div className={css.uiaPanelHeader}>
-        <LockKeyIcon size={18} />
+        <LockIcon size={18} />
         <span>{t('settings.sessions.authRequired')}</span>
       </div>
       <p className={css.uiaPanelDesc}>

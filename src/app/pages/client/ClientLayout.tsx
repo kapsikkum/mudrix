@@ -28,8 +28,8 @@ import { commandActionsAtom } from '@/app/store/atoms/call';
 import type { ElementCallPresentation, SidebarView } from '@/app/store/atoms';
 import { useSyncListener, useSyncReady } from '@/app/hooks/useSync';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
-import { useEncryptionSetupWarning } from '@/app/hooks/useEncryptionSetupWarning';
 import { useVerification } from '@/app/hooks/useVerification';
+import { useSessionVerification } from '@/app/hooks/useSessionVerification';
 import { isEditableTarget, isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { useVoiceKeybinds } from '@/app/hooks/useKeybinds';
 import { getMatrixClientOrNull, logout } from '@/client/initMatrix';
@@ -316,7 +316,7 @@ export function ClientLayout() {
 
   // Security
   useVerification(client);
-  useEncryptionSetupWarning(client, syncReady);
+  useSessionVerification(client, syncReady);
 
   const elementCallActions = useAtomValue(elementCallActionsAtom);
   const isInElementCall = useAtomValue(isInElementCallAtom);

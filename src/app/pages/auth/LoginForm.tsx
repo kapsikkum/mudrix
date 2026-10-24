@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createClient } from 'matrix-js-sdk';
+import { isSignInWithQRAvailable } from 'matrix-js-sdk/lib/rendezvous';
+import { QrCodeIcon } from '@phosphor-icons/react';
+import { SignInWithQrModal } from '@/app/features/qrLogin/SignInWithQrModal';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { credentialsAtom } from '@/app/store/atoms';
@@ -53,6 +57,8 @@ export function LoginForm({
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
   const [oidcLoading, setOidcLoading] = useState(false);
+  const [qrAvailable, setQrAvailable] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
 
   const oidcMetadata = capabilities?.delegatedAuth ? capabilities.authMetadata : undefined;
   const hasPassword =
@@ -64,6 +70,21 @@ export function LoginForm({
   const hasSso = !oidcMetadata && Boolean(ssoFlow) && (capabilities?.hasTokenLogin ?? false);
   const idps = ssoFlow?.identity_providers ?? [];
   const isChecking = capabilitiesLoading && !capabilities;
+
+  const hasOidc = !!oidcMetadata;
+  useEffect(() => {
+    setQrAvailable(false);
+    if (!hasOidc || !serverUrl) return;
+    let cancelled = false;
+    void isSignInWithQRAvailable(createClient({ baseUrl: serverUrl }))
+      .catch(() => false)
+      .then((available) => {
+        if (!cancelled) setQrAvailable(available);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [hasOidc, serverUrl]);
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -145,6 +166,20 @@ export function LoginForm({
             >
               {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
             </Button>
+          )}
+
+          {oidcMetadata && qrAvailable && (
+            <Button fullWidth size="lg" variant="secondary" onClick={() => setQrOpen(true)}>
+              <QrCodeIcon size={18} />
+              {t('qrLogin.signInTitle')}
+            </Button>
+          )}
+          {qrOpen && (
+            <SignInWithQrModal
+              serverUrl={serverUrl}
+              onClose={() => setQrOpen(false)}
+              onSuccess={onSuccess}
+            />
           )}
 
           {hasPassword && (

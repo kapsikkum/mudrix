@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { Method, type MatrixClient } from 'matrix-js-sdk';
-import { decodeRecoveryKey } from 'matrix-js-sdk/lib/crypto-api/recovery-key';
+import type { MatrixClient } from 'matrix-js-sdk';
 import type {
   CryptoApi,
   CryptoCallbacks,
   GeneratedSecretStorageKey,
-  KeyBackupInfo,
 } from 'matrix-js-sdk/lib/crypto-api';
 import type { UIAuthCallback } from 'matrix-js-sdk/lib/interactive-auth';
 import { useToast } from '@/app/hooks/useToast';
@@ -17,15 +15,10 @@ import {
   getEncryptionSetupStatus,
   hasExistingEncryptionSetup,
 } from '@/app/features/keybackup/cryptoStatus';
-import {
-  recoveryKeyModalAtom,
-  enterRecoveryKeyModalAtom,
-  encryptionSetupWarningAtom,
-  crossSigningUiaAtom,
-} from '@/app/store/atoms';
+import { recoveryKeyModalAtom, crossSigningUiaAtom } from '@/app/store/atoms';
 import { useConfirm } from '@/app/hooks/useConfirm';
 
-function makeSecretStorageKeyCallback(
+export function makeSecretStorageKeyCallback(
   client: MatrixClient,
   privateKey: Uint8Array
 ): NonNullable<CryptoCallbacks['getSecretStorageKey']> {
@@ -80,9 +73,7 @@ export function useRecoveryKeyActions(client: MatrixClient | null) {
   const { t } = useTranslation();
   const toast = useToast();
   const setRecoveryKeyModal = useSetAtom(recoveryKeyModalAtom);
-  const setEnterKeyModal = useSetAtom(enterRecoveryKeyModalAtom);
   const confirmDialog = useConfirm();
-  const clearWarning = useSetAtom(encryptionSetupWarningAtom);
   const setCrossSigningUia = useSetAtom(crossSigningUiaAtom);
 
   const [status, setStatus] = useState<BackupStatus>({
@@ -114,80 +105,10 @@ export function useRecoveryKeyActions(client: MatrixClient | null) {
     [confirmDialog]
   );
 
-  const promptRecoveryKey = useCallback(
-    (): Promise<string | null> =>
-      new Promise((resolve) => setEnterKeyModal({ open: true, resolve })),
-    [setEnterKeyModal]
-  );
-
   const buildCrossSigningUiaCallback = useCallback((): UIAuthCallback<void> => {
     if (!client) throw new Error('No client');
     return buildCrossSigningUiaCallbackShared(client, setCrossSigningUia, t);
   }, [client, setCrossSigningUia, t]);
-
-  const handleRestore = useCallback(async () => {
-    if (!client) return;
-    const crypto: CryptoApi | undefined = client.getCrypto();
-    if (!crypto) {
-      toast.error(t('settings.keyBackup.cryptoNotAvailable'));
-      return;
-    }
-
-    const recoveryKey = await promptRecoveryKey();
-    if (!recoveryKey) return;
-
-    setLoading(true);
-    try {
-      let privateKey: Uint8Array;
-      try {
-        privateKey = decodeRecoveryKey(recoveryKey);
-      } catch {
-        throw new Error(t('settings.keyBackup.invalidRecoveryKey'));
-      }
-
-      const backupInfo = await crypto.getKeyBackupInfo();
-      if (!backupInfo?.version) {
-        throw new Error(t('settings.keyBackup.noKeyBackupFound'));
-      }
-
-      const callbacks: CryptoCallbacks = client.cryptoCallbacks;
-      callbacks.getSecretStorageKey = makeSecretStorageKeyCallback(client, privateKey);
-      callbacks.cacheSecretStorageKey = () => {};
-
-      await crypto.loadSessionBackupPrivateKeyFromSecretStorage();
-
-      await crypto.checkKeyBackupAndEnable();
-
-      const result = await crypto.restoreKeyBackup();
-
-      await refreshStatus();
-
-      let crossSigningOk = true;
-      try {
-        await crypto.bootstrapCrossSigning({});
-      } catch {
-        crossSigningOk = false;
-      }
-
-      if (crossSigningOk) {
-        toast.success(
-          t('settings.keyBackup.restoreSuccess', { imported: result.imported, total: result.total })
-        );
-      } else {
-        toast.success(
-          t('settings.keyBackup.restoreSuccessNoCSigning', {
-            imported: result.imported,
-            total: result.total,
-          })
-        );
-      }
-    } catch {
-      toast.error(t('settings.keyBackup.restoreFailed'));
-    } finally {
-      clearWarning(false);
-      setLoading(false);
-    }
-  }, [client, t, toast, promptRecoveryKey, clearWarning, refreshStatus]);
 
   const handleSetup = useCallback(async () => {
     if (!client) return;
@@ -256,116 +177,14 @@ export function useRecoveryKeyActions(client: MatrixClient | null) {
     } catch (err) {
       toast.error(t('settings.keyBackup.setupFailed', { error: getErrorMessage(err) }));
     } finally {
-      clearWarning(false);
       setLoading(false);
     }
-  }, [
-    client,
-    t,
-    toast,
-    confirm,
-    buildCrossSigningUiaCallback,
-    setRecoveryKeyModal,
-    clearWarning,
+  }, [client, t, toast, confirm, buildCrossSigningUiaCallback, setRecoveryKeyModal, refreshStatus]);
+
+  return {
+    loading,
+    mode: status.mode,
     refreshStatus,
-  ]);
-
-  const handleRegenerate = useCallback(async () => {
-    if (!client) return;
-    const crypto: CryptoApi | undefined = client.getCrypto();
-    if (!crypto) {
-      toast.error(t('settings.keyBackup.cryptoNotAvailable'));
-      return;
-    }
-
-    const oldInfo = await crypto.getKeyBackupInfo();
-
-    let restoredOk = false;
-    if (oldInfo?.version) {
-      try {
-        await crypto.restoreKeyBackup();
-        restoredOk = true;
-      } catch {
-        // no usable backup key available locally
-      }
-    } else {
-      restoredOk = true;
-    }
-
-    const confirmMessage = restoredOk
-      ? t('settings.keyBackup.regenerateConfirm')
-      : t('settings.keyBackup.regenerateConfirmNoRestore');
-
-    const ok = await confirm(
-      t('settings.keyBackup.resetEncryptionKeys') + '?',
-      confirmMessage,
-      true
-    );
-    if (!ok) return;
-
-    setLoading(true);
-    let issuedKey: string | null = null;
-    try {
-      const keyData: GeneratedSecretStorageKey = await crypto.createRecoveryKeyFromPassphrase();
-      const encodedKey: string | undefined = keyData.encodedPrivateKey;
-      if (!encodedKey) throw new Error(t('settings.keyBackup.couldNotGenerateKeyNew'));
-
-      const callbacks: CryptoCallbacks = client.cryptoCallbacks;
-      callbacks.getSecretStorageKey = makeSecretStorageKeyCallback(client, keyData.privateKey);
-      callbacks.cacheSecretStorageKey = () => {};
-
-      await crypto.bootstrapSecretStorage({
-        setupNewSecretStorage: true,
-        setupNewKeyBackup: false,
-        createSecretStorageKey: async () => keyData,
-      });
-      issuedKey = encodedKey;
-
-      try {
-        await crypto.bootstrapCrossSigning({
-          authUploadDeviceSigningKeys: buildCrossSigningUiaCallback(),
-        });
-      } catch {
-        // Non-fatal
-      }
-
-      await crypto.resetKeyBackup();
-
-      const newInfo: KeyBackupInfo | null = await client.http
-        .authedRequest<KeyBackupInfo>(Method.Get, '/room_keys/version')
-        .catch(() => null);
-      const trustInfo = newInfo ? await crypto.isKeyBackupTrusted(newInfo) : null;
-      if (
-        !newInfo?.version ||
-        newInfo.version === oldInfo?.version ||
-        !trustInfo?.trusted ||
-        !trustInfo.matchesDecryptionKey
-      ) {
-        throw new Error(t('settings.keyBackup.regenerateBackupNotActive'));
-      }
-
-      setRecoveryKeyModal({ open: true, recoveryKey: encodedKey, isRegenerating: true });
-      await refreshStatus();
-    } catch (err) {
-      if (issuedKey) {
-        setRecoveryKeyModal({ open: true, recoveryKey: issuedKey, isRegenerating: true });
-        await refreshStatus();
-      }
-      toast.error(t('settings.keyBackup.regenerateFailed', { error: getErrorMessage(err) }));
-    } finally {
-      clearWarning(false);
-      setLoading(false);
-    }
-  }, [
-    client,
-    t,
-    toast,
-    confirm,
-    buildCrossSigningUiaCallback,
-    setRecoveryKeyModal,
-    clearWarning,
-    refreshStatus,
-  ]);
-
-  return { loading, mode: status.mode, handleSetup, handleRestore, handleRegenerate };
+    handleSetup,
+  };
 }

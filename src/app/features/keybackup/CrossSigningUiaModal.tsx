@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { LockKeyIcon, ArrowSquareOutIcon } from '@phosphor-icons/react';
+import { LockIcon, ArrowSquareOutIcon } from '@phosphor-icons/react';
 import { crossSigningUiaAtom } from '@/app/store/atoms';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
@@ -94,7 +94,7 @@ export function CrossSigningUiaModal() {
             disabled={submitting || !password.trim()}
             loading={submitting}
           >
-            <LockKeyIcon size={14} style={{ marginRight: 6 }} />
+            <LockIcon size={14} style={{ marginRight: 6 }} />
             {t('settings.keyBackup.uiaConfirm')}
           </Button>
         </div>

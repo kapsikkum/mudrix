@@ -16,6 +16,7 @@ import * as css from './EmojiVerificationModal.css';
 export function EmojiVerificationModal() {
   const { t } = useTranslation();
   const [state, setAtom] = useAtom(emojiVerificationAtom);
+  const isUserVerification = !!state.request && !state.request.isSelfVerification;
 
   const close = () => {
     setAtom({ open: false, phase: 'waiting' });
@@ -76,7 +77,11 @@ export function EmojiVerificationModal() {
       const emojis = state.emojis ?? [];
       return (
         <>
-          <p className={css.instructions}>{t('verification.compareEmojisDevices')}</p>
+          <p className={css.instructions}>
+            {isUserVerification
+              ? t('verification.compareEmojisUser', { user: state.otherUserId })
+              : t('verification.compareEmojisDevices')}
+          </p>
           <div className={css.emojiGrid}>
             {emojis.map(([emoji, name]) => (
               <div key={emoji} className={css.emojiItem}>
@@ -149,7 +154,7 @@ export function EmojiVerificationModal() {
     <Modal
       open={state.open}
       onClose={state.phase === 'waiting' || state.phase === 'comparing' ? handleCancel : close}
-      title={t('verification.verifyDevice')}
+      title={isUserVerification ? t('verification.verifyUser') : t('verification.verifyDevice')}
       size="md"
       zIndex={8500}
       footer={renderFooter()}
