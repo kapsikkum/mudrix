@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DecryptionFailureCode } from 'matrix-js-sdk/lib/crypto-api';
 import { useAtomValue } from 'jotai';
 import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import { M_POLL_START } from 'matrix-js-sdk';
@@ -8,6 +9,7 @@ import {
   DownloadSimpleIcon,
   ProhibitIcon,
   LockIcon,
+  ShieldCheckIcon,
   TrashIcon,
   MapPinIcon,
   ArrowsOutSimpleIcon,
@@ -23,7 +25,7 @@ import { getMediaBlobUrl, getMediaAnimates } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import type { MediaCover } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
-import { prettifyLinksAtom } from '@/app/store/atoms';
+import { prettifyLinksAtom, sessionVerificationAtom } from '@/app/store/atoms';
 import { AudioFilePlayer } from '@/app/components/AudioFilePlayer/AudioFilePlayer';
 import { VoiceMessagePlayer } from '@/app/components/VoiceMessagePlayer/VoiceMessagePlayer';
 import { PollViewer } from './PollViewer';
@@ -415,6 +417,37 @@ function MediaSkeleton({ className, style, children }: MediaSkeletonProps) {
   );
 }
 
+function decryptionFailureKey(
+  reason: DecryptionFailureCode | null,
+  sessionVerified: boolean
+): string {
+  switch (reason) {
+    case DecryptionFailureCode.MEGOLM_KEY_WITHHELD_FOR_UNVERIFIED_DEVICE:
+      return 'timeline.decryptUnverifiedSession';
+    case DecryptionFailureCode.MEGOLM_KEY_WITHHELD:
+      return 'timeline.decryptWithheld';
+    case DecryptionFailureCode.UNSIGNED_SENDER_DEVICE:
+    case DecryptionFailureCode.UNKNOWN_SENDER_DEVICE:
+      return 'timeline.decryptUnverifiedSender';
+    case DecryptionFailureCode.SENDER_IDENTITY_PREVIOUSLY_VERIFIED:
+      return 'timeline.decryptSenderIdentityReset';
+    case DecryptionFailureCode.HISTORICAL_MESSAGE_USER_NOT_JOINED:
+      return 'timeline.decryptBeforeJoined';
+    case DecryptionFailureCode.HISTORICAL_MESSAGE_BACKUP_UNCONFIGURED:
+      return 'timeline.decryptHistoryVerify';
+    case DecryptionFailureCode.HISTORICAL_MESSAGE_NO_KEY_BACKUP:
+    case DecryptionFailureCode.HISTORICAL_MESSAGE_WORKING_BACKUP:
+      return 'timeline.decryptHistoryNoKey';
+    case DecryptionFailureCode.MEGOLM_UNKNOWN_INBOUND_SESSION_ID:
+    case DecryptionFailureCode.OLM_UNKNOWN_MESSAGE_INDEX:
+      return sessionVerified
+        ? 'timeline.decryptWaitingForKey'
+        : 'timeline.decryptUnverifiedSession';
+    default:
+      return 'timeline.couldNotDecrypt';
+  }
+}
+
 function MediaError() {
   const { t } = useTranslation();
   return (
@@ -533,6 +566,7 @@ export function MessageContent({
 }: MessageContentProps) {
   const { t } = useTranslation();
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
+  const sessionVerified = useAtomValue(sessionVerificationAtom).status !== 'unverified';
 
   const handleContentClick = useCallback(
     (e: React.MouseEvent) => {
@@ -605,7 +639,8 @@ export function MessageContent({
   if (isUndecryptable || event.isDecryptionFailure()) {
     return (
       <span className={css.redactedMsg}>
-        <LockIcon size={14} /> {t('timeline.couldNotDecrypt')}
+        <LockIcon size={14} />{' '}
+        {t(decryptionFailureKey(event.decryptionFailureReason, sessionVerified))}
       </span>
     );
   }
@@ -623,6 +658,14 @@ export function MessageContent({
   }
 
   const msgtype = content?.msgtype as string | undefined;
+
+  if (msgtype === 'm.key.verification.request') {
+    return (
+      <span className={css.redactedMsg}>
+        <ShieldCheckIcon size={14} /> {t('timeline.verificationRequest')}
+      </span>
+    );
+  }
 
   if (type === 'm.sticker' || msgtype === 'm.sticker') {
     const encFile = getEncryptedFile(content as Record<string, unknown>);

@@ -51,7 +51,8 @@
     "collapse": "Collapse",
     "create": "Create",
     "markAllRead": "Mark all as read",
-    "markRead": "Mark as read"
+    "markRead": "Mark as read",
+    "continue": "Continue"
   },
   "auth": {
     "sessionLoadFailed": "Couldn't restore your session",
@@ -687,7 +688,16 @@
     "viewNewRoom": "View new room",
     "roomUpgradedFrom": "This room is a continuation of a previous room.",
     "viewOldRoom": "View previous room",
-    "loadFailed": "Failed to load messages"
+    "loadFailed": "Failed to load messages",
+    "decryptUnverifiedSession": "Verify this session to read this message",
+    "decryptWithheld": "The sender didn't share the key for this message with this session",
+    "decryptUnverifiedSender": "Sent from an unverified device",
+    "decryptSenderIdentityReset": "The sender's verified identity was reset",
+    "decryptBeforeJoined": "Sent before you joined",
+    "decryptHistoryVerify": "Sent before this session existed. Verify this session to read your history",
+    "decryptHistoryNoKey": "Sent before this session existed, and the key isn't in your backup",
+    "decryptWaitingForKey": "Waiting for the key for this message",
+    "verificationRequest": "Requested identity verification"
   },
   "attachment": {
     "uploading": "Uploading",
@@ -990,19 +1000,9 @@
       "accountDataCount_other": "{{count}} event types"
     },
     "keyBackup": {
-      "setupRecoveryKey": "Set Up Recovery Key",
       "downloadKey": "Download",
-      "setupIncomplete": "Set up encryption",
-      "enterRecoveryKeyBtn": "Enter Recovery Key",
-      "resetEncryptionKeys": "Reset Encryption Keys",
-      "regenerateConfirm": "This will create a new recovery key, invalidate the old one and replace your key backup. Megolm keys that exist only on your other devices may be lost in the process. Continue?",
-      "regenerateConfirmNoRestore": "Your current backup key is not available on this device, so all keys stored only in the existing backup will be permanently lost. Continue anyway?",
-      "regenerateBackupNotActive": "The new key backup could not be verified as active on the server.",
       "cryptoNotAvailable": "Crypto not available",
-      "invalidRecoveryKey": "Invalid recovery key. Please check you copied it correctly.",
-      "noKeyBackupFound": "No key backup found on the server. Set one up first.",
       "couldNotGenerateKey": "Could not generate recovery key (encodedPrivateKey missing)",
-      "couldNotGenerateKeyNew": "Could not generate new recovery key",
       "setupSuccess": "Key backup set up successfully!",
       "setupFailed": "Setup failed: {{error}}",
       "crossSigningFailed": "Cross-signing setup failed: {{error}}. Key backup is still active, but other devices won't automatically trust this one.",
@@ -1013,12 +1013,7 @@
       "uiaResetTitle": "Reset your identity",
       "uiaResetDescription": "Your homeserver requires you to approve this in your account settings before continuing. Go to your account, complete the reset, then come back and retry.",
       "uiaResetCta": "Go to account",
-      "restoreSuccess": "Restored {{imported}} of {{total}} room keys.",
-      "restoreSuccessNoCSigning": "Restored {{imported}} of {{total}} room keys. Cross-signing could not be re-established — try verifying this session from another device.",
-      "restoreFailed": "Wrong decryption key. Please check your recovery key and try again.",
-      "regenerateFailed": "Regenerate failed: {{error}}",
       "enterRecoveryKeyTitle": "Enter Recovery Key",
-      "autoPromptBanner": "Enter your recovery key to restore your encrypted message history on this device, or verify using another session.",
       "restoreBtn": "Restore",
       "newRecoveryKeyGenerated": "New Recovery Key Generated",
       "yourRecoveryKey": "Your Recovery Key",
@@ -1042,7 +1037,6 @@
       "noSessionsFound": "No sessions found.",
       "yourDevices": "Your Devices",
       "currentDevice": "Current Device",
-      "verifyWithAnotherDevice": "Verify with another device",
       "verified": "Verified",
       "unverified": "Unverified",
       "verify": "Verify",
@@ -1064,7 +1058,9 @@
       "confirmRemove": "Confirm Remove",
       "continueWithSso": "Continue with SSO",
       "ssoCancelled": "SSO authentication was cancelled or the popup was closed. Please try again.",
-      "authMethodUnsupported": "Your homeserver requires an authentication method that is not supported here."
+      "authMethodUnsupported": "Your homeserver requires an authentication method that is not supported here.",
+      "verifyThisSession": "This session isn't verified yet, so it can't read all your encrypted messages. Verify it:",
+      "cannotVerifyThisSession": "This session isn't verified, and there's no other verified device or recovery key to verify it with. Reset your encryption in the Encryption tab to start fresh."
     },
     "about": {
       "title": "About",
@@ -1075,6 +1071,16 @@
       "matrixSdk": "The <sdkLink>matrix-js-sdk</sdkLink> is © The Matrix.org Foundation C.I.C. used under the terms of the Apache License, Version 2.0.",
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> is © Phosphor Icons used under the terms of the MIT License.",
       "elementCall": "The <elementCallLink>Element Call</elementCallLink> is © New Vector Ltd (Element), used under the terms of the GNU Affero General Public License v3.0."
+    },
+    "encryption": {
+      "title": "Encryption",
+      "reset": "Reset encryption",
+      "resetNote": "Only if you've lost access to all your other sessions and your recovery key. Your other sessions become unverified, and older encrypted messages may become unreadable.",
+      "resetButton": "Reset encryption",
+      "endToEnd": "End-to-end encryption",
+      "active": "Active",
+      "activeNote": "Your encryption identity is set up.",
+      "notSetUpNote": "Set up encryption to create your identity and recovery key, so your messages stay readable on all your devices."
     }
   },
   "titleBar": {
@@ -1121,7 +1127,9 @@
     "deviceVerified": "{{user}} has been verified.",
     "deviceVerifiedOther": "The device has been verified.",
     "cancelled": "Verification cancelled",
-    "cancelledNote": "The verification was cancelled or the emojis did not match."
+    "cancelledNote": "The verification was cancelled or the emojis did not match.",
+    "verifyUser": "Verify User",
+    "compareEmojisUser": "Compare these emojis with {{user}}. If they match exactly, you've verified each other."
   },
   "explore": {
     "title": "Explore",
@@ -1195,7 +1203,10 @@
     "ignoreUserConfirmBody": "All messages and invites from this user will be hidden. Are you sure you want to ignore them?",
     "unignoreUserConfirmTitle": "Unignore {{name}}",
     "unignoreUserConfirmBody": "You will start receiving messages and invites from this user again.",
-    "ignoreFailed": "Failed to ignore user: {{error}}"
+    "ignoreFailed": "Failed to ignore user: {{error}}",
+    "verified": "Verified",
+    "verifyUser": "Verify user",
+    "verifyUserFailed": "Couldn't start verification: {{error}}"
   },
   "update": {
     "action": "Update WizardChat"
@@ -1210,6 +1221,58 @@
   "crypto": {
     "setupOverwritesTitle": "Replace existing encryption setup?",
     "setupOverwritesConfirm": "Your account already has an encryption setup. Creating a new recovery key and cross-signing identity here will replace the existing one, which can lock your other devices out of your encrypted messages. Restore or verify instead where possible. Continue with a new setup?"
+  },
+  "verifySession": {
+    "title": "Verify this session",
+    "body": "Confirm it's you to read your encrypted messages. Until then, other people's apps won't share message keys with this session.",
+    "useOtherDevice": "Use another device",
+    "useRecoveryKey": "Use recovery key",
+    "reset": "Can't confirm? Reset your identity",
+    "setupTitle": "Set up secure messaging",
+    "setupBody": "Create your encryption identity and recovery key so your messages stay readable on all your devices.",
+    "setupButton": "Set up encryption",
+    "skip": "Skip for now",
+    "skipConfirmTitle": "Skip verification?",
+    "skipConfirmBody": "This session won't be able to read new encrypted messages, and others won't share message keys with it. Only skip if you know what you're doing, for example for testing. You can verify later from the warning icon in the title bar.",
+    "skipConfirm": "Skip anyway",
+    "verified": "This session is now verified.",
+    "invalidKey": "That recovery key doesn't match your account.",
+    "noIdentityBackup": "Your identity isn't stored with a recovery key. Verify with another device or reset your identity.",
+    "failed": "Verification failed: {{error}}",
+    "backupOnly": "History is restoring, but your identity isn't stored with this recovery key. Verify with another device or reset your identity.",
+    "noWayToVerify": "There's no other verified device and no recovery key for this account, so this session can't be verified. Reset your encryption to start fresh: old encrypted messages may become unreadable, but everything new works normally.",
+    "resetAndSetUp": "Reset and set up encryption"
+  },
+  "identityWarning": {
+    "reset": "{{name}}'s identity was reset.",
+    "verifiedReset": "{{name}}'s verified identity was reset. Messages can't be sent until you withdraw the verification.",
+    "withdraw": "Withdraw verification",
+    "failed": "Couldn't update the identity: {{error}}"
+  },
+  "qrLogin": {
+    "linkTitle": "Link new device",
+    "signInTitle": "Sign in with QR code",
+    "qrLabel": "QR code for signing in",
+    "linkStep1": "Open a Matrix app on the new device, for example Element X.",
+    "linkStep2": "Choose to sign in with a QR code.",
+    "linkStep3": "Scan this code.",
+    "signInStep1": "Open WizardChat on a device where you're already signed in.",
+    "signInStep2": "Go to settings -> sessions and choose to scan a QR code.",
+    "signInStep3": "Scan this code.",
+    "enterCode": "Enter the 2-digit code shown on the new device.",
+    "codeMismatch": "That code doesn't match. Check the new device and try again.",
+    "showCode": "Enter this code on your other device:",
+    "waitingForApproval": "Then approve the sign-in there.",
+    "approveInBrowser": "Approve the new device on your account page that just opened.",
+    "openApproval": "Open the approval page again",
+    "linkDone": "The new device is signed in and verified.",
+    "decline": "Decline",
+    "failCancelled": "The sign-in was cancelled.",
+    "failExpired": "The sign-in took too long and expired. Please start again.",
+    "failInsecure": "The connection couldn't be secured. Please start again.",
+    "failUnsupported": "Your homeserver doesn't support signing in with a QR code.",
+    "failAlreadySignedIn": "That device is already signed in.",
+    "failGeneric": "Signing in with the QR code failed. Please try again."
   },
   "whatsNew": {
     "title": "What's new",

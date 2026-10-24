@@ -15,6 +15,7 @@ import {
   GlobeSimpleIcon,
   WrenchIcon,
   DevicesIcon,
+  LockKeyIcon,
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
@@ -41,6 +42,7 @@ import { EmojisStickers } from './emojis';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
+import { Encryption } from './encryption';
 import { About } from './about';
 import * as css from './Settings.css';
 
@@ -154,6 +156,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <DeveloperOptions />;
     case 'sessions':
       return <Sessions />;
+    case 'encryption':
+      return <Encryption />;
     case 'about':
       return <About />;
   }
@@ -203,6 +207,7 @@ export function Settings() {
       Icon: DevicesIcon,
       dividerBefore: true,
     },
+    { page: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
     { page: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
     { page: 'about', label: t('settings.about.title'), Icon: InfoIcon },
   ];

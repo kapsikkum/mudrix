@@ -23,6 +23,7 @@ import {
   DotsThreeVerticalIcon,
   PlusIcon,
   CaretRightIcon,
+  ShieldCheckIcon,
 } from '@phosphor-icons/react';
 import { Popover } from '@/app/components/Popover';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -35,6 +36,7 @@ import {
   showPresenceAtom,
   presenceMapAtom,
   ownPresenceAtom,
+  emojiVerificationAtom,
 } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
 import { getMatrixClient, getMatrixClientOrNull, logout, switchAccount } from '@/client/initMatrix';
@@ -49,6 +51,8 @@ import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { useToast } from '@/app/hooks/useToast';
 import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
 import { startDm } from '@/app/hooks/useDms';
+import { useUserVerification } from '@/app/hooks/useUserVerification';
+import { startUserVerification } from '@/app/features/device/sessionVerification';
 import { fetchMediaBlobUrl, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { getErrorMessage } from '@/util/error';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
@@ -78,6 +82,9 @@ export function UserProfilePopup() {
   const profile = useUserProfile(client, profileState?.userId ?? null, profileState?.roomId);
   const myId = client?.getUserId();
   const isOwn = profileState?.userId === myId;
+  const userVerification = useUserVerification(client, isOwn ? null : profileState?.userId);
+  const setEmojiModal = useSetAtom(emojiVerificationAtom);
+  const [startingVerification, setStartingVerification] = useState(false);
 
   const { profile: ownProfile, saveProfile, removeAvatar } = useProfile(client!);
   const ownAvatarMxc =
@@ -440,6 +447,19 @@ export function UserProfilePopup() {
     }
   }, [client, profile, setCurrentRoom, navigate, handleClose, toast, t]);
 
+  const handleVerifyUser = useCallback(async () => {
+    if (!client || !profile) return;
+    setStartingVerification(true);
+    try {
+      await startUserVerification(client, profile.userId, setEmojiModal);
+      handleClose();
+    } catch (err) {
+      toast.error(t('profile.verifyUserFailed', { error: getErrorMessage(err) }));
+    } finally {
+      setStartingVerification(false);
+    }
+  }, [client, profile, setEmojiModal, handleClose, toast, t]);
+
   useLayoutEffect(() => {
     if (!profileState || !popupRef.current) return;
     const anchor = profileState.anchorRect;
@@ -644,7 +664,19 @@ export function UserProfilePopup() {
           </div>
 
           <div className={css.nameSection}>
-            <span className={css.displayName}>{profile.displayName}</span>
+            <span className={css.displayNameRow}>
+              <span className={css.displayName}>{profile.displayName}</span>
+              {userVerification.verified && (
+                <Tooltip content={t('profile.verified')}>
+                  <ShieldCheckIcon
+                    size={18}
+                    weight="fill"
+                    className={css.verifiedBadge}
+                    aria-label={t('profile.verified')}
+                  />
+                </Tooltip>
+              )}
+            </span>
 
             <div className={css.userIdRow}>
               <span className={css.userId}>{profile.userId.split(':')[0]}</span>
@@ -832,6 +864,17 @@ export function UserProfilePopup() {
               <ChatCircleIcon size={16} />
               {t('profile.message')}
             </Button>
+            {userVerification.canVerify && !userVerification.verified && (
+              <IconButton
+                size="md"
+                tooltip={t('profile.verifyUser')}
+                aria-label={t('profile.verifyUser')}
+                disabled={startingVerification}
+                onClick={handleVerifyUser}
+              >
+                <ShieldCheckIcon size={18} />
+              </IconButton>
+            )}
             {hasModActions && (
               <IconButton
                 ref={modMenuBtnRef}

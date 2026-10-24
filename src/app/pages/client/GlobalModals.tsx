@@ -4,7 +4,11 @@ import { PromptModal } from '@/app/components/PromptModal';
 import { CreateRoomModal, InviteModal, RoomSettings } from '@/app/features/room';
 import { EmojiPicker, ReportMessageModal } from '@/app/features/timeline';
 import { NewDmModal } from '@/app/features/dm/NewDmModal';
-import { VerificationBanner, EmojiVerificationModal } from '@/app/features/device';
+import {
+  VerificationBanner,
+  EmojiVerificationModal,
+  VerifySessionGate,
+} from '@/app/features/device';
 import {
   RecoveryKeyModal,
   EnterRecoveryKeyModal,
@@ -34,6 +38,7 @@ export function GlobalModals() {
       <RoomSettings />
       <EmojiPicker />
       <ReportMessageModal />
+      <VerifySessionGate />
       <VerificationBanner />
       <WhatsNewModal />
       <EmojiVerificationModal />

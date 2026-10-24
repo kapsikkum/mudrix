@@ -122,6 +122,18 @@ export const displayName = style({
   lineHeight: 1.3,
 });
 
+export const displayNameRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  minWidth: 0,
+});
+
+export const verifiedBadge = style({
+  flexShrink: 0,
+  color: vars.color.accent,
+});
+
 export const userIdRow = style({
   display: 'flex',
   alignItems: 'center',

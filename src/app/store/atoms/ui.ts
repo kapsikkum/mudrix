@@ -16,6 +16,7 @@ import {
   STORAGE_KEY_EMOJI_FREQUENCY,
   STORAGE_KEY_RECENT_INVITES,
   STORAGE_KEY_MEMBERS_PANEL,
+  STORAGE_KEY_VERIFY_SKIPPED_DEVICE,
   STORAGE_KEY_WHATS_NEW_SEEN,
 } from '@/const/storageKeys';
 import { atomWithAccountStorage } from './accountStorage';
@@ -232,7 +233,22 @@ export const reportMessageAtom = atom<ReportMessageState>({
   senderId: '',
 });
 
-export const encryptionSetupWarningAtom = atom(false);
+export type SessionVerificationStatus = 'checking' | 'verified' | 'unverified' | 'no-identity';
+export interface SessionVerificationState {
+  status: SessionVerificationStatus;
+  hasOtherVerifiedSession: boolean;
+  hasRecoveryKey: boolean;
+}
+export const sessionVerificationAtom = atom<SessionVerificationState>({
+  status: 'checking',
+  hasOtherVerifiedSession: false,
+  hasRecoveryKey: false,
+});
+
+export const verifySkippedDeviceAtom = atomWithAccountStorage<string | null>(
+  STORAGE_KEY_VERIFY_SKIPPED_DEVICE,
+  null
+);
 
 // Target page to open in Settings (set externally before settingsOpenAtom)
 export type SettingsPage =
@@ -246,6 +262,7 @@ export type SettingsPage =
   | 'language'
   | 'developer'
   | 'sessions'
+  | 'encryption'
   | 'about';
 export const settingsPageAtom = atom<SettingsPage | null>(null);
 

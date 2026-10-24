@@ -45,6 +45,7 @@ import { ReactEditor } from 'slate-react';
 import { anchorFromElement, isMenuOpenKey, useContextMenu } from '@/app/hooks/useContextMenu';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
+import { IdentityWarning } from './IdentityWarning';
 import * as css from '../Composer.css';
 
 interface Props {
@@ -219,6 +220,7 @@ export function Composer({
           )}
 
           <div className={css.composerBox}>
+            <IdentityWarning client={client} roomId={roomId} />
             {gifSending && (
               <div className={css.statusStrip} role="status">
                 <SpinnerGapIcon size={14} className={`icon-spin ${css.replyIcon}`} />

@@ -417,3 +417,17 @@ export const linkCancel = style([
     ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
   },
 ]);
+
+export const identityStrip = style([statusStrip, { alignItems: 'center', gap: '10px' }]);
+
+export const identityIcon = style({
+  flexShrink: 0,
+  color: vars.color.warning,
+});
+
+export const identityText = style({
+  flex: 1,
+  minWidth: 0,
+  color: vars.color.textPrimary,
+  overflowWrap: 'anywhere',
+});
