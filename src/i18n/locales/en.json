@@ -732,10 +732,6 @@
     "undeafen": "Undeafen",
     "cameraOn": "Turn off camera",
     "cameraOff": "Turn on camera",
-    "incomingCall": "Incoming Call",
-    "accept": "Accept call",
-    "decline": "Decline call",
-    "calling": "is calling...",
     "popOut": "Pop out",
     "fullscreen": "Fullscreen",
     "exitFullscreen": "Exit fullscreen",
@@ -755,7 +751,11 @@
     "moreOptions": "More options",
     "switchToSpotlight": "Switch to spotlight",
     "switchToGrid": "Switch to grid",
-    "reactions": "Reactions"
+    "reactions": "Reactions",
+    "incomingVoiceCall": "Incoming voice call",
+    "incomingVideoCall": "Incoming video call",
+    "acceptShort": "Accept",
+    "declineShort": "Decline"
   },
   "elementCall": {
     "embedUnavailable": "Call widget is not ready yet. Please try again.",

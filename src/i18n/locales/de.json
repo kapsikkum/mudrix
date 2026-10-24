@@ -732,10 +732,6 @@
     "undeafen": "Undeafen",
     "cameraOn": "Kamera ausschalten",
     "cameraOff": "Kamera einschalten",
-    "incomingCall": "Eingehender Anruf",
-    "accept": "Anruf annehmen",
-    "decline": "Anruf ablehnen",
-    "calling": "ruft an...",
     "popOut": "Herauslösen",
     "fullscreen": "Vollbild",
     "exitFullscreen": "Vollbild beenden",
@@ -755,7 +751,11 @@
     "moreOptions": "Weitere Optionen",
     "switchToSpotlight": "Zu Spotlight wechseln",
     "switchToGrid": "Zu Raster wechseln",
-    "reactions": "Reaktionen"
+    "reactions": "Reaktionen",
+    "incomingVoiceCall": "Eingehender Sprachanruf",
+    "incomingVideoCall": "Eingehender Videoanruf",
+    "acceptShort": "Annehmen",
+    "declineShort": "Ablehnen"
   },
   "elementCall": {
     "embedUnavailable": "Der Anruf-Widget ist noch nicht bereit. Bitte versuche es erneut.",

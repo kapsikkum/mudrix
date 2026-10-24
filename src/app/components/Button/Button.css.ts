@@ -52,13 +52,6 @@ export const danger = variantBase({
   selectors: { '&:hover:not(:disabled)': { opacity: 0.85 } },
 });
 
-export const success = variantBase({
-  backgroundColor: vars.color.success,
-  color: '#fff',
-  ':disabled': { opacity: 0.5, cursor: 'not-allowed' },
-  selectors: { '&:hover:not(:disabled)': { opacity: 0.85 } },
-});
-
 export const ghost = variantBase({
   backgroundColor: 'transparent',
   color: vars.color.textMuted,

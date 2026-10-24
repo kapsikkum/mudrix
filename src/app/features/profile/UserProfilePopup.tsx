@@ -842,7 +842,7 @@ export function UserProfilePopup() {
               {t('room.members.reject')}
             </Button>
             <Button
-              variant="success"
+              variant="primary"
               className={css.modActionBtn}
               loading={approving}
               onClick={handleApprove}

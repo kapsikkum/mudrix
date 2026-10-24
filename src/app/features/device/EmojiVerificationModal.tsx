@@ -132,11 +132,11 @@ export function EmojiVerificationModal() {
     if (state.phase === 'comparing') {
       return (
         <>
-          <Button variant="danger" size="md" onClick={handleMismatch}>
+          <Button variant="secondary" size="md" onClick={handleMismatch}>
             <XIcon size={14} className={css.iconBefore} />
             {t('verification.theyDontMatch')}
           </Button>
-          <Button variant="success" size="md" onClick={handleConfirm}>
+          <Button variant="primary" size="md" onClick={handleConfirm}>
             <CheckIcon size={14} className={css.iconBefore} />
             {t('verification.theyMatch')}
           </Button>

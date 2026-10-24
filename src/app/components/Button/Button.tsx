@@ -4,7 +4,7 @@ import { SpinnerGapIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import * as css from './Button.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,7 +20,6 @@ const variantMap: Record<ButtonVariant, Record<ButtonSize, string>> = {
   primary: css.primary,
   secondary: css.secondary,
   danger: css.danger,
-  success: css.success,
   ghost: css.ghost,
 };
 

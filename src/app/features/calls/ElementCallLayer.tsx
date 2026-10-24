@@ -356,6 +356,7 @@ export function ElementCallLayer({ client }: Props) {
         <IncomingCallOverlay
           callerName={ui.incoming.callerName}
           callerId={ui.incoming.callerId}
+          voiceOnly={ui.incoming.voiceOnly}
           client={client}
           onAccept={() => accept(ui.incoming!)}
           onDecline={dismiss}
