@@ -115,6 +115,12 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
     labelKey: 'settings.keybinds.voiceRoom',
     items: [
       {
+        id: 'pushToTalk',
+        labelKey: 'settings.keybinds.pushToTalk',
+        keys: '',
+        editable: true,
+      },
+      {
         id: 'toggleMute',
         labelKey: 'settings.keybinds.toggleMute',
         keys: '',

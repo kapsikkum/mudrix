@@ -13,6 +13,7 @@ import {
   useElementCallControls,
   useElementCallJoined,
 } from '@/app/plugins/call/useCallEmbed';
+import { usePushToTalk } from '@/app/plugins/call/usePushToTalk';
 
 export function ElementCallController() {
   const embed = useAtomValue(elementCallEmbedAtom);
@@ -32,6 +33,7 @@ export function ElementCallController() {
     openSettings,
   } = useElementCallControls(embed);
   useElementCallJoined(embed);
+  usePushToTalk(embed);
 
   const setPresentation = useCallback(
     (presentation: ElementCallPresentation) => {

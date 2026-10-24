@@ -950,7 +950,11 @@
       "createJoinSpace": "Space erstellen oder beitreten",
       "navigateRooms": "Vorheriger / nächster Raum",
       "navigateSpaces": "Vorheriger / nächster Space",
-      "editMessage": "Deine vorherige / nächste Nachricht bearbeiten"
+      "editMessage": "Deine vorherige / nächste Nachricht bearbeiten",
+      "pushToTalk": "Push-to-Talk",
+      "pushToTalkBrowserHint": "Push-to-Talk funktioniert nur, solange dieser Browser-Tab im Fokus ist. Lade die Desktop-App für systemweites Push-to-Talk herunter.",
+      "pushToTalkPermission": "Systemweites Push-to-Talk braucht die Berechtigung, Tastatureingaben zu überwachen. Bis dahin funktioniert es nur, solange WizardChat im Fokus ist.",
+      "pushToTalkGrant": "Berechtigung erteilen"
     },
     "developer": {
       "title": "Entwickler",

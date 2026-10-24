@@ -1,5 +1,7 @@
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { keybindsAtom } from '@/app/store/atoms';
+import { elementCallEmbedAtom } from '@/app/store/atoms/elementCall';
+import { keyTargets } from '@/app/plugins/call/usePushToTalk';
 import { useEffect, useCallback, useRef } from 'react';
 
 export function useVoiceKeybinds(
@@ -12,6 +14,7 @@ export function useVoiceKeybinds(
   }
 ) {
   const [keybinds] = useAtom(keybindsAtom);
+  const embed = useAtomValue(elementCallEmbedAtom);
   const handlersRef = useRef(handlers);
   handlersRef.current = handlers;
 
@@ -39,7 +42,10 @@ export function useVoiceKeybinds(
   );
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
+    const targets = keyTargets(embed);
+    for (const target of targets) target.addEventListener('keydown', handleKeyDown);
+    return () => {
+      for (const target of targets) target.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown, embed]);
 }

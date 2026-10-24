@@ -86,6 +86,15 @@ export class CallControl {
     return this.sendMediaState(payload);
   }
 
+  public setMicrophone(enabled: boolean) {
+    if (this.state.microphone === enabled) return Promise.resolve();
+    const payload: ElementMediaStatePayload = {
+      audio_enabled: enabled,
+      video_enabled: this.state.video,
+    };
+    return this.sendMediaState(payload);
+  }
+
   public toggleVideo() {
     const payload: ElementMediaStatePayload = {
       audio_enabled: this.state.microphone,

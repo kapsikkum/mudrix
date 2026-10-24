@@ -28,6 +28,10 @@ interface ElectronAPI {
   onOpenRoom?: (cb: (url: string) => void) => void;
   getPendingRoom?: () => Promise<string | null>;
   getAppVersion?: () => Promise<string>;
+  setPushToTalkKey?: (code: string | null) => Promise<'active' | 'no-permission' | 'unsupported'>;
+  onPushToTalk?: (cb: (pressed: boolean) => void) => () => void;
+  getPushToTalkPermission?: () => Promise<boolean>;
+  requestPushToTalkPermission?: () => Promise<boolean>;
   getDesktopSources?: (options: {
     types: string[];
     thumbnailSize?: { width: number; height: number };

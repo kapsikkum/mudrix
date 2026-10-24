@@ -25,6 +25,7 @@ export interface Keybinds {
   toggleDeafen: string;
   toggleVideo: string;
   disconnect: string;
+  pushToTalk: string;
 }
 
 export interface Preferences {
@@ -43,6 +44,7 @@ export interface Preferences {
   uiDensity: UiDensity;
   reducedMotionApplied: boolean | null;
   themedAppIcon: boolean;
+  pushToTalk: boolean;
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME as ThemeName);
@@ -57,6 +59,7 @@ export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, {
   toggleDeafen: '',
   toggleVideo: '',
   disconnect: '',
+  pushToTalk: '',
 });
 
 export const DEFAULT_PREFERENCES: Preferences = {
@@ -75,6 +78,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   uiDensity: 'default',
   reducedMotionApplied: null,
   themedAppIcon: false,
+  pushToTalk: false,
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -104,6 +108,7 @@ export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');
 export const chatDensityAtom = preferenceFieldAtom('chatDensity');
 export const uiDensityAtom = preferenceFieldAtom('uiDensity');
 export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
+export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
 
 const rawStringStorage = {
   getItem: (key: string, init: string) => localStorage.getItem(key) ?? init,

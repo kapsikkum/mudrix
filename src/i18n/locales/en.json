@@ -964,7 +964,11 @@
       "createJoinSpace": "Create or join a space",
       "navigateRooms": "Previous / next room",
       "navigateSpaces": "Previous / next space",
-      "editMessage": "Edit your previous / next message"
+      "editMessage": "Edit your previous / next message",
+      "pushToTalk": "Push to talk",
+      "pushToTalkBrowserHint": "Push to talk only works while this browser tab is focused. Download the desktop app for system-wide push to talk.",
+      "pushToTalkPermission": "System-wide push to talk needs permission to monitor keyboard input. Until then it only works while WizardChat is focused.",
+      "pushToTalkGrant": "Grant permission"
     },
     "developer": {
       "title": "Developer",
