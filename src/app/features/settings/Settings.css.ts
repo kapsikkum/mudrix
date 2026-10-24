@@ -147,8 +147,9 @@ export const keybindHint = style({
 });
 
 const keybindBtnBase = style({
-  width: '110px',
-  padding: '6px 0',
+  minWidth: '110px',
+  padding: '6px 10px',
+  whiteSpace: 'nowrap',
   borderRadius: vars.radius.sm,
   border: '2px solid transparent',
   backgroundColor: vars.color.bgTertiary,

@@ -6,31 +6,21 @@ import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Button } from '@/app/components/Button';
 import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
+import {
+  formatCombo,
+  formatHeldModifiers,
+  modifierOfCode,
+  parseCombo,
+  serializeCombo,
+  type Modifier,
+} from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Settings.css';
-
-function formatKeyCode(code: string): string {
-  if (code.startsWith('Key')) return code.slice(3);
-  if (code.startsWith('Digit')) return code.slice(5);
-  const named: Record<string, string> = {
-    Backquote: '`',
-    Minus: '-',
-    Equal: '=',
-    BracketLeft: '[',
-    BracketRight: ']',
-    Backslash: '\\',
-    Semicolon: ';',
-    Quote: "'",
-    Comma: ',',
-    Period: '.',
-    Slash: '/',
-  };
-  return named[code] ?? code.replace(/(Left|Right)$/, ' $1');
-}
 
 export function Keybinds() {
   const { t } = useTranslation();
   const [keybinds, setKeybinds] = useAtom(keybindsAtom);
   const [listening, setListening] = useState<KeybindAction | null>(null);
+  const [heldPreview, setHeldPreview] = useState('');
   const [isPushToTalk, setPushToTalk] = useAtom(pushToTalkEnabledAtom);
   const desktop = window.electronAPI;
   const [pttPermission, setPttPermission] = useState<boolean | null>(null);
@@ -41,37 +31,63 @@ export function Keybinds() {
   }, [isPushToTalk, desktop]);
 
   const startListening = (action: KeybindAction) => {
+    setHeldPreview('');
     setListening(action);
   };
 
   useEffect(() => {
     if (!listening) return;
-    const handler = (e: KeyboardEvent) => {
+    const save = (modifiers: Modifier[], code: string) => {
+      setKeybinds((prev) => ({ ...prev, [listening]: serializeCombo({ modifiers, code }) }));
+      setHeldPreview('');
+      setListening(null);
+    };
+    const held = (e: KeyboardEvent, except: Modifier | null): Modifier[] =>
+      (
+        [e.ctrlKey && 'Ctrl', e.altKey && 'Alt', e.shiftKey && 'Shift', e.metaKey && 'Meta'].filter(
+          Boolean
+        ) as Modifier[]
+      ).filter((m) => m !== except);
+
+    const onKeyDown = (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
-      if (e.key === 'Escape') {
+      if (e.repeat) return;
+      const modifier = modifierOfCode(e.code);
+      if (e.code === 'Escape' && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
+        setHeldPreview('');
         setListening(null);
         return;
       }
-      const key =
-        listening === 'pushToTalk' ? e.code : e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      setKeybinds((prev) => ({ ...prev, [listening]: key }));
-      setListening(null);
+      if (modifier) {
+        setHeldPreview(formatHeldModifiers(e));
+        return;
+      }
+      save(held(e, null), e.code);
     };
-    window.addEventListener('keydown', handler, true);
-    return () => window.removeEventListener('keydown', handler, true);
+    const onKeyUp = (e: KeyboardEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const modifier = modifierOfCode(e.code);
+      if (modifier) save(held(e, modifier), e.code);
+    };
+    window.addEventListener('keydown', onKeyDown, true);
+    window.addEventListener('keyup', onKeyUp, true);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown, true);
+      window.removeEventListener('keyup', onKeyUp, true);
+    };
   }, [listening, setKeybinds]);
 
   const clear = (action: KeybindAction) => {
     setKeybinds((prev) => ({ ...prev, [action]: '' }));
   };
 
-  const displayKey = (key: string, action: KeybindAction) => {
-    if (!key) return t('settings.keybinds.clickToSet');
-    if (action === 'pushToTalk') return formatKeyCode(key);
-    if (key === 'Escape') return 'Esc';
-    return key.toUpperCase();
+  const displayKey = (key: string) => {
+    const combo = parseCombo(key);
+    return combo ? formatCombo(combo) : t('settings.keybinds.clickToSet');
   };
 
   return (
@@ -167,8 +183,8 @@ export function Keybinds() {
                     onClick={() => startListening(item.id)}
                   >
                     {listening === item.id
-                      ? t('settings.keybinds.pressAKey')
-                      : displayKey(current, item.id)}
+                      ? heldPreview || t('settings.keybinds.pressAKey')
+                      : displayKey(current)}
                   </button>
                 </div>
               </div>

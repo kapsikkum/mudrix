@@ -3,6 +3,11 @@ import { useAtomValue } from 'jotai';
 import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { elementCallUiAtom } from '@/app/store/atoms/elementCall';
 import type { CallEmbed } from './CallEmbed';
+import {
+  isComboKeyUp,
+  matchesComboDown,
+  parseCombo,
+} from '@/app/features/keyboardShortcuts/keyCombo';
 
 const RELEASE_DELAY_MS = 120;
 
@@ -54,11 +59,12 @@ export function usePushToTalk(embed: CallEmbed | null): void {
       });
     }
 
+    const combo = parseCombo(keyCode);
     const onKeyDown = (e: KeyboardEvent) => {
-      if (useLocalKeys && e.code === keyCode) press();
+      if (useLocalKeys && matchesComboDown(e, combo)) press();
     };
     const onKeyUp = (e: KeyboardEvent) => {
-      if (useLocalKeys && e.code === keyCode) release();
+      if (useLocalKeys && isComboKeyUp(e, combo)) release();
     };
     const onBlur = () => {
       if (!useLocalKeys) return;
