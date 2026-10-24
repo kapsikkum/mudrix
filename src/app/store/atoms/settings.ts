@@ -14,7 +14,14 @@ import {
 } from '@/const/storageKeys';
 
 export type MessageLayout = 'classic' | 'modern';
-export type ThemeName = 'Carbon' | 'Parrot' | 'Hallow' | 'Ethereal';
+export type ThemeName =
+  | 'Carbon'
+  | 'Pewter'
+  | 'Parrot'
+  | 'Hallow'
+  | 'Garnet'
+  | 'Ethereal'
+  | 'Blossom';
 export type MediaVisibility = 'always' | 'private' | 'never';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';

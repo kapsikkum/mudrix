@@ -18,13 +18,14 @@ import { leaveCallEmbed } from './disposeAfterLeave';
 import { useToast } from '@/app/hooks/useToast';
 import { useTranslation } from 'react-i18next';
 import { useElementCallContainer } from './CallEmbedProvider';
+import { LIGHT_THEMES } from '@/theme/themeTokens';
 import { playVoiceSound } from '@/app/features/voice/voiceSounds';
 
 // The standard MatrixRTC slot used for room-wide calls
 export const CALL_SLOT_DESCRIPTION = { application: 'm.call', id: 'ROOM' } as const;
 
 export function getElementCallThemeKind(themeName: ThemeName): ElementCallThemeKind {
-  return themeName === 'Ethereal' ? 'light' : 'dark';
+  return LIGHT_THEMES.has(themeName) ? 'light' : 'dark';
 }
 
 export async function hasOngoingCall(mx: MatrixClient, room: Room): Promise<boolean> {

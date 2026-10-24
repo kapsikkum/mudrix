@@ -24,6 +24,9 @@ export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
     notification: '/assets/images/logo-notification_hallow.svg',
   },
   Ethereal: BASE_ASSETS,
+  Pewter: BASE_ASSETS,
+  Garnet: BASE_ASSETS,
+  Blossom: BASE_ASSETS,
 };
 
 export function hasThemedLogo(theme: ThemeName): boolean {

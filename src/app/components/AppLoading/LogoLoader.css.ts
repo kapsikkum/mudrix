@@ -1,9 +1,9 @@
 import { style, keyframes, styleVariants } from '@vanilla-extract/css';
 import { THEME_TOKENS, type ThemeLogoTokens } from '@/theme/themeTokens';
 
-type ThemeKey = 'Carbon' | 'Parrot' | 'Hallow' | 'Ethereal';
+type ThemeKey = keyof typeof THEME_TOKENS;
 
-const THEMES: ThemeKey[] = ['Carbon', 'Parrot', 'Hallow', 'Ethereal'];
+const THEMES = Object.keys(THEME_TOKENS) as ThemeKey[];
 
 const rampOf = (logo: ThemeLogoTokens['logo']): string[] => [
   logo.p4,
@@ -44,12 +44,14 @@ const BASE = {
 } as const;
 
 function polygonVariants(index: number) {
-  return styleVariants({
-    Carbon: { ...BASE, animationName: CYCLE.Carbon, animationDelay: DELAYS[index] },
-    Parrot: { ...BASE, animationName: CYCLE.Parrot, animationDelay: DELAYS[index] },
-    Hallow: { ...BASE, animationName: CYCLE.Hallow, animationDelay: DELAYS[index] },
-    Ethereal: { ...BASE, animationName: CYCLE.Ethereal, animationDelay: DELAYS[index] },
-  });
+  return styleVariants(
+    Object.fromEntries(
+      THEMES.map((theme) => [
+        theme,
+        { ...BASE, animationName: CYCLE[theme], animationDelay: DELAYS[index] },
+      ])
+    )
+  );
 }
 
 export const p0 = polygonVariants(0);

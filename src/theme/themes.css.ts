@@ -10,6 +10,12 @@ export const hallowTheme = createTheme(vars, THEME_TOKENS.Hallow);
 
 export const etherealTheme = createTheme(vars, THEME_TOKENS.Ethereal);
 
+export const pewterTheme = createTheme(vars, THEME_TOKENS.Pewter);
+
+export const garnetTheme = createTheme(vars, THEME_TOKENS.Garnet);
+
+export const blossomTheme = createTheme(vars, THEME_TOKENS.Blossom);
+
 export const baseLogoClass = style({ vars: assignVars(vars.logo, BASE_LOGO) });
 
 export const THEMES: Record<string, string> = {
@@ -17,6 +23,9 @@ export const THEMES: Record<string, string> = {
   Parrot: parrotTheme,
   Hallow: hallowTheme,
   Ethereal: etherealTheme,
+  Pewter: pewterTheme,
+  Garnet: garnetTheme,
+  Blossom: blossomTheme,
 };
 
 export const DEFAULT_THEME = 'Carbon';

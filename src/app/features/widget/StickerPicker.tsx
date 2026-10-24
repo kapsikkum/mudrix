@@ -15,6 +15,7 @@ import { stickerPickerAtom, themeAtom, ThemeName } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { applyReplyMetadata } from '@/app/features/timeline/composer/sendMessageContent';
+import { LIGHT_THEMES } from '@/theme/themeTokens';
 import * as css from './StickerPicker.css';
 
 interface Props {
@@ -29,7 +30,7 @@ interface Props {
 
 function getThemedUrl(base: string, appTheme: ThemeName): string {
   const sep = base.includes('?') ? '&' : '?';
-  const theme = appTheme === 'Ethereal' ? 'light' : 'dark';
+  const theme = LIGHT_THEMES.has(appTheme) ? 'light' : 'dark';
   if (base.includes('theme=')) return base;
   return `${base}${sep}theme=${theme}`;
 }

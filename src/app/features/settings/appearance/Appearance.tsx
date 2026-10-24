@@ -30,7 +30,15 @@ import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
 
-const THEME_NAMES: ThemeName[] = ['Carbon', 'Parrot', 'Hallow', 'Ethereal'];
+const THEME_NAMES: ThemeName[] = [
+  'Carbon',
+  'Pewter',
+  'Parrot',
+  'Hallow',
+  'Garnet',
+  'Ethereal',
+  'Blossom',
+];
 
 const PREVIEW_OTHER_NAME = 'Merlin';
 
