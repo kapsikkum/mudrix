@@ -47,6 +47,20 @@ export function VerificationBanner() {
     []
   );
 
+  const request = state.visible ? state.request : undefined;
+  useEffect(() => {
+    if (!request) return;
+    const onChange = () => {
+      if (request.pending) return;
+      setBanner((prev) => (prev.request === request ? { visible: false, text: '' } : prev));
+    };
+    onChange();
+    request.on('change' as Parameters<typeof request.on>[0], onChange);
+    return () => {
+      request.off('change' as Parameters<typeof request.off>[0], onChange);
+    };
+  }, [request, setBanner]);
+
   if (!state.visible) return null;
 
   const dismiss = () => setBanner({ visible: false, text: '' });
