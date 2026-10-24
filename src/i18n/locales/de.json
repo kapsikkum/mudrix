@@ -1210,5 +1210,11 @@
   "crypto": {
     "setupOverwritesTitle": "Vorhandene Verschlüsselung ersetzen?",
     "setupOverwritesConfirm": "Dein Konto hat bereits eine Verschlüsselung. Das Erstellen eines neuen Wiederherstellungsschlüssels und einer neuen Cross-Signing-Identität ersetzt die bestehende und kann deine anderen Geräte von deinen verschlüsselten Nachrichten aussperren. Stelle nach Möglichkeit zuerst wieder her oder verifiziere. Mit neuer Einrichtung fortfahren?"
+  },
+  "whatsNew": {
+    "title": "Neuigkeiten",
+    "gotIt": "Verstanden",
+    "fullChangelog": "Vollständiges Änderungsprotokoll auf GitLab",
+    "titleVersion": "Neu in {{version}}"
   }
 }

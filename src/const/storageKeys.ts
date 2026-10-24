@@ -44,3 +44,6 @@ export const STORAGE_KEY_CALL_RTC_OVERRIDE = 'wz_call_rtc_override';
 
 // Developer
 export const STORAGE_KEY_DEVELOPER_MODE = 'wz_developer_mode';
+
+// Newest What's new version this account has seen on this device
+export const STORAGE_KEY_WHATS_NEW_SEEN = 'wz_whats_new_seen';

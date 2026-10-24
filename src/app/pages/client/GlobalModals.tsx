@@ -16,6 +16,7 @@ import { UserProfilePopup } from '@/app/features/profile';
 import { Settings } from '@/app/features/settings';
 import { RoomSwitcher } from '@/app/features/roomSwitcher/RoomSwitcher';
 import { GlobalSearch } from '@/app/features/globalSearch';
+import { WhatsNewModal } from '@/app/features/whatsNew';
 import { ExploreModal } from '@/app/features/explore';
 
 export function GlobalModals() {
@@ -34,6 +35,7 @@ export function GlobalModals() {
       <EmojiPicker />
       <ReportMessageModal />
       <VerificationBanner />
+      <WhatsNewModal />
       <EmojiVerificationModal />
       <RecoveryKeyModal />
       <EnterRecoveryKeyModal />

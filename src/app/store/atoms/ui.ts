@@ -16,6 +16,7 @@ import {
   STORAGE_KEY_EMOJI_FREQUENCY,
   STORAGE_KEY_RECENT_INVITES,
   STORAGE_KEY_MEMBERS_PANEL,
+  STORAGE_KEY_WHATS_NEW_SEEN,
 } from '@/const/storageKeys';
 import { atomWithAccountStorage } from './accountStorage';
 
@@ -450,4 +451,11 @@ export const optimisticRedactedIdsAtom = atom<ReadonlySet<string>>(new Set<strin
 
 export const optimisticEditBodiesAtom = atom<ReadonlyMap<string, string>>(
   new Map<string, string>()
+);
+
+export const whatsNewOpenAtom = atom(false);
+
+export const whatsNewSeenAtom = atomWithAccountStorage<string | null>(
+  STORAGE_KEY_WHATS_NEW_SEEN,
+  null
 );

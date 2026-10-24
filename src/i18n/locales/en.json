@@ -1210,5 +1210,11 @@
   "crypto": {
     "setupOverwritesTitle": "Replace existing encryption setup?",
     "setupOverwritesConfirm": "Your account already has an encryption setup. Creating a new recovery key and cross-signing identity here will replace the existing one, which can lock your other devices out of your encrypted messages. Restore or verify instead where possible. Continue with a new setup?"
+  },
+  "whatsNew": {
+    "title": "What's new",
+    "gotIt": "Got it",
+    "fullChangelog": "Full changelog on GitLab",
+    "titleVersion": "What's new in {{version}}"
   }
 }

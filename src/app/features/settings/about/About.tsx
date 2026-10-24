@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { LogoHover } from '@/app/components/AppLoading';
-import { GitlabLogoSimpleIcon, DownloadSimpleIcon, HeartStraightIcon } from '@phosphor-icons/react';
+import {
+  GitlabLogoSimpleIcon,
+  DownloadSimpleIcon,
+  HeartStraightIcon,
+  SparkleIcon,
+} from '@phosphor-icons/react';
+import { useSetAtom } from 'jotai';
+import { whatsNewOpenAtom } from '@/app/store/atoms';
+import { latestWhatsNew } from '@/app/features/whatsNew';
 import * as css from '../Settings.css';
 import * as heroCss from './About.css';
 
@@ -13,6 +21,8 @@ export function About() {
   const { t } = useTranslation();
   // APP_VERSION is injected by Vite define (typed in src/vite-env.d.ts)
   const [version, setVersion] = useState(import.meta.env.APP_VERSION ?? 'unknown');
+  const setWhatsNewOpen = useSetAtom(whatsNewOpenAtom);
+  const hasWhatsNew = !!latestWhatsNew('en');
 
   useEffect(() => {
     window.electronAPI?.getAppVersion?.().then((v) => v && setVersion(v));
@@ -57,6 +67,16 @@ export function About() {
               <HeartStraightIcon size={16} />
               {t('settings.about.donate')}
             </a>
+            {hasWhatsNew && (
+              <button
+                type="button"
+                className={heroCss.sourceBtn}
+                onClick={() => setWhatsNewOpen(true)}
+              >
+                <SparkleIcon size={16} />
+                {t('whatsNew.title')}
+              </button>
+            )}
           </div>
         </div>
       </div>

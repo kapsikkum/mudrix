@@ -51,7 +51,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
     [setTheme, setMessageLayout, setLanguage, setPreferences]
   );
 
-  // Pull: server → local, live via account data events
+  // Pull: server -> local, live via account data events
   useMatrixEvent(client, 'accountData', (event: MatrixEvent) => {
     if (event.getType() !== SETTINGS_ACCOUNT_DATA_TYPE) return;
     const settings = parseSettings(event.getContent());

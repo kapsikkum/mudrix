@@ -57,6 +57,7 @@ export const sourceBtn = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textPrimary,
+  cursor: 'pointer',
   textDecoration: 'none',
   fontFamily: vars.font.body,
   fontSize: '0.85rem',
