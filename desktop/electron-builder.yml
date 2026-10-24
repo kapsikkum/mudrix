@@ -18,6 +18,8 @@ extraResources:
     to: icons/source/icon.png
 
 asar: true
+asarUnpack:
+  - node_modules/uiohook-napi/**
 
 afterPack: build-resources/after-pack.cjs
 

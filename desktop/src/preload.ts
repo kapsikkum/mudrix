@@ -25,6 +25,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('fullscreen-changed', (_e, fullscreen: boolean) => cb(fullscreen));
   },
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+  setPushToTalkKey: (code: string | null) => ipcRenderer.invoke('push-to-talk-set-key', code),
+  onPushToTalk: (cb: (pressed: boolean) => void) => {
+    const listener = (_e: Electron.IpcRendererEvent, pressed: boolean) => cb(pressed);
+    ipcRenderer.on('push-to-talk', listener);
+    return () => ipcRenderer.removeListener('push-to-talk', listener);
+  },
+  getPushToTalkPermission: () => ipcRenderer.invoke('push-to-talk-permission'),
+  requestPushToTalkPermission: () => ipcRenderer.invoke('push-to-talk-request-permission'),
   getDesktopSources: (options: { types: string[]; thumbnailSize?: { width: number; height: number } }) =>
     ipcRenderer.invoke('get-desktop-sources', options),
   onOpenDesktopPicker: (cb: () => void) => {

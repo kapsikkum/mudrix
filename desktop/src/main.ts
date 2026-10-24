@@ -16,6 +16,7 @@ import * as http from 'http';
 import { existsSync, statSync } from 'fs';
 import { pathToFileURL } from 'url';
 import { SsoLoopback } from './ssoLoopback';
+import { setupPushToTalk, stopPushToTalk } from './pushToTalk';
 
 let mainWindow: BrowserWindow | null = null;
 let pendingRoomUrl: string | null = null;
@@ -254,6 +255,8 @@ app.on('open-url', (event, url) => {
 });
 
 async function onReady(): Promise<void> {
+  setupPushToTalk(() => mainWindow);
+
   protocol.handle(PROTOCOL, (request) => {
     const webRoot = getWebDistPath();
     const url = new URL(request.url);
@@ -480,4 +483,5 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   loopback.close();
+  stopPushToTalk();
 });
