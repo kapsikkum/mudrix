@@ -1080,7 +1080,9 @@
       "endToEnd": "End-to-end encryption",
       "active": "Active",
       "activeNote": "Your encryption identity is set up.",
-      "notSetUpNote": "Set up encryption to create your identity and recovery key, so your messages stay readable on all your devices."
+      "notSetUpNote": "Set up encryption to create your identity and recovery key, so your messages stay readable on all your devices.",
+      "excludeInsecure": "Exclude insecure sessions",
+      "excludeInsecureNote": "When on, encrypted messages aren't shared with unverified sessions, and messages sent from unverified sessions show as an error. You might not be able to chat with people who haven't verified their sessions."
     }
   },
   "titleBar": {

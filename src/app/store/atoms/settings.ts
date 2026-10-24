@@ -51,6 +51,7 @@ export interface Preferences {
   uiDensity: UiDensity;
   reducedMotionApplied: boolean | null;
   themedAppIcon: boolean;
+  excludeInsecureSessions: boolean;
   pushToTalk: boolean;
 }
 
@@ -85,6 +86,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   uiDensity: 'default',
   reducedMotionApplied: null,
   themedAppIcon: false,
+  excludeInsecureSessions: false,
   pushToTalk: false,
 };
 
@@ -115,6 +117,7 @@ export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');
 export const chatDensityAtom = preferenceFieldAtom('chatDensity');
 export const uiDensityAtom = preferenceFieldAtom('uiDensity');
 export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
+export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
 
 const rawStringStorage = {

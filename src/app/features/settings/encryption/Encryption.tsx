@@ -1,7 +1,9 @@
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { CheckCircleIcon, SpinnerGapIcon } from '@phosphor-icons/react';
-import { sessionVerificationAtom } from '@/app/store/atoms';
+import { excludeInsecureSessionsAtom, sessionVerificationAtom } from '@/app/store/atoms';
+import { ToggleRow } from '@/app/components/Toggle';
+import { applyDeviceIsolation } from '@/client/deviceIsolation';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Button } from '@/app/components/Button';
 import { useSessionVerificationActions } from '@/app/features/device/useSessionVerificationActions';
@@ -12,6 +14,7 @@ export function Encryption() {
   const { t } = useTranslation();
   const { status } = useAtomValue(sessionVerificationAtom);
   const { resetIdentity, recovery } = useSessionVerificationActions(getMatrixClientOrNull());
+  const [excludeInsecure, setExcludeInsecure] = useAtom(excludeInsecureSessionsAtom);
 
   return (
     <div>
@@ -40,6 +43,20 @@ export function Encryption() {
             </span>
           )}
         </div>
+      </div>
+
+      <div className={css.divider} />
+      <div className={css.section}>
+        <ToggleRow
+          label={t('settings.encryption.excludeInsecure')}
+          description={t('settings.encryption.excludeInsecureNote')}
+          checked={excludeInsecure}
+          onChange={(value) => {
+            setExcludeInsecure(value);
+            const client = getMatrixClientOrNull();
+            if (client) applyDeviceIsolation(client, value);
+          }}
+        />
       </div>
 
       {status !== 'no-identity' && status !== 'checking' && (

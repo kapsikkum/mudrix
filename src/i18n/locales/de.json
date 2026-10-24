@@ -1080,7 +1080,9 @@
       "endToEnd": "Ende-zu-Ende-Verschlüsselung",
       "active": "Aktiv",
       "activeNote": "Deine Verschlüsselungsidentität ist eingerichtet.",
-      "notSetUpNote": "Richte die Verschlüsselung ein, um deine Identität und deinen Wiederherstellungsschlüssel zu erstellen, damit deine Nachrichten auf allen Geräten lesbar bleiben."
+      "notSetUpNote": "Richte die Verschlüsselung ein, um deine Identität und deinen Wiederherstellungsschlüssel zu erstellen, damit deine Nachrichten auf allen Geräten lesbar bleiben.",
+      "excludeInsecure": "Unsichere Sitzungen ausschließen",
+      "excludeInsecureNote": "Wenn aktiv, werden verschlüsselte Nachrichten nicht mit unverifizierten Sitzungen geteilt, und Nachrichten von unverifizierten Sitzungen werden als Fehler angezeigt. Mit Personen, die ihre Sitzungen nicht verifiziert haben, kannst du dann eventuell nicht schreiben."
     }
   },
   "titleBar": {

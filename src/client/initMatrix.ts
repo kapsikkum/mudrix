@@ -1,7 +1,7 @@
 import { createClient, IndexedDBStore, MatrixClient, Method } from 'matrix-js-sdk';
 import { OidcTokenRefresher } from 'matrix-js-sdk/lib/oidc';
 import type { AccessTokens } from 'matrix-js-sdk/lib/http-api';
-import { OnlySignedDevicesIsolationMode } from 'matrix-js-sdk/lib/crypto-api';
+import { applyDeviceIsolation, storedExcludeInsecure } from './deviceIsolation';
 import { applyPendingQrSecrets } from './qrLoginSecrets';
 import type { MatrixCredentials, OidcSession } from './types';
 import { applySavedSettingsToLocalStorage } from './settingsSync';
@@ -342,8 +342,7 @@ async function buildResumedClient(credentials: MatrixCredentials): Promise<Matri
   await applySavedSettingsToLocalStorage(store);
 
   await client.initRustCrypto({ cryptoDatabasePrefix: cryptoDbPrefix(credentials.userId) });
-  // MSC4153: only exchange room keys with cross-signed devices
-  client.getCrypto()?.setDeviceIsolationMode(new OnlySignedDevicesIsolationMode());
+  applyDeviceIsolation(client, storedExcludeInsecure());
 
   // Notify first-sync subscribers exactly once, when the filter is loaded.
   const handler = (state: string) => {
