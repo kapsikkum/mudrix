@@ -47,7 +47,7 @@ import { parseCommand, getCommandDefinition } from './commands';
 import type { FormatType } from './FormatToolbar';
 import type { CommandContext } from './commands';
 import { toMarkdown } from './editor/toMarkdown';
-import { buildTextContent } from './editor/buildTextContent';
+import { buildTextContent, type BuiltTextContent } from './editor/buildTextContent';
 import { sendMessageContent } from './sendMessageContent';
 import { editStateFor, findAdjacentEditableMessage } from '../message/editNavigation';
 import { useRichEditor } from './useRichEditor';
@@ -100,10 +100,24 @@ export interface ComposerState {
   ) => void;
 }
 
+interface CaptionExtra {
+  content: Record<string, unknown>;
+  mentionedUserIds: string[];
+}
+
+interface LeadingText {
+  content: Record<string, unknown>;
+  mentionedUserIds: string[];
+  replyTo: MatrixEvent | null;
+  attachmentIds: string[];
+}
+
 interface UploadQueueItem {
   attachmentId: string;
   file: File;
   caption: string;
+  captionExtra?: CaptionExtra;
+  leadingText?: LeadingText;
   spoiler: boolean;
   replyTo: MatrixEvent | null;
 }
@@ -255,17 +269,28 @@ export function useComposer({
   const enqueueUploadsRef = useRef<(items: UploadQueueItem[]) => void>(() => {});
 
   const sendAttachments = useCallback(
-    (replyToEvent: MatrixEvent | null) => {
+    (replyToEvent: MatrixEvent | null, text?: BuiltTextContent) => {
       if (attachments.length === 0) return;
-      enqueueUploadsRef.current(
-        attachments.map((a, i) => ({
-          attachmentId: a.id,
-          file: a.file,
-          caption: a.caption.trim(),
-          spoiler: a.spoiler,
-          replyTo: i === 0 ? replyToEvent : null,
-        }))
-      );
+      const items: UploadQueueItem[] = attachments.map((a, i) => ({
+        attachmentId: a.id,
+        file: a.file,
+        caption: a.caption.trim(),
+        spoiler: a.spoiler,
+        replyTo: i === 0 ? replyToEvent : null,
+      }));
+      if (text && items.length === 1 && !items[0].caption) {
+        items[0].caption = text.body;
+        items[0].captionExtra = { content: text.content, mentionedUserIds: text.mentionedUserIds };
+      } else if (text) {
+        items[0].replyTo = null;
+        items[0].leadingText = {
+          content: text.content,
+          mentionedUserIds: text.mentionedUserIds,
+          replyTo: replyToEvent,
+          attachmentIds: items.map((item) => item.attachmentId),
+        };
+      }
+      enqueueUploadsRef.current(items);
       attachments.forEach(revokeAttachment);
       setAttachments(() => []);
       if (replyToEvent) onClearReply();
@@ -334,6 +359,11 @@ export function useComposer({
           forceFormatted: !!replyTo,
           myId: client.getUserId() ?? '',
         });
+        if (attachments.length > 0) {
+          sendAttachments(replyTo, built);
+          onSent?.();
+          return;
+        }
         await sendMessageContent(built.content, {
           client,
           roomId,
@@ -344,7 +374,6 @@ export function useComposer({
         });
         if (replyTo) onClearReply();
         onSent?.();
-        sendAttachments(null);
       } catch (err) {
         toast.error(t('timeline.sendFailed', { error: getErrorMessage(err) }));
       }
@@ -512,7 +541,8 @@ export function useComposer({
       caption: string,
       spoiler: boolean,
       replyToEvent: MatrixEvent | null,
-      abortController?: AbortController
+      abortController?: AbortController,
+      captionExtra?: CaptionExtra
     ): Promise<void> => {
       const isImage = file.type.startsWith('image/') && file.type !== 'image/svg+xml';
       const isVideo = file.type.startsWith('video/');
@@ -568,15 +598,42 @@ export function useComposer({
         msgContent[MATRIX_SPOILER_STABLE_PROPERTY_NAME] = true;
         msgContent[MATRIX_SPOILER_PROPERTY_NAME] = true;
       }
+      if (captionExtra) {
+        const { format, formatted_body: formattedBody } = captionExtra.content;
+        if (format && formattedBody) {
+          msgContent.format = format;
+          msgContent.formatted_body = formattedBody;
+        }
+        msgContent['m.mentions'] = captionExtra.content['m.mentions'];
+      }
       await sendMessageContent(msgContent, {
         client,
         roomId,
         threadId,
         replyTo: replyToEvent,
         myId: client.getUserId() ?? '',
+        mentionedUserIds: captionExtra?.mentionedUserIds,
       });
     },
     [client, roomId, threadId]
+  );
+
+  const sendLeadingText = useCallback(
+    async (leading: LeadingText) => {
+      try {
+        await sendMessageContent(leading.content, {
+          client,
+          roomId,
+          threadId,
+          replyTo: leading.replyTo,
+          myId: client.getUserId() ?? '',
+          mentionedUserIds: leading.mentionedUserIds,
+        });
+      } catch (err) {
+        toast.error(t('timeline.sendFailed', { error: getErrorMessage(err) }));
+      }
+    },
+    [client, roomId, threadId, toast, t]
   );
 
   const processUploadQueue = useCallback(async () => {
@@ -600,6 +657,18 @@ export function useComposer({
           current: index + 1,
           total,
         });
+        if (item.leadingText) {
+          const leading = item.leadingText;
+          item.leadingText = undefined;
+          // Wait for the whole batch, so the text and its files arrive back-to-back
+          const batch = uploadQueueRef.current.filter((q) =>
+            leading.attachmentIds.includes(q.attachmentId)
+          );
+          await Promise.allSettled(
+            batch.map((q) => startAttachmentUpload(q.attachmentId, client, roomId, q.file))
+          );
+          await sendLeadingText(leading);
+        }
         try {
           await uploadOne(
             item.attachmentId,
@@ -607,7 +676,8 @@ export function useComposer({
             item.caption,
             item.spoiler,
             item.replyTo,
-            controller
+            controller,
+            item.captionExtra
           );
           onSent?.();
         } catch (err) {
@@ -629,13 +699,20 @@ export function useComposer({
       setUploadFileInfo(null);
       uploadAbortRef.current = null;
     }
-  }, [uploadOne, onSent, toast, t]);
+  }, [uploadOne, sendLeadingText, client, roomId, onSent, toast, t]);
 
   const cancelUpload = useCallback(() => {
+    // Cancelling drops the files, but text sent along with them still goes out
+    const texts = uploadQueueRef.current.flatMap((item) => {
+      const leading = item.leadingText;
+      item.leadingText = undefined;
+      return leading ? [leading] : [];
+    });
     uploadAbortRef.current?.abort();
     uploadQueueRef.current.forEach((item) => cancelAttachmentUpload(item.attachmentId));
     uploadQueueRef.current = [];
-  }, []);
+    texts.forEach((leading) => void sendLeadingText(leading));
+  }, [sendLeadingText]);
 
   const enqueueUploads = useCallback(
     (items: UploadQueueItem[]) => {

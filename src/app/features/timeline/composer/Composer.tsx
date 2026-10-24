@@ -1,4 +1,4 @@
-import { useState, useCallback, useLayoutEffect, useId } from 'react';
+import { useState, useCallback, useEffect, useLayoutEffect, useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import {
@@ -42,10 +42,14 @@ import { RichComposer } from './editor/RichComposer';
 import { insertEmoji } from './editor/insertEmoji';
 import { isMod } from './editor/keyboard';
 import { ReactEditor } from 'slate-react';
+import { Editor, Transforms } from 'slate';
 import { anchorFromElement, isMenuOpenKey, useContextMenu } from '@/app/hooks/useContextMenu';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { IdentityWarning } from './IdentityWarning';
+import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
+import { isInElementCallAtom } from '@/app/store/atoms/elementCall';
+import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Composer.css';
 
 interface Props {
@@ -166,6 +170,46 @@ export function Composer({
   });
 
   const [popoverStyle, setPopoverStyle] = useState<React.CSSProperties>({});
+
+  const inCall = useAtomValue(isInElementCallAtom);
+  const keybinds = useAtomValue(keybindsAtom);
+  const pushToTalk = useAtomValue(pushToTalkEnabledAtom);
+
+  useEffect(() => {
+    if (threadId) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key.length !== 1) return;
+      const active = document.activeElement;
+      if (active?.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (e.key === ' ' && active?.closest('button, a, [role="button"]')) return;
+      if (
+        document.querySelector(
+          '[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"]'
+        )
+      ) {
+        return;
+      }
+      if (inCall) {
+        const bound = [
+          keybinds.toggleMute,
+          keybinds.toggleDeafen,
+          keybinds.toggleVideo,
+          keybinds.disconnect,
+          pushToTalk ? keybinds.pushToTalk : '',
+        ];
+        if (bound.some((combo) => matchesComboDown(e, parseCombo(combo)))) return;
+      }
+      const wrap = composerWrapRef.current;
+      if (!wrap || !wrap.isConnected || wrap.getClientRects().length === 0) return;
+      e.preventDefault();
+      ReactEditor.focus(editor);
+      Transforms.select(editor, Editor.end(editor, []));
+      editor.insertText(e.key);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [threadId, editor, composerWrapRef, inCall, keybinds, pushToTalk]);
 
   useLayoutEffect(() => {
     const wrap = composerWrapRef.current;
