@@ -42,12 +42,16 @@ export function useBannerGradient(
   );
 
   useEffect(() => {
-    if (!avatarSrc) return;
+    if (!avatarSrc) {
+      setColor(null);
+      return;
+    }
     const cached = sampledColors.get(avatarSrc);
     if (cached) {
       setColor(cached);
       return;
     }
+    setColor(null);
 
     let cancelled = false;
     const img = new Image();

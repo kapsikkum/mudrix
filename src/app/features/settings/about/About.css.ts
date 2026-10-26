@@ -93,3 +93,28 @@ export const donateBtn = style([
     },
   },
 ]);
+
+export const footerLinks = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '6px 20px',
+  marginTop: '28px',
+  paddingTop: '16px',
+  borderTop: `1px solid ${vars.color.border}`,
+});
+
+export const footerLink = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  color: vars.color.textMuted,
+  font: 'inherit',
+  fontSize: '0.82rem',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  transition: `color ${fast}`,
+  ':hover': { color: vars.color.textPrimary },
+});

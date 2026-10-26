@@ -8,7 +8,8 @@ import {
   LinkIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
-import { MODIFIER_KEY } from '@/app/util/platform';
+import { LabelWithKeys } from '@/app/components/KeyCaps';
+import { MODIFIER_KEY, SHIFT_KEY } from '@/app/util/platform';
 import * as css from '../Composer.css';
 
 export type FormatType = 'bold' | 'italic' | 'strike' | 'code' | 'quote' | 'link';
@@ -21,23 +22,31 @@ interface FormatToolbarProps {
 export function FormatToolbar({ activeFormats, onFormat }: FormatToolbarProps) {
   const { t } = useTranslation();
 
-  const buttons: { fmt: FormatType; icon: React.ReactNode; label: string }[] = [
+  const buttons: { fmt: FormatType; icon: React.ReactNode; label: string; keys?: string[] }[] = [
     {
       fmt: 'bold',
       icon: <TextBIcon size={14} />,
-      label: t('composer.formatting.bold', { mod: MODIFIER_KEY }),
+      label: t('composer.formatting.bold'),
+      keys: [MODIFIER_KEY, 'B'],
     },
     {
       fmt: 'italic',
       icon: <TextItalicIcon size={14} />,
-      label: t('composer.formatting.italic', { mod: MODIFIER_KEY }),
+      label: t('composer.formatting.italic'),
+      keys: [MODIFIER_KEY, 'I'],
     },
     {
       fmt: 'strike',
       icon: <TextStrikethroughIcon size={14} />,
       label: t('composer.formatting.strikethrough'),
+      keys: [MODIFIER_KEY, SHIFT_KEY, 'S'],
     },
-    { fmt: 'code', icon: <CodeIcon size={14} />, label: t('composer.formatting.code') },
+    {
+      fmt: 'code',
+      icon: <CodeIcon size={14} />,
+      label: t('composer.formatting.code'),
+      keys: [MODIFIER_KEY, 'E'],
+    },
     { fmt: 'quote', icon: <QuotesIcon size={14} />, label: t('composer.formatting.quote') },
     { fmt: 'link', icon: <LinkIcon size={14} />, label: t('composer.formatting.link') },
   ];
@@ -50,8 +59,8 @@ export function FormatToolbar({ activeFormats, onFormat }: FormatToolbarProps) {
       role="toolbar"
       aria-label={t('composer.formatting.toolbar')}
     >
-      {buttons.map(({ fmt, icon, label }) => (
-        <Tooltip placement="top" content={label} key={fmt}>
+      {buttons.map(({ fmt, icon, label, keys }) => (
+        <Tooltip placement="top" content={<LabelWithKeys label={label} keys={keys} />} key={fmt}>
           <button
             type="button"
             className={activeFormats.includes(fmt) ? css.fmtBtnActive : css.fmtBtn}

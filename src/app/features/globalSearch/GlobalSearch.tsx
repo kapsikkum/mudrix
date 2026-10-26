@@ -34,6 +34,7 @@ import {
   type RoomEntry,
 } from '@/app/features/roomSwitcher/roomEntries';
 import { useSwitchContext } from '@/app/pages/client/hooks/useContextNavigation';
+import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './GlobalSearch.css';
 
 const ROOM_LIMIT = 6;
@@ -428,7 +429,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
               autoComplete="off"
               spellCheck={false}
             />
-            <kbd className={css.kbd}>Esc</kbd>
+            <KeyCaps keys={['Esc']} size="sm" />
           </div>
         </div>
         <div className={css.body} ref={bodyRef} id="global-search-results" role="listbox">
@@ -445,24 +446,23 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
         </div>
         <div className={css.footer}>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>↑</kbd>
-            <kbd className={css.kbd}>↓</kbd>
+            <KeyCaps keys={['↑', '↓']} size="sm" />
             {t('roomSwitcher.hintNavigate')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>↵</kbd>
+            <KeyCaps keys={['↵']} size="sm" />
             {t('roomSwitcher.hintOpen')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>#</kbd>
+            <KeyCaps keys={['#']} size="sm" />
             {t('roomSwitcher.prefixRooms')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>@</kbd>
+            <KeyCaps keys={['@']} size="sm" />
             {t('roomSwitcher.prefixDms')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>*</kbd>
+            <KeyCaps keys={['*']} size="sm" />
             {t('roomSwitcher.prefixSpaces')}
           </span>
         </div>

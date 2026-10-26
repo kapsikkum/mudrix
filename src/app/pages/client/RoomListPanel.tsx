@@ -31,12 +31,9 @@ import type {
   HierarchyRoomItem,
   HierarchySpaceItem,
 } from '@/app/features/room/useSpaceHierarchy';
-import { ElementCallBar } from '@/app/features/calls/ElementCallBar';
-import { elementCallActionsAtom, elementCallUiAtom } from '@/app/store/atoms/elementCall';
-import {
-  useElementCallMemberships,
-  uniqueMembers,
-} from '@/app/features/calls/useElementCallMemberships';
+import { CallBar } from '@/app/features/calls/CallBar';
+import { callActionsAtom, callUiAtom } from '@/app/store/atoms/call';
+import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import { computeParticipantsBlockHeight } from '@/app/features/voice/participantSize';
 import { useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
 import { Avatar } from '@/app/components/Avatar';
@@ -81,11 +78,11 @@ type HomeListItem =
       hasMention: boolean;
       showAdd: boolean;
     }
-  | { kind: 'room'; entry: RoomEntry };
+  | { kind: 'room'; entry: RoomEntry; compact?: boolean };
 
 type SpaceListItem =
   | { kind: 'header'; item: HierarchySpaceItem }
-  | { kind: 'room'; item: HierarchyRoomItem };
+  | { kind: 'room'; item: HierarchyRoomItem; compact?: boolean };
 
 interface RoomListPanelProps {
   onVoiceJoin: (roomId: string) => void;
@@ -223,8 +220,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const [sidebarView] = useAtom(sidebarViewAtom);
   const [, setCreateRoomOpen] = useAtom(createRoomOpenAtom);
   const [, setNewDmOpen] = useAtom(newDmOpenAtom);
-  const elementUi = useAtomValue(elementCallUiAtom);
-  const elementCallActions = useAtomValue(elementCallActionsAtom);
+  const callUi = useAtomValue(callUiAtom);
+  const callActions = useAtomValue(callActionsAtom);
   const [closedNavCategoriesArr, setClosedNavCategoriesArr] = useAtom(closedNavCategoriesAtom);
   const favouriteRooms = useAtomValue(favouriteRoomsAtom);
   const navigate = useNavigate();
@@ -364,6 +361,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const [tagsRevision, setTagsRevision] = useState(0);
   useMatrixEvent(client, 'Room.tags', () => setTagsRevision((n) => n + 1));
 
+  const callRoomId = callUi.roomId;
+  const keepWhenClosed = useCallback(
+    (roomId: string) => roomId === currentRoomId || roomId === callRoomId,
+    [currentRoomId, callRoomId]
+  );
+
   const spaceItemsBase = useMemo((): SpaceListItem[] => {
     void tagsRevision;
     if (!isSpaceView || !currentSpaceId || !client) return [];
@@ -400,8 +403,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         (r) => client.getRoom(r.roomId),
         (r) => r.entry.name
       )) {
-        if (favClosed && currentRoomId !== room.roomId) continue;
-        items.push({ kind: 'room', item: room });
+        if (favClosed && !keepWhenClosed(room.roomId)) continue;
+        items.push({ kind: 'room', item: room, compact: favClosed });
       }
     }
 
@@ -425,7 +428,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
     const filterRoom = (h: HierarchyItem): boolean => {
       if (h.kind !== 'room') return true;
-      return h.roomId === currentRoomId;
+      return keepWhenClosed(h.roomId);
     };
 
     const collect = (list: HierarchyItem[]): SpaceListItem[] => {
@@ -450,14 +453,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             out.push(...collect(chunk));
           } else {
             for (const sub of collect(chunk)) {
-              if (
-                sub.kind === 'room' &&
-                sub.item.depth === head.depth + 1 &&
-                !filterRoom(sub.item)
-              ) {
-                continue;
-              }
-              out.push(sub);
+              const direct = sub.kind === 'room' && sub.item.depth === head.depth + 1;
+              if (direct && !filterRoom(sub.item)) continue;
+              out.push(direct ? { ...sub, compact: true } : sub);
             }
           }
         }
@@ -473,7 +471,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     favouriteRooms,
     hierarchyItems,
     closedCategories,
-    currentRoomId,
+    keepWhenClosed,
     spaceFavKey,
     t,
     tagsRevision,
@@ -503,7 +501,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     return homeRooms.map((r) => r.roomId);
   }, [isDmView, isSpaceView, spaceItemsBase, dms, homeRooms]);
 
-  const membershipsMap = useElementCallMemberships(client, membershipRoomIds);
+  const membershipsMap = useCallMemberships(client, membershipRoomIds);
 
   const participantCounts = useMemo(() => {
     const map = new Map<string, number>();
@@ -533,10 +531,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   }, [membershipsMap]);
 
   const getRoomEntryHeight = useCallback(
-    (entry: RoomEntry) => {
+    (entry: RoomEntry, compact?: boolean) => {
       if (!entry.hasVoiceRoom) return roomItemHeight;
       const count = participantCounts.get(entry.roomId) ?? 0;
-      return roomItemHeight + computeParticipantsBlockHeight(count);
+      return roomItemHeight + computeParticipantsBlockHeight(count, compact);
     },
     [participantCounts, roomItemHeight]
   );
@@ -569,8 +567,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       });
       const closed = closedCategories.has(itemKey);
       for (const entry of entries) {
-        if (closed && currentRoomId !== entry.roomId) continue;
-        items.push({ kind: 'room', entry });
+        if (closed && !keepWhenClosed(entry.roomId)) continue;
+        items.push({ kind: 'room', entry, compact: closed });
       }
     };
 
@@ -593,7 +591,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     favouriteRooms,
     homeRooms,
     closedCategories,
-    currentRoomId,
+    keepWhenClosed,
     t,
     tagsRevision,
   ]);
@@ -733,7 +731,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         entry={entry}
         isActive={currentRoomId === roomId}
         hasActiveCall={activeCallRoomIds.has(roomId) && !entry.hasVoiceRoom}
-        isInCall={elementUi.roomId === roomId}
+        isInCall={callUi.roomId === roomId}
         voiceMembers={voiceMembersByRoom.get(roomId)}
         onSelect={noop}
         onOpenChat={noop}
@@ -770,7 +768,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     estimateSize: (index) => {
       const item = spaceItems[index];
       if (item.kind === 'header') return categoryHeaderHeight;
-      return getRoomEntryHeight(item.item.entry);
+      return getRoomEntryHeight(item.item.entry, item.compact);
     },
     getItemKey: (index) => {
       const item = spaceItems[index];
@@ -787,7 +785,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     getScrollElement: () => roomListRef.current,
     estimateSize: (index) => {
       const item = homeItems[index];
-      return item.kind === 'header' ? categoryHeaderHeight : getRoomEntryHeight(item.entry);
+      return item.kind === 'header'
+        ? categoryHeaderHeight
+        : getRoomEntryHeight(item.entry, item.compact);
     },
     getItemKey: (index) => {
       const item = homeItems[index];
@@ -837,9 +837,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       };
       const isVoice = !isDm && !!room && isVoiceRoom(room);
       if (isVoice) {
-        if (elementUi.roomId === roomId) {
+        if (callUi.roomId === roomId) {
           navigateToRoom();
-          elementCallActions?.setPresentation('room');
+          callActions?.setPresentation('room');
           return;
         }
         onVoiceJoin(roomId);
@@ -853,8 +853,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       sidebarView,
       currentSpaceId,
       client,
-      elementUi.roomId,
-      elementCallActions,
+      callUi.roomId,
+      callActions,
       onVoiceJoin,
       setDrawerOpen,
     ]
@@ -935,7 +935,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       navigate(`/r/${encodeURIComponent(roomId)}`, {
         state: { sidebarView, currentSpaceId },
       });
-      if (client && elementUi.roomId !== roomId) {
+      if (client && callUi.roomId !== roomId) {
         const room = client.getRoom(roomId);
         if (room && room.getMyMembership() === 'join' && isVoiceRoom(room)) onVoiceJoin(roomId);
       }
@@ -946,7 +946,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       sidebarView,
       currentSpaceId,
       client,
-      elementUi.roomId,
+      callUi.roomId,
       onVoiceJoin,
       setDrawerOpen,
     ]
@@ -1013,8 +1013,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         hasActiveCall={
                           activeCallRoomIds.has(item.item.roomId) && !item.item.entry.hasVoiceRoom
                         }
-                        isInCall={elementUi.roomId === item.item.roomId}
+                        isInCall={callUi.roomId === item.item.roomId}
                         voiceMembers={voiceMembersByRoom.get(item.item.roomId)}
+                        compactVoice={item.compact}
                         onSelect={selectRoom}
                         onOpenChat={openVoiceChat}
                         onOpenChatOnly={openChatOnly}
@@ -1091,8 +1092,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         hasActiveCall={
                           activeCallRoomIds.has(item.entry.roomId) && !item.entry.hasVoiceRoom
                         }
-                        isInCall={elementUi.roomId === item.entry.roomId}
+                        isInCall={callUi.roomId === item.entry.roomId}
                         voiceMembers={voiceMembersByRoom.get(item.entry.roomId)}
+                        compactVoice={item.compact}
                         onSelect={selectRoom}
                         onOpenChat={openVoiceChat}
                         onOpenChatOnly={openChatOnly}
@@ -1137,7 +1139,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                   entry={entry}
                   isActive={currentRoomId === entry.roomId}
                   hasActiveCall={activeCallRoomIds.has(entry.roomId)}
-                  isInCall={elementUi.roomId === entry.roomId}
+                  isInCall={callUi.roomId === entry.roomId}
                   onSelect={selectRoom}
                 />
               </div>
@@ -1194,7 +1196,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       {isDmView ? renderDmList() : isSpaceView ? renderSpaceList() : renderHomeList()}
 
       <div ref={bottomDockRef} className={css.bottomDock}>
-        <ElementCallBar />
+        <CallBar />
         <UserPanel />
       </div>
     </div>

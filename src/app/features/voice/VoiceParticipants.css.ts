@@ -90,3 +90,36 @@ export const livePill = style({
   letterSpacing: '0.03em',
   userSelect: 'none',
 });
+
+export const compactWrap = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  height: '30px',
+  padding: '0 8px 4px 40px',
+  boxSizing: 'border-box',
+});
+
+const compactAvatarBase = style({
+  display: 'inline-flex',
+  flexShrink: 0,
+  padding: 0,
+  border: 'none',
+  borderRadius: '50%',
+  background: 'none',
+  cursor: 'pointer',
+});
+
+export const compactAvatar = compactAvatarBase;
+
+export const compactAvatarSpeaking = style([
+  compactAvatarBase,
+  { outline: `2px solid ${vars.color.success}` },
+]);
+
+export const compactMore = style({
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  color: vars.color.textMuted,
+  whiteSpace: 'nowrap',
+});

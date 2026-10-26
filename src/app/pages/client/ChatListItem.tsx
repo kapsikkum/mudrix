@@ -31,6 +31,7 @@ interface ChatListItemProps {
   showTypeBadge?: boolean;
   hideAvatar?: boolean;
   voiceMembers?: CallMembership[];
+  compactVoice?: boolean;
   onClick: () => void;
   onDoubleClick?: () => void;
   onContextMenu?: (e: React.MouseEvent) => void;
@@ -52,6 +53,7 @@ export function ChatListItem({
   showTypeBadge,
   hideAvatar,
   voiceMembers,
+  compactVoice,
   onClick,
   onDoubleClick,
   onContextMenu,
@@ -205,7 +207,7 @@ export function ChatListItem({
       </div>
       {/* Voice participants list: only mounted for rooms that actually have a voice room */}
       {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
-        <RoomVoiceParticipants members={voiceMembers} roomId={roomId} />
+        <RoomVoiceParticipants members={voiceMembers} roomId={roomId} compact={compactVoice} />
       )}
     </div>
   );

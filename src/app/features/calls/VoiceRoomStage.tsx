@@ -5,12 +5,12 @@ import { RoomEvent } from 'matrix-js-sdk';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { ChatTextIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { openRoomChatAtom } from '@/app/store/atoms';
-import { elementCallUiAtom } from '@/app/store/atoms/elementCall';
+import { callUiAtom } from '@/app/store/atoms/call';
 import { themeAtom } from '@/app/store/atoms/settings';
 import { RoomHeader } from '@/app/features/timeline/RoomHeader';
 import { useJoinVoiceRoom } from './useJoinVoiceRoom';
 import { useRoomReadReceipts } from '@/app/hooks/useRoomReadReceipts';
-import { buildCallBackground } from '@/app/plugins/call/callBackground';
+import { buildCallBackground } from '@/app/features/calls/callBackground';
 import * as css from './VoiceRoomStage.css';
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 export function VoiceRoomStage({ client, roomId }: Props) {
   const { t } = useTranslation();
   const theme = useAtomValue(themeAtom);
-  const callUi = useAtomValue(elementCallUiAtom);
+  const callUi = useAtomValue(callUiAtom);
   const openRoomChat = useSetAtom(openRoomChatAtom);
   const joinVoiceRoom = useJoinVoiceRoom(client);
 

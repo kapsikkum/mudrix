@@ -1,7 +1,5 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { keybindsAtom } from '@/app/store/atoms';
-import { elementCallEmbedAtom } from '@/app/store/atoms/elementCall';
-import { keyTargets } from '@/app/plugins/call/usePushToTalk';
 import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import { useEffect, useCallback, useRef } from 'react';
 
@@ -10,12 +8,9 @@ export function useVoiceKeybinds(
   handlers: {
     toggleMute: () => void;
     toggleDeafen: () => void;
-    toggleVideo: () => void;
-    disconnect: () => void;
   }
 ) {
   const [keybinds] = useAtom(keybindsAtom);
-  const embed = useAtomValue(elementCallEmbedAtom);
   const handlersRef = useRef(handlers);
   handlersRef.current = handlers;
 
@@ -25,7 +20,7 @@ export function useVoiceKeybinds(
       // Skip if capturing keybind
       if ((e.target as Element)?.classList?.contains('keybind-input')) return;
       if (e.repeat) return;
-      const actions = ['toggleMute', 'toggleDeafen', 'toggleVideo', 'disconnect'] as const;
+      const actions = ['toggleMute', 'toggleDeafen'] as const;
       const action = actions.find((a) => matchesComboDown(e, parseCombo(keybinds[a])));
       if (!action) return;
       e.preventDefault();
@@ -35,10 +30,7 @@ export function useVoiceKeybinds(
   );
 
   useEffect(() => {
-    const targets = keyTargets(embed);
-    for (const target of targets) target.addEventListener('keydown', handleKeyDown);
-    return () => {
-      for (const target of targets) target.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown, embed]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 }

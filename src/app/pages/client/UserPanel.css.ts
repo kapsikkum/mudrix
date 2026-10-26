@@ -79,3 +79,16 @@ export const deafenStrikeCore = style({
   borderRadius: '1px',
   background: 'currentColor',
 });
+
+export const avatarRing = style({
+  display: 'inline-flex',
+  flexShrink: 0,
+  borderRadius: '50%',
+  boxShadow: '0 0 0 2px transparent',
+  transition: `box-shadow ${fast}`,
+});
+
+export const avatarRingSpeaking = style([
+  avatarRing,
+  { boxShadow: `0 0 0 2px ${vars.color.success}` },
+]);

@@ -15,7 +15,7 @@ WizardChat is a web-based Matrix client. End-to-end encrypted, open source, and 
 
 - E2EE
 - Direct messages and Spaces
-- Voice and video calls (1:1 and group, via MatrixRTC / Element Call)
+- Voice and video calls (1:1 and group, via MatrixRTC + LiveKit)
 - File, image, and video sharing
 - Pin messages
 - Message search

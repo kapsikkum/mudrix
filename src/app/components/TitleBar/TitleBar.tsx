@@ -5,6 +5,7 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { currentRoomIdAtom, roomSearchAtom, globalSearchOpenAtom } from '@/app/store/atoms';
 import { RoomSearchField } from '@/app/features/roomSearch';
 import { MODIFIER_KEY } from '@/app/util/platform';
+import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './TitleBar.css';
 
 interface TitleBarProps {
@@ -13,7 +14,6 @@ interface TitleBarProps {
   fixed?: boolean;
 }
 
-/** App-wide top bar; also the window drag area and control spacing on desktop. */
 export function TitleBar({ center, end, fixed }: TitleBarProps) {
   return (
     <header className={fixed ? css.titleBarFixed : css.titleBar}>
@@ -37,7 +37,7 @@ export function TitleBarSearch() {
     <button type="button" className={css.search} onClick={() => openGlobalSearch(true)}>
       <MagnifyingGlassIcon size={14} />
       <span className={css.searchLabel}>{t('titleBar.search')}</span>
-      <kbd className={css.searchKbd}>{MODIFIER_KEY} K</kbd>
+      <KeyCaps keys={[MODIFIER_KEY, 'K']} size="sm" />
     </button>
   );
 }

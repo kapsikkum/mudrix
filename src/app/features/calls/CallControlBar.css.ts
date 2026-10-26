@@ -59,48 +59,16 @@ const button = style({
   },
 });
 
-export const ctrl = button;
+export const ctrl = style([
+  button,
+  { selectors: { '&:hover': { color: vars.color.textPrimary } } },
+]);
 
 export const ctrlActive = style([button, { color: vars.color.success }]);
 
 export const ctrlAccent = style([button, { color: vars.color.accent }]);
 
 export const ctrlDanger = style([button, { color: vars.color.danger }]);
-
-export const deafenIcon = style({
-  position: 'relative',
-  display: 'inline-flex',
-});
-
-export const deafenIconSlash = style({
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-  width: '26px',
-  height: '2px',
-  transform: 'translate(-50%, -50%) rotate(45deg)',
-  pointerEvents: 'none',
-});
-
-export const deafenIconOutline = style({
-  position: 'absolute',
-  top: 0,
-  left: '1px',
-  right: '1px',
-  height: '1px',
-  borderRadius: '1px',
-  background: vars.color.bgSecondary,
-});
-
-export const deafenIconCore = style({
-  position: 'absolute',
-  bottom: 0,
-  left: '1px',
-  right: '1px',
-  height: '1px',
-  borderRadius: '1px',
-  background: 'currentColor',
-});
 
 export const menuAnchor = style({
   display: 'inline-flex',

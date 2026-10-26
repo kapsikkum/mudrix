@@ -29,7 +29,7 @@ import { Editor, Transforms, type Descendant } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useAutocomplete } from '../useAutocomplete';
 import type { Suggestion } from '../useAutocomplete';
-import { elementCallUiAtom } from '@/app/store/atoms/elementCall';
+import { callUiAtom } from '@/app/store/atoms/call';
 import { buildMediaMessageContent, type UploadResult } from '../encryptedMedia';
 import {
   cancelAttachmentUpload,
@@ -145,7 +145,7 @@ export function useComposer({
   const confirmDialog = useConfirm();
   const toast = useToast();
   const commandActions = useAtomValue(commandActionsAtom);
-  const elementUi = useAtomValue(elementCallUiAtom);
+  const callUi = useAtomValue(callUiAtom);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const composerWrapRef = useRef<HTMLDivElement>(null);
@@ -342,7 +342,7 @@ export function useComposer({
               placeCall: commandActions?.placeCall,
               joinVoice: commandActions?.joinVoice,
               hangup: commandActions?.hangup,
-              elementCallActive: elementUi.phase === 'joined',
+              callActive: callUi.phase === 'joined',
             };
             try {
               await cmd.fn(parsed.args, ctx);
@@ -399,7 +399,7 @@ export function useComposer({
     toast,
     confirmDialog,
     commandActions,
-    elementUi,
+    callUi,
     navigate,
   ]);
 

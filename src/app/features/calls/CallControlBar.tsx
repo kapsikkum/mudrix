@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useRef, useState } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { Toggle } from '@/app/components/Toggle';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowSquareInIcon,
@@ -8,8 +9,6 @@ import {
   ArrowsOutIcon,
   ChatTextIcon,
   DotsThreeVerticalIcon,
-  GearIcon,
-  HeadphonesIcon,
   MicrophoneIcon,
   MicrophoneSlashIcon,
   MonitorArrowUpIcon,
@@ -23,27 +22,34 @@ import {
 import { Tooltip } from '@/app/components/Tooltip';
 import { Popover } from '@/app/components/Popover';
 import {
-  elementCallActionsAtom,
-  elementCallEffectiveViewAtom,
-  elementCallEmbedAtom,
-  elementCallUiAtom,
-} from '@/app/store/atoms/elementCall';
+  callActionsAtom,
+  callEffectiveViewAtom,
+  callIsVoiceRoomAtom,
+  callUiAtom,
+  callSessionAtom,
+  showNonVideoParticipantsAtom,
+} from '@/app/store/atoms/call';
 import {
   openRoomChatAtom,
   closeRoomChatAtom,
   roomChatPanelOpenAtom,
   roomChatRoomIdAtom,
 } from '@/app/store/atoms';
-import { isVoiceRoom } from '@/util/matrix';
 import { useReturnToCall } from './useReturnToCall';
+import { DeviceControl } from './DeviceMenu';
+import { PushToTalkDot } from './PushToTalkDot';
+import { useCallSnapshot } from './stage/useCallSnapshot';
 import * as css from './CallControlBar.css';
 
 export function CallControlBar() {
   const { t } = useTranslation();
-  const ui = useAtomValue(elementCallUiAtom);
-  const actions = useAtomValue(elementCallActionsAtom);
-  const embed = useAtomValue(elementCallEmbedAtom);
-  const view = useAtomValue(elementCallEffectiveViewAtom);
+  const ui = useAtomValue(callUiAtom);
+  const actions = useAtomValue(callActionsAtom);
+  const view = useAtomValue(callEffectiveViewAtom);
+  const isVoiceCall = useAtomValue(callIsVoiceRoomAtom);
+  const callSession = useAtomValue(callSessionAtom);
+  const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
+  const hasVideo = !!useCallSnapshot()?.participants.some((p) => p.cameraTrack || p.screenShared);
   const roomChatOpen = useAtomValue(roomChatPanelOpenAtom);
   const roomChatRoomId = useAtomValue(roomChatRoomIdAtom);
   const openRoomChat = useSetAtom(openRoomChatAtom);
@@ -52,19 +58,9 @@ export function CallControlBar() {
   const menuBtnRef = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-    const doc = embed?.document;
-    if (!doc) return;
-    const close = () => setMenuOpen(false);
-    doc.addEventListener('mousedown', close);
-    return () => doc.removeEventListener('mousedown', close);
-  }, [menuOpen, embed]);
-
   if (!actions) return null;
 
   const micTitle = ui.isMuted ? t('voice.unmute') : t('voice.mute');
-  const deafenTitle = ui.isDeafened ? t('voice.undeafen') : t('voice.deafen');
   const cameraTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
   const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
   const viewTitle = ui.isSpotlight ? t('voice.switchToGrid') : t('voice.switchToSpotlight');
@@ -73,7 +69,6 @@ export function CallControlBar() {
   const chatRoomId = ui.roomId;
   const chatOpen = roomChatOpen && roomChatRoomId === chatRoomId;
   const chatTitle = chatOpen ? t('common.close') : t('room.openChat');
-  const isVoiceCall = !!embed && isVoiceRoom(embed.room);
   const toggleChat = () => {
     if (!chatRoomId) return;
     if (chatOpen) closeRoomChat();
@@ -83,53 +78,43 @@ export function CallControlBar() {
   return (
     <div className={css.bar} role="group" aria-label={t('voice.controls')}>
       <div className={css.group}>
-        <Tooltip content={micTitle}>
-          <button
-            type="button"
-            className={ui.isMuted ? css.ctrlDanger : css.ctrl}
-            onClick={() => actions.toggleMute()}
-            aria-label={micTitle}
-            aria-pressed={ui.isMuted}
-          >
-            {ui.isMuted ? <MicrophoneSlashIcon size={20} /> : <MicrophoneIcon size={20} />}
-          </button>
-        </Tooltip>
+        <DeviceControl
+          kinds={['audioinput', 'audiooutput']}
+          label={t('call.audioSettings')}
+          variant="bar"
+        >
+          <Tooltip content={micTitle}>
+            <button
+              type="button"
+              className={ui.isMuted ? css.ctrlDanger : css.ctrl}
+              onClick={() => actions.toggleMute()}
+              aria-label={micTitle}
+              aria-pressed={ui.isMuted}
+            >
+              <PushToTalkDot>
+                {ui.isMuted ? <MicrophoneSlashIcon size={20} /> : <MicrophoneIcon size={20} />}
+              </PushToTalkDot>
+            </button>
+          </Tooltip>
+        </DeviceControl>
 
-        <Tooltip content={deafenTitle}>
-          <button
-            type="button"
-            className={ui.isDeafened ? css.ctrlDanger : css.ctrl}
-            onClick={() => actions.toggleDeafen()}
-            aria-label={deafenTitle}
-            aria-pressed={ui.isDeafened}
-          >
-            <span className={css.deafenIcon}>
-              <HeadphonesIcon size={20} />
-              {ui.isDeafened && (
-                <span className={css.deafenIconSlash}>
-                  <span className={css.deafenIconOutline} />
-                  <span className={css.deafenIconCore} />
-                </span>
+        <DeviceControl kinds={['videoinput']} label={t('call.cameraSettings')} variant="bar">
+          <Tooltip content={cameraTitle}>
+            <button
+              type="button"
+              className={ui.isVideoMuted ? css.ctrl : css.ctrlActive}
+              onClick={() => actions.toggleVideo()}
+              aria-label={cameraTitle}
+              aria-pressed={ui.isVideoMuted}
+            >
+              {ui.isVideoMuted ? (
+                <VideoCameraSlashIcon size={20} />
+              ) : (
+                <VideoCameraIcon size={20} weight="fill" />
               )}
-            </span>
-          </button>
-        </Tooltip>
-
-        <Tooltip content={cameraTitle}>
-          <button
-            type="button"
-            className={ui.isVideoMuted ? css.ctrl : css.ctrlActive}
-            onClick={() => actions.toggleVideo()}
-            aria-label={cameraTitle}
-            aria-pressed={ui.isVideoMuted}
-          >
-            {ui.isVideoMuted ? (
-              <VideoCameraSlashIcon size={20} />
-            ) : (
-              <VideoCameraIcon size={20} weight="fill" />
-            )}
-          </button>
-        </Tooltip>
+            </button>
+          </Tooltip>
+        </DeviceControl>
 
         <Tooltip content={shareTitle}>
           <button
@@ -147,17 +132,19 @@ export function CallControlBar() {
       <span className={css.divider} />
 
       <div className={css.group}>
-        <Tooltip content={viewTitle}>
-          <button
-            type="button"
-            className={css.ctrl}
-            onClick={() => actions.setSpotlight(!ui.isSpotlight)}
-            aria-label={viewTitle}
-            aria-pressed={ui.isSpotlight}
-          >
-            {ui.isSpotlight ? <PresentationIcon size={20} /> : <SquaresFourIcon size={20} />}
-          </button>
-        </Tooltip>
+        {view !== 'docked' && (
+          <Tooltip content={viewTitle}>
+            <button
+              type="button"
+              className={css.ctrl}
+              onClick={() => actions.setSpotlight(!ui.isSpotlight)}
+              aria-label={viewTitle}
+              aria-pressed={ui.isSpotlight}
+            >
+              {ui.isSpotlight ? <PresentationIcon size={20} /> : <SquaresFourIcon size={20} />}
+            </button>
+          </Tooltip>
+        )}
 
         {(isVoiceCall || view === 'fullscreen') && (
           <Tooltip content={chatTitle}>
@@ -275,6 +262,23 @@ export function CallControlBar() {
 
           <div className={css.menuDivider} role="separator" />
 
+          {callSession && (
+            <>
+              <label className={css.menuItem}>
+                <VideoCameraIcon size={16} />
+                <span className={css.menuItemLabel}>{t('call.showNonVideo')}</span>
+                <Toggle
+                  size="sm"
+                  checked={showNonVideo}
+                  disabled={!hasVideo}
+                  onChange={setShowNonVideo}
+                  ariaLabel={t('call.showNonVideo')}
+                />
+              </label>
+              <div className={css.menuDivider} role="separator" />
+            </>
+          )}
+
           <button
             type="button"
             role="menuitem"
@@ -286,20 +290,6 @@ export function CallControlBar() {
           >
             <SmileyIcon size={16} />
             <span className={css.menuItemLabel}>{t('voice.reactions')}</span>
-            <span className={css.menuItemSpacer} />
-          </button>
-
-          <button
-            type="button"
-            role="menuitem"
-            className={css.menuItem}
-            onClick={() => {
-              actions.openSettings();
-              closeMenu();
-            }}
-          >
-            <GearIcon size={16} />
-            <span className={css.menuItemLabel}>{t('common.settings')}</span>
             <span className={css.menuItemSpacer} />
           </button>
         </div>

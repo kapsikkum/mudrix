@@ -32,7 +32,6 @@
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
-    "@element-hq/element-call-embedded": "^0.23.0",
     "@floating-ui/dom": "^1.7.6",
     "@fontsource/roboto": "^5.2.10",
     "@matrix-org/matrix-sdk-crypto-wasm": "^18.3.1",
@@ -46,6 +45,7 @@
     "focus-trap-react": "^12.0.3",
     "i18next": "^26.0.0",
     "jotai": "^2.19.1",
+    "livekit-client": "^2.23.0",
     "marked": "^18.0.2",
     "matrix-encrypt-attachment": "^1.0.3",
     "matrix-js-sdk": "^41.8.0",
@@ -80,8 +80,7 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "vite": "^8.3.5",
-    "vite-plugin-static-copy": "^4.1.1"
+    "vite": "^8.3.5"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

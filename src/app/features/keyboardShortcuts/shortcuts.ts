@@ -1,5 +1,5 @@
 import type { Keybinds } from '@/app/store/atoms/settings';
-import { ALT_KEY, MODIFIER_KEY } from '@/app/util/platform';
+import { ALT_KEY, MODIFIER_KEY, SHIFT_KEY } from '@/app/util/platform';
 
 export type KeybindAction = keyof Keybinds;
 
@@ -53,7 +53,7 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
       {
         id: 'createJoinSpace',
         labelKey: 'settings.keybinds.createJoinSpace',
-        keys: `${MODIFIER_KEY} + Shift + N`,
+        keys: `${MODIFIER_KEY} + ${SHIFT_KEY} + N`,
       },
       {
         id: 'showHelp',
@@ -82,15 +82,15 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
     id: 'composer',
     labelKey: 'settings.keybinds.groupComposer',
     items: [
-      { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Escape' },
+      { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Esc' },
       { id: 'send', labelKey: 'settings.keybinds.send', keys: 'Enter' },
-      { id: 'newLine', labelKey: 'settings.keybinds.newLine', keys: 'Shift + Enter' },
+      { id: 'newLine', labelKey: 'settings.keybinds.newLine', keys: `${SHIFT_KEY} + Enter` },
       { id: 'bold', labelKey: 'settings.keybinds.bold', keys: `${MODIFIER_KEY} + B` },
       { id: 'italic', labelKey: 'settings.keybinds.italic', keys: `${MODIFIER_KEY} + I` },
       {
         id: 'strikethrough',
         labelKey: 'settings.keybinds.strikethrough',
-        keys: `${MODIFIER_KEY} + Shift + S`,
+        keys: `${MODIFIER_KEY} + ${SHIFT_KEY} + S`,
       },
       { id: 'inlineCode', labelKey: 'settings.keybinds.inlineCode', keys: `${MODIFIER_KEY} + E` },
       {
@@ -129,18 +129,6 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
       {
         id: 'toggleDeafen',
         labelKey: 'settings.keybinds.toggleDeafen',
-        keys: '',
-        editable: true,
-      },
-      {
-        id: 'toggleVideo',
-        labelKey: 'settings.keybinds.toggleVideo',
-        keys: '',
-        editable: true,
-      },
-      {
-        id: 'disconnect',
-        labelKey: 'settings.keybinds.disconnect',
         keys: '',
         editable: true,
       },

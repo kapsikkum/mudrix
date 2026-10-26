@@ -16,8 +16,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "wizardchat-rtc": ["./rtc/index.ts"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "rtc"]
 }

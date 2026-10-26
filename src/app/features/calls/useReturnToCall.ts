@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import { elementCallActionsAtom, elementCallUiAtom } from '@/app/store/atoms/elementCall';
+import { callActionsAtom, callUiAtom } from '@/app/store/atoms/call';
 import { currentRoomIdAtom, currentSpaceIdAtom } from '@/app/store/atoms/rooms';
 import { sidebarViewAtom } from '@/app/store/atoms/ui';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { isDmRoom } from '@/util/matrix';
 
 export function useReturnToCall(): () => void {
-  const ui = useAtomValue(elementCallUiAtom);
-  const actions = useAtomValue(elementCallActionsAtom);
+  const ui = useAtomValue(callUiAtom);
+  const actions = useAtomValue(callActionsAtom);
   const currentRoomId = useAtomValue(currentRoomIdAtom);
   const [currentSpaceId] = useAtom(currentSpaceIdAtom);
   const [sidebarView] = useAtom(sidebarViewAtom);

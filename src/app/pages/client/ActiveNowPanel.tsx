@@ -7,7 +7,7 @@ import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useDms } from '@/app/hooks/useDms';
-import { useElementCallMemberships } from '@/app/features/calls/useElementCallMemberships';
+import { useCallMemberships } from '@/app/features/calls/useCallMemberships';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { useRoomEntries } from '@/app/features/roomSwitcher/roomEntries';
 import { findParentSpaceId, formatUserId } from '@/util/matrix';
@@ -45,7 +45,7 @@ export function ActiveNowPanel({ client }: { client: MatrixClient }) {
     () => entries.filter((e) => e.kind === 'room' && e.isVoice).map((e) => e.roomId),
     [entries]
   );
-  const memberships = useElementCallMemberships(client, voiceRoomIds);
+  const memberships = useCallMemberships(client, voiceRoomIds);
 
   const cards = useMemo((): ActiveNowCard[] => {
     const list: ActiveNowCard[] = [];

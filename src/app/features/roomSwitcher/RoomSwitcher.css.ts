@@ -105,16 +105,3 @@ export const footerHint = style({
   alignItems: 'center',
   gap: '4px',
 });
-
-export const kbd = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '1px 5px',
-  borderRadius: '3px',
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgTertiary,
-  fontSize: '0.7rem',
-  fontFamily: 'monospace',
-  color: vars.color.textSecondary,
-});

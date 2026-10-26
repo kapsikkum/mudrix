@@ -4,9 +4,9 @@ import { useEffect, useRef } from 'react';
 import type { MouseEvent, RefObject } from 'react';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/dom';
-import { CaretUpIcon, CaretDownIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import type { AutocompleteState, Suggestion } from './useAutocomplete';
+import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './AutocompleteDropdown.css';
 
 interface Props {
@@ -161,20 +161,15 @@ export function AutocompleteDropdown({
 
       <div className={css.hint}>
         <span className={css.hintKey}>
-          <kbd className={css.kbd}>
-            <CaretUpIcon size={12} />
-          </kbd>
-          <kbd className={css.kbd}>
-            <CaretDownIcon size={12} />
-          </kbd>{' '}
+          <KeyCaps keys={['↑', '↓']} size="sm" />
           {t('common.navigate')}
         </span>
         <span className={css.hintKey}>
-          <kbd className={css.kbd}>Tab</kbd> or <kbd className={css.kbd}>Enter</kbd>{' '}
+          <KeyCaps keys={['Tab']} size="sm" /> / <KeyCaps keys={['↵']} size="sm" />
           {t('common.select')}
         </span>
         <span className={css.hintKey}>
-          <kbd className={css.kbd}>Esc</kbd> {t('common.dismiss')}
+          <KeyCaps keys={['Esc']} size="sm" /> {t('common.dismiss')}
         </span>
       </div>
     </div>

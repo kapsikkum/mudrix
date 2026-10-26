@@ -461,8 +461,8 @@
     "enterUrl": "Enter URL:",
     "formatting": {
       "toolbar": "Formatting",
-      "bold": "Bold ({{mod}}+B)",
-      "italic": "Italic ({{mod}}+I)",
+      "bold": "Bold",
+      "italic": "Italic",
       "strikethrough": "Strikethrough",
       "code": "Inline code",
       "quote": "Quote",
@@ -755,13 +755,8 @@
     "incomingVoiceCall": "Incoming voice call",
     "incomingVideoCall": "Incoming video call",
     "acceptShort": "Accept",
-    "declineShort": "Decline"
-  },
-  "elementCall": {
-    "embedUnavailable": "Call widget is not ready yet. Please try again.",
-    "homeserverUnsupported": "Your homeserver does not support MatrixRTC calls. Ask your homeserver administrator to enable it.",
-    "tryAnyway": "Try anyway",
-    "startFailed": "Could not start the call: {{error}}"
+    "declineShort": "Decline",
+    "moreParticipants": "{{count}} more"
   },
   "time": {
     "justNow": "just now",
@@ -963,8 +958,6 @@
       "showHelp": "Show keyboard shortcuts",
       "toggleMute": "Toggle Mute",
       "toggleDeafen": "Toggle Deafen",
-      "toggleVideo": "Toggle Video",
-      "disconnect": "Disconnect",
       "clickToSet": "Click to set",
       "pressAKey": "Press a key...",
       "escToCancel": "to cancel",
@@ -978,7 +971,9 @@
       "pushToTalk": "Push to talk",
       "pushToTalkBrowserHint": "Push to talk only works while this browser tab is focused. Download the desktop app for system-wide push to talk.",
       "pushToTalkPermission": "System-wide push to talk needs permission to monitor keyboard input. Until then it only works while WizardChat is focused.",
-      "pushToTalkGrant": "Grant permission"
+      "pushToTalkGrant": "Grant permission",
+      "resetDefault": "Reset to default",
+      "changeShortcut": "Change shortcut for {{name}}"
     },
     "developer": {
       "title": "Developer",
@@ -1070,7 +1065,7 @@
       "credits": "Credits",
       "matrixSdk": "The <sdkLink>matrix-js-sdk</sdkLink> is © The Matrix.org Foundation C.I.C. used under the terms of the Apache License, Version 2.0.",
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> is © Phosphor Icons used under the terms of the MIT License.",
-      "elementCall": "The <elementCallLink>Element Call</elementCallLink> is © New Vector Ltd (Element), used under the terms of the GNU Affero General Public License v3.0."
+      "privacyPolicy": "Privacy policy"
     },
     "encryption": {
       "title": "Encryption",
@@ -1281,5 +1276,51 @@
     "gotIt": "Got it",
     "fullChangelog": "Full changelog on GitLab",
     "titleVersion": "What's new in {{version}}"
+  },
+  "call": {
+    "noSfu": "This homeserver has no call server (LiveKit) configured, so built-in calls can't connect.",
+    "you": "{{name}} (you)",
+    "handRaised": "Hand raised",
+    "raiseHand": "Raise hand",
+    "lowerHand": "Lower hand",
+    "microphone": "Microphone",
+    "speaker": "Speaker",
+    "camera": "Camera",
+    "live": "LIVE",
+    "userVolume": "User volume",
+    "viewProfile": "View profile",
+    "muteForMe": "Mute for me",
+    "showNonVideo": "Show non-video participants",
+    "showOwnScreen": "Show my screen share",
+    "screenShareOf": "{{name}}'s screen share",
+    "ownScreenHidden": "Your screen share preview is hidden",
+    "homeserverUnsupported": "Your homeserver does not support MatrixRTC calls. Ask your homeserver administrator to enable it.",
+    "tryAnyway": "Try anyway",
+    "startFailed": "Could not start the call: {{error}}",
+    "inputDevice": "Input device",
+    "outputDevice": "Output device",
+    "noDevices": "No devices found",
+    "inputSettings": "Input settings",
+    "outputSettings": "Output settings",
+    "audioSettings": "Audio settings",
+    "cameraSettings": "Camera settings",
+    "inputVolume": "Input volume",
+    "outputVolume": "Output volume",
+    "watchStream": "Watch stream",
+    "stopWatching": "Stop watching",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "calling": "Calling {{name}}...",
+    "declined": "{{name}} declined the call",
+    "noAnswer": "No answer",
+    "ringAgain": "Ring again",
+    "streamVolume": "Stream volume"
+  },
+  "desktopPicker": {
+    "title": "Share your screen",
+    "share": "Share",
+    "screens": "Screens",
+    "windows": "Windows",
+    "shareAudio": "Share audio"
   }
 }
