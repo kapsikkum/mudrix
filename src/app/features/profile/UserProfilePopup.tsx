@@ -776,13 +776,13 @@ export function UserProfilePopup() {
                       role={isActive ? undefined : 'button'}
                       tabIndex={isActive ? undefined : 0}
                       onClick={() => {
-                        if (!isActive) switchAccount(acc.userId);
+                        if (!isActive) void switchAccount(acc.userId);
                       }}
                       onKeyDown={(e) => {
                         if (isActive) return;
                         if (e.key !== 'Enter' && e.key !== ' ') return;
                         e.preventDefault();
-                        switchAccount(acc.userId);
+                        void switchAccount(acc.userId);
                       }}
                     >
                       <Avatar

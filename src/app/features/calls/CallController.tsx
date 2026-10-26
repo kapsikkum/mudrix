@@ -26,6 +26,7 @@ import { isDmRoom } from '@/util/matrix';
 import { loopVoiceSound, playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
 import { CALL_SLOT_DESCRIPTION } from '@/app/features/calls/useCallMemberships';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
+import { onSessionEnd } from '@/client/initMatrix';
 
 const IDLE_UI = {
   roomId: null,
@@ -335,6 +336,18 @@ export function CallController() {
     setPresentation,
     setActions,
   ]);
+
+  useEffect(
+    () =>
+      onSessionEnd(async () => {
+        const current = sessionRef.current;
+        if (!current) return;
+        setSession(null);
+        resetUi();
+        await current.leave();
+      }),
+    [setSession, resetUi]
+  );
 
   useEffect(() => {
     const onUnload = () => void sessionRef.current?.leave();

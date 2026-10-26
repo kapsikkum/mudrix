@@ -45,6 +45,49 @@ let _resumePromise: Promise<MatrixClient> | null = null;
 let _resumeUserId: string | null = null;
 let _firstSyncResolved = false;
 const _firstSyncCallbacks = new Set<() => void>();
+let _pageUserId: string | null = null;
+const _sessionEndHandlers = new Set<() => Promise<void> | void>();
+const SESSION_END_TIMEOUT_MS = 3000;
+
+export function onSessionEnd(handler: () => Promise<void> | void): () => void {
+  _sessionEndHandlers.add(handler);
+  return () => {
+    _sessionEndHandlers.delete(handler);
+  };
+}
+
+async function endSession(): Promise<void> {
+  const handlers = [..._sessionEndHandlers];
+  const run = Promise.allSettled(handlers.map(async (handler) => handler()));
+  await Promise.race([run, new Promise((resolve) => setTimeout(resolve, SESSION_END_TIMEOUT_MS))]);
+  try {
+    const reg = await navigator.serviceWorker?.getRegistration();
+    (await reg?.getNotifications())?.forEach((n) => n.close());
+  } catch {
+    // best effort
+  }
+}
+
+function stopActiveClient(): void {
+  try {
+    navigator.serviceWorker?.controller?.postMessage({ type: 'clearSession' });
+  } catch {
+    // noop
+  }
+  if (_client) {
+    try {
+      _client.stopClient();
+    } catch {
+      // best effort
+    }
+  }
+  _client = null;
+  resetFirstSyncState();
+}
+
+function restartApp(): void {
+  window.location.replace('/');
+}
 
 function subscribeToFirstSync(cb: () => void): void {
   if (_firstSyncResolved) {
@@ -299,6 +342,13 @@ export async function resume(
     return existing;
   }
 
+  if (_pageUserId) {
+    await endSession();
+    stopActiveClient();
+    restartApp();
+    return new Promise<MatrixClient>(() => {});
+  }
+
   if (_resumePromise && _resumeUserId === credentials.userId) {
     if (onFirstSync) subscribeToFirstSync(onFirstSync);
     return _resumePromise;
@@ -364,6 +414,7 @@ async function buildResumedClient(credentials: MatrixCredentials): Promise<Matri
   });
 
   _client = client;
+  _pageUserId = credentials.userId;
   sendSessionToSW(client);
   return client;
 }
@@ -405,13 +456,8 @@ async function deleteAccountData(userId: string): Promise<void> {
 
 export async function resetClientForNewSession(userId: string): Promise<void> {
   if (_client) {
-    try {
-      _client.stopClient();
-    } catch {
-      // best effort
-    }
-    _client = null;
-    resetFirstSyncState();
+    await endSession();
+    stopActiveClient();
   }
 
   await deleteAccountData(userId);
@@ -427,11 +473,21 @@ export async function clearSyncCacheAndReload(client: MatrixClient): Promise<voi
   window.location.reload();
 }
 
-export function switchAccount(userId: string): void {
-  if (getActiveAccountId() === userId) return;
+let _switching = false;
+
+export async function switchAccount(userId: string): Promise<void> {
+  if (_switching || getActiveAccountId() === userId || !getAccount(userId)) return;
+  _switching = true;
+  await endSession();
+  stopActiveClient();
   setActiveAccountId(userId);
   setStoredUserId(userId);
-  window.location.reload();
+  restartApp();
+}
+
+export async function endSessionForOtherTab(): Promise<void> {
+  await endSession();
+  stopActiveClient();
 }
 
 export async function logout(fallbackUserId?: string | null): Promise<void> {
@@ -449,6 +505,8 @@ export async function logout(fallbackUserId?: string | null): Promise<void> {
       new Promise((resolve) => setTimeout(resolve, 10_000)),
     ]);
   };
+
+  if (isCurrentSession) await endSession();
 
   // Invalidate the token (and device) on the homeserver
   if (isCurrentSession && client) {
@@ -484,22 +542,8 @@ export async function logout(fallbackUserId?: string | null): Promise<void> {
   }
 
   if (isCurrentSession) {
-    // Stop the service worker from proxying media with the dead token.
-    try {
-      navigator.serviceWorker.controller?.postMessage({ type: 'clearSession' });
-    } catch {
-      // noop
-    }
-
-    if (client) {
-      try {
-        client.stopClient();
-      } catch {
-        // best effort
-      }
-    }
-    _client = null;
-    resetFirstSyncState();
+    // Also stops the service worker from proxying media with the dead token
+    stopActiveClient();
   }
 
   if (userId) {
@@ -517,7 +561,7 @@ export async function logout(fallbackUserId?: string | null): Promise<void> {
       setActiveAccountId(null);
       setStoredUserId(null);
     }
-    window.location.reload();
+    restartApp();
   }
 }
 
