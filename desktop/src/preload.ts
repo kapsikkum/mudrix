@@ -36,7 +36,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getDesktopSources: (options: { types: string[]; thumbnailSize?: { width: number; height: number } }) =>
     ipcRenderer.invoke('get-desktop-sources', options),
   onOpenDesktopPicker: (cb: () => void) => {
-    ipcRenderer.on('open-desktop-picker', () => cb());
+    const listener = () => cb();
+    ipcRenderer.on('open-desktop-picker', listener);
+    return () => ipcRenderer.removeListener('open-desktop-picker', listener);
   },
   selectDesktopSource: (source: any) => {
     ipcRenderer.send('desktop-source-selected', source);
