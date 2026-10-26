@@ -1,0 +1,27 @@
+{
+  "name": "wizardchat-desktop",
+  "productName": "WizardChat",
+  "main": "dist/main.js",
+  "version": "0.0.0",
+  "description": "WizardChat Desktop — Simple, Secure, Magical",
+  "homepage": "https://wizardchat.org",
+  "author": "Arian Farahani, Jan Philipp Kleinschmidt",
+  "license": "AGPL-3.0",
+  "repository": "https://gitlab.com/wizardchat/wizardchat-web",
+  "scripts": {
+    "build:web": "npm --prefix .. ci && npm --prefix .. run build",
+    "build:electron": "tsc -p tsconfig.json",
+    "package:mac": "npm run build:web && npm run build:electron && electron-builder --mac --publish=never",
+    "package:linux": "npm run build:web && npm run build:electron && electron-builder --linux --publish=never",
+    "package:win": "npm run build:web && npm run build:electron && electron-builder --win --publish=never"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.0",
+    "uiohook-napi": "^1.5.5"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.17.0",
+    "typescript": "^5.7.3"
+  }
+}

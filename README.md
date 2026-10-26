@@ -7,7 +7,7 @@
 ![license](https://img.shields.io/badge/License-AGPL%203.0-blue.svg)
 [![chat](https://img.shields.io/matrix/wizardchat-app:matrix.org?logo=matrix)](https://matrix.to/#/#wizardchat-app:matrix.org)
 
-WizardChat is a web-based Matrix client. End-to-end encrypted, open source, and works in your browser (and [your desktop](https://gitlab.com/wizardchat/wizardchat-desktop)).
+WizardChat is a Matrix client. End-to-end encrypted, open source, and works in your browser and as a desktop app for Windows, macOS and Linux.
 
 <img align="center" src="https://gitlab.com/wizardchat/wizardchat-site/-/raw/main/assets/wizardchat-screenshot.png" height="320">
 
@@ -31,10 +31,16 @@ WizardChat is a web-based Matrix client. End-to-end encrypted, open source, and 
 
 ## Try out WizardChat
 
+### Web
+
 - **Stable**: [app.wizardchat.org](https://app.wizardchat.org)
 - **Next** (pre-release): [next.wizardchat.org](https://next.wizardchat.org)
 
-> WizardChat is also available as an Electron desktop app for Windows, macOS, and Linux. You can download it directly [here](https://wizardchat.org) or from the [GitLab releases page](https://gitlab.com/wizardchat/wizardchat-desktop/-/releases).
+### Desktop
+
+Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage): download from [wizardchat.org](https://wizardchat.org) or the [releases page](https://gitlab.com/wizardchat/wizardchat-web/-/releases).
+
+> **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings -> Privacy & Security**, scroll down to **Security** and click **Allow WizardChat**.
 
 ## Local Development
 
@@ -60,6 +66,19 @@ WizardChat is a web-based Matrix client. End-to-end encrypted, open source, and 
     ```
 
     The app will be available at **http://localhost:8080**
+
+### Desktop app
+
+The Electron app lives in [`desktop/`](desktop/) with its own `package.json`; it packages the web build from the repo root.
+
+```bash
+npm ci && npm run build
+cd desktop && npm ci
+npm run build:electron
+npx electron-builder --mac # or --linux / --win
+```
+
+The version always comes from the root `package.json`.
 
 ### Using Docker
 

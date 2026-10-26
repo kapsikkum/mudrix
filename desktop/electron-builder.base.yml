@@ -1,0 +1,76 @@
+appId: org.wizardchat.desktop
+
+protocols:
+  - name: WizardChat
+    schemes:
+      - org.wizardchat.desktop
+
+directories:
+  output: release
+
+files:
+  - dist/**/*
+
+extraResources:
+  - from: ../dist
+    to: web-app
+  - from: icons/source/icon.png
+    to: icons/source/icon.png
+
+asar: true
+asarUnpack:
+  - node_modules/uiohook-napi/**
+
+afterPack: build-resources/after-pack.cjs
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64]
+    - target: zip
+      arch: [arm64]
+  icon: icons/icon.icns
+  extraResources:
+   - from: icons/Assets.car
+     to: Assets.car
+  identity: null
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build-resources/entitlements.mac.plist
+  entitlementsInherit: build-resources/entitlements.mac.plist
+  extendInfo:
+    CFBundleIconName: Icon
+    NSCameraUsageDescription: "WizardChat needs camera access for video calls"
+    NSMicrophoneUsageDescription: "WizardChat needs microphone access for voice calls"
+    NSScreenCaptureUsageDescription: "WizardChat needs screen access for sharing during calls"
+    NSAudioCaptureUsageDescription: "WizardChat needs system audio access to share sound with your screen"
+    NSLocationWhenInUseUsageDescription: "WizardChat needs your location to share it in messages."
+
+linux:
+  executableName: WizardChat
+  target:
+    - target: AppImage
+      arch: [x64]
+  category: Network
+  icon: icons/source/icon.png
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: icons/icon.ico
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: WizardChat
+  artifactName: "${productName}-Setup-${version}.${ext}"
+
+detectUpdateChannel: false
+
+publish:
+  - provider: generic
+    url: https://app.wizardchat.org/desktop/

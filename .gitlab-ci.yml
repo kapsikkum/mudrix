@@ -29,6 +29,27 @@ lint:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
 
+lint-desktop:
+  stage: lint
+  image: node:22-alpine
+  cache:
+    key:
+      files:
+        - desktop/package-lock.json
+    paths:
+      - desktop/node_modules/
+  before_script:
+    - cd desktop
+    - npm ci --ignore-scripts
+  script:
+    - npx tsc -p tsconfig.json --noEmit
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^prepare\//'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH'
+      changes:
+        - desktop/**/*
+
 prepare-release:
   stage: prepare
   image: node:22-alpine
@@ -212,15 +233,20 @@ create-release:
     - validate-and-build
     - build-docker
     - deploy
+    - upload-desktop
   dependencies:
     - validate-and-build
+    - upload-desktop
   script:
     - |
       if [ "$DRY_RUN" = "true" ]; then
         echo "DRY RUN: GitLab release creation skipped"
         cat release-notes.md
       else
-        release-cli create --name "Release $CI_COMMIT_TAG" --tag-name "$CI_COMMIT_TAG" --description "$(cat release-notes.md)" --ref "$CI_COMMIT_SHA"
+        # Desktop installers from upload-desktop as release downloads
+        ASSETS=$(cat desktop-assets.json)
+        if [ "$ASSETS" != "[]" ]; then set -- --assets-link "$ASSETS"; fi
+        release-cli create --name "Release $CI_COMMIT_TAG" --tag-name "$CI_COMMIT_TAG" --description "$(cat release-notes.md)" --ref "$CI_COMMIT_SHA" "$@"
       fi
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
@@ -332,15 +358,20 @@ create-release-next:
     - validate-and-build-next
     - build-docker-next
     - deploy-next
+    - upload-desktop
   dependencies:
     - validate-and-build-next
+    - upload-desktop
   script:
     - |
       if [ "$DRY_RUN" = "true" ]; then
         echo "DRY RUN: GitLab pre-release creation skipped"
         cat release-notes.md
       else
-        release-cli create --name "Pre-release $CI_COMMIT_TAG" --tag-name "$CI_COMMIT_TAG" --description "$(cat release-notes.md)" --ref "$CI_COMMIT_SHA"
+        # Desktop installers from upload-desktop as release downloads
+        ASSETS=$(cat desktop-assets.json)
+        if [ "$ASSETS" != "[]" ]; then set -- --assets-link "$ASSETS"; fi
+        release-cli create --name "Pre-release $CI_COMMIT_TAG" --tag-name "$CI_COMMIT_TAG" --description "$(cat release-notes.md)" --ref "$CI_COMMIT_SHA" "$@"
       fi
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-next\.\d+$/'
@@ -376,10 +407,19 @@ deploy:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
       when: on_success
+  variables:
+    FEED_ORIGIN: https://app.wizardchat.org
   before_script:
-    - apk add --no-cache nodejs npm
+    - apk add --no-cache nodejs npm curl
     - npm install -g wrangler
   script:
+    - |
+      mkdir -p dist/desktop
+      for f in latest.yml latest-mac.yml latest-linux.yml; do
+        if curl -fsS "${FEED_ORIGIN}/desktop/$f" -o "/tmp/$f" && grep -q '^version:' "/tmp/$f"; then
+          cp "/tmp/$f" dist/desktop/
+        fi
+      done
     - wrangler pages deploy dist/ --project-name=wizardchat --branch=main --commit-hash=$CI_COMMIT_SHA
   environment:
     name: production
@@ -393,22 +433,137 @@ deploy-next:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-next\.\d+$/'
       when: on_success
+  variables:
+    FEED_ORIGIN: https://next.wizardchat.org
   before_script:
-    - apk add --no-cache nodejs npm
+    - apk add --no-cache nodejs npm curl
     - npm install -g wrangler
   script:
+    - |
+      mkdir -p dist/desktop
+      for f in latest.yml latest-mac.yml latest-linux.yml; do
+        if curl -fsS "${FEED_ORIGIN}/desktop/$f" -o "/tmp/$f" && grep -q '^version:' "/tmp/$f"; then
+          cp "/tmp/$f" dist/desktop/
+        fi
+      done
     - wrangler pages deploy dist/ --project-name=wizardchat-next --branch=main --commit-hash=$CI_COMMIT_SHA
   environment:
     name: next
     url: https://next.wizardchat.org
 
-trigger-desktop:
-  stage: deploy
-  variables:
-    WEB_TAG: '$CI_COMMIT_TAG'
-  trigger:
-    project: wizardchat/wizardchat-desktop
-    branch: main
+.desktop-release-rules:
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/'
-      when: on_success
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-next\.\d+)?$/'
+
+.desktop-build:
+  stage: build
+  extends: .desktop-release-rules
+  needs:
+    - job: validate-and-build
+      optional: true
+    - job: validate-and-build-next
+      optional: true
+  script:
+    - cd desktop
+    - npm ci --ignore-scripts
+    - npm run build:electron
+    - npx electron-builder --$DESKTOP_PLATFORM --publish=never
+  artifacts:
+    paths:
+      - desktop/release/*.*
+    expire_in: 1 day
+
+build-desktop-mac:
+  extends: .desktop-build
+  tags: [saas-macos-medium-m1]
+  variables:
+    DESKTOP_PLATFORM: mac
+
+build-desktop-linux:
+  extends: .desktop-build
+  image: node:22
+  variables:
+    DESKTOP_PLATFORM: linux
+
+build-desktop-win:
+  extends: .desktop-build
+  tags: [saas-windows-medium-amd64]
+  variables:
+    DESKTOP_PLATFORM: win
+  script:
+    - cd desktop
+    - npm ci --ignore-scripts
+    - npm run build:electron
+    - npx electron-builder --win --publish=never
+
+upload-desktop:
+  stage: deploy
+  image: alpine:3
+  extends: .desktop-release-rules
+  needs:
+    - build-desktop-mac
+    - build-desktop-linux
+    - build-desktop-win
+  before_script:
+    - apk add --no-cache curl jq
+  script:
+    - |
+      echo '[]' > desktop-assets.json
+      for f in desktop/release/*; do
+        name=$(basename "$f")
+        case "$name" in builder-*) continue ;; esac
+        url="https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/generic/wizardchat-desktop/${CI_COMMIT_TAG}/$(printf '%s' "$name" | jq -sRr @uri)"
+        if [ "$DRY_RUN" = "true" ]; then
+          echo "DRY RUN: would upload $name"
+        else
+          curl --fail --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "$f" "$url"
+        fi
+        # Installers are listed on the release page; blockmaps and update files only live in the registry
+        case "$name" in
+          *.exe|*.dmg|*.AppImage)
+            jq --arg name "$name" --arg url "$url" '. + [{name: $name, url: $url, link_type: "package"}]' \
+              desktop-assets.json > desktop-assets.tmp && mv desktop-assets.tmp desktop-assets.json ;;
+        esac
+      done
+      cat desktop-assets.json
+  artifacts:
+    paths:
+      - desktop-assets.json
+    expire_in: 1 day
+
+deploy-desktop-feed:
+  stage: deploy
+  image: node:22-alpine
+  extends: .desktop-release-rules
+  resource_group: desktop-feed
+  needs:
+    - job: validate-and-build
+      optional: true
+    - job: validate-and-build-next
+      optional: true
+    - job: deploy
+      optional: true
+      artifacts: false
+    - job: deploy-next
+      optional: true
+      artifacts: false
+    - build-desktop-mac
+    - build-desktop-linux
+    - build-desktop-win
+    - job: upload-desktop
+      artifacts: false
+  before_script:
+    - npm install -g wrangler
+  script:
+    - node desktop/scripts/write-update-feed.mjs desktop/release dist
+    - |
+      case "$CI_COMMIT_TAG" in
+        *-next.*) PROJECT=wizardchat-next ;;
+        *) PROJECT=wizardchat ;;
+      esac
+      if [ "$DRY_RUN" = "true" ]; then
+        echo "DRY RUN: would deploy dist/ with desktop/ to $PROJECT"
+        ls dist/desktop
+      else
+        wrangler pages deploy dist/ --project-name="$PROJECT" --branch=main --commit-hash=$CI_COMMIT_SHA
+      fi
