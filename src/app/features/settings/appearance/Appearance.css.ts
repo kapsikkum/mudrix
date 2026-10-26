@@ -24,16 +24,19 @@ export const swatchRow = style({
 });
 
 export const swatch = style({
+  position: 'relative',
   width: '32px',
   height: '32px',
-  borderRadius: '8px',
-  border: `1px solid ${vars.color.border}`,
+  borderRadius: '10px',
+  border: 'none',
   padding: 0,
   cursor: 'pointer',
+  backgroundClip: 'padding-box',
+  boxShadow: 'inset 0 0 0 1px rgba(128, 128, 128, 0.28)',
   outline: '2px solid transparent',
-  outlineOffset: '2px',
+  outlineOffset: '3px',
   transition: `outline-color ${fast}, transform ${fast}`,
-  ':hover': { transform: 'scale(1.08)' },
+  ':hover': { transform: 'scale(1.06)' },
   ':focus-visible': { outlineColor: vars.color.accent },
 });
 

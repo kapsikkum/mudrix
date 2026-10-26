@@ -67,6 +67,26 @@ function PreviewMessage({
         : timelineCss.msgContentClassic
       : timelineCss.msgContent;
 
+  if (layout === 'compact') {
+    return (
+      <div className={timelineCss.msgRowCompact}>
+        <div className={timelineCss.msgHoverRegion}>
+          <div className={timelineCss.compactBody}>
+            <div className={timelineCss.compactLine}>
+              <span className={timelineCss.compactHeader}>
+                <span className={timelineCss.compactTime}>{time}</span>
+                <span className={css.previewSender}>{senderName}</span>
+              </span>
+              <div className={timelineCss.compactText}>
+                <span dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={timelineCss.msgRow}>
       <div className={timelineCss.msgHoverRegion}>
@@ -184,7 +204,7 @@ export function Appearance() {
                     onClick={() => setTheme(name)}
                     className={isActive ? css.swatchActive : css.swatch}
                     style={{
-                      background: `linear-gradient(135deg, ${color.bgSecondary} 50%, ${color.accent} 50%)`,
+                      background: `linear-gradient(135deg, ${color.bgSecondary} calc(50% - 0.5px), ${color.accent} calc(50% + 0.5px))`,
                     }}
                   />
                 </Tooltip>
@@ -203,6 +223,7 @@ export function Appearance() {
             options={[
               { value: 'modern', label: t('settings.appearance.modern') },
               { value: 'classic', label: t('settings.appearance.classic') },
+              { value: 'compact', label: t('settings.appearance.compact') },
             ]}
             onChange={setLayout}
           />

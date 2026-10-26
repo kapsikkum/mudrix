@@ -1981,3 +1981,73 @@ export const chatDropZone = style({
   pointerEvents: 'none',
   backdropFilter: 'blur(3px)',
 });
+
+const COMPACT_TIME_WIDTH = chatSize(3.4);
+const COMPACT_GAP = '8px';
+const COMPACT_INDENT = `calc(${COMPACT_TIME_WIDTH} + ${COMPACT_GAP})`;
+
+export const msgRowCompact = style([
+  msgRow,
+  { paddingTop: chatSpace(1), paddingBottom: chatSpace(1) },
+]);
+
+export const compactBody = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  flex: 1,
+  minWidth: 0,
+  paddingLeft: COMPACT_INDENT,
+  paddingRight: '12px',
+});
+
+export const compactLine = style({
+  display: 'flow-root',
+  minWidth: 0,
+  color: vars.color.textPrimary,
+  fontSize: chatSize(0.95),
+  lineHeight: '1.55',
+  wordBreak: 'break-word',
+});
+
+export const compactHeader = style({
+  float: 'left',
+  display: 'flex',
+  alignItems: 'baseline',
+  gap: COMPACT_GAP,
+  marginLeft: `calc(-1 * ${COMPACT_INDENT})`,
+  marginRight: '6px',
+  whiteSpace: 'nowrap',
+});
+
+export const compactTime = style({
+  width: COMPACT_TIME_WIDTH,
+  flexShrink: 0,
+  textAlign: 'right',
+  color: vars.color.textMuted,
+  fontSize: chatSize(0.72),
+  fontVariantNumeric: 'tabular-nums',
+});
+
+export const compactText = style({
+  display: 'block',
+  minWidth: 0,
+});
+
+export const compactBlock = style({
+  minWidth: 0,
+  color: vars.color.textPrimary,
+  fontSize: chatSize(0.95),
+  lineHeight: '1.55',
+});
+
+globalStyle(
+  `${compactText} ${codeBlock}, ${compactText} pre, ${compactText} blockquote, ${compactText} table, ${compactText} ul, ${compactText} ol`,
+  { clear: 'left' }
+);
+globalStyle(`${compactText} > div > :not(:first-child)`, { clear: 'left' });
+
+globalStyle(`${compactLine} ${emojiOnly}`, { fontSize: 'inherit', lineHeight: 'inherit' });
+
+globalStyle(`${compactBlock} ${mediaBox}`, { maxWidth: '240px' });
+globalStyle(`${compactBlock} ${stickerBox}`, { width: '112px' });

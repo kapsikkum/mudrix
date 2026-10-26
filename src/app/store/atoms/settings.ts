@@ -14,7 +14,7 @@ import {
   STORAGE_KEY_DEAFENED,
 } from '@/const/storageKeys';
 
-export type MessageLayout = 'classic' | 'modern';
+export type MessageLayout = 'classic' | 'modern' | 'compact';
 export type ThemeName =
   | 'Carbon'
   | 'Pewter'

@@ -864,6 +864,7 @@
       "uiDensityNote": "Spacing in the room list, member list and space bar.",
       "classic": "Classic",
       "modern": "Modern",
+      "compact": "Compact",
       "theme": "Theme",
       "previewOtherMessage": "here is a link: https://wizardchat.org",
       "previewOwnMessage": "casting a message",

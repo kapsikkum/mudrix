@@ -857,6 +857,18 @@ export const Message = memo(function Message({
       />
     );
 
+  const isCompact = variant === 'compact';
+  const compactMsgtype = contentRecord?.msgtype;
+  const isCompactInline =
+    !(galleryEvents != null && galleryEvents.length >= 2) &&
+    (isRedacted ||
+      isUndecryptable ||
+      isDecrypting ||
+      (type === 'm.room.message' &&
+        (compactMsgtype === 'm.text' ||
+          compactMsgtype === 'm.notice' ||
+          compactMsgtype === 'm.emote')));
+
   const showEncryptedBanner = isDecrypting || isUndecryptable;
   const showFailedUI = isFailed && !isEdited && !isRedacted;
   const actionToolbar = showActions && !isRedacted && !showEncryptedBanner && !showFailedUI && (
@@ -987,7 +999,7 @@ export const Message = memo(function Message({
         : css.msgContent;
 
   const rowClass = [
-    isGrouped ? css.msgRowGrouped : css.msgRow,
+    isCompact ? css.msgRowCompact : isGrouped ? css.msgRowGrouped : css.msgRow,
     showActions ? css.msgRowActive : null,
     isSending ? css.msgSending : null,
     isFailed ? css.msgFailed : null,
@@ -1014,33 +1026,35 @@ export const Message = memo(function Message({
         className={`${css.msgHoverRegion} ${css.msgJumpFlash}`}
         data-flashing={isFlashing ? 'true' : undefined}
       >
-        <div className={css.msgAvatarCol}>
-          {!isGrouped && (
-            <button
-              type="button"
-              onClick={handleOpenProfile}
-              aria-label={senderName}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                cursor: 'pointer',
-                lineHeight: 0,
-              }}
-            >
-              <Avatar
-                name={senderName}
-                mxcUrl={senderAvatar}
-                client={client}
-                size="sm"
-                placeholder="logo"
-              />
-            </button>
-          )}
-        </div>
+        {!isCompact && (
+          <div className={css.msgAvatarCol}>
+            {!isGrouped && (
+              <button
+                type="button"
+                onClick={handleOpenProfile}
+                aria-label={senderName}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  lineHeight: 0,
+                }}
+              >
+                <Avatar
+                  name={senderName}
+                  mxcUrl={senderAvatar}
+                  client={client}
+                  size="sm"
+                  placeholder="logo"
+                />
+              </button>
+            )}
+          </div>
+        )}
 
-        <div className={css.msgBody}>
-          {!isGrouped ? (
+        <div className={isCompact ? css.compactBody : css.msgBody}>
+          {!isGrouped && !isCompact ? (
             <div className={css.msgMeta}>
               <button type="button" className={css.msgSender} onClick={handleNameClick}>
                 {senderName}
@@ -1102,7 +1116,44 @@ export const Message = memo(function Message({
             </button>
           )}
 
-          {isEditing && !isPollEvent ? (
+          {isCompact ? (
+            <>
+              <div className={css.compactLine}>
+                <span className={css.compactHeader}>
+                  <span
+                    className={css.compactTime}
+                    title={new Date(ts).toLocaleString(i18n.language)}
+                  >
+                    {formatTime(ts, i18n.language)}
+                  </span>
+                  <button type="button" className={css.msgSender} onClick={handleNameClick}>
+                    {senderName}
+                  </button>
+                </span>
+                {!isEditing && isCompactInline && (
+                  <div className={css.compactText}>
+                    {messageContent}
+                    {isEdited && (
+                      <span className={css.editedMarkerGroupedClassic}>
+                        {' '}
+                        {t('timeline.edited')}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+              {isEditing && !isPollEvent && editState ? (
+                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              ) : !isEditing && !isCompactInline ? (
+                <div className={css.compactBlock}>
+                  {messageContent}
+                  {isEdited && (
+                    <span className={css.editedMarkerGroupedClassic}> {t('timeline.edited')}</span>
+                  )}
+                </div>
+              ) : null}
+            </>
+          ) : isEditing && !isPollEvent ? (
             editState ? (
               <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
             ) : null

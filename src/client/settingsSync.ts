@@ -39,7 +39,7 @@ export interface SyncedSettings extends SyncedPreferences {
   language: string;
 }
 
-const MESSAGE_LAYOUTS: MessageLayout[] = ['classic', 'modern'];
+const MESSAGE_LAYOUTS: MessageLayout[] = ['classic', 'modern', 'compact'];
 
 type AccountDataEventKey = Parameters<MatrixClient['getAccountData']>[0];
 
