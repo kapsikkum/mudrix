@@ -134,6 +134,10 @@ protocol.registerSchemesAsPrivileged([{
   privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true },
 }]);
 
+if (process.platform === 'linux') {
+  app.commandLine.appendSwitch('enable-features', 'PulseaudioLoopbackForScreenShare');
+}
+
 app.setName('WizardChat');
 app.setAppUserModelId('org.wizardchat.desktop');
 
@@ -345,6 +349,11 @@ async function onReady(): Promise<void> {
       return;
     }
 
+    if (permission === 'fullscreen') {
+      callback(true);
+      return;
+    }
+
     callback(permission === 'mediaKeySystem');
   });
 
@@ -363,22 +372,42 @@ async function onReady(): Promise<void> {
     }));
   });
 
-  let pendingPickerCallback: ((source: any) => void) | null = null;
+  type PickedSource = { id: string; name: string; audio: boolean };
+  let pendingPickerCallback: ((source: PickedSource | null) => void) | null = null;
 
-  ipcMain.on('desktop-source-selected', (_e, source) => {
-    pendingPickerCallback?.(source);
+  ipcMain.on('desktop-source-selected', (_e, source: { id?: unknown; name?: unknown; audio?: unknown } | null) => {
+    const valid = source && typeof source.id === 'string' && typeof source.name === 'string';
+    const answer = pendingPickerCallback;
     pendingPickerCallback = null;
+    answer?.(
+      valid ? { id: source.id as string, name: source.name as string, audio: source.audio === true } : null
+    );
   });
 
-  session.defaultSession.setDisplayMediaRequestHandler((_request, callback) => {
-    pendingPickerCallback = (source: any) => {
-      if (source) {
-        callback({ video: source } as any);
-      } else {
-        callback(null as any);
+  session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
+    const previous = pendingPickerCallback;
+    pendingPickerCallback = null;
+    previous?.(null);
+    pendingPickerCallback = (source) => {
+      try {
+        if (!source) {
+          callback(null);
+          return;
+        }
+        callback({
+          video: { id: source.id, name: source.name },
+          ...(request.audioRequested && source.audio ? { audio: 'loopback' as const } : {}),
+        });
+      } catch (err) {
+        console.error('[screenshare] answering the request failed', err);
       }
     };
-    mainWindow?.webContents.send('open-desktop-picker');
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      pendingPickerCallback(null);
+      pendingPickerCallback = null;
+      return;
+    }
+    mainWindow.webContents.send('open-desktop-picker');
   });
 
   void loopback.ensureListening().catch((err) => {
