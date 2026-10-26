@@ -13,7 +13,7 @@ import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import * as css from './Tooltip.css';
 
 interface TooltipProps {
-  content: string;
+  content: React.ReactNode;
   children: React.ReactElement;
   placement?: Placement;
   delay?: number;

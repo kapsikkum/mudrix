@@ -175,20 +175,6 @@ export const footerHint = style({
   gap: '4px',
 });
 
-export const kbd = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minWidth: '16px',
-  padding: '1px 4px',
-  borderRadius: '3px',
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgTertiary,
-  fontSize: '0.68rem',
-  fontFamily: 'inherit',
-  color: vars.color.textSecondary,
-});
-
 export const badge = style({
   flexShrink: 0,
   minWidth: '18px',

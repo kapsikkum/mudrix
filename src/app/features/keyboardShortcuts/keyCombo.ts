@@ -119,15 +119,13 @@ export function formatKeyCode(code: string): string {
   return NAMED_KEYS[code] ?? code;
 }
 
-export function formatCombo(combo: KeyCombo): string {
+export function comboKeys(combo: KeyCombo): string[] {
   const modifiers = MODIFIERS.filter((m) => combo.modifiers.includes(m)).map(
     (m) => MODIFIER_LABELS[m]
   );
-  return [...modifiers, formatKeyCode(combo.code)].join(' + ');
+  return [...modifiers, formatKeyCode(combo.code)];
 }
 
-export function formatHeldModifiers(e: KeyboardEvent): string {
-  return heldModifiers(e)
-    .map((m) => MODIFIER_LABELS[m])
-    .join(' + ');
+export function heldModifierKeys(e: KeyboardEvent): string[] {
+  return heldModifiers(e).map((m) => MODIFIER_LABELS[m]);
 }

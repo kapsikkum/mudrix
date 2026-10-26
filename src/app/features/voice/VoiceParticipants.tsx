@@ -1,15 +1,15 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@/app/components/Tooltip';
 import { MicrophoneSlashIcon, VideoCameraIcon } from '@phosphor-icons/react';
 import type { CallMembership } from 'matrix-js-sdk/lib/matrixrtc';
 import type { VoiceParticipant } from '@/app/features/calls/types';
 import { userProfileAtom } from '@/app/store/atoms';
-import { elementCallUiAtom } from '@/app/store/atoms/elementCall';
-import {
-  useElementCallLiveState,
-  uniqueMembers,
-} from '@/app/features/calls/useElementCallParticipants';
+import { callUiAtom } from '@/app/store/atoms/call';
+import { useCallLiveState, uniqueMembers } from '@/app/features/calls/useCallParticipants';
 import { Avatar } from '@/app/components/Avatar';
+import { UserCallMenu, type UserMenuAnchor } from '@/app/features/calls/stage/UserCallMenu';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { formatUserId } from '@/util/matrix';
 import * as css from './VoiceParticipants.css';
@@ -27,6 +27,9 @@ function ParticipantRow({
 }) {
   const client = getMatrixClientOrNull();
   const setProfile = useSetAtom(userProfileAtom);
+  const [menu, setMenu] = useState<UserMenuAnchor | null>(null);
+  const closeMenu = useCallback(() => setMenu(null), []);
+  const room = roomId ? client?.getRoom(roomId) : null;
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -42,47 +45,121 @@ function ParticipantRow({
   );
 
   return (
-    <div
-      className={isDominant ? css.entrySpeaking : css.entry}
-      onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleClick(e as unknown as React.MouseEvent);
+    <>
+      <div
+        className={isDominant ? css.entrySpeaking : css.entry}
+        onClick={handleClick}
+        onContextMenu={
+          p.userId && room
+            ? (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = e.currentTarget.getBoundingClientRect();
+                setMenu({ userId: p.userId, x: rect.right + 8, y: rect.top });
+              }
+            : undefined
         }
-      }}
-    >
-      {/* Avatar — green ring when dominant speaker */}
-      <div className={isDominant ? css.avatarRingSpeaking : css.avatarRing}>
-        <Avatar
-          name={p.name}
-          mxcUrl={p.mxcAvatar}
-          client={client ?? undefined}
-          size="xs"
-          placeholder="logo"
-        />
-      </div>
-
-      {/* Name */}
-      <span className={css.name}>{p.name}</span>
-
-      {/* AV status icons — only active states, right-aligned in mic, camera, live order */}
-      {showIcons && (
-        <div className={css.icons}>
-          {p.muted && (
-            <span className={css.iconMicMuted}>
-              <MicrophoneSlashIcon size={12} />
-            </span>
-          )}
-          {!p.videoMuted && (
-            <span className={css.iconCamera}>
-              <VideoCameraIcon size={12} weight="fill" />
-            </span>
-          )}
-          {p.screensharing && <span className={css.livePill}></span>}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick(e as unknown as React.MouseEvent);
+          }
+        }}
+      >
+        <div className={isDominant ? css.avatarRingSpeaking : css.avatarRing}>
+          <Avatar
+            name={p.name}
+            mxcUrl={p.mxcAvatar}
+            client={client ?? undefined}
+            size="xs"
+            placeholder="logo"
+          />
         </div>
+
+        <span className={css.name}>{p.name}</span>
+
+        {showIcons && (
+          <div className={css.icons}>
+            {p.muted && (
+              <span className={css.iconMicMuted}>
+                <MicrophoneSlashIcon size={12} />
+              </span>
+            )}
+            {!p.videoMuted && (
+              <span className={css.iconCamera}>
+                <VideoCameraIcon size={12} weight="fill" />
+              </span>
+            )}
+            {p.screensharing && <span className={css.livePill}></span>}
+          </div>
+        )}
+      </div>
+      {menu && room && (
+        <UserCallMenu
+          anchor={menu}
+          room={room}
+          isSelf={menu.userId === client?.getUserId()}
+          onClose={closeMenu}
+        />
+      )}
+    </>
+  );
+}
+
+const COMPACT_VISIBLE = 6;
+
+function CompactParticipants({
+  participants,
+  roomId,
+}: {
+  participants: VoiceParticipant[];
+  roomId?: string;
+}) {
+  const { t } = useTranslation();
+  const client = getMatrixClientOrNull();
+  const setProfile = useSetAtom(userProfileAtom);
+  const visible = participants.slice(0, COMPACT_VISIBLE);
+  const rest = participants.length - visible.length;
+
+  return (
+    <div className={css.compactWrap}>
+      {visible.map((p) => (
+        <Tooltip key={p.userId ?? p.name} content={p.name}>
+          <button
+            type="button"
+            className={p.speaking ? css.compactAvatarSpeaking : css.compactAvatar}
+            aria-label={p.name}
+            onClick={(e) => {
+              if (!p.userId) return;
+              const rect = e.currentTarget.getBoundingClientRect();
+              setProfile({
+                userId: p.userId,
+                roomId,
+                anchorRect: {
+                  top: rect.top,
+                  left: rect.left,
+                  width: rect.width,
+                  height: rect.height,
+                },
+              });
+            }}
+          >
+            <Avatar
+              name={p.name}
+              mxcUrl={p.mxcAvatar}
+              client={client ?? undefined}
+              size="xs"
+              placeholder="logo"
+            />
+          </button>
+        </Tooltip>
+      ))}
+      {rest > 0 && (
+        <span className={css.compactMore} aria-label={t('voice.moreParticipants', { count: rest })}>
+          +{rest}
+        </span>
       )}
     </div>
   );
@@ -92,12 +169,15 @@ export function VoiceParticipants({
   participants,
   localInCall,
   roomId,
+  compact,
 }: {
   participants: VoiceParticipant[];
   localInCall: boolean;
   roomId?: string;
+  compact?: boolean;
 }) {
   if (participants.length === 0) return null;
+  if (compact) return <CompactParticipants participants={participants} roomId={roomId} />;
 
   return (
     <div className={css.wrap}>
@@ -117,14 +197,16 @@ export function VoiceParticipants({
 export function RoomVoiceParticipants({
   members,
   roomId,
+  compact,
 }: {
   members: CallMembership[];
   roomId: string;
+  compact?: boolean;
 }) {
-  const elementUi = useAtomValue(elementCallUiAtom);
+  const callUi = useAtomValue(callUiAtom);
   const client = getMatrixClientOrNull();
-  const liveState = useElementCallLiveState(roomId);
-  const localInElementCall = elementUi.roomId === roomId;
+  const liveState = useCallLiveState(roomId);
+  const localInCall = callUi.roomId === roomId;
 
   const participants = useMemo<VoiceParticipant[]>(() => {
     const room = client?.getRoom(roomId) ?? null;
@@ -139,41 +221,28 @@ export function RoomVoiceParticipants({
         userId: member.userId,
         name: memberInfo?.name ?? formatUserId(member.userId),
         mxcAvatar: memberInfo?.getMxcAvatarUrl?.() ?? null,
-        muted: localInElementCall
-          ? live
-            ? live.muted
-            : isLocal
-              ? elementUi.isMuted
-              : false
-          : false,
-        videoMuted: localInElementCall
+        muted: localInCall ? (live ? live.muted : isLocal ? callUi.isMuted : false) : false,
+        videoMuted: localInCall
           ? live
             ? live.videoMuted
             : isLocal
-              ? elementUi.isVideoMuted
+              ? callUi.isVideoMuted
               : true
           : true,
-        screensharing: localInElementCall ? (live?.screensharing ?? false) : false,
-        speaking: localInElementCall ? (live?.speaking ?? false) : false,
+        screensharing: localInCall ? (live?.screensharing ?? false) : false,
+        speaking: localInCall ? (live?.speaking ?? false) : false,
       };
     });
-  }, [
-    members,
-    roomId,
-    client,
-    liveState,
-    localInElementCall,
-    elementUi.isMuted,
-    elementUi.isVideoMuted,
-  ]);
+  }, [members, roomId, client, liveState, localInCall, callUi.isMuted, callUi.isVideoMuted]);
 
   if (participants.length === 0) return null;
 
   return (
     <VoiceParticipants
       participants={participants}
-      localInCall={localInElementCall}
+      localInCall={localInCall}
       roomId={roomId}
+      compact={compact}
     />
   );
 }

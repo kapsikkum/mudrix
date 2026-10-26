@@ -48,7 +48,7 @@ import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { IdentityWarning } from './IdentityWarning';
 import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
-import { isInElementCallAtom } from '@/app/store/atoms/elementCall';
+import { isInCallAtom } from '@/app/store/atoms/call';
 import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Composer.css';
 
@@ -171,7 +171,7 @@ export function Composer({
 
   const [popoverStyle, setPopoverStyle] = useState<React.CSSProperties>({});
 
-  const inCall = useAtomValue(isInElementCallAtom);
+  const inCall = useAtomValue(isInCallAtom);
   const keybinds = useAtomValue(keybindsAtom);
   const pushToTalk = useAtomValue(pushToTalkEnabledAtom);
 
@@ -194,8 +194,6 @@ export function Composer({
         const bound = [
           keybinds.toggleMute,
           keybinds.toggleDeafen,
-          keybinds.toggleVideo,
-          keybinds.disconnect,
           pushToTalk ? keybinds.pushToTalk : '',
         ];
         if (bound.some((combo) => matchesComboDown(e, parseCombo(combo)))) return;

@@ -22,6 +22,9 @@ import { useContextMenu } from '@/app/hooks/useContextMenu';
 import { useSyncReady } from '@/app/hooks/useSync';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { useGlobalVoiceState } from '@/app/features/voice/useGlobalVoice';
+import { DeviceControl } from '@/app/features/calls/DeviceMenu';
+import { PushToTalkDot } from '@/app/features/calls/PushToTalkDot';
+import { useCallSnapshot } from '@/app/features/calls/stage/useCallSnapshot';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import * as css from './UserPanel.css';
 
@@ -43,6 +46,10 @@ export function UserPanel() {
   const panelRef = useRef<HTMLDivElement>(null);
   const { openContextMenu } = useContextMenu();
   const { micMuted, deafened, toggleMic, toggleDeafen } = useGlobalVoiceState();
+  const callSnapshot = useCallSnapshot();
+  const speaking =
+    callSnapshot?.phase === 'joined' &&
+    !!callSnapshot.participants.find((p) => p.isLocal)?.speaking;
 
   const user = client && userId ? client.getUser(userId) : null;
   const displayName = user?.displayName ?? '';
@@ -136,45 +143,53 @@ export function UserPanel() {
           openOwnProfile();
         }}
       >
-        <Avatar
-          name={displayName}
-          mxcUrl={avatarMxc}
-          client={client ?? undefined}
-          size="sm"
-          placeholder="logo"
-          presence={presence}
-          presenceDotLabel={t('presence.changeStatus')}
-          onPresenceDotClick={showPresence ? handlePresenceDotClick : undefined}
-        />
+        <span className={speaking ? css.avatarRingSpeaking : css.avatarRing}>
+          <Avatar
+            name={displayName}
+            mxcUrl={avatarMxc}
+            client={client ?? undefined}
+            size="sm"
+            placeholder="logo"
+            presence={presence}
+            presenceDotLabel={t('presence.changeStatus')}
+            onPresenceDotClick={showPresence ? handlePresenceDotClick : undefined}
+          />
+        </span>
         <span className={css.userPanelId}>{displayName}</span>
       </div>
       <div className={css.voiceControls}>
-        <IconButton
-          size="sm"
-          danger={micMuted}
-          tooltip={micTitle}
-          aria-label={micTitle}
-          onClick={toggleMic}
-        >
-          <MicIcon size={16} />
-        </IconButton>
-        <IconButton
-          size="sm"
-          danger={deafened}
-          tooltip={deafenTitle}
-          aria-label={deafenTitle}
-          onClick={toggleDeafen}
-        >
-          <span className={css.deafenStrike}>
-            <HeadphonesIcon size={16} />
-            {deafened && (
-              <span className={css.deafenStrikeSlash}>
-                <span className={css.deafenStrikeOutline} />
-                <span className={css.deafenStrikeCore} />
-              </span>
-            )}
-          </span>
-        </IconButton>
+        <DeviceControl kinds={['audioinput']} label={t('call.inputSettings')} variant="panel">
+          <IconButton
+            size="sm"
+            danger={micMuted}
+            tooltip={micTitle}
+            aria-label={micTitle}
+            onClick={toggleMic}
+          >
+            <PushToTalkDot>
+              <MicIcon size={16} />
+            </PushToTalkDot>
+          </IconButton>
+        </DeviceControl>
+        <DeviceControl kinds={['audiooutput']} label={t('call.outputSettings')} variant="panel">
+          <IconButton
+            size="sm"
+            danger={deafened}
+            tooltip={deafenTitle}
+            aria-label={deafenTitle}
+            onClick={toggleDeafen}
+          >
+            <span className={css.deafenStrike}>
+              <HeadphonesIcon size={16} />
+              {deafened && (
+                <span className={css.deafenStrikeSlash}>
+                  <span className={css.deafenStrikeOutline} />
+                  <span className={css.deafenStrikeCore} />
+                </span>
+              )}
+            </span>
+          </IconButton>
+        </DeviceControl>
         <IconButton
           size="sm"
           tooltip={t('settings.userSettings')}

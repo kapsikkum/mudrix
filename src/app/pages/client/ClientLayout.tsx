@@ -17,15 +17,15 @@ import {
   roomChatPanelOpenAtom,
   roomChatRoomIdAtom,
   closeRoomChatAtom,
-  isInElementCallAtom,
-  elementCallActionsAtom,
-  elementCallRoomIdAtom,
-  elementCallEffectiveViewAtom,
+  isInCallAtom,
+  callActionsAtom,
+  callRoomIdAtom,
+  callEffectiveViewAtom,
   settingsOpenAtom,
   settingsPageAtom,
 } from '@/app/store/atoms';
 import { commandActionsAtom } from '@/app/store/atoms/call';
-import type { ElementCallPresentation, SidebarView } from '@/app/store/atoms';
+import type { CallPresentation, SidebarView } from '@/app/store/atoms';
 import { useSyncListener, useSyncReady } from '@/app/hooks/useSync';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
 import { useVerification } from '@/app/hooks/useVerification';
@@ -43,10 +43,10 @@ import { Inbox } from '@/app/features/inbox';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { AccountSwitchGuard } from '@/app/components/AccountSwitchGuard';
 import { ConnectionBanner } from '@/app/components/ConnectionBanner';
-import { ElementCallLayer } from '@/app/features/calls/ElementCallLayer';
+import { CallLayer } from '@/app/features/calls/CallLayer';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
-import { CallEmbedProvider, CallEmbedContainer } from '@/app/plugins/call/CallEmbedProvider';
-import { ElementCallController } from '@/app/features/calls/ElementCallController';
+import { CallContainerProvider, CallContainer } from '@/app/features/calls/CallContainer';
+import { CallController } from '@/app/features/calls/CallController';
 import { useTranslation } from 'react-i18next';
 import { useClientNotifications } from './hooks/useClientNotifications';
 import { useRecordLastRoom, useSwitchContext } from './hooks/useContextNavigation';
@@ -318,22 +318,21 @@ export function ClientLayout() {
   useVerification(client);
   useSessionVerification(client, syncReady);
 
-  const elementCallActions = useAtomValue(elementCallActionsAtom);
-  const isInElementCall = useAtomValue(isInElementCallAtom);
-  const startElementCall = elementCallActions?.start;
-  const hangupElementCall = elementCallActions?.hangup;
-  const elementToggleMute = elementCallActions?.toggleMute;
-  const elementToggleDeafen = elementCallActions?.toggleDeafen;
-  const elementToggleVideo = elementCallActions?.toggleVideo;
+  const callActions = useAtomValue(callActionsAtom);
+  const isInCall = useAtomValue(isInCallAtom);
+  const startCall = callActions?.start;
+  const hangupCall = callActions?.hangup;
+  const callToggleMute = callActions?.toggleMute;
+  const callToggleDeafen = callActions?.toggleDeafen;
 
   const startCallInRoom = useCallback(
-    async (roomId: string, presentation: ElementCallPresentation) => {
-      if (!client || !startElementCall) return;
+    async (roomId: string, presentation: CallPresentation) => {
+      if (!client || !startCall) return;
       const room = client.getRoom(roomId);
       if (!room) return;
-      await startElementCall(room, { voiceOnly: true, presentation });
+      await startCall(room, { voiceOnly: true, presentation });
     },
-    [client, startElementCall]
+    [client, startCall]
   );
 
   const placeCall = useCallback(
@@ -348,10 +347,10 @@ export function ClientLayout() {
     setCommandActions({
       placeCall,
       joinVoice: joinVoiceRoom,
-      hangup: hangupElementCall,
+      hangup: hangupCall,
     });
     return () => setCommandActions(null);
-  }, [placeCall, joinVoiceRoom, hangupElementCall, setCommandActions]);
+  }, [placeCall, joinVoiceRoom, hangupCall, setCommandActions]);
 
   // Keyboard shortcuts
   const [membersPanelOpen, setMembersPanelOpen] = useAtom(membersPanelOpenAtom);
@@ -395,8 +394,8 @@ export function ClientLayout() {
   const roomChatOpen = useAtomValue(roomChatPanelOpenAtom);
   const roomChatRoomId = useAtomValue(roomChatRoomIdAtom);
   const closeRoomChat = useSetAtom(closeRoomChatAtom);
-  const callRoomId = useAtomValue(elementCallRoomIdAtom);
-  const callView = useAtomValue(elementCallEffectiveViewAtom);
+  const callRoomId = useAtomValue(callRoomIdAtom);
+  const callView = useAtomValue(callEffectiveViewAtom);
   const [roomChatClosing, setRoomChatClosing] = useState(false);
   const roomChatCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -471,11 +470,9 @@ export function ClientLayout() {
     if (spaceOverviewSpaceId) setSpaceMembersPanelOpen(false);
   }, [spaceOverviewSpaceId, setSpaceMembersPanelOpen]);
 
-  useVoiceKeybinds(isInElementCall, {
-    toggleMute: elementToggleMute ?? (() => {}),
-    toggleDeafen: elementToggleDeafen ?? (() => {}),
-    toggleVideo: elementToggleVideo ?? (() => {}),
-    disconnect: hangupElementCall ?? (() => {}),
+  useVoiceKeybinds(isInCall, {
+    toggleMute: callToggleMute ?? (() => {}),
+    toggleDeafen: callToggleDeafen ?? (() => {}),
   });
 
   useClientNotifications();
@@ -500,7 +497,7 @@ export function ClientLayout() {
       <ConnectionBanner />
       <MobileHeader />
 
-      <CallEmbedProvider>
+      <CallContainerProvider>
         <div className={css.appFrame}>
           {!isMobile && (
             <TitleBar
@@ -534,11 +531,11 @@ export function ClientLayout() {
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
 
-            {/* Main content — element call layer above the chat timeline */}
+            {/* Main content — call layer above the chat timeline */}
             <main
               className={`${css.mainContent}${threadsPanelView && threadPanelExpanded ? ` ${css.mainContentHidden}` : ''}`}
             >
-              <CallEmbedContainer />
+              <CallContainer />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/space/:spaceId" element={<SpaceOverviewPage />} />
@@ -546,8 +543,8 @@ export function ClientLayout() {
                 <Route path="/dm/:roomId" element={<RoomPage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-              <ElementCallLayer client={client} />
-              <ElementCallController />
+              <CallLayer client={client} />
+              <CallController />
             </main>
 
             <MembersSidebar
@@ -611,7 +608,7 @@ export function ClientLayout() {
             )}
           </div>
         </div>
-      </CallEmbedProvider>
+      </CallContainerProvider>
 
       <GlobalModals />
     </>

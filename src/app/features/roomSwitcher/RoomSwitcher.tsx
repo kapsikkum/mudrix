@@ -23,6 +23,7 @@ import { canSendState } from '@/app/hooks/useCanSendState';
 import { getErrorMessage } from '@/util/error';
 import { Avatar } from '@/app/components/Avatar';
 import { Dialog } from '@/app/components/Dialog/Dialog';
+import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './RoomSwitcher.css';
 import { HighlightedText, useRoomEntries, type RoomEntry } from './roomEntries';
 
@@ -388,16 +389,15 @@ export function RoomSwitcher() {
       </div>
       <div className={css.footer}>
         <span className={css.footerHint}>
-          <kbd className={css.kbd}>↑</kbd>
-          <kbd className={css.kbd}>↓</kbd>
+          <KeyCaps keys={['↑', '↓']} size="sm" />
           {t('roomSwitcher.hintNavigate')}
         </span>
         <span className={css.footerHint}>
-          <kbd className={css.kbd}>↵</kbd>
+          <KeyCaps keys={['↵']} size="sm" />
           {inForwardMode ? t('timeline.forwardHint') : t('roomSwitcher.hintOpen')}
         </span>
         <span className={css.footerHint}>
-          <kbd className={css.kbd}>Esc</kbd>
+          <KeyCaps keys={['Esc']} size="sm" />
           {t('roomSwitcher.hintClose')}
         </span>
       </div>

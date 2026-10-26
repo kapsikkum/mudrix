@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import type { UiDensity } from '@/theme/uiDensity';
 import { atomWithStorage } from 'jotai/utils';
 import { DEFAULT_THEME } from '@/theme/themes.css';
+import { MOD_MODIFIER } from '@/app/util/platform';
 import {
   STORAGE_KEY_THEME,
   STORAGE_KEY_MESSAGE_LAYOUT,
@@ -30,10 +31,14 @@ export type { UiDensity } from '@/theme/uiDensity';
 export interface Keybinds {
   toggleMute: string;
   toggleDeafen: string;
-  toggleVideo: string;
-  disconnect: string;
   pushToTalk: string;
 }
+
+export const DEFAULT_KEYBINDS: Keybinds = {
+  toggleMute: `${MOD_MODIFIER}+Shift+KeyM`,
+  toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
+  pushToTalk: '',
+};
 
 export interface Preferences {
   typingIndicators: boolean;
@@ -62,13 +67,7 @@ export const messageLayoutAtom = atomWithStorage<MessageLayout>(
   'modern'
 );
 
-export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, {
-  toggleMute: '',
-  toggleDeafen: '',
-  toggleVideo: '',
-  disconnect: '',
-  pushToTalk: '',
-});
+export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, DEFAULT_KEYBINDS);
 
 export const DEFAULT_PREFERENCES: Preferences = {
   typingIndicators: true,

@@ -5,6 +5,7 @@ import {
   GitlabLogoSimpleIcon,
   DownloadSimpleIcon,
   HeartStraightIcon,
+  ShieldCheckIcon,
   SparkleIcon,
 } from '@phosphor-icons/react';
 import { useSetAtom } from 'jotai';
@@ -16,6 +17,7 @@ import * as heroCss from './About.css';
 const GITLAB_URL = 'https://gitlab.com/wizardchat/wizardchat-web';
 const DOWNLOAD_URL = 'https://wizardchat.org';
 const LIBERAPAY_URL = 'https://liberapay.com/JPK/donate';
+const PRIVACY_POLICY_URL = 'https://wizardchat.org/privacy/';
 
 export function About() {
   const { t } = useTranslation();
@@ -67,16 +69,6 @@ export function About() {
               <HeartStraightIcon size={16} />
               {t('settings.about.donate')}
             </a>
-            {hasWhatsNew && (
-              <button
-                type="button"
-                className={heroCss.sourceBtn}
-                onClick={() => setWhatsNewOpen(true)}
-              >
-                <SparkleIcon size={16} />
-                {t('whatsNew.title')}
-              </button>
-            )}
           </div>
         </div>
       </div>
@@ -119,24 +111,28 @@ export function About() {
             />
           </span>
         </div>
-        <div className={css.settingRow}>
-          <span className={css.settingLabel}>
-            <Trans
-              i18nKey="settings.about.elementCall"
-              components={{
-                elementCallLink: (
-                  // eslint-disable-next-line jsx-a11y/anchor-has-content
-                  <a
-                    href="https://github.com/element-hq/element-call"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={css.externalLink}
-                  />
-                ),
-              }}
-            />
-          </span>
-        </div>
+      </div>
+
+      <div className={heroCss.footerLinks}>
+        {hasWhatsNew && (
+          <button
+            type="button"
+            className={heroCss.footerLink}
+            onClick={() => setWhatsNewOpen(true)}
+          >
+            <SparkleIcon size={14} />
+            {t('whatsNew.title')}
+          </button>
+        )}
+        <a
+          href={PRIVACY_POLICY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={heroCss.footerLink}
+        >
+          <ShieldCheckIcon size={14} />
+          {t('settings.about.privacyPolicy')}
+        </a>
       </div>
     </div>
   );

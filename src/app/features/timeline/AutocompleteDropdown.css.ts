@@ -100,16 +100,3 @@ export const hintKey = style({
   gap: '4px',
   fontWeight: 500,
 });
-
-export const kbd = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '1px 5px',
-  borderRadius: '3px',
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgTertiary,
-  fontSize: '0.7rem',
-  fontFamily: 'monospace',
-  color: vars.color.textSecondary,
-});

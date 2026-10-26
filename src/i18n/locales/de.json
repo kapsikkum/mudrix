@@ -461,8 +461,8 @@
     "enterUrl": "URL eingeben:",
     "formatting": {
       "toolbar": "Formatierung",
-      "bold": "Fett ({{mod}}+B)",
-      "italic": "Kursiv ({{mod}}+I)",
+      "bold": "Fett",
+      "italic": "Kursiv",
       "strikethrough": "Durchgestrichen",
       "code": "Code",
       "quote": "Zitat",
@@ -755,13 +755,8 @@
     "incomingVoiceCall": "Eingehender Sprachanruf",
     "incomingVideoCall": "Eingehender Videoanruf",
     "acceptShort": "Annehmen",
-    "declineShort": "Ablehnen"
-  },
-  "elementCall": {
-    "embedUnavailable": "Der Anruf-Widget ist noch nicht bereit. Bitte versuche es erneut.",
-    "homeserverUnsupported": "Dein Homeserver unterstützt MatrixRTC Anrufe nicht. Bitte wende dich an die Administration deines Homeservers.",
-    "tryAnyway": "Trotzdem versuchen",
-    "startFailed": "Der Anruf konnte nicht gestartet werden: {{error}}"
+    "declineShort": "Ablehnen",
+    "moreParticipants": "{{count}} weitere"
   },
   "time": {
     "justNow": "gerade eben",
@@ -949,8 +944,6 @@
       "showHelp": "Tastenkürzel anzeigen",
       "toggleMute": "Mikrofon Ein/Aus",
       "toggleDeafen": "Audio Ein/Aus",
-      "toggleVideo": "Video Ein/Aus",
-      "disconnect": "Auflegen",
       "clickToSet": "Klicken zum Setzen",
       "pressAKey": "Taste drücken...",
       "escToCancel": "zum Abbrechen",
@@ -964,7 +957,9 @@
       "pushToTalk": "Push-to-Talk",
       "pushToTalkBrowserHint": "Push-to-Talk funktioniert nur, solange dieser Browser-Tab im Fokus ist. Lade die Desktop-App für systemweites Push-to-Talk herunter.",
       "pushToTalkPermission": "Systemweites Push-to-Talk braucht die Berechtigung, Tastatureingaben zu überwachen. Bis dahin funktioniert es nur, solange WizardChat im Fokus ist.",
-      "pushToTalkGrant": "Berechtigung erteilen"
+      "pushToTalkGrant": "Berechtigung erteilen",
+      "resetDefault": "Auf Standard zurücksetzen",
+      "changeShortcut": "Tastenkürzel für {{name}} ändern"
     },
     "developer": {
       "title": "Entwickler",
@@ -1056,7 +1051,7 @@
       "credits": "Danksagungen",
       "matrixSdk": "Das <sdkLink>matrix-js-sdk</sdkLink> ist © The Matrix.org Foundation C.I.C. und wird unter den Bedingungen der Apache License, Version 2.0 verwendet.",
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> ist © Phosphor Icons und wird unter den Bedingungen der MIT License verwendet.",
-      "elementCall": "Der <elementCallLink>Element Call</elementCallLink> ist © New Vector Ltd (Element) und wird unter den Bedingungen der GNU Affero General Public License v3.0 verwendet."
+      "privacyPolicy": "Datenschutzerklärung"
     },
     "emojisStickers": {
       "title": "Emojis & Sticker",
@@ -1281,5 +1276,51 @@
     "gotIt": "Verstanden",
     "fullChangelog": "Vollständiges Änderungsprotokoll auf GitLab",
     "titleVersion": "Neu in {{version}}"
+  },
+  "call": {
+    "noSfu": "Auf diesem Homeserver ist kein Anrufserver (LiveKit) eingerichtet, daher können integrierte Anrufe keine Verbindung herstellen.",
+    "you": "{{name}} (du)",
+    "handRaised": "Hand gehoben",
+    "raiseHand": "Hand heben",
+    "lowerHand": "Hand senken",
+    "microphone": "Mikrofon",
+    "speaker": "Lautsprecher",
+    "camera": "Kamera",
+    "live": "LIVE",
+    "userVolume": "Nutzerlautstärke",
+    "viewProfile": "Profil anzeigen",
+    "muteForMe": "Für mich stummschalten",
+    "showNonVideo": "Teilnehmer ohne Video anzeigen",
+    "showOwnScreen": "Meine Bildschirmübertragung anzeigen",
+    "screenShareOf": "Bildschirmübertragung von {{name}}",
+    "ownScreenHidden": "Die Vorschau deiner Bildschirmübertragung ist ausgeblendet",
+    "homeserverUnsupported": "Dein Homeserver unterstützt MatrixRTC Anrufe nicht. Bitte wende dich an die Administration deines Homeservers.",
+    "tryAnyway": "Trotzdem versuchen",
+    "startFailed": "Der Anruf konnte nicht gestartet werden: {{error}}",
+    "inputDevice": "Eingabegerät",
+    "outputDevice": "Ausgabegerät",
+    "noDevices": "Keine Geräte gefunden",
+    "inputSettings": "Eingabeeinstellungen",
+    "outputSettings": "Ausgabeeinstellungen",
+    "audioSettings": "Audioeinstellungen",
+    "cameraSettings": "Kameraeinstellungen",
+    "inputVolume": "Eingangslautstärke",
+    "outputVolume": "Ausgangslautstärke",
+    "watchStream": "Stream ansehen",
+    "stopWatching": "Nicht mehr ansehen",
+    "fullscreen": "Vollbild",
+    "exitFullscreen": "Vollbild beenden",
+    "calling": "{{name}} wird angerufen...",
+    "declined": "{{name}} hat den Anruf abgelehnt",
+    "noAnswer": "Keine Antwort",
+    "ringAgain": "Erneut anrufen",
+    "streamVolume": "Stream-Lautstärke"
+  },
+  "desktopPicker": {
+    "title": "Bildschirm teilen",
+    "share": "Teilen",
+    "screens": "Bildschirme",
+    "windows": "Fenster",
+    "shareAudio": "Audio teilen"
   }
 }

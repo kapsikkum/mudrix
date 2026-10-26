@@ -24,8 +24,9 @@ import {
   optimisticRedactedIdsAtom,
   optimisticEditBodiesAtom,
   reportMessageAtom,
-  elementCallUiAtom,
-  isInElementCallAtom,
+  callUiAtom,
+  callActionsAtom,
+  isInCallAtom,
   roomSearchAtom,
   roomSearchResultsAtom,
   roomMessageSearcherAtom,
@@ -42,7 +43,6 @@ import { itemMatchesQuery, useSearch } from '@/app/hooks/useSearch';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useWidgets } from '@/app/hooks/useWidgets';
-import { useStartElementCall } from '@/app/plugins/call/useCallEmbed';
 import { useVirtualPaginator } from '@/app/hooks/useVirtualPaginator';
 import { useMessageHover } from './useMessageHover';
 import {
@@ -56,10 +56,7 @@ import { Composer } from './composer';
 import { RoomHeader } from './RoomHeader';
 import { getErrorMessage } from '@/util/error';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
-import {
-  useElementCallMemberships,
-  uniqueMembers,
-} from '@/app/features/calls/useElementCallMemberships';
+import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import * as css from './Timeline.css';
 import { scrollBehavior } from '@/app/hooks/useReducedMotion';
 
@@ -174,12 +171,12 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
   const { stickerWidget } = useWidgets(client, roomId);
 
-  const startElementCall = useStartElementCall();
-  const callUi = useAtomValue(elementCallUiAtom);
-  const isInElementCall = useAtomValue(isInElementCallAtom);
-  const callActiveInRoom = callUi.roomId === roomId && isInElementCall;
+  const callActions = useAtomValue(callActionsAtom);
+  const callUi = useAtomValue(callUiAtom);
+  const isInCall = useAtomValue(isInCallAtom);
+  const callActiveInRoom = callUi.roomId === roomId && isInCall;
 
-  const callMemberships = useElementCallMemberships(client, [roomId]);
+  const callMemberships = useCallMemberships(client, [roomId]);
   const othersInCall = (() => {
     const members = callMemberships.get(roomId);
     if (!members) return false;
@@ -191,12 +188,12 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     async (targetRoomId: string) => {
       const room = client.getRoom(targetRoomId);
       if (!room) return;
-      if (isInElementCall && callUi.roomId === targetRoomId) {
+      if (isInCall && callUi.roomId === targetRoomId) {
         return;
       }
-      await startElementCall(room, { voiceOnly: true, presentation: 'room' });
+      await callActions?.start(room, { voiceOnly: true, presentation: 'room' });
     },
-    [client, isInElementCall, callUi.roomId, startElementCall]
+    [client, isInCall, callUi.roomId, callActions]
   );
 
   const room = useLiveRoom(client, roomId);

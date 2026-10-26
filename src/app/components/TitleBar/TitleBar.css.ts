@@ -110,14 +110,3 @@ export const searchLabel = style({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
-
-export const searchKbd = style({
-  flexShrink: 0,
-  fontSize: '0.7rem',
-  fontFamily: 'inherit',
-  lineHeight: 1,
-  padding: '3px 5px',
-  borderRadius: vars.radius.sm,
-  backgroundColor: vars.color.bgTertiary,
-  color: vars.color.textMuted,
-});

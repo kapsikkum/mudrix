@@ -1,7 +1,6 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -26,23 +25,13 @@ function versionFilePlugin(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [
-    react(),
-    vanillaExtractPlugin(),
-    versionFilePlugin(),
-    // Ship the Element Call embedded widget alongside the app (served from /element-call/).
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/@element-hq/element-call-embedded/dist/**/*',
-          dest: 'element-call',
-          rename: { stripBase: 4 },
-        },
-      ],
-    }),
-  ],
+  plugins: [react(), vanillaExtractPlugin(), versionFilePlugin()],
   resolve: {
-    alias: { '@': resolve(__dirname, 'src') },
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      // Call engine in rtc/ (MatrixRTC + LiveKit)
+      'wizardchat-rtc': resolve(__dirname, 'rtc/index.ts'),
+    },
   },
   server: {
     port: 8080,

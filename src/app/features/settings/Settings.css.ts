@@ -116,19 +116,6 @@ export const clearBtn = style({
   alignItems: 'center',
 });
 
-export const kbd = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '1px 5px',
-  borderRadius: '3px',
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgTertiary,
-  fontSize: '0.7rem',
-  fontFamily: 'monospace',
-  color: vars.color.textSecondary,
-});
-
 export const kbdStack = style({
   display: 'flex',
   flexDirection: 'column',
@@ -146,55 +133,45 @@ export const keybindHint = style({
   color: vars.color.textMuted,
 });
 
-const keybindBtnBase = style({
-  minWidth: '110px',
-  padding: '6px 10px',
-  whiteSpace: 'nowrap',
+export const keybindEdit = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  minHeight: '30px',
+  padding: '3px 4px 3px 7px',
+  boxSizing: 'border-box',
   borderRadius: vars.radius.sm,
-  border: '2px solid transparent',
-  backgroundColor: vars.color.bgTertiary,
+  border: `1px dashed ${vars.color.border}`,
+  backgroundColor: 'transparent',
   cursor: 'pointer',
-  fontSize: '0.85rem',
-  textAlign: 'center',
-  transition: `background-color ${fast}, border-color ${fast}, color ${fast}`,
-  ':hover': {
-    backgroundColor: vars.color.bgHover,
-  },
+  transition: `background-color ${fast}, border-color ${fast}`,
+  ':hover': { backgroundColor: vars.color.bgHover, borderColor: vars.color.textMuted },
+  ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '1px' },
 });
 
-export const keybindBtnSet = style([
-  keybindBtnBase,
+export const keybindEditListening = style([
+  keybindEdit,
   {
-    borderColor: vars.color.border,
-    color: vars.color.textPrimary,
-    fontWeight: 600,
-    letterSpacing: '0.05em',
-    ':hover': { borderColor: vars.color.textMuted },
-  },
-]);
-
-export const keybindBtnEmpty = style([
-  keybindBtnBase,
-  {
-    borderStyle: 'dashed',
-    borderColor: vars.color.border,
-    color: vars.color.textMuted,
-    fontWeight: 400,
-    letterSpacing: 'normal',
-  },
-]);
-
-export const keybindBtnListening = style([
-  keybindBtnBase,
-  {
+    borderStyle: 'solid',
     borderColor: vars.color.accent,
     backgroundColor: vars.color.bgActive,
-    color: vars.color.accent,
-    fontWeight: 600,
-    letterSpacing: 'normal',
-    ':hover': { backgroundColor: vars.color.bgActive },
+    ':hover': { backgroundColor: vars.color.bgActive, borderColor: vars.color.accent },
   },
 ]);
+
+export const keybindEditIcon = style({
+  flexShrink: 0,
+  color: vars.color.textMuted,
+  transition: `color ${fast}`,
+  selectors: { [`${keybindEdit}:hover &`]: { color: vars.color.textPrimary } },
+});
+
+export const keybindPlaceholder = style({
+  padding: '0 4px',
+  fontSize: '0.8rem',
+  color: vars.color.textMuted,
+  whiteSpace: 'nowrap',
+});
 
 export const externalLink = style({
   display: 'inline-flex',

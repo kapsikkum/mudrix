@@ -21,6 +21,7 @@ import { Settings } from '@/app/features/settings';
 import { RoomSwitcher } from '@/app/features/roomSwitcher/RoomSwitcher';
 import { GlobalSearch } from '@/app/features/globalSearch';
 import { WhatsNewModal } from '@/app/features/whatsNew';
+import { DesktopSourcePicker } from '@/app/features/calls/desktopPicker/DesktopSourcePicker';
 import { ExploreModal } from '@/app/features/explore';
 
 export function GlobalModals() {
@@ -41,6 +42,7 @@ export function GlobalModals() {
       <VerifySessionGate />
       <VerificationBanner />
       <WhatsNewModal />
+      <DesktopSourcePicker />
       <EmojiVerificationModal />
       <RecoveryKeyModal />
       <EnterRecoveryKeyModal />

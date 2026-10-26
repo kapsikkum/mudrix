@@ -10,3 +10,7 @@ function isMac(): boolean {
 export const MODIFIER_KEY = isMac() ? '⌘' : 'Ctrl';
 
 export const ALT_KEY = isMac() ? '⌥' : 'Alt';
+
+export const SHIFT_KEY = isMac() ? '⇧' : 'Shift';
+
+export const MOD_MODIFIER = isMac() ? 'Meta' : 'Ctrl';
