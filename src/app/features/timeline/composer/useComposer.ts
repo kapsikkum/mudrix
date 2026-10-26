@@ -444,7 +444,7 @@ export function useComposer({
             ? URL.createObjectURL(file)
             : '';
         return {
-          id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          id: crypto.randomUUID(),
           file,
           previewUrl,
           oversized,

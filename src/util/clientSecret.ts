@@ -1,8 +1,15 @@
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const LENGTH = 32;
+const UNBIASED_LIMIT = 256 - (256 % CHARS.length);
+
 export function generateClientSecret(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
-  for (let i = 0; i < 32; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  while (result.length < LENGTH) {
+    for (const byte of crypto.getRandomValues(new Uint8Array(LENGTH * 2))) {
+      if (byte >= UNBIASED_LIMIT) continue;
+      result += CHARS[byte % CHARS.length];
+      if (result.length === LENGTH) break;
+    }
   }
   return result;
 }
