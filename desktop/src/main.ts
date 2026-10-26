@@ -12,7 +12,6 @@ import {
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
-import * as http from 'http';
 import { existsSync, statSync } from 'fs';
 import { pathToFileURL } from 'url';
 import { SsoLoopback } from './ssoLoopback';
@@ -241,7 +240,7 @@ function handleLoopbackCallback(params: URLSearchParams): void {
   onSsoCallbackFailure();
 }
 
-const loopback = new SsoLoopback(OIDC_LOOPBACK_PORT, handleLoopbackCallback, onSsoCallbackFailure);
+const loopback = new SsoLoopback(OIDC_LOOPBACK_PORT, handleLoopbackCallback);
 
 async function openSsoInBrowser(ssoUrl: string): Promise<void> {
   try {
@@ -432,14 +431,9 @@ async function onReady(): Promise<void> {
 
     autoUpdater.on('update-available', (info: { version: string; files?: { url: string }[] }) => {
       latestDmgUrl = info.files?.find((f) => f.url.endsWith('.dmg'))?.url ?? null;
-      mainWindow?.webContents.send('update-available', info.version);
       if (process.platform === 'darwin') {
         mainWindow?.webContents.send('update-downloaded');
       }
-    });
-
-    autoUpdater.on('download-progress', (p: { percent: number }) => {
-      mainWindow?.webContents.send('update-progress', p.percent);
     });
 
     autoUpdater.on('update-downloaded', () => {

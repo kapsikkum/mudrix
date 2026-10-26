@@ -24,7 +24,6 @@ export class SsoLoopback {
   constructor(
     private readonly portHint: number,
     private readonly onCallback: (params: URLSearchParams) => void,
-    private readonly onFailure: () => void,
   ) {}
 
   async buildBrowserUrl(ssoUrl: string): Promise<string | null> {
