@@ -119,6 +119,19 @@ export const headerDivider = style({
   margin: '0 4px',
 });
 
+export const headerPanelButtons = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const hideOnMobile = style({
+  '@media': {
+    '(max-width: 768px)': {
+      display: 'none',
+    },
+  },
+});
+
 export const desktopOnly = style({
   display: 'contents',
   '@media': {

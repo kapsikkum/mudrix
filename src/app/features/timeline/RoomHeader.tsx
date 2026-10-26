@@ -187,8 +187,8 @@ export function RoomHeader({
           </div>
         )}
 
-        <div className={css.desktopOnly}>
-          {hasLeftHeaderActions && <div className={css.headerDivider} />}
+        <div className={css.headerPanelButtons}>
+          {hasLeftHeaderActions && <div className={`${css.headerDivider} ${css.hideOnMobile}`} />}
 
           {/* Threads toggle button */}
           <Tooltip content={t('timeline.threads')}>
