@@ -203,12 +203,12 @@ export function useComposer({
 
   const sendTyping = useCallback(
     (typing: boolean) => {
-      if (!typingIndicators) return;
+      if (!typingIndicators || threadId) return;
       if (typing === isTypingRef.current) return;
       isTypingRef.current = typing;
       client.sendTyping(roomId, typing, typing ? 5000 : 0).catch(() => {});
     },
-    [client, roomId, typingIndicators]
+    [client, roomId, threadId, typingIndicators]
   );
 
   useEffect(() => {

@@ -1733,13 +1733,12 @@ export const threadBadgeIconWrap = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
-  color: vars.color.accent,
 });
 
 export const threadBadgeDot = style({
   position: 'absolute',
-  right: '-3px',
-  bottom: '-3px',
+  right: '-2px',
+  bottom: '-2px',
   width: '8px',
   height: '8px',
   borderRadius: '50%',
@@ -1755,13 +1754,17 @@ export const threadBadgeCount = style({
 });
 
 export const threadBadgeName = style({
+  display: 'flex',
   flexShrink: 0,
+  fontWeight: 600,
+  color: vars.color.accent,
+});
+
+export const threadBadgeNameText = style({
   maxWidth: '10ch',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontWeight: 600,
-  color: vars.color.textPrimary,
 });
 
 export const threadBadgeBody = style({
@@ -1770,7 +1773,7 @@ export const threadBadgeBody = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  color: vars.color.textSecondary,
+  color: vars.color.textPrimary,
 });
 
 export const readReceiptAvatar = style({

@@ -25,11 +25,13 @@ export function useHasUnreadThreads(roomId: string | null | undefined): boolean 
     room.on(ThreadEvent.Update, recompute);
     room.on(ThreadEvent.Delete, recompute);
     room.on(RoomEvent.Timeline, recompute);
+    room.on(RoomEvent.Receipt, recompute);
     return () => {
       room.off(ThreadEvent.New, recompute);
       room.off(ThreadEvent.Update, recompute);
       room.off(ThreadEvent.Delete, recompute);
       room.off(RoomEvent.Timeline, recompute);
+      room.off(RoomEvent.Receipt, recompute);
     };
   }, [room, threadLastSeen]);
 

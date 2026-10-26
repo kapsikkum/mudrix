@@ -17,6 +17,7 @@ import { MessageActionToolbar } from './MessageActionToolbar';
 import { ViewSourceModal } from './ViewSourceModal';
 import { formatTime } from '@/util/format';
 import { formatUserId, isPrivateRoom } from '@/util/matrix';
+import { isThreadReplyUnread } from '@/util/threads';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { useContextMenu, isMenuOpenKey, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
 import { useToast } from '@/app/hooks/useToast';
@@ -297,9 +298,19 @@ export const Message = memo(function Message({
         setTimelineVersion((v) => v + 1);
       }
     };
+    const myUserId = room.client.getUserId();
+    const onReceipt = (ev: MatrixEvent) => {
+      const content = ev.getContent<Record<string, Record<string, Record<string, unknown>>>>();
+      const mine = Object.values(content).some((byType) =>
+        Object.values(byType ?? {}).some((byUser) => !!myUserId && !!byUser?.[myUserId])
+      );
+      if (mine) setTimelineVersion((v) => v + 1);
+    };
     room.on(RoomEvent.Timeline, bump);
+    room.on(RoomEvent.Receipt, onReceipt);
     return () => {
       room.off(RoomEvent.Timeline, bump);
+      room.off(RoomEvent.Receipt, onReceipt);
     };
   }, [room, event]);
 
@@ -572,12 +583,13 @@ export const Message = memo(function Message({
 
     if (count === 0) return null;
 
-    const lastRenderableEventId = lastEvent?.getId();
-
-    const lastSeenEventId = threadLastSeen[eventId];
-    const hasNewReplies =
-      lastSeenEventId === undefined ||
-      (lastRenderableEventId !== undefined && lastRenderableEventId !== lastSeenEventId);
+    const hasNewReplies = isThreadReplyUnread(
+      room,
+      localThread,
+      eventId,
+      lastEvent,
+      threadLastSeen
+    );
 
     let previewSenderName = '';
     let previewSenderAvatar: string | null = null;
@@ -1117,7 +1129,7 @@ export const Message = memo(function Message({
             <Tooltip content={t('timeline.threadReplies', { count: threadBadge.count })}>
               <button type="button" className={css.threadBadge} onClick={handleThreadClick}>
                 <span className={css.threadBadgeIconWrap}>
-                  <ChatDotsIcon size={16} weight="fill" />
+                  <ChatDotsIcon size={16} />
                   {threadBadge.hasNewReplies && <span className={css.threadBadgeDot} />}
                 </span>
                 <span className={css.threadBadgeCount}>{threadBadge.count}</span>
@@ -1130,7 +1142,12 @@ export const Message = memo(function Message({
                       size="xs"
                       placeholder="logo"
                     />
-                    <span className={css.threadBadgeName}>{threadBadge.previewSenderName}</span>
+                    <span className={css.threadBadgeName}>
+                      <span className={css.threadBadgeNameText}>
+                        {threadBadge.previewSenderName}
+                      </span>
+                      :
+                    </span>
                     <span className={css.threadBadgeBody}>{threadBadge.previewBody}</span>
                   </>
                 )}
