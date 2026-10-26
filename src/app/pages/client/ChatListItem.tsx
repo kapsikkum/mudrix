@@ -21,6 +21,7 @@ interface ChatListItemProps {
   roomId: string;
   avatarMxc?: string | null;
   avatarUrl?: string | null;
+  avatarPlaceholder?: 'initial' | 'logo';
   isActive: boolean;
   unread?: number;
   hasNotif?: boolean;
@@ -43,6 +44,7 @@ export function ChatListItem({
   roomId,
   avatarMxc,
   avatarUrl,
+  avatarPlaceholder,
   isActive,
   unread,
   hasNotif,
@@ -141,6 +143,7 @@ export function ChatListItem({
                   mxcUrl={avatarMxc ?? null}
                   client={client ?? undefined}
                   size="sm"
+                  placeholder={avatarPlaceholder}
                 />
               )}
             </span>

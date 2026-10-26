@@ -328,6 +328,7 @@ export const DmListItem = memo(function DmListItem({
       name={entry.partnerName}
       roomId={entry.roomId}
       avatarMxc={entry.partnerAvatarMxc}
+      avatarPlaceholder="logo"
       isActive={isActive}
       unread={entry.unreadCount}
       hasNotif={entry.hasNotif}
