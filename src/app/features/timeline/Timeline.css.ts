@@ -1278,9 +1278,15 @@ const fadeIn = keyframes({
   to: { opacity: 1, transform: 'translateY(0)' },
 });
 
+export const scrollToBottomAnchor = style({
+  position: 'relative',
+  height: 0,
+  flexShrink: 0,
+});
+
 export const scrollToBottomBtn = style({
   position: 'absolute',
-  bottom: '100px',
+  bottom: '12px',
   right: '20px',
   width: '36px',
   height: '36px',
