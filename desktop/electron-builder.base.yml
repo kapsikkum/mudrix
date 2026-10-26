@@ -12,7 +12,8 @@ files:
   - dist/**/*
 
 extraResources:
-  - from: wizardchat-web/dist
+  # Web app build from the repo root
+  - from: ../dist
     to: web-app
   - from: icons/source/icon.png
     to: icons/source/icon.png
