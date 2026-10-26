@@ -1,52 +1,34 @@
 # WizardChat Desktop
 
-This is the desktop app for [WizardChat](https://wizardchat.org), built using Electron.
+The Electron app for [WizardChat](https://wizardchat.org). It packages the web app from the repo
+root (`../dist`), so build that first.
 
-The main repo can be found at [WizardChat-Web](https://gitlab.com/wizardchat/wizardchat-web).
-
-## Setup
-
-**Clone the repo with submodules**
-
-```sh
-git clone --recurse-submodules https://gitlab.com/wizardchat/wizardchat-desktop.git
-cd wizardchat-desktop
-```
-
-If you already cloned without submodules:
-
-```sh
-git submodule update --init --recursive
-```
-
-**Install dependencies** 
-
-```sh
-npm install
-```
-
----
+- **Version:** taken from the root `package.json` (see `electron-builder.cjs`); the `version` here
+  is a placeholder.
+- **Config:** `electron-builder.base.yml` holds the packaging settings, `electron-builder.cjs` adds
+  the version.
+- **Updates:** stable builds read `https://app.wizardchat.org/desktop/latest*.yml`, next builds
+  `https://next.wizardchat.org/desktop/`. CI writes those files on release
+  (`scripts/write-update-feed.mjs`).
 
 ## Build
 
 ```sh
-# build for macOS
-npm run package:mac
+# web build at the repo root
+npm --prefix .. ci && npm --prefix .. run build
 
-# build for linux (AppImage)
-npm run package:linux
+npm ci
+npm run build:electron
 
-# build for windows
-npm run package:win
+npx electron-builder --mac     # or --linux (AppImage) / --win
 ```
 
-The output can be found in `release/`.
+The output is in `release/`. `npm run package:mac` / `package:linux` / `package:win` do all of the
+above in one go.
 
----
+## macOS: unsigned build warning
 
-## macOS: Override unsigned build warning
-
-On macOS, WizardChat is not officially signed. The first time you open it, macOS may block the app. To allow it:
+WizardChat isn't signed yet, so macOS may block it the first time. To allow it:
 
 1. Open **System Settings** → **Privacy & Security**
 2. Scroll to the bottom under **Security**
