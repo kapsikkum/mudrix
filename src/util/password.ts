@@ -25,3 +25,13 @@ export function isPasswordValid(validity: PasswordValidity): boolean {
     validity.special
   );
 }
+
+export type PasswordStrength = 'weak' | 'okay' | 'strong';
+
+export function passwordStrength(p: string): PasswordStrength {
+  const v = checkPassword(p);
+  const variety = [v.uppercase, v.lowercase, v.number, v.special].filter(Boolean).length;
+  if (p.length < 8 || variety < 2) return 'weak';
+  if (p.length >= 14 || (p.length >= 10 && variety >= 3) || variety === 4) return 'strong';
+  return 'okay';
+}

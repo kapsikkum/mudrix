@@ -1,18 +1,17 @@
-import { useState } from 'react';
-import { CheckIcon, XIcon } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createClient } from 'matrix-js-sdk';
 import {
   login,
+  normalizeUrl,
   resetClientForNewSession,
   persistCredentials,
   requestPersistentStorage,
 } from '@/client/initMatrix';
 import { useSetAtom } from 'jotai';
-import { vars } from '@/theme/vars.css';
 import { credentialsAtom } from '@/app/store/atoms';
 import { getErrorMessage, MatrixErrorCode } from '@/util/error';
-import { checkPassword, type PasswordValidity } from '@/util/password';
+import { passwordStrength } from '@/util/password';
 import {
   redirectToSso,
   resolveIdpIconUrl,
@@ -29,6 +28,26 @@ import { Input } from '@/app/components/Input';
 import { Select } from '@/app/components/Select';
 import type { MatrixCredentials } from '@/client/types';
 import * as css from './WelcomePage.css';
+
+const LOCALPART_RE = /^[a-z0-9._=\-/+]+$/;
+const USERNAME_CHECK_DELAY_MS = 500;
+
+type UsernameState = 'idle' | 'checking' | 'available' | 'taken' | 'reserved' | 'invalid';
+
+const STRENGTH_BARS = { weak: 1, okay: 2, strong: 3 } as const;
+const STRENGTH_CLASS = {
+  weak: css.strengthBarWeak,
+  okay: css.strengthBarOkay,
+  strong: css.strengthBarStrong,
+} as const;
+
+function serverNameOf(url: string): string {
+  try {
+    return new URL(normalizeUrl(url)).host;
+  } catch {
+    return '';
+  }
+}
 
 interface Props {
   onSuccess: () => void;
@@ -59,11 +78,16 @@ export function RegisterForm({
   const setCredentials = useSetAtom(credentialsAtom);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [usernameState, setUsernameState] = useState<UsernameState>('idle');
   const [status, setStatus] = useState('');
   const [statusType, setStatusType] = useState<'error' | 'success'>('error');
   const [loading, setLoading] = useState(false);
-  const [pwdValidity, setPwdValidity] = useState(() => checkPassword(''));
+
+  const serverName = serverNameOf(serverSelect === 'custom' ? customUrl : serverSelect);
+  const localpart = username.trim().replace(/^@/, '');
+  const fullId = localpart && serverName ? `@${localpart}:${serverName}` : '';
+  const strength = password ? passwordStrength(password) : null;
+  const passwordTooShort = password.length > 0 && password.length < 8;
 
   const oidcMetadata = capabilities?.delegatedAuth ? capabilities.authMetadata : undefined;
   const ssoFlow = capabilities?.ssoFlow;
@@ -78,17 +102,68 @@ export function RegisterForm({
   const wellKnownInvalid = discoveryStatus === DiscoveryStatus.WellKnownInvalid;
   const isChecking = capabilitiesLoading && !capabilities;
 
+  useEffect(() => {
+    if (!localpart || !hasPasswordRegister) {
+      setUsernameState('idle');
+      return;
+    }
+    if (!LOCALPART_RE.test(localpart)) {
+      setUsernameState('invalid');
+      return;
+    }
+    setUsernameState('checking');
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      createClient({ baseUrl: serverUrl })
+        .isUsernameAvailable(localpart)
+        .then((available) => {
+          if (!cancelled) setUsernameState(available ? 'available' : 'taken');
+        })
+        .catch((err: { errcode?: string; data?: { errcode?: string } }) => {
+          if (cancelled) return;
+          const errcode = err?.errcode ?? err?.data?.errcode;
+          if (errcode === MatrixErrorCode.USER_IN_USE) setUsernameState('taken');
+          else if (errcode === MatrixErrorCode.INVALID_USERNAME) setUsernameState('invalid');
+          else if (errcode === MatrixErrorCode.EXCLUSIVE) setUsernameState('reserved');
+          else setUsernameState('idle');
+        });
+    }, USERNAME_CHECK_DELAY_MS);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [localpart, serverUrl, hasPasswordRegister]);
+
+  const usernameError =
+    usernameState === 'taken'
+      ? t('welcome.usernameTaken')
+      : usernameState === 'reserved'
+        ? t('welcome.usernameReserved')
+        : usernameState === 'invalid'
+          ? t('welcome.usernameInvalidChars')
+          : undefined;
+  const usernameHint = !fullId
+    ? undefined
+    : usernameState === 'available'
+      ? t('welcome.usernameAvailable', { id: fullId })
+      : usernameState === 'checking'
+        ? t('welcome.usernameChecking', { id: fullId })
+        : t('welcome.usernameHint', { id: fullId });
+
+  const canSubmit =
+    !!localpart &&
+    password.length >= 8 &&
+    usernameState !== 'taken' &&
+    usernameState !== 'reserved' &&
+    usernameState !== 'invalid';
+
   const handleRegister = async () => {
-    if (!username || !password || !confirmPassword) {
+    if (!localpart || !password) {
       setStatus(t('welcome.fillAllFields'));
       setStatusType('error');
       return;
     }
-    if (password !== confirmPassword) {
-      setStatus(t('welcome.passwordMismatch'));
-      setStatusType('error');
-      return;
-    }
+    if (!canSubmit) return;
 
     setLoading(true);
     setStatus('');
@@ -108,7 +183,7 @@ export function RegisterForm({
       // Step 1: probe for available auth flows (no auth field = valid per Matrix spec)
       let session: string | null = null;
       try {
-        await client.registerRequest({ username, password, refresh_token: true });
+        await client.registerRequest({ username: localpart, password, refresh_token: true });
       } catch (uiaErr) {
         const err = uiaErr as UiaError;
         const errData = err.data ?? {};
@@ -131,7 +206,7 @@ export function RegisterForm({
       }
 
       // Step 2: complete registration with m.login.dummy
-      const result = await client.register(username, password, session, {
+      const result = await client.register(localpart, password, session, {
         type: 'm.login.dummy',
       });
 
@@ -152,7 +227,7 @@ export function RegisterForm({
       } else {
         // Server withheld credentials (inhibit_login or non-standard config)
         // fall back to an explicit login call.
-        const { credentials } = await login(username, password, serverUrl);
+        const { credentials } = await login(localpart, password, serverUrl);
         setCredentials(credentials);
         onSuccess();
       }
@@ -165,6 +240,8 @@ export function RegisterForm({
         setStatus(t('welcome.invalidUsername'));
       } else if (errcode === MatrixErrorCode.EXCLUSIVE) {
         setStatus(t('welcome.usernameReserved'));
+      } else if (errcode === MatrixErrorCode.WEAK_PASSWORD) {
+        setStatus(t('welcome.weakPassword', { error: uiaErr.data?.error ?? '' }));
       } else if (uiaErr.data?.error) {
         setStatus(t('welcome.registrationFailed', { error: uiaErr.data.error }));
       } else {
@@ -236,63 +313,45 @@ export function RegisterForm({
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                helperText={usernameError ? undefined : usernameHint}
+                error={usernameError}
               />
               <Input
                 type="password"
                 placeholder={t('welcome.password')}
                 aria-label={t('welcome.password')}
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setPwdValidity(checkPassword(e.target.value));
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
                 showPasswordToggle
-              />
-              <Input
-                type="password"
-                placeholder={t('welcome.confirmPassword')}
-                aria-label={t('welcome.confirmPassword')}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                autoComplete="new-password"
-                showPasswordToggle
+                error={passwordTooShort ? t('welcome.passwordTooShort') : undefined}
                 onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
               />
 
-              <div className={css.passwordReqs}>
-                <p>{t('welcome.passwordRequirements.title')}</p>
-                <ul>
-                  {(
-                    [
-                      ['length', t('welcome.passwordRequirements.length')],
-                      ['uppercase', t('welcome.passwordRequirements.uppercase')],
-                      ['lowercase', t('welcome.passwordRequirements.lowercase')],
-                      ['number', t('welcome.passwordRequirements.number')],
-                      ['special', t('welcome.passwordRequirements.special')],
-                    ] as [keyof PasswordValidity, string][]
-                  ).map(([key, label]) => {
-                    const met = pwdValidity[key];
-                    return (
-                      <li key={key} className={css.reqItem}>
-                        {met ? (
-                          <CheckIcon size={14} weight="bold" color={vars.color.success} />
-                        ) : (
-                          <XIcon size={14} weight="bold" color={vars.color.error} />
-                        )}
-                        {label}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              {strength && !passwordTooShort && (
+                <div className={css.strength} aria-live="polite">
+                  <div className={css.strengthBars}>
+                    {[1, 2, 3].map((i) => (
+                      <span
+                        key={i}
+                        className={
+                          i <= STRENGTH_BARS[strength] ? STRENGTH_CLASS[strength] : css.strengthBar
+                        }
+                      />
+                    ))}
+                  </div>
+                  <span>{t(`welcome.passwordStrength.${strength}`)}</span>
+                </div>
+              )}
 
               <Button
                 fullWidth
                 size="lg"
                 variant="primary"
                 onClick={handleRegister}
-                disabled={loading}
+                disabled={loading || !canSubmit}
               >
                 {loading ? t('welcome.registering') : t('welcome.registerSubmit')}
               </Button>

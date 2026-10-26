@@ -124,7 +124,18 @@
     "resetSuccess": "Password reset successfully! You can now log in with your new password.",
     "resetDelegatedInfo": "This server manages your password through an external account portal.",
     "resetOpenAccountPortal": "Open Account Settings",
-    "resetNotSupported": "This server doesn't support in-app password reset. Please manage your password through your account settings."
+    "resetNotSupported": "This server doesn't support in-app password reset. Please manage your password through your account settings.",
+    "usernameHint": "Your ID will be {{id}}",
+    "usernameChecking": "Checking {{id}}...",
+    "usernameAvailable": "{{id}} is available",
+    "usernameInvalidChars": "Use only lowercase letters, numbers and . _ = - / +",
+    "passwordTooShort": "Use at least 8 characters",
+    "passwordStrength": {
+      "weak": "Weak",
+      "okay": "Okay",
+      "strong": "Strong"
+    },
+    "weakPassword": "The server says this password is too weak. {{error}}"
   },
   "room": {
     "reorderFailed": "Couldn't save the new order: {{error}}",

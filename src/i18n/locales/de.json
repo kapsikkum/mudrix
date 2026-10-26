@@ -124,7 +124,18 @@
     "resetSuccess": "Passwort erfolgreich zurückgesetzt! Du kannst dich jetzt mit deinem neuen Passwort anmelden.",
     "resetDelegatedInfo": "Dieser Server verwaltet dein Passwort über ein externes Kontoportal.",
     "resetOpenAccountPortal": "Kontoeinstellungen öffnen",
-    "resetNotSupported": "Dieser Server unterstützt das Zurücksetzen des Passworts in der App nicht. Bitte verwalte dein Passwort über deine Kontoeinstellungen."
+    "resetNotSupported": "Dieser Server unterstützt das Zurücksetzen des Passworts in der App nicht. Bitte verwalte dein Passwort über deine Kontoeinstellungen.",
+    "usernameHint": "Deine ID wird {{id}}",
+    "usernameChecking": "{{id}} wird geprüft...",
+    "usernameAvailable": "{{id}} ist verfügbar",
+    "usernameInvalidChars": "Nur Kleinbuchstaben, Zahlen und . _ = - / + verwenden",
+    "passwordTooShort": "Mindestens 8 Zeichen verwenden",
+    "passwordStrength": {
+      "weak": "Schwach",
+      "okay": "Okay",
+      "strong": "Stark"
+    },
+    "weakPassword": "Der Server findet dieses Passwort zu schwach. {{error}}"
   },
   "room": {
     "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden: {{error}}",

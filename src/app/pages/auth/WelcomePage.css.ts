@@ -170,3 +170,31 @@ export const reqItem = style({
   alignItems: 'center',
   gap: '6px',
 });
+
+export const strength = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  marginTop: '-4px',
+  paddingLeft: '2px',
+  fontSize: '0.8rem',
+  color: vars.color.textMuted,
+});
+
+export const strengthBars = style({
+  display: 'flex',
+  gap: '4px',
+  flex: 1,
+});
+
+export const strengthBar = style({
+  flex: 1,
+  height: '4px',
+  borderRadius: '2px',
+  backgroundColor: vars.color.border,
+  transition: 'background-color 0.2s',
+});
+
+export const strengthBarWeak = style([strengthBar, { backgroundColor: vars.color.error }]);
+export const strengthBarOkay = style([strengthBar, { backgroundColor: vars.color.warning }]);
+export const strengthBarStrong = style([strengthBar, { backgroundColor: vars.color.success }]);
