@@ -69,6 +69,8 @@ nsis:
   shortcutName: WizardChat
   artifactName: "${productName}-Setup-${version}.${ext}"
 
+detectUpdateChannel: false
+
 publish:
   - provider: generic
-    url: https://gitlab.com
+    url: https://app.wizardchat.org/desktop/

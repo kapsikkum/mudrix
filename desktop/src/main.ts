@@ -20,7 +20,7 @@ import { setupPushToTalk, stopPushToTalk } from './pushToTalk';
 
 let mainWindow: BrowserWindow | null = null;
 let pendingRoomUrl: string | null = null;
-let latestVersion: string | null = null;
+let latestDmgUrl: string | null = null;
 
 const PROTOCOL = 'org.wizardchat.desktop';
 const OIDC_LOOPBACK_PORT = 34759;
@@ -29,6 +29,11 @@ const DEFAULT_FG = '#e8e8f0';
 // Must match TITLE_BAR_HEIGHT in wizardchat-web's TitleBar
 const TITLEBAR_HEIGHT = 40;
 const EXTERNAL_SCHEMES = new Set(['http:', 'https:', 'mailto:']);
+const IS_NEXT_BUILD = /-next(\.|$)/.test(app.getVersion());
+const UPDATE_FEED_URL = IS_NEXT_BUILD
+  ? 'https://next.wizardchat.org/desktop/'
+  : 'https://app.wizardchat.org/desktop/';
+const DOWNLOAD_PAGE_URL = 'https://wizardchat.org';
 
 function isExternalUrl(url: string): boolean {
   try {
@@ -417,7 +422,7 @@ async function onReady(): Promise<void> {
   createWindow();
 
   if (app.isPackaged) {
-    autoUpdater.setFeedURL({ provider: 'gitlab', projectId: '82340703' });
+    autoUpdater.setFeedURL({ provider: 'generic', url: UPDATE_FEED_URL });
 
     if (process.platform === 'darwin') {
       autoUpdater.autoDownload = false;
@@ -426,8 +431,8 @@ async function onReady(): Promise<void> {
     autoUpdater.checkForUpdates();
     setInterval(() => autoUpdater.checkForUpdates(), 10 * 60 * 1000);
 
-    autoUpdater.on('update-available', (info: { version: string }) => {
-      latestVersion = info.version;
+    autoUpdater.on('update-available', (info: { version: string; files?: { url: string }[] }) => {
+      latestDmgUrl = info.files?.find((f) => f.url.endsWith('.dmg'))?.url ?? null;
       mainWindow?.webContents.send('update-available', info.version);
       if (process.platform === 'darwin') {
         mainWindow?.webContents.send('update-downloaded');
@@ -445,8 +450,7 @@ async function onReady(): Promise<void> {
 
   ipcMain.on('install-update', () => {
     if (process.platform === 'darwin') {
-      const version = latestVersion ?? app.getVersion();
-      const gitlabUrl = `https://gitlab.com/api/v4/projects/82340703/packages/generic/wizardchat-desktop/v${version}/WizardChat-${version}-arm64.dmg`;      openExternal(gitlabUrl);
+      openExternal(latestDmgUrl ?? DOWNLOAD_PAGE_URL);
     } else {
       autoUpdater.quitAndInstall();
     }
