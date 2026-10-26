@@ -12,7 +12,6 @@ files:
   - dist/**/*
 
 extraResources:
-  # Web app build from the repo root
   - from: ../dist
     to: web-app
   - from: icons/source/icon.png

@@ -8,7 +8,6 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default [
   {
-    // desktop/ (Electron main process) has its own package and tsconfig
     ignores: ['node_modules/**', 'dist/**', 'desktop/**'],
   },
   js.configs.recommended,

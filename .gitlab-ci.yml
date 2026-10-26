@@ -413,8 +413,6 @@ deploy:
     - apk add --no-cache nodejs npm curl
     - npm install -g wrangler
   script:
-    # Keep the desktop update files of the last release: deploy-desktop-feed replaces them once
-    # this release's installers are uploaded (if a desktop build fails, the old ones stay live)
     - |
       mkdir -p dist/desktop
       for f in latest.yml latest-mac.yml latest-linux.yml; do
@@ -441,8 +439,6 @@ deploy-next:
     - apk add --no-cache nodejs npm curl
     - npm install -g wrangler
   script:
-    # Keep the desktop update files of the last release: deploy-desktop-feed replaces them once
-    # this release's installers are uploaded (if a desktop build fails, the old ones stay live)
     - |
       mkdir -p dist/desktop
       for f in latest.yml latest-mac.yml latest-linux.yml; do
@@ -454,11 +450,6 @@ deploy-next:
   environment:
     name: next
     url: https://next.wizardchat.org
-
-# ── Desktop (Electron, desktop/) ─────────────────────────────────────────────────────────────
-# Same tag, same version (root package.json, read by desktop/electron-builder.cjs). Builds use the
-# web build of this pipeline; installers go to the package registry and the GitLab release, the
-# update files to <app|next>.wizardchat.org/desktop/ (deploy-desktop-feed).
 
 .desktop-release-rules:
   rules:
@@ -478,7 +469,6 @@ deploy-next:
     - npm run build:electron
     - npx electron-builder --$DESKTOP_PLATFORM --publish=never
   artifacts:
-    # Top-level files only (installers, blockmaps, latest*.yml), not the unpacked app folders
     paths:
       - desktop/release/*.*
     expire_in: 1 day
@@ -545,7 +535,6 @@ deploy-desktop-feed:
   stage: deploy
   image: node:22-alpine
   extends: .desktop-release-rules
-  # One feed deploy at a time per project
   resource_group: desktop-feed
   needs:
     - job: validate-and-build
@@ -566,7 +555,6 @@ deploy-desktop-feed:
   before_script:
     - npm install -g wrangler
   script:
-    # The same web build as the web deploy, plus this release's update files
     - node desktop/scripts/write-update-feed.mjs desktop/release dist
     - |
       case "$CI_COMMIT_TAG" in

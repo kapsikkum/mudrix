@@ -26,7 +26,6 @@ const PROTOCOL = 'org.wizardchat.desktop';
 const OIDC_LOOPBACK_PORT = 34759;
 const DEFAULT_BG = '#11111e';
 const DEFAULT_FG = '#e8e8f0';
-// Must match TITLE_BAR_HEIGHT in src/app/components/TitleBar (web app, repo root)
 const TITLEBAR_HEIGHT = 40;
 const EXTERNAL_SCHEMES = new Set(['http:', 'https:', 'mailto:']);
 const IS_NEXT_BUILD = /-next(\.|$)/.test(app.getVersion());
@@ -53,7 +52,6 @@ function openExternal(url: string): void {
 
 function getWebDistPath(): string {
   if (app.isPackaged) return path.join(process.resourcesPath, 'web-app');
-  // Web build at the repo root (desktop/dist/main.js → ../../dist)
   return path.join(__dirname, '..', '..', 'dist');
 }
 

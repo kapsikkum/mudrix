@@ -38,11 +38,9 @@ WizardChat is a Matrix client. End-to-end encrypted, open source, and works in y
 
 ### Desktop
 
-Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage): download from [wizardchat.org](https://wizardchat.org) or the [releases page](https://gitlab.com/wizardchat/wizardchat-web/-/releases). Stable releases are under _Release_, next builds under _Pre-release_.
+Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage): download from [wizardchat.org](https://wizardchat.org) or the [releases page](https://gitlab.com/wizardchat/wizardchat-web/-/releases).
 
-The desktop app updates itself and stays on its track: stable installs get stable updates, next installs get next updates.
-
-> **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings → Privacy & Security**, scroll down to **Security** and click **Allow WizardChat**. Updates open the new DMG in your browser.
+> **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings -> Privacy & Security**, scroll down to **Security** and click **Allow WizardChat**.
 
 ## Local Development
 
@@ -74,10 +72,10 @@ The desktop app updates itself and stays on its track: stable installs get stabl
 The Electron app lives in [`desktop/`](desktop/) with its own `package.json`; it packages the web build from the repo root.
 
 ```bash
-npm ci && npm run build          # web build (dist/)
+npm ci && npm run build
 cd desktop && npm ci
 npm run build:electron
-npx electron-builder --mac       # or --linux / --win; output in desktop/release/
+npx electron-builder --mac # or --linux / --win
 ```
 
 The version always comes from the root `package.json`.
