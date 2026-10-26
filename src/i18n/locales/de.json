@@ -1326,7 +1326,10 @@
     "declined": "{{name}} hat den Anruf abgelehnt",
     "noAnswer": "Keine Antwort",
     "ringAgain": "Erneut anrufen",
-    "streamVolume": "Stream-Lautstärke"
+    "streamVolume": "Stream-Lautstärke",
+    "hideVideo": "Video ausblenden",
+    "showVideo": "Video einblenden",
+    "videoHiddenForYou": "Video für dich ausgeblendet"
   },
   "desktopPicker": {
     "title": "Bildschirm teilen",

@@ -55,6 +55,8 @@ export const CALL_INITIAL_STATE: CallUiState = {
 
 export const callUiAtom = atom<CallUiState>(CALL_INITIAL_STATE);
 
+export const pendingCallRoomIdAtom = atom<string | null>(null);
+
 // The running call (wizardchat-rtc engine)
 export const callSessionAtom = atom<CallSession | null>(null);
 

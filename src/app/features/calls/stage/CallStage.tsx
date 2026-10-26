@@ -6,6 +6,7 @@ import {
   ArrowsOutIcon,
   DotsThreeIcon,
   EyeIcon,
+  EyeSlashIcon,
   HandIcon,
   MicrophoneSlashIcon,
   MonitorIcon,
@@ -112,6 +113,7 @@ function Tile({
   const unwatched = screen && !participant.watchingScreen;
   const track = screen ? participant.screenTrack : participant.cameraTrack;
   const speaking = !screen && participant.speaking;
+  const videoHidden = !screen && participant.cameraHidden;
   const canFullscreen = !!track && !previewHidden && !unwatched;
   const [isFullscreen, toggleFullscreen] = useFullscreen(ref);
   const fullscreenLabel = isFullscreen ? t('call.exitFullscreen') : t('call.fullscreen');
@@ -194,11 +196,18 @@ function Tile({
           {participant.reaction}
         </span>
       )}
+      {videoHidden && (
+        <Tooltip content={t('call.videoHiddenForYou')}>
+          <span className={css.videoHiddenBadge} aria-label={t('call.videoHiddenForYou')}>
+            <EyeSlashIcon size={16} weight="bold" />
+          </span>
+        </Tooltip>
+      )}
       {canFullscreen && (
         <Tooltip content={fullscreenLabel}>
           <button
             type="button"
-            className={css.tileFullscreenBtn}
+            className={videoHidden ? css.tileFullscreenBtnShifted : css.tileFullscreenBtn}
             aria-label={fullscreenLabel}
             onClick={(e) => {
               e.stopPropagation();
@@ -216,7 +225,7 @@ function Tile({
       {onMenu && (
         <button
           type="button"
-          className={css.tileMenuBtn}
+          className={videoHidden ? css.tileMenuBtnShifted : css.tileMenuBtn}
           aria-label={t('common.more')}
           aria-haspopup="menu"
           onClick={(e) => {
@@ -560,16 +569,18 @@ export function CallStage() {
     content = (
       <>
         <div className={css.stageMain}>
-          <Tile
-            key={focused.key}
-            tile={focused}
-            room={room}
-            onWatch={watchFor(focused)}
-            focused
-            compact={compact}
-            onSelect={compact ? undefined : () => select(focused.key)}
-            onMenu={compact ? undefined : openMenu(focused)}
-          />
+          <div className={!compact && others.length > 0 ? css.stageFocusWithStrip : css.stageFocus}>
+            <Tile
+              key={focused.key}
+              tile={focused}
+              room={room}
+              onWatch={watchFor(focused)}
+              focused
+              compact={compact}
+              onSelect={compact ? undefined : () => select(focused.key)}
+              onMenu={compact ? undefined : openMenu(focused)}
+            />
+          </div>
         </div>
         {!compact && others.length > 0 && (
           <div className={css.strip}>

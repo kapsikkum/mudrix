@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
+  EyeIcon,
   EyeSlashIcon,
   MonitorIcon,
   SpeakerHighIcon,
@@ -185,6 +186,8 @@ export function UserCallMenu({
   const setProfile = useSetAtom(userProfileAtom);
   const position = useMenuPosition(ref, anchor);
   useDismiss(ref, onClose);
+  const participant = useCallSnapshot()?.participants.find((p) => p.id === anchor.participantId);
+  const canHideVideo = !isSelf && !!participant?.cameraShared;
 
   const name = room.getMember(anchor.userId)?.name ?? formatUserId(anchor.userId);
   const save = (patch: { volume?: number; muted?: boolean }) => {
@@ -244,6 +247,26 @@ export function UserCallMenu({
           </div>
           <div className={css.userMenuDivider} />
         </>
+      )}
+      {canHideVideo && participant && (
+        <button
+          type="button"
+          role="menuitem"
+          className={css.userMenuItem}
+          onClick={() => {
+            session?.setCameraHidden(participant.id, !participant.cameraHidden);
+            onClose();
+          }}
+        >
+          {participant.cameraHidden ? (
+            <EyeIcon size={18} className={css.userMenuIcon} />
+          ) : (
+            <EyeSlashIcon size={18} className={css.userMenuIcon} />
+          )}
+          <span className={css.userMenuText}>
+            {participant.cameraHidden ? t('call.showVideo') : t('call.hideVideo')}
+          </span>
+        </button>
       )}
       <button type="button" role="menuitem" className={css.userMenuItem} onClick={openProfile}>
         <UserIcon size={18} className={css.userMenuIcon} />

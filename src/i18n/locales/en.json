@@ -1326,7 +1326,10 @@
     "declined": "{{name}} declined the call",
     "noAnswer": "No answer",
     "ringAgain": "Ring again",
-    "streamVolume": "Stream volume"
+    "streamVolume": "Stream volume",
+    "hideVideo": "Hide video",
+    "showVideo": "Show video",
+    "videoHiddenForYou": "Video hidden for you"
   },
   "desktopPicker": {
     "title": "Share your screen",

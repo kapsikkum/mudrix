@@ -18,12 +18,17 @@ export const stage = style({
 
 export const stageCompact = style([stage, { padding: '6px' }]);
 
+const AREA_GAP = 8;
+const STRIP_HEIGHT = 104;
+
 export const area = style({
   flex: 1,
   minHeight: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
+  justifyContent: 'center',
+  gap: `${AREA_GAP}px`,
+  containerType: 'size',
 });
 
 export const grid = style({
@@ -41,16 +46,27 @@ export const grid = style({
 export const gridItem = style({ aspectRatio: '16 / 9', flexShrink: 0 });
 
 export const stageMain = style({
-  flex: 1,
-  minHeight: 0,
   display: 'flex',
+  justifyContent: 'center',
+  flexShrink: 0,
 });
+
+export const stageFocus = style({
+  aspectRatio: '16 / 9',
+  width: 'min(100cqw, calc(100cqh * 16 / 9))',
+  flexShrink: 0,
+});
+
+export const stageFocusWithStrip = style([
+  stageFocus,
+  { width: `min(100cqw, calc((100cqh - ${STRIP_HEIGHT + AREA_GAP}px) * 16 / 9))` },
+]);
 
 export const strip = style({
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'safe center',
   gap: '8px',
-  height: '104px',
+  height: `${STRIP_HEIGHT}px`,
   flexShrink: 0,
   overflowX: 'auto',
 });
@@ -334,6 +350,24 @@ export const tileMenuBtn = style({
 globalStyle(`${tile}:hover ${tileMenuBtn}`, { opacity: 1 });
 
 export const tileFullscreenBtn = style([tileMenuBtn, { right: '42px' }]);
+
+export const videoHiddenBadge = style({
+  position: 'absolute',
+  right: '8px',
+  bottom: '8px',
+  zIndex: 3,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '28px',
+  height: '28px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  color: '#fff',
+});
+
+export const tileMenuBtnShifted = style([tileMenuBtn, { right: '42px' }]);
+export const tileFullscreenBtnShifted = style([tileMenuBtn, { right: '76px' }]);
 
 globalStyle(`${tile}:fullscreen`, { borderRadius: 0 });
 globalStyle(`${tile}:fullscreen ${video}`, { objectFit: 'contain' });

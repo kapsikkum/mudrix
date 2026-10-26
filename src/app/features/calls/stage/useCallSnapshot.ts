@@ -27,7 +27,7 @@ export function liveStateByUser(snapshot: CallSnapshot): Map<string, CallLiveSta
     const prev = byUser.get(p.userId);
     byUser.set(p.userId, {
       muted: (prev?.muted ?? true) && p.audioMuted,
-      videoMuted: (prev?.videoMuted ?? true) && !p.cameraTrack,
+      videoMuted: (prev?.videoMuted ?? true) && !p.cameraShared,
       screensharing: (prev?.screensharing ?? false) || p.screenShared,
       speaking: (prev?.speaking ?? false) || p.speaking,
     });

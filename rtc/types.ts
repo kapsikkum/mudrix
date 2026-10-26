@@ -24,6 +24,8 @@ export interface CallParticipant {
   speaking: boolean;
   audioMuted: boolean;
   cameraTrack: MediaTrackHandle | null;
+  cameraShared: boolean;
+  cameraHidden: boolean;
   screenTrack: MediaTrackHandle | null;
   screenShared: boolean;
   watchingScreen: boolean;

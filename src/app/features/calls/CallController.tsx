@@ -13,6 +13,7 @@ import {
   callUiAtom,
   callSessionAtom,
   callPanelAtom,
+  pendingCallRoomIdAtom,
   pushToTalkModeAtom,
   showNonVideoParticipantsAtom,
   showOwnScreenShareAtom,
@@ -89,6 +90,7 @@ export function CallController() {
   const start = useCallback(
     async (room: Room, opts: { voiceOnly?: boolean; presentation?: CallPresentation } = {}) => {
       const runStart = async () => {
+        store.set(pendingCallRoomIdAtom, room.roomId);
         const presentation = opts.presentation ?? 'room';
         const previous = sessionRef.current;
         if (previous) {
@@ -124,6 +126,7 @@ export function CallController() {
           isSpotlight: false,
           presentation,
         }));
+        store.set(pendingCallRoomIdAtom, null);
 
         const ongoing =
           (await MatrixRTCSession.sessionMembershipsForSlot(room, CALL_SLOT_DESCRIPTION)).length >
@@ -154,7 +157,10 @@ export function CallController() {
       const client = room.client;
       const domain = client.getDomain();
       const overrideDomain = store.get(callRtcOverrideDomainAtom);
-      if (overrideDomain !== domain && !(await fetchMatrixRtcSupport(client))) {
+      store.set(pendingCallRoomIdAtom, room.roomId);
+      const supported = overrideDomain === domain || (await fetchMatrixRtcSupport(client));
+      if (!supported) {
+        store.set(pendingCallRoomIdAtom, null);
         toast.error(t('call.homeserverUnsupported'), {
           duration: 10000,
           actionLabel: t('call.tryAnyway'),

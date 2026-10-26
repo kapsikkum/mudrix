@@ -143,6 +143,7 @@ export class CallSession {
   private reconnecting = false;
   private subscribeRetry?: ReturnType<typeof setTimeout>;
   private watchedStreams = new Set<string>();
+  private hiddenCameras = new Set<string>();
   private callIntent?: string;
   private ringNotificationId?: string;
   private ringTimer?: ReturnType<typeof setTimeout>;
@@ -537,12 +538,16 @@ export class CallSession {
     const isStream =
       publication.source === Track.Source.ScreenShare ||
       publication.source === Track.Source.ScreenShareAudio;
-    publication.setSubscribed(!isStream || this.watchedStreams.has(participant.identity));
+    if (isStream) {
+      publication.setSubscribed(this.watchedStreams.has(participant.identity));
+    } else if (publication.source === Track.Source.Camera) {
+      publication.setSubscribed(!this.hiddenCameras.has(participant.identity));
+    } else {
+      publication.setSubscribed(true);
+    }
   }
 
-  setWatchingStream(participantId: string, watch: boolean): void {
-    if (watch) this.watchedStreams.add(participantId);
-    else this.watchedStreams.delete(participantId);
+  private resubscribe(participantId: string): void {
     for (const connection of this.connections.values()) {
       const participant = connection.room.remoteParticipants.get(participantId);
       if (!participant) continue;
@@ -551,6 +556,18 @@ export class CallSession {
       }
     }
     this.scheduleUpdate();
+  }
+
+  setCameraHidden(participantId: string, hidden: boolean): void {
+    if (hidden) this.hiddenCameras.add(participantId);
+    else this.hiddenCameras.delete(participantId);
+    this.resubscribe(participantId);
+  }
+
+  setWatchingStream(participantId: string, watch: boolean): void {
+    if (watch) this.watchedStreams.add(participantId);
+    else this.watchedStreams.delete(participantId);
+    this.resubscribe(participantId);
   }
 
   private playAudio(track: RemoteTrack, identity: string): void {
@@ -910,6 +927,11 @@ export class CallSession {
         speaking: !!participant?.isSpeaking,
         audioMuted: !mic || mic.isMuted,
         cameraTrack: track(Track.Source.Camera),
+        cameraShared: (() => {
+          const publication = participant?.getTrackPublication(Track.Source.Camera);
+          return !!publication && !publication.isMuted;
+        })(),
+        cameraHidden: !isLocal && this.hiddenCameras.has(id),
         screenTrack: track(Track.Source.ScreenShare),
         screenShared: (() => {
           const publication = participant?.getTrackPublication(Track.Source.ScreenShare);
