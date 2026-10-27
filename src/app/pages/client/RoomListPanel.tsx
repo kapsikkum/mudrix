@@ -32,7 +32,12 @@ import type {
   HierarchySpaceItem,
 } from '@/app/features/room/useSpaceHierarchy';
 import { CallBar } from '@/app/features/calls/CallBar';
-import { callActionsAtom, callUiAtom, pendingCallRoomIdAtom } from '@/app/store/atoms/call';
+import {
+  callActionsAtom,
+  callUiAtom,
+  leavingCallRoomIdAtom,
+  pendingCallRoomIdAtom,
+} from '@/app/store/atoms/call';
 import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import { computeParticipantsBlockHeight } from '@/app/features/voice/participantSize';
 import { useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
@@ -506,15 +511,42 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const pendingCallRoomId = useAtomValue(pendingCallRoomIdAtom);
   const joiningRoomId = pendingCallRoomId ?? (callUi.phase !== 'idle' ? callUi.roomId : null);
   const myUserId = client?.getUserId() ?? null;
-  const membershipsMap = useMemo(() => {
-    if (!joiningRoomId || !myUserId || !voiceRoomIds.includes(joiningRoomId)) {
-      return serverMemberships;
+  const myDeviceId = client?.getDeviceId() ?? null;
+  const [leavingRoomId, setLeavingRoomId] = useAtom(leavingCallRoomIdAtom);
+  const leavingStillListed =
+    !!leavingRoomId &&
+    (serverMemberships.get(leavingRoomId) ?? []).some(
+      (m) => m.userId === myUserId && m.deviceId === myDeviceId && !m.isExpired()
+    );
+
+  useEffect(() => {
+    if (leavingRoomId && membershipRoomIds.includes(leavingRoomId) && !leavingStillListed) {
+      setLeavingRoomId(null);
     }
-    const members = serverMemberships.get(joiningRoomId) ?? [];
-    if (members.some((m) => m.userId === myUserId && !m.isExpired())) return serverMemberships;
+  }, [leavingRoomId, leavingStillListed, membershipRoomIds, setLeavingRoomId]);
+
+  const membershipsMap = useMemo(() => {
+    let map = serverMemberships;
+    if (leavingRoomId && leavingStillListed) {
+      const members = (map.get(leavingRoomId) ?? []).filter(
+        (m) => !(m.userId === myUserId && m.deviceId === myDeviceId)
+      );
+      map = new Map(map).set(leavingRoomId, members);
+    }
+    if (!joiningRoomId || !myUserId || !voiceRoomIds.includes(joiningRoomId)) return map;
+    const members = map.get(joiningRoomId) ?? [];
+    if (members.some((m) => m.userId === myUserId && !m.isExpired())) return map;
     const self = { userId: myUserId, isExpired: () => false } as unknown as CallMembership;
-    return new Map(serverMemberships).set(joiningRoomId, [...members, self]);
-  }, [serverMemberships, joiningRoomId, myUserId, voiceRoomIds]);
+    return new Map(map).set(joiningRoomId, [...members, self]);
+  }, [
+    serverMemberships,
+    leavingRoomId,
+    leavingStillListed,
+    joiningRoomId,
+    myUserId,
+    myDeviceId,
+    voiceRoomIds,
+  ]);
 
   const participantCounts = useMemo(() => {
     const map = new Map<string, number>();

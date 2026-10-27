@@ -14,6 +14,7 @@ import {
   callSessionAtom,
   callPanelAtom,
   pendingCallRoomIdAtom,
+  leavingCallRoomIdAtom,
   pushToTalkModeAtom,
   showNonVideoParticipantsAtom,
   showOwnScreenShareAtom,
@@ -28,6 +29,8 @@ import { loopVoiceSound, playVoiceSound, type VoiceSound } from '@/app/features/
 import { CALL_SLOT_DESCRIPTION } from '@/app/features/calls/useCallMemberships';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
 import { onSessionEnd } from '@/client/initMatrix';
+
+const LEAVE_CONFIRM_TIMEOUT_MS = 30_000;
 
 const IDLE_UI = {
   roomId: null,
@@ -90,9 +93,15 @@ export function CallController() {
   const start = useCallback(
     async (room: Room, opts: { voiceOnly?: boolean; presentation?: CallPresentation } = {}) => {
       const runStart = async () => {
+        playVoiceSound('call-join');
         store.set(pendingCallRoomIdAtom, room.roomId);
         const presentation = opts.presentation ?? 'room';
         const previous = sessionRef.current;
+        const previousRoomId = store.get(callUiAtom).roomId;
+        store.set(
+          leavingCallRoomIdAtom,
+          previous && previousRoomId !== room.roomId ? previousRoomId : null
+        );
         if (previous) {
           setSession(null);
           setUi((prev) => ({ ...prev, roomId: null, phase: 'idle', incoming: null, presentation }));
@@ -207,7 +216,6 @@ export function CallController() {
         }
         return;
       }
-      if (previous?.phase !== 'joined' && snap.phase === 'joined') playVoiceSound('call-join');
       if (previous?.phase === 'joined' && snap.phase === 'joined') {
         playParticipantSounds(previous, snap);
         if (previous.local.sound !== snap.local.sound) {
@@ -223,14 +231,16 @@ export function CallController() {
       setUi((prev) =>
         prev.roomId !== snap.roomId
           ? prev
-          : {
-              ...prev,
-              phase: snap.phase === 'joined' ? 'joined' : 'joining',
-              isMuted: !snap.local.microphone,
-              isDeafened: !snap.local.sound,
-              isVideoMuted: !snap.local.camera,
-              isScreenSharing: snap.local.screenshare,
-            }
+          : snap.phase !== 'joined'
+            ? { ...prev, phase: 'joining' }
+            : {
+                ...prev,
+                phase: 'joined',
+                isMuted: !snap.local.microphone,
+                isDeafened: !snap.local.sound,
+                isVideoMuted: !snap.local.camera,
+                isScreenSharing: snap.local.screenshare,
+              }
       );
     };
     sync();
@@ -244,10 +254,21 @@ export function CallController() {
   const hangup = useCallback(() => {
     const current = sessionRef.current;
     if (current) playVoiceSound('call-leave');
+    store.set(leavingCallRoomIdAtom, current ? store.get(callUiAtom).roomId : null);
     setSession(null);
     resetUi();
     void current?.leave();
-  }, [setSession, resetUi]);
+  }, [setSession, resetUi, store]);
+
+  const leavingRoomId = useAtomValue(leavingCallRoomIdAtom);
+  useEffect(() => {
+    if (!leavingRoomId) return;
+    const timer = setTimeout(
+      () => store.set(leavingCallRoomIdAtom, null),
+      LEAVE_CONFIRM_TIMEOUT_MS
+    );
+    return () => clearTimeout(timer);
+  }, [leavingRoomId, store]);
 
   const run = useCallback(
     (action: (s: CallSession, snap: CallSnapshot) => Promise<void>) => {

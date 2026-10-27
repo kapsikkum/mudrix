@@ -114,6 +114,8 @@ function waitForNetwork(): Promise<void> {
   });
 }
 
+const NEW_JOINER_MIC_WINDOW_MS = 2000;
+
 export class CallSession {
   private snapshot: CallSnapshot = INITIAL;
   private listeners = new Set<() => void>();
@@ -144,6 +146,8 @@ export class CallSession {
   private subscribeRetry?: ReturnType<typeof setTimeout>;
   private watchedStreams = new Set<string>();
   private hiddenCameras = new Set<string>();
+  private joinedAfterUs = new Map<string, number>();
+  private micGraceTimer?: ReturnType<typeof setTimeout>;
   private callIntent?: string;
   private ringNotificationId?: string;
   private ringTimer?: ReturnType<typeof setTimeout>;
@@ -497,8 +501,14 @@ export class CallSession {
   private listen(room: LivekitRoom): void {
     const update = () => this.scheduleUpdate();
     room
-      .on(LivekitRoomEvent.ParticipantConnected, update)
-      .on(LivekitRoomEvent.ParticipantDisconnected, update)
+      .on(LivekitRoomEvent.ParticipantConnected, (participant) => {
+        this.joinedAfterUs.set(participant.identity, Date.now());
+        update();
+      })
+      .on(LivekitRoomEvent.ParticipantDisconnected, (participant) => {
+        this.joinedAfterUs.delete(participant.identity);
+        update();
+      })
       .on(LivekitRoomEvent.TrackPublished, (publication, participant) => {
         this.applySubscription(publication, participant);
         update();
@@ -859,6 +869,7 @@ export class CallSession {
     this.gainProcessor = undefined;
     for (const timer of this.reactionTimers) clearTimeout(timer);
     this.reactionTimers.clear();
+    if (this.micGraceTimer) clearTimeout(this.micGraceTimer);
   }
 
   private patch(partial: Partial<CallSnapshot>): void {
@@ -902,6 +913,9 @@ export class CallSession {
       }
     }
 
+    const now = Date.now();
+    let graceEndsIn = Infinity;
+
     const handsByMembership = this.raisedHands;
     const seen = new Set<string>();
     const result: CallParticipant[] = [];
@@ -918,6 +932,17 @@ export class CallSession {
         return publication?.track && !publication.isMuted ? publication.track : null;
       };
       const mic = participant?.getTrackPublication(Track.Source.Microphone);
+      let audioMuted = false;
+      if (isLocal) {
+        audioMuted = !this.micWanted || this.deafened;
+      } else if (participant && mic) {
+        audioMuted = mic.isMuted;
+      } else if (participant) {
+        const joinedAt = this.joinedAfterUs.get(id);
+        const waited = joinedAt === undefined ? Infinity : now - joinedAt;
+        audioMuted = waited >= NEW_JOINER_MIC_WINDOW_MS;
+        if (!audioMuted) graceEndsIn = Math.min(graceEndsIn, NEW_JOINER_MIC_WINDOW_MS - waited);
+      }
       result.push({
         id,
         userId: membership.sender ?? '',
@@ -925,7 +950,7 @@ export class CallSession {
         isLocal,
         connected: !!participant,
         speaking: !!participant?.isSpeaking,
-        audioMuted: !mic || mic.isMuted,
+        audioMuted,
         cameraTrack: track(Track.Source.Camera),
         cameraShared: (() => {
           const publication = participant?.getTrackPublication(Track.Source.Camera);
@@ -945,6 +970,12 @@ export class CallSession {
         volume: this.userVolumes.get(membership.sender ?? '') ?? 1,
         locallyMuted: this.mutedUsers.has(membership.sender ?? ''),
       });
+    }
+    if (graceEndsIn !== Infinity && !this.micGraceTimer) {
+      this.micGraceTimer = setTimeout(() => {
+        this.micGraceTimer = undefined;
+        this.scheduleUpdate();
+      }, graceEndsIn + 50);
     }
     return result;
   }
