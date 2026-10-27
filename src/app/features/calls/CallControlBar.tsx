@@ -18,6 +18,7 @@ import {
   SquaresFourIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
+  YoutubeLogoIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Popover } from '@/app/components/Popover';
@@ -39,6 +40,11 @@ import { useReturnToCall } from './useReturnToCall';
 import { DeviceControl } from './DeviceMenu';
 import { PushToTalkDot } from './PushToTalkDot';
 import { useCallSnapshot } from './stage/useCallSnapshot';
+import {
+  watchActionsAtom,
+  watchDialogOpenAtom,
+  watchStateAtom,
+} from './watchTogether/watchTogether';
 import * as css from './CallControlBar.css';
 
 export function CallControlBar() {
@@ -57,6 +63,9 @@ export function CallControlBar() {
   const returnToCall = useReturnToCall();
   const menuBtnRef = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const watching = !!useAtomValue(watchStateAtom);
+  const watchActions = useAtomValue(watchActionsAtom);
+  const openWatchDialog = useSetAtom(watchDialogOpenAtom);
 
   if (!actions) return null;
 
@@ -277,6 +286,25 @@ export function CallControlBar() {
               </label>
               <div className={css.menuDivider} role="separator" />
             </>
+          )}
+
+          {watchActions && (
+            <button
+              type="button"
+              role="menuitem"
+              className={css.menuItem}
+              onClick={() => {
+                if (watching) watchActions.stop();
+                else openWatchDialog(true);
+                closeMenu();
+              }}
+            >
+              <YoutubeLogoIcon size={16} />
+              <span className={css.menuItemLabel}>
+                {watching ? t('call.watchTogether.stop') : t('call.watchTogether.menu')}
+              </span>
+              <span className={css.menuBadge}>{t('call.watchTogether.beta')}</span>
+            </button>
           )}
 
           <button

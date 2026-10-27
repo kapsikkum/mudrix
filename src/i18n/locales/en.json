@@ -1332,7 +1332,27 @@
     "streamVolume": "Stream volume",
     "hideVideo": "Hide video",
     "showVideo": "Show video",
-    "videoHiddenForYou": "Video hidden for you"
+    "videoHiddenForYou": "Video hidden for you",
+    "watchTogether": {
+      "menu": "Watch YouTube video",
+      "title": "Watch a YouTube video together",
+      "linkLabel": "YouTube link",
+      "start": "Start",
+      "stop": "Stop video",
+      "invalidLink": "That doesn't look like a YouTube video link.",
+      "privacyNote": "Everyone in the call can join in and pause, play or skip. The video is played by YouTube: watching sends your IP address, device and browser details, and what you watch to YouTube (Google).",
+      "startedBy": "Started by {{name}}",
+      "unavailable": "This video can't be played here. It may not allow embedding.",
+      "watch": "Watch together",
+      "startedVideo": "{{name}} started a YouTube video",
+      "openOnYouTube": "Open on YouTube",
+      "stopWatching": "Stop watching",
+      "consentTitle": "Before you watch",
+      "consentBody": "The video is played by YouTube. Watching loads it from YouTube's servers, which sends your IP address, device and browser details, and what you watch to YouTube (Google).",
+      "beta": "Beta",
+      "playerUnavailable": "The player couldn't be loaded. Try again later or open the video on YouTube.",
+      "focus": "Focus video"
+    }
   },
   "desktopPicker": {
     "title": "Share your screen",

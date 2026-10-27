@@ -27,6 +27,8 @@ const DEFAULT_BG = '#11111e';
 const DEFAULT_FG = '#e8e8f0';
 const TITLEBAR_HEIGHT = 40;
 const EXTERNAL_SCHEMES = new Set(['http:', 'https:', 'mailto:']);
+const PASSTHROUGH_HOSTS =
+  /(^|\.)(youtube\.com|youtube-nocookie\.com|googlevideo\.com|ytimg\.com|ggpht\.com|google\.com|gstatic\.com|doubleclick\.net)$/;
 const IS_NEXT_BUILD = /-next(\.|$)/.test(app.getVersion());
 const UPDATE_FEED_URL = IS_NEXT_BUILD
   ? 'https://next.wizardchat.org/desktop/'
@@ -305,6 +307,10 @@ async function onReady(): Promise<void> {
   }
 
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    if (PASSTHROUGH_HOSTS.test(new URL(details.url).hostname)) {
+      callback({});
+      return;
+    }
     const headers = { ...details.responseHeaders };
 
     const strip = (name: string) => {

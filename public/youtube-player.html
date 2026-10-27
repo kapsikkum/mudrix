@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>WizardChat YouTube player</title>
+    <style>
+      html,
+      body,
+      #player {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="player"></div>
+    <script>
+      // Hosts the YouTube player on a web origin for WizardChat's watch together (desktop)
+      (function () {
+        var SOURCE = 'wizardchat-youtube';
+        var player = null;
+        var ready = false;
+        var queue = [];
+
+        function post(message) {
+          message.source = SOURCE;
+          window.parent.postMessage(message, '*');
+        }
+
+        function status() {
+          if (!ready) return;
+          var data = player.getVideoData ? player.getVideoData() : {};
+          post({
+            type: 'status',
+            time: player.getCurrentTime(),
+            state: player.getPlayerState(),
+            duration: player.getDuration(),
+            videoId: data && data.video_id,
+          });
+        }
+
+        function run(command) {
+          if (!ready) {
+            queue.push(command);
+            return;
+          }
+          if (command.type === 'play') player.playVideo();
+          else if (command.type === 'pause') player.pauseVideo();
+          else if (command.type === 'seek') player.seekTo(command.seconds, true);
+          else if (command.type === 'load')
+            player.loadVideoById({ videoId: command.videoId, startSeconds: command.seconds });
+          else if (command.type === 'cue')
+            player.cueVideoById({ videoId: command.videoId, startSeconds: command.seconds });
+          status();
+        }
+
+        function create(options) {
+          if (player) return;
+          window.onYouTubeIframeAPIReady = function () {
+            player = new YT.Player('player', {
+              host: 'https://www.youtube-nocookie.com',
+              width: '100%',
+              height: '100%',
+              videoId: options.videoId,
+              playerVars: {
+                autoplay: options.autoplay ? 1 : 0,
+                start: Math.floor(options.start || 0),
+                playsinline: 1,
+                rel: 0,
+              },
+              events: {
+                onReady: function () {
+                  ready = true;
+                  post({ type: 'ready' });
+                  queue.splice(0).forEach(run);
+                  status();
+                },
+                onStateChange: function (event) {
+                  status();
+                  post({ type: 'state', state: event.data });
+                },
+                onError: function (event) {
+                  post({ type: 'error', code: event.data });
+                },
+              },
+            });
+          };
+          var script = document.createElement('script');
+          script.src = 'https://www.youtube.com/iframe_api';
+          script.onerror = function () {
+            post({ type: 'error', code: -1 });
+          };
+          document.head.appendChild(script);
+          setInterval(status, 250);
+        }
+
+        window.addEventListener('message', function (event) {
+          if (event.source !== window.parent) return;
+          var command = event.data;
+          if (!command || command.target !== SOURCE) return;
+          if (command.type === 'init') create(command);
+          else run(command);
+        });
+
+        post({ type: 'loaded' });
+      })();
+    </script>
+  </body>
+</html>

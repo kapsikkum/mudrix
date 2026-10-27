@@ -49,6 +49,8 @@ export interface CallSnapshot {
   ring: RingState | null;
 }
 
+export type CallDataListener = (topic: string, payload: unknown, from: string) => void;
+
 export type DeviceKind = 'audioinput' | 'videoinput' | 'audiooutput';
 
 export type PreferredDevices = Partial<Record<DeviceKind, string>>;

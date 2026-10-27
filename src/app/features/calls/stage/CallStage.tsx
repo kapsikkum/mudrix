@@ -31,6 +31,12 @@ import { formatUserId } from '@/util/matrix';
 import { useCallSnapshot } from './useCallSnapshot';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
 import { useDismiss } from './useDismiss';
+import {
+  watchActionsAtom,
+  watchStateAtom,
+  watchingVideoIdAtom,
+} from '../watchTogether/watchTogether';
+import { WATCH_TILE_KEY, WatchPlayerLayer, WatchSlot } from '../watchTogether/WatchStage';
 import * as css from './CallStage.css';
 
 function VideoTrack({
@@ -57,11 +63,19 @@ function VideoTrack({
   return <video ref={ref} className={className} autoPlay playsInline muted />;
 }
 
-interface StageTile {
+interface ParticipantTile {
+  kind: 'participant';
   key: string;
   participant: CallParticipant;
   screen: boolean;
 }
+
+interface WatchTile {
+  kind: 'watch';
+  key: typeof WATCH_TILE_KEY;
+}
+
+type StageTile = ParticipantTile | WatchTile;
 
 function UserBackdrop({ name, mxc, room }: { name: string; mxc: string | null; room: Room }) {
   const { data: avatarSrc } = useAvatarBlobUrl(mxc, room.client);
@@ -94,7 +108,7 @@ function Tile({
   onMenu,
   onWatch,
 }: {
-  tile: StageTile;
+  tile: ParticipantTile;
   room: Room;
   focused?: boolean;
   compact?: boolean;
@@ -454,32 +468,51 @@ export function CallStage() {
   const room = session?.matrixRoom;
   const background = buildCallBackground(theme);
 
+  const watch = useAtomValue(watchStateAtom);
+  const watchActions = useAtomValue(watchActionsAtom);
+  const watchingVideoId = useAtomValue(watchingVideoIdAtom);
+  const watchActive = !!watch && !!watchActions;
+  const watchingNow = watchActive && watchingVideoId === watch.videoId;
+  const stageRef = useRef<HTMLDivElement>(null);
   const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
-  const hasVideo = !!snapshot?.participants.some((p) => p.cameraTrack || p.screenShared);
+  const hasVideo =
+    watchActive || !!snapshot?.participants.some((p) => p.cameraTrack || p.screenShared);
   useEffect(() => {
     if (!hasVideo && !showNonVideo) setShowNonVideo(true);
   }, [hasVideo, showNonVideo, setShowNonVideo]);
   const tiles = useMemo<StageTile[]>(() => {
     const list: StageTile[] = [];
+    if (watchActive) list.push({ kind: 'watch', key: WATCH_TILE_KEY });
     for (const p of snapshot?.participants ?? []) {
-      if (showNonVideo || p.cameraTrack) list.push({ key: p.id, participant: p, screen: false });
+      if (showNonVideo || p.cameraTrack) {
+        list.push({ kind: 'participant', key: p.id, participant: p, screen: false });
+      }
     }
     for (const p of snapshot?.participants ?? []) {
-      if (p.screenShared) list.push({ key: `${p.id}:screen`, participant: p, screen: true });
+      if (p.screenShared) {
+        list.push({ kind: 'participant', key: `${p.id}:screen`, participant: p, screen: true });
+      }
     }
     return list;
-  }, [snapshot, showNonVideo]);
+  }, [snapshot, showNonVideo, watchActive]);
+
+  useEffect(() => {
+    if (!watchingNow) return;
+    setFocusedKey(WATCH_TILE_KEY);
+    setUi((prev) => (prev.isSpotlight ? prev : { ...prev, isSpotlight: true }));
+  }, [watchingNow, watchingVideoId, setUi]);
 
   const compact = view === 'tile';
   const docked = view === 'docked';
   const stageView = compact || ui.isSpotlight;
   const grid = useGridLayout(tiles.length);
 
+  const people = tiles.filter((tile): tile is ParticipantTile => tile.kind === 'participant');
   const focused =
     tiles.find((tile) => tile.key === focusedKey) ??
-    tiles.find((tile) => tile.screen) ??
-    tiles.find((tile) => tile.participant.speaking && !tile.participant.isLocal) ??
-    tiles.find((tile) => !tile.participant.isLocal) ??
+    people.find((tile) => tile.screen) ??
+    people.find((tile) => tile.participant.speaking && !tile.participant.isLocal) ??
+    people.find((tile) => !tile.participant.isLocal) ??
     tiles[0];
 
   if (!session || !snapshot || !room) return null;
@@ -496,7 +529,7 @@ export function CallStage() {
     }
   };
 
-  const watchFor = (tile: StageTile) =>
+  const watchFor = (tile: ParticipantTile) =>
     tile.screen && !tile.participant.watchingScreen
       ? () => {
           session.setWatchingStream(tile.participant.id, true);
@@ -505,7 +538,7 @@ export function CallStage() {
         }
       : undefined;
 
-  const openMenu = (tile: StageTile) => (x: number, y: number) =>
+  const openMenu = (tile: ParticipantTile) => (x: number, y: number) =>
     setUserMenu({
       userId: tile.participant.userId,
       screen: tile.screen,
@@ -517,9 +550,33 @@ export function CallStage() {
 
   const myId = room.client.getUserId();
   const alone = !snapshot.participants.some((p) => p.userId !== myId);
+  const watchStartedBy = watch ? (room.getMember(watch.startedBy)?.name ?? watch.startedBy) : '';
+
+  const renderTile = (
+    tile: StageTile,
+    opts: { focused?: boolean; compact?: boolean; onSelect?: () => void; menu?: boolean }
+  ) =>
+    tile.kind === 'watch' ? (
+      <WatchSlot
+        startedByName={watchStartedBy}
+        focused={opts.focused}
+        compact={opts.compact}
+        onSelect={opts.onSelect}
+      />
+    ) : (
+      <Tile
+        tile={tile}
+        room={room}
+        focused={opts.focused}
+        compact={opts.compact}
+        onSelect={opts.onSelect}
+        onWatch={watchFor(tile)}
+        onMenu={opts.menu === false ? undefined : openMenu(tile)}
+      />
+    );
 
   let content: React.ReactNode;
-  if (snapshot.ring && alone) {
+  if (snapshot.ring && alone && !watchActive) {
     content = (
       <CallingView
         room={room}
@@ -533,33 +590,31 @@ export function CallStage() {
   } else if (docked) {
     content = (
       <div className={css.dockedRow}>
+        {watchActive && (
+          <div className={css.dockedVideo}>
+            {renderTile({ kind: 'watch', key: WATCH_TILE_KEY }, { compact: true })}
+          </div>
+        )}
         {snapshot.participants.map((p) => {
-          const tile: StageTile = { key: p.id, participant: p, screen: false };
+          const tile: ParticipantTile = {
+            kind: 'participant',
+            key: p.id,
+            participant: p,
+            screen: false,
+          };
           return p.cameraTrack ? (
             <div key={tile.key} className={css.dockedVideo}>
-              <Tile
-                onWatch={watchFor(tile)}
-                tile={tile}
-                room={room}
-                compact
-                onMenu={openMenu(tile)}
-              />
+              {renderTile(tile, { compact: true })}
             </div>
           ) : (
             <AvatarBubble key={tile.key} participant={p} room={room} onMenu={openMenu(tile)} />
           );
         })}
-        {tiles
+        {people
           .filter((tile) => tile.screen)
           .map((tile) => (
             <div key={tile.key} className={css.dockedVideo}>
-              <Tile
-                onWatch={watchFor(tile)}
-                tile={tile}
-                room={room}
-                compact
-                onMenu={openMenu(tile)}
-              />
+              {renderTile(tile, { compact: true })}
             </div>
           ))}
       </div>
@@ -569,31 +624,23 @@ export function CallStage() {
     content = (
       <>
         <div className={css.stageMain}>
-          <div className={!compact && others.length > 0 ? css.stageFocusWithStrip : css.stageFocus}>
-            <Tile
-              key={focused.key}
-              tile={focused}
-              room={room}
-              onWatch={watchFor(focused)}
-              focused
-              compact={compact}
-              onSelect={compact ? undefined : () => select(focused.key)}
-              onMenu={compact ? undefined : openMenu(focused)}
-            />
+          <div
+            key={focused.key}
+            className={!compact && others.length > 0 ? css.stageFocusWithStrip : css.stageFocus}
+          >
+            {renderTile(focused, {
+              focused: true,
+              compact,
+              onSelect: compact ? undefined : () => select(focused.key),
+              menu: !compact,
+            })}
           </div>
         </div>
         {!compact && others.length > 0 && (
           <div className={css.strip}>
             {others.map((tile) => (
               <div key={tile.key} className={css.stripItem}>
-                <Tile
-                  tile={tile}
-                  room={room}
-                  compact
-                  onSelect={() => select(tile.key)}
-                  onWatch={watchFor(tile)}
-                  onMenu={openMenu(tile)}
-                />
+                {renderTile(tile, { compact: true, onSelect: () => select(tile.key) })}
               </div>
             ))}
           </div>
@@ -610,13 +657,7 @@ export function CallStage() {
       >
         {tiles.map((tile) => (
           <div key={tile.key} className={css.gridItem} style={{ width: grid.tileWidth }}>
-            <Tile
-              tile={tile}
-              room={room}
-              onSelect={() => select(tile.key)}
-              onMenu={openMenu(tile)}
-              onWatch={watchFor(tile)}
-            />
+            {renderTile(tile, { onSelect: () => select(tile.key) })}
           </div>
         ))}
       </div>
@@ -624,10 +665,11 @@ export function CallStage() {
   }
 
   return (
-    <div className={compact ? css.stageCompact : css.stage} style={style}>
+    <div ref={stageRef} className={compact ? css.stageCompact : css.stage} style={style}>
       <div ref={grid.ref} className={css.area}>
         {content}
       </div>
+      {watchActive && <WatchPlayerLayer rootRef={stageRef} startedByName={watchStartedBy} />}
       {!compact && panel === 'reactions' && (
         <ReactionsPanel session={session} handRaised={!!own?.handRaised} onClose={closePanel} />
       )}

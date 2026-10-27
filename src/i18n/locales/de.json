@@ -1332,7 +1332,27 @@
     "streamVolume": "Stream-Lautstärke",
     "hideVideo": "Video ausblenden",
     "showVideo": "Video einblenden",
-    "videoHiddenForYou": "Video für dich ausgeblendet"
+    "videoHiddenForYou": "Video für dich ausgeblendet",
+    "watchTogether": {
+      "menu": "YouTube-Video ansehen",
+      "title": "YouTube-Video gemeinsam ansehen",
+      "linkLabel": "YouTube-Link",
+      "start": "Starten",
+      "stop": "Video beenden",
+      "invalidLink": "Das sieht nicht nach einem YouTube-Video-Link aus.",
+      "privacyNote": "Alle im Anruf können einsteigen und pausieren, abspielen oder spulen. Das Video wird von YouTube abgespielt: Beim Ansehen werden deine IP-Adresse, Geräte- und Browserdaten sowie das, was du ansiehst, an YouTube (Google) übertragen.",
+      "startedBy": "Gestartet von {{name}}",
+      "unavailable": "Dieses Video kann hier nicht abgespielt werden. Eventuell ist das Einbetten nicht erlaubt.",
+      "watch": "Gemeinsam ansehen",
+      "startedVideo": "{{name}} hat ein YouTube-Video gestartet",
+      "openOnYouTube": "Auf YouTube öffnen",
+      "stopWatching": "Nicht mehr ansehen",
+      "consentTitle": "Bevor du zusiehst",
+      "consentBody": "Das Video wird von YouTube abgespielt. Beim Ansehen wird es von YouTubes Servern geladen. Dabei werden deine IP-Adresse, Geräte- und Browserdaten sowie das, was du ansiehst, an YouTube (Google) übertragen.",
+      "beta": "Beta",
+      "playerUnavailable": "Der Player konnte nicht geladen werden. Versuch es später erneut oder öffne das Video auf YouTube.",
+      "focus": "Video hervorheben"
+    }
   },
   "desktopPicker": {
     "title": "Bildschirm teilen",

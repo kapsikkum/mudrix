@@ -36,6 +36,7 @@ import { MatrixKeyProvider } from './keyProvider';
 import { roomOptions } from './options';
 import { GainProcessor } from './gainProcessor';
 import type {
+  CallDataListener,
   CallErrorKind,
   CallParticipant,
   CallSnapshot,
@@ -162,6 +163,7 @@ export class CallSession {
   private ownHandEventId: string | null = null;
   private reactions = new Map<string, string>();
   private reactionTimers = new Set<ReturnType<typeof setTimeout>>();
+  private dataListeners = new Set<CallDataListener>();
 
   constructor(client: MatrixClient, room: Room) {
     this.client = client;
@@ -431,6 +433,22 @@ export class CallSession {
     this.scheduleUpdate();
   }
 
+  async sendData(topic: string, payload: unknown): Promise<void> {
+    const local = this.localParticipant;
+    if (!local) return;
+    await local.publishData(new TextEncoder().encode(JSON.stringify(payload)), {
+      reliable: true,
+      topic,
+    });
+  }
+
+  onData(listener: CallDataListener): () => void {
+    this.dataListeners.add(listener);
+    return () => {
+      this.dataListeners.delete(listener);
+    };
+  }
+
   private get publisher(): Connection | undefined {
     return [...this.connections.values()].find((c) => c.publisher);
   }
@@ -518,6 +536,17 @@ export class CallSession {
           this.watchedStreams.delete(participant.identity);
         }
         update();
+      })
+      .on(LivekitRoomEvent.DataReceived, (data, participant, _kind, topic, _enc, identity) => {
+        const from = participant?.identity ?? identity;
+        if (!topic || !from) return;
+        let payload: unknown;
+        try {
+          payload = JSON.parse(new TextDecoder().decode(data));
+        } catch {
+          return;
+        }
+        for (const listener of this.dataListeners) listener(topic, payload, from);
       })
       .on(LivekitRoomEvent.TrackMuted, update)
       .on(LivekitRoomEvent.TrackUnmuted, update)

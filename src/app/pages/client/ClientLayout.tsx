@@ -48,6 +48,7 @@ import { CallLayer } from '@/app/features/calls/CallLayer';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { CallContainerProvider, CallContainer } from '@/app/features/calls/CallContainer';
 import { CallController } from '@/app/features/calls/CallController';
+import { WatchTogetherController } from '@/app/features/calls/watchTogether/WatchTogetherController';
 import { useTranslation } from 'react-i18next';
 import { useClientNotifications } from './hooks/useClientNotifications';
 import { useRecordLastRoom, useSwitchContext } from './hooks/useContextNavigation';
@@ -549,6 +550,7 @@ export function ClientLayout() {
               </Routes>
               <CallLayer client={client} />
               <CallController />
+              <WatchTogetherController />
             </main>
 
             <MembersSidebar
