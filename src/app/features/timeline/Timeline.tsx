@@ -70,6 +70,7 @@ interface Props {
 const EMPTY_RECEIPTS: ReceiptUser[] = [];
 const PAGINATION_LIMIT = 80;
 const STICK_TO_BOTTOM_PX = 4;
+const EMPTY_SEARCH_ITEMS: TimelineItem[] = [];
 
 function UnreadDivider({ onDismiss, label }: { onDismiss: () => void; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -258,19 +259,28 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     navigate(`/r/${encodeURIComponent(predecessorRoomId)}`);
   }, [predecessorRoomId, navigate]);
 
-  const searchItems = useMemo(() => {
-    if (!client || !roomId) return [];
-    return buildItems(
-      events,
-      client,
-      roomId,
-      t,
-      i18n.language,
-      optimisticRedactedIds,
-      optimisticEditBodies,
-      { prevEvent: undefined }
-    );
+  const getSearchItems = useMemo(() => {
+    let cache: TimelineItem[] | null = null;
+    return () => {
+      if (!client || !roomId) return EMPTY_SEARCH_ITEMS;
+      cache ??= buildItems(
+        events,
+        client,
+        roomId,
+        t,
+        i18n.language,
+        optimisticRedactedIds,
+        optimisticEditBodies,
+        { prevEvent: undefined }
+      );
+      return cache;
+    };
   }, [i18n.language, t, optimisticRedactedIds, optimisticEditBodies, events, client, roomId]);
+  const roomSearchOpen = useAtomValue(roomSearchAtom)?.roomId === roomId;
+  const searchItems = useMemo(
+    () => (roomSearchOpen ? getSearchItems() : EMPTY_SEARCH_ITEMS),
+    [roomSearchOpen, getSearchItems]
+  );
 
   const {
     search,
@@ -529,8 +539,9 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       find: (query, limit) => {
         const matches: RoomMessageMatch[] = [];
         let total = 0;
-        for (let i = searchItems.length - 1; i >= 0; i--) {
-          const item = searchItems[i];
+        const allItems = getSearchItems();
+        for (let i = allItems.length - 1; i >= 0; i--) {
+          const item = allItems[i];
           if (!itemMatchesQuery(item, query)) continue;
           total++;
           if (matches.length < limit) {
@@ -547,7 +558,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       },
       jumpTo: (eventId) => void handleJumpToEvent(eventId),
     });
-  }, [roomId, searchItems, handleJumpToEvent, setMessageSearcher]);
+  }, [roomId, getSearchItems, handleJumpToEvent, setMessageSearcher]);
   useEffect(
     () => () => setMessageSearcher((prev) => (prev?.roomId === roomId ? null : prev)),
     [roomId, setMessageSearcher]
@@ -943,7 +954,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       receiptUsers,
       reactionVersion: timelineItem.reactionVersion,
       isFlashing,
-      hoveredEventId,
+      isHovered: hoveredEventId === eventId,
       onHover: handleHover,
       onReply: setReplyTo,
       onEdit: handleEdit,

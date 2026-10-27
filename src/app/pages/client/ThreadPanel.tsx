@@ -603,7 +603,7 @@ export function ThreadPanel({
                     onResend={handleResend}
                     onCancel={handleCancel}
                     hideThreadBadge
-                    hoveredEventId={hoveredEventId}
+                    isHovered={hoveredEventId === eventId}
                     onHover={handleHover}
                   />
                 </div>

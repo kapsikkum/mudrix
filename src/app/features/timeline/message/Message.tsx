@@ -8,6 +8,7 @@ import {
   M_POLL_KIND_DISCLOSED,
   MatrixEventEvent,
   RoomEvent,
+  THREAD_RELATION_TYPE,
 } from 'matrix-js-sdk';
 import { SmileyIcon, WarningIcon, ChatDotsIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -150,7 +151,7 @@ export interface MessageProps {
   onJumpToEvent?: (eventId: string) => void;
   hideReplyQuote?: boolean;
   hideThreadBadge?: boolean;
-  hoveredEventId: string | null;
+  isHovered: boolean;
   onHover: (eventId: string | null) => void;
 }
 
@@ -192,7 +193,7 @@ export const Message = memo(function Message({
   onThreadClick,
   hideReplyQuote = false,
   hideThreadBadge = false,
-  hoveredEventId,
+  isHovered,
   onHover,
 }: MessageProps) {
   const { t, i18n } = useTranslation();
@@ -204,8 +205,7 @@ export const Message = memo(function Message({
     emojiPicker?.anchor != null && msgRowRef.current?.contains(emojiPicker.anchor) === true;
   const menuOpenForThisRow =
     contextMenu?.opener != null && msgRowRef.current?.contains(contextMenu.opener) === true;
-  const showActions =
-    hoveredEventId === event.getId() || pickerOpenForThisRow || menuOpenForThisRow;
+  const showActions = isHovered || pickerOpenForThisRow || menuOpenForThisRow;
   const [lightboxItem, setLightboxItem] = useState<{
     src: string;
     type: 'image' | 'video';
@@ -298,6 +298,17 @@ export const Message = memo(function Message({
         setTimelineVersion((v) => v + 1);
       }
     };
+    room.on(RoomEvent.Timeline, bump);
+    return () => {
+      room.off(RoomEvent.Timeline, bump);
+    };
+  }, [room, event]);
+
+  const isThreadRoot =
+    !!event.getServerAggregatedRelation(THREAD_RELATION_TYPE.name) ||
+    !!room?.getThread(event.getId() ?? '');
+  useEffect(() => {
+    if (!room || !isThreadRoot) return;
     const myUserId = room.client.getUserId();
     const onReceipt = (ev: MatrixEvent) => {
       const content = ev.getContent<Record<string, Record<string, Record<string, unknown>>>>();
@@ -306,13 +317,11 @@ export const Message = memo(function Message({
       );
       if (mine) setTimelineVersion((v) => v + 1);
     };
-    room.on(RoomEvent.Timeline, bump);
     room.on(RoomEvent.Receipt, onReceipt);
     return () => {
-      room.off(RoomEvent.Timeline, bump);
       room.off(RoomEvent.Receipt, onReceipt);
     };
-  }, [room, event]);
+  }, [room, isThreadRoot]);
 
   const pollData = useMemo(() => {
     if (!isPollEvent) return null;
