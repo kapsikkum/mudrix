@@ -54,6 +54,8 @@ import {
 } from '@/app/features/room/roomOrder';
 import { getErrorMessage } from '@/util/error';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
+import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
+import { useQueryClient } from '@tanstack/react-query';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -67,12 +69,14 @@ function SortableSpaceItem({
   space,
   isActive,
   onClick,
+  onHover,
   buildContextMenu,
   children,
 }: {
   space: SpaceEntry;
   isActive: boolean;
   onClick: () => void;
+  onHover: () => void;
   buildContextMenu: () => ContextMenuItem[];
   children: React.ReactNode;
 }) {
@@ -96,6 +100,8 @@ function SortableSpaceItem({
           type="button"
           className={css.spaceBtnInner}
           onClick={onClick}
+          onMouseEnter={onHover}
+          onFocus={onHover}
           aria-label={space.name}
           aria-current={isActive ? 'page' : undefined}
           {...menuTrigger}
@@ -150,6 +156,13 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const client = getMatrixClientOrNull();
+  const queryClient = useQueryClient();
+  const prefetchSpace = useCallback(
+    (spaceId: string) => {
+      if (client) prefetchSpaceHierarchies(queryClient, client, [spaceId]);
+    },
+    [client, queryClient]
+  );
 
   const navigate = useNavigate();
 
@@ -414,6 +427,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
                         onSelectView('space', space.roomId);
                       }
                     }}
+                    onHover={() => prefetchSpace(space.roomId)}
                     buildContextMenu={() => buildSpaceMenuCb(space)}
                   >
                     <SpaceAvatar space={space} />

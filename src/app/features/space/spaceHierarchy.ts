@@ -1,11 +1,12 @@
-import { useCallback, useMemo } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { EventType, type MatrixClient } from 'matrix-js-sdk';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import { useThrottle } from '@/app/hooks/useThrottle';
 import { getSpaceChildEvents } from '@/util/matrix';
 import { compareSpaceChildren } from '@/app/features/room/roomOrder';
+import { accountStorageKey } from '@/const/accountStorage';
 
 export interface RoomSummary {
   room_id: string;
@@ -145,7 +146,105 @@ export async function fetchSpaceHierarchyLevel(
 }
 
 const HIERARCHY_STALE_MS = 60_000;
+const HIERARCHY_GC_MS = 300_000;
 const EMPTY_MAP: Map<string, RoomSummary> = new Map();
+
+export const spaceHierarchyQueryKey = (spaceId: string | null) => ['space-hierarchy', spaceId];
+
+const PERSIST_KEY = 'wz_space_hierarchy';
+const PERSIST_MAX_SPACES = 40;
+type PersistedHierarchies = Record<string, { ts: number; rooms: RoomSummary[] }>;
+
+function readPersistedAll(): PersistedHierarchies {
+  try {
+    return (JSON.parse(localStorage.getItem(accountStorageKey(PERSIST_KEY)) ?? '{}') ??
+      {}) as PersistedHierarchies;
+  } catch {
+    return {};
+  }
+}
+
+function readPersisted(spaceId: string): { ts: number; map: Map<string, RoomSummary> } | null {
+  const entry = readPersistedAll()[spaceId];
+  if (!entry || !Array.isArray(entry.rooms)) return null;
+  return { ts: entry.ts, map: new Map(entry.rooms.map((r) => [r.room_id, r])) };
+}
+
+function persist(spaceId: string, map: Map<string, RoomSummary>): void {
+  const all = readPersistedAll();
+  all[spaceId] = { ts: Date.now(), rooms: [...map.values()] };
+  const newest = Object.entries(all)
+    .sort(([, a], [, b]) => b.ts - a.ts)
+    .slice(0, PERSIST_MAX_SPACES);
+  try {
+    localStorage.setItem(
+      accountStorageKey(PERSIST_KEY),
+      JSON.stringify(Object.fromEntries(newest))
+    );
+  } catch {
+    // Storage full: the in-memory cache still works
+  }
+}
+
+export function getCachedSpaceHierarchy(
+  queryClient: QueryClient,
+  spaceId: string
+): Map<string, RoomSummary> | undefined {
+  const queryKey = spaceHierarchyQueryKey(spaceId);
+  const cached = queryClient.getQueryData<Map<string, RoomSummary>>(queryKey);
+  if (cached) return cached;
+  const stored = readPersisted(spaceId);
+  if (!stored) return undefined;
+  queryClient.setQueryData(queryKey, stored.map, { updatedAt: stored.ts });
+  return stored.map;
+}
+
+async function fetchAndPersist(
+  client: MatrixClient,
+  spaceId: string
+): Promise<Map<string, RoomSummary>> {
+  const map = await fetchSpaceHierarchyLevel(spaceId, client, 1);
+  persist(spaceId, map);
+  return map;
+}
+
+export function loadSpaceHierarchy(
+  queryClient: QueryClient,
+  client: MatrixClient,
+  spaceId: string,
+  opts: { force?: boolean } = {}
+): Promise<Map<string, RoomSummary>> {
+  getCachedSpaceHierarchy(queryClient, spaceId);
+  return queryClient.fetchQuery({
+    queryKey: spaceHierarchyQueryKey(spaceId),
+    queryFn: () => fetchAndPersist(client, spaceId),
+    staleTime: opts.force ? 0 : HIERARCHY_STALE_MS,
+    gcTime: HIERARCHY_GC_MS,
+    retry: 1,
+  });
+}
+
+const PREFETCH_CONCURRENCY = 2;
+
+export function prefetchSpaceHierarchies(
+  queryClient: QueryClient,
+  client: MatrixClient,
+  spaceIds: string[]
+): void {
+  const queue = spaceIds.filter((id) => {
+    const state = queryClient.getQueryState(spaceHierarchyQueryKey(id));
+    const fresh = !!state?.dataUpdatedAt && Date.now() - state.dataUpdatedAt < HIERARCHY_STALE_MS;
+    return !fresh && state?.fetchStatus !== 'fetching';
+  });
+  const next = (): Promise<void> => {
+    const id = queue.shift();
+    if (!id) return Promise.resolve();
+    return loadSpaceHierarchy(queryClient, client, id)
+      .catch(() => {})
+      .then(next);
+  };
+  for (let i = 0; i < PREFETCH_CONCURRENCY; i++) void next();
+}
 
 export interface SpaceHierarchySnapshot {
   map: Map<string, RoomSummary>;
@@ -158,21 +257,31 @@ export function useSpaceHierarchyMap(spaceId: string | null): SpaceHierarchySnap
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['space-hierarchy', spaceId],
+    queryKey: spaceHierarchyQueryKey(spaceId),
     queryFn: () => {
       if (!client) throw new Error('no client');
-      return fetchSpaceHierarchyLevel(spaceId!, client, 1);
+      return fetchAndPersist(client, spaceId!);
     },
+    initialData: () => (spaceId ? readPersisted(spaceId)?.map : undefined),
+    initialDataUpdatedAt: () => (spaceId ? readPersisted(spaceId)?.ts : undefined),
     staleTime: HIERARCHY_STALE_MS,
-    gcTime: 300_000,
-    retry: 3,
-    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10_000),
+    gcTime: HIERARCHY_GC_MS,
+    retry: 1,
     enabled: !!client && !!spaceId,
   });
 
+  const fullyLoaded = !!query.data && !query.isFetching;
+  useEffect(() => {
+    if (!fullyLoaded || !client || !query.data) return;
+    const subSpaceIds = [...query.data.values()]
+      .filter((r) => summaryIsSpace(r) && r.room_id !== spaceId)
+      .map((r) => r.room_id);
+    if (subSpaceIds.length > 0) prefetchSpaceHierarchies(queryClient, client, subSpaceIds);
+  }, [fullyLoaded, query.data, client, queryClient, spaceId]);
+
   const invalidate = useCallback(() => {
     if (!spaceId) return;
-    void queryClient.invalidateQueries({ queryKey: ['space-hierarchy', spaceId] });
+    void queryClient.invalidateQueries({ queryKey: spaceHierarchyQueryKey(spaceId) });
   }, [queryClient, spaceId]);
 
   const throttledInvalidate = useThrottle(invalidate, 500);

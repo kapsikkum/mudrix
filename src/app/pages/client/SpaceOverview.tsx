@@ -37,7 +37,12 @@ import {
   useSpaceRoomsGrouped,
   splitHierarchyLevel,
 } from '@/app/features/room/useSpaceRoomsGrouped';
-import { fetchSpaceHierarchyLevel } from '@/app/features/space/spaceHierarchy';
+import {
+  getCachedSpaceHierarchy,
+  loadSpaceHierarchy,
+  type RoomSummary,
+} from '@/app/features/space/spaceHierarchy';
+import { useQueryClient } from '@tanstack/react-query';
 import type { SpaceSection } from '@/app/features/room/useSpaceRoomsGrouped';
 import { roomState, roomStateMaybe } from '@/util/matrix';
 import { useRoomActions } from './hooks/useRoomActions';
@@ -239,25 +244,31 @@ function SpaceSectionView({
   const fetchedRef = useRef(section.roomsLoaded);
   const cachedRoomsRef = useRef<SpaceRoomEntry[]>(section.rooms);
 
-  const fetchRooms = useCallback(() => {
-    if (isRoot || !client || !section.spaceId) return;
-    if (cachedRoomsRef.current.length === 0) setIsFetching(true);
-    const subSpaceId = section.spaceId;
-
-    fetchSpaceHierarchyLevel(subSpaceId, client, 1)
-      .then((summaryMap) => {
+  const queryClient = useQueryClient();
+  const fetchRooms = useCallback(
+    (force = false) => {
+      if (isRoot || !client || !section.spaceId) return;
+      const subSpaceId = section.spaceId;
+      const apply = (summaryMap: Map<string, RoomSummary>) => {
         const { rooms, subSpaces } = splitHierarchyLevel(subSpaceId, summaryMap, client, 'Unknown');
         cachedRoomsRef.current = rooms;
         setLocalRooms(rooms);
         // Nested sub-spaces are promoted to their own sections so they are
         // never hidden by the parent's one-level fetch.
         if (subSpaces.length > 0) onSubSpacesFound(subSpaces);
-        setIsFetching(false);
-      })
-      .catch(() => {
-        setIsFetching(false);
-      });
-  }, [isRoot, section.spaceId, client, onSubSpacesFound]);
+      };
+
+      const cached = getCachedSpaceHierarchy(queryClient, subSpaceId);
+      if (cached) apply(cached);
+      else if (cachedRoomsRef.current.length === 0) setIsFetching(true);
+
+      loadSpaceHierarchy(queryClient, client, subSpaceId, { force })
+        .then(apply)
+        .catch(() => {})
+        .finally(() => setIsFetching(false));
+    },
+    [isRoot, section.spaceId, client, onSubSpacesFound, queryClient]
+  );
 
   const refreshSuggestedFlags = useCallback(() => {
     if (isRoot || !section.spaceId || !client) return;
@@ -287,7 +298,8 @@ function SpaceSectionView({
     fetchRooms();
   }, [isOpen, isRoot, client, section.spaceId, fetchRooms]);
 
-  const throttledFetchRooms = useThrottle(fetchRooms, 500);
+  const refetchRooms = useCallback(() => fetchRooms(true), [fetchRooms]);
+  const throttledFetchRooms = useThrottle(refetchRooms, 500);
 
   const handleSpaceChildChange = useCallback(
     (
