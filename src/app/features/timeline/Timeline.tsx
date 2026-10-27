@@ -420,6 +420,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     async (eventId: string, flash: boolean = true) => {
       const roomObj = client.getRoom(roomId);
       if (!roomObj) return;
+      stickToBottomRef.current = false;
       const evtTimeline = getEventTimeline(roomObj, eventId);
       const absIndex = evtTimeline && getEventAbsoluteIndex(evtTimeline, eventId);
       if (typeof absIndex === 'number') {
@@ -434,6 +435,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
         }
         return;
       }
+      setAtBottom(false);
       setEmptyTimeline();
       loadEventTimeline(
         eventId,
@@ -598,7 +600,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       return;
     }
     if (scrollToBottomCount > 0) {
-      if (!atBottomRef.current) return;
+      if (!atBottomRef.current || !atLiveEndRef.current) return;
       const scrollEl = scrollRef.current;
       if (scrollEl) {
         scrollToBottom(scrollEl, scrollToBottomRef.current.smooth ? 'smooth' : 'instant');
@@ -613,12 +615,12 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     let lastTop = scrollEl.scrollTop;
     const onScroll = () => {
       const distance = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
-      if (distance <= STICK_TO_BOTTOM_PX) stickToBottomRef.current = true;
+      if (distance <= STICK_TO_BOTTOM_PX) stickToBottomRef.current = atLiveEndRef.current;
       else if (scrollEl.scrollTop < lastTop) stickToBottomRef.current = false;
       lastTop = scrollEl.scrollTop;
     };
     const observer = new ResizeObserver(() => {
-      if (!stickToBottomRef.current) return;
+      if (!stickToBottomRef.current || !atLiveEndRef.current) return;
       scrollToBottom(scrollEl, 'instant');
       lastTop = scrollEl.scrollTop;
     });
@@ -640,7 +642,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       data?: IRoomTimelineData
     ) => {
       if (eventRoom?.roomId !== roomId || !data?.liveEvent) return;
-      if (atBottomRef.current) {
+      if (atBottomRef.current && atLiveEndRef.current) {
         if (document.hasFocus() && (!unreadInfo || _event.getSender() === myId)) {
           requestAnimationFrame(() => sendReadReceiptIfAtBottom());
         }
