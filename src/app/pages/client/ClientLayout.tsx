@@ -27,6 +27,7 @@ import {
 import { commandActionsAtom } from '@/app/store/atoms/call';
 import type { CallPresentation, SidebarView } from '@/app/store/atoms';
 import { useSyncListener, useSyncReady } from '@/app/hooks/useSync';
+import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
 import { useVerification } from '@/app/hooks/useVerification';
 import { useSessionVerification } from '@/app/hooks/useSessionVerification';
@@ -282,6 +283,7 @@ export function ClientLayout() {
   const syncReady = useSyncReady();
 
   useSettingsSync(client);
+  useMatrixToLinks(client);
 
   // Session expiry
   useEffect(() => {

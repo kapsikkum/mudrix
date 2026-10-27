@@ -56,3 +56,6 @@ export const STORAGE_KEY_VERIFY_SKIPPED_DEVICE = 'wz_verify_skipped_device';
 
 // Newest What's new version this account has seen on this device
 export const STORAGE_KEY_WHATS_NEW_SEEN = 'wz_whats_new_seen';
+
+// matrix.to target opened via /to#/…, kept across sign-in until the client is ready
+export const STORAGE_KEY_PENDING_LINK = 'wz_pending_link';

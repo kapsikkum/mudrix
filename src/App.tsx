@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
 import { themeAtom, themedAppIconAtom } from '@/app/store/atoms';
 import { THEMES, DEFAULT_THEME, baseLogoClass } from '@/theme/themes.css';
@@ -13,6 +13,13 @@ import { ErrorBoundary } from '@/app/components/ErrorBoundary/ErrorBoundary';
 import { useReducedMotionSync } from '@/app/hooks/useReducedMotion';
 import { useChatDisplaySync } from '@/app/hooks/useChatDisplaySync';
 import { useUiDensitySync } from '@/app/hooks/useUiDensitySync';
+import { STORAGE_KEY_PENDING_LINK } from '@/const/storageKeys';
+
+function MatrixToLink() {
+  const { hash } = useLocation();
+  if (hash) sessionStorage.setItem(STORAGE_KEY_PENDING_LINK, hash);
+  return <Navigate to="/" replace />;
+}
 
 export function App() {
   const theme = useAtomValue(themeAtom);
@@ -40,6 +47,7 @@ export function App() {
         <Route path="/welcome/:homeserver?" element={<WelcomePage />} />
         <Route path="/sso/callback" element={<SsoCallback />} />
         <Route path="/oidc/callback" element={<OidcCallback />} />
+        <Route path="/to" element={<MatrixToLink />} />
 
         {/* Protected client routes */}
         <Route

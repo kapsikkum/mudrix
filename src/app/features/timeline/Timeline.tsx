@@ -31,6 +31,7 @@ import {
   roomSearchResultsAtom,
   roomMessageSearcherAtom,
   globalSearchOpenAtom,
+  pendingEventJumpAtom,
 } from '@/app/store/atoms';
 import type { RoomMessageMatch } from '@/app/store/atoms';
 import { useRoomReceipts } from '@/app/hooks/useRoomReceipts';
@@ -448,6 +449,16 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     },
     [client, roomId, getEventAbsoluteIndex, scrollToItem, setEmptyTimeline, loadEventTimeline]
   );
+
+  const [pendingJump, setPendingJump] = useAtom(pendingEventJumpAtom);
+  useEffect(() => {
+    if (!pendingJump || pendingJump.roomId !== roomId) return;
+    const timer = setTimeout(() => {
+      setPendingJump(null);
+      void handleJumpToEvent(pendingJump.eventId);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [pendingJump, roomId, handleJumpToEvent, setPendingJump]);
 
   useLayoutEffect(() => {
     if (focusItem?.scrollTo) {

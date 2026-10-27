@@ -1354,5 +1354,14 @@
     "clearMinutes_one": "{{count}} Minute",
     "clearMinutes_other": "{{count}} Minuten",
     "clearNever": "Nicht entfernen"
+  },
+  "link": {
+    "startDmTitle": "Unterhaltung starten?",
+    "startDmMessage": "Direktnachricht mit {{user}} starten?",
+    "startDm": "Chat starten",
+    "joinTitle": "Raum beitreten?",
+    "joinMessage": "{{room}} beitreten?",
+    "join": "Beitreten",
+    "failed": "Link konnte nicht geöffnet werden: {{error}}"
   }
 }

@@ -76,7 +76,13 @@ function parseMatrixPermalink(input: string): {
   }
 
   const queryIndex = raw.indexOf('?');
-  const roomIdOrAlias = (queryIndex === -1 ? raw : raw.slice(0, queryIndex)).trim();
+  const roomPath = (queryIndex === -1 ? raw : raw.slice(0, queryIndex)).split('/')[0].trim();
+  let roomIdOrAlias = roomPath;
+  try {
+    roomIdOrAlias = decodeURIComponent(roomPath);
+  } catch {
+    // keep as is
+  }
   if (!roomIdOrAlias.startsWith('!') && !roomIdOrAlias.startsWith('#')) return null;
 
   const viaServers =

@@ -477,3 +477,5 @@ export const whatsNewSeenAtom = atomWithAccountStorage<string | null>(
   STORAGE_KEY_WHATS_NEW_SEEN,
   null
 );
+
+export const pendingEventJumpAtom = atom<{ roomId: string; eventId: string } | null>(null);
