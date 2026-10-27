@@ -68,6 +68,7 @@ interface Props {
 
 const EMPTY_RECEIPTS: ReceiptUser[] = [];
 const PAGINATION_LIMIT = 80;
+const STICK_TO_BOTTOM_PX = 4;
 
 function UnreadDivider({ onDismiss, label }: { onDismiss: () => void; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -282,6 +283,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   } = useSearch(searchItems);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const stickToBottomRef = useRef(false);
   const atBottomAnchorRef = useRef<HTMLElement>(null);
   const [atBottom, setAtBottom] = useState(true);
   const atBottomRef = useRef(atBottom);
@@ -567,7 +570,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
         return;
       }
     }
-    scrollToBottom(scrollEl);
+    stickToBottomRef.current = true;
+    scrollToBottom(scrollEl, 'instant');
   }, [epoch, eventsLength, unreadInfo, room, scrollToItem, getEventAbsoluteIndex]);
 
   const scrollToBottomCount = scrollToBottomRef.current.count;
@@ -593,14 +597,28 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
   useEffect(() => {
     const scrollEl = scrollRef.current;
-    if (!scrollEl || typeof ResizeObserver === 'undefined') return;
+    const body = bodyRef.current;
+    if (!scrollEl || !body || typeof ResizeObserver === 'undefined') return;
+    let lastTop = scrollEl.scrollTop;
+    const onScroll = () => {
+      const distance = scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight;
+      if (distance <= STICK_TO_BOTTOM_PX) stickToBottomRef.current = true;
+      else if (scrollEl.scrollTop < lastTop) stickToBottomRef.current = false;
+      lastTop = scrollEl.scrollTop;
+    };
     const observer = new ResizeObserver(() => {
-      if (!atBottomRef.current) return;
+      if (!stickToBottomRef.current) return;
       scrollToBottom(scrollEl, 'instant');
+      lastTop = scrollEl.scrollTop;
     });
+    observer.observe(body);
     observer.observe(scrollEl);
-    return () => observer.disconnect();
-  }, []);
+    scrollEl.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      scrollEl.removeEventListener('scroll', onScroll);
+    };
+  }, [isInvite]);
 
   const handleLiveTimeline = useCallback(
     (
@@ -1048,7 +1066,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           )}
 
           <div ref={scrollRef} className={css.timelineContainer}>
-            <div className={css.timelineBody}>
+            <div ref={bodyRef} className={css.timelineBody}>
               {!isSearching && !canPaginateBack && rangeAtStart && getItems().length > 0 && (
                 <div className={css.timelineIntro}>
                   {predecessorRoomId && (
