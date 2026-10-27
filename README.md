@@ -78,8 +78,12 @@ npm run build:electron
 npx electron-builder --mac # or --linux / --win
 ```
 
-The version always comes from the root `package.json`.
-
 ### Using Docker
 
 - Just pull the newest docker image from [Gitlab Container Registry](https://gitlab.com/wizardchat/wizardchat-web/container_registry/)
+
+## License
+
+- **Code:** [AGPL-3.0](LICENSE). Forks and modified versions must stay under the AGPL, and if you host a modified version, its users must be able to get the source code.
+- **Logo and app icons** (`public/assets/images/logo*.svg`, `desktop/icons/`): [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), © WizardChat. Share and adapt them with attribution, under the same license.
+- **Name:** the licenses don't cover the WizardChat name. If you publish a fork, please give it its own name and logo so it isn't mistaken for the official app.
