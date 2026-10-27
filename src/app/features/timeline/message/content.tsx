@@ -671,13 +671,10 @@ export function MessageContent({
     const encFile = getEncryptedFile(content as Record<string, unknown>);
     const mxcUrl = content?.url as string | undefined;
     if (encFile || mxcUrl) {
-      const isDirect = Boolean(mxcUrl) && !isMxcUrl(mxcUrl as string);
       const src =
         mediaSrc ??
-        (!encFile && mxcUrl
-          ? isDirect
-            ? (mxcUrl as string)
-            : getMediaBlobUrl(mxcUrl as string, client, onMediaLoad)
+        (!encFile && mxcUrl && isMxcUrl(mxcUrl)
+          ? getMediaBlobUrl(mxcUrl, client, onMediaLoad)
           : null);
       return (
         <StickerBox

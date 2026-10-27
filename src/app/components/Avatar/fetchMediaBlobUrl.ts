@@ -1,6 +1,7 @@
 import type { MatrixClient } from 'matrix-js-sdk';
 import { getCachedBlobUrl, setCachedBlobUrl } from '@/app/features/timeline/message/mediaCache';
 import { mxcUrlToHttp } from '@/util/matrix/mxcUrl';
+import { getSafeMimeType } from '@/util/safeMimeType';
 
 function isMxcUrl(url: string): boolean {
   return url.startsWith('mxc://');
@@ -26,7 +27,7 @@ export async function fetchMediaBlobUrl(
   height?: number,
   resizeMethod?: string
 ): Promise<string | null> {
-  if (!isMxcUrl(mxcUrl)) return mxcUrl;
+  if (!isMxcUrl(mxcUrl)) return null;
 
   const cacheKey = mediaBlobCacheKey(mxcUrl, width, height, resizeMethod);
   const cached = getCachedBlobUrl(cacheKey);
@@ -67,7 +68,9 @@ export async function fetchMediaBlobUrl(
           }
           return null;
         }
-        const blob = await res.blob();
+        // Never trust the uploaded content type: an SVG/HTML blob opened in a tab would run as the app
+        const raw = await res.blob();
+        const blob = new Blob([raw], { type: getSafeMimeType(raw.type) });
         const blobUrl = URL.createObjectURL(blob);
         setCachedBlobUrl(cacheKey, blobUrl, blob.type);
         return blobUrl;

@@ -19,7 +19,7 @@ function resolveInitialSrc(
   cacheKey: string | null
 ): string | undefined {
   if (!mxcUrl) return undefined;
-  if (!mxcUrl.startsWith('mxc://')) return mxcUrl;
+  if (!mxcUrl.startsWith('mxc://')) return undefined;
   return cacheKey ? (getCachedBlobUrl(cacheKey) ?? undefined) : undefined;
 }
 

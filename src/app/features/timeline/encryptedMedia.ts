@@ -4,39 +4,9 @@ import type { MatrixClient } from 'matrix-js-sdk';
 import { getMediaCacheKey, setCachedBlobUrl } from './message/mediaCache';
 import { probeIsAnimated, stillExportFormat } from './utils/imageAnimation';
 import { mxcUrlToHttp } from '@/util/matrix/mxcUrl';
+import { getSafeMimeType } from '@/util/safeMimeType';
 
 export type { IEncryptedFile };
-
-// Only allow mime types the browser can safely render as a blob URL.
-const ALLOWED_BLOB_MIMETYPES = [
-  'image/jpeg',
-  'image/gif',
-  'image/png',
-  'image/apng',
-  'image/webp',
-  'image/avif',
-  'video/mp4',
-  'video/webm',
-  'video/ogg',
-  'video/quicktime',
-  'audio/mp4',
-  'audio/webm',
-  'audio/aac',
-  'audio/mpeg',
-  'audio/ogg',
-  'audio/wave',
-  'audio/wav',
-  'audio/x-wav',
-  'audio/x-pn-wav',
-  'audio/flac',
-  'audio/x-flac',
-];
-
-function getSafeMimeType(mime: string): string {
-  if (!mime) return 'application/octet-stream';
-  if (ALLOWED_BLOB_MIMETYPES.includes(mime.toLowerCase())) return mime;
-  return 'application/octet-stream';
-}
 
 export interface UploadResult {
   url?: string;

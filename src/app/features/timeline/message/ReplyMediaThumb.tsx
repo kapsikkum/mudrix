@@ -84,11 +84,9 @@ export function ReplyMediaThumb({
 
   const encFile = getEncryptedFile(content);
   const mxcUrl = content.url as string | undefined;
-  const directSrc = mxcUrl && !isMxcUrl(mxcUrl) ? mxcUrl : null;
   const src =
     mediaSrc ??
-    directSrc ??
-    (!encFile && mxcUrl ? getMediaBlobUrl(mxcUrl, client, setMediaSrc) : null);
+    (!encFile && mxcUrl && isMxcUrl(mxcUrl) ? getMediaBlobUrl(mxcUrl, client, setMediaSrc) : null);
 
   const text = isImage || isVideo ? (getMediaCaption(content) ?? '') : isSticker ? '' : body.trim();
   const label = text || (content.body as string | undefined) || '';

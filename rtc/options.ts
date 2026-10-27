@@ -36,6 +36,6 @@ export function roomOptions(
       echoCancellation: true,
       noiseSuppression: true,
     },
-    ...(e2ee ? { e2ee: { keyProvider: e2ee.keyProvider, worker: e2ee.worker } } : {}),
+    ...(e2ee ? { encryption: { keyProvider: e2ee.keyProvider, worker: e2ee.worker } } : {}),
   };
 }

@@ -19,32 +19,27 @@ export function LinkPreview({ url, client, isEncrypted }: LinkPreviewProps) {
   const ogImage = data?.['og:image'];
 
   useEffect(() => {
-    if (!ogImage || imgError) {
+    if (!ogImage || imgError || !ogImage.startsWith('mxc://')) {
       setImgSrc(null);
       return;
     }
-    if (ogImage.startsWith('mxc://')) {
-      // Authenticated media — must fetch with Bearer token, then use blob URL.
-      let revoked = false;
-      let currentBlobUrl: string | null = null;
-      fetchMediaBlobUrl(ogImage, client, 1).then((blobUrl) => {
-        if (!blobUrl) return;
-        if (revoked) {
-          URL.revokeObjectURL(blobUrl);
-          return;
-        }
-        currentBlobUrl = blobUrl;
-        setImgSrc(blobUrl);
-      });
-      return () => {
-        revoked = true;
-        const toRevoke = currentBlobUrl;
-        if (toRevoke) URL.revokeObjectURL(toRevoke);
-      };
-    } else {
-      // Direct https:// URL from the homeserver — usable in <img> directly.
-      setImgSrc(ogImage);
-    }
+    // Authenticated media — must fetch with Bearer token, then use blob URL.
+    let revoked = false;
+    let currentBlobUrl: string | null = null;
+    fetchMediaBlobUrl(ogImage, client, 1).then((blobUrl) => {
+      if (!blobUrl) return;
+      if (revoked) {
+        URL.revokeObjectURL(blobUrl);
+        return;
+      }
+      currentBlobUrl = blobUrl;
+      setImgSrc(blobUrl);
+    });
+    return () => {
+      revoked = true;
+      const toRevoke = currentBlobUrl;
+      if (toRevoke) URL.revokeObjectURL(toRevoke);
+    };
   }, [ogImage, client, imgError]);
 
   if (!data) return null;

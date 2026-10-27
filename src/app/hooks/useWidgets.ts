@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import type { UntypedStateEventType, RawStateContent } from '@/types/matrix';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
@@ -16,6 +16,28 @@ export interface RoomWidget {
   name: string;
   data: Record<string, unknown>;
   creatorUserId: string;
+}
+
+const USER_WIDGETS_EVENT = 'm.widgets';
+
+function readUserStickerWidget(client: MatrixClient | null): RoomWidget | undefined {
+  const content = client
+    ?.getAccountData(USER_WIDGETS_EVENT as Parameters<MatrixClient['getAccountData']>[0])
+    ?.getContent<Record<string, { content?: Record<string, unknown>; sender?: string }>>();
+  for (const [id, entry] of Object.entries(content ?? {})) {
+    const widget = entry?.content;
+    const url = typeof widget?.url === 'string' ? widget.url : '';
+    if (widget?.type !== WIDGET_TYPES.STICKER_PICKER || !url.startsWith('https://')) continue;
+    return {
+      stateKey: id,
+      type: WIDGET_TYPES.STICKER_PICKER,
+      url,
+      name: typeof widget.name === 'string' ? widget.name : '',
+      data: (widget.data as Record<string, unknown>) ?? {},
+      creatorUserId: entry.sender ?? client?.getUserId() ?? '',
+    };
+  }
+  return undefined;
 }
 
 export function useWidgets(client: MatrixClient | null, roomId: string | null) {
@@ -60,7 +82,15 @@ export function useWidgets(client: MatrixClient | null, roomId: string | null) {
   );
   useMatrixEvent(client, 'RoomState.events', handleStateEvent);
 
-  const stickerWidget = widgets.find((w) => w.type === WIDGET_TYPES.STICKER_PICKER);
+  const [stickerWidget, setStickerWidget] = useState(() => readUserStickerWidget(client));
+  useEffect(() => setStickerWidget(readUserStickerWidget(client)), [client]);
+  const handleAccountData = useCallback(
+    (event: MatrixEvent) => {
+      if (event.getType() === USER_WIDGETS_EVENT) setStickerWidget(readUserStickerWidget(client));
+    },
+    [client]
+  );
+  useMatrixEvent(client, 'accountData', handleAccountData);
   const hasSticker = !!stickerWidget;
 
   const removeWidget = useCallback(
