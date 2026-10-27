@@ -10,6 +10,7 @@ export interface ContextMenuItem {
   disabled?: boolean;
   checked?: boolean;
   keepOpen?: boolean;
+  chevron?: boolean;
   submenu?: ContextMenuItem[];
   onClick: (menuEl?: HTMLElement | null) => void;
 }

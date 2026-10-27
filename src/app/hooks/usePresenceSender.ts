@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { SetPresence } from 'matrix-js-sdk/lib/sync';
-import { showPresenceAtom, presenceOverrideAtom, presenceMapAtom } from '@/app/store/atoms';
+import { presenceOverrideAtom, presenceMapAtom, ownCustomStatusAtom } from '@/app/store/atoms';
 import { useSyncReady } from './useSync';
 
 const IDLE_TIMEOUT_MS = 5 * 60 * 1000; // 5min
@@ -11,17 +11,16 @@ const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'pointerdown', 'scroll', 'focus
 type PresenceValue = 'online' | 'unavailable' | 'offline';
 
 export function usePresenceSender(client: MatrixClient | null | undefined): void {
-  const showPresence = useAtomValue(showPresenceAtom);
+  const customStatus = useAtomValue(ownCustomStatusAtom);
+  const statusText = customStatus?.text ?? '';
+  const statusTextRef = useRef(statusText);
+  statusTextRef.current = statusText;
   const override = useAtomValue(presenceOverrideAtom);
   const setPresenceMap = useSetAtom(presenceMapAtom);
 
   const syncReady = useSyncReady();
 
-  const showPresenceRef = useRef(showPresence);
   const overrideRef = useRef(override);
-  useEffect(() => {
-    showPresenceRef.current = showPresence;
-  });
   useEffect(() => {
     overrideRef.current = override;
   });
@@ -40,7 +39,9 @@ export function usePresenceSender(client: MatrixClient | null | undefined): void
           ? SetPresence.Unavailable
           : SetPresence.Offline;
     c.setSyncPresence(sdkState).catch(() => {});
-    c.setPresence({ presence: state }).catch(() => {});
+    // A PUT without status_msg clears it, so always send the current one (none while invisible)
+    const statusMsg = state === 'offline' ? '' : statusTextRef.current;
+    c.setPresence({ presence: state, status_msg: statusMsg }).catch(() => {});
   };
 
   // Update UI everywhere (member list, profile popups, etc.) immediately,
@@ -69,7 +70,7 @@ export function usePresenceSender(client: MatrixClient | null | undefined): void
     const scheduleIdle = () => {
       clearIdleTimer();
       idleTimerRef.current = setTimeout(() => {
-        if (!isIdleRef.current && showPresenceRef.current && overrideRef.current === 'auto') {
+        if (!isIdleRef.current && overrideRef.current === 'auto') {
           isIdleRef.current = true;
           applyOwn(client, 'unavailable');
         }
@@ -77,7 +78,7 @@ export function usePresenceSender(client: MatrixClient | null | undefined): void
     };
 
     const onActivity = () => {
-      if (!showPresenceRef.current || overrideRef.current !== 'auto') return;
+      if (overrideRef.current !== 'auto') return;
       clearIdleTimer();
       if (isIdleRef.current) {
         isIdleRef.current = false;
@@ -104,19 +105,14 @@ export function usePresenceSender(client: MatrixClient | null | undefined): void
   useEffect(() => {
     if (!client || !syncReady) return;
 
-    if (!showPresence) {
-      clearTimeout(idleTimerRef.current ?? undefined);
-      idleTimerRef.current = null;
-      isIdleRef.current = false;
-      applyOwn(client, 'offline');
-    } else if (override !== 'auto') {
+    if (override !== 'auto') {
       clearTimeout(idleTimerRef.current ?? undefined);
       idleTimerRef.current = null;
       isIdleRef.current = false;
       applyOwn(client, override);
-    } else if (!isIdleRef.current) {
-      applyOwn(client, 'online');
+    } else {
+      applyOwn(client, isIdleRef.current ? 'unavailable' : 'online');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, showPresence, syncReady, override]);
+  }, [client, syncReady, override, statusText]);
 }

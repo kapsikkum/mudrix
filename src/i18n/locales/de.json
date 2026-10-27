@@ -871,7 +871,9 @@
       "themedAppIcon": "Thematisches App-Icon",
       "prettifyLinks": "Links kürzen",
       "prettifyLinksNote": "Zeige Links als saubere Domainnamen anstatt vollständige URLs.",
-      "showRoomAvatars": "Raum-Avatare anzeigen"
+      "showRoomAvatars": "Raum-Avatare anzeigen",
+      "showPresenceDots": "Status-Punkte anzeigen",
+      "showPresenceDotsNote": "Online-, Abwesend- und Offline-Punkte an Avataren, auch an deinem."
     },
     "accessibility": {
       "title": "Barrierefreiheit",
@@ -898,8 +900,6 @@
       "mediaVisibilityPrivate": "Nur in privaten Räumen",
       "mediaVisibilityNever": "Immer ausblenden",
       "other": "Andere",
-      "showPresence": "Benutzerpräsenz anzeigen",
-      "showPresenceNote": "Zeigt an, wenn Benutzer online, offline oder nicht verfügbar sind. Deine Präsenz ist für andere sichtbar.",
       "blockInvites": "Alle Einladungen blockieren",
       "blockInvitesNote": "Niemand kann dich in Räume einladen oder DMs mit dir starten. Dein Homeserver lehnt die Einladungen ab.",
       "blockInvitesFailed": "Einladungsblockierung konnte nicht geändert werden: {{error}}"
@@ -1225,7 +1225,10 @@
     "auto": "Automatisch",
     "online": "Online",
     "away": "Abwesend",
-    "offline": "Offline"
+    "offline": "Offline",
+    "unsupported": "Online-Status nicht verfügbar",
+    "unsupportedTitle": "Online-Status ist nicht verfügbar",
+    "unsupportedMessage": "Dein Homeserver ({{server}}) hat den Online-Status (Presence) deaktiviert. Niemand sieht, ob du online, abwesend oder offline bist, und du siehst es auch bei anderen nicht. Deine Auswahl hier bleibt erhalten, falls er aktiviert wird. Dein eigener Status wird weiterhin in deinem Profil angezeigt, wenn dein Server Profilfelder unterstützt."
   },
   "crypto": {
     "setupOverwritesTitle": "Vorhandene Verschlüsselung ersetzen?",
@@ -1337,5 +1340,19 @@
     "screens": "Bildschirme",
     "windows": "Fenster",
     "shareAudio": "Audio teilen"
+  },
+  "status": {
+    "setCustomStatus": "Eigenen Status festlegen",
+    "editCustomStatus": "Eigenen Status bearbeiten",
+    "clearStatus": "Status entfernen",
+    "whatsUp": "Was gibt's?",
+    "placeholder": "Mittagspause, voll im Flow, ...",
+    "clearAfter": "Entfernen nach",
+    "clearToday": "Heute",
+    "clearHours_one": "{{count}} Stunde",
+    "clearHours_other": "{{count}} Stunden",
+    "clearMinutes_one": "{{count}} Minute",
+    "clearMinutes_other": "{{count}} Minuten",
+    "clearNever": "Nicht entfernen"
   }
 }

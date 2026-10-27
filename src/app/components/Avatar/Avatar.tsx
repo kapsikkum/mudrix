@@ -1,5 +1,7 @@
 import { useCallback, memo } from 'react';
 import type { MatrixClient } from 'matrix-js-sdk';
+import { useAtomValue } from 'jotai';
+import { showPresenceDotsAtom } from '@/app/store/atoms/settings';
 import type { PresenceState } from '@/app/store/atoms';
 import { useAvatarBlobUrl } from './useAvatarBlobUrl';
 import { getInitialAndHue } from './avatarHue';
@@ -83,26 +85,28 @@ export const Avatar = memo(function Avatar({
       }
     : { className: wrapClass };
 
-  const dot = presence ? (
-    onPresenceDotClick ? (
-      <Tooltip content={presenceDotLabel ?? presence}>
-        <button
-          type="button"
-          className={`${PRESENCE_DOT_CLASS[size]} ${PRESENCE_COLOR_CLASS[presence]} ${css.presenceDotButton}`}
-          aria-label={presenceDotLabel ?? presence}
-          onClick={(e) => {
-            e.stopPropagation();
-            onPresenceDotClick(e);
-          }}
+  const showDots = useAtomValue(showPresenceDotsAtom);
+  const dot =
+    presence && showDots ? (
+      onPresenceDotClick ? (
+        <Tooltip content={presenceDotLabel ?? presence}>
+          <button
+            type="button"
+            className={`${PRESENCE_DOT_CLASS[size]} ${PRESENCE_COLOR_CLASS[presence]} ${css.presenceDotButton}`}
+            aria-label={presenceDotLabel ?? presence}
+            onClick={(e) => {
+              e.stopPropagation();
+              onPresenceDotClick(e);
+            }}
+          />
+        </Tooltip>
+      ) : (
+        <span
+          className={`${PRESENCE_DOT_CLASS[size]} ${PRESENCE_COLOR_CLASS[presence]}`}
+          aria-label={presence}
         />
-      </Tooltip>
-    ) : (
-      <span
-        className={`${PRESENCE_DOT_CLASS[size]} ${PRESENCE_COLOR_CLASS[presence]}`}
-        aria-label={presence}
-      />
-    )
-  ) : null;
+      )
+    ) : null;
 
   if (imgSrc) {
     return (

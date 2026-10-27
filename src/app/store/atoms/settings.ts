@@ -46,8 +46,8 @@ export interface Preferences {
   notificationBanners: boolean;
   sendReadReceipts: boolean;
   prettifyLinks: boolean;
-  showPresence: boolean;
   showRoomAvatars: boolean;
+  showPresenceDots: boolean;
   autoplayGifs: boolean;
   mediaVisibility: MediaVisibility;
   reducedMotion: ReducedMotion;
@@ -75,8 +75,8 @@ export const DEFAULT_PREFERENCES: Preferences = {
   notificationBanners: false,
   sendReadReceipts: true,
   prettifyLinks: false,
-  showPresence: false,
   showRoomAvatars: true,
+  showPresenceDots: true,
   autoplayGifs: false,
   mediaVisibility: 'always',
   reducedMotion: 'system',
@@ -107,8 +107,8 @@ export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');
 export const notificationBannersAtom = preferenceFieldAtom('notificationBanners');
 export const sendReadReceiptsAtom = preferenceFieldAtom('sendReadReceipts');
 export const prettifyLinksAtom = preferenceFieldAtom('prettifyLinks');
-export const showPresenceAtom = preferenceFieldAtom('showPresence');
 export const showRoomAvatarsAtom = preferenceFieldAtom('showRoomAvatars');
+export const showPresenceDotsAtom = preferenceFieldAtom('showPresenceDots');
 export const autoplayGifsAtom = preferenceFieldAtom('autoplayGifs');
 export const mediaVisibilityAtom = preferenceFieldAtom('mediaVisibility');
 export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');

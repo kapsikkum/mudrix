@@ -348,7 +348,9 @@ export function ContextMenu() {
         >
           {item.icon && <span className={css.menuItemIcon}>{item.icon}</span>}
           <span className={css.menuItemLabel}>{item.label}</span>
-          {item.submenu && <CaretRightIcon size={12} weight="bold" className={css.menuItemCarat} />}
+          {(item.submenu || item.chevron) && (
+            <CaretRightIcon size={12} weight="bold" className={css.menuItemCarat} />
+          )}
           {item.checked && <CheckIcon size={14} weight="bold" className={css.menuItemCheck} />}
         </div>
       );

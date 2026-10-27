@@ -871,7 +871,9 @@
       "themedAppIcon": "Themed app icon",
       "prettifyLinks": "Prettify links",
       "prettifyLinksNote": "Display links as clean domain names instead of full URLs.",
-      "showRoomAvatars": "Show room avatars"
+      "showRoomAvatars": "Show room avatars",
+      "showPresenceDots": "Show status dots",
+      "showPresenceDotsNote": "Online, away and offline dots on avatars, including your own."
     },
     "accessibility": {
       "title": "Accessibility",
@@ -898,8 +900,6 @@
       "mediaVisibilityPrivate": "Only in private rooms",
       "mediaVisibilityNever": "Always hide",
       "other": "Other",
-      "showPresence": "Show user presence",
-      "showPresenceNote": "Display when users are online, offline, or unavailable. Your presence will be visible to others.",
       "blockInvites": "Block all invites",
       "blockInvitesNote": "Nobody can invite you to rooms or start DMs with you. Your homeserver rejects the invites.",
       "blockInvitesFailed": "Failed to update invite blocking: {{error}}"
@@ -1225,7 +1225,10 @@
     "auto": "Auto",
     "online": "Online",
     "away": "Away",
-    "offline": "Offline"
+    "offline": "Offline",
+    "unsupported": "Online status unavailable",
+    "unsupportedTitle": "Online status isn't available",
+    "unsupportedMessage": "Your homeserver ({{server}}) has online status (presence) turned off, so nobody can see whether you're online, away or offline, and you won't see it for others either. What you pick here is kept for when it's turned on. Your custom status still shows on your profile if your server supports profile fields."
   },
   "crypto": {
     "setupOverwritesTitle": "Replace existing encryption setup?",
@@ -1337,5 +1340,19 @@
     "screens": "Screens",
     "windows": "Windows",
     "shareAudio": "Share audio"
+  },
+  "status": {
+    "setCustomStatus": "Set a custom status",
+    "editCustomStatus": "Edit custom status",
+    "clearStatus": "Clear status",
+    "whatsUp": "What's up?",
+    "placeholder": "Out for lunch, in the zone, ...",
+    "clearAfter": "Clear after",
+    "clearToday": "Today",
+    "clearHours_one": "{{count}} hour",
+    "clearHours_other": "{{count}} hours",
+    "clearMinutes_one": "{{count}} minute",
+    "clearMinutes_other": "{{count}} minutes",
+    "clearNever": "Don't clear"
   }
 }

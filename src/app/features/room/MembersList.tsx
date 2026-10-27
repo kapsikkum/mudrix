@@ -7,7 +7,7 @@ import { Tooltip } from '@/app/components/Tooltip';
 import {
   currentRoomIdAtom,
   userProfileAtom,
-  showPresenceAtom,
+  presenceVisibleAtom,
   ownPresenceAtom,
   userIdAtom,
 } from '@/app/store/atoms';
@@ -25,6 +25,7 @@ import {
   isRoleHeader,
 } from './memberRoles';
 import type { RoleSectionItem } from './memberRoles';
+import { useUserStatusText } from '@/app/features/status/customStatus';
 import * as css from './MembersList.css';
 
 const MemberRow = memo(function MemberRow({
@@ -56,6 +57,7 @@ const MemberRow = memo(function MemberRow({
     [member.userId, roomId, setProfile]
   );
 
+  const statusText = useUserStatusText(client, member.userId);
   const presence = showPresence
     ? member.userId === localUserId
       ? ownPresence
@@ -85,7 +87,14 @@ const MemberRow = memo(function MemberRow({
           placeholder="logo"
           presence={presence}
         />
-        <span className={css.memberName}>{member.displayName}</span>
+        {statusText ? (
+          <span className={css.memberText}>
+            <span className={css.memberNameStacked}>{member.displayName}</span>
+            <span className={css.memberStatus}>{statusText}</span>
+          </span>
+        ) : (
+          <span className={css.memberName}>{member.displayName}</span>
+        )}
       </div>
     </Tooltip>
   );
@@ -100,7 +109,7 @@ export function MembersList({ roomId: propRoomId }: MembersListProps = {}) {
   const client = getMatrixClientOrNull();
   const atomRoomId = useAtomValue(currentRoomIdAtom);
   const roomId = propRoomId ?? atomRoomId;
-  const showPresence = useAtomValue(showPresenceAtom);
+  const showPresence = useAtomValue(presenceVisibleAtom);
   const ownPresence = useAtomValue(ownPresenceAtom);
   const syncReady = useSyncReady();
   const ownPresenceGated: PresenceState | undefined =

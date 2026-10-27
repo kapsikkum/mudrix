@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import {
   typingIndicatorsAtom,
   sendReadReceiptsAtom,
-  showPresenceAtom,
   mediaVisibilityAtom,
   type MediaVisibility,
 } from '@/app/store/atoms';
@@ -31,7 +30,6 @@ export function Privacy() {
   const { t } = useTranslation();
   const [typingIndicators, setTypingIndicators] = useAtom(typingIndicatorsAtom);
   const [sendReadReceipts, setSendReadReceipts] = useAtom(sendReadReceiptsAtom);
-  const [showPresence, setShowPresence] = useAtom(showPresenceAtom);
   const [mediaVisibility, setMediaVisibility] = useAtom(mediaVisibilityAtom);
 
   return (
@@ -81,12 +79,6 @@ export function Privacy() {
       <div className={css.section}>
         <h3 className={css.sectionTitle}>{t('settings.privacy.other')}</h3>
 
-        <ToggleRow
-          label={t('settings.privacy.showPresence')}
-          description={t('settings.privacy.showPresenceNote')}
-          checked={showPresence}
-          onChange={setShowPresence}
-        />
         <BlockInvitesToggle />
       </div>
 

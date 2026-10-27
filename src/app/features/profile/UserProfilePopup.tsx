@@ -33,13 +33,14 @@ import {
   currentRoomIdAtom as roomAtom,
   sidebarViewAtom,
   promptModalAtom,
-  showPresenceAtom,
+  presenceVisibleAtom,
   presenceMapAtom,
   ownPresenceAtom,
   emojiVerificationAtom,
 } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
 import { getMatrixClient, getMatrixClientOrNull, logout, switchAccount } from '@/client/initMatrix';
+import { useUserStatusText } from '@/app/features/status/customStatus';
 import { getActiveAccountId, listAccounts } from '@/client/accounts';
 import type { MatrixCredentials } from '@/client/types';
 import { useUserProfile } from '@/app/hooks/useUserProfile';
@@ -98,11 +99,13 @@ export function UserProfilePopup() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [bannerLightboxOpen, setBannerLightboxOpen] = useState(false);
 
-  const showPresence = useAtomValue(showPresenceAtom);
+  const showPresence = useAtomValue(presenceVisibleAtom);
   const presenceMap = useAtomValue(presenceMapAtom);
   const ownPresence = useAtomValue(ownPresenceAtom);
   const syncReady = useSyncReady();
   const confirmDialog = useConfirm();
+
+  const statusText = useUserStatusText(client, profileState?.userId, true);
 
   const presence: PresenceState | undefined = (() => {
     if (!showPresence || !syncReady) return undefined;
@@ -640,7 +643,17 @@ export function UserProfilePopup() {
               </div>
             )}
 
-            <div style={{ flex: 1 }} />
+            {statusText ? (
+              <div className={css.statusSlot}>
+                <Tooltip content={statusText}>
+                  <span className={css.status}>
+                    <span className={css.statusText}>{statusText}</span>
+                  </span>
+                </Tooltip>
+              </div>
+            ) : (
+              <div style={{ flex: 1 }} />
+            )}
 
             <CopyButton
               text={makeUserPermalink(profile.userId)}

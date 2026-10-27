@@ -22,6 +22,7 @@ const SYNCED_PREFERENCES = {
   mediaVisibility: oneOf('always', 'private', 'never'),
   prettifyLinks: isBoolean,
   showRoomAvatars: isBoolean,
+  showPresenceDots: isBoolean,
   themedAppIcon: isBoolean,
   chatFontSize: (value: unknown) =>
     typeof value === 'number' && Number.isInteger(value) && value >= 8 && value <= 48,

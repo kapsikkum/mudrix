@@ -5,6 +5,7 @@ import {
   messageLayoutAtom,
   prettifyLinksAtom,
   showRoomAvatarsAtom,
+  showPresenceDotsAtom,
   themedAppIconAtom,
   chatFontSizeAtom,
   chatDensityAtom,
@@ -162,6 +163,7 @@ export function Appearance() {
   const [layout, setLayout] = useAtom(messageLayoutAtom);
   const [prettifyLinks, setPrettifyLinks] = useAtom(prettifyLinksAtom);
   const [showRoomAvatars, setShowRoomAvatars] = useAtom(showRoomAvatarsAtom);
+  const [showPresenceDots, setShowPresenceDots] = useAtom(showPresenceDotsAtom);
   const [themedAppIcon, setThemedAppIcon] = useAtom(themedAppIconAtom);
   const [chatFontSize, setChatFontSize] = useAtom(chatFontSizeAtom);
   const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
@@ -297,6 +299,12 @@ export function Appearance() {
           label={t('settings.appearance.showRoomAvatars')}
           checked={showRoomAvatars}
           onChange={setShowRoomAvatars}
+        />
+        <ToggleRow
+          label={t('settings.appearance.showPresenceDots')}
+          description={t('settings.appearance.showPresenceDotsNote')}
+          checked={showPresenceDots}
+          onChange={setShowPresenceDots}
         />
       </div>
     </div>

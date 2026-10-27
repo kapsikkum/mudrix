@@ -38,6 +38,26 @@ export const memberName = style({
   whiteSpace: 'nowrap',
 });
 
+export const memberText = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  flex: 1,
+  minWidth: 0,
+});
+
+export const memberNameStacked = style([memberName, { flex: 'none', lineHeight: '16px' }]);
+
+export const memberStatus = style({
+  fontSize: '0.7rem',
+  lineHeight: '12px',
+  color: vars.color.textMuted,
+  opacity: 0.8,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
 export const emptyState = style({
   padding: '16px',
   fontSize: '0.85rem',

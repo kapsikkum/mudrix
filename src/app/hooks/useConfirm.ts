@@ -9,13 +9,14 @@ interface ConfirmOptions {
   confirmLabel?: string;
   cancelLabel?: string;
   cancelPrimary?: boolean;
+  alert?: boolean;
 }
 
 export function useConfirm() {
   const setConfirm = useSetAtom(confirmModalAtom);
 
   return useCallback(
-    ({ title, message, danger, confirmLabel, cancelLabel, cancelPrimary }: ConfirmOptions) =>
+    ({ title, message, danger, confirmLabel, cancelLabel, cancelPrimary, alert }: ConfirmOptions) =>
       new Promise<boolean>((resolve) => {
         setConfirm({
           open: true,
@@ -25,6 +26,7 @@ export function useConfirm() {
           confirmLabel,
           cancelLabel,
           cancelPrimary,
+          alert,
           resolve,
         });
       }),

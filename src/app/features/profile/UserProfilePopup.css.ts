@@ -341,3 +341,48 @@ export const accountServer = style({
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
+
+export const statusSlot = style({
+  flex: 1,
+  minWidth: 0,
+  display: 'flex',
+  alignSelf: 'flex-end',
+  marginBottom: '6px',
+  paddingLeft: '2px',
+  paddingRight: '4px',
+});
+
+export const status = style({
+  position: 'relative',
+  display: 'flex',
+  minWidth: 0,
+  maxWidth: '100%',
+  padding: '6px 12px',
+  border: `1px solid ${vars.color.border}`,
+  borderRadius: '10px 16px 16px 10px',
+  backgroundColor: vars.color.bgSecondary,
+  fontSize: '0.8rem',
+  lineHeight: 1.35,
+  color: vars.color.textPrimary,
+  '::before': {
+    content: '""',
+    position: 'absolute',
+    left: '-4px',
+    top: '50%',
+    width: '7px',
+    height: '7px',
+    backgroundColor: vars.color.bgSecondary,
+    borderLeft: `1px solid ${vars.color.border}`,
+    borderBottom: `1px solid ${vars.color.border}`,
+    transform: 'translateY(-50%) rotate(45deg)',
+  },
+});
+
+export const statusText = style({
+  minWidth: 0,
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+  overflowWrap: 'anywhere',
+});

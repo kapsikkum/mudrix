@@ -23,6 +23,7 @@ import { GlobalSearch } from '@/app/features/globalSearch';
 import { WhatsNewModal } from '@/app/features/whatsNew';
 import { DesktopSourcePicker } from '@/app/features/calls/desktopPicker/DesktopSourcePicker';
 import { ExploreModal } from '@/app/features/explore';
+import { CustomStatusDialog } from '@/app/features/status/CustomStatusDialog';
 
 export function GlobalModals() {
   return (
@@ -30,6 +31,7 @@ export function GlobalModals() {
       <ToastContainer />
       <ConfirmModal />
       <PromptModal />
+      <CustomStatusDialog />
       <Settings />
       <CreateRoomModal />
       <InviteModal />

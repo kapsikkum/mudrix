@@ -38,6 +38,23 @@ export const userPanelId = style({
   whiteSpace: 'nowrap',
 });
 
+export const userPanelText = style({
+  display: 'flex',
+  flexDirection: 'column',
+  minWidth: 0,
+  lineHeight: 1.25,
+});
+
+export const userPanelStatus = style({
+  fontSize: '0.72rem',
+  color: vars.color.textMuted,
+  opacity: 0.85,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
 export const voiceControls = style({
   display: 'flex',
   alignItems: 'center',

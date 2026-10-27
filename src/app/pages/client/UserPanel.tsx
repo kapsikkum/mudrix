@@ -1,6 +1,8 @@
 import { useCallback, useRef } from 'react';
 import {
+  ChatCircleDotsIcon,
   GearIcon,
+  WarningCircleIcon,
   HeadphonesIcon,
   MicrophoneIcon,
   MicrophoneSlashIcon,
@@ -12,13 +14,14 @@ import { IconButton } from '@/app/components/Button';
 import {
   settingsOpenAtom,
   userIdAtom,
-  showPresenceAtom,
+  presenceSupportAtom,
   ownPresenceAtom,
   presenceOverrideAtom,
   userProfileAtom,
 } from '@/app/store/atoms';
 import type { PresenceState, PresenceOverride } from '@/app/store/atoms';
 import { useContextMenu } from '@/app/hooks/useContextMenu';
+import { useConfirm } from '@/app/hooks/useConfirm';
 import { useSyncReady } from '@/app/hooks/useSync';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { useGlobalVoiceState } from '@/app/features/voice/useGlobalVoice';
@@ -26,6 +29,7 @@ import { DeviceControl } from '@/app/features/calls/DeviceMenu';
 import { PushToTalkDot } from '@/app/features/calls/PushToTalkDot';
 import { useCallSnapshot } from '@/app/features/calls/stage/useCallSnapshot';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
+import { customStatusDialogOpenAtom, useUserStatusText } from '@/app/features/status/customStatus';
 import * as css from './UserPanel.css';
 
 const PRESENCE_DOT_COLOR: Record<Exclude<PresenceOverride, 'auto'>, string> = {
@@ -39,7 +43,6 @@ export function UserPanel() {
   const client = getMatrixClientOrNull();
   const userId = useAtomValue(userIdAtom);
   const [, setSettingsOpen] = useAtom(settingsOpenAtom);
-  const showPresence = useAtomValue(showPresenceAtom);
   const ownPresence = useAtomValue(ownPresenceAtom);
   const [presenceOverride, setPresenceOverride] = useAtom(presenceOverrideAtom);
   const setProfile = useSetAtom(userProfileAtom);
@@ -54,6 +57,10 @@ export function UserPanel() {
   const user = client && userId ? client.getUser(userId) : null;
   const displayName = user?.displayName ?? '';
   const avatarMxc = user?.avatarUrl ?? null;
+  const statusText = useUserStatusText(client, userId);
+  const openStatusDialog = useSetAtom(customStatusDialogOpenAtom);
+  const presenceUnsupported = useAtomValue(presenceSupportAtom) === 'unsupported';
+  const confirmDialog = useConfirm();
 
   const openOwnProfile = useCallback(() => {
     if (!userId) return;
@@ -74,8 +81,7 @@ export function UserPanel() {
   const deafenTitle = deafened ? t('voice.undeafen') : t('voice.deafen');
 
   const syncReady = useSyncReady();
-  const hasPresence = showPresence && syncReady;
-  const presence: PresenceState | undefined = hasPresence ? ownPresence : undefined;
+  const presence: PresenceState | undefined = syncReady ? ownPresence : undefined;
 
   const handlePresenceDotClick = useCallback(
     (e: React.MouseEvent) => {
@@ -89,7 +95,25 @@ export function UserPanel() {
           }}
         />
       );
+      const serverName = userId?.split(':').slice(1).join(':') ?? '';
       const items: ContextMenuItem[] = [
+        ...(!presenceUnsupported
+          ? []
+          : [
+              {
+                label: t('presence.unsupported'),
+                icon: <WarningCircleIcon size={16} />,
+                danger: true,
+                chevron: true,
+                onClick: () =>
+                  void confirmDialog({
+                    title: t('presence.unsupportedTitle'),
+                    message: t('presence.unsupportedMessage', { server: serverName }),
+                    alert: true,
+                  }),
+              },
+              { label: '', divider: true, onClick: () => {} },
+            ]),
         {
           label: t('presence.auto'),
           icon: (
@@ -123,10 +147,26 @@ export function UserPanel() {
           checked: presenceOverride === 'offline',
           onClick: () => setPresenceOverride('offline'),
         },
+        { label: '', divider: true, onClick: () => {} },
+        {
+          label: statusText ? t('status.editCustomStatus') : t('status.setCustomStatus'),
+          icon: <ChatCircleDotsIcon size={16} />,
+          onClick: () => openStatusDialog(true),
+        },
       ];
       openContextMenu(e, items);
     },
-    [t, presenceOverride, setPresenceOverride, openContextMenu]
+    [
+      t,
+      presenceOverride,
+      setPresenceOverride,
+      openContextMenu,
+      statusText,
+      openStatusDialog,
+      presenceUnsupported,
+      confirmDialog,
+      userId,
+    ]
   );
 
   return (
@@ -134,6 +174,7 @@ export function UserPanel() {
       <div
         className={css.userPanelIdentity}
         onClick={userId ? openOwnProfile : undefined}
+        onContextMenu={userId ? handlePresenceDotClick : undefined}
         role={userId ? 'button' : undefined}
         tabIndex={userId ? 0 : undefined}
         onKeyDown={(e) => {
@@ -152,10 +193,13 @@ export function UserPanel() {
             placeholder="logo"
             presence={presence}
             presenceDotLabel={t('presence.changeStatus')}
-            onPresenceDotClick={showPresence ? handlePresenceDotClick : undefined}
+            onPresenceDotClick={handlePresenceDotClick}
           />
         </span>
-        <span className={css.userPanelId}>{displayName}</span>
+        <span className={css.userPanelText}>
+          <span className={css.userPanelId}>{displayName}</span>
+          {statusText && <span className={css.userPanelStatus}>{statusText}</span>}
+        </span>
       </div>
       <div className={css.voiceControls}>
         <DeviceControl kinds={['audioinput']} label={t('call.inputSettings')} variant="panel">

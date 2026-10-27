@@ -78,8 +78,8 @@ const presenceDotBase = style({
 export const presenceDotXs = style([
   presenceDotBase,
   {
-    width: '6px',
-    height: '6px',
+    width: '9px',
+    height: '9px',
     bottom: '-1px',
     right: '-1px',
   },
@@ -88,50 +88,50 @@ export const presenceDotXs = style([
 export const presenceDotSm = style([
   presenceDotBase,
   {
-    width: '8px',
-    height: '8px',
-    bottom: '-1px',
-    right: '-1px',
+    width: '12px',
+    height: '12px',
+    bottom: '-2px',
+    right: '-2px',
   },
 ]);
 
 export const presenceDotMd = style([
   presenceDotBase,
   {
-    width: '10px',
-    height: '10px',
-    bottom: '0px',
-    right: '0px',
+    width: '15px',
+    height: '15px',
+    bottom: '-1px',
+    right: '-1px',
   },
 ]);
 
 export const presenceDotLg = style([
   presenceDotBase,
   {
-    width: '12px',
-    height: '12px',
-    bottom: '1px',
-    right: '1px',
+    width: '18px',
+    height: '18px',
+    bottom: '0px',
+    right: '0px',
   },
 ]);
 
 export const presenceDotXl = style([
   presenceDotBase,
   {
-    width: '14px',
-    height: '14px',
-    bottom: '2px',
-    right: '2px',
+    width: '21px',
+    height: '21px',
+    bottom: '1px',
+    right: '1px',
   },
 ]);
 
 export const presenceDotFill = style([
   presenceDotBase,
   {
-    width: '10px',
-    height: '10px',
-    bottom: '0px',
-    right: '0px',
+    width: '15px',
+    height: '15px',
+    bottom: '-1px',
+    right: '-1px',
   },
 ]);
 
