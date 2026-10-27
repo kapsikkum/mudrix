@@ -7,7 +7,11 @@ import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
-import { discoverAuthCapabilities, type AuthCapabilities } from '@/app/features/sso/sso';
+import {
+  discoverAuthCapabilities,
+  DiscoveryStatus,
+  type AuthCapabilities,
+} from '@/app/features/sso/sso';
 import { LogoHover } from '@/app/components/AppLoading';
 import { Select } from '@/app/components/Select';
 import { TitleBar } from '@/app/components/TitleBar';
@@ -63,6 +67,8 @@ function WelcomeContent() {
   const [capabilities, setCapabilities] = useState<AuthCapabilities | null>(null);
   const [capabilitiesLoading, setCapabilitiesLoading] = useState(true);
   const discoverSeq = useRef(0);
+  // Address whose last check failed: only then does leaving the field retry
+  const failedUrlRef = useRef<string | null>(null);
 
   const discover = useCallback(async (url: string) => {
     const seq = ++discoverSeq.current;
@@ -76,10 +82,12 @@ function WelcomeContent() {
     try {
       const caps = await discoverAuthCapabilities(url);
       if (seq !== discoverSeq.current) return;
+      failedUrlRef.current = caps.discoveryStatus === DiscoveryStatus.Ok ? null : url;
       setCapabilities(caps);
     } catch (err) {
       console.warn('[auth] capability discovery failed', err);
       if (seq !== discoverSeq.current) return;
+      failedUrlRef.current = url;
       setCapabilities(null);
     } finally {
       if (seq === discoverSeq.current) setCapabilitiesLoading(false);
@@ -92,6 +100,10 @@ function WelcomeContent() {
   }, [serverUrl, discover]);
 
   const effectiveServerUrl = capabilities?.resolvedBaseUrl ?? serverUrl;
+
+  const retryDiscovery = useCallback(() => {
+    if (failedUrlRef.current === serverUrl) void discover(serverUrl);
+  }, [discover, serverUrl]);
 
   const onLoginSuccess = () => navigate('/', { replace: true });
   const onRegisterSuccess = () => navigate('/', { replace: true });
@@ -116,7 +128,7 @@ function WelcomeContent() {
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={() => discover(serverUrl)}
+            onRetryDiscovery={retryDiscovery}
           />
         ) : view === 'register' ? (
           <RegisterForm
@@ -129,7 +141,7 @@ function WelcomeContent() {
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={() => discover(serverUrl)}
+            onRetryDiscovery={retryDiscovery}
           />
         ) : (
           <ResetPasswordForm
@@ -141,7 +153,7 @@ function WelcomeContent() {
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={() => discover(serverUrl)}
+            onRetryDiscovery={retryDiscovery}
           />
         )}
 
