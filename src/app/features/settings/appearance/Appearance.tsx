@@ -10,10 +10,12 @@ import {
   chatFontSizeAtom,
   chatDensityAtom,
   uiDensityAtom,
+  uiScaleAtom,
   type ThemeName,
   type MessageLayout,
   type ChatDensity,
   type UiDensity,
+  type UiScale,
 } from '@/app/store/atoms';
 import { CHAT_FONT_SIZES, DEFAULT_CHAT_FONT_SIZE } from '@/app/hooks/useChatDisplaySync';
 import { THEMES, DEFAULT_THEME } from '@/theme/themes.css';
@@ -168,6 +170,7 @@ export function Appearance() {
   const [chatFontSize, setChatFontSize] = useAtom(chatFontSizeAtom);
   const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
   const [uiDensity, setUiDensity] = useAtom(uiDensityAtom);
+  const [uiScale, setUiScale] = useAtom(uiScaleAtom);
   const themeHasIcon = hasThemedLogo(theme);
 
   // Apply theme class immediately on change
@@ -292,6 +295,23 @@ export function Appearance() {
               { value: 'spacious', label: t('settings.appearance.densitySpacious') },
             ]}
             onChange={setUiDensity}
+          />
+        </div>
+
+        <div className={layoutCss.settingRow}>
+          <div className={layoutCss.settingInfo}>
+            <span className={layoutCss.settingLabel}>{t('settings.appearance.uiScale')}</span>
+            <span className={layoutCss.settingNote}>{t('settings.appearance.uiScaleNote')}</span>
+          </div>
+          <Select<UiScale>
+            aria-label={t('settings.appearance.uiScale')}
+            value={uiScale}
+            options={[
+              { value: 'auto', label: t('settings.appearance.uiScaleAuto') },
+              { value: 'desktop', label: t('settings.appearance.uiScaleDesktop') },
+              { value: 'touch', label: t('settings.appearance.uiScaleTouch') },
+            ]}
+            onChange={setUiScale}
           />
         </div>
 

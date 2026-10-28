@@ -40,8 +40,10 @@ import type { AccountsMap } from '@/client/accounts';
 import { Timeline } from '@/app/features/timeline';
 import { LogoHover } from '@/app/components/AppLoading';
 import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
-import { Inbox } from '@/app/features/inbox';
+import { Inbox, MobileInboxPage } from '@/app/features/inbox';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { useEdgeSwipeBack, useLongPressContextMenu } from '@/app/hooks/useTouchGestures';
+import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
 import { AccountSwitchGuard } from '@/app/components/AccountSwitchGuard';
 import { CallLayer } from '@/app/features/calls/CallLayer';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
@@ -63,6 +65,8 @@ import { useCustomStatusSync } from '@/app/features/status/customStatus';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { SpacesList } from './SpacesList';
+import { MobileTabBar } from './MobileTabBar';
+import { useMobileListOpen } from './hooks/useMobileListOpen';
 import { RoomListPanel } from './RoomListPanel';
 import { MembersSidebar } from './MembersSidebar';
 import * as sidebarCss from './MembersSidebar.css';
@@ -132,7 +136,7 @@ export function ClientLayout() {
   const client = getMatrixClientOrNull();
   const [currentSpaceId, setCurrentSpaceId] = useAtom(currentSpaceIdAtom);
   const [sidebarView, setSidebarView] = useAtom(sidebarViewAtom);
-  const [drawerOpen, setDrawerOpen] = useAtom(mobileDrawerOpenAtom);
+  const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
 
   const currentSpaceIdRef = useRef(currentSpaceId);
   currentSpaceIdRef.current = currentSpaceId;
@@ -494,8 +498,19 @@ export function ClientLayout() {
   useConnectionStatusWatcher();
   useCustomStatusSync(client);
 
-  const sidebarClass = `${css.sidebar}${drawerOpen ? ` ${css.sidebarOpen}` : ''}`;
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const touchFirst = useMediaQuery(TOUCH_FIRST_QUERY);
+  useLongPressContextMenu(touchFirst);
+  useEdgeSwipeBack(touchFirst && isMobile);
+  const mobileListOpen = useMobileListOpen();
+  const inboxOpen = useAtomValue(inboxOpenAtom);
+  const sidebarClass = [
+    css.sidebar,
+    mobileListOpen ? css.sidebarOpen : null,
+    sidebarView !== 'space' ? css.sidebarNoRail : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <>
@@ -517,16 +532,6 @@ export function ClientLayout() {
             />
           )}
           <div className={css.appShell}>
-            {/* Mobile overlay */}
-            {drawerOpen && (
-              <div
-                className={css.drawerOverlay}
-                role="presentation"
-                data-back-dismiss
-                onClick={() => setDrawerOpen(false)}
-              />
-            )}
-
             {/* Sidebar: spaces column + room list panel */}
             <nav aria-label={t('room.navigation')} className={sidebarClass}>
               <SpacesList
@@ -536,6 +541,12 @@ export function ClientLayout() {
               />
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
+            {mobileListOpen && inboxOpen && (
+              <div className={css.mobileInbox}>
+                <MobileInboxPage />
+              </div>
+            )}
+            {mobileListOpen && <MobileTabBar />}
 
             {/* Main content — call layer above the chat timeline */}
             <main

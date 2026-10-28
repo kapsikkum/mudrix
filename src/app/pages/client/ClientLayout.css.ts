@@ -1,6 +1,9 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
+import { spacesList } from './SpacesList.css';
+import { bottomDock } from './RoomListPanel.css';
+import { TAB_BAR_HEIGHT } from './MobileTabBar.css';
 
 export const appFrame = style({
   display: 'flex',
@@ -34,14 +37,27 @@ export const sidebar = style({
   '@media': {
     '(max-width: 768px)': {
       position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
+      left: 0,
+      right: 0,
+      top: 'calc(48px + env(safe-area-inset-top))',
+      bottom: `calc(${TAB_BAR_HEIGHT}px + env(safe-area-inset-bottom))`,
+      height: 'auto',
       zIndex: 5000,
+      paddingLeft: 'env(safe-area-inset-left)',
+      paddingRight: 'env(safe-area-inset-right)',
+      backgroundColor: vars.color.bgPrimary,
       transform: 'translateX(-100%)',
       transition: `transform ${med} ease`,
     },
   },
+});
+
+export const sidebarNoRail = style({});
+globalStyle(`${sidebarNoRail} ${spacesList}`, {
+  '@media': { '(max-width: 768px)': { display: 'none' } },
+});
+globalStyle(`${sidebarNoRail} ${bottomDock}`, {
+  '@media': { '(max-width: 768px)': { marginLeft: '8px' } },
 });
 
 export const sidebarOpen = style({
@@ -153,4 +169,16 @@ export const drawerOverlay = style({
       zIndex: 4999,
     },
   },
+});
+
+export const mobileInbox = style({
+  position: 'fixed',
+  left: 0,
+  right: 0,
+  top: 'calc(48px + env(safe-area-inset-top))',
+  bottom: `calc(${TAB_BAR_HEIGHT}px + env(safe-area-inset-bottom))`,
+  zIndex: 5000,
+  paddingLeft: 'env(safe-area-inset-left)',
+  paddingRight: 'env(safe-area-inset-right)',
+  backgroundColor: vars.color.bgPrimary,
 });

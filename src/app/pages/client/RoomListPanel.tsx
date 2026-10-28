@@ -40,7 +40,7 @@ import {
 } from '@/app/store/atoms/call';
 import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import { computeParticipantsBlockHeight } from '@/app/features/voice/participantSize';
-import { useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
+import { useTouchUi, useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
 import { Avatar } from '@/app/components/Avatar';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useRoomActions } from './hooks/useRoomActions';
@@ -49,6 +49,7 @@ import { buildSpaceMenu, markSpaceAsRead, buildHomeMenu, buildDmsMenu } from './
 import { RoomListItem, DmListItem } from './RoomListItem';
 import { UserPanel } from './UserPanel';
 import { isTextFieldTarget } from '@/app/features/keyboardShortcuts/keyEvents';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from './RoomListPanel.css';
 import {
   getSpaceChildOrders,
@@ -220,6 +221,7 @@ function HomeCategoryHeader({
 export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const { t } = useTranslation();
   const { roomRow: roomItemHeight, categoryHeader: categoryHeaderHeight } = useUiDensitySizes();
+  const touchUi = useTouchUi();
   const [currentRoomId, setCurrentRoomId] = useAtom(currentRoomIdAtom);
   const [currentSpaceId] = useAtom(currentSpaceIdAtom);
   const [sidebarView] = useAtom(sidebarViewAtom);
@@ -241,6 +243,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const showRoomAvatars = useAtomValue(showRoomAvatarsAtom);
   const { spaces } = useSpaces();
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const currentSpaceEntry = useMemo(
     () => spaces.find((s) => s.roomId === currentSpaceId) ?? null,
@@ -579,9 +582,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     (entry: RoomEntry, compact?: boolean) => {
       if (!entry.hasVoiceRoom) return roomItemHeight;
       const count = participantCounts.get(entry.roomId) ?? 0;
-      return roomItemHeight + computeParticipantsBlockHeight(count, compact);
+      return roomItemHeight + computeParticipantsBlockHeight(count, compact, touchUi);
     },
-    [participantCounts, roomItemHeight]
+    [participantCounts, roomItemHeight, touchUi]
   );
 
   const homeItemsBase = useMemo((): HomeListItem[] => {
@@ -1242,7 +1245,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
       <div ref={bottomDockRef} className={css.bottomDock}>
         <CallBar />
-        <UserPanel />
+        {!isMobile && <UserPanel />}
       </div>
     </div>
   );

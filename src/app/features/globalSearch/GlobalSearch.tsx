@@ -36,6 +36,7 @@ import {
 import { useSwitchContext } from '@/app/pages/client/hooks/useContextNavigation';
 import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './GlobalSearch.css';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 
 const ROOM_LIMIT = 6;
 const SPACE_LIMIT = 3;
@@ -92,6 +93,7 @@ export function GlobalSearch() {
 
 function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
   const { t, i18n } = useTranslation();
+  const keyboardHints = useKeyboardHints();
   const navigate = useNavigate();
   const switchContext = useSwitchContext();
   const client = getMatrixClientOrNull();
@@ -429,7 +431,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
               autoComplete="off"
               spellCheck={false}
             />
-            <KeyCaps keys={['Esc']} size="sm" />
+            {keyboardHints && <KeyCaps keys={['Esc']} size="sm" />}
           </div>
         </div>
         <div className={css.body} ref={bodyRef} id="global-search-results" role="listbox">
@@ -445,14 +447,18 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           ))}
         </div>
         <div className={css.footer}>
-          <span className={css.footerHint}>
-            <KeyCaps keys={['↑', '↓']} size="sm" />
-            {t('roomSwitcher.hintNavigate')}
-          </span>
-          <span className={css.footerHint}>
-            <KeyCaps keys={['↵']} size="sm" />
-            {t('roomSwitcher.hintOpen')}
-          </span>
+          {keyboardHints && (
+            <>
+              <span className={css.footerHint}>
+                <KeyCaps keys={['↑', '↓']} size="sm" />
+                {t('roomSwitcher.hintNavigate')}
+              </span>
+              <span className={css.footerHint}>
+                <KeyCaps keys={['↵']} size="sm" />
+                {t('roomSwitcher.hintOpen')}
+              </span>
+            </>
+          )}
           <span className={css.footerHint}>
             <KeyCaps keys={['#']} size="sm" />
             {t('roomSwitcher.prefixRooms')}

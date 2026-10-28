@@ -552,6 +552,7 @@
     "favouritesFull": "Favourites full"
   },
   "timeline": {
+    "copyText": "Copy text",
     "welcomeTitle": "Welcome to WizardChat",
     "welcomeBody": "Start a private chat or create a space to organize your conversations",
     "startDm": "New Direct Message",
@@ -816,6 +817,7 @@
   "settings": {
     "userSettings": "User Settings",
     "accounts": {
+      "logoutOf": "Log out of {{name}}",
       "switch": "Switch accounts",
       "add": "Add account"
     },
@@ -863,6 +865,11 @@
       "densitySpacious": "Spacious",
       "uiDensity": "Interface density",
       "uiDensityNote": "Spacing in the room list, member list and space bar.",
+      "uiScale": "Interface size",
+      "uiScaleNote": "Touch makes the room list bigger for fingers. Automatic uses it on phones. Only applies to this device.",
+      "uiScaleAuto": "Automatic",
+      "uiScaleDesktop": "Desktop",
+      "uiScaleTouch": "Touch",
       "classic": "Classic",
       "modern": "Modern",
       "compact": "Compact",
@@ -1221,6 +1228,7 @@
     "action": "Update WizardChat"
   },
   "presence": {
+    "title": "Online status",
     "changeStatus": "Change status",
     "auto": "Auto",
     "online": "Online",
@@ -1362,6 +1370,9 @@
     "shareAudio": "Share audio"
   },
   "status": {
+    "title": "Status",
+    "customStatus": "Custom status",
+    "none": "None set",
     "setCustomStatus": "Set a custom status",
     "editCustomStatus": "Edit custom status",
     "clearStatus": "Clear status",
@@ -1383,5 +1394,11 @@
     "joinMessage": "Join {{room}}?",
     "join": "Join",
     "failed": "Couldn't open the link: {{error}}"
+  },
+  "mobileNav": {
+    "home": "Home",
+    "dms": "DMs",
+    "spaces": "Spaces",
+    "you": "You"
   }
 }

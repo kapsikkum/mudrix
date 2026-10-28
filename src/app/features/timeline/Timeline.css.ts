@@ -1,6 +1,7 @@
 import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { chatSize, chatSpace } from './chatDisplay';
+import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
 import { fast, fadeInUp, scaleIn } from '@/theme/animations.css';
 import { TYPING_INDICATOR_BAND_HEIGHT } from './composer/TypingIndicator.css';
 
@@ -1087,6 +1088,26 @@ export const msgActions = style({
       right: '12px',
     },
   },
+  '@media': {
+    [TOUCH_FIRST_QUERY]: { selectors: { '&&': { display: 'none' } } },
+  },
+});
+
+export const swipeReplyIcon = style({
+  position: 'absolute',
+  left: '16px',
+  top: '50%',
+  width: '32px',
+  height: '32px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '50%',
+  backgroundColor: vars.color.bgTertiary,
+  color: vars.color.textPrimary,
+  opacity: 0,
+  transform: 'translateY(-50%) scale(0.6)',
+  pointerEvents: 'none',
 });
 
 export const msgActionBtn = style({

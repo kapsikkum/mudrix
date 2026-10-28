@@ -11,6 +11,7 @@ import { Avatar } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
 import { RoomVoiceParticipants } from '@/app/features/voice/VoiceParticipants';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
+import { useTouchUi } from '@/app/hooks/useUiDensitySync';
 import { isMenuOpenKey, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
 import type { CallMembership } from 'matrix-js-sdk/lib/matrixrtc';
 import * as css from './ChatListItem.css';
@@ -63,6 +64,7 @@ export function ChatListItem({
 }: ChatListItemProps) {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
+  const touchUi = useTouchUi();
   const itemClass = css.roomItem;
   const prevUnreadRef = useRef<number | undefined>(undefined);
   const [bumping, setBumping] = useState(false);
@@ -142,7 +144,7 @@ export function ChatListItem({
                   name={name}
                   mxcUrl={avatarMxc ?? null}
                   client={client ?? undefined}
-                  size="sm"
+                  size={touchUi ? 'fill' : 'sm'}
                   placeholder={avatarPlaceholder}
                 />
               )}

@@ -14,6 +14,7 @@ import {
   EyeSlashIcon,
   LinkSimpleIcon,
   ArrowBendUpRightIcon,
+  CopyIcon,
 } from '@phosphor-icons/react';
 import type { useContextMenu, MenuOpenEvent } from '@/app/hooks/useContextMenu';
 import { createElement } from 'react';
@@ -131,7 +132,26 @@ export function openMessageContextMenu(
       : []),
   ];
 
+  const content = event.getContent();
+  const copyableText =
+    event.getType() === 'm.room.message' &&
+    ['m.text', 'm.notice', 'm.emote'].includes(content.msgtype as string) &&
+    typeof content.body === 'string'
+      ? content.body
+      : null;
+
   const middleItems = [
+    ...(copyableText
+      ? [
+          {
+            label: t('timeline.copyText'),
+            icon: createElement(CopyIcon, { size: 14 }),
+            onClick: () => {
+              navigator.clipboard.writeText(copyableText).catch(() => {});
+            },
+          },
+        ]
+      : []),
     ...(event.getRoomId() && event.getId()
       ? [
           {

@@ -88,7 +88,7 @@ function interceptDownloadLinks(): void {
 const OPEN_LAYER =
   '[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [aria-modal="true"], [data-back-escape]';
 
-function handleNativeBack(): boolean {
+export function navigateBack(): boolean {
   if (document.querySelector(OPEN_LAYER)) {
     document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     return true;
@@ -99,6 +99,7 @@ function handleNativeBack(): boolean {
     overlay.click();
     return true;
   }
+  if (document.querySelector('[data-back-root]')) return false;
   const idx = (window.history.state as { idx?: number } | null)?.idx ?? 0;
   if (idx > 0) {
     window.history.back();
@@ -147,7 +148,7 @@ function listenForAppLinks(): void {
 
 export function installNativeAppHooks(): void {
   if (!isNativeApp()) return;
-  window.wizardchatNativeBack = handleNativeBack;
+  window.wizardchatNativeBack = navigateBack;
   interceptDownloadLinks();
   listenForAppLinks();
 }

@@ -1,5 +1,6 @@
 import { globalStyle, keyframes } from '@vanilla-extract/css';
 import { vars } from './vars.css';
+import { TOUCH_FIRST_QUERY } from './uiDensity';
 
 const spin = keyframes({
   from: { transform: 'rotate(0deg)' },
@@ -21,6 +22,26 @@ globalStyle('body', {
   color: vars.color.textPrimary,
   backgroundColor: vars.color.bgPrimary,
   lineHeight: '1.5',
+});
+
+globalStyle('body', {
+  '@media': {
+    [TOUCH_FIRST_QUERY]: {
+      WebkitTouchCallout: 'none',
+      WebkitUserSelect: 'none',
+      userSelect: 'none',
+    },
+  },
+});
+
+globalStyle('input, textarea, [contenteditable]:not([contenteditable="false"])', {
+  '@media': {
+    [TOUCH_FIRST_QUERY]: {
+      WebkitTouchCallout: 'default',
+      WebkitUserSelect: 'text',
+      userSelect: 'text',
+    },
+  },
 });
 
 globalStyle('#root', {

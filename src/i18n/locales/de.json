@@ -552,6 +552,7 @@
     "favouritesFull": "Favoriten voll"
   },
   "timeline": {
+    "copyText": "Text kopieren",
     "welcomeTitle": "Willkommen bei WizardChat",
     "welcomeBody": "Starte einen privaten Chat oder erstelle einen Space, um deine Unterhaltungen zu organisieren.",
     "startDm": "Neue Direktnachricht beginnen",
@@ -816,6 +817,7 @@
   "settings": {
     "userSettings": "Benutzereinstellungen",
     "accounts": {
+      "logoutOf": "Von {{name}} abmelden",
       "switch": "Konten wechseln",
       "add": "Konto hinzufügen"
     },
@@ -863,6 +865,11 @@
       "densitySpacious": "Großzügig",
       "uiDensity": "UI-Dichte",
       "uiDensityNote": "Abstände in der Raumliste, Mitgliederliste und Space-Leiste.",
+      "uiScale": "Oberflächengröße",
+      "uiScaleNote": "Touch vergrößert die Raumliste für die Bedienung mit dem Finger. Automatisch nutzt es auf Smartphones. Gilt nur für dieses Gerät.",
+      "uiScaleAuto": "Automatisch",
+      "uiScaleDesktop": "Desktop",
+      "uiScaleTouch": "Touch",
       "classic": "Klassisch",
       "modern": "Modern",
       "compact": "Kompakt",
@@ -1221,6 +1228,7 @@
     "action": "WizardChat aktualisieren"
   },
   "presence": {
+    "title": "Online-Status",
     "changeStatus": "Status ändern",
     "auto": "Automatisch",
     "online": "Online",
@@ -1362,6 +1370,9 @@
     "shareAudio": "Audio teilen"
   },
   "status": {
+    "title": "Status",
+    "customStatus": "Eigener Status",
+    "none": "Keiner gesetzt",
     "setCustomStatus": "Eigenen Status festlegen",
     "editCustomStatus": "Eigenen Status bearbeiten",
     "clearStatus": "Status entfernen",
@@ -1383,5 +1394,11 @@
     "joinMessage": "{{room}} beitreten?",
     "join": "Beitreten",
     "failed": "Link konnte nicht geöffnet werden: {{error}}"
+  },
+  "mobileNav": {
+    "home": "Home",
+    "dms": "Nachrichten",
+    "spaces": "Spaces",
+    "you": "Du"
   }
 }
