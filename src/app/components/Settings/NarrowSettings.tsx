@@ -36,18 +36,20 @@ export function NarrowSettingsList<K extends string>({
   onClose,
   footer,
 }: {
-  title: string;
+  title?: string;
   items: NarrowSettingsItem<K>[];
   onSelect: (key: K) => void;
-  onClose: () => void;
+  onClose?: () => void;
   footer?: ReactNode;
 }) {
   return (
     <nav className={css.navList}>
-      <div className={css.navListHeader}>
-        <span className={css.navListTitle}>{title}</span>
-        <CloseButton onClose={onClose} />
-      </div>
+      {title && (
+        <div className={css.navListHeader}>
+          <span className={css.navListTitle}>{title}</span>
+          {onClose && <CloseButton onClose={onClose} />}
+        </div>
+      )}
       {items.map((item) => (
         <Fragment key={item.key}>
           {item.dividerBefore && <div className={css.navListDivider} />}
@@ -73,7 +75,7 @@ export function NarrowSettingsPage({
 }: {
   title: string;
   onBack: () => void;
-  onClose: () => void;
+  onClose?: () => void;
   children: ReactNode;
 }) {
   const { t } = useTranslation();
@@ -89,7 +91,7 @@ export function NarrowSettingsPage({
           <CaretLeftIcon size={20} />
         </button>
         <span className={css.pageHeaderTitle}>{title}</span>
-        <CloseButton onClose={onClose} />
+        {onClose && <CloseButton onClose={onClose} />}
       </div>
       <div className={`${css.content} ${css.narrowPage}`}>{children}</div>
     </>

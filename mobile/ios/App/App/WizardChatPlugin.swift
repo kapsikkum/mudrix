@@ -10,11 +10,36 @@ public class WizardChatPlugin: CAPPlugin, CAPBridgedPlugin, ASWebAuthenticationP
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "openUrl", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "saveFile", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setTabBar", returnType: CAPPluginReturnPromise),
     ]
 
     // Must match NATIVE_APP_SCHEME in src/util/nativeApp.ts
     private static let appScheme = "org.wizardchat.mobile"
     private var authSession: ASWebAuthenticationSession?
+
+    override public func load() {
+        NativeTabBar.shared.onSelect = { [weak self] id in
+            self?.notifyListeners("tabBarTap", data: ["id": id])
+        }
+    }
+
+    @objc func setTabBar(_ call: CAPPluginCall) {
+        let visible = call.getBool("visible") ?? false
+        let tabs = (call.getArray("tabs") ?? []).compactMap { item -> NativeTab? in
+            guard let dict = item as? [String: Any], let id = dict["id"] as? String else { return nil }
+            return NativeTab(
+                id: id,
+                label: dict["label"] as? String ?? "",
+                active: dict["active"] as? Bool ?? false,
+                badge: dict["badge"] as? String,
+                call: dict["call"] as? Bool ?? false
+            )
+        }
+        DispatchQueue.main.async {
+            NativeTabBar.shared.update(visible: visible, tabs: tabs)
+            call.resolve()
+        }
+    }
 
     // The redirect is handed on like any other app link (handled in src/util/nativeApp.ts)
     @objc func openUrl(_ call: CAPPluginCall) {
@@ -84,5 +109,15 @@ public class WizardChatPlugin: CAPPlugin, CAPBridgedPlugin, ASWebAuthenticationP
 class WizardChatViewController: CAPBridgeViewController {
     override open func capacitorDidLoad() {
         bridge?.registerPluginInstance(WizardChatPlugin())
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NativeTabBar.shared.install(in: view)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        NativeTabBar.shared.layout(in: view)
     }
 }

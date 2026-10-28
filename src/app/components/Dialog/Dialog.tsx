@@ -25,6 +25,7 @@ interface DialogProps {
   zIndex?: number;
   surface?: 'secondary' | 'primary';
   fullscreenOnMobile?: boolean;
+  swipeBack?: boolean;
   maxWidth?: string;
   height?: string;
   ariaLabel?: string;
@@ -44,6 +45,7 @@ export function Dialog({
   zIndex,
   surface = 'secondary',
   fullscreenOnMobile,
+  swipeBack = false,
   maxWidth,
   height,
   className,
@@ -140,6 +142,7 @@ export function Dialog({
       className={`${css.overlay}${overlayClassName ? ` ${overlayClassName}` : ''}`}
       style={zIndex !== undefined ? { zIndex } : undefined}
       role="presentation"
+      data-swipe-back={swipeBack ? 'panel' : undefined}
       onClick={(e) => {
         if (e.target === e.currentTarget) onCloseRef.current?.();
       }}

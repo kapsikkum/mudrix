@@ -206,6 +206,7 @@ export interface RoomSearchResults {
 export const roomSearchResultsAtom = atom<RoomSearchResults | null>(null);
 export const exploreOpenAtom = atom(false);
 export const inboxOpenAtom = atom(false);
+export const mobileYouOpenAtom = atom(false);
 
 export interface ComposerAttachment {
   id: string;

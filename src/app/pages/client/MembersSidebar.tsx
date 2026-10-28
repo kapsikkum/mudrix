@@ -37,6 +37,7 @@ export function MembersSidebar({
 
   return (
     <aside
+      data-swipe-back="panel"
       className={`${css.membersSidebar}${className ? ` ${className}` : ''}`}
       aria-label={t('common.members')}
     >

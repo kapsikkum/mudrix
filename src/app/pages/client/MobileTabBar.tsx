@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -11,9 +11,9 @@ import {
 import {
   currentSpaceIdAtom,
   inboxOpenAtom,
+  mobileYouOpenAtom,
   mobileDrawerOpenAtom,
   mobileLastSpaceIdAtom,
-  settingsOpenAtom,
   sidebarViewAtom,
   userIdAtom,
   type SidebarView,
@@ -23,9 +23,11 @@ import { useInboxBadge } from '@/app/features/inbox';
 import { Avatar } from '@/app/components/Avatar';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useSwitchContext } from './hooks/useContextNavigation';
+import { useNativeTabBar } from '@/util/nativeTabBar';
 import * as css from './MobileTabBar.css';
 
 interface TabProps {
+  id: string;
   label: string;
   active?: boolean;
   icon: ReactNode;
@@ -35,13 +37,16 @@ interface TabProps {
   onClick: () => void;
 }
 
-function Tab({ label, active, icon, notif, mention, call, onClick }: TabProps) {
+function Tab({ id, label, active, icon, notif, mention, call, onClick }: TabProps) {
   return (
     <button
       type="button"
       className={active ? css.tabActive : css.tab}
       aria-current={active ? 'page' : undefined}
       onClick={onClick}
+      data-native-tab={id}
+      data-badge={notif ? (mention ? 'mention' : 'dot') : undefined}
+      data-call={call || undefined}
     >
       <span className={css.tabIcon}>
         {icon}
@@ -65,8 +70,8 @@ export function MobileTabBar() {
   const currentSpaceId = useAtomValue(currentSpaceIdAtom);
   const [lastSpaceId, setLastSpaceId] = useAtom(mobileLastSpaceIdAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
-  const setSettingsOpen = useSetAtom(settingsOpenAtom);
   const [inboxOpen, setInboxOpen] = useAtom(inboxOpenAtom);
+  const [youOpen, setYouOpen] = useAtom(mobileYouOpenAtom);
   const inboxBadge = useInboxBadge();
   const switchContext = useSwitchContext();
   const {
@@ -85,6 +90,7 @@ export function MobileTabBar() {
 
   const open = (view: SidebarView, spaceId: string | null) => {
     setInboxOpen(false);
+    setYouOpen(false);
     if (view === sidebarView && (view !== 'space' || spaceId === currentSpaceId)) return;
     setDrawerOpen(true);
     switchContext(view, spaceId);
@@ -97,11 +103,20 @@ export function MobileTabBar() {
   };
 
   const me = client && userId ? client.getUser(userId) : null;
-  const activeTab = inboxOpen ? 'inbox' : sidebarView;
+  const activeTab = youOpen ? 'you' : inboxOpen ? 'inbox' : sidebarView;
+
+  const barRef = useRef<HTMLElement>(null);
+  const nativeBar = useNativeTabBar(barRef);
 
   return (
-    <nav className={css.tabBar} aria-label={t('room.navigation')} data-back-root>
+    <nav
+      ref={barRef}
+      className={nativeBar ? `${css.tabBar} ${css.tabBarNative}` : css.tabBar}
+      aria-label={t('room.navigation')}
+      data-back-root
+    >
       <Tab
+        id="home"
         label={t('mobileNav.home')}
         active={activeTab === 'home'}
         icon={<HouseIcon size={22} weight={activeTab === 'home' ? 'fill' : 'regular'} />}
@@ -111,6 +126,7 @@ export function MobileTabBar() {
         onClick={() => open('home', null)}
       />
       <Tab
+        id="dms"
         label={t('mobileNav.dms')}
         active={activeTab === 'dms'}
         icon={<ChatCircleIcon size={22} weight={activeTab === 'dms' ? 'fill' : 'regular'} />}
@@ -120,6 +136,7 @@ export function MobileTabBar() {
         onClick={() => open('dms', null)}
       />
       <Tab
+        id="spaces"
         label={t('mobileNav.spaces')}
         active={activeTab === 'space'}
         icon={<StackIcon size={22} weight={activeTab === 'space' ? 'fill' : 'regular'} />}
@@ -129,14 +146,19 @@ export function MobileTabBar() {
         onClick={openSpaces}
       />
       <Tab
+        id="inbox"
         label={t('inbox.title')}
         active={activeTab === 'inbox'}
         icon={<TrayIcon size={22} weight={activeTab === 'inbox' ? 'fill' : 'regular'} />}
         notif={inboxBadge.show}
         mention={inboxBadge.mention}
-        onClick={() => setInboxOpen(true)}
+        onClick={() => {
+          setYouOpen(false);
+          setInboxOpen(true);
+        }}
       />
       <Tab
+        id="you"
         label={t('mobileNav.you')}
         icon={
           <Avatar
@@ -147,7 +169,11 @@ export function MobileTabBar() {
             placeholder="logo"
           />
         }
-        onClick={() => setSettingsOpen(true)}
+        active={activeTab === 'you'}
+        onClick={() => {
+          setInboxOpen(false);
+          setYouOpen(true);
+        }}
       />
     </nav>
   );

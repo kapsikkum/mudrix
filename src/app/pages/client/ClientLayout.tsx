@@ -10,6 +10,7 @@ import {
   newDmOpenAtom,
   createSpaceOpenAtom,
   inboxOpenAtom,
+  mobileYouOpenAtom,
   membersPanelOpenAtom,
   spaceMembersPanelOpenAtom,
   threadsPanelViewAtom,
@@ -41,6 +42,7 @@ import { Timeline } from '@/app/features/timeline';
 import { LogoHover } from '@/app/components/AppLoading';
 import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
 import { Inbox, MobileInboxPage } from '@/app/features/inbox';
+import { MobileSettingsHome } from '@/app/features/settings/MobileSettingsHome';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useEdgeSwipeBack, useLongPressContextMenu } from '@/app/hooks/useTouchGestures';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
@@ -504,6 +506,7 @@ export function ClientLayout() {
   useEdgeSwipeBack(touchFirst && isMobile);
   const mobileListOpen = useMobileListOpen();
   const inboxOpen = useAtomValue(inboxOpenAtom);
+  const youOpen = useAtomValue(mobileYouOpenAtom);
   const sidebarClass = [
     css.sidebar,
     mobileListOpen ? css.sidebarOpen : null,
@@ -533,7 +536,7 @@ export function ClientLayout() {
           )}
           <div className={css.appShell}>
             {/* Sidebar: spaces column + room list panel */}
-            <nav aria-label={t('room.navigation')} className={sidebarClass}>
+            <nav aria-label={t('room.navigation')} className={sidebarClass} data-swipe-back-reveal>
               <SpacesList
                 sidebarView={sidebarView}
                 currentSpaceId={currentSpaceId}
@@ -541,7 +544,12 @@ export function ClientLayout() {
               />
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
-            {mobileListOpen && inboxOpen && (
+            {mobileListOpen && youOpen && (
+              <div className={css.mobileInbox}>
+                <MobileSettingsHome />
+              </div>
+            )}
+            {mobileListOpen && inboxOpen && !youOpen && (
               <div className={css.mobileInbox}>
                 <MobileInboxPage />
               </div>
@@ -550,6 +558,7 @@ export function ClientLayout() {
 
             {/* Main content — call layer above the chat timeline */}
             <main
+              data-swipe-back="screen"
               className={`${css.mainContent}${threadsPanelView && threadPanelExpanded ? ` ${css.mainContentHidden}` : ''}`}
             >
               <CallContainer />

@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import {
   UserIcon,
@@ -19,7 +19,7 @@ import {
   XIcon,
   SpinnerGapIcon,
 } from '@phosphor-icons/react';
-import { settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
+import { mobileYouOpenAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
 import {
   Avatar,
@@ -172,24 +172,10 @@ function PageContent({ page }: { page: SettingsPage }) {
   }
 }
 
-export function Settings() {
+export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   const { t } = useTranslation();
-  const [open, setOpen] = useAtom(settingsOpenAtom);
-  const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
-  const [activePage, setActivePage] = useState<SettingsPage>('account');
   const keyboardHints = useKeyboardHints();
-  const [isNarrow, setIsNarrow] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
-    setIsNarrow(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsNarrow(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-  const targetPageRef = useRef(targetPage);
-  targetPageRef.current = targetPage;
-
-  const NAV: NarrowSettingsItem<SettingsPage>[] = [
+  return [
     { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
     { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
     {
@@ -223,6 +209,27 @@ export function Settings() {
     { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
     { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
   ];
+}
+
+export function Settings() {
+  const { t } = useTranslation();
+  const [open, setOpen] = useAtom(settingsOpenAtom);
+  const youTabOpen = useAtomValue(mobileYouOpenAtom);
+  const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
+  const [activePage, setActivePage] = useState<SettingsPage>('account');
+  const keyboardHints = useKeyboardHints();
+  const [isNarrow, setIsNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsNarrow(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsNarrow(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  const targetPageRef = useRef(targetPage);
+  targetPageRef.current = targetPage;
+
+  const NAV = useSettingsNav();
 
   const close = useCallback(() => setOpen(false), [setOpen]);
   const navigate = useNavigate();
@@ -253,12 +260,14 @@ export function Settings() {
   }, [open, targetPage, setTargetPage]);
 
   const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
-  const showPage = isNarrow && narrowView === 'page';
+  const pageOnly = isNarrow && youTabOpen;
+  const showPage = isNarrow && (pageOnly || narrowView === 'page');
 
   return (
     <Dialog
       open={open}
-      onClose={showPage ? backToList : close}
+      onClose={showPage && !pageOnly ? backToList : close}
+      swipeBack={pageOnly}
       size="xl"
       zIndex={7000}
       maxWidth="900px"
@@ -272,8 +281,8 @@ export function Settings() {
         showPage ? (
           <NarrowSettingsPage
             title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
-            onBack={backToList}
-            onClose={close}
+            onBack={pageOnly ? close : backToList}
+            onClose={pageOnly ? undefined : close}
           >
             <PageContent page={shownPage} />
           </NarrowSettingsPage>

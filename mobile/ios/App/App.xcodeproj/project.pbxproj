@@ -16,6 +16,7 @@
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		769635A67ABAF4BC50B7117E /* WizardChatPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DDA3D1E613B18F3474F6CF /* WizardChatPlugin.swift */; };
 		9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B6822FE993A50072D4E8 /* SceneDelegate.swift */; };
+		493CDC064BB98ADCA49C6BF4 /* NativeTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D6211F3FD5FEBF430201C3 /* NativeTabBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9582B6822FE993A50072D4E8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
 		B8551B3AB58F0EA199AC7FBC /* icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; name = icon.icon; path = ../../../desktop/icons/icon.icon; sourceTree = SOURCE_ROOT; };
+		26D6211F3FD5FEBF430201C3 /* NativeTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeTabBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			children = (
 				9582B6822FE993A50072D4E8 /* SceneDelegate.swift */,
 				81DDA3D1E613B18F3474F6CF /* WizardChatPlugin.swift */,
+				26D6211F3FD5FEBF430201C3 /* NativeTabBar.swift */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				B8551B3AB58F0EA199AC7FBC /* icon.icon */,
@@ -160,6 +163,7 @@
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 				9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */,
 				769635A67ABAF4BC50B7117E /* WizardChatPlugin.swift in Sources */,
+				493CDC064BB98ADCA49C6BF4 /* NativeTabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

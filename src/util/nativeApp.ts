@@ -8,7 +8,7 @@ export function nativeAppUrl(path: string): URL {
   return new URL(`${NATIVE_APP_SCHEME}:${path}`);
 }
 
-function callNative<T = void>(method: string, options: Record<string, unknown>): Promise<T> {
+export function callNative<T = void>(method: string, options: Record<string, unknown>): Promise<T> {
   const nativePromise = window.Capacitor?.nativePromise;
   if (!nativePromise) return Promise.reject(new Error('native_bridge_unavailable'));
   return nativePromise<T>('WizardChat', method, options);
@@ -85,7 +85,7 @@ function interceptDownloadLinks(): void {
   );
 }
 
-const OPEN_LAYER =
+export const OPEN_LAYER =
   '[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [aria-modal="true"], [data-back-escape]';
 
 export function navigateBack(): boolean {

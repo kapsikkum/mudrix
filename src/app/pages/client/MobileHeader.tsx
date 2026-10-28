@@ -7,6 +7,7 @@ import {
   currentSpaceIdAtom,
   globalSearchOpenAtom,
   inboxOpenAtom,
+  mobileYouOpenAtom,
   roomSearchAtom,
   sidebarViewAtom,
 } from '@/app/store/atoms';
@@ -28,17 +29,20 @@ export function MobileHeader() {
   const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
   const roomSearch = useAtomValue(roomSearchAtom);
   const inboxOpen = useAtomValue(inboxOpenAtom);
+  const youOpen = useAtomValue(mobileYouOpenAtom);
   // Inbox and the search field share global state, so they only mount here on mobile
   const isMobile = useMediaQuery('(max-width: 768px)');
   const searchingRoom = isMobile && !!roomSearch && roomSearch.roomId === currentRoomId;
 
-  const listTitle = inboxOpen
-    ? t('inbox.title')
-    : sidebarView === 'dms'
-      ? t('room.dm.directMessages')
-      : sidebarView === 'space'
-        ? (getMatrixClientOrNull()?.getRoom(currentSpaceId ?? '')?.name ?? t('mobileNav.spaces'))
-        : t('room.home');
+  const listTitle = youOpen
+    ? t('settings.userSettings')
+    : inboxOpen
+      ? t('inbox.title')
+      : sidebarView === 'dms'
+        ? t('room.dm.directMessages')
+        : sidebarView === 'space'
+          ? (getMatrixClientOrNull()?.getRoom(currentSpaceId ?? '')?.name ?? t('mobileNav.spaces'))
+          : t('room.home');
 
   return (
     <div className={css.mobileHeader}>
