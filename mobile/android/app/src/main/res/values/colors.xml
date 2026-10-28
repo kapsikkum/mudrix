@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wizardchatBackground">#11111e</color>
+    <color name="wizardchatAccent">#784CC8</color>
+</resources>

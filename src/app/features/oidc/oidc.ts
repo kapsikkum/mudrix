@@ -9,6 +9,7 @@ import {
 } from 'matrix-js-sdk/lib/oidc';
 import { STORAGE_KEY_OIDC_CLIENT_ID_PREFIX, STORAGE_KEY_OIDC_PENDING } from '@/const/storageKeys';
 import type { MatrixCredentials, OidcResponseMode, OidcSession } from '@/client/types';
+import { isNativeApp, nativeAppUrl, openAuthUrl } from '@/util/nativeApp';
 
 export type OidcAction = 'login' | 'register';
 
@@ -37,6 +38,9 @@ export function getOidcRedirectUri(): string {
   if (isDesktop) {
     return 'http://127.0.0.1:34759/oidc/callback';
   }
+  if (isNativeApp()) {
+    return nativeAppUrl('/oidc/callback').toString();
+  }
   return new URL('/oidc/callback', window.location.origin).toString();
 }
 
@@ -53,7 +57,7 @@ export function getCachedClientId(issuer: string, redirectUri: string): string |
 }
 
 function isSecureContext(): boolean {
-  return window.location.protocol === 'https:';
+  return window.location.protocol === 'https:' && !isNativeApp();
 }
 
 function resolveClientUri(): string {
@@ -131,7 +135,7 @@ export async function startOidcLogin(
   };
   localStorage.setItem(STORAGE_KEY_OIDC_PENDING, JSON.stringify(pending));
 
-  window.location.assign(url);
+  openAuthUrl(url);
 }
 
 function deviceIdFromScope(scope: string | undefined): string | undefined {

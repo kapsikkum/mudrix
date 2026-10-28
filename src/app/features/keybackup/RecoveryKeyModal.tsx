@@ -12,6 +12,7 @@ import { recoveryKeyModalAtom } from '@/app/store/atoms';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import * as css from './RecoveryKeyModal.css';
+import { downloadBlob } from '@/util/nativeApp';
 
 export function RecoveryKeyModal() {
   const [state, setState] = useAtom(recoveryKeyModalAtom);
@@ -37,12 +38,7 @@ export function RecoveryKeyModal() {
 
   const handleDownload = () => {
     const blob = new Blob([state.recoveryKey], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'wizardchat-recovery-key.txt';
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, 'wizardchat-recovery-key.txt');
     setDownloaded(true);
   };
 

@@ -1,0 +1,26 @@
+{
+  "name": "wizardchat-mobile",
+  "private": true,
+  "version": "0.0.0",
+  "description": "WizardChat Mobile \u2014 Capacitor shell around the web app in ../",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "build:web": "npm --prefix .. ci && npm --prefix .. run build",
+    "sync": "cap sync",
+    "android": "npm run build:web && cap sync android && cap open android",
+    "android:debug": "npm run build:web && cap sync android && cd android && ./gradlew assembleDebug",
+    "ios": "npm run build:web && npm run ios:version && cap sync ios && cap open ios",
+    "ios:sync": "npm run build:web && npm run ios:version && cap sync ios",
+    "ios:version": "node scripts/ios-version.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/keyboard": "^8.0.6"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  }
+}

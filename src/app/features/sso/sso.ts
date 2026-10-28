@@ -13,6 +13,12 @@ import type {
 } from 'matrix-js-sdk/lib/@types/auth';
 import type { OidcClientConfig } from 'matrix-js-sdk/lib/oidc';
 import {
+  isNativeApp,
+  nativeAppUrl,
+  openAuthUrl,
+  openAuthUrlAndWaitForReturn,
+} from '@/util/nativeApp';
+import {
   STORAGE_KEY_SSO_HOMESERVER_URL,
   STORAGE_KEY_SSO_STATE,
   STORAGE_KEY_SSO_IDP_ID,
@@ -159,11 +165,13 @@ export function redirectToSso(homeserverUrl: string, action: SSOAction, idpId?: 
     localStorage.removeItem(STORAGE_KEY_SSO_IDP_ID);
   }
 
-  const redirectUrl = new URL('/sso/callback', window.location.origin);
+  const redirectUrl = isNativeApp()
+    ? nativeAppUrl('/sso/callback')
+    : new URL('/sso/callback', window.location.origin);
   redirectUrl.searchParams.set('state', state);
 
   const client = createClient({ baseUrl: homeserverUrl });
-  window.location.href = client.getSsoLoginUrl(redirectUrl.toString(), 'sso', idpId, action);
+  openAuthUrl(client.getSsoLoginUrl(redirectUrl.toString(), 'sso', idpId, action));
 }
 
 export interface PendingSsoFlow {
@@ -224,6 +232,8 @@ export async function exchangeLoginToken(
 }
 
 export function waitForSsoFallback(fallbackUrl: string, homeserverUrl: string): Promise<void> {
+  if (isNativeApp()) return openAuthUrlAndWaitForReturn(fallbackUrl);
+
   return new Promise((resolve, reject) => {
     const popup = window.open(fallbackUrl, '_blank');
     if (!popup) {

@@ -6,6 +6,7 @@ import { App } from './App';
 import { SessionProvider } from '@/app/SessionProvider';
 import { prewarmCrypto, cleanupLegacyStorage } from '@/client/initMatrix';
 import { registerNotificationServiceWorker } from '@/app/hooks/useNotifications';
+import { installNativeAppHooks } from '@/util/nativeApp';
 
 // Reload once if a lazy-loaded chunk is missing (stale deployment)
 window.addEventListener('vite:preloadError', () => {
@@ -21,6 +22,7 @@ prewarmCrypto();
 void cleanupLegacyStorage();
 
 void registerNotificationServiceWorker();
+installNativeAppHooks();
 
 if (window.electronAPI) {
   document.documentElement.classList.add('electron');

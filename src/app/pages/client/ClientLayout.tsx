@@ -522,6 +522,7 @@ export function ClientLayout() {
               <div
                 className={css.drawerOverlay}
                 role="presentation"
+                data-back-dismiss
                 onClick={() => setDrawerOpen(false)}
               />
             )}
@@ -567,6 +568,7 @@ export function ClientLayout() {
               <div
                 className={css.membersDrawerOverlay}
                 role="presentation"
+                data-back-dismiss
                 onClick={() => setMembersVisible(false)}
               />
             )}
@@ -593,7 +595,12 @@ export function ClientLayout() {
                     onBack={() => setThreadsPanelView({ type: 'list' })}
                   />
                 )}
-                <div className={css.drawerOverlay} role="presentation" onClick={closeThreads} />
+                <div
+                  className={css.drawerOverlay}
+                  role="presentation"
+                  data-back-dismiss
+                  onClick={closeThreads}
+                />
               </>
             )}
 
@@ -608,6 +615,7 @@ export function ClientLayout() {
                 <div
                   className={css.drawerOverlay}
                   role="presentation"
+                  data-back-dismiss
                   onClick={closeRoomChatPanel}
                 />
               </>
