@@ -755,6 +755,7 @@
     "noActiveCall": "Du bist in keinem Anruf",
     "statusConnecting": "Verbinden...",
     "statusConnected": "Verbunden",
+    "statusReconnecting": "Verbinde neu...",
     "toastAlreadyInCall": "Bereits in einem Anruf",
     "controls": "Anrufssteuerung",
     "shareScreen": "Bildschirm freigeben",
@@ -1172,9 +1173,8 @@
     "filterLabel": "Filter"
   },
   "banner": {
-    "connectionLost": "Verbindung verloren. Wiederverbinden...",
-    "reconnected": "Wiederverbunden",
-    "incomingVerification": "Eingehende Verifizierungsanfrage"
+    "incomingVerification": "Eingehende Verifizierungsanfrage",
+    "offline": "Offline, verbinde neu..."
   },
   "loading": {
     "messages": [

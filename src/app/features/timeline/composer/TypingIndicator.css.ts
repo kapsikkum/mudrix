@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast, fadeIn } from '@/theme/animations.css';
 
@@ -57,3 +57,18 @@ export const text = style({
   flexShrink: 1,
   minWidth: 0,
 });
+
+const spin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+export const spinner = style({
+  width: '12px',
+  height: '12px',
+  marginLeft: '4px',
+  flexShrink: 0,
+  borderRadius: '50%',
+  border: `2px solid ${vars.color.border}`,
+  borderTopColor: vars.color.warning,
+  animation: `${spin} 0.8s linear infinite`,
+});
+
+export const offline = style([typingIndicator, { color: vars.color.warning }]);

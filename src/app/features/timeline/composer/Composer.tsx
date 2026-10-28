@@ -32,7 +32,7 @@ import { AutocompleteDropdown } from '../AutocompleteDropdown';
 import { ReplyPreview } from './ReplyPreview';
 import { FormatToolbar } from './FormatToolbar';
 import { LinkInputPopover } from './LinkInputPopover';
-import { TypingIndicator } from './TypingIndicator';
+import { ComposerStatus } from './TypingIndicator';
 import { useComposer } from './useComposer';
 import { PollCreatorModal } from './PollCreatorModal';
 import { LocationShareModal } from './LocationShareModal';
@@ -237,7 +237,7 @@ export function Composer({
           }
         }}
       >
-        {!threadId && <TypingIndicator client={client} roomId={roomId} />}
+        <ComposerStatus client={client} roomId={roomId} showTyping={!threadId} />
 
         <AutocompleteDropdown
           state={autocomplete.state}

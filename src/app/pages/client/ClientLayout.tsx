@@ -43,7 +43,6 @@ import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
 import { Inbox } from '@/app/features/inbox';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { AccountSwitchGuard } from '@/app/components/AccountSwitchGuard';
-import { ConnectionBanner } from '@/app/components/ConnectionBanner';
 import { CallLayer } from '@/app/features/calls/CallLayer';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { CallContainerProvider, CallContainer } from '@/app/features/calls/CallContainer';
@@ -59,6 +58,7 @@ import { useUpdateCheck } from '@/app/hooks/useUpdateCheck';
 import { usePresenceSender } from '@/app/hooks/usePresenceSender';
 import { useBindFavouriteRooms } from '@/app/hooks/useBindFavouriteRooms';
 import { usePresenceListener } from '@/app/hooks/usePresenceListener';
+import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
@@ -491,6 +491,7 @@ export function ClientLayout() {
   usePresenceSender(client);
   useBindFavouriteRooms(client);
   usePresenceListener(client);
+  useConnectionStatusWatcher();
   useCustomStatusSync(client);
 
   const sidebarClass = `${css.sidebar}${drawerOpen ? ` ${css.sidebarOpen}` : ''}`;
@@ -499,7 +500,6 @@ export function ClientLayout() {
   return (
     <>
       <AccountSwitchGuard client={client} />
-      <ConnectionBanner />
       <MobileHeader />
 
       <CallContainerProvider>

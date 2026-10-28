@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
 
@@ -135,4 +135,34 @@ export const menuDivider = style({
   height: '1px',
   backgroundColor: vars.color.border,
   margin: '4px 0',
+});
+
+const spin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+export const reconnecting = style({
+  position: 'absolute',
+  left: '50%',
+  bottom: 'calc(100% + 8px)',
+  transform: 'translateX(-50%)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  padding: '4px 12px',
+  borderRadius: '999px',
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgSecondary,
+  color: vars.color.warning,
+  fontSize: '0.8rem',
+  fontWeight: 500,
+  whiteSpace: 'nowrap',
+  pointerEvents: 'none',
+});
+
+export const reconnectingSpinner = style({
+  width: '12px',
+  height: '12px',
+  borderRadius: '50%',
+  border: `2px solid ${vars.color.border}`,
+  borderTopColor: vars.color.warning,
+  animation: `${spin} 0.8s linear infinite`,
 });

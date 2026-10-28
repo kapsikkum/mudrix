@@ -35,6 +35,8 @@ export const syncStateAtom = atom<SyncState>(null);
 // Mobile
 export const mobileDrawerOpenAtom = atom(false);
 
+export const connectionLostAtom = atom(false);
+
 // Connection banner
 export const connectionBannerAtom = atom<{
   visible: boolean;

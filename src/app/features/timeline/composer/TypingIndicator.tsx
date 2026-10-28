@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import type { MatrixClient, MatrixEvent, RoomMember } from 'matrix-js-sdk';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
-import { typingIndicatorsAtom } from '@/app/store/atoms';
+import { connectionLostAtom, typingIndicatorsAtom } from '@/app/store/atoms';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import { Avatar } from '@/app/components/Avatar';
 import { formatUserId } from '@/util/matrix';
@@ -74,6 +74,26 @@ export function TypingIndicator({ client, roomId }: Props) {
         ))}
       </div>
       <span className={css.text}>{t('room.header.typing', { names, count: users.length })}</span>
+    </div>
+  );
+}
+
+interface ComposerStatusProps extends Props {
+  showTyping: boolean;
+}
+
+export function ComposerStatus({ client, roomId, showTyping }: ComposerStatusProps) {
+  const { t } = useTranslation();
+  const connectionLost = useAtomValue(connectionLostAtom);
+
+  if (!connectionLost) {
+    return showTyping ? <TypingIndicator client={client} roomId={roomId} /> : null;
+  }
+
+  return (
+    <div className={css.offline} role="status" aria-live="polite" aria-atomic="true">
+      <span className={css.spinner} aria-hidden="true" />
+      <span className={css.text}>{t('banner.offline')}</span>
     </div>
   );
 }

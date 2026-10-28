@@ -92,6 +92,7 @@ const INITIAL: CallSnapshot = {
   local: { microphone: false, camera: false, sound: true, screenshare: false },
   participants: [],
   ring: null,
+  reconnecting: false,
 };
 
 function clampVolume(volume: number, max: number): number {
@@ -562,6 +563,15 @@ export class CallSession {
         update();
       })
       .on(LivekitRoomEvent.ConnectionStateChanged, (state) => {
+        const own = [...this.connections.values()].find((c) => c.room === room)?.publisher;
+        if (own && state === ConnectionState.Connected && !this.reconnecting) {
+          this.setReconnecting(false);
+        } else if (
+          own &&
+          (state === ConnectionState.Reconnecting || state === ConnectionState.SignalReconnecting)
+        ) {
+          this.setReconnecting(true);
+        }
         if (state === ConnectionState.Disconnected && !this.disposed) {
           const lost = [...this.connections.values()].find((c) => c.room === room);
           if (lost) this.onConnectionLost(lost);
@@ -702,6 +712,7 @@ export class CallSession {
   private async reconnectPublisher(): Promise<void> {
     if (this.reconnecting || this.disposed || !this.ownTransport) return;
     this.reconnecting = true;
+    this.setReconnecting(true);
     const giveUpAt = Date.now() + RECONNECT_GIVE_UP_MS;
     let backoff = 1000;
     while (!this.disposed) {
@@ -720,12 +731,14 @@ export class CallSession {
         if (this.cameraWanted) await lp.setCameraEnabled(true);
         this.applyGate();
         this.reconnecting = false;
+        this.setReconnecting(false);
         this.syncRemoteConnections();
         this.scheduleUpdate();
         return;
       } catch (err) {
         if (Date.now() + backoff > giveUpAt) {
           this.reconnecting = false;
+          this.setReconnecting(false);
           this.fail('connection', 'Lost the connection to the call server');
           return;
         }
@@ -899,6 +912,10 @@ export class CallSession {
     for (const timer of this.reactionTimers) clearTimeout(timer);
     this.reactionTimers.clear();
     if (this.micGraceTimer) clearTimeout(this.micGraceTimer);
+  }
+
+  private setReconnecting(on: boolean): void {
+    if (this.snapshot.reconnecting !== on) this.patch({ reconnecting: on });
   }
 
   private patch(partial: Partial<CallSnapshot>): void {

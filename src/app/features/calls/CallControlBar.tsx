@@ -55,7 +55,9 @@ export function CallControlBar() {
   const isVoiceCall = useAtomValue(callIsVoiceRoomAtom);
   const callSession = useAtomValue(callSessionAtom);
   const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
-  const hasVideo = !!useCallSnapshot()?.participants.some((p) => p.cameraTrack || p.screenShared);
+  const callSnapshot = useCallSnapshot();
+  const hasVideo = !!callSnapshot?.participants.some((p) => p.cameraTrack || p.screenShared);
+  const reconnecting = callSnapshot?.reconnecting ?? false;
   const roomChatOpen = useAtomValue(roomChatPanelOpenAtom);
   const roomChatRoomId = useAtomValue(roomChatRoomIdAtom);
   const openRoomChat = useSetAtom(openRoomChatAtom);
@@ -86,6 +88,12 @@ export function CallControlBar() {
 
   return (
     <div className={css.bar} role="group" aria-label={t('voice.controls')}>
+      {reconnecting && (
+        <div className={css.reconnecting} role="status" aria-live="polite">
+          <span className={css.reconnectingSpinner} aria-hidden="true" />
+          {t('banner.offline')}
+        </div>
+      )}
       <div className={css.group}>
         <DeviceControl
           kinds={['audioinput', 'audiooutput']}

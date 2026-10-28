@@ -12,6 +12,7 @@ import { callUiAtom, callActionsAtom } from '@/app/store/atoms/call';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useReturnToCall } from './useReturnToCall';
 import { useCallTileVisible } from './useCallParticipants';
+import { useCallSnapshot } from './stage/useCallSnapshot';
 import * as css from './CallBar.css';
 
 export function CallBar() {
@@ -27,7 +28,8 @@ export function CallBar() {
 
   const joined = ui.phase === 'joined';
   const tileVisible = useCallTileVisible();
-  const connected = joined && tileVisible;
+  const reconnecting = useCallSnapshot()?.reconnecting ?? false;
+  const connected = joined && tileVisible && !reconnecting;
   const CamIcon = ui.isVideoMuted ? VideoCameraSlashIcon : VideoCameraIcon;
   const videoTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
   const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
@@ -40,7 +42,11 @@ export function CallBar() {
         <div className={connected ? css.statusRow : css.statusRowConnecting}>
           <SpeakerHighIcon size={14} weight="fill" />
           <span className={css.callStatus}>
-            {connected ? t('voice.statusConnected') : t('voice.statusConnecting')}
+            {reconnecting
+              ? t('voice.statusReconnecting')
+              : connected
+                ? t('voice.statusConnected')
+                : t('voice.statusConnecting')}
           </span>
         </div>
         <button type="button" className={css.callerName} onClick={returnToCall}>
