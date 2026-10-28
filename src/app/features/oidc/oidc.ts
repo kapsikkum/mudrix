@@ -82,16 +82,33 @@ export async function getOrRegisterClientId(
     policyUri: undefined,
   };
 
-  const clientId = await registerOidcClient(metadata, clientMetadata);
+  let clientId: string;
+  try {
+    clientId = await registerOidcClient(metadata, clientMetadata);
+  } catch (err) {
+    const portless = loopbackWithoutPort(redirectUri);
+    if (!portless) throw err;
+    clientId = await registerOidcClient(metadata, { ...clientMetadata, redirectUris: [portless] });
+  }
   localStorage.setItem(clientIdStorageKey(metadata.issuer, redirectUri), clientId);
   return clientId;
 }
 
+function loopbackWithoutPort(uri: string): string | null {
+  try {
+    const url = new URL(uri);
+    const loopback = ['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname);
+    if (url.protocol !== 'http:' || !loopback || !url.port) return null;
+    url.port = '';
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 function resolvePrompt(metadata: OidcClientConfig, action: OidcAction): string | undefined {
-  const wanted = action === 'register' ? 'create' : 'login';
-  const supported = metadata.prompt_values_supported;
-  if (Array.isArray(supported) && !supported.includes(wanted)) return undefined;
-  return wanted;
+  if (action !== 'register') return undefined;
+  return metadata.prompt_values_supported?.includes('create') ? 'create' : undefined;
 }
 
 export function readPendingOidcFlow(): PendingOidcFlow | null {
