@@ -16,6 +16,7 @@ const SOUND_MAP = {
   'call-no-answer': '/assets/sounds/call-no-answer.wav',
   ringback: '/assets/sounds/ringback.wav',
   ringtone: '/assets/sounds/ringtone.wav',
+  'watch-together-start': '/assets/sounds/watch-together-start.wav',
 } as const;
 
 export type VoiceSound = keyof typeof SOUND_MAP;

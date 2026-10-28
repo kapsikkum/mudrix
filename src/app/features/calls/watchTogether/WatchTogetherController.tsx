@@ -13,10 +13,12 @@ import {
   type WatchState,
 } from './watchTogether';
 import { WatchTogetherDialog } from './WatchTogetherDialog';
+import { playVoiceSound } from '@/app/features/voice/voiceSounds';
 
 const LATE_JOIN_REQUEST_DELAY_MS = 1500;
 const HEARTBEAT_MS = 10_000;
 const OFFSET_SAMPLES = 10;
+const START_SOUND_WINDOW_S = 5;
 
 export function WatchTogetherController() {
   const session = useAtomValue(callSessionAtom);
@@ -110,6 +112,19 @@ export function WatchTogetherController() {
       setActions(null);
     };
   }, [session, setState, setActions, setWatching]);
+
+  const lastVideoRef = useRef<string | null>(null);
+  useEffect(() => {
+    const videoId = state?.videoId ?? null;
+    if (
+      state &&
+      videoId !== lastVideoRef.current &&
+      expectedPosition(state) < START_SOUND_WINDOW_S
+    ) {
+      playVoiceSound('watch-together-start');
+    }
+    lastVideoRef.current = videoId;
+  }, [state]);
 
   useEffect(() => {
     if (!session || phase !== 'joined') return;
