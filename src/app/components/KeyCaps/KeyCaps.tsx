@@ -1,3 +1,4 @@
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 import * as css from './KeyCaps.css';
 
 export function KeyCaps({
@@ -21,7 +22,8 @@ export function KeyCaps({
 }
 
 export function LabelWithKeys({ label, keys }: { label: string; keys?: React.ReactNode[] }) {
-  if (!keys?.length) return <>{label}</>;
+  const keyboardHints = useKeyboardHints();
+  if (!keys?.length || !keyboardHints) return <>{label}</>;
   return (
     <span className={css.labelWithKeys}>
       {label}

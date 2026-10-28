@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
 
@@ -23,9 +23,6 @@ export const nav = style({
   gap: '2px',
   overflowY: 'auto',
   flexShrink: 0,
-  '@media': {
-    '(max-width: 768px)': { width: '56px' },
-  },
 });
 
 export const navLabel = style({
@@ -34,20 +31,9 @@ export const navLabel = style({
   fontWeight: 700,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
-  '@media': {
-    '(max-width: 768px)': {
-      display: 'none',
-    },
-  },
 });
 
-export const navLabelText = style({
-  '@media': {
-    '(max-width: 768px)': {
-      display: 'none',
-    },
-  },
-});
+export const navLabelText = style({});
 
 export const navItem = style({
   display: 'flex',
@@ -391,3 +377,162 @@ export const permRowId = style({
     '(min-width: 768px)': { display: 'block' },
   },
 });
+
+export const dialogBodyColumn = style({
+  selectors: { '&&': { flexDirection: 'column' } },
+});
+
+export const navList = style({
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: 0,
+  overflowY: 'auto',
+  backgroundColor: vars.color.bgSecondary,
+  paddingBottom: '16px',
+});
+
+export const navListHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  minHeight: '56px',
+  padding: '8px 8px 8px 16px',
+});
+
+export const navListTitle = style({
+  fontSize: '1.3rem',
+  fontWeight: 700,
+  color: vars.color.textPrimary,
+});
+
+export const navListDivider = style({
+  height: '1px',
+  margin: '8px 16px',
+  backgroundColor: vars.color.border,
+});
+
+export const navRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '14px',
+  width: '100%',
+  minHeight: '52px',
+  padding: '0 16px',
+  border: 'none',
+  background: 'none',
+  color: vars.color.textPrimary,
+  fontFamily: 'inherit',
+  fontSize: '1rem',
+  fontWeight: 500,
+  textAlign: 'left',
+  cursor: 'pointer',
+  transition: `background-color ${fast}`,
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':active': { backgroundColor: vars.color.bgActive },
+});
+
+export const navListFooter = style({
+  marginTop: 'auto',
+  padding: '16px 16px 0',
+});
+
+export const accountCard = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  width: '100%',
+  padding: '8px 10px',
+  border: `1px solid ${vars.color.border}`,
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.color.bgSecondary,
+  color: vars.color.textPrimary,
+  fontFamily: 'inherit',
+  textAlign: 'left',
+  cursor: 'pointer',
+  transition: `background-color ${fast}`,
+  ':hover': { backgroundColor: vars.color.bgHover },
+});
+
+export const accountCardText = style({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  minWidth: 0,
+});
+
+const ellipsis = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+} as const;
+
+export const accountCardName = style({ ...ellipsis, fontSize: '0.9rem', fontWeight: 600 });
+
+export const accountCardCaret = style({ flexShrink: 0, color: vars.color.textMuted });
+
+export const inlineActions = style({
+  display: 'flex',
+  gap: '8px',
+  flexShrink: 0,
+});
+
+export const navRowIcon = style({
+  display: 'flex',
+  flexShrink: 0,
+  color: vars.color.textMuted,
+});
+
+export const navRowLabel = style({
+  flex: 1,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const navRowCaret = style({
+  flexShrink: 0,
+  color: vars.color.textMuted,
+});
+
+export const pageHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  minHeight: '56px',
+  padding: '8px',
+  flexShrink: 0,
+  borderBottom: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgSecondary,
+});
+
+export const pageHeaderTitle = style({
+  flex: 1,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  fontSize: '1.1rem',
+  fontWeight: 700,
+  color: vars.color.textPrimary,
+});
+
+export const headerIconBtn = style({
+  width: '40px',
+  height: '40px',
+  flexShrink: 0,
+  borderRadius: vars.radius.sm,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 'none',
+  background: 'none',
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+  transition: `background-color ${fast}, color ${fast}`,
+  ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
+});
+
+export const narrowPage = style({});
+globalStyle(`${narrowPage} ${panelTitle}`, { display: 'none' });

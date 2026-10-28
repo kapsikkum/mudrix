@@ -34,6 +34,7 @@ export const syncStateAtom = atom<SyncState>(null);
 
 // Mobile
 export const mobileDrawerOpenAtom = atom(false);
+export const mobileLastSpaceIdAtom = atom<string | null>(null);
 
 export const connectionLostAtom = atom(false);
 

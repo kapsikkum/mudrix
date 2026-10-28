@@ -256,92 +256,6 @@ export const avatarEdit = style({
   },
 });
 
-export const accountsSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-});
-
-export const accountsDivider = style({
-  height: '1px',
-  backgroundColor: vars.color.border,
-  margin: '2px 0',
-});
-
-export const switchRow = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '8px',
-  width: '100%',
-  padding: '8px',
-  borderRadius: vars.radius.sm,
-  border: '1px solid transparent',
-  backgroundColor: 'transparent',
-  color: vars.color.textPrimary,
-  fontSize: '0.9rem',
-  fontWeight: 500,
-  textAlign: 'left',
-  cursor: 'pointer',
-  selectors: {
-    '&:hover': {
-      backgroundColor: vars.color.bgTertiary,
-    },
-  },
-});
-
-export const accountsFlyout = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4px',
-  minWidth: '240px',
-});
-
-export const accountRow = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-  padding: '6px 8px',
-  borderRadius: vars.radius.sm,
-  cursor: 'pointer',
-  border: '1px solid transparent',
-  selectors: {
-    '&:hover': {
-      backgroundColor: vars.color.bgTertiary,
-    },
-  },
-});
-
-export const accountRowActive = style({
-  border: `1px solid ${vars.color.success}`,
-  backgroundColor: vars.color.bgTertiary,
-  cursor: 'default',
-});
-
-export const accountMeta = style({
-  display: 'flex',
-  flexDirection: 'column',
-  minWidth: 0,
-  flex: 1,
-});
-
-export const accountName = style({
-  fontSize: '0.85rem',
-  fontWeight: 500,
-  color: vars.color.textPrimary,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-});
-
-export const accountServer = style({
-  fontSize: '0.75rem',
-  color: vars.color.textMuted,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-});
-
 export const statusSlot = style({
   flex: 1,
   minWidth: 0,
@@ -385,4 +299,9 @@ export const statusText = style({
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
   overflowWrap: 'anywhere',
+});
+
+export const accountSwitcherSlot = style({
+  paddingTop: '12px',
+  borderTop: `1px solid ${vars.color.border}`,
 });

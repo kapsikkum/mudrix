@@ -8,6 +8,7 @@ import { Avatar } from '@/app/components/Avatar';
 import type { AutocompleteState, Suggestion } from './useAutocomplete';
 import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './AutocompleteDropdown.css';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 
 interface Props {
   state: AutocompleteState;
@@ -27,6 +28,7 @@ export function AutocompleteDropdown({
   listId,
 }: Props) {
   const { t } = useTranslation();
+  const keyboardHints = useKeyboardHints();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const suggestionsRef = useRef<HTMLDivElement | null>(null);
 
@@ -159,19 +161,21 @@ export function AutocompleteDropdown({
         })}
       </div>
 
-      <div className={css.hint}>
-        <span className={css.hintKey}>
-          <KeyCaps keys={['↑', '↓']} size="sm" />
-          {t('common.navigate')}
-        </span>
-        <span className={css.hintKey}>
-          <KeyCaps keys={['Tab']} size="sm" /> / <KeyCaps keys={['↵']} size="sm" />
-          {t('common.select')}
-        </span>
-        <span className={css.hintKey}>
-          <KeyCaps keys={['Esc']} size="sm" /> {t('common.dismiss')}
-        </span>
-      </div>
+      {keyboardHints && (
+        <div className={css.hint}>
+          <span className={css.hintKey}>
+            <KeyCaps keys={['↑', '↓']} size="sm" />
+            {t('common.navigate')}
+          </span>
+          <span className={css.hintKey}>
+            <KeyCaps keys={['Tab']} size="sm" /> / <KeyCaps keys={['↵']} size="sm" />
+            {t('common.select')}
+          </span>
+          <span className={css.hintKey}>
+            <KeyCaps keys={['Esc']} size="sm" /> {t('common.dismiss')}
+          </span>
+        </div>
+      )}
     </div>
   );
 

@@ -39,6 +39,11 @@ export const mobileHeader = style({
     },
   },
 });
+export const mobileHeaderSpacer = style({
+  width: '28px',
+  flexShrink: 0,
+});
+
 export const mobileMenuBtn = style([
   iconBtn,
   {
@@ -80,5 +85,13 @@ export const mobileHeaderTitle = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  padding: '0 120px',
   pointerEvents: 'none',
+});
+
+export const mobileHeaderTitleText = style({
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });

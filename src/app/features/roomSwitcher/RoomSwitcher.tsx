@@ -26,6 +26,7 @@ import { Dialog } from '@/app/components/Dialog/Dialog';
 import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './RoomSwitcher.css';
 import { HighlightedText, useRoomEntries, type RoomEntry } from './roomEntries';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 
 function pickerEligible(
   client: MatrixClient,
@@ -150,6 +151,7 @@ async function forwardMessage(
 
 export function RoomSwitcher() {
   const { t } = useTranslation();
+  const keyboardHints = useKeyboardHints();
   const toast = useToast();
   const [addState, setAddState] = useAtom(addRoomToSpaceAtom);
   const [forwardState, setForwardState] = useAtom(forwardMessageAtom);
@@ -387,20 +389,22 @@ export function RoomSwitcher() {
           })
         )}
       </div>
-      <div className={css.footer}>
-        <span className={css.footerHint}>
-          <KeyCaps keys={['↑', '↓']} size="sm" />
-          {t('roomSwitcher.hintNavigate')}
-        </span>
-        <span className={css.footerHint}>
-          <KeyCaps keys={['↵']} size="sm" />
-          {inForwardMode ? t('timeline.forwardHint') : t('roomSwitcher.hintOpen')}
-        </span>
-        <span className={css.footerHint}>
-          <KeyCaps keys={['Esc']} size="sm" />
-          {t('roomSwitcher.hintClose')}
-        </span>
-      </div>
+      {keyboardHints && (
+        <div className={css.footer}>
+          <span className={css.footerHint}>
+            <KeyCaps keys={['↑', '↓']} size="sm" />
+            {t('roomSwitcher.hintNavigate')}
+          </span>
+          <span className={css.footerHint}>
+            <KeyCaps keys={['↵']} size="sm" />
+            {inForwardMode ? t('timeline.forwardHint') : t('roomSwitcher.hintOpen')}
+          </span>
+          <span className={css.footerHint}>
+            <KeyCaps keys={['Esc']} size="sm" />
+            {t('roomSwitcher.hintClose')}
+          </span>
+        </div>
+      )}
     </Dialog>
   );
 }

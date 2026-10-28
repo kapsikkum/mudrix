@@ -1,7 +1,6 @@
-import { useState, useEffect, useLayoutEffect, useCallback, Fragment } from 'react';
+import { useState, useLayoutEffect, useCallback } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { Tooltip } from '@/app/components/Tooltip';
 import {
   SlidersIcon,
   PuzzlePieceIcon,
@@ -19,6 +18,8 @@ import { PermissionsPanel } from './Permissions';
 import { RoomPermissionsMatrix } from './RoomPermissionsMatrix';
 import { Widgets } from './Widgets';
 import { EmojiStickerPanel } from './EmojiStickerPanel';
+import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Settings/NarrowSettings';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
 type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis';
@@ -50,14 +51,9 @@ export function RoomSettings() {
   const developerMode = useAtomValue(developerModeAtom);
   const client = getMatrixClientOrNull();
   const [activeTab, setActiveTab] = useState<Tab>('general');
-  const [isNarrow, setIsNarrow] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
-    setIsNarrow(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsNarrow(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+  const isNarrow = useMediaQuery('(max-width: 768px)');
+  const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
+  const backToList = useCallback(() => setNarrowView('list'), []);
 
   const room = roomId && client ? client.getRoom(roomId) : null;
 
@@ -67,6 +63,7 @@ export function RoomSettings() {
   useLayoutEffect(() => {
     if (roomId) {
       setActiveTab(roomSettingsTab ?? 'general');
+      setNarrowView(roomSettingsTab ? 'page' : 'list');
       setRoomSettingsTab(null);
     }
   }, [roomId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -75,49 +72,71 @@ export function RoomSettings() {
 
   const valid = Boolean(roomId) && Boolean(room && client) && room?.getMyMembership() === 'join';
 
+  const showPage = isNarrow && narrowView === 'page';
+  const openTab = (tab: Tab) => {
+    setActiveTab(tab);
+    setNarrowView('page');
+  };
+  const panel = (
+    <>
+      {shownTab === 'general' && <GeneralPanel roomId={roomId!} onClose={close} />}
+      {shownTab === 'members' && <PermissionsPanel roomId={roomId!} />}
+      {shownTab === 'permissions' && room && <RoomPermissionsMatrix room={room} />}
+      {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
+      {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+    </>
+  );
+
   return (
     <Dialog
       open={Boolean(roomId)}
-      onClose={close}
+      onClose={showPage ? backToList : close}
       size="xl"
       zIndex={7000}
       maxWidth="900px"
       height="640px"
       surface="primary"
       fullscreenOnMobile
-      bodyClassName={css.dialogBody}
+      bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
       ariaLabel={t('common.settings')}
     >
-      {valid ? (
+      {!valid ? null : isNarrow ? (
+        showPage ? (
+          <NarrowSettingsPage
+            title={t(navItems.find((item) => item.tab === shownTab)?.labelKey ?? '')}
+            onBack={backToList}
+            onClose={close}
+          >
+            {panel}
+          </NarrowSettingsPage>
+        ) : (
+          <NarrowSettingsList
+            title={room?.name ?? t('common.settings')}
+            items={navItems.map((item) => ({
+              key: item.tab,
+              label: t(item.labelKey),
+              Icon: item.Icon,
+            }))}
+            onSelect={openTab}
+            onClose={close}
+          />
+        )
+      ) : (
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('common.settings')}</span>
             {navItems.map((item) => {
               const isActive = shownTab === item.tab;
               return (
-                <Fragment key={item.tab}>
-                  {isNarrow ? (
-                    <Tooltip content={t(item.labelKey)} placement="right">
-                      <button
-                        type="button"
-                        className={isActive ? css.navItemActive : css.navItem}
-                        onClick={() => setActiveTab(item.tab)}
-                      >
-                        <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                        <span className={css.navLabelText}>{t(item.labelKey)}</span>
-                      </button>
-                    </Tooltip>
-                  ) : (
-                    <button
-                      type="button"
-                      className={isActive ? css.navItemActive : css.navItem}
-                      onClick={() => setActiveTab(item.tab)}
-                    >
-                      <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                      <span className={css.navLabelText}>{t(item.labelKey)}</span>
-                    </button>
-                  )}
-                </Fragment>
+                <button
+                  key={item.tab}
+                  type="button"
+                  className={isActive ? css.navItemActive : css.navItem}
+                  onClick={() => setActiveTab(item.tab)}
+                >
+                  <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                  <span className={css.navLabelText}>{t(item.labelKey)}</span>
+                </button>
               );
             })}
           </nav>
@@ -131,14 +150,10 @@ export function RoomSettings() {
             >
               <XIcon size={18} />
             </button>
-            {shownTab === 'general' && <GeneralPanel roomId={roomId!} onClose={close} />}
-            {shownTab === 'members' && <PermissionsPanel roomId={roomId!} />}
-            {shownTab === 'permissions' && room && <RoomPermissionsMatrix room={room} />}
-            {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
-            {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+            {panel}
           </div>
         </>
-      ) : null}
+      )}
     </Dialog>
   );
 }

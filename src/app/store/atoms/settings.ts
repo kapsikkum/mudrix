@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { UiDensity } from '@/theme/uiDensity';
+import type { UiDensity, UiScale } from '@/theme/uiDensity';
 import { atomWithStorage } from 'jotai/utils';
 import { DEFAULT_THEME } from '@/theme/themes.css';
 import { MOD_MODIFIER } from '@/app/util/platform';
@@ -26,7 +26,7 @@ export type ThemeName =
 export type MediaVisibility = 'always' | 'private' | 'never';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
-export type { UiDensity } from '@/theme/uiDensity';
+export type { UiDensity, UiScale } from '@/theme/uiDensity';
 
 export interface Keybinds {
   toggleMute: string;
@@ -54,6 +54,7 @@ export interface Preferences {
   chatFontSize: number;
   chatDensity: ChatDensity;
   uiDensity: UiDensity;
+  uiScale: UiScale;
   reducedMotionApplied: boolean | null;
   themedAppIcon: boolean;
   excludeInsecureSessions: boolean;
@@ -83,6 +84,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   chatFontSize: 15,
   chatDensity: 'default',
   uiDensity: 'default',
+  uiScale: 'auto',
   reducedMotionApplied: null,
   themedAppIcon: false,
   excludeInsecureSessions: false,
@@ -115,6 +117,8 @@ export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');
 export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');
 export const chatDensityAtom = preferenceFieldAtom('chatDensity');
 export const uiDensityAtom = preferenceFieldAtom('uiDensity');
+export const uiScaleAtom = preferenceFieldAtom('uiScale');
+export const touchUiAtom = atom(false);
 export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
 export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');

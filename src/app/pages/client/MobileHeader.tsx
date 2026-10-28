@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next';
-import { ListIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { CaretLeftIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
   mobileDrawerOpenAtom,
   currentRoomIdAtom,
+  currentSpaceIdAtom,
   globalSearchOpenAtom,
+  inboxOpenAtom,
   roomSearchAtom,
+  sidebarViewAtom,
 } from '@/app/store/atoms';
+import { getMatrixClientOrNull } from '@/client/initMatrix';
+import { useMobileListOpen } from './hooks/useMobileListOpen';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
-import { Inbox } from '@/app/features/inbox';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { RoomSearchField } from '@/app/features/roomSearch';
@@ -16,31 +20,50 @@ import * as css from './MobileHeader.css';
 
 export function MobileHeader() {
   const { t } = useTranslation();
-  const [, setDrawerOpen] = useAtom(mobileDrawerOpenAtom);
+  const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
+  const listOpen = useMobileListOpen();
+  const sidebarView = useAtomValue(sidebarViewAtom);
+  const currentSpaceId = useAtomValue(currentSpaceIdAtom);
   const currentRoomId = useAtomValue(currentRoomIdAtom);
   const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
   const roomSearch = useAtomValue(roomSearchAtom);
+  const inboxOpen = useAtomValue(inboxOpenAtom);
   // Inbox and the search field share global state, so they only mount here on mobile
   const isMobile = useMediaQuery('(max-width: 768px)');
   const searchingRoom = isMobile && !!roomSearch && roomSearch.roomId === currentRoomId;
 
+  const listTitle = inboxOpen
+    ? t('inbox.title')
+    : sidebarView === 'dms'
+      ? t('room.dm.directMessages')
+      : sidebarView === 'space'
+        ? (getMatrixClientOrNull()?.getRoom(currentSpaceId ?? '')?.name ?? t('mobileNav.spaces'))
+        : t('room.home');
+
   return (
     <div className={css.mobileHeader}>
-      <button
-        type="button"
-        className={css.mobileMenuBtn}
-        onClick={() => setDrawerOpen(true)}
-        aria-label={t('common.menu')}
-      >
-        <ListIcon size={20} />
-      </button>
+      {listOpen ? (
+        <span className={css.mobileHeaderSpacer} />
+      ) : (
+        <button
+          type="button"
+          className={css.mobileMenuBtn}
+          onClick={() => setDrawerOpen(true)}
+          aria-label={t('common.back')}
+          data-back-dismiss={isMobile || undefined}
+        >
+          <CaretLeftIcon size={20} />
+        </button>
+      )}
       {searchingRoom ? (
         <div className={css.mobileSearch}>
           <RoomSearchField />
         </div>
       ) : (
         <>
-          <span className={css.mobileHeaderTitle}>WizardChat</span>
+          <span className={css.mobileHeaderTitle}>
+            <span className={css.mobileHeaderTitleText}>{listOpen ? listTitle : 'WizardChat'}</span>
+          </span>
           <div className={css.mobileActions}>
             <button
               type="button"
@@ -52,7 +75,6 @@ export function MobileHeader() {
             </button>
             <UpdateButton />
             <EncryptionWarningButton />
-            {isMobile && <Inbox />}
           </div>
         </>
       )}

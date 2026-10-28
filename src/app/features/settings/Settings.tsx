@@ -1,9 +1,8 @@
 import { useEffect, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { Tooltip } from '@/app/components/Tooltip';
 import { Dialog } from '@/app/components/Dialog/Dialog';
-import { logout } from '@/client/initMatrix';
 import {
   UserIcon,
   PaletteIcon,
@@ -19,8 +18,6 @@ import {
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
-  SignOutIcon,
-  type Icon as PhosphorIcon,
 } from '@phosphor-icons/react';
 import { settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
@@ -33,6 +30,8 @@ import {
   DeactivateAccount,
 } from './account';
 import { useAccountManagement } from '@/app/hooks/useAccountManagement';
+import { StatusSettings } from './account/Status';
+import { AccountSwitcher } from './AccountSwitcher';
 import { Appearance } from './appearance';
 import { Accessibility } from './accessibility';
 import { Privacy } from './privacy';
@@ -44,19 +43,27 @@ import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
 import { Encryption } from './encryption';
 import { About } from './about';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
+import {
+  NarrowSettingsList,
+  NarrowSettingsPage,
+  type NarrowSettingsItem,
+} from '@/app/components/Settings/NarrowSettings';
 import * as css from './Settings.css';
-
-interface NavEntry {
-  page: SettingsPage;
-  label: string;
-  Icon: PhosphorIcon;
-  dividerBefore?: boolean;
-}
 
 function AccountPage() {
   const { t } = useTranslation();
   const { canChangePassword, canChangeThreePids, accountManagementUrl, loading } =
     useAccountManagement();
+  const statusSection = (
+    <>
+      <div className={css.divider} />
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('status.title')}</h3>
+        <StatusSettings />
+      </div>
+    </>
+  );
 
   if (accountManagementUrl) {
     return (
@@ -71,6 +78,7 @@ function AccountPage() {
             <Avatar />
           </div>
         </div>
+        {statusSection}
         <div className={css.divider} />
         <div className={css.section}>
           <p className={css.settingNote}>{t('settings.account.externalManagement')}</p>
@@ -99,6 +107,7 @@ function AccountPage() {
           <Avatar />
         </div>
       </div>
+      {statusSection}
       {loading ? (
         <div className={css.actions}>
           <SpinnerGapIcon size={20} className="icon-spin" />
@@ -168,6 +177,7 @@ export function Settings() {
   const [open, setOpen] = useAtom(settingsOpenAtom);
   const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
   const [activePage, setActivePage] = useState<SettingsPage>('account');
+  const keyboardHints = useKeyboardHints();
   const [isNarrow, setIsNarrow] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)');
@@ -179,132 +189,145 @@ export function Settings() {
   const targetPageRef = useRef(targetPage);
   targetPageRef.current = targetPage;
 
-  const NAV: NavEntry[] = [
-    { page: 'account', label: t('settings.account.title'), Icon: UserIcon },
-    { page: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
+  const NAV: NarrowSettingsItem<SettingsPage>[] = [
+    { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
+    { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
     {
-      page: 'emojis-stickers',
+      key: 'emojis-stickers',
       label: t('settings.emojisStickers.title'),
       Icon: SmileyStickerIcon,
     },
-    { page: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
+    { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
     {
-      page: 'appearance',
+      key: 'appearance',
       label: t('settings.appearance.title'),
       Icon: PaletteIcon,
       dividerBefore: true,
     },
     {
-      page: 'accessibility',
+      key: 'accessibility',
       label: t('settings.accessibility.title'),
       Icon: PersonSimpleCircleIcon,
     },
-    { page: 'keybinds', label: t('settings.keybinds.title'), Icon: KeyboardIcon },
-    { page: 'language', label: t('settings.language.title'), Icon: GlobeSimpleIcon },
+    ...(keyboardHints
+      ? [{ key: 'keybinds' as const, label: t('settings.keybinds.title'), Icon: KeyboardIcon }]
+      : []),
+    { key: 'language', label: t('settings.language.title'), Icon: GlobeSimpleIcon },
     {
-      page: 'sessions',
+      key: 'sessions',
       label: t('settings.sessions.title'),
       Icon: DevicesIcon,
       dividerBefore: true,
     },
-    { page: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
-    { page: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
-    { page: 'about', label: t('settings.about.title'), Icon: InfoIcon },
+    { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
+    { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
+    { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
   ];
 
   const close = useCallback(() => setOpen(false), [setOpen]);
-
-  const logoutButton = (
-    <button
-      type="button"
-      className={css.navLogout}
-      onClick={() => void logout()}
-      aria-label={t('settings.account.logout')}
-    >
-      <SignOutIcon size={16} />
-      <span className={css.navLabelText}>{t('settings.account.logout')}</span>
-    </button>
-  );
+  const navigate = useNavigate();
+  const addAccount = () => {
+    close();
+    navigate('/welcome?add=1');
+  };
+  const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
+  const backToList = useCallback(() => setNarrowView('list'), []);
+  const openPage = (page: SettingsPage) => {
+    setActivePage(page);
+    setNarrowView('page');
+  };
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
     if (open && !targetPageRef.current) {
       setActivePage('account');
+      setNarrowView('list');
     }
   }, [open]);
 
   useLayoutEffect(() => {
     if (!open || !targetPage) return;
     setActivePage(targetPage);
+    setNarrowView('page');
     setTargetPage(null);
   }, [open, targetPage, setTargetPage]);
+
+  const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
+  const showPage = isNarrow && narrowView === 'page';
 
   return (
     <Dialog
       open={open}
-      onClose={close}
+      onClose={showPage ? backToList : close}
       size="xl"
       zIndex={7000}
       maxWidth="900px"
       height="640px"
       surface="primary"
       fullscreenOnMobile
-      bodyClassName={css.dialogBody}
+      bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
       ariaLabel={t('settings.userSettings')}
     >
-      <nav className={css.nav}>
-        <span className={css.navLabel}>{t('settings.userSettings')}</span>
-        {NAV.map((item) => {
-          const isActive = activePage === item.page;
-          return (
-            <div key={item.page}>
-              {item.dividerBefore && <div className={css.navDivider} />}
-              {isNarrow ? (
-                <Tooltip content={item.label} placement="right">
+      {isNarrow ? (
+        showPage ? (
+          <NarrowSettingsPage
+            title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
+            onBack={backToList}
+            onClose={close}
+          >
+            <PageContent page={shownPage} />
+          </NarrowSettingsPage>
+        ) : (
+          <NarrowSettingsList
+            title={t('settings.userSettings')}
+            items={NAV}
+            onSelect={openPage}
+            onClose={close}
+            footer={
+              <div className={css.navListFooter}>
+                <AccountSwitcher onAddAccount={addAccount} />
+              </div>
+            }
+          />
+        )
+      ) : (
+        <>
+          <nav className={css.nav}>
+            <span className={css.navLabel}>{t('settings.userSettings')}</span>
+            {NAV.map((item) => {
+              const isActive = activePage === item.key;
+              return (
+                <div key={item.key}>
+                  {item.dividerBefore && <div className={css.navDivider} />}
                   <button
                     type="button"
                     className={isActive ? css.navItemActive : css.navItem}
-                    onClick={() => setActivePage(item.page)}
+                    onClick={() => setActivePage(item.key)}
                   >
                     <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
                     <span className={css.navLabelText}>{item.label}</span>
                   </button>
-                </Tooltip>
-              ) : (
-                <button
-                  type="button"
-                  className={isActive ? css.navItemActive : css.navItem}
-                  onClick={() => setActivePage(item.page)}
-                >
-                  <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                  <span className={css.navLabelText}>{item.label}</span>
-                </button>
-              )}
+                </div>
+              );
+            })}
+            <div className={css.navFooter}>
+              <AccountSwitcher onAddAccount={addAccount} />
             </div>
-          );
-        })}
-        <div className={css.navFooter}>
-          {isNarrow ? (
-            <Tooltip content={t('settings.account.logout')} placement="right">
-              {logoutButton}
-            </Tooltip>
-          ) : (
-            logoutButton
-          )}
-        </div>
-      </nav>
+          </nav>
 
-      <div className={css.content}>
-        <button
-          type="button"
-          className={css.closeBtn}
-          onClick={close}
-          aria-label={t('common.close')}
-        >
-          <XIcon size={18} />
-        </button>
-        <PageContent page={activePage} />
-      </div>
+          <div className={css.content}>
+            <button
+              type="button"
+              className={css.closeBtn}
+              onClick={close}
+              aria-label={t('common.close')}
+            >
+              <XIcon size={18} />
+            </button>
+            <PageContent page={shownPage} />
+          </div>
+        </>
+      )}
     </Dialog>
   );
 }

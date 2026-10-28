@@ -1,5 +1,6 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { TOUCH_UI } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
 
 export const roomListPanel = style({
@@ -10,6 +11,9 @@ export const roomListPanel = style({
   height: '100%',
   borderRight: `1px solid ${vars.color.border}`,
   flexShrink: 0,
+  '@media': {
+    '(max-width: 768px)': { width: 'auto', flex: 1, minWidth: 0, borderRight: 'none' },
+  },
 });
 
 export const roomHeader = style({
@@ -22,6 +26,7 @@ export const roomHeader = style({
   color: vars.color.textMuted,
   letterSpacing: '0.04em',
   borderBottom: `1px solid ${vars.color.border}`,
+  selectors: { [`${TOUCH_UI} &`]: { fontSize: '1.2rem' } },
 });
 
 export const roomHeaderTitle = style({
@@ -132,6 +137,7 @@ export const subspaceCategoryHeader = style({
   letterSpacing: '0.02em',
   transition: `background-color ${fast}, color ${fast}`,
   selectors: {
+    [`${TOUCH_UI} &`]: { fontSize: '0.95rem' },
     '&:hover': {
       backgroundColor: vars.color.bgHover,
       color: vars.color.textPrimary,
@@ -273,4 +279,9 @@ export const bottomDock = style({
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
+  '@media': {
+    '(max-width: 768px)': {
+      selectors: { '&:empty': { display: 'none' } },
+    },
+  },
 });

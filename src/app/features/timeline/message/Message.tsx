@@ -10,7 +10,7 @@ import {
   RoomEvent,
   THREAD_RELATION_TYPE,
 } from 'matrix-js-sdk';
-import { SmileyIcon, WarningIcon, ChatDotsIcon } from '@phosphor-icons/react';
+import { SmileyIcon, WarningIcon, ChatDotsIcon, ArrowBendUpLeftIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Avatar } from '@/app/components/Avatar';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
@@ -39,6 +39,9 @@ import { useImagePacksContext } from '@/app/hooks/useImagePacks';
 import { emojiToShortcode } from '@/app/features/timeline/emojiData';
 import { togglePin } from './pinning';
 import { openMessageContextMenu } from './contextMenu';
+import { useSwipeToReply } from '@/app/hooks/useTouchGestures';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
 import type { ImagePackImage } from '@/app/hooks/useImagePacks';
 import { MessageContent } from './content';
 import { MessageGallery } from './GalleryGrid';
@@ -198,6 +201,8 @@ export const Message = memo(function Message({
 }: MessageProps) {
   const { t, i18n } = useTranslation();
   const msgRowRef = useRef<HTMLDivElement>(null);
+  const swipeContentRef = useRef<HTMLDivElement>(null);
+  const swipeIconRef = useRef<HTMLSpanElement>(null);
   const toast = useToast();
   const emojiPicker = useAtomValue(emojiPickerAtom);
   const contextMenu = useAtomValue(contextMenuAtom);
@@ -814,6 +819,11 @@ export const Message = memo(function Message({
     />
   );
 
+  const touchFirst = useMediaQuery(TOUCH_FIRST_QUERY);
+  const canSwipeReply =
+    touchFirst && !isRedacted && !isDecrypting && !isUndecryptable && !isFailed && !isSending;
+  useSwipeToReply(msgRowRef, swipeContentRef, swipeIconRef, () => onReply(event), canSwipeReply);
+
   if (callSession) {
     return <CallSessionDisplay session={callSession} client={client} roomId={event.getRoomId()} />;
   }
@@ -1031,7 +1041,13 @@ export const Message = memo(function Message({
       role="group"
       data-hovered={showActions ? 'true' : 'false'}
     >
+      {canSwipeReply && (
+        <span ref={swipeIconRef} className={css.swipeReplyIcon} aria-hidden>
+          <ArrowBendUpLeftIcon size={18} weight="bold" />
+        </span>
+      )}
       <div
+        ref={swipeContentRef}
         className={`${css.msgHoverRegion} ${css.msgJumpFlash}`}
         data-flashing={isFlashing ? 'true' : undefined}
       >

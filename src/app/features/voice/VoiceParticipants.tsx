@@ -11,6 +11,7 @@ import { useCallLiveState, uniqueMembers } from '@/app/features/calls/useCallPar
 import { Avatar } from '@/app/components/Avatar';
 import { UserCallMenu, type UserMenuAnchor } from '@/app/features/calls/stage/UserCallMenu';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
+import { useTouchUi } from '@/app/hooks/useUiDensitySync';
 import { formatUserId } from '@/util/matrix';
 import * as css from './VoiceParticipants.css';
 
@@ -26,6 +27,7 @@ function ParticipantRow({
   roomId?: string;
 }) {
   const client = getMatrixClientOrNull();
+  const touchUi = useTouchUi();
   const setProfile = useSetAtom(userProfileAtom);
   const [menu, setMenu] = useState<UserMenuAnchor | null>(null);
   const closeMenu = useCallback(() => setMenu(null), []);
@@ -73,7 +75,7 @@ function ParticipantRow({
             name={p.name}
             mxcUrl={p.mxcAvatar}
             client={client ?? undefined}
-            size="xs"
+            size={touchUi ? 'fill' : 'xs'}
             placeholder="logo"
           />
         </div>
@@ -119,6 +121,7 @@ function CompactParticipants({
 }) {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
+  const touchUi = useTouchUi();
   const setProfile = useSetAtom(userProfileAtom);
   const visible = participants.slice(0, COMPACT_VISIBLE);
   const rest = participants.length - visible.length;
@@ -150,7 +153,7 @@ function CompactParticipants({
               name={p.name}
               mxcUrl={p.mxcAvatar}
               client={client ?? undefined}
-              size="xs"
+              size={touchUi ? 'sm' : 'xs'}
               placeholder="logo"
             />
           </button>

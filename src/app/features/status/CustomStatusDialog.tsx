@@ -71,6 +71,7 @@ export function CustomStatusDialog() {
       onClose={close}
       title={t('status.setCustomStatus')}
       size="sm"
+      zIndex={7500}
       footer={
         <>
           {active && (

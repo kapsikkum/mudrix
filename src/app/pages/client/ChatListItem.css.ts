@@ -1,6 +1,6 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { uiSize } from '@/theme/uiDensity';
+import { TOUCH_UI, uiSize } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
 
 export const roomItem = style({
@@ -18,6 +18,7 @@ export const roomItem = style({
     color: vars.color.textPrimary,
   },
   selectors: {
+    [`${TOUCH_UI} &`]: { fontSize: '1.2rem', paddingLeft: '12px', paddingRight: '12px' },
     '&[data-active="true"]:hover': {
       backgroundColor: vars.color.bgActive,
     },
@@ -231,4 +232,20 @@ export const itemMenuButton = style({
       pointerEvents: 'auto',
     },
   },
+});
+
+globalStyle(`${TOUCH_UI} ${avatarWrap}, ${TOUCH_UI} ${roomTypeIcon}`, { marginRight: '14px' });
+globalStyle(`${TOUCH_UI} ${roomItem} ${roomTypeIcon} svg`, { width: '26px', height: '26px' });
+globalStyle(`${TOUCH_UI} ${roomTypeBadge}`, {
+  width: '22px',
+  height: '22px',
+  right: '-3px',
+  bottom: '-3px',
+});
+globalStyle(`${TOUCH_UI} ${roomTypeBadge} svg`, { width: '14px', height: '14px' });
+globalStyle(`${TOUCH_UI} ${roomBadge}`, {
+  fontSize: '0.85rem',
+  padding: '2px 8px',
+  minWidth: '22px',
+  borderRadius: '12px',
 });

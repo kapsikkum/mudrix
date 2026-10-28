@@ -21,11 +21,8 @@ import {
   CameraIcon,
   LinkSimpleIcon,
   DotsThreeVerticalIcon,
-  PlusIcon,
-  CaretRightIcon,
   ShieldCheckIcon,
 } from '@phosphor-icons/react';
-import { Popover } from '@/app/components/Popover';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Select } from '@/app/components/Select';
 import { userProfileAtom } from '@/app/store/atoms/userProfile';
@@ -39,11 +36,10 @@ import {
   emojiVerificationAtom,
 } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
-import { getMatrixClient, getMatrixClientOrNull, logout, switchAccount } from '@/client/initMatrix';
+import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
 import { useUserStatusText } from '@/app/features/status/customStatus';
-import { getActiveAccountId, listAccounts } from '@/client/accounts';
-import type { MatrixCredentials } from '@/client/types';
 import { useUserProfile } from '@/app/hooks/useUserProfile';
+import { AccountSwitcher } from '@/app/features/settings/AccountSwitcher';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useUserBanner, useUserBannerBlob } from '@/app/hooks/useUserBanner';
@@ -124,40 +120,11 @@ export function UserProfilePopup() {
   const contextMenu = useAtomValue(contextMenuAtom);
   const modMenuOpen = contextMenu?.opener === modMenuBtnRef.current;
   const [localPowerLevel, setLocalPowerLevel] = useState(profile?.powerLevel ?? 0);
-  const [accounts, setAccounts] = useState<MatrixCredentials[]>(() => listAccounts());
-  const [accountsOpen, setAccountsOpen] = useState(false);
-  const switchRowRef = useRef<HTMLButtonElement>(null);
-  const closeAccountsTimer = useRef<number | null>(null);
 
   // Sync local power level when profile changes (e.g. different user)
   useEffect(() => {
     if (profile) setLocalPowerLevel(profile.powerLevel ?? 0);
   }, [profile]);
-
-  useEffect(() => {
-    if (!profileState) {
-      setAccountsOpen(false);
-      return;
-    }
-    setAccounts(listAccounts());
-  }, [profileState]);
-
-  const handleLogoutAccount = useCallback(async (targetUserId: string) => {
-    await logout(targetUserId);
-    setAccounts(listAccounts());
-  }, []);
-
-  const cancelAccountsClose = useCallback(() => {
-    if (closeAccountsTimer.current !== null) {
-      window.clearTimeout(closeAccountsTimer.current);
-      closeAccountsTimer.current = null;
-    }
-  }, []);
-
-  const scheduleAccountsClose = useCallback(() => {
-    cancelAccountsClose();
-    closeAccountsTimer.current = window.setTimeout(() => setAccountsOpen(false), 200);
-  }, [cancelAccountsClose]);
 
   const handleClose = useCallback(() => {
     setProfileState(null);
@@ -516,11 +483,6 @@ export function UserProfilePopup() {
 
   const hasModActions = canRedactAny || canKick || canBan;
 
-  const activeAccountId = getActiveAccountId();
-  const accountSwitcherEnabled = isOwn && profileState.source === 'userpanel';
-  const serverHost = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/+$/, '');
-  const localpart = (id: string) => id.replace(/^@/, '').split(':')[0];
-
   const openModMenu = () => {
     const items: ContextMenuItem[] = [];
     if (canRedactAny) {
@@ -746,103 +708,16 @@ export function UserProfilePopup() {
           )}
         </div>
 
-        {accountSwitcherEnabled && (
-          <div className={css.accountsSection}>
-            <div className={css.accountsDivider} />
-            <button
-              ref={switchRowRef}
-              type="button"
-              className={css.switchRow}
-              aria-haspopup="menu"
-              aria-expanded={accountsOpen}
-              onMouseEnter={() => {
-                cancelAccountsClose();
-                setAccountsOpen(true);
+        {isOwn && profileState.source === 'userpanel' && (
+          <div className={css.accountSwitcherSlot}>
+            <AccountSwitcher
+              onAddAccount={() => {
+                handleClose();
+                navigate('/welcome?add=1');
               }}
-              onMouseLeave={scheduleAccountsClose}
-              onClick={() => {
-                cancelAccountsClose();
-                setAccountsOpen(true);
-              }}
-            >
-              <span>{t('settings.accounts.switch')}</span>
-              <CaretRightIcon size={14} />
-            </button>
-
-            <Popover
-              open={accountsOpen}
-              onClose={() => setAccountsOpen(false)}
-              anchorRef={switchRowRef}
-              placement="right-end"
-            >
-              <div
-                className={css.accountsFlyout}
-                onMouseEnter={cancelAccountsClose}
-                onMouseLeave={scheduleAccountsClose}
-              >
-                {accounts.map((acc) => {
-                  const isActive = acc.userId === activeAccountId;
-                  return (
-                    <div
-                      key={acc.userId}
-                      className={`${css.accountRow}${isActive ? ` ${css.accountRowActive}` : ''}`}
-                      role={isActive ? undefined : 'button'}
-                      tabIndex={isActive ? undefined : 0}
-                      onClick={() => {
-                        if (!isActive) void switchAccount(acc.userId);
-                      }}
-                      onKeyDown={(e) => {
-                        if (isActive) return;
-                        if (e.key !== 'Enter' && e.key !== ' ') return;
-                        e.preventDefault();
-                        void switchAccount(acc.userId);
-                      }}
-                    >
-                      <Avatar
-                        name={localpart(acc.userId)}
-                        size="sm"
-                        placeholder="logo"
-                        mxcUrl={isActive ? profile?.avatarMxc : undefined}
-                        client={isActive ? client : undefined}
-                      />
-                      <div className={css.accountMeta}>
-                        <span className={css.accountName}>{localpart(acc.userId)}</span>
-                        <span className={css.accountServer}>{serverHost(acc.homeserverUrl)}</span>
-                      </div>
-                      <Tooltip content={t('settings.account.logout')}>
-                        <IconButton
-                          size="xs"
-                          danger
-                          aria-label={t('settings.account.logout')}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            void handleLogoutAccount(acc.userId);
-                          }}
-                        >
-                          <SignOutIcon size={14} />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  );
-                })}
-
-                <div className={css.accountsDivider} />
-                <Button
-                  variant="secondary"
-                  fullWidth
-                  onClick={() => {
-                    handleClose();
-                    navigate('/welcome?add=1');
-                  }}
-                >
-                  <PlusIcon size={16} />
-                  {t('settings.accounts.add')}
-                </Button>
-              </div>
-            </Popover>
+            />
           </div>
         )}
-
         {isKnock && canModerate && (
           <div className={css.modActions}>
             <Button

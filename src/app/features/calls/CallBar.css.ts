@@ -92,6 +92,14 @@ export const ctrlActive = style([
   },
 ]);
 
+export const ctrlMuted = style([
+  ctrl,
+  {
+    color: vars.color.danger,
+    ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.danger },
+  },
+]);
+
 export const leaveBtn = style([
   ctrl,
   {
