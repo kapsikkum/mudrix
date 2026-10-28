@@ -1,0 +1,17 @@
+App/build
+App/Pods
+App/output
+App/App/public
+DerivedData
+xcuserdata
+
+# Cordova plugins for Capacitor
+capacitor-cordova-ios-plugins
+
+# Generated Config files
+App/App/capacitor.config.json
+App/App/config.xml
+
+# Recreated by Xcode
+App/App.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved

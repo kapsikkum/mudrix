@@ -47,4 +47,11 @@ interface ElectronAPI {
 
 interface Window {
   electronAPI?: ElectronAPI;
+  Capacitor?: {
+    isNativePlatform?: () => boolean;
+    getPlatform?: () => string;
+    nativePromise?: <T>(plugin: string, method: string, options?: unknown) => Promise<T>;
+    addListener?: <T>(plugin: string, event: string, callback: (data: T) => void) => unknown;
+  };
+  wizardchatNativeBack?: () => boolean;
 }
