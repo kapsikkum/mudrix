@@ -1361,7 +1361,9 @@
       "playerUnavailable": "The player couldn't be loaded. Try again later or open the video on YouTube.",
       "focus": "Focus video",
       "waitingFor": "Waiting for {{name}}..."
-    }
+    },
+    "streamViewers_one": "{{count}} person watching",
+    "streamViewers_other": "{{count}} people watching"
   },
   "desktopPicker": {
     "title": "Share your screen",

@@ -199,7 +199,26 @@ function Tile({
           </span>
         )
       )}
-      {screen && <span className={css.liveBadge}>{t('call.live')}</span>}
+      {screen && (
+        <span className={css.liveRow}>
+          <span className={css.liveBadge}>{t('call.live')}</span>
+          {participant.isLocal && participant.screenWatchers.length > 0 && (
+            <Tooltip
+              content={participant.screenWatchers
+                .map((uid) => room.getMember(uid)?.name ?? formatUserId(uid))
+                .join(', ')}
+            >
+              <span
+                className={css.viewersChip}
+                aria-label={t('call.streamViewers', { count: participant.screenWatchers.length })}
+              >
+                <EyeIcon size={12} weight="bold" />
+                {participant.screenWatchers.length}
+              </span>
+            </Tooltip>
+          )}
+        </span>
+      )}
       {!screen && participant.handRaised && (
         <span className={css.badge} title={t('call.handRaised')}>
           ✋

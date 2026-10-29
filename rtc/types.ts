@@ -29,6 +29,7 @@ export interface CallParticipant {
   screenTrack: MediaTrackHandle | null;
   screenShared: boolean;
   watchingScreen: boolean;
+  screenWatchers: string[];
   screenAudio: boolean;
   streamVolume: number;
   handRaised: boolean;

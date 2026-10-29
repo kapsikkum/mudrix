@@ -163,10 +163,31 @@ export const labelName = style({
 
 export const mutedIcon = style({ flexShrink: 0, color: '#f23f43' });
 
-export const liveBadge = style({
+export const liveRow = style({
   position: 'absolute',
   top: '8px',
   left: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+});
+
+export const viewersChip = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '4px',
+  padding: '0 7px',
+  borderRadius: '999px',
+  background: 'rgba(0, 0, 0, 0.6)',
+  color: '#ffffff',
+  fontSize: '0.68rem',
+  fontWeight: 700,
+  lineHeight: '18px',
+  fontVariantNumeric: 'tabular-nums',
+  userSelect: 'none',
+});
+
+export const liveBadge = style({
   padding: '0 7px',
   borderRadius: '999px',
   background: '#593695',

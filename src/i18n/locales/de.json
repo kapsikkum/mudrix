@@ -1361,7 +1361,9 @@
       "playerUnavailable": "Der Player konnte nicht geladen werden. Versuch es später erneut oder öffne das Video auf YouTube.",
       "focus": "Video hervorheben",
       "waitingFor": "Warte auf {{name}}..."
-    }
+    },
+    "streamViewers_one": "{{count}} Person schaut zu",
+    "streamViewers_other": "{{count}} Personen schauen zu"
   },
   "desktopPicker": {
     "title": "Bildschirm teilen",
