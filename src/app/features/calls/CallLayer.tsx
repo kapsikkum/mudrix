@@ -4,6 +4,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import type { MatrixClient } from 'matrix-js-sdk';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import {
+  callActionsAtom,
   callEffectiveViewAtom,
   callIsVoiceRoomAtom,
   callUiAtom,
@@ -26,6 +27,9 @@ const DEFAULT_DOCKED_HEIGHT = 360;
 const RATIO_W_TO_H = 16 / 9;
 const MIN_DOCKED_HEIGHT = 280;
 const MAX_DOCKED_HEIGHT_FRACTION = 0.5;
+
+const SNAP_FULLSCREEN_OVERDRAG_PX = 48;
+const SNAP_ANIMATION_MS = 160;
 
 function computeDockedDefaultHeight(el: HTMLElement): number {
   const width = el.clientWidth;
@@ -63,6 +67,8 @@ export function CallLayer({ client }: Props) {
   const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
   const [dockedHeight, setDockedHeight] = useState(DEFAULT_DOCKED_HEIGHT);
   const [isDragging, setIsDragging] = useState(false);
+  const [snapFullscreen, setSnapFullscreen] = useState(false);
+  const callActions = useAtomValue(callActionsAtom);
 
   const pipPosRef = useRef<{ x: number; y: number } | null>(null);
   const cancelCollapseRef = useRef<(() => void) | null>(null);
@@ -230,22 +236,35 @@ export function CallLayer({ client }: Props) {
       draggingRef.current = true;
       const startY = e.clientY;
       const startHeight = dockedHeight;
+      const maxHeight = window.innerHeight * 0.8;
+      let snapping = false;
       const handleMouseMove = (ev: MouseEvent) => {
-        const delta = ev.clientY - startY;
-        const newHeight = Math.max(120, Math.min(startHeight + delta, window.innerHeight * 0.8));
-        setDockedHeight(newHeight);
+        const raw = startHeight + ev.clientY - startY;
+        const snap = raw > maxHeight + SNAP_FULLSCREEN_OVERDRAG_PX;
+        if (snap !== snapping) {
+          snapping = snap;
+          setSnapFullscreen(snap);
+          if (el) el.style.transition = snap ? `height ${SNAP_ANIMATION_MS}ms ease` : 'none';
+        }
+        const available = el?.parentElement?.clientHeight ?? window.innerHeight;
+        setDockedHeight(snap ? available : Math.max(120, Math.min(raw, maxHeight)));
       };
       const handleMouseUp = () => {
         setIsDragging(false);
+        setSnapFullscreen(false);
         draggingRef.current = false;
         if (el) el.style.transition = '';
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+        if (snapping) {
+          setDockedHeight(startHeight);
+          callActions?.setPresentation('fullscreen');
+        }
       };
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    [dockedHeight, view, containerRef]
+    [dockedHeight, view, containerRef, callActions]
   );
 
   const handlePipDragStart = useCallback(
@@ -315,6 +334,7 @@ export function CallLayer({ client }: Props) {
         createPortal(
           <>
             {isDragging && <div className={css.dragOverlay} />}
+            {snapFullscreen && <div className={css.snapHint} />}
             <div
               className={css.resizeBar}
               onMouseDown={handleResizeStart}

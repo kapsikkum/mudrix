@@ -135,6 +135,16 @@ export const dragOverlay = style({
   userSelect: 'none',
 });
 
+export const snapHint = style({
+  position: 'absolute',
+  inset: '4px',
+  zIndex: 64,
+  borderRadius: vars.radius.md,
+  border: `2px dashed ${vars.color.accent}`,
+  backgroundColor: `rgba(${vars.color.accentRgb}, 0.12)`,
+  pointerEvents: 'none',
+});
+
 export const resizeBar = style({
   position: 'absolute',
   bottom: 0,
