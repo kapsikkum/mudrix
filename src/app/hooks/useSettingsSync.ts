@@ -87,8 +87,22 @@ export function useSettingsSync(client: MatrixClient | null): void {
       const next: SyncedSettings = { theme, messageLayout, language, ...syncedPreferences };
       const current = readSettingsFromClient(client);
       if (settingsEqual(next, current)) return;
+      const changed = Object.fromEntries(
+        (Object.keys(next) as (keyof SyncedSettings)[])
+          .filter((key) => next[key] !== current[key])
+          .map((key) => [key, next[key]])
+      );
+      const existing =
+        client
+          .getAccountData(
+            SETTINGS_ACCOUNT_DATA_TYPE as Parameters<MatrixClient['getAccountData']>[0]
+          )
+          ?.getContent() ?? {};
       client
-        .setAccountData(SETTINGS_ACCOUNT_DATA_TYPE as WritableAccountDataEventKey, next)
+        .setAccountData(SETTINGS_ACCOUNT_DATA_TYPE as WritableAccountDataEventKey, {
+          ...existing,
+          ...changed,
+        })
         .catch(() => {
           // Non-fatal — the local value stays applied and the next change retries
         });
