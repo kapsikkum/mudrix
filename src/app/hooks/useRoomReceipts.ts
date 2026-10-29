@@ -3,7 +3,7 @@ import { useAtomValue } from 'jotai';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import type { MatrixClient, Room, MatrixEvent } from 'matrix-js-sdk';
 import { RoomEvent, RoomStateEvent } from 'matrix-js-sdk';
-import { isTimelineRenderedEvent } from '@/app/hooks/useTimeline';
+import { isReceiptAnchorEvent } from '@/app/hooks/useTimeline';
 import { getLinkedTimelines, getLiveTimeline } from '@/util/timeline';
 
 export interface ReceiptUser {
@@ -21,12 +21,12 @@ function getEffectiveEventId(receiptEventId: string, events: MatrixEvent[]): str
   if (receiptIndex === -1) {
     return null;
   }
-  if (isTimelineRenderedEvent(events[receiptIndex])) {
+  if (isReceiptAnchorEvent(events[receiptIndex])) {
     return receiptEventId;
   }
   for (let i = receiptIndex - 1; i >= 0; i--) {
     const ev = events[i];
-    if (isTimelineRenderedEvent(ev)) {
+    if (isReceiptAnchorEvent(ev)) {
       return ev.getId() ?? null;
     }
   }

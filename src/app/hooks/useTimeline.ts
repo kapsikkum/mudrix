@@ -19,6 +19,7 @@ import {
   computeMessagePermissions,
 } from '@/app/features/timeline/message/permissions';
 import { applyRedactionToRelations } from '@/app/features/timeline/message/reactions';
+import { RECEIPTABLE_TYPES } from '@/app/pages/client/markAsRead';
 import {
   CALL_MEMBER_EVENT_TYPES,
   buildCallSessions,
@@ -58,6 +59,10 @@ const HIDDEN_EVENT_TYPES = new Set([
 const EMPTY_REDACTED = new Set<string>();
 const EMPTY_EDITS = new Map<string, string>();
 const EMPTY_CALL_SESSIONS = new Map<string, CallSessionSummary>();
+
+export function isReceiptAnchorEvent(event: MatrixEvent): boolean {
+  return MESSAGE_EVENT_TYPES.has(event.getType()) && isTimelineRenderedEvent(event);
+}
 
 export function isTimelineRenderedEvent(event: MatrixEvent): boolean {
   const type = event.getType();
@@ -369,15 +374,7 @@ function getFirstUnreadEventId(client: MatrixClient, roomId: string, myId: strin
   if (!receiptEventId) return null;
   const events = room.getLiveTimeline().getEvents();
   let foundReceipt = false;
-  const renderedTypes = new Set([
-    'm.room.message',
-    'm.sticker',
-    'm.room.encrypted',
-    'm.room.member',
-    'm.poll.start',
-    'org.matrix.msc3381.poll.start',
-    ...CALL_MEMBER_EVENT_TYPES,
-  ]);
+  const renderedTypes = new Set<string>(RECEIPTABLE_TYPES);
   for (const event of events) {
     const type = event.getType();
     if (!renderedTypes.has(type)) continue;

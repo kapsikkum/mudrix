@@ -981,7 +981,13 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           {timelineItem.dateSepLabel}
         </div>
         {showUnreadDivider && (
-          <UnreadDivider onDismiss={clearUnreadDivider} label={t('timeline.unreadMessages')} />
+          <UnreadDivider
+            onDismiss={() => {
+              clearUnreadDivider();
+              sendReadReceiptIfAtBottom();
+            }}
+            label={t('timeline.unreadMessages')}
+          />
         )}
         <DecryptionGate event={timelineItem.event}>
           {() => <Message {...messageProps} />}

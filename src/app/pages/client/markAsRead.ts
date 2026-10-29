@@ -1,7 +1,13 @@
 import { ReceiptType } from 'matrix-js-sdk';
 import type { MatrixClient, MatrixEvent, Room } from 'matrix-js-sdk';
 
-export const RECEIPTABLE_TYPES = ['m.room.message', 'm.sticker', 'm.room.encrypted'] as const;
+export const RECEIPTABLE_TYPES = [
+  'm.room.message',
+  'm.sticker',
+  'm.room.encrypted',
+  'm.poll.start',
+  'org.matrix.msc3381.poll.start',
+] as const;
 
 export function findLastReceiptableEvent(room: Room): MatrixEvent | null {
   const events = room.getLiveTimeline().getEvents();
