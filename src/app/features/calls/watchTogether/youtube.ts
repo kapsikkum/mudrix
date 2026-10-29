@@ -17,6 +17,10 @@ export interface YTPlayer {
   getDuration(): number;
   getPlayerState(): number;
   getVideoData?(): { video_id?: string; title?: string };
+  setPlaybackRate(rate: number): void;
+  getPlaybackRate(): number;
+  getLoadedFraction(): number | null;
+  supportsRate(): boolean;
   destroy(): void;
 }
 
@@ -35,6 +39,7 @@ interface PlayerOptions {
   start: number;
   onReady: () => void;
   onStateChange: (state: number) => void;
+  onRateChange?: (rate: number) => void;
   onError: (kind: 'video' | 'bridge') => void;
 }
 
@@ -52,6 +57,9 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
     state: YT_STATE.UNSTARTED as number,
     duration: 0,
     videoId: options.videoId,
+    rate: 1,
+    loaded: null as number | null,
+    reportsRate: false,
   };
   const send = (command: Record<string, unknown>) =>
     iframe.contentWindow?.postMessage({ ...command, target: SOURCE }, url.origin);
@@ -76,6 +84,14 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
       if (typeof data.state === 'number') status.state = data.state;
       if (typeof data.duration === 'number') status.duration = data.duration;
       if (typeof data.videoId === 'string') status.videoId = data.videoId;
+      if (typeof data.rate === 'number') {
+        status.rate = data.rate;
+        status.reportsRate = true;
+      }
+      if (typeof data.loaded === 'number') status.loaded = data.loaded;
+    } else if (data.type === 'rate' && typeof data.rate === 'number') {
+      status.rate = data.rate;
+      options.onRateChange?.(data.rate);
     } else if (data.type === 'state' && typeof data.state === 'number') {
       status.state = data.state;
       options.onStateChange(data.state);
@@ -107,6 +123,10 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
     getDuration: () => status.duration,
     getPlayerState: () => status.state,
     getVideoData: () => ({ video_id: status.videoId }),
+    setPlaybackRate: (rate) => send({ type: 'rate', rate }),
+    getPlaybackRate: () => status.rate,
+    getLoadedFraction: () => status.loaded,
+    supportsRate: () => status.reportsRate,
     destroy: () => {
       clearTimeout(bridgeTimeout);
       window.removeEventListener('message', onMessage);

@@ -1359,7 +1359,8 @@
       "consentBody": "Das Video wird von YouTube abgespielt. Beim Ansehen wird es von YouTubes Servern geladen. Dabei werden deine IP-Adresse, Geräte- und Browserdaten sowie das, was du ansiehst, an YouTube (Google) übertragen.",
       "beta": "Beta",
       "playerUnavailable": "Der Player konnte nicht geladen werden. Versuch es später erneut oder öffne das Video auf YouTube.",
-      "focus": "Video hervorheben"
+      "focus": "Video hervorheben",
+      "waitingFor": "Warte auf {{name}}..."
     }
   },
   "desktopPicker": {

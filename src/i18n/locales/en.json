@@ -1359,7 +1359,8 @@
       "consentBody": "The video is played by YouTube. Watching loads it from YouTube's servers, which sends your IP address, device and browser details, and what you watch to YouTube (Google).",
       "beta": "Beta",
       "playerUnavailable": "The player couldn't be loaded. Try again later or open the video on YouTube.",
-      "focus": "Focus video"
+      "focus": "Focus video",
+      "waitingFor": "Waiting for {{name}}..."
     }
   },
   "desktopPicker": {

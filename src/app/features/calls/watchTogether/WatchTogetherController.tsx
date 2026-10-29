@@ -9,6 +9,9 @@ import {
   watchActionsAtom,
   watchStateAtom,
   watchingVideoIdAtom,
+  isNewer,
+  sameClock,
+  type WatchClock,
   type WatchMessage,
   type WatchState,
 } from './watchTogether';
@@ -39,15 +42,21 @@ export function WatchTogetherController() {
       setActions(null);
       return;
     }
-    let stoppedAt = 0;
     const myId = session.matrixRoom.client.getUserId() ?? '';
+    let clock: WatchClock | null = null;
     const send = (msg: WatchMessage) => {
       void session.sendData(WATCH_TOPIC, msg).catch(() => {});
     };
-    const publish = (next: WatchState) => {
+    const broadcast = (state: WatchState) => send({ t: 'state', state, sentAt: Date.now() });
+    const apply = (next: WatchState | null) => {
       stateRef.current = next;
       setState(next);
-      send({ t: 'state', state: next, sentAt: Date.now() });
+    };
+    const nextClock = (): WatchClock => ({ version: (clock?.version ?? 0) + 1, by: myId });
+    const publish = (next: WatchState) => {
+      clock = { version: next.version, by: next.by };
+      apply(next);
+      broadcast(next);
     };
 
     const offsets = new Map<string, number[]>();
@@ -63,35 +72,60 @@ export function WatchTogetherController() {
       if (!msg) return;
       if (msg.t === 'request') {
         const current = stateRef.current;
-        if (current) send({ t: 'state', state: current, sentAt: Date.now() });
+        if (current) broadcast({ ...current, position: expectedPosition(current), at: Date.now() });
         return;
       }
       if (msg.t === 'stop') {
-        stoppedAt = Date.now();
-        stateRef.current = null;
-        setState(null);
+        if (msg.version > 0 && !isNewer(msg, clock)) return;
+        clock = msg.version > 0 ? { version: msg.version, by: msg.by } : nextClock();
+        apply(null);
         return;
       }
       const incoming = { ...msg.state, at: msg.state.at + clockOffset(from, msg.sentAt) };
-      if (incoming.at <= stoppedAt) return;
-      const current = stateRef.current;
-      if (current && incoming.at < current.at) return;
-      stateRef.current = incoming;
-      setState(incoming);
+      if (incoming.version === 0) {
+        Object.assign(incoming, nextClock(), { by: incoming.by });
+      } else if (!isNewer(incoming, clock) && !sameClock(incoming, clock)) {
+        return;
+      }
+      clock = { version: incoming.version, by: incoming.by };
+      apply(incoming);
     });
 
     setActions({
       start: (videoId) =>
-        publish({ videoId, startedBy: myId, playing: true, position: 0, at: Date.now() }),
-      update: (playing, position) => {
+        publish({
+          videoId,
+          startedBy: myId,
+          playing: true,
+          position: 0,
+          at: Date.now(),
+          rate: 1,
+          waitingFor: null,
+          ...nextClock(),
+        }),
+      update: (patch) => {
         const current = stateRef.current;
-        if (current) publish({ ...current, playing, position, at: Date.now() });
+        if (!current) return;
+        const position = patch.position ?? expectedPosition(current);
+        publish({
+          ...current,
+          ...patch,
+          position,
+          waitingFor:
+            patch.waitingFor !== undefined
+              ? patch.waitingFor
+              : patch.playing !== undefined
+                ? null
+                : current.waitingFor,
+          at: Date.now(),
+          ...nextClock(),
+        });
       },
       stop: () => {
-        stoppedAt = Date.now();
-        stateRef.current = null;
-        setState(null);
-        send({ t: 'stop', sentAt: Date.now() });
+        const next = nextClock();
+        clock = next;
+        apply(null);
+        send({ t: 'stop', sentAt: Date.now(), ...next });
       },
     });
 
@@ -103,7 +137,11 @@ export function WatchTogetherController() {
         .sort((a, b) => (a.id < b.id ? -1 : 1));
       const leader = present.find((p) => p.userId === current.startedBy) ?? present[0];
       if (!leader?.isLocal) return;
-      publish({ ...current, position: expectedPosition(current), at: Date.now() });
+      if (current.waitingFor && !present.some((p) => p.userId === current.waitingFor)) {
+        publish({ ...current, playing: true, waitingFor: null, at: Date.now(), ...nextClock() });
+        return;
+      }
+      broadcast({ ...current, position: expectedPosition(current), at: Date.now() });
     }, HEARTBEAT_MS);
 
     return () => {

@@ -10,16 +10,27 @@ export interface WatchState {
   playing: boolean;
   position: number;
   at: number;
+  rate: number;
+  version: number;
+  by: string;
+  waitingFor: string | null;
+}
+
+export interface WatchClock {
+  version: number;
+  by: string;
 }
 
 export type WatchMessage =
   | { t: 'state'; state: WatchState; sentAt: number }
-  | { t: 'stop'; sentAt: number }
+  | { t: 'stop'; sentAt: number; version: number; by: string }
   | { t: 'request' };
+
+export type WatchPatch = Partial<Pick<WatchState, 'playing' | 'position' | 'rate' | 'waitingFor'>>;
 
 export interface WatchActions {
   start: (videoId: string) => void;
-  update: (playing: boolean, position: number) => void;
+  update: (patch: WatchPatch) => void;
   stop: () => void;
 }
 
@@ -37,7 +48,16 @@ export function youtubeWatchUrl(videoId: string, seconds = 0): string {
 }
 
 export function expectedPosition(state: WatchState, now = Date.now()): number {
-  return state.playing ? state.position + (now - state.at) / 1000 : state.position;
+  return state.playing ? state.position + ((now - state.at) / 1000) * state.rate : state.position;
+}
+
+export function isNewer(a: WatchClock, b: WatchClock | null): boolean {
+  if (!b) return true;
+  return a.version > b.version || (a.version === b.version && a.by > b.by);
+}
+
+export function sameClock(a: WatchClock, b: WatchClock | null): boolean {
+  return !!b && a.version === b.version && a.by === b.by;
 }
 
 const ID_RE = /^[\w-]{11}$/;
@@ -68,7 +88,14 @@ export function parseWatchMessage(payload: unknown): WatchMessage | null {
   if (!payload || typeof payload !== 'object') return null;
   const msg = payload as Record<string, unknown>;
   if (msg.t === 'request') return { t: 'request' };
-  if (msg.t === 'stop' && typeof msg.sentAt === 'number') return { t: 'stop', sentAt: msg.sentAt };
+  if (msg.t === 'stop' && typeof msg.sentAt === 'number') {
+    return {
+      t: 'stop',
+      sentAt: msg.sentAt,
+      version: typeof msg.version === 'number' ? msg.version : 0,
+      by: typeof msg.by === 'string' ? msg.by : '',
+    };
+  }
   if (msg.t !== 'state' || typeof msg.sentAt !== 'number') return null;
   const s = msg.state as Record<string, unknown> | undefined;
   if (
@@ -92,6 +119,10 @@ export function parseWatchMessage(payload: unknown): WatchMessage | null {
       playing: s.playing,
       position: Math.max(0, s.position),
       at: s.at,
+      rate: typeof s.rate === 'number' && s.rate >= 0.25 && s.rate <= 2 ? s.rate : 1,
+      version: typeof s.version === 'number' ? s.version : 0,
+      by: typeof s.by === 'string' ? s.by : s.startedBy,
+      waitingFor: typeof s.waitingFor === 'string' ? s.waitingFor : null,
     },
   };
 }

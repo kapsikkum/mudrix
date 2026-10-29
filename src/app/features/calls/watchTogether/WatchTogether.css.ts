@@ -37,6 +37,20 @@ export const playerError = style({
   backgroundColor: 'rgba(0, 0, 0, 0.75)',
 });
 
+export const playerWaiting = style({
+  position: 'absolute',
+  left: '50%',
+  bottom: '16px',
+  transform: 'translateX(-50%)',
+  padding: '6px 12px',
+  borderRadius: '999px',
+  color: '#fff',
+  fontSize: '0.85rem',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  pointerEvents: 'none',
+  whiteSpace: 'nowrap',
+});
+
 export const playerBar = style({
   position: 'absolute',
   top: '50%',
