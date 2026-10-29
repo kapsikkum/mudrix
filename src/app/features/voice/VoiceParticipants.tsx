@@ -26,6 +26,7 @@ function ParticipantRow({
   showIcons: boolean;
   roomId?: string;
 }) {
+  const { t } = useTranslation();
   const client = getMatrixClientOrNull();
   const touchUi = useTouchUi();
   const setProfile = useSetAtom(userProfileAtom);
@@ -94,7 +95,7 @@ function ParticipantRow({
                 <VideoCameraIcon size={12} weight="fill" />
               </span>
             )}
-            {p.screensharing && <span className={css.livePill}></span>}
+            {p.screensharing && <span className={css.livePill}>{t('call.live')}</span>}
           </div>
         )}
       </div>
