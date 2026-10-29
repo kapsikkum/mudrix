@@ -3,6 +3,7 @@ import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import { ArrowBendUpLeftIcon, XIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { formatUserId } from '@/util/matrix';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { buildReplyContent } from '../message/textContent';
 import * as css from '../Composer.css';
 
@@ -15,6 +16,7 @@ interface ReplyPreviewProps {
 
 export function ReplyPreview({ replyTo, onClear, client, roomId }: ReplyPreviewProps) {
   const { t } = useTranslation();
+  const colorFor = useUsernameColor();
   const room = client.getRoom(roomId);
   const preview = buildReplyContent(replyTo);
   const senderId = preview?.senderId ?? replyTo.getSender() ?? '';
@@ -31,7 +33,9 @@ export function ReplyPreview({ replyTo, onClear, client, roomId }: ReplyPreviewP
         <Trans
           i18nKey="composer.replyingTo"
           values={{ name: displayName }}
-          components={{ name: <span className={css.replyName} /> }}
+          components={{
+            name: <span className={css.replyName} style={{ color: colorFor(senderId) }} />,
+          }}
         />
         {body && <span className={css.replySnippet}>{body.substring(0, 200)}</span>}
       </span>

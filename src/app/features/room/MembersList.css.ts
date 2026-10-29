@@ -31,7 +31,7 @@ export const memberRow = style({
 
 export const memberName = style({
   fontSize: '0.88rem',
-  color: vars.color.textMuted,
+  color: vars.color.textPrimary,
   flex: 1,
   overflow: 'hidden',
   textOverflow: 'ellipsis',

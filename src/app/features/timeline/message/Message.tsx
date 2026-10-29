@@ -107,6 +107,7 @@ import { EditMessageComposer } from './EditMessageComposer';
 import { ReplyMediaThumb, isReplyMediaEvent } from './ReplyMediaThumb';
 import { extractPollData } from './PollViewer';
 import * as css from '../Timeline.css';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
 const FLOATING_OVERLAY_SELECTOR =
   '[data-emoji-picker], [data-popover], [role="menu"], [role="listbox"], [role="dialog"]';
@@ -225,6 +226,13 @@ export const Message = memo(function Message({
   const setMentionInsert = useSetAtom(mentionInsertAtom);
   const confirmDialog = useConfirm();
   const receipts = useReadReceiptsPopover();
+
+  const colorFor = useUsernameColor();
+  const senderColor = colorFor(senderId);
+  const senderNameStyle = useMemo(
+    () => (senderColor ? { color: senderColor } : undefined),
+    [senderColor]
+  );
 
   const handleNameClick = useCallback(() => {
     setMentionInsert({ text: `@${senderName} `, displayName: senderName, userId: senderId });
@@ -605,11 +613,12 @@ export const Message = memo(function Message({
       threadLastSeen
     );
 
+    let previewSenderId = '';
     let previewSenderName = '';
     let previewSenderAvatar: string | null = null;
     let previewBody = '';
     if (lastEvent) {
-      const previewSenderId = lastEvent.getSender() ?? '';
+      previewSenderId = lastEvent.getSender() ?? '';
       const member = previewSenderId ? room?.getMember(previewSenderId) : null;
       previewSenderName = member?.name || formatUserId(previewSenderId) || t('common.unknown');
       previewSenderAvatar = member?.getMxcAvatarUrl() ?? null;
@@ -628,7 +637,15 @@ export const Message = memo(function Message({
       }
     }
 
-    return { count, hasNewReplies, lastEvent, previewSenderName, previewSenderAvatar, previewBody };
+    return {
+      count,
+      hasNewReplies,
+      lastEvent,
+      previewSenderId,
+      previewSenderName,
+      previewSenderAvatar,
+      previewBody,
+    };
   }, [
     hideThreadBadge,
     isRedacted,
@@ -1081,7 +1098,12 @@ export const Message = memo(function Message({
         <div className={isCompact ? css.compactBody : css.msgBody}>
           {!isGrouped && !isCompact ? (
             <div className={css.msgMeta}>
-              <button type="button" className={css.msgSender} onClick={handleNameClick}>
+              <button
+                type="button"
+                className={css.msgSender}
+                style={senderNameStyle}
+                onClick={handleNameClick}
+              >
                 {senderName}
               </button>
               <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
@@ -1095,7 +1117,7 @@ export const Message = memo(function Message({
               className={css.replyQuote}
               onClick={() => onJumpToEvent?.(displayReply.eventId)}
             >
-              <strong>
+              <strong style={{ color: colorFor(displayReply.senderId) }}>
                 {room?.getMember(displayReply.senderId)?.name ??
                   formatUserId(displayReply.senderId)}
                 :{' '}
@@ -1151,7 +1173,12 @@ export const Message = memo(function Message({
                   >
                     {formatTime(ts, i18n.language)}
                   </span>
-                  <button type="button" className={css.msgSender} onClick={handleNameClick}>
+                  <button
+                    type="button"
+                    className={css.msgSender}
+                    style={senderNameStyle}
+                    onClick={handleNameClick}
+                  >
                     {senderName}
                   </button>
                 </span>
@@ -1218,7 +1245,10 @@ export const Message = memo(function Message({
                       size="xs"
                       placeholder="logo"
                     />
-                    <span className={css.threadBadgeName}>
+                    <span
+                      className={css.threadBadgeName}
+                      style={{ color: colorFor(threadBadge.previewSenderId) }}
+                    >
                       <span className={css.threadBadgeNameText}>
                         {threadBadge.previewSenderName}
                       </span>

@@ -13,7 +13,7 @@ export const preview = style({
 
 export const previewSender = style({
   fontWeight: 600,
-  color: vars.color.accent,
+  color: vars.color.textPrimary,
   fontSize: '0.9rem',
 });
 

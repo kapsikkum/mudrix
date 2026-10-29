@@ -48,6 +48,7 @@ export interface Preferences {
   prettifyLinks: boolean;
   showRoomAvatars: boolean;
   showPresenceDots: boolean;
+  colorUsernames: boolean;
   autoplayGifs: boolean;
   mediaVisibility: MediaVisibility;
   reducedMotion: ReducedMotion;
@@ -78,6 +79,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   prettifyLinks: false,
   showRoomAvatars: true,
   showPresenceDots: true,
+  colorUsernames: true,
   autoplayGifs: false,
   mediaVisibility: 'always',
   reducedMotion: 'system',
@@ -111,6 +113,7 @@ export const sendReadReceiptsAtom = preferenceFieldAtom('sendReadReceipts');
 export const prettifyLinksAtom = preferenceFieldAtom('prettifyLinks');
 export const showRoomAvatarsAtom = preferenceFieldAtom('showRoomAvatars');
 export const showPresenceDotsAtom = preferenceFieldAtom('showPresenceDots');
+export const colorUsernamesAtom = preferenceFieldAtom('colorUsernames');
 export const autoplayGifsAtom = preferenceFieldAtom('autoplayGifs');
 export const mediaVisibilityAtom = preferenceFieldAtom('mediaVisibility');
 export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');

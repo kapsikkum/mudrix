@@ -54,6 +54,7 @@ import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { useMessageHover } from '@/app/features/timeline/useMessageHover';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
 import * as css from './ThreadPanel.css';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
 const INITIAL_SIZE = 50;
 const PAGE_SIZE = 50;
@@ -77,6 +78,7 @@ export function ThreadPanel({
   onBack,
 }: ThreadPanelProps) {
   const { t, i18n } = useTranslation();
+  const colorFor = useUsernameColor();
   const myId = client.getUserId() ?? '';
   const toast = useToast();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
@@ -546,7 +548,9 @@ export function ThreadPanel({
             size="sm"
             placeholder="logo"
           />
-          <span className={css.threadRootSender}>{rootSenderName}</span>
+          <span className={css.threadRootSender} style={{ color: colorFor(rootSenderId) }}>
+            {rootSenderName}
+          </span>
           <span className={css.threadRootTime}>{formatTime(rootEvent.getTs(), i18n.language)}</span>
         </div>
         <div className={css.threadRootContent}>

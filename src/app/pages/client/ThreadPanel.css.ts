@@ -133,7 +133,7 @@ export const threadRootMeta = style({
 
 export const threadRootSender = style({
   fontWeight: 600,
-  color: vars.color.accent,
+  color: vars.color.textPrimary,
   fontSize: '0.85rem',
 });
 

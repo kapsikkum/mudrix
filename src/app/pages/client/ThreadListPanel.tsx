@@ -29,6 +29,7 @@ import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import * as css from './ThreadListPanel.css';
 import * as panelCss from './SidePanel.css';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
 interface ThreadListPanelProps {
   client: MatrixClient;
@@ -58,6 +59,7 @@ export function ThreadListPanel({
   onClose,
 }: ThreadListPanelProps) {
   const { t, i18n } = useTranslation();
+  const colorFor = useUsernameColor();
   const [filter, setFilter] = useAtom(threadFilterAtom);
   const [threadLastSeen, setThreadLastSeen] = useAtom(threadLastSeenAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
@@ -332,7 +334,9 @@ export function ThreadListPanel({
                 </div>
                 <div className={css.threadItemContent}>
                   <div className={css.threadItemMeta}>
-                    <span className={css.threadItemSender}>{senderName}</span>
+                    <span className={css.threadItemSender} style={{ color: colorFor(senderId) }}>
+                      {senderName}
+                    </span>
                     <span className={css.threadItemTime}>
                       {relativeTime(lastTs, i18n.language)}
                     </span>

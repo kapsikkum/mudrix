@@ -37,9 +37,32 @@ export interface ThemeColorTokens extends ThemeLogoTokens {
     bgAccentGlow1: string;
     bgAccentGlow2: string;
   };
+  username: Record<'c1' | 'c2' | 'c3' | 'c4' | 'c5' | 'c6' | 'c7' | 'c8', string>;
   radius: { sm: string; md: string; lg: string };
   font: { body: string };
 }
+
+const DARK_USERNAME: ThemeColorTokens['username'] = {
+  c1: '#4EA8FF',
+  c2: '#D66BD1',
+  c3: '#2BD4A0',
+  c4: '#FF6B92',
+  c5: '#FF9A4D',
+  c6: '#3FD3D6',
+  c7: '#8C87FF',
+  c8: '#8FDB4A',
+};
+
+const LIGHT_USERNAME: ThemeColorTokens['username'] = {
+  c1: '#1F6FD1',
+  c2: '#A3329F',
+  c3: '#0A8F68',
+  c4: '#D23F69',
+  c5: '#C75A12',
+  c6: '#14898C',
+  c7: '#4F49E0',
+  c8: '#4A8F12',
+};
 
 export const BASE_LOGO: ThemeLogoTokens['logo'] = {
   p0: '#6A329F',
@@ -146,6 +169,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(88, 101, 242, 0.08)',
       bgAccentGlow2: 'rgba(88, 101, 242, 0.05)',
     },
+    username: DARK_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -176,6 +200,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(63, 185, 80, 0.08)',
       bgAccentGlow2: 'rgba(63, 185, 80, 0.05)',
     },
+    username: DARK_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -206,6 +231,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(255, 123, 0, 0.08)',
       bgAccentGlow2: 'rgba(255, 123, 0, 0.05)',
     },
+    username: DARK_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -236,6 +262,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(99, 102, 241, 0.08)',
       bgAccentGlow2: 'rgba(99, 102, 241, 0.04)',
     },
+    username: LIGHT_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -266,6 +293,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(88, 101, 242, 0.06)',
       bgAccentGlow2: 'rgba(88, 101, 242, 0.04)',
     },
+    username: DARK_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -296,6 +324,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(226, 61, 85, 0.08)',
       bgAccentGlow2: 'rgba(226, 61, 85, 0.05)',
     },
+    username: DARK_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },
@@ -326,6 +355,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       bgAccentGlow1: 'rgba(214, 69, 122, 0.08)',
       bgAccentGlow2: 'rgba(214, 69, 122, 0.04)',
     },
+    username: LIGHT_USERNAME,
     radius: { sm: '4px', md: '8px', lg: '18px' },
     font: { body: "'Roboto', sans-serif" },
   },

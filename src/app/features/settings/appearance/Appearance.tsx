@@ -6,6 +6,7 @@ import {
   prettifyLinksAtom,
   showRoomAvatarsAtom,
   showPresenceDotsAtom,
+  colorUsernamesAtom,
   themedAppIconAtom,
   chatFontSizeAtom,
   chatDensityAtom,
@@ -32,6 +33,7 @@ import { markdownToHtml } from '@/util/markdownToHtml';
 import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
 const THEME_NAMES: ThemeName[] = [
   'Carbon',
@@ -52,6 +54,7 @@ const mentionMarkdown = (name: string, userId: string) =>
 interface PreviewMessageProps {
   layout: MessageLayout;
   isOwn: boolean;
+  senderId: string;
   senderName: string;
   senderAvatar?: string | null;
   html: string;
@@ -61,12 +64,14 @@ interface PreviewMessageProps {
 function PreviewMessage({
   layout,
   isOwn,
+  senderId,
   senderName,
   senderAvatar,
   html,
   time,
 }: PreviewMessageProps) {
   const client = getMatrixClientOrNull();
+  const senderColor = useUsernameColor()(senderId);
   const contentClass =
     layout === 'classic'
       ? isOwn
@@ -82,7 +87,9 @@ function PreviewMessage({
             <div className={timelineCss.compactLine}>
               <span className={timelineCss.compactHeader}>
                 <span className={timelineCss.compactTime}>{time}</span>
-                <span className={css.previewSender}>{senderName}</span>
+                <span className={css.previewSender} style={{ color: senderColor }}>
+                  {senderName}
+                </span>
               </span>
               <div className={timelineCss.compactText}>
                 <span dangerouslySetInnerHTML={{ __html: html }} />
@@ -108,7 +115,9 @@ function PreviewMessage({
         </div>
         <div className={timelineCss.msgBody}>
           <div className={timelineCss.msgMeta}>
-            <span className={css.previewSender}>{senderName}</span>
+            <span className={css.previewSender} style={{ color: senderColor }}>
+              {senderName}
+            </span>
             <span className={timelineCss.msgTime}>{time}</span>
           </div>
           <div className={contentClass}>
@@ -163,6 +172,7 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
       <PreviewMessage
         layout={layout}
         isOwn={false}
+        senderId={PREVIEW_OTHER_ID}
         senderName={PREVIEW_OTHER_NAME}
         html={otherHtml}
         time={time(2)}
@@ -170,6 +180,7 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
       <PreviewMessage
         layout={layout}
         isOwn
+        senderId={myId ?? '@you:wizardchat.org'}
         senderName={myName}
         senderAvatar={me?.avatarUrl}
         html={ownHtml}
@@ -186,6 +197,7 @@ export function Appearance() {
   const [prettifyLinks, setPrettifyLinks] = useAtom(prettifyLinksAtom);
   const [showRoomAvatars, setShowRoomAvatars] = useAtom(showRoomAvatarsAtom);
   const [showPresenceDots, setShowPresenceDots] = useAtom(showPresenceDotsAtom);
+  const [colorUsernames, setColorUsernames] = useAtom(colorUsernamesAtom);
   const [themedAppIcon, setThemedAppIcon] = useAtom(themedAppIconAtom);
   const [chatFontSize, setChatFontSize] = useAtom(chatFontSizeAtom);
   const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
@@ -284,6 +296,11 @@ export function Appearance() {
           />
         </div>
 
+        <ToggleRow
+          label={t('settings.appearance.colorUsernames')}
+          checked={colorUsernames}
+          onChange={setColorUsernames}
+        />
         <ToggleRow
           label={t('settings.appearance.prettifyLinks')}
           description={t('settings.appearance.prettifyLinksNote')}

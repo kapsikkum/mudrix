@@ -26,6 +26,16 @@ export const vars = createThemeContract({
     bgAccentGlow1: null,
     bgAccentGlow2: null,
   },
+  username: {
+    c1: null,
+    c2: null,
+    c3: null,
+    c4: null,
+    c5: null,
+    c6: null,
+    c7: null,
+    c8: null,
+  },
   logo: {
     p0: null,
     p1: null,

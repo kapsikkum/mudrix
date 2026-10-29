@@ -222,7 +222,7 @@ export const msgMeta = style({
 });
 export const msgSender = style({
   fontWeight: 600,
-  color: vars.color.accent,
+  color: vars.color.textPrimary,
   fontSize: chatSize(0.9),
   cursor: 'pointer',
   border: 'none',
@@ -1783,7 +1783,7 @@ export const threadBadgeName = style({
   display: 'flex',
   flexShrink: 0,
   fontWeight: 600,
-  color: vars.color.accent,
+  color: vars.color.textPrimary,
 });
 
 export const threadBadgeNameText = style({

@@ -128,7 +128,7 @@ export const threadItemMeta = style({
 export const threadItemSender = style({
   fontSize: '0.82rem',
   fontWeight: 600,
-  color: vars.color.accent,
+  color: vars.color.textPrimary,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',

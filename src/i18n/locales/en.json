@@ -877,6 +877,7 @@
       "previewOtherMessage": "hey {{mention}}, here is a link: https://wizardchat.org",
       "previewOwnMessage": "casting a message for {{mention}}",
       "themedAppIcon": "Themed app icon",
+      "colorUsernames": "Colour usernames",
       "prettifyLinks": "Prettify links",
       "prettifyLinksNote": "Display links as clean domain names instead of full URLs.",
       "showRoomAvatars": "Show room avatars",
