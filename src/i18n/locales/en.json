@@ -1363,7 +1363,11 @@
       "waitingFor": "Waiting for {{name}}..."
     },
     "streamViewers_one": "{{count}} person watching",
-    "streamViewers_other": "{{count}} people watching"
+    "streamViewers_other": "{{count}} people watching",
+    "aloneLeaving": "Leaving the call in {{seconds}} seconds",
+    "stay": "Stay",
+    "leaveNow": "Leave now",
+    "aloneTitle": "You're the only one here"
   },
   "desktopPicker": {
     "title": "Share your screen",

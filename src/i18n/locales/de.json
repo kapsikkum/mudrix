@@ -1363,7 +1363,11 @@
       "waitingFor": "Warte auf {{name}}..."
     },
     "streamViewers_one": "{{count}} Person schaut zu",
-    "streamViewers_other": "{{count}} Personen schauen zu"
+    "streamViewers_other": "{{count}} Personen schauen zu",
+    "aloneLeaving": "Der Anruf wird in {{seconds}} Sekunden verlassen",
+    "stay": "Bleiben",
+    "leaveNow": "Jetzt verlassen",
+    "aloneTitle": "Du bist allein hier"
   },
   "desktopPicker": {
     "title": "Bildschirm teilen",

@@ -28,6 +28,7 @@ import { isDmRoom } from '@/util/matrix';
 import { loopVoiceSound, playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
 import { CALL_SLOT_DESCRIPTION } from '@/app/features/calls/useCallMemberships';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
+import { AloneNotice } from './AloneNotice';
 import { onSessionEnd } from '@/client/initMatrix';
 
 const LEAVE_CONFIRM_TIMEOUT_MS = 30_000;
@@ -382,5 +383,5 @@ export function CallController() {
     return () => window.removeEventListener('beforeunload', onUnload);
   }, []);
 
-  return null;
+  return <AloneNotice session={session} onLeave={hangup} />;
 }

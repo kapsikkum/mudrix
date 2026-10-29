@@ -85,14 +85,42 @@ export function useIncomingCall(client: MatrixClient | null) {
     if (!client) return undefined;
 
     const handleEvent = async (ev: MatrixEvent) => {
-      if (ev.getType() !== EventType.GroupCallMemberPrefix) return;
+      const ringNotification = ev.getType() === EventType.RTCNotification;
+      if (ev.getType() !== EventType.GroupCallMemberPrefix && !ringNotification) return;
+      if (ringNotification) {
+        const {
+          notification_type: kind,
+          sender_ts: sentTs,
+          lifetime,
+        } = ev.getContent<{
+          notification_type?: string;
+          sender_ts?: number;
+          lifetime?: number;
+        }>();
+        if (kind !== 'ring') return;
+        if (Date.now() - (sentTs ?? ev.getTs()) > Math.min(lifetime ?? 30_000, RING_TIMEOUT_MS)) {
+          return;
+        }
+      }
 
       const roomId = ev.getRoomId();
       const sender = ev.getSender();
       if (!roomId || !sender) return;
       if (sender === client.getUserId()) return;
 
-      if (uiRef.current.roomId === roomId || uiRef.current.incoming) return;
+      const incoming = uiRef.current.incoming as IncomingCall | null;
+      if (incoming) {
+        if (incoming.roomId !== roomId || incoming.callerId !== sender) return;
+        const ringingRoom = client.getRoom(roomId);
+        if (!ringingRoom) return;
+        const current = await MatrixRTCSession.sessionMembershipsForSlot(
+          ringingRoom,
+          CALL_SLOT_DESCRIPTION
+        );
+        if (!current.some((m) => m.userId === sender && !m.isExpired())) dismiss();
+        return;
+      }
+      if (uiRef.current.roomId === roomId) return;
 
       const room = client.getRoom(roomId);
       if (!room) return;
@@ -106,7 +134,7 @@ export function useIncomingCall(client: MatrixClient | null) {
         (m) =>
           m.userId === sender &&
           !m.isExpired() &&
-          m.createdTs() > Date.now() - RING_TIMEOUT_MS &&
+          (ringNotification || m.createdTs() > Date.now() - RING_TIMEOUT_MS) &&
           (m.callIntent === 'ring' || m.callIntent === 'video' || m.callIntent === 'audio')
       );
       if (!ringing) return;
