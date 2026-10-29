@@ -175,7 +175,7 @@ validate-and-build:
         RANGE="${PREV_TAG}..${CI_COMMIT_TAG}"
         PREV_LABEL="${PREV_TAG}"
       fi
-      COMMITS=$(git log "$RANGE" --pretty=format:"%h %s" --no-merges)
+      COMMITS=$(git log "$RANGE" --pretty=format:"%h %s" --no-merges | grep -viE '^[a-f0-9]+ chore\(release\)' || true)
       section() {
         LABEL="$1"; shift
         LINES=""
@@ -205,7 +205,7 @@ validate-and-build:
         section "Performance"        "perf(\([^)]*\))?!?:"
         section "Refactoring"        "refactor(\([^)]*\))?!?:"
         section "Documentation"      "docs(\([^)]*\))?!?:"
-        section "Chores & Internals" "chore(?!\(release\))(\([^)]*\))?!?:" "ci(\([^)]*\))?!?:" "build(\([^)]*\))?!?:" "test(\([^)]*\))?!?:" "style(\([^)]*\))?!?:"
+        section "Chores & Internals" "chore(\([^)]*\))?!?:" "ci(\([^)]*\))?!?:" "build(\([^)]*\))?!?:" "test(\([^)]*\))?!?:" "style(\([^)]*\))?!?:"
         section "Reverts"            "revert(\([^)]*\))?!?:"
         if [ -n "$OTHER" ]; then
           printf "\n### Other\n"
@@ -299,7 +299,7 @@ validate-and-build-next:
         RANGE="${PREV_TAG}..${CI_COMMIT_TAG}"
         PREV_LABEL="${PREV_TAG}"
       fi
-      COMMITS=$(git log "$RANGE" --pretty=format:"%h %s" --no-merges)
+      COMMITS=$(git log "$RANGE" --pretty=format:"%h %s" --no-merges | grep -viE '^[a-f0-9]+ chore\(release\)' || true)
       section() {
         LABEL="$1"; shift
         LINES=""
@@ -330,7 +330,7 @@ validate-and-build-next:
         section "Performance"        "perf(\([^)]*\))?!?:"
         section "Refactoring"        "refactor(\([^)]*\))?!?:"
         section "Documentation"      "docs(\([^)]*\))?!?:"
-        section "Chores & Internals" "chore(?!\(release\))(\([^)]*\))?!?:" "ci(\([^)]*\))?!?:" "build(\([^)]*\))?!?:" "test(\([^)]*\))?!?:" "style(\([^)]*\))?!?:"
+        section "Chores & Internals" "chore(\([^)]*\))?!?:" "ci(\([^)]*\))?!?:" "build(\([^)]*\))?!?:" "test(\([^)]*\))?!?:" "style(\([^)]*\))?!?:"
         section "Reverts"            "revert(\([^)]*\))?!?:"
         if [ -n "$OTHER" ]; then
           printf "\n### Other\n"
