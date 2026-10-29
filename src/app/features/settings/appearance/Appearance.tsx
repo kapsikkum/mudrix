@@ -28,7 +28,7 @@ import { Select } from '@/app/components/Select';
 import { Slider } from '@/app/components/Slider';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Tooltip } from '@/app/components/Tooltip';
-import { plainTextToHtml } from '@/util/markdownToHtml';
+import { markdownToHtml } from '@/util/markdownToHtml';
 import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
@@ -44,6 +44,10 @@ const THEME_NAMES: ThemeName[] = [
 ];
 
 const PREVIEW_OTHER_NAME = 'Merlin';
+const PREVIEW_OTHER_ID = '@merlin:wizardchat.org';
+
+const mentionMarkdown = (name: string, userId: string) =>
+  `[${name}](https://matrix.to/#/${userId})`;
 
 interface PreviewMessageProps {
   layout: MessageLayout;
@@ -124,11 +128,27 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
   const myName = me?.displayName || myId || '';
 
   const otherHtml = useMemo(
-    () => plainTextToHtml(t('settings.appearance.previewOtherMessage'), myId, true, prettifyLinks),
-    [t, myId, prettifyLinks]
+    () =>
+      markdownToHtml(
+        t('settings.appearance.previewOtherMessage', {
+          mention: mentionMarkdown(myName || 'You', myId ?? '@you:wizardchat.org'),
+        }),
+        myId,
+        true,
+        prettifyLinks
+      ),
+    [t, myId, myName, prettifyLinks]
   );
   const ownHtml = useMemo(
-    () => plainTextToHtml(t('settings.appearance.previewOwnMessage'), myId, true, prettifyLinks),
+    () =>
+      markdownToHtml(
+        t('settings.appearance.previewOwnMessage', {
+          mention: mentionMarkdown(PREVIEW_OTHER_NAME, PREVIEW_OTHER_ID),
+        }),
+        myId,
+        true,
+        prettifyLinks
+      ),
     [t, myId, prettifyLinks]
   );
 

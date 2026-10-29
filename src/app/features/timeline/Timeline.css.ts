@@ -1188,7 +1188,7 @@ globalStyle(`${editRichEditor} code`, {
   fontSize: '0.9em',
 });
 globalStyle(`${editRichEditor} a`, {
-  color: vars.color.accent,
+  color: vars.color.link,
   textDecoration: 'underline',
   cursor: 'pointer',
 });
@@ -1664,8 +1664,8 @@ globalStyle('a.prettified-link', {
   display: 'inline-grid',
   gridTemplateColumns: 'minmax(0, auto)',
   position: 'relative',
-  backgroundColor: `rgba(${vars.color.accentRgb}, 0.10)`,
-  color: vars.color.textSecondary,
+  backgroundColor: `color-mix(in srgb, ${vars.color.link} 12%, transparent)`,
+  color: vars.color.link,
   borderRadius: '4px',
   padding: '0 6px',
   fontSize: '0.85em',
@@ -1688,7 +1688,7 @@ globalStyle('a.prettified-link .full-text', {
 
 globalStyle('a.prettified-link:hover', {
   backgroundColor: 'transparent',
-  color: vars.color.accent,
+  color: vars.color.link,
   textDecoration: 'underline',
 });
 

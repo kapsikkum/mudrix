@@ -81,7 +81,7 @@ globalStyle('::selection', {
 });
 
 globalStyle('a', {
-  color: vars.color.accent,
+  color: vars.color.link,
 });
 
 globalStyle('a:hover', {

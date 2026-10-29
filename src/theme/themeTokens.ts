@@ -22,6 +22,7 @@ export interface ThemeColorTokens extends ThemeLogoTokens {
     accent: string;
     accentRgb: string;
     accentHover: string;
+    link: string;
     textPrimary: string;
     textMuted: string;
     textSecondary: string;
@@ -130,6 +131,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#5865f2',
       accentRgb: '88, 101, 242',
       accentHover: '#4752c4',
+      link: '#4EA8FF',
       textPrimary: '#e8e8f0',
       textMuted: '#8e8ea8',
       textSecondary: '#6d6e82',
@@ -159,6 +161,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#3fb950',
       accentRgb: '63, 185, 80',
       accentHover: '#56d364',
+      link: '#4EA8FF',
       textPrimary: '#e6edf3',
       textMuted: '#8b949e',
       textSecondary: '#6e7681',
@@ -188,6 +191,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#ff7b00',
       accentRgb: '255, 123, 0',
       accentHover: '#ff9d00',
+      link: '#4EA8FF',
       textPrimary: '#f2e6da',
       textMuted: '#a88a72',
       textSecondary: '#7d6455',
@@ -217,6 +221,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#6366f1',
       accentRgb: '99, 102, 241',
       accentHover: '#4f46e5',
+      link: '#1F6FD1',
       textPrimary: '#1a1a2e',
       textMuted: '#6b6b8a',
       textSecondary: '#9292b0',
@@ -246,6 +251,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#5865f2',
       accentRgb: '88, 101, 242',
       accentHover: '#4752c4',
+      link: '#4EA8FF',
       textPrimary: '#dbdee1',
       textMuted: '#949ba4',
       textSecondary: '#80848e',
@@ -275,6 +281,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#e23d55',
       accentRgb: '226, 61, 85',
       accentHover: '#f05a70',
+      link: '#4EA8FF',
       textPrimary: '#f3e4e7',
       textMuted: '#b08990',
       textSecondary: '#85636a',
@@ -304,6 +311,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
       accent: '#d6457a',
       accentRgb: '214, 69, 122',
       accentHover: '#bd3568',
+      link: '#1F6FD1',
       textPrimary: '#2d1a22',
       textMuted: '#8a6573',
       textSecondary: '#b08a98',
