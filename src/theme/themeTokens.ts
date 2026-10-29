@@ -73,6 +73,50 @@ const HALLOW_LOGO: ThemeLogoTokens['logo'] = {
   hoverGlow: '#FFB84D99',
 };
 
+const ETHEREAL_LOGO: ThemeLogoTokens['logo'] = {
+  p0: '#4F46E5',
+  p1: '#6366F1',
+  p2: '#4F46E5',
+  p3: '#6366F1',
+  p4: '#3730A3',
+  p5: '#8B8DF7',
+  hover: '#A5A7FA',
+  hoverGlow: '#A5A7FA99',
+};
+
+const PEWTER_LOGO: ThemeLogoTokens['logo'] = {
+  p0: '#6D7178',
+  p1: '#8E9297',
+  p2: '#6D7178',
+  p3: '#8E9297',
+  p4: '#4E5157',
+  p5: '#B5BAC1',
+  hover: '#CDD1D7',
+  hoverGlow: '#CDD1D799',
+};
+
+const GARNET_LOGO: ThemeLogoTokens['logo'] = {
+  p0: '#B82A42',
+  p1: '#E23D55',
+  p2: '#B82A42',
+  p3: '#E23D55',
+  p4: '#7E1A2C',
+  p5: '#F05A70',
+  hover: '#F5808F',
+  hoverGlow: '#F5808F99',
+};
+
+const BLOSSOM_LOGO: ThemeLogoTokens['logo'] = {
+  p0: '#B8325F',
+  p1: '#D6457A',
+  p2: '#B8325F',
+  p3: '#D6457A',
+  p4: '#7F1F42',
+  p5: '#E9729C',
+  hover: '#F097B6',
+  hoverGlow: '#F097B699',
+};
+
 export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
   Carbon: {
     logo: BASE_LOGO,
@@ -162,7 +206,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
     font: { body: "'Roboto', sans-serif" },
   },
   Ethereal: {
-    logo: BASE_LOGO,
+    logo: ETHEREAL_LOGO,
     color: {
       bgPrimary: '#ffffff',
       bgSecondary: '#f5f3ff',
@@ -191,7 +235,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
     font: { body: "'Roboto', sans-serif" },
   },
   Pewter: {
-    logo: BASE_LOGO,
+    logo: PEWTER_LOGO,
     color: {
       bgPrimary: '#1e1f22',
       bgSecondary: '#2b2d31',
@@ -220,7 +264,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
     font: { body: "'Roboto', sans-serif" },
   },
   Garnet: {
-    logo: BASE_LOGO,
+    logo: GARNET_LOGO,
     color: {
       bgPrimary: '#140a0c',
       bgSecondary: '#1f0f13',
@@ -249,7 +293,7 @@ export const THEME_TOKENS: Record<string, ThemeColorTokens> = {
     font: { body: "'Roboto', sans-serif" },
   },
   Blossom: {
-    logo: BASE_LOGO,
+    logo: BLOSSOM_LOGO,
     color: {
       bgPrimary: '#ffffff',
       bgSecondary: '#fff1f5',

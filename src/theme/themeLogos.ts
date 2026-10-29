@@ -12,7 +12,6 @@ const BASE_ASSETS: ThemeLogoAssets = {
   notification: '/assets/images/logo-notification.svg',
 };
 
-// Themes without their own artwork fall back to the base logo
 export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
   Carbon: BASE_ASSETS,
   Parrot: {
@@ -23,10 +22,22 @@ export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
     logo: '/assets/images/logo_hallow.svg',
     notification: '/assets/images/logo-notification_hallow.svg',
   },
-  Ethereal: BASE_ASSETS,
-  Pewter: BASE_ASSETS,
-  Garnet: BASE_ASSETS,
-  Blossom: BASE_ASSETS,
+  Ethereal: {
+    logo: '/assets/images/logo_ethereal.svg',
+    notification: '/assets/images/logo-notification_ethereal.svg',
+  },
+  Pewter: {
+    logo: '/assets/images/logo_pewter.svg',
+    notification: '/assets/images/logo-notification_pewter.svg',
+  },
+  Garnet: {
+    logo: '/assets/images/logo_garnet.svg',
+    notification: '/assets/images/logo-notification_garnet.svg',
+  },
+  Blossom: {
+    logo: '/assets/images/logo_blossom.svg',
+    notification: '/assets/images/logo-notification_blossom.svg',
+  },
 };
 
 export function hasThemedLogo(theme: ThemeName): boolean {
