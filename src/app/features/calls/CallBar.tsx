@@ -36,8 +36,9 @@ export function CallBar() {
 
   const joined = ui.phase === 'joined';
   const tileVisible = useCallTileVisible();
-  const reconnecting = useCallSnapshot()?.reconnecting ?? false;
-  const connected = joined && tileVisible && !reconnecting;
+  const snapshot = useCallSnapshot();
+  const reconnecting = snapshot?.reconnecting ?? false;
+  const connected = joined && tileVisible && !reconnecting && !snapshot?.awaitingMembership;
   const CamIcon = ui.isVideoMuted ? VideoCameraSlashIcon : VideoCameraIcon;
   const videoTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
   const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');

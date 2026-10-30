@@ -94,6 +94,7 @@ const INITIAL: CallSnapshot = {
   participants: [],
   ring: null,
   reconnecting: false,
+  awaitingMembership: false,
 };
 
 function clampVolume(volume: number, max: number): number {
@@ -255,6 +256,7 @@ export class CallSession {
         phase: 'joined',
         local: this.readLocal(),
         participants: this.readParticipants(),
+        awaitingMembership: !this.ownMembership,
       });
       this.syncRemoteConnections();
     } catch (err) {
@@ -978,7 +980,11 @@ export class CallSession {
     queueMicrotask(() => {
       this.updateQueued = false;
       if (this.snapshot.phase === 'left' || this.snapshot.phase === 'error') return;
-      this.patch({ local: this.readLocal(), participants: this.readParticipants() });
+      this.patch({
+        local: this.readLocal(),
+        participants: this.readParticipants(),
+        awaitingMembership: !this.ownMembership,
+      });
     });
   }
 
@@ -1014,7 +1020,21 @@ export class CallSession {
     const handsByMembership = this.raisedHands;
     const seen = new Set<string>();
     const result: CallParticipant[] = [];
-    for (const membership of this.rtcSession?.memberships ?? []) {
+    const entries: Pick<
+      CallMembership,
+      'rtcBackendIdentity' | 'sender' | 'userId' | 'deviceId' | 'eventId'
+    >[] = [...(this.rtcSession?.memberships ?? [])];
+    const local = this.localParticipant;
+    if (local && this.identity && !this.ownMembership) {
+      entries.push({
+        rtcBackendIdentity: local.identity,
+        sender: this.identity.userId,
+        userId: this.identity.userId,
+        deviceId: this.identity.deviceId,
+        eventId: '',
+      });
+    }
+    for (const membership of entries) {
       const id = membership.rtcBackendIdentity;
       if (seen.has(id)) continue;
       seen.add(id);
