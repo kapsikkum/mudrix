@@ -9,8 +9,7 @@ import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { uploadEncryptedFile, getImageDimensions } from '@/app/features/timeline/encryptedMedia';
 import { applyReplyMetadata } from './sendMessageContent';
 import { getErrorMessage } from '@/util/error';
-import { STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
-import { accountStorageKey } from '@/const/accountStorage';
+import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
 import * as css from './GifPicker.css';
 
 const GIPHY_API_KEY = 'TGnndTV82UWqYITMnla1ZOiPBJBesE7x';
@@ -32,44 +31,6 @@ interface GiphyGif {
     downsized?: GiphyImage;
     original: GiphyImage;
   };
-}
-
-const FAVOURITES_CAP = 50;
-
-function readFavourites(): string[] {
-  try {
-    const raw = localStorage.getItem(accountStorageKey(STORAGE_KEY_GIF_FAVOURITES));
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    const urls: string[] = [];
-    for (const entry of parsed) {
-      if (typeof entry === 'string') {
-        urls.push(entry);
-      } else if (entry && typeof entry === 'object') {
-        const images = (entry as Record<string, unknown>).images as
-          | Record<string, { url?: string }>
-          | undefined;
-        urls.push(
-          images?.downsized?.url ?? images?.original?.url ?? images?.fixed_width?.url ?? ''
-        );
-      }
-    }
-    return Array.from(new Set(urls.filter(Boolean)));
-  } catch {
-    return [];
-  }
-}
-
-function writeFavourites(favs: string[]): void {
-  try {
-    localStorage.setItem(
-      accountStorageKey(STORAGE_KEY_GIF_FAVOURITES),
-      JSON.stringify(favs.slice(0, FAVOURITES_CAP))
-    );
-  } catch {
-    // ignore
-  }
 }
 
 function getThumb(gif: GiphyGif): GiphyImage {
@@ -117,7 +78,7 @@ export function GifPicker({
   const [results, setResults] = useState<GiphyGif[]>([]);
   const [trending, setTrending] = useState<GiphyGif[]>([]);
   const [searching, setSearching] = useState(false);
-  const [favourites, setFavourites] = useState<string[]>(() => readFavourites());
+  const { favourites, toggleFavourite } = useGifFavourites(client);
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const [activeTab, setActiveTab] = useState<'trending' | 'favourites'>('trending');
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -160,10 +121,6 @@ export function GifPicker({
     }, 400);
     return () => clearTimeout(timer);
   }, [query]);
-
-  useEffect(() => {
-    writeFavourites(favourites);
-  }, [favourites]);
 
   useEffect(() => {
     if (naked) return;
@@ -230,13 +187,6 @@ export function GifPicker({
 
   const isFavourite = useCallback((url: string) => favourites.includes(url), [favourites]);
 
-  const toggleFavourite = useCallback((url: string) => {
-    setFavourites((prev) => {
-      if (prev.includes(url)) return prev.filter((u) => u !== url);
-      return [url, ...prev].slice(0, FAVOURITES_CAP);
-    });
-  }, []);
-
   const apiItem = useCallback(
     (gif: GiphyGif): GridItem => ({
       key: gif.id,
@@ -266,7 +216,7 @@ export function GifPicker({
 
   const renderItem = (item: GridItem) => {
     const fav = isFavourite(item.src);
-    const full = !fav && favourites.length >= FAVOURITES_CAP;
+    const full = !fav && favourites.length >= GIF_FAVOURITES_CAP;
     const favLabel = fav
       ? t('composer.removeFavourite')
       : full
