@@ -217,18 +217,18 @@ export const msgMeta = style({
   display: 'flex',
   alignItems: 'baseline',
   gap: '8px',
-  marginBottom: '2px',
   flexWrap: 'wrap',
 });
 export const msgSender = style({
+  font: 'inherit',
   fontWeight: 600,
+  fontSize: chatSize(0.95),
+  lineHeight: 1.15,
   color: vars.color.textPrimary,
-  fontSize: chatSize(0.9),
   cursor: 'pointer',
   border: 'none',
   background: 'none',
   padding: 0,
-  font: 'inherit',
   ':hover': { textDecoration: 'underline' },
 });
 export const msgTime = style({
@@ -255,7 +255,7 @@ export const msgContent = style({
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
   fontSize: chatSize(0.95),
-  lineHeight: '1.55',
+  lineHeight: '1.375',
   wordBreak: 'break-word',
   position: 'relative',
   display: 'inline',
@@ -684,7 +684,7 @@ export const editedMarkerHeader = style([
 export const editedMarkerGrouped = style([
   editedMarkerBase,
   {
-    lineHeight: '1.55',
+    lineHeight: '1.375',
     alignSelf: 'flex-end',
     flexShrink: 0,
     opacity: 0,
@@ -700,7 +700,7 @@ export const editedMarkerGrouped = style([
 export const editedMarkerGroupedClassic = style([
   editedMarkerBase,
   {
-    lineHeight: '1.55',
+    lineHeight: '1.375',
     alignSelf: 'flex-end',
     flexShrink: 0,
   },
@@ -1156,7 +1156,7 @@ export const editRichEditor = style({
   color: vars.color.textPrimary,
   fontFamily: 'inherit',
   fontSize: chatSize(0.95),
-  lineHeight: '1.55',
+  lineHeight: '1.375',
   padding: '4px 0',
   overflowY: 'auto',
   wordBreak: 'break-word',
@@ -1581,18 +1581,16 @@ export const codeCopyBtn = style({
 });
 
 globalStyle('.mention-pill', {
-  display: 'inline-flex',
-  alignItems: 'center',
+  display: 'inline',
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.18)`,
   color: vars.color.accent,
   borderRadius: '4px',
-  padding: '0 5px',
+  padding: '0 4px',
   fontSize: '0.92em',
   fontWeight: 600,
   whiteSpace: 'nowrap',
   cursor: 'pointer',
   userSelect: 'text',
-  lineHeight: '1.5',
 });
 
 globalStyle('.mention-pill:focus-visible', {
@@ -2039,6 +2037,8 @@ export const compactHeader = style({
   marginRight: '6px',
   whiteSpace: 'nowrap',
 });
+
+globalStyle(`${compactLine} ${compactHeader} > *`, { lineHeight: 'inherit' });
 
 export const compactTime = style({
   width: COMPACT_TIME_WIDTH,

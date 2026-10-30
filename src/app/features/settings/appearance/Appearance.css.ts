@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { chatSize } from '@/app/features/timeline/chatDisplay';
 import { fast } from '@/theme/animations.css';
 
 export const preview = style({
@@ -14,7 +15,8 @@ export const preview = style({
 export const previewSender = style({
   fontWeight: 600,
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: chatSize(0.95),
+  lineHeight: 1.15,
 });
 
 export const swatchRow = style({
