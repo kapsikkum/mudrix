@@ -287,9 +287,7 @@ function Tile({
         {!screen && participant.audioMuted && (
           <MicrophoneSlashIcon size={13} weight="fill" className={css.mutedIcon} />
         )}
-        <span className={css.labelName}>
-          {participant.isLocal && !screen ? t('call.you', { name }) : name}
-        </span>
+        <span className={css.labelName}>{name}</span>
       </span>
     </div>
   );

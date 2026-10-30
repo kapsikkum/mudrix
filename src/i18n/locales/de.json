@@ -1308,7 +1308,6 @@
   },
   "call": {
     "noSfu": "Auf diesem Homeserver ist kein Anrufserver (LiveKit) eingerichtet, daher können integrierte Anrufe keine Verbindung herstellen.",
-    "you": "{{name}} (du)",
     "handRaised": "Hand gehoben",
     "raiseHand": "Hand heben",
     "lowerHand": "Hand senken",

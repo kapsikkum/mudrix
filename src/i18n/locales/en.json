@@ -1308,7 +1308,6 @@
   },
   "call": {
     "noSfu": "This homeserver has no call server (LiveKit) configured, so built-in calls can't connect.",
-    "you": "{{name}} (you)",
     "handRaised": "Hand raised",
     "raiseHand": "Raise hand",
     "lowerHand": "Lower hand",
