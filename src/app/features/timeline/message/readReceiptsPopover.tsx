@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import type { MatrixClient } from 'matrix-js-sdk';
@@ -15,7 +15,7 @@ export function useReadReceiptsPopover() {
   const [open, setOpen] = useState(false);
 
   const openFor = useCallback((el: HTMLElement) => {
-    anchorRef.current = el;
+    anchorRef.current = el.parentElement ?? el;
     setOpen(true);
   }, []);
 
@@ -48,6 +48,10 @@ export function ReadReceiptsPopover({
   const { t, i18n } = useTranslation();
   const setProfile = useSetAtom(userProfileAtom);
 
+  useEffect(() => {
+    if (open && users.length === 0) onClose();
+  }, [open, users.length, onClose]);
+
   const handleSelect = useCallback(
     (user: ReceiptUser) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -63,7 +67,7 @@ export function ReadReceiptsPopover({
   );
 
   return (
-    <Popover open={open} onClose={onClose} anchorRef={anchorRef} role="list">
+    <Popover open={open} onClose={onClose} anchorRef={anchorRef} role="list" maxHeight={260}>
       <div className={css.receiptPopoverTitle}>
         {title ?? t('timeline.readReceipts', { count: users.length })}
       </div>
