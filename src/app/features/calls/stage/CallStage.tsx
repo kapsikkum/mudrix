@@ -5,6 +5,7 @@ import {
   ArrowsInIcon,
   ArrowsOutIcon,
   DotsThreeIcon,
+  LockKeyIcon,
   EyeIcon,
   EyeSlashIcon,
   HandIcon,
@@ -228,6 +229,17 @@ function Tile({
         <span key={participant.reaction} className={css.reaction}>
           {participant.reaction}
         </span>
+      )}
+      {participant.keyMissing && (
+        <Tooltip
+          content={t(participant.isLocal ? 'call.keyMissingSelfHint' : 'call.keyMissingHint')}
+          multiline
+        >
+          <span className={css.keyMissing} role="status">
+            <LockKeyIcon size={13} weight="bold" />
+            {t('call.keyMissing')}
+          </span>
+        </Tooltip>
       )}
       {videoHidden && (
         <Tooltip content={t('call.videoHiddenForYou')}>

@@ -1346,6 +1346,9 @@
     "streamVolume": "Stream-Lautstärke",
     "hideVideo": "Video ausblenden",
     "showVideo": "Video einblenden",
+    "keyMissing": "Warte auf Schlüssel",
+    "keyMissingHint": "Der Verschlüsselungsschlüssel dieser Person ist noch nicht angekommen, daher können Ton und Video nicht entschlüsselt werden. Meist kommt er nach ein paar Sekunden. Falls nicht, kann die Person dem Anruf erneut beitreten.",
+    "keyMissingSelfHint": "Dein Verschlüsselungsschlüssel ist noch nicht bereit, daher können andere dich nicht hören oder sehen. Tritt dem Anruf erneut bei, wenn das nicht nach ein paar Sekunden verschwindet.",
     "videoHiddenForYou": "Video für dich ausgeblendet",
     "watchTogether": {
       "menu": "YouTube-Video ansehen",

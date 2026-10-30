@@ -36,6 +36,7 @@ export interface CallParticipant {
   reaction: string | null;
   volume: number;
   locallyMuted: boolean;
+  keyMissing: boolean;
 }
 
 export type RingState = 'ringing' | 'declined' | 'unanswered';

@@ -3,6 +3,7 @@ import { type MatrixRTCSession, MatrixRTCSessionEvent } from 'matrix-js-sdk/lib/
 
 export class MatrixKeyProvider extends BaseKeyProvider {
   private rtcSession?: MatrixRTCSession;
+  onKey?: (identity: string, index: number) => void;
 
   constructor() {
     super({ ratchetWindowSize: 10, keyringSize: 256 });
@@ -28,7 +29,10 @@ export class MatrixKeyProvider extends BaseKeyProvider {
   ): void => {
     void crypto.subtle
       .importKey('raw', key, 'HKDF', false, ['deriveBits', 'deriveKey'])
-      .then((material) => this.onSetEncryptionKey(material, rtcBackendIdentity, index))
+      .then((material) => {
+        this.onSetEncryptionKey(material, rtcBackendIdentity, index);
+        this.onKey?.(rtcBackendIdentity, index);
+      })
       .catch((err) => console.error('[wizardchat-rtc] importing a media key failed', err));
   };
 }

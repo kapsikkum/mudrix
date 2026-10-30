@@ -1346,6 +1346,9 @@
     "streamVolume": "Stream volume",
     "hideVideo": "Hide video",
     "showVideo": "Show video",
+    "keyMissing": "Waiting for encryption key",
+    "keyMissingHint": "This person's encryption key hasn't arrived yet, so their audio and video can't be decrypted. It usually arrives within a few seconds. If it doesn't, they can rejoin the call.",
+    "keyMissingSelfHint": "Your encryption key isn't ready yet, so others can't hear or see you. Rejoin the call if this doesn't clear up within a few seconds.",
     "videoHiddenForYou": "Video hidden for you",
     "watchTogether": {
       "menu": "Watch YouTube video",

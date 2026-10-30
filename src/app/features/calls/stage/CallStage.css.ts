@@ -200,6 +200,27 @@ export const liveBadge = style({
   userSelect: 'none',
 });
 
+export const keyMissing = style({
+  position: 'absolute',
+  top: '8px',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '5px',
+  maxWidth: 'calc(100% - 96px)',
+  padding: '3px 9px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(0, 0, 0, 0.65)',
+  color: '#ffd166',
+  fontSize: '0.72rem',
+  fontWeight: 600,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  zIndex: 2,
+});
+
 export const badge = style({
   position: 'absolute',
   top: '8px',
