@@ -25,6 +25,7 @@ import {
 import { Toggle } from '@/app/components/Toggle';
 import type { UntypedStateEventType } from '@/types/matrix';
 import * as css from '@/app/components/Settings/Settings.css';
+import { RoomBridges } from './RoomBridges';
 import { vars } from '@/theme/vars.css';
 
 const ROOM_ENC_ALGO = 'm.megolm.v1.aes-sha2';
@@ -685,6 +686,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           </Button>
         </div>
       </div>
+
+      {room && <RoomBridges room={room} />}
 
       {can(EventType.RoomTombstone) && room && (
         <>

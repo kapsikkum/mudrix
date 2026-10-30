@@ -342,6 +342,11 @@
         "showMore_other": "+ show {{count}} more",
         "showLess": "Show less"
       },
+      "bridges": {
+        "title": "Bridges",
+        "bot": "Bridge bot",
+        "createdBy": "set up by"
+      },
       "permissions": {
         "title": "Roles & Permissions",
         "custom": "Custom",
