@@ -10,6 +10,7 @@ import {
   PlusIcon,
   ChatCircleIcon,
   LinkSimpleIcon,
+  FolderSimplePlusIcon,
 } from '@phosphor-icons/react';
 import type { TFunction } from 'i18next';
 import type { NavigateFunction } from 'react-router-dom';
@@ -51,10 +52,11 @@ export interface ViewMenuDeps {
   sendReadReceipts: boolean;
   onNewDm?: () => void;
   onCreateRoom?: () => void;
+  onCreateSection?: () => void;
 }
 
 export function buildHomeMenu(deps: ViewMenuDeps): ContextMenuItem[] {
-  const { t, client, sendReadReceipts, onCreateRoom } = deps;
+  const { t, client, sendReadReceipts, onCreateRoom, onCreateSection } = deps;
   const homeIds = getHomeRoomIds(client);
   const items: ContextMenuItem[] = [];
   items.push({
@@ -69,6 +71,13 @@ export function buildHomeMenu(deps: ViewMenuDeps): ContextMenuItem[] {
       label: t('room.create.title'),
       icon: <PlusIcon size={14} />,
       onClick: onCreateRoom,
+    });
+  }
+  if (onCreateSection) {
+    items.push({
+      label: t('room.sections.new'),
+      icon: <FolderSimplePlusIcon size={14} />,
+      onClick: onCreateSection,
     });
   }
   return items;
@@ -112,6 +121,7 @@ export interface SpaceMenuDeps {
   setPinnedSubSpacesArr: (fn: (prev: string[]) => string[]) => void;
   setSpaceSettings: (roomId: string) => void;
   markSpaceAsRead: (spaceId: string) => void;
+  onCreateSection?: () => void;
 }
 
 export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextMenuItem[] {
@@ -141,6 +151,13 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
         state: { sidebarView: 'space', currentSpaceId: space.roomId },
       }),
   });
+  if (deps.onCreateSection) {
+    items.push({
+      label: t('room.sections.new'),
+      icon: <FolderSimplePlusIcon size={14} />,
+      onClick: deps.onCreateSection,
+    });
+  }
   if (pinnedSubSpaces.has(space.roomId)) {
     items.push({
       label: t('room.space.unpinFromSidebar'),

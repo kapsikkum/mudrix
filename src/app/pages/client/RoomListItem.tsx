@@ -13,8 +13,25 @@ import {
   BellSlashIcon,
   LinkSimpleIcon,
   StarIcon,
+  FolderSimpleIcon,
+  FolderSimplePlusIcon,
+  FolderSimpleMinusIcon,
 } from '@phosphor-icons/react';
-import { roomSettingsRoomIdAtom, favouriteRoomsAtom } from '@/app/store/atoms';
+import {
+  roomSettingsRoomIdAtom,
+  favouriteRoomsAtom,
+  currentSpaceIdAtom,
+  sidebarViewAtom,
+} from '@/app/store/atoms';
+import {
+  HOME_SPACE,
+  createSection,
+  getRoomSectionTag,
+  readSections,
+  setRoomSection,
+} from '@/app/features/room/roomSections';
+import { usePrompt } from '@/app/hooks/usePrompt';
+import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { findLastReceiptableEvent, sendUnthreadedReadReceipt } from './markAsRead';
 import { sendReadReceiptsAtom, showRoomAvatarsAtom } from '@/app/store/atoms/settings';
@@ -95,7 +112,54 @@ export const RoomListItem = memo(function RoomListItem({
   const showRoomAvatars = useAtomValue(showRoomAvatarsAtom);
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const favourite = useAtomValue(favouriteRoomsAtom).has(entry.roomId);
+  const sidebarView = useAtomValue(sidebarViewAtom);
+  const currentSpaceId = useAtomValue(currentSpaceIdAtom);
+  const prompt = usePrompt();
   const client = getMatrixClientOrNull();
+
+  const sectionMenu = useCallback((): ContextMenuItem => {
+    const sections = client ? readSections(client) : [];
+    const current = client ? getRoomSectionTag(client.getRoom(entry.roomId), sections) : null;
+    const fail = (err: unknown) =>
+      toast.error(t('room.sections.failed', { error: getErrorMessage(err) }));
+    const move = (tag: string | null) => {
+      if (client) setRoomSection(client, entry.roomId, tag).catch(fail);
+    };
+    const context = sidebarView === 'space' && currentSpaceId ? currentSpaceId : HOME_SPACE;
+    return {
+      label: t('room.sections.moveTo'),
+      icon: <FolderSimpleIcon size={14} />,
+      onClick: () => {},
+      submenu: [
+        ...sections.map((sec) => ({
+          label: sec.name,
+          checked: sec.tag === current,
+          onClick: () => move(sec.tag === current ? null : sec.tag),
+        })),
+        ...(sections.length > 0 ? [{ divider: true, label: '', onClick: () => {} }] : []),
+        {
+          label: t('room.sections.new'),
+          icon: <FolderSimplePlusIcon size={14} />,
+          onClick: async () => {
+            const name = (await prompt({ title: t('room.sections.newTitle') }))?.trim();
+            if (!name || !client) return;
+            createSection(client, name, context)
+              .then((tag) => setRoomSection(client, entry.roomId, tag))
+              .catch(fail);
+          },
+        },
+        ...(current
+          ? [
+              {
+                label: t('room.sections.remove'),
+                icon: <FolderSimpleMinusIcon size={14} />,
+                onClick: () => move(null),
+              },
+            ]
+          : []),
+      ],
+    };
+  }, [client, entry.roomId, sidebarView, currentSpaceId, prompt, toast, t]);
 
   const handleClick = useCallback(() => {
     onSelect(entry.roomId);
@@ -130,6 +194,7 @@ export const RoomListItem = memo(function RoomListItem({
       if (favourite) {
         await client.deleteRoomTag(entry.roomId, FAVOURITE_ROOM_TAG);
       } else {
+        await setRoomSection(client, entry.roomId, null);
         await client.setRoomTag(entry.roomId, FAVOURITE_ROOM_TAG, {});
       }
     } catch (err) {
@@ -156,10 +221,16 @@ export const RoomListItem = memo(function RoomListItem({
           onClick: handleMarkAsRead,
         },
         {
+          divider: true,
+          label: '',
+          onClick: () => {},
+        },
+        {
           label: favourite ? t('room.removeFavourite') : t('room.addFavourite'),
           icon: <StarIcon size={14} weight={favourite ? 'fill' : 'regular'} />,
           onClick: handleToggleFavourite,
         },
+        sectionMenu(),
         {
           divider: true,
           label: '',
@@ -209,6 +280,7 @@ export const RoomListItem = memo(function RoomListItem({
       handleMarkAsRead,
       handleCopyLink,
       handleToggleFavourite,
+      sectionMenu,
       onOpenChat,
       onOpenChatOnly,
       entry.hasVoiceRoom,

@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { CaretDownIcon, DotsThreeVerticalIcon, PlusIcon } from '@phosphor-icons/react';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretDownIcon,
+  DotsThreeVerticalIcon,
+  PencilSimpleIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -65,6 +73,18 @@ import { getErrorMessage } from '@/util/error';
 import { RoomReorderProvider, SortableRoomRow, type ReorderRow } from './RoomReorder';
 import { EventType } from 'matrix-js-sdk';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
+import {
+  HOME_SPACE,
+  createSection,
+  deleteSection,
+  getRoomSectionTag,
+  moveSection,
+  renameSection,
+  useRoomSections,
+  type RoomSection,
+} from '@/app/features/room/roomSections';
+import { usePrompt } from '@/app/hooks/usePrompt';
+import { useConfirm } from '@/app/hooks/useConfirm';
 import { isVoiceRoom } from '@/util/matrix';
 import type { CallMembership } from 'matrix-js-sdk/lib/matrixrtc';
 
@@ -84,11 +104,23 @@ type HomeListItem =
       hasMention: boolean;
       showAdd: boolean;
     }
+  | SectionListItem
   | { kind: 'room'; entry: RoomEntry; compact?: boolean };
 
 type SpaceListItem =
   | { kind: 'header'; item: HierarchySpaceItem }
+  | SectionListItem
   | { kind: 'room'; item: HierarchyRoomItem; compact?: boolean };
+
+type SectionListItem = {
+  kind: 'section';
+  key: string;
+  section: RoomSection;
+  hasNotif: boolean;
+  hasMention: boolean;
+};
+
+const SECTION_ROWS = 'section';
 
 interface RoomListPanelProps {
   onVoiceJoin: (roomId: string) => void;
@@ -165,6 +197,7 @@ function HomeCategoryHeader({
   hasMention,
   showAdd,
   onAdd,
+  onMenu,
 }: {
   label: string;
   isClosed: boolean;
@@ -173,10 +206,11 @@ function HomeCategoryHeader({
   hasMention?: boolean;
   showAdd?: boolean;
   onAdd?: (e: React.MouseEvent) => void;
+  onMenu?: (e: React.MouseEvent) => void;
 }) {
   const { t } = useTranslation();
   return (
-    <div className={css.subspaceCategoryHeader} onClick={onToggle}>
+    <div className={css.subspaceCategoryHeader} onClick={onToggle} onContextMenu={onMenu}>
       <button
         type="button"
         className={css.subspaceToggle}
@@ -214,6 +248,21 @@ function HomeCategoryHeader({
           </button>
         </Tooltip>
       )}
+      {onMenu && (
+        <Tooltip content={t('room.sections.options')}>
+          <button
+            type="button"
+            aria-label={t('room.sections.options')}
+            className={css.subspaceAddButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMenu(e);
+            }}
+          >
+            <DotsThreeVerticalIcon size={14} weight="bold" />
+          </button>
+        </Tooltip>
+      )}
     </div>
   );
 }
@@ -245,6 +294,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
+  const handleNewSectionRef = useRef<() => Promise<void>>(async () => {});
   const currentSpaceEntry = useMemo(
     () => spaces.find((s) => s.roomId === currentSpaceId) ?? null,
     [spaces, currentSpaceId]
@@ -276,6 +326,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       setPinnedSubSpacesArr,
       setSpaceSettings,
       markSpaceAsRead: handleMarkSpaceAsRead,
+      onCreateSection: () => void handleNewSectionRef.current(),
     });
   }, [
     currentSpaceEntry,
@@ -290,7 +341,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   ]);
 
   const buildHomeMenuItems = useCallback(
-    () => buildHomeMenu({ t, client, sendReadReceipts, onCreateRoom }),
+    () =>
+      buildHomeMenu({
+        t,
+        client,
+        sendReadReceipts,
+        onCreateRoom,
+        onCreateSection: () => void handleNewSectionRef.current(),
+      }),
     [t, client, sendReadReceipts, onCreateRoom]
   );
 
@@ -368,6 +426,96 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
   const [tagsRevision, setTagsRevision] = useState(0);
   useMatrixEvent(client, 'Room.tags', () => setTagsRevision((n) => n + 1));
+  const sections = useRoomSections(client);
+  const prompt = usePrompt();
+  const confirmDialog = useConfirm();
+  const sectionContext = isSpaceView && currentSpaceId ? currentSpaceId : HOME_SPACE;
+
+  const sectionError = useCallback(
+    (err: unknown) => toast.error(t('room.sections.failed', { error: getErrorMessage(err) })),
+    [toast, t]
+  );
+
+  const handleNewSection = useCallback(async () => {
+    if (!client) return;
+    const name = (await prompt({ title: t('room.sections.newTitle') }))?.trim();
+    if (name) createSection(client, name, sectionContext).catch(sectionError);
+  }, [client, prompt, t, sectionContext, sectionError]);
+  handleNewSectionRef.current = handleNewSection;
+
+  const openSectionMenu = useCallback(
+    (e: React.MouseEvent, section: RoomSection) => {
+      if (!client) return;
+      openContextMenu(e, [
+        {
+          label: t('room.sections.rename'),
+          icon: <PencilSimpleIcon size={14} />,
+          onClick: async () => {
+            const name = (
+              await prompt({ title: t('room.sections.renameTitle'), defaultValue: section.name })
+            )?.trim();
+            if (name && name !== section.name) {
+              renameSection(client, section.tag, name).catch(sectionError);
+            }
+          },
+        },
+        {
+          label: t('room.sections.moveUp'),
+          icon: <ArrowUpIcon size={14} />,
+          onClick: () => moveSection(client, section.tag, -1).catch(sectionError),
+        },
+        {
+          label: t('room.sections.moveDown'),
+          icon: <ArrowDownIcon size={14} />,
+          onClick: () => moveSection(client, section.tag, 1).catch(sectionError),
+        },
+        { divider: true, label: '', onClick: () => {} },
+        {
+          label: t('room.sections.delete'),
+          icon: <TrashIcon size={14} />,
+          danger: true,
+          onClick: async () => {
+            const ok = await confirmDialog({
+              title: t('room.sections.deleteTitle', { name: section.name }),
+              message: t('room.sections.deleteMessage'),
+              confirmLabel: t('room.sections.delete'),
+              danger: true,
+            });
+            if (ok) deleteSection(client, section.tag).catch(sectionError);
+          },
+        },
+      ]);
+    },
+    [client, openContextMenu, prompt, confirmDialog, t, sectionError]
+  );
+
+  const renderSectionHeader = (item: SectionListItem) => (
+    <HomeCategoryHeader
+      label={item.section.name}
+      isClosed={closedCategories.has(item.key)}
+      onToggle={() => toggleCategory(item.key)}
+      hasNotif={item.hasNotif}
+      hasMention={item.hasMention}
+      onMenu={(e) => openSectionMenu(e, item.section)}
+    />
+  );
+
+  const groupBySection = useCallback(
+    <T,>(roomItems: T[], roomIdOf: (item: T) => string) => {
+      const bySection = new Map<string, T[]>(sections.map((sec) => [sec.tag, []]));
+      const rest: T[] = [];
+      for (const item of roomItems) {
+        const tag = client ? getRoomSectionTag(client.getRoom(roomIdOf(item)), sections) : null;
+        if (tag) bySection.get(tag)!.push(item);
+        else rest.push(item);
+      }
+      const visible = sections.filter(
+        (sec) => bySection.get(sec.tag)!.length > 0 || sec.spaceId === sectionContext
+      );
+      return { bySection, rest, visible };
+    },
+    [client, sections, sectionContext]
+  );
 
   const callRoomId = callUi.roomId;
   const keepWhenClosed = useCallback(
@@ -381,11 +529,40 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     const favSet = favouriteRooms;
 
     const favRooms: HierarchyRoomItem[] = [];
-    const rest: HierarchyItem[] = [];
+    const nonFav: HierarchyItem[] = [];
     for (const item of hierarchyItems) {
       if (item.kind === 'room' && favSet.has(item.roomId)) favRooms.push(item);
-      else rest.push(item);
+      else nonFav.push(item);
     }
+    const grouped = groupBySection(nonFav, (i) => i.roomId);
+    const sectioned = new Set([...grouped.bySection.values()].flat().map((i) => i.roomId));
+    const rest = nonFav.filter((i) => i.kind !== 'room' || !sectioned.has(i.roomId));
+
+    const sectionBlock = (above: boolean): SpaceListItem[] =>
+      grouped.visible
+        .filter((sec) => sec.aboveRooms === above)
+        .flatMap((sec) => {
+          const rooms = grouped.bySection
+            .get(sec.tag)!
+            .filter((i): i is HierarchyRoomItem => i.kind === 'room');
+          const key = `${currentSpaceId}::${sec.tag}`;
+          const closed = closedCategories.has(key);
+          const hasMention = rooms.some((r) => r.entry.hasNotif);
+          const out: SpaceListItem[] = [
+            {
+              kind: 'section',
+              key,
+              section: sec,
+              hasMention,
+              hasNotif: hasMention || rooms.some((r) => r.entry.unreadCount > 0),
+            },
+          ];
+          for (const room of rooms) {
+            if (closed && !keepWhenClosed(room.roomId)) continue;
+            out.push({ kind: 'room', item: room, compact: closed });
+          }
+          return out;
+        });
 
     const items: SpaceListItem[] = [];
     if (favRooms.length > 0 && spaceFavKey) {
@@ -415,6 +592,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         items.push({ kind: 'room', item: room, compact: favClosed });
       }
     }
+
+    items.push(...sectionBlock(true));
 
     const hasRootSection = rest.some((i) => i.kind === 'space' && i.isRoot);
     if (!hasRootSection) {
@@ -471,8 +650,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       return out;
     };
 
-    return items.concat(collect(rest));
+    return items.concat(collect(rest), sectionBlock(false));
   }, [
+    groupBySection,
     isSpaceView,
     currentSpaceId,
     client,
@@ -599,7 +779,30 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
     }
 
-    const otherEntries = homeRooms.filter((entry) => !favSet.has(entry.roomId));
+    const grouped = groupBySection(
+      homeRooms.filter((entry) => !favSet.has(entry.roomId)),
+      (e) => e.roomId
+    );
+    const otherEntries = grouped.rest;
+    const pushSections = (above: boolean) => {
+      for (const sec of grouped.visible.filter((x) => x.aboveRooms === above)) {
+        const entries = grouped.bySection.get(sec.tag)!;
+        const key = `${HOME_SPACE}::${sec.tag}`;
+        const closed = closedCategories.has(key);
+        const hasMention = entries.some((entry) => entry.hasNotif);
+        items.push({
+          kind: 'section',
+          key,
+          section: sec,
+          hasMention,
+          hasNotif: hasMention || entries.some((entry) => entry.unreadCount > 0),
+        });
+        for (const entry of entries) {
+          if (closed && !keepWhenClosed(entry.roomId)) continue;
+          items.push({ kind: 'room', entry, compact: closed });
+        }
+      }
+    };
 
     const items: HomeListItem[] = [];
     const pushSection = (itemKey: string, entries: RoomEntry[]) => {
@@ -630,9 +833,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         )
       );
     }
+    pushSections(true);
     pushSection(HOME_ROOMS_CATEGORY, otherEntries);
+    pushSections(false);
     return items;
   }, [
+    groupBySection,
     isSpaceView,
     isDmView,
     client,
@@ -651,6 +857,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.item.categoryKey;
+          continue;
+        }
+        if (it.kind === 'section') {
+          headerKey = SECTION_ROWS;
+          continue;
+        }
+        if (headerKey === SECTION_ROWS) {
+          rows.push({ roomId: it.item.roomId, section: null });
           continue;
         }
         const isFavourite = headerKey !== null && headerKey === spaceFavKey;
@@ -676,6 +890,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.itemKey;
+          continue;
+        }
+        if (it.kind === 'section') {
+          headerKey = SECTION_ROWS;
+          continue;
+        }
+        if (headerKey === SECTION_ROWS) {
+          rows.push({ roomId: it.entry.roomId, section: null });
           continue;
         }
         const closed = headerKey !== null && closedCategories.has(headerKey);
@@ -815,11 +1037,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     getScrollElement: () => roomListRef.current,
     estimateSize: (index) => {
       const item = spaceItems[index];
-      if (item.kind === 'header') return categoryHeaderHeight;
+      if (item.kind !== 'room') return categoryHeaderHeight;
       return getRoomEntryHeight(item.item.entry, item.compact);
     },
     getItemKey: (index) => {
       const item = spaceItems[index];
+      if (item.kind === 'section') return `section-${item.key}`;
       return item.kind === 'header'
         ? `header-${item.item.categoryKey}`
         : `room-${item.item.roomId}`;
@@ -833,12 +1056,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     getScrollElement: () => roomListRef.current,
     estimateSize: (index) => {
       const item = homeItems[index];
-      return item.kind === 'header'
+      return item.kind !== 'room'
         ? categoryHeaderHeight
         : getRoomEntryHeight(item.entry, item.compact);
     },
     getItemKey: (index) => {
       const item = homeItems[index];
+      if (item.kind === 'section') return `section-${item.key}`;
       return item.kind === 'header' ? `header-${item.itemKey}` : item.entry.roomId;
     },
     overscan: LIST_OVERSCAN,
@@ -1031,7 +1255,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  {item.kind === 'header' ? (
+                  {item.kind === 'section' ? (
+                    renderSectionHeader(item)
+                  ) : item.kind === 'header' ? (
                     spaceFavKey && item.item.categoryKey === spaceFavKey ? (
                       <HomeCategoryHeader
                         label={item.item.name}
@@ -1119,7 +1345,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  {item.kind === 'header' ? (
+                  {item.kind === 'section' ? (
+                    renderSectionHeader(item)
+                  ) : item.kind === 'header' ? (
                     <HomeCategoryHeader
                       label={item.label}
                       isClosed={closedCategories.has(item.itemKey)}

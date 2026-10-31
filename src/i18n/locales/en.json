@@ -463,6 +463,21 @@
     "addSubSpace": "Create Sub-space",
     "notifications": {
       "title": "Notifications"
+    },
+    "sections": {
+      "options": "Section options",
+      "new": "New section",
+      "newTitle": "New section",
+      "moveTo": "Move to section",
+      "remove": "Remove from section",
+      "rename": "Rename",
+      "renameTitle": "Rename section",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "delete": "Delete section",
+      "deleteTitle": "Delete \"{{name}}\"?",
+      "deleteMessage": "The rooms in it go back to the normal room list. This also applies in other apps that show sections, like Element.",
+      "failed": "Couldn't update sections: {{error}}"
     }
   },
   "notifLevel": {
