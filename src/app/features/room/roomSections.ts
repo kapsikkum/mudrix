@@ -136,19 +136,16 @@ export async function renameSection(
   });
 }
 
-export async function moveSection(
-  client: MatrixClient,
-  tag: string,
-  direction: -1 | 1
-): Promise<void> {
-  await writeSections(client, (data, order) => {
-    const movable = order.filter((t) => t === CHATS_TAG || t in data);
-    const from = movable.indexOf(tag);
-    const to = from + direction;
-    if (from === -1 || to < 0 || to >= movable.length) return;
-    const a = order.indexOf(movable[from]);
-    const b = order.indexOf(movable[to]);
-    [order[a], order[b]] = [order[b], order[a]];
+export const ROOMS_ANCHOR = CHATS_TAG;
+
+export async function setSectionOrder(client: MatrixClient, visible: string[]): Promise<void> {
+  await writeSections(client, (_data, order) => {
+    const moved = new Set(visible);
+    const slots = order.flatMap((t, i) => (moved.has(t) ? [i] : []));
+    if (slots.length !== visible.length) return;
+    slots.forEach((slot, i) => {
+      order[slot] = visible[i];
+    });
   });
 }
 

@@ -70,7 +70,13 @@ import {
 } from '@/app/features/room/roomOrder';
 import { canSendState } from '@/app/hooks/useCanSendState';
 import { getErrorMessage } from '@/util/error';
-import { RoomReorderProvider, SortableRoomRow, type ReorderRow } from './RoomReorder';
+import {
+  RoomReorderProvider,
+  SortableHeaderRow,
+  SortableRoomRow,
+  type ReorderRow,
+} from './RoomReorder';
+import * as reorderCss from './RoomReorder.css';
 import { EventType } from 'matrix-js-sdk';
 import { useMatrixEvent } from '@/app/hooks/useMatrixEvent';
 import {
@@ -78,12 +84,15 @@ import {
   createSection,
   deleteSection,
   getRoomSectionTag,
-  moveSection,
+  ROOMS_ANCHOR,
   renameSection,
+  setRoomSection,
+  setSectionOrder,
   useRoomSections,
   type RoomSection,
 } from '@/app/features/room/roomSections';
 import { usePrompt } from '@/app/hooks/usePrompt';
+import { FAVOURITE_ROOM_TAG } from '@/app/hooks/useBindFavouriteRooms';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { isVoiceRoom } from '@/util/matrix';
 import type { CallMembership } from 'matrix-js-sdk/lib/matrixrtc';
@@ -131,6 +140,7 @@ interface SubspaceCategoryHeaderProps {
   isClosed: boolean;
   onToggle: (categoryKey: string) => void;
   onAdd: (e: React.MouseEvent, item: HierarchySpaceItem) => void;
+  onMenu?: (e: React.MouseEvent) => void;
   client: ReturnType<typeof getMatrixClientOrNull>;
 }
 
@@ -139,12 +149,17 @@ function SubspaceCategoryHeader({
   isClosed,
   onToggle,
   onAdd,
+  onMenu,
   client,
   showAvatar,
 }: SubspaceCategoryHeaderProps & { showAvatar: boolean }) {
   const { t } = useTranslation();
   return (
-    <div className={css.subspaceCategoryHeader} onClick={() => onToggle(item.categoryKey)}>
+    <div
+      className={css.subspaceCategoryHeader}
+      onClick={() => onToggle(item.categoryKey)}
+      onContextMenu={onMenu}
+    >
       <button
         type="button"
         className={css.subspaceToggle}
@@ -185,6 +200,21 @@ function SubspaceCategoryHeader({
           <PlusIcon size={12} weight="bold" />
         </button>
       </Tooltip>
+      {onMenu && (
+        <Tooltip content={t('room.sections.options')}>
+          <button
+            type="button"
+            aria-label={t('room.sections.options')}
+            className={css.subspaceAddButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              onMenu(e);
+            }}
+          >
+            <DotsThreeVerticalIcon size={14} weight="bold" />
+          </button>
+        </Tooltip>
+      )}
     </div>
   );
 }
@@ -427,6 +457,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const [tagsRevision, setTagsRevision] = useState(0);
   useMatrixEvent(client, 'Room.tags', () => setTagsRevision((n) => n + 1));
   const sections = useRoomSections(client);
+  const [draggingSection, setDraggingSection] = useState(false);
+  const roomsHeaderId =
+    isSpaceView && currentSpaceId
+      ? `hdr:${currentSpaceId}::${currentSpaceId}`
+      : `hdr:${HOME_ROOMS_CATEGORY}`;
+  const [dropGroup, setDropGroup] = useState<string | null>(null);
+  const isCollapsed = useCallback(
+    (key: string) => draggingSection || closedCategories.has(key),
+    [draggingSection, closedCategories]
+  );
   const prompt = usePrompt();
   const confirmDialog = useConfirm();
   const sectionContext = isSpaceView && currentSpaceId ? currentSpaceId : HOME_SPACE;
@@ -442,6 +482,40 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     if (name) createSection(client, name, sectionContext).catch(sectionError);
   }, [client, prompt, t, sectionContext, sectionError]);
   handleNewSectionRef.current = handleNewSection;
+
+  const visibleAnchorsRef = useRef<string[]>([]);
+  const moveItems = useCallback(
+    (anchor: string) => {
+      const anchors = visibleAnchorsRef.current;
+      const index = anchors.indexOf(anchor);
+      const move = (direction: -1 | 1) => {
+        if (!client) return;
+        const next = [...anchors];
+        [next[index], next[index + direction]] = [next[index + direction], next[index]];
+        setSectionOrder(client, next).catch(sectionError);
+      };
+      return [
+        {
+          label: t('room.sections.moveUp'),
+          icon: <ArrowUpIcon size={14} />,
+          disabled: index <= 0,
+          onClick: () => move(-1),
+        },
+        {
+          label: t('room.sections.moveDown'),
+          icon: <ArrowDownIcon size={14} />,
+          disabled: index === -1 || index >= anchors.length - 1,
+          onClick: () => move(1),
+        },
+      ];
+    },
+    [client, t, sectionError]
+  );
+
+  const openRoomsMenu = useCallback(
+    (e: React.MouseEvent) => openContextMenu(e, moveItems(ROOMS_ANCHOR)),
+    [openContextMenu, moveItems]
+  );
 
   const openSectionMenu = useCallback(
     (e: React.MouseEvent, section: RoomSection) => {
@@ -459,16 +533,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             }
           },
         },
-        {
-          label: t('room.sections.moveUp'),
-          icon: <ArrowUpIcon size={14} />,
-          onClick: () => moveSection(client, section.tag, -1).catch(sectionError),
-        },
-        {
-          label: t('room.sections.moveDown'),
-          icon: <ArrowDownIcon size={14} />,
-          onClick: () => moveSection(client, section.tag, 1).catch(sectionError),
-        },
+        ...moveItems(section.tag),
         { divider: true, label: '', onClick: () => {} },
         {
           label: t('room.sections.delete'),
@@ -486,18 +551,32 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         },
       ]);
     },
-    [client, openContextMenu, prompt, confirmDialog, t, sectionError]
+    [client, openContextMenu, prompt, confirmDialog, t, sectionError, moveItems]
   );
 
   const renderSectionHeader = (item: SectionListItem) => (
-    <HomeCategoryHeader
-      label={item.section.name}
-      isClosed={closedCategories.has(item.key)}
-      onToggle={() => toggleCategory(item.key)}
-      hasNotif={item.hasNotif}
-      hasMention={item.hasMention}
-      onMenu={(e) => openSectionMenu(e, item.section)}
-    />
+    <SortableHeaderRow id={`sec:${item.section.tag}`} draggable>
+      <HomeCategoryHeader
+        label={item.section.name}
+        isClosed={isCollapsed(item.key)}
+        onToggle={() => toggleCategory(item.key)}
+        hasNotif={item.hasNotif}
+        hasMention={item.hasMention}
+        showAdd
+        onAdd={() =>
+          setCreateRoomOpen({
+            open: true,
+            spaceId: isSpaceView ? currentSpaceId : null,
+            spaceName:
+              isSpaceView && currentSpaceId
+                ? (client?.getRoom(currentSpaceId)?.name ?? null)
+                : null,
+            sectionTag: item.section.tag,
+          })
+        }
+        onMenu={(e) => openSectionMenu(e, item.section)}
+      />
+    </SortableHeaderRow>
   );
 
   const groupBySection = useCallback(
@@ -521,6 +600,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const keepWhenClosed = useCallback(
     (roomId: string) => roomId === currentRoomId || roomId === callRoomId,
     [currentRoomId, callRoomId]
+  );
+  const keepVisible = useCallback(
+    (roomId: string) => !draggingSection && keepWhenClosed(roomId),
+    [draggingSection, keepWhenClosed]
   );
 
   const spaceItemsBase = useMemo((): SpaceListItem[] => {
@@ -546,7 +629,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             .get(sec.tag)!
             .filter((i): i is HierarchyRoomItem => i.kind === 'room');
           const key = `${currentSpaceId}::${sec.tag}`;
-          const closed = closedCategories.has(key);
+          const closed = isCollapsed(key);
           const hasMention = rooms.some((r) => r.entry.hasNotif);
           const out: SpaceListItem[] = [
             {
@@ -558,7 +641,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             },
           ];
           for (const room of rooms) {
-            if (closed && !keepWhenClosed(room.roomId)) continue;
+            if (closed && !keepVisible(room.roomId)) continue;
             out.push({ kind: 'room', item: room, compact: closed });
           }
           return out;
@@ -566,7 +649,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
     const items: SpaceListItem[] = [];
     if (favRooms.length > 0 && spaceFavKey) {
-      const favClosed = closedCategories.has(spaceFavKey);
+      const favClosed = isCollapsed(spaceFavKey);
       const favHasMention = favRooms.some((r) => r.entry.hasNotif);
       const favHasNotif = favHasMention || favRooms.some((r) => r.entry.unreadCount > 0);
       items.push({
@@ -588,7 +671,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         (r) => client.getRoom(r.roomId),
         (r) => r.entry.name
       )) {
-        if (favClosed && !keepWhenClosed(room.roomId)) continue;
+        if (favClosed && !keepVisible(room.roomId)) continue;
         items.push({ kind: 'room', item: room, compact: favClosed });
       }
     }
@@ -615,7 +698,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
     const filterRoom = (h: HierarchyItem): boolean => {
       if (h.kind !== 'room') return true;
-      return keepWhenClosed(h.roomId);
+      return keepVisible(h.roomId);
     };
 
     const collect = (list: HierarchyItem[]): SpaceListItem[] => {
@@ -632,7 +715,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         while (remaining.length > 0 && remaining[0].depth > depth) {
           chunk.push(remaining.shift()!);
         }
-        const closed = closedCategories.has(head.categoryKey);
+        const closed = isCollapsed(head.categoryKey);
         const fullyOpen = !closed;
         if (fullyOpen || head.isRoot || chunk.length > 0) {
           out.push({ kind: 'header', item: head });
@@ -650,16 +733,20 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       return out;
     };
 
-    return items.concat(collect(rest), sectionBlock(false));
+    const collected = collect(rest);
+    const split = collected.findIndex((it) => it.kind === 'header' && !it.item.isRoot);
+    const roomsPart = split === -1 ? collected : collected.slice(0, split);
+    const subspacePart = split === -1 ? [] : collected.slice(split);
+    return items.concat(roomsPart, sectionBlock(false), subspacePart);
   }, [
     groupBySection,
+    isCollapsed,
     isSpaceView,
     currentSpaceId,
     client,
     favouriteRooms,
     hierarchyItems,
-    closedCategories,
-    keepWhenClosed,
+    keepVisible,
     spaceFavKey,
     t,
     tagsRevision,
@@ -788,7 +875,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       for (const sec of grouped.visible.filter((x) => x.aboveRooms === above)) {
         const entries = grouped.bySection.get(sec.tag)!;
         const key = `${HOME_SPACE}::${sec.tag}`;
-        const closed = closedCategories.has(key);
+        const closed = isCollapsed(key);
         const hasMention = entries.some((entry) => entry.hasNotif);
         items.push({
           kind: 'section',
@@ -798,7 +885,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           hasNotif: hasMention || entries.some((entry) => entry.unreadCount > 0),
         });
         for (const entry of entries) {
-          if (closed && !keepWhenClosed(entry.roomId)) continue;
+          if (closed && !keepVisible(entry.roomId)) continue;
           items.push({ kind: 'room', entry, compact: closed });
         }
       }
@@ -816,9 +903,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         hasMention,
         showAdd: itemKey === HOME_ROOMS_CATEGORY,
       });
-      const closed = closedCategories.has(itemKey);
+      const closed = isCollapsed(itemKey);
       for (const entry of entries) {
-        if (closed && !keepWhenClosed(entry.roomId)) continue;
+        if (closed && !keepVisible(entry.roomId)) continue;
         items.push({ kind: 'room', entry, compact: closed });
       }
     };
@@ -839,13 +926,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     return items;
   }, [
     groupBySection,
+    isCollapsed,
     isSpaceView,
     isDmView,
     client,
     favouriteRooms,
     homeRooms,
-    closedCategories,
-    keepWhenClosed,
+    keepVisible,
     t,
     tagsRevision,
   ]);
@@ -854,17 +941,34 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     (items: SpaceListItem[]): ReorderRow[] => {
       const rows: ReorderRow[] = [];
       let headerKey: string | null = null;
+      let group: string | null = null;
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.item.categoryKey;
+          group = headerKey === spaceFavKey ? 'fav' : it.item.isRoot ? 'rooms' : 'subspaces';
+          rows.push({
+            id: `hdr:${headerKey}`,
+            kind: 'header',
+            group,
+            section: null,
+            anchor: it.item.isRoot ? ROOMS_ANCHOR : undefined,
+          });
           continue;
         }
         if (it.kind === 'section') {
           headerKey = SECTION_ROWS;
+          group = `section:${it.section.tag}`;
+          rows.push({
+            id: `sec:${it.section.tag}`,
+            kind: 'header',
+            group,
+            section: null,
+            anchor: it.section.tag,
+          });
           continue;
         }
         if (headerKey === SECTION_ROWS) {
-          rows.push({ roomId: it.item.roomId, section: null });
+          rows.push({ id: it.item.roomId, kind: 'room', group, section: null });
           continue;
         }
         const isFavourite = headerKey !== null && headerKey === spaceFavKey;
@@ -874,7 +978,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           (isFavourite ||
             canSendState(client?.getRoom(it.item.parentSpaceId) ?? null, EventType.SpaceChild));
         rows.push({
-          roomId: it.item.roomId,
+          id: it.item.roomId,
+          kind: 'room',
+          group,
           section: allowed ? (isFavourite ? 'fav' : `space:${it.item.parentSpaceId}`) : null,
         });
       }
@@ -887,22 +993,41 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     (items: HomeListItem[]): ReorderRow[] => {
       const rows: ReorderRow[] = [];
       let headerKey: string | null = null;
+      let group: string | null = null;
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.itemKey;
+          group = headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'rooms';
+          rows.push({
+            id: `hdr:${headerKey}`,
+            kind: 'header',
+            group,
+            section: null,
+            anchor: headerKey === HOME_ROOMS_CATEGORY ? ROOMS_ANCHOR : undefined,
+          });
           continue;
         }
         if (it.kind === 'section') {
           headerKey = SECTION_ROWS;
+          group = `section:${it.section.tag}`;
+          rows.push({
+            id: `sec:${it.section.tag}`,
+            kind: 'header',
+            group,
+            section: null,
+            anchor: it.section.tag,
+          });
           continue;
         }
         if (headerKey === SECTION_ROWS) {
-          rows.push({ roomId: it.entry.roomId, section: null });
+          rows.push({ id: it.entry.roomId, kind: 'room', group, section: null });
           continue;
         }
         const closed = headerKey !== null && closedCategories.has(headerKey);
         rows.push({
-          roomId: it.entry.roomId,
+          id: it.entry.roomId,
+          kind: 'room',
+          group,
           section: closed ? null : headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'home',
         });
       }
@@ -915,7 +1040,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const pendingSectionIds = useCallback(
     (rows: ReorderRow[]) =>
       new Set(
-        rows.filter((r) => pendingOrder && r.section === pendingOrder.section).map((r) => r.roomId)
+        rows.filter((r) => pendingOrder && r.section === pendingOrder.section).map((r) => r.id)
       ),
     [pendingOrder]
   );
@@ -944,15 +1069,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       isSpaceView ? spaceReorderRows(spaceItems) : !isDmView ? homeReorderRows(homeItems) : [],
     [isSpaceView, isDmView, spaceItems, homeItems, spaceReorderRows, homeReorderRows]
   );
-  const reorderDisabled = useMemo(
-    () => new Set(reorderRows.filter((r) => r.section === null).map((r) => r.roomId)),
-    [reorderRows]
-  );
+  visibleAnchorsRef.current = reorderRows.reduce<string[]>((list, row) => {
+    if (row.kind !== 'header') return list;
+    if (row.anchor && !list.includes(row.anchor)) list.push(row.anchor);
+    return list;
+  }, []);
 
   useEffect(() => {
     if (!pendingOrder) return;
     const base = isSpaceView ? spaceReorderRows(spaceItemsBase) : homeReorderRows(homeItemsBase);
-    const synced = base.filter((r) => r.section === pendingOrder.section).map((r) => r.roomId);
+    const synced = base.filter((r) => r.section === pendingOrder.section).map((r) => r.id);
     if (synced.join('|') === pendingOrder.ids.join('|')) {
       setPendingOrder(null);
       return;
@@ -985,7 +1111,55 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     [client, toast, t]
   );
 
+  const handleMoveRoom = useCallback(
+    (roomId: string, group: string) => {
+      if (!client) return;
+      let save: Promise<unknown>;
+      if (group === 'fav') {
+        save = setRoomSection(client, roomId, null).then(() =>
+          client.setRoomTag(roomId, FAVOURITE_ROOM_TAG, {})
+        );
+      } else if (group === 'rooms' || group === 'subspaces') {
+        save = setRoomSection(client, roomId, null);
+      } else if (group.startsWith('section:')) {
+        save = setRoomSection(client, roomId, group.slice('section:'.length));
+      } else {
+        return;
+      }
+      save.catch(sectionError);
+    },
+    [client, sectionError]
+  );
+
+  const handleReorderSections = useCallback(
+    (anchors: string[]) => {
+      if (client) setSectionOrder(client, anchors).catch(sectionError);
+    },
+    [client, sectionError]
+  );
+
+  const renderDropBlock = (virtualizer: {
+    measurementsCache: { start: number; end: number }[];
+  }) => {
+    if (!dropGroup) return null;
+    const first = reorderRows.findIndex((r) => r.group === dropGroup);
+    const last =
+      reorderRows.length - 1 - [...reorderRows].reverse().findIndex((r) => r.group === dropGroup);
+    const top = virtualizer.measurementsCache[first]?.start;
+    const bottom = virtualizer.measurementsCache[last]?.end;
+    if (first === -1 || top === undefined || bottom === undefined) return null;
+    return <div className={reorderCss.dropBlock} style={{ top, height: bottom - top }} />;
+  };
+
   const renderReorderOverlay = (roomId: string) => {
+    if (roomId === roomsHeaderId) {
+      return <HomeCategoryHeader label={t('room.title')} isClosed={false} onToggle={noop} />;
+    }
+    if (roomId.startsWith('sec:')) {
+      const tag = roomId.slice('sec:'.length);
+      const name = sections.find((sec) => sec.tag === tag)?.name ?? '';
+      return <HomeCategoryHeader label={name} isClosed={false} onToggle={noop} />;
+    }
     const entry = isSpaceView
       ? spaceItems.find(
           (it): it is Extract<SpaceListItem, { kind: 'room' }> =>
@@ -1237,9 +1411,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         <RoomReorderProvider
           rows={reorderRows}
           onReorder={handleReorder}
+          onMoveRoom={handleMoveRoom}
+          onReorderSections={handleReorderSections}
+          onActiveChange={(id) =>
+            setDraggingSection(!!id && (id.startsWith('sec:') || id === roomsHeaderId))
+          }
+          onDropGroupChange={setDropGroup}
           renderOverlay={renderReorderOverlay}
         >
           <div style={{ height: spaceVirtualizer.getTotalSize(), position: 'relative' }}>
+            {renderDropBlock(spaceVirtualizer)}
             {spaceVirtualizer.getVirtualItems().map((virtualRow) => {
               const item = spaceItems[virtualRow.index];
               return (
@@ -1258,29 +1439,32 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                   {item.kind === 'section' ? (
                     renderSectionHeader(item)
                   ) : item.kind === 'header' ? (
-                    spaceFavKey && item.item.categoryKey === spaceFavKey ? (
-                      <HomeCategoryHeader
-                        label={item.item.name}
-                        isClosed={closedCategories.has(spaceFavKey)}
-                        onToggle={() => toggleCategory(spaceFavKey)}
-                        hasNotif={item.item.hasNotif}
-                        hasMention={item.item.hasMention}
-                      />
-                    ) : (
-                      <SubspaceCategoryHeader
-                        item={item.item}
-                        isClosed={closedCategories.has(item.item.categoryKey)}
-                        onToggle={toggleCategory}
-                        onAdd={handleSubspaceAdd}
-                        client={client}
-                        showAvatar={showRoomAvatars}
-                      />
-                    )
-                  ) : (
-                    <SortableRoomRow
-                      roomId={item.item.roomId}
-                      disabled={reorderDisabled.has(item.item.roomId)}
+                    <SortableHeaderRow
+                      id={`hdr:${item.item.categoryKey}`}
+                      draggable={item.item.isRoot}
                     >
+                      {spaceFavKey && item.item.categoryKey === spaceFavKey ? (
+                        <HomeCategoryHeader
+                          label={item.item.name}
+                          isClosed={isCollapsed(spaceFavKey)}
+                          onToggle={() => toggleCategory(spaceFavKey)}
+                          hasNotif={item.item.hasNotif}
+                          hasMention={item.item.hasMention}
+                        />
+                      ) : (
+                        <SubspaceCategoryHeader
+                          item={item.item}
+                          isClosed={isCollapsed(item.item.categoryKey)}
+                          onToggle={toggleCategory}
+                          onAdd={handleSubspaceAdd}
+                          onMenu={item.item.isRoot ? openRoomsMenu : undefined}
+                          client={client}
+                          showAvatar={showRoomAvatars}
+                        />
+                      )}
+                    </SortableHeaderRow>
+                  ) : (
+                    <SortableRoomRow roomId={item.item.roomId} disabled={false}>
                       <RoomListItem
                         entry={item.item.entry}
                         isActive={currentRoomId === item.item.roomId}
@@ -1328,9 +1512,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         <RoomReorderProvider
           rows={reorderRows}
           onReorder={handleReorder}
+          onMoveRoom={handleMoveRoom}
+          onReorderSections={handleReorderSections}
+          onActiveChange={(id) =>
+            setDraggingSection(!!id && (id.startsWith('sec:') || id === roomsHeaderId))
+          }
+          onDropGroupChange={setDropGroup}
           renderOverlay={renderReorderOverlay}
         >
           <div style={{ height: homeVirtualizer.getTotalSize(), position: 'relative' }}>
+            {renderDropBlock(homeVirtualizer)}
             {homeVirtualizer.getVirtualItems().map((virtualRow) => {
               const item = homeItems[virtualRow.index];
               return (
@@ -1348,20 +1539,23 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                   {item.kind === 'section' ? (
                     renderSectionHeader(item)
                   ) : item.kind === 'header' ? (
-                    <HomeCategoryHeader
-                      label={item.label}
-                      isClosed={closedCategories.has(item.itemKey)}
-                      onToggle={() => toggleCategory(item.itemKey)}
-                      hasNotif={item.hasNotif}
-                      hasMention={item.hasMention}
-                      showAdd={item.showAdd}
-                      onAdd={handleHomeAdd}
-                    />
-                  ) : (
-                    <SortableRoomRow
-                      roomId={item.entry.roomId}
-                      disabled={reorderDisabled.has(item.entry.roomId)}
+                    <SortableHeaderRow
+                      id={`hdr:${item.itemKey}`}
+                      draggable={item.itemKey === HOME_ROOMS_CATEGORY}
                     >
+                      <HomeCategoryHeader
+                        label={item.label}
+                        isClosed={isCollapsed(item.itemKey)}
+                        onToggle={() => toggleCategory(item.itemKey)}
+                        hasNotif={item.hasNotif}
+                        hasMention={item.hasMention}
+                        showAdd={item.showAdd}
+                        onAdd={handleHomeAdd}
+                        onMenu={item.itemKey === HOME_ROOMS_CATEGORY ? openRoomsMenu : undefined}
+                      />
+                    </SortableHeaderRow>
+                  ) : (
+                    <SortableRoomRow roomId={item.entry.roomId} disabled={false}>
                       <RoomListItem
                         entry={item.entry}
                         isActive={currentRoomId === item.entry.roomId}

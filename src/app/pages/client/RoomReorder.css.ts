@@ -6,6 +6,16 @@ export const row = style({
   height: '100%',
 });
 
+export const dropBlock = style({
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  borderRadius: vars.radius.sm,
+  border: `2px dotted ${vars.color.accent}`,
+  backgroundColor: `color-mix(in srgb, ${vars.color.accent} 14%, transparent)`,
+  pointerEvents: 'none',
+});
+
 export const insertLine = style({
   position: 'absolute',
   left: '8px',

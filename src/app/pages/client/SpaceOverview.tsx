@@ -358,7 +358,13 @@ function SpaceSectionView({
     [client, reorderSpaceId, toast, t]
   );
   const reorderRows = useMemo(
-    () => shownRooms.map((r) => ({ roomId: r.roomId, section: canReorder ? 'space' : null })),
+    () =>
+      shownRooms.map((r) => ({
+        id: r.roomId,
+        kind: 'room' as const,
+        group: null,
+        section: canReorder ? 'space' : null,
+      })),
     [shownRooms, canReorder]
   );
 

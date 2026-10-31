@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { createRoomOpenAtom, currentRoomIdAtom } from '@/app/store/atoms';
+import { setRoomSection } from './roomSections';
 import { EventType, Preset } from 'matrix-js-sdk';
 import type { ICreateRoomStateEvent } from 'matrix-js-sdk/lib/@types/requests';
 import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
@@ -191,6 +192,10 @@ export function CreateRoomModal() {
           { via: [domain], canonical: true },
           spaceId
         );
+      }
+
+      if (roomId && state.sectionTag) {
+        await setRoomSection(client, roomId, state.sectionTag).catch(() => {});
       }
 
       if (roomId) {
