@@ -12,6 +12,10 @@ export const etherealTheme = createTheme(vars, THEME_TOKENS.Ethereal);
 
 export const pewterTheme = createTheme(vars, THEME_TOKENS.Pewter);
 
+export const umbraTheme = createTheme(vars, THEME_TOKENS.Umbra);
+
+export const eclipseTheme = createTheme(vars, THEME_TOKENS.Eclipse);
+
 export const garnetTheme = createTheme(vars, THEME_TOKENS.Garnet);
 
 export const blossomTheme = createTheme(vars, THEME_TOKENS.Blossom);
@@ -24,6 +28,8 @@ export const THEMES: Record<string, string> = {
   Hallow: hallowTheme,
   Ethereal: etherealTheme,
   Pewter: pewterTheme,
+  Umbra: umbraTheme,
+  Eclipse: eclipseTheme,
   Garnet: garnetTheme,
   Blossom: blossomTheme,
 };

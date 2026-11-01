@@ -38,6 +38,8 @@ import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 const THEME_NAMES: ThemeName[] = [
   'Carbon',
   'Pewter',
+  'Umbra',
+  'Eclipse',
   'Parrot',
   'Hallow',
   'Garnet',

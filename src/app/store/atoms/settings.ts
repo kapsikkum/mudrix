@@ -18,6 +18,8 @@ export type MessageLayout = 'classic' | 'modern' | 'compact';
 export type ThemeName =
   | 'Carbon'
   | 'Pewter'
+  | 'Umbra'
+  | 'Eclipse'
   | 'Parrot'
   | 'Hallow'
   | 'Garnet'
