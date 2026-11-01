@@ -53,6 +53,7 @@ import { buildItems } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { useMessageHover } from '@/app/features/timeline/useMessageHover';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
+import { isPendingEvent } from './markAsRead';
 import * as css from './ThreadPanel.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
@@ -120,7 +121,7 @@ export function ThreadPanel({
   const markRead = useCallback(
     (event: MatrixEvent) => {
       const eventId = event.getId();
-      if (!eventId) return;
+      if (!eventId || isPendingEvent(event)) return;
       setThreadLastSeen((prev) => ({ ...prev, [rootId]: eventId }));
       const receiptType = sendReadReceipts ? ReceiptType.Read : ReceiptType.ReadPrivate;
       client.sendReadReceipt(event, receiptType).catch(() => {});

@@ -9,11 +9,16 @@ export const RECEIPTABLE_TYPES = [
   'org.matrix.msc3381.poll.start',
 ] as const;
 
+export function isPendingEvent(event: MatrixEvent): boolean {
+  return event.status !== null || !!event.getId()?.startsWith('~');
+}
+
 export function findLastReceiptableEvent(room: Room): MatrixEvent | null {
   const events = room.getLiveTimeline().getEvents();
   for (let i = events.length - 1; i >= 0; i--) {
     const event = events[i];
     if (event.isRedacted?.()) continue;
+    if (isPendingEvent(event)) continue;
     if (RECEIPTABLE_TYPES.includes(event.getType() as (typeof RECEIPTABLE_TYPES)[number])) {
       return event;
     }
