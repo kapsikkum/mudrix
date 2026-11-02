@@ -1,10 +1,8 @@
-use std::time::{SystemTime, UNIX_EPOCH};
-
 use matrix_sdk::ruma::{
     api::client::presence::get_presence::v3::Request as GetPresenceRequest,
     presence::PresenceState,
     profile::{ProfileFieldName, ProfileFieldValue},
-    Int, OwnedMxcUri,
+    Int, MilliSecondsSinceUnixEpoch, OwnedMxcUri,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -58,10 +56,7 @@ pub struct UserProfile {
 }
 
 fn now_ms() -> u64 {
-    SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|d| d.as_millis() as u64)
-        .unwrap_or_default()
+    u64::from(MilliSecondsSinceUnixEpoch::now().0)
 }
 
 /// Reads the stored status, dropping empty and expired ones
