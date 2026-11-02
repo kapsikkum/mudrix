@@ -47,35 +47,36 @@ function soundsPlugin(): Plugin {
 }
 
 const corePkg = fileURLToPath(new URL('../../crates/wasm/pkg/', import.meta.url));
-// The desktop app runs the core natively in Tauri and talks to it over IPC
-const desktop = process.env.WIZARDCHAT_TARGET === 'desktop';
-
-export default defineConfig({
-  plugins: [react(), vanillaExtractPlugin(), versionFilePlugin(), soundsPlugin()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      // The generated core API, over Tauri IPC on desktop or the wasm build (`npm run core:web`)
-      '@wizardchat/core': fileURLToPath(
-        new URL(desktop ? './src/core/rpc/desktop.ts' : './src/core/rpc/web.ts', import.meta.url)
-      ),
-      '@wizardchat/core-wasm': `${corePkg}wizardchat_core.js`,
-      // Release notes for every app, at the repo root
-      '@whatsnew': fileURLToPath(new URL('../../whatsnew', import.meta.url)),
+export default defineConfig(({ mode }) => {
+  // The desktop app runs the core natively in Tauri and talks to it over IPC
+  const desktop = mode === 'desktop';
+  return {
+    plugins: [react(), vanillaExtractPlugin(), versionFilePlugin(), soundsPlugin()],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        // The generated core API, over Tauri IPC on desktop or the wasm build (`npm run core:web`)
+        '@wizardchat/core': fileURLToPath(
+          new URL(desktop ? './src/core/rpc/desktop.ts' : './src/core/rpc/web.ts', import.meta.url)
+        ),
+        '@wizardchat/core-wasm': `${corePkg}wizardchat_core.js`,
+        // Release notes for every app, at the repo root
+        '@whatsnew': fileURLToPath(new URL('../../whatsnew', import.meta.url)),
+      },
     },
-  },
-  server: {
-    port: desktop ? 5190 : 5180,
-    strictPort: desktop,
-    fs: { allow: ['../..'] },
-  },
-  define: {
-    'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
-    'import.meta.env.DESKTOP': JSON.stringify(desktop),
-    'import.meta.env.APP_HOME_URL': JSON.stringify(
-      packageJson.homepage ?? 'https://wizardchat.org'
-    ),
-  },
-  optimizeDeps: { exclude: ['@wizardchat/core-wasm'] },
-  build: { target: 'es2022', outDir: desktop ? 'dist-desktop' : 'dist' },
+    server: {
+      port: desktop ? 5190 : 5180,
+      strictPort: desktop,
+      fs: { allow: ['../..'] },
+    },
+    define: {
+      'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
+      'import.meta.env.DESKTOP': JSON.stringify(desktop),
+      'import.meta.env.APP_HOME_URL': JSON.stringify(
+        packageJson.homepage ?? 'https://wizardchat.org'
+      ),
+    },
+    optimizeDeps: { exclude: ['@wizardchat/core-wasm'] },
+    build: { target: 'es2022', outDir: desktop ? 'dist-desktop' : 'dist' },
+  };
 });

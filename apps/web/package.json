@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "dev:desktop": "WIZARDCHAT_TARGET=desktop vite",
-    "build:desktop": "tsc --noEmit && WIZARDCHAT_TARGET=desktop vite build",
+    "dev:desktop": "vite --mode desktop",
+    "build:desktop": "tsc --noEmit && vite build --mode desktop",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "check": "tsc --noEmit"
