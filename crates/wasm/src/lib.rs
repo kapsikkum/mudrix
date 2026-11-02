@@ -1,6 +1,8 @@
 //! The core for the web app: carries `Rpc` calls and events between JS and the core.
 //! The API itself, and its TypeScript, is generated from crates/core/src/rpc.
 
+#![recursion_limit = "256"]
+
 use js_sys::{Array, Function, Uint8Array};
 use wasm_bindgen::prelude::*;
 use wizardchat_core::rpc::Rpc;
