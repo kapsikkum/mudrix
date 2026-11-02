@@ -1,0 +1,879 @@
+package org.wizardchat.android.ui.composer
+
+import android.Manifest
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.OpenableColumns
+import android.webkit.MimeTypeMap
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.content.MediaType
+import androidx.compose.foundation.content.consume
+import androidx.compose.foundation.content.contentReceiver
+import androidx.compose.foundation.content.hasMediaType
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
+import java.io.File
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.ChatEntry
+import org.wizardchat.android.matrix.Emoji
+import org.wizardchat.android.matrix.MediaMetadata
+import org.wizardchat.android.matrix.PacksStore
+import org.wizardchat.android.matrix.TimelineModel
+import org.wizardchat.android.matrix.displayName
+import org.wizardchat.android.matrix.text
+import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.MenuItem
+import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.Spinner
+import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.wizardFont
+import org.wizardchat.android.ui.tr
+import org.wizardchat.core.Member
+import org.wizardchat.core.PackImage
+import org.wizardchat.core.RoomSummary
+import org.wizardchat.tokens.WZ
+
+/** A file waiting in the composer's tray until the message is sent */
+data class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boolean, val id: Long = nextId++) {
+    private companion object {
+        var nextId = 0L
+    }
+}
+
+private sealed interface Suggestion {
+    data class MemberItem(val member: Member) : Suggestion
+    data class EmojiItem(val emoji: Emoji) : Suggestion
+    data class Custom(val image: PackImage) : Suggestion
+    data class Command(val name: String, val description: String) : Suggestion
+}
+
+/**
+ * The message bar under the timeline: draft (saved per room), mention, emoji and command
+ * suggestions, reply/edit banners, attachments, formatting, voice messages, stickers and GIFs.
+ */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ComposerView(
+    timeline: TimelineModel,
+    room: RoomSummary,
+    replyTo: ChatEntry?,
+    onReplyToChange: (ChatEntry?) -> Unit,
+    editing: ChatEntry?,
+    onEditingChange: (ChatEntry?) -> Unit,
+    onTyping: (Boolean) -> Unit,
+) {
+    val session = LocalSession.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val haptics = LocalHapticFeedback.current
+    val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+
+    val draft = rememberTextFieldState()
+    val attachments = remember { mutableStateListOf<PendingAttachment>() }
+    val packStore = remember { PacksStore() }
+    val usedEmotes = remember { HashMap<String, PackImage>() }
+    val mentions = remember { HashMap<String, String>() }
+    var members by remember { mutableStateOf(listOf<Member>()) }
+    var pickerTab by remember { mutableStateOf<MediaPickerTab?>(null) }
+    var plusMenu by remember { mutableStateOf(false) }
+    var clipboardHasImages by remember { mutableStateOf(false) }
+    var showPoll by remember { mutableStateOf(false) }
+    var showLocation by remember { mutableStateOf(false) }
+    val recorder = remember { VoiceRecorder(context.applicationContext, scope) }
+    var focused by remember { mutableStateOf(false) }
+    var preparing by remember { mutableIntStateOf(0) }
+
+    val text = draft.text.toString()
+    val trimmed = text.trim()
+    val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
+    val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
+    val hasSelection = !draft.selection.collapsed
+    val draftKey = "draft.${room.id}"
+
+    val currentEditing by rememberUpdatedState(editing)
+    val currentOnTyping by rememberUpdatedState(onTyping)
+    val currentReplyTo by rememberUpdatedState(replyTo)
+
+    fun focus(on: Boolean) {
+        if (on) runCatching { focusRequester.requestFocus() } else focusManager.clearFocus()
+    }
+
+    fun setDraft(value: String) = draft.setTextAndPlaceCursorAtEnd(value)
+
+    fun addUri(uri: Uri, keepName: Boolean) {
+        preparing += 1
+        scope.launch {
+            try {
+                val resolver = context.contentResolver
+                val mime = resolver.getType(uri)
+                val data = withContext(Dispatchers.IO) { runCatching { resolver.openInputStream(uri)?.use { it.readBytes() } }.getOrNull() }
+                    ?: return@launch
+                val isImage = mime?.startsWith("image/") == true
+                val isVideo = mime?.startsWith("video/") == true
+                val ext = mime?.let { MimeTypeMap.getSingleton().getExtensionFromMimeType(it) }
+                    ?: if (isImage) "jpg" else "bin"
+                val original = if (keepName) displayName(context, uri) else null
+                val name = original ?: "${if (isVideo) "video" else if (isImage) "image" else "file"}-${System.currentTimeMillis()}.$ext"
+                val file = MediaMetadata.temporaryCopy(data, name)
+                attachments.add(PendingAttachment(file, if (isImage) thumbnail(data) else null, isVideo))
+            } finally {
+                preparing = maxOf(preparing - 1, 0)
+            }
+        }
+    }
+
+    val photoPicker = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(10)) { uris ->
+        uris.forEach { addUri(it, keepName = false) }
+    }
+    val filePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+        uris.forEach { addUri(it, keepName = true) }
+    }
+    val micPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) recorder.start() else recorder.state = VoiceRecorder.State.denied
+    }
+
+    fun startRecording() {
+        recorder.state = VoiceRecorder.State.requesting
+        if (context.checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            recorder.start()
+        } else {
+            micPermission.launch(Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    fun pasteImages() {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = clipboard.primaryClip ?: return
+        for (index in 0 until clip.itemCount) clip.getItemAt(index).uri?.let { addUri(it, keepName = false) }
+    }
+
+    val currentToken = text.split(" ").lastOrNull()?.takeIf { it.isNotEmpty() && !it.contains("\n") }
+    val suggestions: List<Suggestion> = when {
+        text.startsWith("/") && !text.contains(" ") -> {
+            val query = text.drop(1).lowercase()
+            SlashCommand.all.filter { it.name.startsWith(query) }.map { Suggestion.Command(it.name, it.description) }
+        }
+        currentToken == null -> emptyList()
+        currentToken.startsWith("@") && currentToken.length >= 2 -> {
+            val query = currentToken.drop(1)
+            members.filter {
+                (it.displayName ?: "").contains(query, ignoreCase = true) || it.userId.contains(query, ignoreCase = true)
+            }.take(6).map { Suggestion.MemberItem(it) }
+        }
+        currentToken.startsWith(":") && currentToken.length >= 3 && !currentToken.drop(1).contains(":") -> {
+            val query = currentToken.drop(1)
+            val custom = packStore.packs.flatMap { pack -> pack.images.filter { it.emoticon && it.shortcode.contains(query, ignoreCase = true) } }
+                .take(4).map { Suggestion.Custom(it) }
+            val emoji = Emoji.all.filter { emoji -> emoji.s.any { it.startsWith(query.lowercase()) } }.take(6).map { Suggestion.EmojiItem(it) }
+            custom + emoji
+        }
+        else -> emptyList()
+    }
+
+    fun apply(suggestion: Suggestion) {
+        if (suggestion is Suggestion.Command) {
+            setDraft("/${suggestion.name} ")
+            return
+        }
+        val token = currentToken ?: return
+        val base = text.dropLast(token.length)
+        when (suggestion) {
+            is Suggestion.MemberItem -> {
+                val name = suggestion.member.displayName ?: suggestion.member.userId
+                mentions[name] = suggestion.member.userId
+                setDraft("$base$name ")
+            }
+            is Suggestion.EmojiItem -> setDraft("$base${suggestion.emoji.e} ")
+            is Suggestion.Custom -> {
+                usedEmotes[suggestion.image.shortcode] = suggestion.image
+                setDraft("$base:${suggestion.image.shortcode}: ")
+            }
+            is Suggestion.Command -> Unit
+        }
+    }
+
+    fun wrap(open: String, close: String, block: Boolean) {
+        val selection = draft.selection
+        val selected = text.substring(selection.min, selection.max)
+        var before = text.substring(0, selection.min)
+        if (block && before.isNotEmpty() && !before.endsWith("\n")) before += "\n"
+        val after = text.substring(selection.max)
+        val result = before + open + selected + close + after
+        val cursor = before.length + open.length + selected.length + if (selected.isEmpty()) 0 else close.length
+        draft.edit {
+            replace(0, length, result)
+            this.selection = TextRange(cursor)
+        }
+    }
+
+    fun prefixLines(prefix: String) {
+        val selection = draft.selection
+        val lineStart = if (selection.min == 0) 0 else text.lastIndexOf('\n', selection.min - 1) + 1
+        val lineEnd = text.indexOf('\n', selection.max).let { if (it < 0) text.length else it }
+        val replaced = text.substring(lineStart, lineEnd).split("\n").joinToString("\n") { prefix + it }
+        draft.edit {
+            replace(lineStart, lineEnd, replaced)
+            this.selection = TextRange(lineStart + replaced.length)
+        }
+    }
+
+    suspend fun send(message: String, reply: String?) {
+        val html = richHtml(message, usedEmotes, mentions)
+        usedEmotes.clear()
+        mentions.clear()
+        timeline.send(message, html = html, replyTo = reply)
+    }
+
+    suspend fun submit() {
+        val message = trimmed
+        val reply = replyTo?.eventId
+        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
+        // The keyboard stays up so you can keep typing
+
+        editing?.let { entry ->
+            onEditingChange(null)
+            setDraft("")
+            timeline.edit(entry, message)
+            return
+        }
+
+        if (attachments.isNotEmpty()) {
+            val pending = attachments.toList()
+            attachments.clear()
+            setDraft("")
+            onReplyToChange(null)
+            pending.forEachIndexed { index, attachment ->
+                timeline.sendFile(
+                    attachment.file,
+                    caption = if (index == 0 && message.isNotEmpty()) message else null,
+                    replyTo = if (index == 0) reply else null,
+                )
+            }
+            return
+        }
+
+        setDraft("")
+        onReplyToChange(null)
+        if (message.startsWith("/") && !message.startsWith("//")) {
+            val result = SlashCommand.run(message, timeline, session, reply)
+            if (result != null) {
+                if (result == SlashCommand.Result.unknown) send(message, reply)
+                return
+            }
+        }
+        send(if (message.startsWith("//")) message.drop(1) else message, reply)
+    }
+
+    fun sentSomething() {
+        onReplyToChange(null)
+        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
+        focus(false)
+    }
+
+    suspend fun sendSticker(sticker: PackImage) {
+        val reply = currentReplyTo?.eventId
+        val source = JsonObject(mapOf("url" to JsonPrimitive(sticker.url)))
+        val info = runCatching { timeline.client.media(source) }.getOrNull()?.let { data ->
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+            if (bounds.outWidth <= 0) return@let null
+            val isGif = data.startsWith(0x47, 0x49, 0x46)
+            buildJsonObject {
+                put("w", bounds.outWidth)
+                put("h", bounds.outHeight)
+                put("size", data.size)
+                put("mimetype", if (isGif) "image/gif" else if (data.startsWith(0x89, 0x50)) "image/png" else "image/webp")
+            }
+        } ?: JsonObject(emptyMap())
+        timeline.sendSticker(sticker.url, sticker.text, info, reply)
+        sentSomething()
+    }
+
+    suspend fun sendGif(gif: GiphyGif) {
+        val data = download(gif.url)
+        val mxc = data?.let { runCatching { timeline.client.uploadMedia(it, "image/gif") }.getOrNull() }
+        if (data == null || mxc == null) {
+            timeline.sendError = L10n.format("composer.gifSendFailed")
+            return
+        }
+        val info = buildJsonObject {
+            put("mimetype", "image/gif")
+            put("w", gif.width)
+            put("h", gif.height)
+            put("size", data.size)
+        }
+        timeline.sendSticker(mxc, gif.title.ifEmpty { "GIF" }, info, currentReplyTo?.eventId)
+        sentSomething()
+    }
+
+    fun insertEmoji(emoji: String, image: PackImage?) {
+        if (image != null) usedEmotes[image.shortcode] = image
+        setDraft(draft.text.toString() + emoji)
+    }
+
+    LaunchedEffect(room.id) { packStore.load(session, room.id) }
+    LaunchedEffect(room.id) { members = timeline.members() }
+    LaunchedEffect(room.id) {
+        if (draft.text.isEmpty() && currentEditing == null) composerDefaults.getString(draftKey, null)?.let { setDraft(it) }
+        snapshotFlow { draft.text.toString() }.collect { value ->
+            currentOnTyping(value.isNotEmpty())
+            if (currentEditing == null) {
+                if (value.isEmpty()) composerDefaults.edit().remove(draftKey).apply()
+                else composerDefaults.edit().putString(draftKey, value).apply()
+            }
+        }
+    }
+    LaunchedEffect(editing?.id) {
+        val kind = editing?.kind as? ChatEntry.Kind.Message ?: return@LaunchedEffect
+        setDraft(kind.body)
+        focus(true)
+    }
+    LaunchedEffect(replyTo?.id) { if (replyTo != null) focus(true) }
+    LaunchedEffect(timeline.sendError) {
+        if (timeline.sendError != null) {
+            delay(5000)
+            timeline.sendError = null
+        }
+    }
+
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
+            .padding(horizontal = WZ.Space.space4)
+            .padding(top = WZ.Space.space2, bottom = WZ.Space.space4)
+            .animateContentSize(tween(WZ.MotionDuration.slow)),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        if (suggestions.isNotEmpty()) SuggestionList(suggestions, ::apply)
+        timeline.sendError?.let { error ->
+            Text(
+                error,
+                Modifier.padding(horizontal = WZ.Space.space6).clickable { timeline.sendError = null },
+                style = wizardFont(WZ.FontSize.sm),
+                color = theme.error,
+            )
+        }
+        if (isRecording) {
+            RecordingBar(
+                recorder,
+                Modifier.floatingGlass(CircleShape, theme.bgTertiary),
+                onSend = {
+                    val result = recorder.finish()
+                    if (result != null) {
+                        val reply = replyTo?.eventId
+                        sentSomething()
+                        scope.launch { timeline.sendVoiceMessage(result.file, result.duration, result.waveform, reply) }
+                    }
+                },
+            )
+        } else {
+            Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+                if (editing == null) {
+                    Box {
+                        Bubble("plus", tr("composer.attach")) {
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            clipboardHasImages = clipboard.primaryClipDescription?.hasMimeType("image/*") == true
+                            plusMenu = true
+                        }
+                        WizardMenu(
+                            plusMenu,
+                            { plusMenu = false },
+                            buildList {
+                                add(MenuItem(tr("composer.photosVideos"), "images") {
+                                    photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+                                })
+                                add(MenuItem(tr("composer.file"), "file") { filePicker.launch(arrayOf("*/*")) })
+                                if (clipboardHasImages) add(MenuItem(tr("composer.pasteImage"), "clipboard-text") { pasteImages() })
+                                add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal", divider = true) { showPoll = true })
+                                add(MenuItem(tr("composer.location.share"), "map-pin") { showLocation = true })
+                                add(MenuItem(tr("composer.voice.record"), "microphone") { startRecording() })
+                            },
+                        )
+                    }
+                }
+                Column(Modifier.weight(1f).floatingGlass(RoundedCornerShape(WZ.Radius.xl), theme.bgTertiary)) {
+                    replyTo?.let { entry ->
+                        ContextBar("arrow-bend-up-left", L10n.format("composer.replyingToName", entry.senderName), entry.summary) {
+                            onReplyToChange(null)
+                        }
+                    }
+                    editing?.let { entry ->
+                        ContextBar("pencil-simple", tr("timeline.editing"), entry.summary) {
+                            onEditingChange(null)
+                            setDraft("")
+                        }
+                    }
+                    if (attachments.isNotEmpty() || preparing > 0) {
+                        AttachmentTray(attachments, preparing) { attachment -> attachments.removeAll { it.id == attachment.id } }
+                    }
+                    // Formatting appears only while text is selected
+                    if (focused && hasSelection) {
+                        FormatBar(
+                            Modifier.padding(horizontal = WZ.Space.space4).padding(top = WZ.Space.space2),
+                            onWrap = ::wrap,
+                            onPrefix = ::prefixLines,
+                        )
+                    }
+                    InputField(
+                        draft,
+                        placeholder = if (editing == null) L10n.format("composer.messageRoom", room.displayName) else tr("composer.editMessage"),
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .onFocusChanged { focused = it.isFocused }
+                            .contentReceiver { content ->
+                                if (content.hasMediaType(MediaType.Text) && !content.hasMediaType(MediaType.Image)) return@contentReceiver content
+                                content.consume { item ->
+                                    val uri = item.uri ?: return@consume false
+                                    addUri(uri, keepName = false)
+                                    true
+                                }
+                            },
+                    )
+                }
+                AnimatedContent(
+                    canSend || editing != null,
+                    transitionSpec = { (scaleIn() + fadeIn()) togetherWith (scaleOut() + fadeOut()) },
+                    label = "send",
+                ) { showSend ->
+                    if (showSend) {
+                        val label = if (editing == null) tr("composer.send") else tr("composer.saveEdit")
+                        Box(
+                            Modifier
+                                .size(WZ.Space.space10)
+                                .alpha(if (canSend) 1f else 0.5f)
+                                .clip(CircleShape)
+                                .background(theme.accent)
+                                .clickable(enabled = canSend) { scope.launch { submit() } }
+                                .semantics { contentDescription = label },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            if (editing == null) {
+                                PhIcon("paper-plane-right", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textOnAccent)
+                            } else {
+                                PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.md, tint = theme.textOnAccent)
+                            }
+                        }
+                    } else {
+                        Bubble("sticker", tr("room.settings.widgets.stickers"), iconSize = WZ.Space.space7) {
+                            pickerTab = MediaPickerTab.stickers
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    pickerTab?.let { tab ->
+        MediaPicker(
+            tab = tab,
+            store = packStore,
+            onEmoji = ::insertEmoji,
+            onSticker = { sticker -> scope.launch { sendSticker(sticker) } },
+            onGif = { gif -> sendGif(gif) },
+            onDismiss = { pickerTab = null },
+        )
+    }
+    if (showPoll) {
+        PollCreatorSheet(
+            onSend = { question, answers, disclosed -> timeline.createPoll(question, answers, disclosed) },
+            onDismiss = { showPoll = false },
+        )
+    }
+    if (showLocation) {
+        LocationShareSheet(
+            onSend = { lat, lon, note ->
+                timeline.sendLocation(lat, lon, note, currentReplyTo?.eventId)
+                onReplyToChange(null)
+            },
+            onDismiss = { showLocation = false },
+        )
+    }
+}
+
+/** HTML only when the message has custom emoji or mentions; otherwise Markdown is used */
+internal fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Map<String, String>): String? {
+    val usedEmotes = emotes.filter { text.contains(":${it.key}:") }
+    val usedMentions = mentions.filter { text.contains(it.key) }
+    if (usedEmotes.isEmpty() && usedMentions.isEmpty()) return null
+    var html = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    for ((name, userId) in usedMentions) {
+        html = html.replace(name, "<a href=\"https://matrix.to/#/$userId\">$name</a>")
+    }
+    for ((code, image) in usedEmotes) {
+        html = html.replace(
+            ":$code:",
+            "<img data-mx-emoticon height=\"32\" src=\"${image.url}\" alt=\":$code:\" title=\":$code:\">",
+        )
+    }
+    return html.replace("\n", "<br>")
+}
+
+private fun ByteArray.startsWith(vararg bytes: Int) = size >= bytes.size && bytes.indices.all { this[it] == bytes[it].toByte() }
+
+private fun displayName(context: Context, uri: Uri): String? = runCatching {
+    context.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+        if (cursor.moveToFirst()) cursor.getString(0) else null
+    }
+}.getOrNull()?.takeIf { it.isNotBlank() }
+
+/** A small preview of an image for the attachment tray */
+private suspend fun thumbnail(data: ByteArray): Bitmap? = withContext(Dispatchers.Default) {
+    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+    var sample = 1
+    while (maxOf(bounds.outWidth, bounds.outHeight) / (sample * 2) >= 320) sample *= 2
+    BitmapFactory.decodeByteArray(data, 0, data.size, BitmapFactory.Options().apply { inSampleSize = sample })
+}
+
+@Composable
+private fun Bubble(icon: String, label: String, iconSize: Dp = WZ.SizeIcon.md, onClick: () -> Unit) {
+    Box(
+        Modifier
+            .size(WZ.Space.space10)
+            .floatingGlass(CircleShape, theme.bgTertiary)
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = label },
+        contentAlignment = Alignment.Center,
+    ) {
+        PhIcon(icon, size = iconSize, tint = theme.textPrimary)
+    }
+}
+
+@Composable
+private fun InputField(state: TextFieldState, placeholder: String, modifier: Modifier = Modifier) {
+    BasicTextField(
+        state,
+        modifier
+            .fillMaxWidth()
+            .heightIn(min = WZ.Space.space10)
+            .padding(vertical = WZ.Space.space5, horizontal = WZ.Space.space6),
+        textStyle = wizardFont(WZ.FontSize.lg).copy(color = theme.textPrimary),
+        lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 6),
+        cursorBrush = SolidColor(theme.accent),
+        decorator = { inner ->
+            Box {
+                if (state.text.isEmpty()) {
+                    Text(placeholder, style = wizardFont(WZ.FontSize.lg), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+                inner()
+            }
+        },
+    )
+}
+
+@Composable
+private fun FormatBar(modifier: Modifier, onWrap: (String, String, Boolean) -> Unit, onPrefix: (String) -> Unit) {
+    Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
+        FormatButton("text-b", tr("composer.formatting.bold")) { onWrap("**", "**", false) }
+        FormatButton("text-italic", tr("composer.formatting.italic")) { onWrap("_", "_", false) }
+        FormatButton("text-strikethrough", tr("composer.formatting.strikethrough")) { onWrap("~~", "~~", false) }
+        FormatButton("code", tr("composer.code")) { onWrap("`", "`", false) }
+        FormatButton("brackets-curly", tr("composer.codeBlock")) { onWrap("```\n", "\n```", true) }
+        FormatButton("quotes", tr("composer.formatting.quote")) { onPrefix("> ") }
+        FormatButton("list-bullets", tr("composer.list")) { onPrefix("- ") }
+        FormatButton("link", tr("composer.link")) { onWrap("[", "](https://)", false) }
+    }
+}
+
+@Composable
+private fun FormatButton(icon: String, label: String, onClick: () -> Unit) {
+    Box(
+        Modifier
+            .size(WZ.Space.space10, WZ.Space.space9)
+            .clip(RoundedCornerShape(WZ.Radius.md))
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = label },
+        contentAlignment = Alignment.Center,
+    ) {
+        PhIcon(icon, size = WZ.SizeIcon.sm, tint = theme.textPrimary)
+    }
+}
+
+@Composable
+private fun ContextBar(icon: String, title: String, text: String, onClose: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = WZ.Space.space5)
+            .padding(top = WZ.Space.space4, bottom = WZ.Space.space1),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+    ) {
+        PhIcon(icon, tint = theme.accent)
+        Column(Modifier.weight(1f)) {
+            Text(title, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+        Box(Modifier.clip(CircleShape).clickable(onClick = onClose)) {
+            PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textMuted, contentDescription = tr("common.cancel"))
+        }
+    }
+}
+
+@Composable
+private fun AttachmentTray(attachments: List<PendingAttachment>, preparing: Int, onRemove: (PendingAttachment) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .padding(horizontal = WZ.Space.space5)
+            .padding(top = WZ.Space.space5),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+    ) {
+        attachments.forEach { attachment ->
+            Box {
+                Box(
+                    Modifier.size(WZ.SizeAvatar.xl).clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    val thumb = attachment.thumbnail
+                    if (thumb != null) {
+                        Image(thumb.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    } else {
+                        Column(
+                            Modifier.padding(WZ.Space.space3),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                        ) {
+                            if (attachment.isVideo) {
+                                PhIcon("video-camera", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textMuted)
+                            } else {
+                                PhIcon("file", size = WZ.SizeIcon.md, tint = theme.textMuted)
+                            }
+                            Text(attachment.file.name, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        }
+                    }
+                }
+                Box(
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .offset(x = WZ.Space.space3, y = -WZ.Space.space3)
+                        .clip(CircleShape)
+                        .background(theme.overlay)
+                        .clickable { onRemove(attachment) },
+                ) {
+                    PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent, contentDescription = tr("common.remove"))
+                }
+            }
+        }
+        repeat(preparing) {
+            val label = tr("composer.preparing")
+            Box(
+                Modifier
+                    .size(WZ.SizeAvatar.xl)
+                    .clip(RoundedCornerShape(WZ.Radius.lg))
+                    .background(theme.fill)
+                    .semantics { contentDescription = label },
+                contentAlignment = Alignment.Center,
+            ) {
+                Spinner(color = theme.textMuted)
+            }
+        }
+    }
+}
+
+@Composable
+private fun SuggestionList(suggestions: List<Suggestion>, onPick: (Suggestion) -> Unit) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .floatingGlass(RoundedCornerShape(WZ.Radius.xl), theme.bgTertiary)
+            .padding(vertical = WZ.Space.space2),
+    ) {
+        suggestions.forEach { suggestion ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = WZ.Space.space10)
+                    .clickable { onPick(suggestion) }
+                    .padding(horizontal = WZ.Space.space5),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+            ) {
+                when (suggestion) {
+                    is Suggestion.MemberItem -> {
+                        val member = suggestion.member
+                        Avatar(member.displayName ?: member.userId, member.avatarUrl, WZ.SizeAvatar.sm)
+                        Text(
+                            member.displayName ?: member.userId,
+                            style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            member.userId,
+                            Modifier.weight(1f, fill = false),
+                            style = wizardFont(WZ.FontSize.sm),
+                            color = theme.textMuted,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    is Suggestion.EmojiItem -> {
+                        Box(Modifier.widthIn(min = WZ.Space.space8), contentAlignment = Alignment.Center) {
+                            Text(suggestion.emoji.e, fontSize = WZ.SizeIcon.lg.value.sp)
+                        }
+                        Text(
+                            ":${suggestion.emoji.s.firstOrNull() ?: suggestion.emoji.label}:",
+                            style = wizardFont(WZ.FontSize.md),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                        )
+                    }
+                    is Suggestion.Custom -> {
+                        PackThumb(suggestion.image.url, Modifier.size(WZ.Space.space8))
+                        Text(":${suggestion.image.shortcode}:", style = wizardFont(WZ.FontSize.md), color = theme.textPrimary, maxLines = 1)
+                    }
+                    is Suggestion.Command -> {
+                        Text(
+                            "/${suggestion.name}",
+                            Modifier.widthIn(min = WZ.SizeAvatar.xl),
+                            style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                        )
+                        Text(
+                            suggestion.description,
+                            Modifier.weight(1f, fill = false),
+                            style = wizardFont(WZ.FontSize.sm),
+                            color = theme.textMuted,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                }
+                Spacer(Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun RecordingBar(recorder: VoiceRecorder, modifier: Modifier, onSend: () -> Unit) {
+    val recording = recorder.state == VoiceRecorder.State.recording
+    Row(
+        modifier
+            .fillMaxWidth()
+            .heightIn(min = WZ.Space.space11)
+            .padding(horizontal = WZ.Space.space4),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+    ) {
+        Box(Modifier.size(WZ.Space.space10).clip(CircleShape).clickable { recorder.cancel() }, contentAlignment = Alignment.Center) {
+            PhIcon("trash", size = WZ.SizeIcon.md, tint = theme.error, contentDescription = tr("composer.voice.cancel"))
+        }
+        Box(Modifier.size(WZ.Space.space4).clip(CircleShape).background(if (recording) theme.danger else theme.textMuted))
+        val seconds = recorder.elapsed.toInt()
+        Text(
+            "%d:%02d".format(seconds / 60, seconds % 60),
+            style = wizardFont(WZ.FontSize.md).copy(fontFeatureSettings = "tnum"),
+            color = theme.textPrimary,
+        )
+        RecordingWaveform(recorder.samples.takeLast(60), Modifier.weight(1f).height(WZ.Space.space8))
+        Box(
+            Modifier.size(WZ.Space.space9, WZ.Space.space10).clip(CircleShape).clickable { recorder.togglePause() },
+            contentAlignment = Alignment.Center,
+        ) {
+            PhIcon(
+                if (recording) "pause" else "record",
+                if (recording) PhWeight.fill else PhWeight.regular,
+                size = WZ.SizeIcon.md,
+                tint = theme.textMuted,
+                contentDescription = if (recording) tr("composer.voice.pause") else tr("composer.voice.resume"),
+            )
+        }
+        Box(Modifier.clip(CircleShape).clickable(onClick = onSend)) {
+            PhIcon("arrow-circle-up", PhWeight.fill, size = WZ.SizeIcon.xl, tint = theme.accent, contentDescription = tr("composer.voice.send"))
+        }
+    }
+}

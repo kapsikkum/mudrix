@@ -1,0 +1,206 @@
+package org.wizardchat.android.ui.settings
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.coroutines.launch
+import org.wizardchat.android.LocalSession
+import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.BarTextButton
+import org.wizardchat.android.ui.LocalBottomBarInset
+import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.WizardSheet
+import org.wizardchat.android.ui.WizardTopBar
+import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.wizardFont
+import org.wizardchat.android.ui.tr
+import org.wizardchat.tokens.WZ
+
+/** The settings pages */
+internal enum class SettingsPageId(val titleKey: String, val icon: String) {
+    account("settings.account.title", "user"),
+    privacy("settings.privacy.title", "shield"),
+    emojis("room.settings.emojis.title", "smiley-sticker"),
+    notifications("settings.notifications.title", "bell"),
+    appearance("settings.appearance.title", "palette"),
+    accessibility("settings.accessibility.title", "person-simple-circle"),
+    language("settings.language.title", "globe-simple"),
+    sessions("settings.sessions.title", "devices"),
+    developer("settings.developer.title", "wrench"),
+    about("settings.about.title", "info"),
+}
+
+private val stackSaver = Saver<List<SettingsPageId>, ArrayList<String>>(
+    save = { ArrayList(it.map(SettingsPageId::name)) },
+    restore = { saved -> saved.mapNotNull { name -> SettingsPageId.entries.firstOrNull { it.name == name } } },
+)
+
+/**
+ * The You tab: the profile, the settings pages and signing out. Pages push inside the tab; outside
+ * the tab (`isTab = false`) a Done button calls `onDismiss`.
+ */
+@Composable
+fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
+    // Saveable so a language switch (which recreates the activity) stays on its page
+    var stack by rememberSaveable(stateSaver = stackSaver) { mutableStateOf(listOf<SettingsPageId>()) }
+    BackHandler(enabled = stack.isNotEmpty()) { stack = stack.dropLast(1) }
+    val pop = { stack = stack.dropLast(1) }
+
+    AnimatedContent(
+        targetState = stack,
+        transitionSpec = {
+            if (targetState.size >= initialState.size) {
+                slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
+            } else {
+                slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
+            }
+        },
+        contentKey = { it.size to it.lastOrNull() },
+        label = "settings",
+    ) { path ->
+        when (path.lastOrNull()) {
+            null -> SettingsRoot(isTab, onDismiss) { stack = stack + it }
+            SettingsPageId.account -> AccountSettings(pop)
+            SettingsPageId.privacy -> PrivacySettings(pop)
+            SettingsPageId.emojis -> EmojisSettings(pop)
+            SettingsPageId.notifications -> NotificationSettingsPage(pop)
+            SettingsPageId.appearance -> AppearanceSettings(pop)
+            SettingsPageId.accessibility -> AccessibilitySettings(pop)
+            SettingsPageId.language -> LanguageSettings(pop)
+            SettingsPageId.sessions -> SessionsSettings(pop)
+            SettingsPageId.developer -> DeveloperSettings(pop)
+            SettingsPageId.about -> AboutSettings(pop)
+        }
+    }
+}
+
+@Composable
+private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (SettingsPageId) -> Unit) {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    Column(Modifier.fillMaxSize().background(theme.groupedBackground)) {
+        WizardTopBar(tr("common.settings"), large = true) {
+            if (!isTab && onDismiss != null) BarTextButton(tr("common.done"), onDismiss, bold = true)
+        }
+        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) {
+            SettingsSection {
+                val name = session.displayName ?: session.userId ?: ""
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { open(SettingsPageId.account) }
+                        .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4 + WZ.Space.space2),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+                ) {
+                    Avatar(name, session.avatarUrl, size = WZ.SizeAvatar.lg)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
+                        Text(
+                            name,
+                            style = wizardFont(WZ.FontSize.xxl, FontWeight.SemiBold),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            session.userId ?: "",
+                            style = wizardFont(WZ.FontSize.md),
+                            color = theme.textMuted,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    Chevron()
+                }
+            }
+            PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
+            PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
+            PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
+            SettingsSection {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = WZ.Space.space11)
+                        .clickable {
+                            if (!isTab) onDismiss?.invoke()
+                            scope.launch { session.logout() }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(tr("settings.account.logout"), style = wizardFont(WZ.FontSize.lg), color = theme.error)
+                }
+            }
+            Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))
+        }
+    }
+}
+
+@Composable
+private fun PageRows(pages: List<SettingsPageId>, open: (SettingsPageId) -> Unit) {
+    SettingsSection {
+        pages.forEachIndexed { index, page ->
+            if (index > 0) SettingsDivider()
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = WZ.Space.space11)
+                    .clickable { open(page) }
+                    .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+            ) {
+                PhIcon(page.icon, size = WZ.SizeIcon.md, tint = theme.textMuted)
+                Text(tr(page.titleKey), Modifier.weight(1f), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
+                Chevron()
+            }
+        }
+    }
+}
+
+@Composable
+internal fun Chevron() {
+    PhIcon("caret-right", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted.copy(alpha = 0.6f))
+}
+
+/** Sessions and verification in a sheet, opened from the verification banner */
+@Composable
+fun SessionsSheet(onDismiss: () -> Unit) {
+    WizardSheet(onDismiss) {
+        Box(Modifier.fillMaxWidth().fillMaxHeight(0.92f)) {
+            CompositionLocalProvider(LocalBottomBarInset provides WZ.Space.space0) {
+                SessionsSettings(onBack = null, onDone = onDismiss)
+            }
+        }
+    }
+}

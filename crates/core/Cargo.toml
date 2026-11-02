@@ -1,0 +1,48 @@
+[package]
+name = "wizardchat-core"
+description = "WizardChat's platform-independent client core: Matrix sync, rooms, timelines and WizardChat features"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+matrix-sdk = { version = "0.19.1", default-features = false, features = ["e2e-encryption", "automatic-room-key-forwarding", "markdown", "experimental-send-custom-to-device", "qrcode"] }
+matrix-sdk-ui = { version = "0.19.1", default-features = false }
+matrix-sdk-crypto = { version = "0.19.1", default-features = false }
+eyeball-im = "0.9.1"
+futures-util = "0.3.34"
+futures-channel = "0.3.34"
+mime = "0.3"
+tokio = { version = "1", default-features = false, features = ["sync"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+url = "2"
+base64 = "0.22"
+reqwest = { version = "0.13", default-features = false, features = ["json"] }
+getrandom = "0.4"
+specta = { version = "=2.0.0-rc.27", features = ["derive", "serde_json"], optional = true }
+specta-serde = { version = "=0.0.14", optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.4", features = ["wasm_js"] }
+matrix-sdk = { version = "0.19.1", default-features = false, features = ["js", "indexeddb"] }
+matrix-sdk-ui = { version = "0.19.1", default-features = false, features = ["js"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+matrix-sdk = { version = "0.19.1", default-features = false, features = ["sqlite", "rustls-aws-lc-rs"] }
+matrix-sdk-ui = { version = "0.19.1", default-features = false, features = ["rustls-aws-lc-rs"] }
+
+[dev-dependencies]
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+
+[features]
+# Generates the TypeScript, Swift and Kotlin APIs (`npm run core:types`)
+typegen = ["dep:specta", "dep:specta-serde"]
+
+[[example]]
+name = "typegen"
+required-features = ["typegen"]

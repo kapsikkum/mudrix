@@ -1,0 +1,122 @@
+import { useTranslation } from 'react-i18next';
+import { useAtomValue } from 'jotai';
+import type { ReactNode } from 'react';
+import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import {
+  EyeSlashIcon,
+  FileTextIcon,
+  ImageIcon,
+  MusicNoteIcon,
+  VideoCameraIcon,
+} from '@phosphor-icons/react';
+import { hiddenMediaAtom } from '@/app/store/atoms';
+import { useDecryptedMedia } from './encryption';
+import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
+import { AnimatedImage } from './AnimatedImage';
+import { getMediaInfoSpoiler } from './spoiler';
+import { useMediaCoveredByPreference } from './privacy';
+import { entryEventId, entryMedia, type EventEntry as MatrixEvent } from './entry';
+import { getMediaCaption } from './textContent';
+import * as css from '../Timeline.css';
+
+export function isReplyMediaEvent(event: MatrixEvent): boolean {
+  return entryMedia(event) !== null;
+}
+
+interface Props {
+  event: MatrixEvent;
+  client: MatrixClient;
+  roomId: string;
+  body: string;
+  thumbClassName?: string;
+  thumbWrapClassName?: string;
+  rowClassName?: string;
+  animate?: boolean;
+}
+
+export function ReplyMediaThumb({
+  event,
+  client,
+  roomId,
+  body,
+  thumbClassName = css.replyMediaThumb,
+  thumbWrapClassName = css.replyMediaThumbWrap,
+  rowClassName = css.replyMediaRow,
+  animate = false,
+}: Props) {
+  const { t } = useTranslation();
+  const media = entryMedia(event);
+  const type = event.content.type;
+  const isImage = type === 'image';
+  const isVideo = type === 'video';
+  const isAudio = type === 'audio';
+  const isSticker = type === 'sticker';
+
+  const hiddenMedia = useAtomValue(hiddenMediaAtom);
+  const spoiler = getMediaInfoSpoiler(media);
+  const coveredByPreference = useMediaCoveredByPreference(roomId);
+  const isHidden = hiddenMedia[entryEventId(event)] === true;
+  const covered = spoiler.isSpoiler || coveredByPreference || isHidden;
+
+  const { mediaSrc, thumbnailSrc, setMediaSrc } = useDecryptedMedia(event, client, !covered, false);
+
+  if (covered) {
+    return (
+      <span className={css.replyMediaCover} aria-hidden="true">
+        <EyeSlashIcon size={13} weight="bold" />
+        {spoiler.isSpoiler ? t('timeline.spoilerMedia') : t('timeline.showMedia')}
+      </span>
+    );
+  }
+
+  const mxcUrl = plainMediaUrl(media?.source);
+  const src =
+    mediaSrc ??
+    (mxcUrl && mxcUrl.startsWith('mxc://') ? getMediaBlobUrl(mxcUrl, client, setMediaSrc) : null);
+
+  const text =
+    isImage || isVideo ? ((media && getMediaCaption(media)) ?? '') : isSticker ? '' : body.trim();
+  const label =
+    text ||
+    (isSticker && event.content.type === 'sticker'
+      ? event.content.body
+      : (media?.caption ?? media?.filename)) ||
+    '';
+
+  let visual: ReactNode;
+  if ((isImage || isSticker) && src) {
+    visual = (
+      <AnimatedImage
+        src={src}
+        alt={label}
+        mimeType={media?.mimetype ?? undefined}
+        isAnimated={getMediaAnimates(media)}
+        className={thumbClassName}
+        wrapperClassName={thumbWrapClassName}
+        alwaysStatic={!animate}
+      />
+    );
+  } else if (isVideo && thumbnailSrc) {
+    visual = <img className={thumbClassName} src={thumbnailSrc} alt={label} />;
+  } else {
+    const Icon = isVideo
+      ? VideoCameraIcon
+      : isAudio
+        ? MusicNoteIcon
+        : isImage || isSticker
+          ? ImageIcon
+          : FileTextIcon;
+    visual = (
+      <span className={css.replyMediaIcon} aria-hidden="true">
+        <Icon size={18} />
+      </span>
+    );
+  }
+
+  return (
+    <span className={rowClassName}>
+      {visual}
+      {text && <span className={css.replyMediaText}>{text}</span>}
+    </span>
+  );
+}

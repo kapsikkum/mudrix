@@ -1,4 +1,13 @@
-node_modules/
 .git/
-desktop/
-mobile/
+**/node_modules/
+target/
+**/dist/
+**/dist-desktop/
+crates/wasm/pkg*/
+apps/desktop/src-tauri/gen/
+.husky/
+.vscode/
+.claude/
+*.log
+.DS_Store
+.env*

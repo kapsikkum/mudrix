@@ -1,0 +1,19 @@
+{
+  "name": "@wizardchat/emoji",
+  "version": "0.1.0",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "description": "Unicode emoji (from emojibase) as one compact dataset for the native apps' pickers",
+  "exports": {
+    "./emoji.json": "./dist/emoji.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "emojibase-data": "^17.0.0"
+  }
+}

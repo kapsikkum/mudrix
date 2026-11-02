@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "WizardChat",
+  "version": "../../../package.json",
+  "identifier": "org.wizardchat.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev:desktop --workspace @wizardchat/web",
+    "devUrl": "http://localhost:5190",
+    "beforeBuildCommand": "npm run build:desktop --workspace @wizardchat/web",
+    "frontendDist": "../../web/dist-desktop"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "WizardChat",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 800,
+        "minHeight": 600,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true,
+        "trafficLightPosition": {
+          "x": 14,
+          "y": 23
+        },
+        "label": "main",
+        "backgroundColor": "#11111e",
+        "backgroundThrottling": "throttle"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg", "nsis", "appimage"],
+    "publisher": "WizardChat",
+    "homepage": "https://wizardchat.org",
+    "category": "SocialNetworking",
+    "shortDescription": "Simple, Secure, Magical",
+    "createUpdaterArtifacts": false,
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "infoPlist": "Info.plist",
+      "entitlements": "entitlements.plist",
+      "hardenedRuntime": true,
+      "signingIdentity": "-",
+      "files": {
+        "Resources/Assets.car": "icons/Assets.car"
+      }
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "currentUser",
+        "installerIcon": "icons/icon.ico",
+        "startMenuFolder": "WizardChat"
+      }
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": true
+      }
+    }
+  },
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": ["org.wizardchat.desktop"]
+      }
+    },
+    "updater": {
+      "pubkey": "",
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  }
+}

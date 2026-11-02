@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = ["crates/core", "crates/wasm", "crates/ffi", "apps/desktop/src-tauri"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0"
+repository = "https://gitlab.com/wizardchat/wizardchat"
+
+[profile.release]
+lto = true
+opt-level = "z"
+codegen-units = 1

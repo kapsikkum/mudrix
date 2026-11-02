@@ -1,0 +1,14 @@
+{
+  "name": "@wizardchat/desktop",
+  "license": "AGPL-3.0",
+  "description": "WizardChat Desktop: simple, secure, magical [matrix] client",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:release": "tauri build --config src-tauri/tauri.release.conf.json"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.4"
+  }
+}

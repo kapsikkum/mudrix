@@ -1,0 +1,175 @@
+import WizardChatCore
+import SwiftUI
+
+struct IncomingCallBanner: View {
+    let call: RingingCall
+    @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @State private var name: String?
+    @State private var avatarUrl: String?
+    @State private var pulse = false
+
+    var body: some View {
+        HStack(spacing: WZ.Space.space5) {
+            AvatarView(name: name ?? call.callerName ?? call.callerId, url: avatarUrl, size: WZ.SizeAvatar.lg)
+                .overlay(Circle().stroke(theme.success, lineWidth: WZ.BorderWidth.thick).scaleEffect(pulse ? 1.25 : 1).opacity(pulse ? 0 : 1))
+            VStack(alignment: .leading, spacing: WZ.Space.space1) {
+                Text(name ?? call.callerName ?? call.callerId)
+                    .font(.wizard(WZ.FontSize.lg, .semibold))
+                    .foregroundStyle(theme.textPrimary)
+                    .lineLimit(1)
+                Label(call.voiceOnly ? String(localized: "voice.incomingVoiceCall") : String(localized: "voice.incomingVideoCall"),
+                      image: call.voiceOnly ? "ph-phone-fill" : "ph-video-camera-fill")
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            }
+            Spacer(minLength: 4)
+            round("ph-phone-x-regular", color: theme.danger, label: "common.decline") { calls.declineIncoming(session: session) }
+            round(call.voiceOnly ? "ph-phone-fill" : "ph-video-camera-fill", color: theme.success, label: "common.accept") {
+                calls.acceptIncoming(session: session)
+            }
+        }
+        .padding(WZ.Space.space5)
+        .floatingGlass(in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
+        .padding(.horizontal, WZ.Space.space5)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(L10n.format("voice.incomingCallFrom", "\(name ?? call.callerId)"))
+        .task(id: call.callerId) {
+            let profile = await session.memberProfile(call.callerId, in: call.roomId)
+            name = profile.name
+            avatarUrl = profile.avatarUrl
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 1.2).repeatForever(autoreverses: false)) { pulse = true }
+        }
+        .sensoryFeedback(.impact(weight: .heavy), trigger: pulse)
+    }
+
+    private func round(_ icon: String, color: Color, label: LocalizedStringKey, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(icon)
+                .font(.system(size: WZ.SizeIcon.md, weight: .semibold))
+                .foregroundStyle(theme.textOnAccent)
+                .frame(width: WZ.Space.space11, height: WZ.Space.space11)
+                .background(color, in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+    }
+}
+
+struct DMCallScreen: View {
+    @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @State private var otherName: String?
+    @State private var otherAvatar: String?
+
+    private var waitingForOther: Bool { !calls.participants.contains { !$0.isLocal } }
+
+    var body: some View {
+        VStack(spacing: WZ.Space.space0) {
+            HStack {
+                Button { calls.showCallScreen = false } label: {
+                    Image("ph-caret-down-regular")
+                        .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
+                        .foregroundStyle(theme.textPrimary)
+                        .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                        .floatingGlass(in: Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(String(localized: "voice.minimizeCall"))
+                Spacer()
+                Text(calls.room?.name ?? "")
+                    .font(.wizard(WZ.FontSize.lg, .semibold))
+                    .foregroundStyle(theme.textPrimary)
+                    .lineLimit(1)
+                Spacer()
+                Color.clear.frame(width: WZ.Space.space10, height: WZ.Space.space10)
+            }
+            .padding(.horizontal, WZ.Space.space6)
+            .padding(.top, WZ.Space.space4)
+
+            if let room = calls.room {
+                if waitingForOther {
+                    waiting(room)
+                } else {
+                    CallStageView(room: room)
+                }
+                CallControls()
+                    .padding(.horizontal, WZ.Space.space6)
+                    .padding(.bottom, WZ.Space.space4)
+            }
+        }
+        .background(theme.bgSecondary.ignoresSafeArea())
+        .task(id: calls.room?.id) {
+            guard let room = calls.room else { return }
+            if let other = room.dmUserId {
+                let profile = await session.memberProfile(other, in: room.id)
+                otherName = profile.name ?? other
+                otherAvatar = profile.avatarUrl
+            }
+        }
+        .onChange(of: calls.isInCall) { _, inCall in if !inCall { calls.showCallScreen = false } }
+    }
+
+    private func waiting(_ room: RoomSummary) -> some View {
+        VStack(spacing: WZ.Space.space6) {
+            Spacer()
+            AvatarView(name: otherName ?? room.displayName, url: otherAvatar ?? room.avatarUrl, size: WZ.SizeAvatar.xxl)
+            Text(otherName ?? room.displayName)
+                .font(.wizard(WZ.FontSize.xxl, .bold))
+                .foregroundStyle(theme.textPrimary)
+            Group {
+                switch calls.ring {
+                case .ringing: Text(String(localized: "voice.ringing"))
+                case .declined: Text(String(localized: "voice.callDeclined"))
+                case .unanswered: Text(String(localized: "call.noAnswer"))
+                case nil: Text(calls.state == .joining ? String(localized: "voice.statusConnecting") : String(localized: "voice.waitingForThemTo"))
+                }
+            }
+            .font(.wizard(WZ.FontSize.lg))
+            .foregroundStyle(calls.ring == .declined ? theme.danger : theme.textMuted)
+            if calls.ring == .declined || calls.ring == .unanswered {
+                Button { calls.ringAgain() } label: { Label(String(localized: "voice.callAgain"), image: "ph-phone-outgoing-regular") }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .frame(maxWidth: WZ.Size.sidebar)
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+struct JoinCallBar: View {
+    let room: RoomSummary
+    @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        HStack(spacing: WZ.Space.space4) {
+            Image("ph-phone-fill")
+                .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
+                .foregroundStyle(theme.textOnAccent)
+                .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                .background(theme.success, in: Circle())
+            Text(String(localized: "voice.callInProgress"))
+                .font(.wizard(WZ.FontSize.md, .semibold))
+                .foregroundStyle(theme.textPrimary)
+            Spacer()
+            Button(String(localized: "common.join")) {
+                calls.showCallScreen = true
+                Task { await calls.join(room, session: session, intent: "audio") }
+            }
+            .font(.wizard(WZ.FontSize.md, .semibold))
+            .buttonStyle(.borderedProminent)
+            .tint(theme.success)
+        }
+        .padding(.horizontal, WZ.Space.space5)
+        .padding(.vertical, WZ.Space.space4)
+        .floatingGlass(in: Capsule())
+        .padding(.horizontal, WZ.Space.space5)
+    }
+}

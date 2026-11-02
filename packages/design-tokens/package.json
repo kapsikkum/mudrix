@@ -1,0 +1,23 @@
+{
+  "name": "@wizardchat/design-tokens",
+  "version": "0.1.0",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "description": "WizardChat design tokens: one source for colours, spacing, sizes, type and motion on every platform",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

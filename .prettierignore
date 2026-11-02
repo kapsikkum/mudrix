@@ -1,4 +1,11 @@
-dist/
 node_modules/
-desktop/
-mobile/
+dist/
+dist-desktop/
+target/
+crates/wasm/pkg*/
+apps/desktop/src-tauri/gen/
+packages/*/dist/
+package-lock.json
+apps/android/**/build/
+apps/android/.gradle/
+apps/desktop/src-tauri/icons/

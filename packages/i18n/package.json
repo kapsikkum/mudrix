@@ -1,0 +1,17 @@
+{
+  "name": "@wizardchat/i18n",
+  "version": "0.1.0",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "description": "WizardChat translations: one source of strings for every platform (the web imports locales/*.json, the native apps get built formats)",
+  "exports": {
+    "./locales/*": "./locales/*"
+  },
+  "files": [
+    "dist",
+    "locales"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

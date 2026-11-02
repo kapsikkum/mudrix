@@ -5,10 +5,28 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.enable": true,
-  "eslint.validate": ["javascript"],
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.cargo.features": "all",
+  "files.watcherExclude": {
+    "**/target/**": true,
+    "**/node_modules/**": true
+  },
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
-    "**/package-lock.json": true
+    "**/dist-desktop": true,
+    "**/target": true,
+    "crates/wasm/pkg*": true,
+    "apps/desktop/src-tauri/gen": true,
+    "**/package-lock.json": true,
+    "**/Cargo.lock": true
   }
 }

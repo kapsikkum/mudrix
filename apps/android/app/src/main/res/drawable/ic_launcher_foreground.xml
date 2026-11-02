@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The WizardChat logo (WizardLogo), inside the adaptive icon's safe zone -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:scaleX="0.15" android:scaleY="0.15" android:translateX="24" android:translateY="27">
+        <path android:fillColor="#FF6A329F" android:pathData="M0,280 L100,320 L200,270 L100,230 Z" />
+        <path android:fillColor="#FF784CC8" android:pathData="M100,320 L300,320 L200,270 Z" />
+        <path android:fillColor="#FF6A329F" android:pathData="M400,280 L300,320 L200,270 L300,230 Z" />
+        <path android:fillColor="#FF784CC8" android:pathData="M100,230 L200,270 L230,80 L200,70 Z" />
+        <path android:fillColor="#FF5E3079" android:pathData="M200,270 L300,230 L260,75 L230,80 Z" />
+        <path android:fillColor="#FF885EE7" android:pathData="M200,70 L230,80 L260,75 L300,0 Z" />
+    </group>
+</vector>

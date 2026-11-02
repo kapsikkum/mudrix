@@ -8,7 +8,16 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default [
   {
-    ignores: ['node_modules/**', 'dist/**', 'desktop/**', 'mobile/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/dist-desktop/**',
+      'target/**',
+      'crates/wasm/pkg*/**',
+      'apps/desktop/src-tauri/**',
+      'apps/android/**/build/**',
+      'apps/web/src/core/rpc/api.gen.ts',
+    ],
   },
   js.configs.recommended,
   {
@@ -16,9 +25,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        projectService: {
-          allowDefaultProject: ['vite.config.ts'],
-        },
+        projectService: true,
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
