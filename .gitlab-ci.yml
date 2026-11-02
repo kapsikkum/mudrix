@@ -298,7 +298,7 @@ build-desktop-win:
   extends: .desktop-build
   tags: [saas-windows-medium-amd64]
   script:
-    - $node = (Invoke-RestMethod https://nodejs.org/dist/index.json | Where-Object { $_.version -like 'v22.*' } | Select-Object -First 1).version
+    - $node = ((Invoke-RestMethod https://nodejs.org/dist/index.json) | Where-Object { $_.version -like 'v22.*' } | Select-Object -First 1).version
     - Invoke-WebRequest "https://nodejs.org/dist/$node/node-$node-win-x64.zip" -OutFile node.zip
     - Expand-Archive node.zip -DestinationPath C:\node
     - $env:Path = "C:\node\node-$node-win-x64;$env:Path"
