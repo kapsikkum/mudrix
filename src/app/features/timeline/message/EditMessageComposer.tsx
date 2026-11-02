@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { markdownAtom } from '@/app/store/atoms/settings';
 import { MatrixEventEvent } from 'matrix-js-sdk';
 import type { MatrixClient } from 'matrix-js-sdk';
 import type { RoomMessageEventContent } from 'matrix-js-sdk/lib/@types/events';
@@ -26,6 +27,7 @@ import {
 } from '@/app/features/timeline/composer/editor/fromMarkdown';
 import { toMarkdown } from '@/app/features/timeline/composer/editor/toMarkdown';
 import { buildTextContent } from '@/app/features/timeline/composer/editor/buildTextContent';
+import { applyInlineMarkdown } from '@/app/features/timeline/composer/editor/applyMarkdown';
 import { insertEmoji } from '@/app/features/timeline/composer/editor/insertEmoji';
 import { useRichEditor } from '@/app/features/timeline/composer/useRichEditor';
 import { resolveRelationTarget } from './relationTarget';
@@ -202,6 +204,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
     [handleKeyDown, editor, client, editState, setEditMessage, onClose, requestComposerFocus]
   );
 
+  const markdownEnabled = useAtomValue(markdownAtom);
   const saveEdit = useCallback(async () => {
     if (savingRef.current) return;
     savingRef.current = true;
@@ -216,7 +219,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
       setOptimisticEditBodies((prev) => new Map([...prev, [editState.eventId, newBody]]));
       onClose();
 
-      const built = buildTextContent(value, {
+      const built = buildTextContent(markdownEnabled ? applyInlineMarkdown(value) : value, {
         myId: client.getUserId() ?? undefined,
       });
 
@@ -276,7 +279,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
     } finally {
       savingRef.current = false;
     }
-  }, [value, editState, client, onClose, setOptimisticEditBodies, toast, t]);
+  }, [value, editState, client, onClose, setOptimisticEditBodies, toast, t, markdownEnabled]);
 
   useEffect(() => {
     setEditComposerEmojiInserter(

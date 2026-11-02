@@ -4,6 +4,7 @@ import {
   themeAtom,
   messageLayoutAtom,
   prettifyLinksAtom,
+  markdownAtom,
   showRoomAvatarsAtom,
   showPresenceDotsAtom,
   colorUsernamesAtom,
@@ -197,6 +198,7 @@ export function Appearance() {
   const [theme, setTheme] = useAtom(themeAtom);
   const [layout, setLayout] = useAtom(messageLayoutAtom);
   const [prettifyLinks, setPrettifyLinks] = useAtom(prettifyLinksAtom);
+  const [markdown, setMarkdown] = useAtom(markdownAtom);
   const [showRoomAvatars, setShowRoomAvatars] = useAtom(showRoomAvatarsAtom);
   const [showPresenceDots, setShowPresenceDots] = useAtom(showPresenceDotsAtom);
   const [colorUsernames, setColorUsernames] = useAtom(colorUsernamesAtom);
@@ -364,6 +366,12 @@ export function Appearance() {
           description={t('settings.appearance.showPresenceDotsNote')}
           checked={showPresenceDots}
           onChange={setShowPresenceDots}
+        />
+        <ToggleRow
+          label={t('settings.appearance.markdown')}
+          description={t('settings.appearance.markdownNote')}
+          checked={markdown}
+          onChange={setMarkdown}
         />
       </div>
     </div>

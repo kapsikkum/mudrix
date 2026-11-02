@@ -12,6 +12,7 @@ import type { MatrixClient, MatrixEvent } from 'matrix-js-sdk';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   typingIndicatorsAtom,
+  markdownAtom,
   serverUploadLimitAtom,
   composerAttachmentsAtom,
   composerDraftKey,
@@ -48,6 +49,7 @@ import type { FormatType } from './FormatToolbar';
 import type { CommandContext } from './commands';
 import { toMarkdown } from './editor/toMarkdown';
 import { buildTextContent, type BuiltTextContent } from './editor/buildTextContent';
+import { applyInlineMarkdown } from './editor/applyMarkdown';
 import { sendMessageContent } from './sendMessageContent';
 import { editStateFor, findAdjacentEditableMessage } from '../message/editNavigation';
 import { useRichEditor } from './useRichEditor';
@@ -139,6 +141,7 @@ export function useComposer({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const typingIndicators = useAtomValue(typingIndicatorsAtom);
+  const markdownEnabled = useAtomValue(markdownAtom);
   const maxUploadBytes = useAtomValue(serverUploadLimitAtom);
   const [mentionInsert, setMentionInsert] = useAtom(mentionInsertAtom);
   const setEditMessage = useSetAtom(editMessageAtom);
@@ -343,6 +346,7 @@ export function useComposer({
               joinVoice: commandActions?.joinVoice,
               hangup: commandActions?.hangup,
               callActive: callUi.phase === 'joined',
+              markdown: markdownEnabled,
             };
             try {
               await cmd.fn(parsed.args, ctx);
@@ -355,10 +359,13 @@ export function useComposer({
           // Not a known command: fall through and send as literal text.
         }
 
-        const built = buildTextContent(editorValue, {
-          forceFormatted: !!replyTo,
-          myId: client.getUserId() ?? '',
-        });
+        const built = buildTextContent(
+          markdownEnabled ? applyInlineMarkdown(editorValue) : editorValue,
+          {
+            forceFormatted: !!replyTo,
+            myId: client.getUserId() ?? '',
+          }
+        );
         if (attachments.length > 0) {
           sendAttachments(replyTo, built);
           onSent?.();
@@ -386,6 +393,7 @@ export function useComposer({
     maxUploadBytes,
     isEmpty,
     editorValue,
+    markdownEnabled,
     autocomplete,
     clearEditor,
     sendTyping,

@@ -25,6 +25,7 @@ export interface CommandContext {
   joinVoice?: (roomId: string) => Promise<void> | void;
   hangup?: () => void;
   callActive: boolean;
+  markdown: boolean;
 }
 
 export interface CommandDefinition {
@@ -163,12 +164,13 @@ function buildCommandText(
   roomId: string,
   text: string,
   msgtype: string,
-  editorValue?: Descendant[]
+  editorValue: Descendant[] | undefined,
+  markdown: boolean
 ): { content: Record<string, unknown>; formattedBody: string; mentionedUserIds: string[] } {
   const myId = client.getUserId() ?? '';
   const resolver = buildRoomMentionResolver(client, roomId);
   const emoticons = editorValue ? collectEmoticons(editorValue) : new Map();
-  const nodes = injectEmoticons(fromMarkdown(text, resolver), emoticons);
+  const nodes = injectEmoticons(fromMarkdown(text, resolver, { formatting: markdown }), emoticons);
   const built = buildTextContent(nodes, { myId });
   return {
     content: { ...built.content, msgtype },
@@ -177,9 +179,32 @@ function buildCommandText(
   };
 }
 
-const handleMe: CommandHandler = async (
+const handlePlain: CommandHandler = async (
   args,
   { client, roomId, threadId, replyTo, editorValue }
+) => {
+  if (!args.trim()) throw new Error('Usage: /plain <message>');
+  const { content, mentionedUserIds } = buildCommandText(
+    client,
+    roomId,
+    args,
+    'm.text',
+    editorValue,
+    false
+  );
+  await sendMessageContent(content, {
+    client,
+    roomId,
+    threadId,
+    replyTo,
+    myId: client.getUserId() ?? undefined,
+    mentionedUserIds,
+  });
+};
+
+const handleMe: CommandHandler = async (
+  args,
+  { client, roomId, threadId, replyTo, editorValue, markdown }
 ) => {
   if (!args.trim()) throw new Error('Usage: /me <message>');
   const { content, mentionedUserIds } = buildCommandText(
@@ -187,7 +212,8 @@ const handleMe: CommandHandler = async (
     roomId,
     args,
     'm.emote',
-    editorValue
+    editorValue,
+    markdown
   );
   await sendMessageContent(content, {
     client,
@@ -201,7 +227,7 @@ const handleMe: CommandHandler = async (
 
 const handleNotice: CommandHandler = async (
   args,
-  { client, roomId, threadId, replyTo, editorValue }
+  { client, roomId, threadId, replyTo, editorValue, markdown }
 ) => {
   if (!args.trim()) throw new Error('Usage: /notice <message>');
   const { content, mentionedUserIds } = buildCommandText(
@@ -209,7 +235,8 @@ const handleNotice: CommandHandler = async (
     roomId,
     args,
     'm.notice',
-    editorValue
+    editorValue,
+    markdown
   );
   await sendMessageContent(content, {
     client,
@@ -326,7 +353,7 @@ const handleNick: CommandHandler = async (args, { client }) => {
 
 const handleSpoiler: CommandHandler = async (
   args,
-  { client, roomId, threadId, replyTo, editorValue }
+  { client, roomId, threadId, replyTo, editorValue, markdown }
 ) => {
   if (!args.trim()) throw new Error('Usage: /spoiler ["reason"] <message>');
   let reason = '';
@@ -341,7 +368,8 @@ const handleSpoiler: CommandHandler = async (
     roomId,
     body,
     'm.text',
-    editorValue
+    editorValue,
+    markdown
   );
   const escapedReason = reason.replace(/"/g, '&quot;');
   content.format = 'org.matrix.custom.html';
@@ -359,6 +387,13 @@ const handleSpoiler: CommandHandler = async (
 };
 
 export const COMMANDS: CommandDefinition[] = [
+  {
+    command: 'plain',
+    aliases: [],
+    description: (t) => t('timeline.commands.plain.description'),
+    usage: '/plain <message>',
+    fn: handlePlain,
+  },
   {
     command: 'me',
     aliases: [],

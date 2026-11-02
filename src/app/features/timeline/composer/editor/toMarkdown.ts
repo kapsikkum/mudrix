@@ -250,7 +250,7 @@ function serializeBlockHtml(el: CustomElement): { html: string; custom: boolean 
 
     case 'block-quote': {
       const { html: inner } = serializeInlineChildrenHtml((el as BlockQuoteElement).children);
-      return { html: `<blockquote>${inner}</blockquote>`, custom: false };
+      return { html: `<blockquote>${inner.replace(/\n/g, '<br>')}</blockquote>`, custom: false };
     }
 
     case 'code-block': {
@@ -346,7 +346,7 @@ function paragraphText(el: ParagraphElement): string {
   return (el.children as Descendant[]).map((c) => (isText(c) ? (c as Text).text : '')).join('');
 }
 
-function isFenceLineParagraph(el: CustomElement): boolean {
+export function isFenceLineParagraph(el: CustomElement): boolean {
   if (el.type !== 'paragraph') return false;
   return paragraphText(el as ParagraphElement)
     .trim()

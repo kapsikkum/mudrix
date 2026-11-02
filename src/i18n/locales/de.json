@@ -714,6 +714,9 @@
       },
       "nick": {
         "description": "Anzeigenamen setzen. Beispiel: /nick NeuerName"
+      },
+      "plain": {
+        "description": "Sendet eine Nachricht ohne Markdown-Formatierung. Beispiel: /plain *nicht kursiv*"
       }
     },
     "roomUpgraded": "Dieser Raum wurde aktualisiert.",
@@ -900,6 +903,8 @@
       "colorUsernames": "Namen einfärben",
       "prettifyLinks": "Links kürzen",
       "prettifyLinksNote": "Zeige Links als saubere Domainnamen anstatt vollständige URLs.",
+      "markdown": "Markdown aktivieren",
+      "markdownNote": "Beginne Nachrichten mit /plain, um sie ohne Markdown zu senden.",
       "showRoomAvatars": "Raum-Avatare anzeigen",
       "showPresenceDots": "Status-Punkte anzeigen",
       "showPresenceDotsNote": "Online-, Abwesend- und Offline-Punkte an Avataren, auch an deinem."

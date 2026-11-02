@@ -31,7 +31,11 @@ const ROOM_MENTION_TOKENS: RoomMentionToken[] = [
   { token: '@all', label: '@all' },
 ];
 
-export function fromMarkdown(markdown: string, resolver?: MentionResolver): Descendant[] {
+export function fromMarkdown(
+  markdown: string,
+  resolver?: MentionResolver,
+  { formatting = true }: { formatting?: boolean } = {}
+): Descendant[] {
   if (!markdown.trim()) return emptyDocument();
 
   const lines = markdown.split('\n');
@@ -64,12 +68,15 @@ export function fromMarkdown(markdown: string, resolver?: MentionResolver): Desc
       }
       blocks.push({
         type: 'block-quote',
-        children: parseInline(quoteLines.join('\n'), resolver),
+        children: parseInline(quoteLines.join('\n'), resolver, formatting),
       } as BlockQuoteElement);
       continue;
     }
 
-    blocks.push({ type: 'paragraph', children: parseInline(line, resolver) } as ParagraphElement);
+    blocks.push({
+      type: 'paragraph',
+      children: parseInline(line, resolver, formatting),
+    } as ParagraphElement);
     i++;
   }
 
@@ -78,11 +85,31 @@ export function fromMarkdown(markdown: string, resolver?: MentionResolver): Desc
 
 type InlineNode = FormattedText | LinkElement | MentionElement | RoomMentionElement;
 
-const FORMAT_RE = /(\*\*(.+?)\*\*)|(\*(.+?)\*)|(~~(.+?)~~)|(`(.+?)`)|(\[([^\]]*)\]\(([^)]*)\))/g;
+const FORMAT_RE = new RegExp(
+  [
+    String.raw`\*\*\*(?!\s)(.+?)(?<!\s)\*\*\*`,
+    String.raw`\*\*(?!\s)(.+?)(?<!\s)\*\*`,
+    String.raw`(?<!\w)__(?!\s)(.+?)(?<!\s)__(?!\w)`,
+    String.raw`\*(?!\s)(.+?)(?<!\s)\*`,
+    String.raw`(?<!\w)_(?!\s)(.+?)(?<!\s)_(?!\w)`,
+    String.raw`~~(?!\s)(.+?)(?<!\s)~~`,
+    '`(.+?)`',
+    String.raw`\[([^\]]*)\]\(([^)]*)\)`,
+  ]
+    .map((pattern) => `(?:${pattern})`)
+    .join('|'),
+  'g'
+);
 
 const BOUNDARY_RE = /[\w@.\u00c0-\u024f-]/;
 
-export function parseInline(text: string, resolver?: MentionResolver): InlineNode[] {
+export function parseInline(
+  text: string,
+  resolver?: MentionResolver,
+  formatting = true
+): InlineNode[] {
+  const format = (part: string): InlineNode[] =>
+    formatting ? parseFormatting(part) : [{ text: part }];
   const allTokens: Array<MentionToken | RoomMentionToken> = [...ROOM_MENTION_TOKENS];
   if (resolver && resolver.tokens.length > 0) {
     for (const token of resolver.tokens) {
@@ -95,7 +122,7 @@ export function parseInline(text: string, resolver?: MentionResolver): InlineNod
     const nodes: InlineNode[] = [];
     let cursor = 0;
     for (const span of spans) {
-      if (span.start > cursor) nodes.push(...parseFormatting(text.slice(cursor, span.start)));
+      if (span.start > cursor) nodes.push(...format(text.slice(cursor, span.start)));
       if (span.kind === 'room') {
         nodes.push({
           type: 'room-mention',
@@ -112,10 +139,10 @@ export function parseInline(text: string, resolver?: MentionResolver): InlineNod
       }
       cursor = span.end;
     }
-    if (cursor < text.length) nodes.push(...parseFormatting(text.slice(cursor)));
+    if (cursor < text.length) nodes.push(...format(text.slice(cursor)));
     return nodes;
   }
-  return parseFormatting(text);
+  return format(text);
 }
 
 interface MentionSpan {
@@ -176,7 +203,7 @@ function findMentionSpans(
   return spans.sort((a, b) => a.start - b.start);
 }
 
-function parseFormatting(text: string): InlineNode[] {
+export function parseFormatting(text: string): InlineNode[] {
   const nodes: InlineNode[] = [];
 
   let last = 0;
@@ -187,15 +214,17 @@ function parseFormatting(text: string): InlineNode[] {
     if (match.index > last) nodes.push({ text: text.slice(last, match.index) });
 
     if (match[1] !== undefined) {
-      nodes.push({ text: match[2], bold: true });
-    } else if (match[3] !== undefined) {
-      nodes.push({ text: match[4], italic: true });
-    } else if (match[5] !== undefined) {
+      nodes.push({ text: match[1], bold: true, italic: true });
+    } else if (match[2] !== undefined || match[3] !== undefined) {
+      nodes.push({ text: (match[2] ?? match[3])!, bold: true });
+    } else if (match[4] !== undefined || match[5] !== undefined) {
+      nodes.push({ text: (match[4] ?? match[5])!, italic: true });
+    } else if (match[6] !== undefined) {
       nodes.push({ text: match[6], strikethrough: true });
     } else if (match[7] !== undefined) {
-      nodes.push({ text: match[8], code: true });
-    } else if (match[9] !== undefined) {
-      nodes.push({ type: 'link', url: match[11], children: [{ text: match[10] }] } as LinkElement);
+      nodes.push({ text: match[7], code: true });
+    } else if (match[8] !== undefined) {
+      nodes.push({ type: 'link', url: match[9], children: [{ text: match[8] }] } as LinkElement);
     }
 
     last = match.index + match[0].length;

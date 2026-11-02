@@ -21,6 +21,7 @@ const SYNCED_PREFERENCES = {
   sendReadReceipts: isBoolean,
   mediaVisibility: oneOf('always', 'private', 'never'),
   prettifyLinks: isBoolean,
+  markdown: isBoolean,
   showRoomAvatars: isBoolean,
   showPresenceDots: isBoolean,
   colorUsernames: isBoolean,

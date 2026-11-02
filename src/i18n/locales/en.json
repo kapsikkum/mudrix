@@ -714,6 +714,9 @@
       },
       "nick": {
         "description": "Set your display name. Example: /nick NewDisplayName"
+      },
+      "plain": {
+        "description": "Send a message without markdown formatting. Example: /plain *not italic*"
       }
     },
     "roomUpgraded": "This room has been upgraded.",
@@ -900,6 +903,8 @@
       "colorUsernames": "Colour usernames",
       "prettifyLinks": "Prettify links",
       "prettifyLinksNote": "Display links as clean domain names instead of full URLs.",
+      "markdown": "Enable Markdown",
+      "markdownNote": "Start messages with /plain to send without markdown.",
       "showRoomAvatars": "Show room avatars",
       "showPresenceDots": "Show status dots",
       "showPresenceDotsNote": "Online, away and offline dots on avatars, including your own."

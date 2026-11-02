@@ -48,6 +48,7 @@ export interface Preferences {
   notificationBanners: boolean;
   sendReadReceipts: boolean;
   prettifyLinks: boolean;
+  markdown: boolean;
   showRoomAvatars: boolean;
   showPresenceDots: boolean;
   colorUsernames: boolean;
@@ -79,6 +80,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   notificationBanners: false,
   sendReadReceipts: true,
   prettifyLinks: false,
+  markdown: true,
   showRoomAvatars: true,
   showPresenceDots: true,
   colorUsernames: true,
@@ -113,6 +115,7 @@ export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');
 export const notificationBannersAtom = preferenceFieldAtom('notificationBanners');
 export const sendReadReceiptsAtom = preferenceFieldAtom('sendReadReceipts');
 export const prettifyLinksAtom = preferenceFieldAtom('prettifyLinks');
+export const markdownAtom = preferenceFieldAtom('markdown');
 export const showRoomAvatarsAtom = preferenceFieldAtom('showRoomAvatars');
 export const showPresenceDotsAtom = preferenceFieldAtom('showPresenceDots');
 export const colorUsernamesAtom = preferenceFieldAtom('colorUsernames');
