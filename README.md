@@ -40,7 +40,7 @@ macOS and Linux, and as a native app for iOS and Android. All apps share one Rus
 
 ### Desktop
 
-Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage, `.deb`, `.rpm`, Arch `.pkg.tar.zst` or tarball):
+Windows (installer), macOS (Apple Silicon or Intel, DMG) and Linux (AppImage, `.deb`, `.rpm`, Arch `.pkg.tar.zst` or tarball):
 download from [wizardchat.org](https://wizardchat.org) or the
 [releases page](https://gitlab.com/wizardchat/wizardchat/-/releases). The app updates itself; the `.deb` and `.rpm` ask
 for your password to install an update. The Arch package and the tarball can't, so they open the new release to

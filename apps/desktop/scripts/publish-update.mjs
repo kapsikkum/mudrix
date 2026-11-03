@@ -20,8 +20,10 @@ const version = tag.replace(/^v/, '');
 const bundle = 'target/release/bundle';
 const registry = `${api}/projects/${project}/packages/generic/wizardchat-desktop`;
 
-function find(dir, suffix) {
-  const path = join(bundle, dir);
+const macBundle = (arch) => `target/${arch}-apple-darwin/release/bundle`;
+
+function find(dir, suffix, root = bundle) {
+  const path = join(root, dir);
   const file = existsSync(path) && readdirSync(path).find((name) => name.endsWith(suffix));
   if (!file) throw new Error(`no ${suffix} in ${path}`);
   return join(path, file);
@@ -46,21 +48,31 @@ async function upload(file, folder = tag, name = basename(file)) {
 
 // Each platform's update bundle with the signature the build wrote next to it
 const updates = {
-  'darwin-aarch64': find('macos', '.app.tar.gz'),
+  'darwin-aarch64': find('macos', '.app.tar.gz', macBundle('aarch64')),
+  'darwin-x86_64': find('macos', '.app.tar.gz', macBundle('x86_64')),
   'linux-x86_64': find('appimage', '.AppImage'),
   'linux-x86_64-deb': find('deb', '.deb'),
   'linux-x86_64-rpm': find('rpm', '.rpm'),
   'windows-x86_64': find('nsis', '-setup.exe'),
 };
-const installers = [find('dmg', '.dmg'), find('tarball', '.tar.gz'), find('arch', '.pkg.tar.zst')];
+const installers = [
+  find('dmg', '.dmg', macBundle('aarch64')),
+  find('dmg', '.dmg', macBundle('x86_64')),
+  find('tarball', '.tar.gz'),
+  find('arch', '.pkg.tar.zst'),
+];
 
 const platforms = {};
 for (const [platform, file] of Object.entries(updates)) {
+  // Both Macs' bundles are called WizardChat.app.tar.gz
+  const name = platform.startsWith('darwin-')
+    ? `WizardChat_${version}_${platform.slice('darwin-'.length)}.app.tar.gz`
+    : basename(file);
   platforms[platform] = {
-    url: await upload(file),
+    url: await upload(file, tag, name),
     signature: readFileSync(`${file}.sig`, 'utf8').trim(),
   };
-  await upload(`${file}.sig`);
+  await upload(`${file}.sig`, tag, `${name}.sig`);
 }
 for (const file of installers) await upload(file);
 const downloads = [

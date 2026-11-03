@@ -278,8 +278,8 @@ build-docker:
     - *cargo-cache
   artifacts:
     paths:
-      - target/release/bundle/macos/*.app.tar.gz*
-      - target/release/bundle/dmg/*.dmg
+      - target/*-apple-darwin/release/bundle/macos/*.app.tar.gz*
+      - target/*-apple-darwin/release/bundle/dmg/*.dmg
       - target/release/bundle/appimage/*.AppImage*
       - target/release/bundle/deb/*.deb*
       - target/release/bundle/rpm/*.rpm*
@@ -290,13 +290,18 @@ build-docker:
 build-desktop-mac:
   extends: .desktop-build
   tags: [saas-macos-medium-m1]
+  parallel:
+    matrix:
+      - TARGET: [aarch64-apple-darwin, x86_64-apple-darwin]
   script:
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
     - export PATH="$CARGO_HOME/bin:$PATH"
     - rustup toolchain install
+    - rustup target add "$TARGET"
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
-    - npm run desktop:release
+    - npm run tokens
+    - npm run build:release -w @wizardchat/desktop -- --target "$TARGET"
 
 build-desktop-linux:
   extends: .desktop-build
