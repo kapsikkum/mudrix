@@ -67,10 +67,18 @@ enum AnimatedImage {
 
 
 /// Shows a UIImage and plays it when it's animated. SwiftUI's Image only draws the first
-/// frame of an animated UIImage, so GIFs and animated stickers need a UIImageView.
+/// frame of an animated UIImage, so GIFs and animated stickers need a UIImageView. The frames
+/// run as a layer animation: unlike UIImageView's own, replacing it always restarts it.
 struct AnimatedImageView: UIViewRepresentable {
     let image: UIImage
     var contentMode: UIView.ContentMode = .scaleAspectFill
+    var loops = 0
+
+    final class Coordinator {
+        var shown: (image: UIImage, loops: Int)?
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeUIView(context: Context) -> UIImageView {
         let view = UIImageView()
@@ -84,11 +92,23 @@ struct AnimatedImageView: UIViewRepresentable {
 
     func updateUIView(_ view: UIImageView, context: Context) {
         view.contentMode = contentMode
-        if view.image !== image {
+        if let shown = context.coordinator.shown, shown.image === image, shown.loops == loops { return }
+        context.coordinator.shown = (image, loops)
+        guard let frames = image.images else {
+            view.layer.removeAnimation(forKey: Self.animationKey)
             view.image = image
-            if image.images != nil { view.startAnimating() }
+            return
         }
+        view.image = frames.first
+        let animation = CAKeyframeAnimation(keyPath: "contents")
+        animation.values = frames.compactMap(\.cgImage)
+        animation.calculationMode = .discrete
+        animation.duration = image.duration
+        animation.repeatCount = loops == 0 ? .infinity : Float(loops)
+        view.layer.add(animation, forKey: Self.animationKey)
     }
+
+    private static let animationKey = "frames"
 }
 
 private struct AnimatesMediaKey: EnvironmentKey {

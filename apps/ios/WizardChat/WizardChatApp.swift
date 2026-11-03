@@ -75,6 +75,7 @@ struct WizardChatApp: App {
         .onChange(of: scenePhase) { _, phase in
             switch phase {
             case .background:
+                UIApplication.shared.ignoreSnapshotOnNextApplicationLaunch()
                 Self.scheduleRefresh()
                 Task { await session.pauseSync(keepRunning: calls.isInCall) }
             case .active:

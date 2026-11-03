@@ -3,6 +3,7 @@
 //   dist/index.js/.d.ts  raw values, var() references, themes and media queries for the web
 //   dist/swift/WizardChatTokens.swift   SwiftUI
 //   dist/kotlin/WizardChatTokens.kt     Jetpack Compose
+//   dist/apple/Tokens.xcassets          the iOS launch screen background
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -330,6 +331,38 @@ ${themes
     }
 }
 `;
+
+const SYSTEM_THEMES = { light: 'ethereal', dark: defaultTheme.id };
+const appBackground = (id) => {
+  const theme = themes.find((t) => t.id === id);
+  if (!theme) throw new Error(`System theme "${id}" not found`);
+  return theme.tokens.find((t) => key(t) === 'color.bg.app').value;
+};
+const colorsetColor = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => `0x${hex.slice(i, i + 2).toUpperCase()}`);
+  return { 'color-space': 'srgb', components: { red: r, green: g, blue: b, alpha: '1.000' } };
+};
+const launchBackground = {
+  colors: [
+    { idiom: 'universal', color: colorsetColor(appBackground(SYSTEM_THEMES.light)) },
+    {
+      idiom: 'universal',
+      appearances: [{ appearance: 'luminosity', value: 'dark' }],
+      color: colorsetColor(appBackground(SYSTEM_THEMES.dark)),
+    },
+  ],
+  info: { author: 'xcode', version: 1 },
+};
+const catalog = join(dist, 'apple', 'Tokens.xcassets');
+mkdirSync(join(catalog, 'LaunchBackground.colorset'), { recursive: true });
+writeFileSync(
+  join(catalog, 'Contents.json'),
+  JSON.stringify({ info: { author: 'xcode', version: 1 } })
+);
+writeFileSync(
+  join(catalog, 'LaunchBackground.colorset', 'Contents.json'),
+  JSON.stringify(launchBackground, null, 2)
+);
 
 mkdirSync(join(dist, 'swift'), { recursive: true });
 mkdirSync(join(dist, 'kotlin'), { recursive: true });

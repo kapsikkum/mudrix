@@ -34,6 +34,7 @@ struct RoomListScreen: View {
     }
 
     private var rooms: [RoomSummary] {
+        guard roomList.isLoaded else { return [] }
         let rooms = roomList.rooms(for: selection)
         guard !search.isEmpty else { return rooms }
         return rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }

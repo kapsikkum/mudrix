@@ -18,7 +18,7 @@ use matrix_sdk::{
         },
         OwnedDeviceId, OwnedMxcUri, OwnedUserId, TransactionId, UInt,
     },
-    Client, SessionMeta,
+    Client, ClientBuilder, SessionMeta,
 };
 use matrix_sdk_ui::{
     room_list_service,
@@ -94,14 +94,26 @@ impl WizardClient {
     /// The SDK client every sign-in path uses: persistent stores, refresh-token handling, and
     /// cross-signing plus key backup set up automatically.
     pub(crate) async fn build_client(server: &str, store: &StoreConfig) -> Result<Client> {
-        let builder = Client::builder()
-            .server_name_or_homeserver_url(server)
-            .handle_refresh_tokens()
-            .with_encryption_settings(EncryptionSettings {
-                auto_enable_cross_signing: true,
-                backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
-                auto_enable_backups: true,
-            });
+        Self::finish_build(
+            Client::builder().server_name_or_homeserver_url(server),
+            store,
+        )
+        .await
+    }
+
+    async fn build_restored_client(homeserver_url: &str, store: &StoreConfig) -> Result<Client> {
+        Self::finish_build(Client::builder().homeserver_url(homeserver_url), store).await
+    }
+
+    async fn finish_build(builder: ClientBuilder, store: &StoreConfig) -> Result<Client> {
+        let builder =
+            builder
+                .handle_refresh_tokens()
+                .with_encryption_settings(EncryptionSettings {
+                    auto_enable_cross_signing: true,
+                    backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
+                    auto_enable_backups: true,
+                });
         let builder = if store.exclude_insecure_devices {
             builder
                 .with_decryption_settings(matrix_sdk_crypto::DecryptionSettings {
@@ -117,7 +129,8 @@ impl WizardClient {
         #[cfg(target_arch = "wasm32")]
         let builder = builder.indexeddb_store(&store.location, store.passphrase.as_deref());
         #[cfg(not(target_arch = "wasm32"))]
-        let builder = builder.sqlite_store(&store.location, store.passphrase.as_deref());
+        let builder =
+            builder.sqlite_store_with_config_and_cache_path(sqlite_config(store), None::<&str>);
         builder.build().await.map_err(Error::from)
     }
 
@@ -158,7 +171,7 @@ impl WizardClient {
 
     /// Restores a session saved from [`Self::session`], without signing in again.
     pub async fn restore(session: Session, store: StoreConfig) -> Result<Self> {
-        let client = Self::build_client(&session.homeserver_url, &store).await?;
+        let client = Self::build_restored_client(&session.homeserver_url, &store).await?;
         let user_id = OwnedUserId::try_from(session.user_id.as_str())
             .map_err(|e| Error::InvalidId(e.to_string()))?;
         let device_id: OwnedDeviceId = session.device_id.as_str().into();
@@ -472,4 +485,19 @@ pub fn sniff_mime_type(bytes: &[u8]) -> Option<&'static str> {
     } else {
         return None;
     })
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn sqlite_config(store: &StoreConfig) -> matrix_sdk::SqliteStoreConfig {
+    use base64::{engine::general_purpose::STANDARD, Engine};
+    let config = matrix_sdk::SqliteStoreConfig::new(&store.location);
+    let Some(passphrase) = store.passphrase.as_deref() else {
+        return config;
+    };
+    match STANDARD.decode(passphrase) {
+        Ok(key) if key.len() == 32 && STANDARD.encode(&key) == passphrase => {
+            config.high_entropy_passphrase(Some(&key), matrix_sdk_sqlite::Base64Variant::Padded)
+        }
+        _ => config.passphrase(Some(passphrase)),
+    }
 }
