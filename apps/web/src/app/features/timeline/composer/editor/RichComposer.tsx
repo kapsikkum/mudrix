@@ -1,10 +1,11 @@
 import { useCallback, type KeyboardEvent, type ClipboardEvent } from 'react';
 import { Slate, Editable, type RenderElementProps, type RenderLeafProps } from 'slate-react';
-import type { Descendant } from 'slate';
+import { Element as SlateElement, Node, Text, type Descendant, type NodeEntry } from 'slate';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import type { CustomEditor } from './types';
 import { Element, Leaf, MatrixClientContext } from './Elements';
 import { handleEditorKeyDown } from './keyboard';
+import { URL_RE } from '@/util/markdownToHtml';
 
 export interface RichComposerProps {
   editor: CustomEditor;
@@ -73,6 +74,24 @@ export function RichComposer({
     [editor, onSend, onEscape, externalKeyDown]
   );
 
+  const decorate = useCallback(
+    ([node, path]: NodeEntry) => {
+      if (!Text.isText(node) || node.code) return [];
+      const parent = Node.parent(editor, path);
+      if (
+        SlateElement.isElement(parent) &&
+        (parent.type === 'code-block' || parent.type === 'link')
+      )
+        return [];
+      return Array.from(node.text.matchAll(URL_RE), (m) => ({
+        anchor: { path, offset: m.index },
+        focus: { path, offset: m.index + m[0].length },
+        url: true,
+      }));
+    },
+    [editor]
+  );
+
   const handleChange = useCallback(
     (newValue: Descendant[]) => {
       onChange(newValue);
@@ -88,6 +107,7 @@ export function RichComposer({
           className={className}
           renderElement={renderElement}
           renderLeaf={renderLeaf}
+          decorate={decorate}
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
           onSelect={onSelectionChange}

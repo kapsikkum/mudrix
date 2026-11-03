@@ -3,6 +3,7 @@ import type { RenderElementProps, RenderLeafProps } from 'slate-react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import type { CustomElement, CustomText, EmoticonElement, RoomMentionElement } from './types';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
+import * as css from './Elements.css';
 
 export const MatrixClientContext = createContext<MatrixClient | null>(null);
 
@@ -90,7 +91,7 @@ export function Element({ attributes, children, element }: RenderElementProps) {
 }
 
 export function Leaf({ attributes, children, leaf }: RenderLeafProps) {
-  const text = leaf as CustomText;
+  const text = leaf as CustomText & { url?: true };
   let node = children;
 
   if (text.bold) node = <strong>{node}</strong>;
@@ -98,5 +99,9 @@ export function Leaf({ attributes, children, leaf }: RenderLeafProps) {
   if (text.strikethrough) node = <s>{node}</s>;
   if (text.code) node = <code>{node}</code>;
 
-  return <span {...attributes}>{node}</span>;
+  return (
+    <span {...attributes} className={text.url ? css.url : undefined}>
+      {node}
+    </span>
+  );
 }

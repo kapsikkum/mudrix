@@ -262,7 +262,7 @@ function highlightRoomMentions(html: string): string {
   return tmp.innerHTML;
 }
 
-const URL_RE = /https?:\/\/[^\s<>"')]+/g;
+export const URL_RE = /https?:\/\/[^\s<>"')]+/g;
 
 function autoLinkUrls(html: string): string {
   if (!html.includes('://')) return html;
