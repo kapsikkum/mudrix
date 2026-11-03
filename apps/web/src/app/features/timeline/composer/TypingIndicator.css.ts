@@ -72,3 +72,7 @@ export const spinner = style({
 });
 
 export const offline = style([typingIndicator, { color: vars.color.warning }]);
+
+export const name = style({
+  color: vars.color.textPrimary,
+});

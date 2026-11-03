@@ -1,9 +1,11 @@
+import { Fragment } from 'react';
 import type { RoomTimeline, WizardClient as MatrixClient } from '@wizardchat/core';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { connectionLostAtom, typingIndicatorsAtom } from '@/app/store/atoms';
 import { useMembers, useTypingUsers as useTimelineTypingUsers } from '@/app/data';
 import { Avatar } from '@/app/components/Avatar';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { formatUserId } from '@/util/matrix';
 import * as css from './TypingIndicator.css';
 
@@ -37,10 +39,14 @@ export function TypingIndicator({ client, roomId, timeline }: Props) {
   const { t } = useTranslation();
   const typingIndicators = useAtomValue(typingIndicatorsAtom);
   const users = useTypingUsers(roomId, timeline);
+  const colorFor = useUsernameColor();
 
   if (users.length === 0 || !typingIndicators) return null;
 
-  const names = users.map((u) => u.displayName).join(', ');
+  const marker = '\u0000';
+  const [before, after] = t('room.header.typing', { names: marker, count: users.length }).split(
+    marker
+  );
 
   return (
     <div className={css.typingIndicator} role="status" aria-live="polite" aria-atomic="true">
@@ -57,7 +63,18 @@ export function TypingIndicator({ client, roomId, timeline }: Props) {
           </div>
         ))}
       </div>
-      <span className={css.text}>{t('room.header.typing', { names, count: users.length })}</span>
+      <span className={css.text}>
+        {before}
+        {users.map((u, i) => (
+          <Fragment key={u.userId}>
+            {i > 0 && ', '}
+            <span className={css.name} style={{ color: colorFor(u.userId) }}>
+              {u.displayName}
+            </span>
+          </Fragment>
+        ))}
+        {after}
+      </span>
     </div>
   );
 }
