@@ -4,7 +4,6 @@
 // next. The installers are listed in desktop-assets.json for the release page.
 // The Linux tarball's PKGBUILD goes next to the feed (`<channel>/PKGBUILD`) for Arch users.
 // See docs/BUILDING.md.
-import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
@@ -49,10 +48,11 @@ async function upload(file, folder = tag, name = basename(file)) {
 const updates = {
   'darwin-aarch64': find('macos', '.app.tar.gz'),
   'linux-x86_64': find('appimage', '.AppImage'),
+  'linux-x86_64-deb': find('deb', '.deb'),
+  'linux-x86_64-rpm': find('rpm', '.rpm'),
   'windows-x86_64': find('nsis', '-setup.exe'),
 };
-const tarball = find('tarball', '.tar.gz');
-const installers = [find('dmg', '.dmg'), tarball];
+const installers = [find('dmg', '.dmg'), find('tarball', '.tar.gz'), find('arch', '.pkg.tar.zst')];
 
 const platforms = {};
 for (const [platform, file] of Object.entries(updates)) {
@@ -63,7 +63,13 @@ for (const [platform, file] of Object.entries(updates)) {
   await upload(`${file}.sig`);
 }
 for (const file of installers) await upload(file);
-const downloads = [...installers, updates['windows-x86_64'], updates['linux-x86_64']];
+const downloads = [
+  ...installers,
+  updates['windows-x86_64'],
+  updates['linux-x86_64'],
+  updates['linux-x86_64-deb'],
+  updates['linux-x86_64-rpm'],
+];
 const assets = downloads.map((file) => ({
   name: basename(file),
   url: `${registry}/${tag}/${encodeURIComponent(basename(file))}`,
@@ -83,13 +89,6 @@ writeFileSync(feedFile, feed);
 const channel = version.includes('-next') ? 'next' : 'stable';
 await upload(feedFile, channel, 'latest.json');
 
-const sha256 = createHash('sha256').update(readFileSync(tarball)).digest('hex');
-const pkgbuild = readFileSync('packaging/aur/wizardchat-bin/PKGBUILD', 'utf8')
-  .replace(/^#.*\n/, '')
-  .replace(/^_version=.*$/m, `_version=${version}`)
-  .replace(/^pkgver=.*$/m, `pkgver=${version.replaceAll('-', '_')}`)
-  .replace(/^sha256sums=.*$/m, `sha256sums=('${sha256}')`);
-const pkgbuildFile = join(bundle, 'PKGBUILD');
-writeFileSync(pkgbuildFile, pkgbuild);
+const pkgbuildFile = join(bundle, 'tarball/PKGBUILD');
 await upload(pkgbuildFile);
 await upload(pkgbuildFile, channel, 'PKGBUILD');

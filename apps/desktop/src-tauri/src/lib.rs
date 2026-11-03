@@ -75,7 +75,7 @@ pub fn run() {
         .manage(rpc::Core::new())
         .manage(links::Pending::default())
         .manage(push_to_talk::PushToTalk::default())
-        .manage(update::Downloaded::default())
+        .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
         // Calls, screen sharing and location sharing
         .on_permission_request(|_, kind| match kind {

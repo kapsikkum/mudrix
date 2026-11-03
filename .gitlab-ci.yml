@@ -281,7 +281,9 @@ build-docker:
       - target/release/bundle/macos/*.app.tar.gz*
       - target/release/bundle/dmg/*.dmg
       - target/release/bundle/appimage/*.AppImage*
-      - target/release/bundle/tarball/*.tar.gz
+      - target/release/bundle/deb/*.deb*
+      - target/release/bundle/rpm/*.rpm*
+      - target/release/bundle/tarball/
       - target/release/bundle/nsis/*-setup.exe*
     expire_in: 1 day
 
@@ -310,11 +312,22 @@ build-desktop-linux:
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run desktop:release
-    - |
-      DATA=$(echo target/release/bundle/deb/*/data)
-      cp LICENSE "$DATA/"
-      mkdir -p target/release/bundle/tarball
-      tar -czf "target/release/bundle/tarball/wizardchat-${CI_COMMIT_TAG#v}-linux-x86_64.tar.gz" -C "$DATA" usr LICENSE
+    - node apps/desktop/scripts/package-linux.mjs
+
+build-desktop-arch:
+  stage: build
+  extends: .release-rules
+  image: archlinux:base-devel
+  needs: [build-desktop-linux]
+  script:
+    - useradd -m builder
+    - cp -r target/release/bundle/tarball /tmp/arch && chown -R builder /tmp/arch
+    - su builder -c 'cd /tmp/arch && makepkg --nodeps --noconfirm'
+    - mkdir -p target/release/bundle/arch && cp /tmp/arch/*.pkg.tar.zst target/release/bundle/arch/
+  artifacts:
+    paths:
+      - target/release/bundle/arch/*.pkg.tar.zst
+    expire_in: 1 day
 
 build-desktop-win:
   extends: .desktop-build
@@ -347,6 +360,8 @@ deploy:
       artifacts: false
     - job: build-desktop-win
       artifacts: false
+    - job: build-desktop-arch
+      artifacts: false
   script:
     - |
       if [ "$DRY_RUN" = "true" ]; then
@@ -363,7 +378,7 @@ publish-desktop:
   extends: .release-rules
   image: node:22-alpine
   resource_group: desktop-feed
-  needs: [build-desktop-mac, build-desktop-linux, build-desktop-win]
+  needs: [build-desktop-mac, build-desktop-linux, build-desktop-win, build-desktop-arch]
   script:
     - node apps/desktop/scripts/publish-update.mjs
   artifacts:

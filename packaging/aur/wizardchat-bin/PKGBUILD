@@ -11,6 +11,7 @@ depends=('webkit2gtk-4.1' 'gtk3' 'libayatana-appindicator' 'gst-plugins-base' 'g
 optdepends=('gst-plugins-bad: voice and video calls' 'gst-libav: more video formats')
 provides=('wizardchat')
 conflicts=('wizardchat')
+options=('!debug')
 source=("https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/v${_version}/wizardchat-${_version}-linux-x86_64.tar.gz")
 sha256sums=('SKIP')
 
