@@ -33,6 +33,8 @@ final class RoomListModel: ObservableObject {
     private var rooms: [RoomSummary] = []
     private var subscriptions: [Subscription] = []
     private var graphTask: Task<Void, Never>?
+    private var roomsReceived = false
+    private var spacesReceived = false
 
     init(client: WizardClient) {
         self.client = client
@@ -47,6 +49,7 @@ final class RoomListModel: ObservableObject {
                 MainActor.assumeIsolated {
                     guard let self else { return }
                     diffs.forEach { $0.apply(to: &self.spaces) }
+                    self.spacesReceived = true
                     self.refreshGraph()
                 }
             },
@@ -125,16 +128,19 @@ final class RoomListModel: ObservableObject {
         joinedRooms = rooms.filter { !$0.isInvite }
         invites = rooms.filter(\.isInvite)
         mentionRooms = joinedRooms.filter { $0.mentionCount > 0 }
-        isLoaded = true
+        roomsReceived = true
         refreshGraph()
     }
 
     /// The space graph comes from local state; refresh it shortly after rooms or spaces change
     private func refreshGraph() {
         graphTask?.cancel()
+        let delay: Duration = isLoaded ? .milliseconds(150) : .zero
         graphTask = Task { [weak self] in
-            try? await Task.sleep(for: .milliseconds(150))
-            guard let self, !Task.isCancelled, let graph = try? await self.client.spaceGraph() else { return }
+            try? await Task.sleep(for: delay)
+            guard let self, !Task.isCancelled else { return }
+            defer { if self.roomsReceived && self.spacesReceived { self.isLoaded = true } }
+            guard let graph = try? await self.client.spaceGraph() else { return }
             let children = Dictionary(graph.map { ($0.spaceId, $0.children.map(\.roomId)) }, uniquingKeysWith: { a, _ in a })
             func descendants(of id: String, seen: inout Set<String>) {
                 for child in children[id] ?? [] where seen.insert(child).inserted {

@@ -46,6 +46,11 @@
 		<string>voip</string>
 		<string>fetch</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 	<key>WZAppGroup</key>
 	<string>$(WZ_APP_GROUP)</string>
 </dict>

@@ -7999,6 +7999,7 @@ dependencies = [
  "getrandom 0.4.3",
  "matrix-sdk",
  "matrix-sdk-crypto",
+ "matrix-sdk-sqlite",
  "matrix-sdk-ui",
  "mime",
  "reqwest",

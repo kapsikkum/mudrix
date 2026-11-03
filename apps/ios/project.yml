@@ -35,6 +35,7 @@ targets:
       - WizardChat
       - Shared
       - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/apple/Tokens.xcassets
       - ../../packages/icons/dist/apple/Icons.xcassets
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
       - path: ../../packages/emoji/dist/emoji.json
@@ -44,6 +45,9 @@ targets:
     info:
       path: WizardChat/Info.plist
       properties:
+        # The theme's background, so launching doesn't flash white before the first frame
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         # Keep voice room audio running with the screen off or the app in the background
         UIBackgroundModes: [audio, voip, fetch]
         # Opened by the share extension to send what you shared
@@ -73,7 +77,6 @@ targets:
         CODE_SIGN_ENTITLEMENTS: WizardChat/WizardChat.entitlements
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: WizardChat
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         # Usage descriptions are iOS-only text, so they live here rather than in packages/i18n

@@ -20,6 +20,7 @@ struct ImageMessageView: View {
     @State private var playing = false
     @GestureState private var holding = false
     @State private var showViewer = false
+    private static let tapPlays = 2
 
     private var hidden: Bool {
         guard !revealed else { return false }
@@ -36,6 +37,7 @@ struct ImageMessageView: View {
     }
 
     private var animate: Bool { canAnimate && (prefs.autoplayGifs || playing || holding || animatesMedia) }
+    private var playsFromTap: Bool { playing && !(prefs.autoplayGifs || holding || animatesMedia) }
 
     private var displaySize: CGSize {
         let maxWidth: CGFloat = isSticker ? 160 : 260
@@ -49,7 +51,8 @@ struct ImageMessageView: View {
         ZStack {
             if let image {
                 if image.images != nil {
-                    AnimatedImageView(image: image, contentMode: isSticker ? .scaleAspectFit : .scaleAspectFill)
+                    AnimatedImageView(image: image, contentMode: isSticker ? .scaleAspectFit : .scaleAspectFill,
+                                      loops: playsFromTap ? Self.tapPlays : 0)
                 } else {
                     Image(uiImage: image)
                         .resizable()
@@ -81,16 +84,19 @@ struct ImageMessageView: View {
         .contentShape(Rectangle())
         .onTapGesture {
             if hidden { revealed = true }
-            else if canAnimate && !animate && !isSticker { playing = true }
+            else if canAnimate && !animate { playing = true }
             else if !isSticker { showViewer = true }
         }
         .simultaneousGesture(
             LongPressGesture(minimumDuration: 30)
                 .updating($holding) { pressing, state, _ in state = pressing }
         )
-        .task(id: "\(animate)-\(hidden)") {
+        .task(id: "\(animate)-\(hidden)-\(playing)") {
             guard !hidden, let mediaLoader else { return }
             image = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)
+            guard playing, !prefs.autoplayGifs, !animatesMedia, let image, image.images != nil else { return }
+            try? await Task.sleep(for: .seconds(image.duration * Double(Self.tapPlays)))
+            if !Task.isCancelled { playing = false }
         }
         .fullScreenCover(isPresented: $showViewer) {
             ImageViewer(image: image, title: media.caption ?? media.filename)
