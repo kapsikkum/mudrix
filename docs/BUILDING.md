@@ -17,7 +17,7 @@ stable, `v26.11.0-next.1` for next (add `DRY_RUN=true` to try it without publish
 - pushes the Docker image to the container registry
 - builds the desktop apps for macOS, Windows and Linux and publishes them with the update feed the installed apps check,
   plus a Linux tarball and a `PKGBUILD` for it (from `packaging/aur/wizardchat-bin/`). Only the AppImage updates itself
-  on Linux
+  on Linux. Like the web app, stable installs only get stable releases and next installs only next ones
 - creates the GitLab release with the notes from the commits and the installers
 
 The "What's new" notes in the apps come from `whatsnew/<version>.md`.

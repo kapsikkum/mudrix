@@ -1,7 +1,7 @@
 // Publishes a desktop release from the CI build artifacts: uploads the installers and update bundles
 // to the GitLab package registry (`wizardchat-desktop/<tag>/`) and writes the update feed the apps
-// check (`wizardchat-desktop/<channel>/latest.json`). A stable release goes to both channels, so
-// next builds move up to it. The installers are listed in desktop-assets.json for the release page.
+// check (`wizardchat-desktop/<channel>/latest.json`), stable releases to stable and next releases to
+// next. The installers are listed in desktop-assets.json for the release page.
 // The Linux tarball's PKGBUILD goes next to the feed (`<channel>/PKGBUILD`) for Arch users.
 // See docs/BUILDING.md.
 import { createHash } from 'node:crypto';
@@ -80,8 +80,8 @@ const feed = JSON.stringify({
 });
 const feedFile = join(bundle, 'latest.json');
 writeFileSync(feedFile, feed);
-const channels = version.includes('-next') ? ['next'] : ['stable', 'next'];
-for (const channel of channels) await upload(feedFile, channel, 'latest.json');
+const channel = version.includes('-next') ? 'next' : 'stable';
+await upload(feedFile, channel, 'latest.json');
 
 const sha256 = createHash('sha256').update(readFileSync(tarball)).digest('hex');
 const pkgbuild = readFileSync('packaging/aur/wizardchat-bin/PKGBUILD', 'utf8')
@@ -92,4 +92,4 @@ const pkgbuild = readFileSync('packaging/aur/wizardchat-bin/PKGBUILD', 'utf8')
 const pkgbuildFile = join(bundle, 'PKGBUILD');
 writeFileSync(pkgbuildFile, pkgbuild);
 await upload(pkgbuildFile);
-for (const channel of channels) await upload(pkgbuildFile, channel, 'PKGBUILD');
+await upload(pkgbuildFile, channel, 'PKGBUILD');
