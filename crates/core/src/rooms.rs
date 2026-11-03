@@ -776,9 +776,9 @@ fn is_muted(room: &Room) -> bool {
     )
 }
 
-/// Unread counts the way the room list shows them: notifying messages after the read marker
-/// (the server's count for encrypted rooms, or when the marker isn't loaded), nothing for muted
-/// rooms.
+/// Unread counts the way the room list shows them: notifying messages after the read marker,
+/// nothing for muted rooms. The server can't read encrypted messages, so its count is only a
+/// floor there; when the marker isn't loaded, the SDK's own count stands in.
 async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if room.state() != RoomState::Joined {
         return None;
@@ -788,18 +788,23 @@ async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     }
     let server = room.unread_notification_counts().notification_count;
     let encrypted = room.encryption_state().is_encrypted();
+    let fallback = if encrypted {
+        server.max(room.num_unread_notifications())
+    } else {
+        server
+    };
     if room.num_unread_messages() == 0 && room.read_receipts().latest_active.is_some() {
         return Some(UnreadCounts {
-            notifications: if encrypted { server } else { 0 },
+            notifications: if encrypted { fallback } else { 0 },
             mentions: 0,
         });
     }
     let scan = scan_unread(room, MAX_SCANNED_EVENTS).await?;
     Some(UnreadCounts {
-        notifications: if !encrypted && scan.boundary_found {
-            scan.count
-        } else {
-            server
+        notifications: match (scan.boundary_found, encrypted) {
+            (true, false) => scan.count,
+            (true, true) => scan.count.max(fallback),
+            (false, _) => fallback,
         },
         mentions: scan.mentions.len() as u64,
     })

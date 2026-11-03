@@ -207,6 +207,33 @@ async fn main() -> Result<(), BoxError> {
     assert!(mentions.iter().all(|m| m.sender == other_id));
     println!("inbox mentions: the keyword highlight and the reply, newest first");
 
+    let secret = me
+        .create_room_with(CreateRoomOptions {
+            name: "Encrypted unread".into(),
+            encrypted: Some(true),
+            invite: vec![other_id.clone()],
+            ..Default::default()
+        })
+        .await?;
+    eventually("the encrypted invite", async || {
+        other.accept_invite(&secret).await.ok()
+    })
+    .await?;
+    for body in ["one", "two"] {
+        other
+            .send_event(
+                &secret,
+                "m.room.message",
+                json!({ "msgtype": "m.text", "body": body }),
+            )
+            .await?;
+    }
+    room_list_until(&me, "encrypted unread counts", |rooms| {
+        find(rooms, &secret).is_some_and(|r| r.unread_notifications == 2)
+    })
+    .await?;
+    println!("unread: encrypted messages count though the server can't read them");
+
     let recent = me.recent_user_messages(&room, &other_id).await?;
     assert!(recent.len() >= 3, "{recent:?}");
     me.redact_events(&room, &recent, None).await?;
