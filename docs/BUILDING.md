@@ -15,7 +15,9 @@ stable, `v26.11.0-next.1` for next (add `DRY_RUN=true` to try it without publish
 
 - builds the web app and deploys it, stable to <https://rust.wizardchat.org>, next to <https://next-rust.wizardchat.org>
 - pushes the Docker image to the container registry
-- builds the desktop apps for macOS, Windows and Linux and publishes them with the update feed the installed apps check
+- builds the desktop apps for macOS, Windows and Linux and publishes them with the update feed the installed apps check,
+  plus a Linux tarball and a `PKGBUILD` for it (from `packaging/aur/wizardchat-bin/`). Only the AppImage updates itself
+  on Linux
 - creates the GitLab release with the notes from the commits and the installers
 
 The "What's new" notes in the apps come from `whatsnew/<version>.md`.

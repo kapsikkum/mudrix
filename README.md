@@ -40,8 +40,25 @@ macOS and Linux, and as a native app for iOS and Android. All apps share one Rus
 
 ### Desktop
 
-Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage): download from [wizardchat.org](https://wizardchat.org)
-or the [releases page](https://gitlab.com/wizardchat/wizardchat/-/releases). The app updates itself.
+Windows (installer), macOS (Apple Silicon, DMG) and Linux (AppImage or tarball): download from
+[wizardchat.org](https://wizardchat.org) or the [releases page](https://gitlab.com/wizardchat/wizardchat/-/releases). The
+app updates itself, except the Linux tarball.
+
+On Arch Linux, build a package from the tarball. Stable:
+
+```sh
+curl -LO https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/stable/PKGBUILD
+makepkg -si
+```
+
+Next (pre-release):
+
+```sh
+curl -LO https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/next/PKGBUILD
+makepkg -si
+```
+
+Both install as `wizardchat-bin`, so building the other one switches channels. Run it again to update.
 
 > **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings -> Privacy & Security**,
 > scroll down to **Security** and click **Allow WizardChat**.

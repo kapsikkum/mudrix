@@ -34,7 +34,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["app", "dmg", "nsis", "appimage"],
+    "targets": ["app", "dmg", "nsis", "appimage", "deb"],
     "publisher": "WizardChat",
     "homepage": "https://wizardchat.org",
     "category": "SocialNetworking",

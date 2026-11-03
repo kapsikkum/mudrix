@@ -1,0 +1,20 @@
+# CI fills in _version, pkgver and sha256sums and publishes this with every release (docs/BUILDING.md)
+pkgname=wizardchat-bin
+_version=0.0.0
+pkgver=0.0.0
+pkgrel=1
+pkgdesc='Simple, secure, magical Matrix client'
+arch=('x86_64')
+url='https://wizardchat.org'
+license=('AGPL-3.0-only')
+depends=('webkit2gtk-4.1' 'gtk3' 'libayatana-appindicator' 'gst-plugins-base' 'gst-plugins-good')
+optdepends=('gst-plugins-bad: voice and video calls' 'gst-libav: more video formats')
+provides=('wizardchat')
+conflicts=('wizardchat')
+source=("https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/v${_version}/wizardchat-${_version}-linux-x86_64.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+  cp -a "${srcdir}/usr" "${pkgdir}/"
+  install -Dm644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

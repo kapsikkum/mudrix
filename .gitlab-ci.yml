@@ -281,6 +281,7 @@ build-docker:
       - target/release/bundle/macos/*.app.tar.gz*
       - target/release/bundle/dmg/*.dmg
       - target/release/bundle/appimage/*.AppImage*
+      - target/release/bundle/tarball/*.tar.gz
       - target/release/bundle/nsis/*-setup.exe*
     expire_in: 1 day
 
@@ -309,6 +310,11 @@ build-desktop-linux:
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run desktop:release
+    - |
+      DATA=$(echo target/release/bundle/deb/*/data)
+      cp LICENSE "$DATA/"
+      mkdir -p target/release/bundle/tarball
+      tar -czf "target/release/bundle/tarball/wizardchat-${CI_COMMIT_TAG#v}-linux-x86_64.tar.gz" -C "$DATA" usr LICENSE
 
 build-desktop-win:
   extends: .desktop-build

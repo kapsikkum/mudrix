@@ -2,7 +2,9 @@
 // to the GitLab package registry (`wizardchat-desktop/<tag>/`) and writes the update feed the apps
 // check (`wizardchat-desktop/<channel>/latest.json`). A stable release goes to both channels, so
 // next builds move up to it. The installers are listed in desktop-assets.json for the release page.
+// The Linux tarball's PKGBUILD goes next to the feed (`<channel>/PKGBUILD`) for Arch users.
 // See docs/BUILDING.md.
+import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
@@ -49,7 +51,8 @@ const updates = {
   'linux-x86_64': find('appimage', '.AppImage'),
   'windows-x86_64': find('nsis', '-setup.exe'),
 };
-const installers = [find('dmg', '.dmg')];
+const tarball = find('tarball', '.tar.gz');
+const installers = [find('dmg', '.dmg'), tarball];
 
 const platforms = {};
 for (const [platform, file] of Object.entries(updates)) {
@@ -79,3 +82,14 @@ const feedFile = join(bundle, 'latest.json');
 writeFileSync(feedFile, feed);
 const channels = version.includes('-next') ? ['next'] : ['stable', 'next'];
 for (const channel of channels) await upload(feedFile, channel, 'latest.json');
+
+const sha256 = createHash('sha256').update(readFileSync(tarball)).digest('hex');
+const pkgbuild = readFileSync('packaging/aur/wizardchat-bin/PKGBUILD', 'utf8')
+  .replace(/^#.*\n/, '')
+  .replace(/^_version=.*$/m, `_version=${version}`)
+  .replace(/^pkgver=.*$/m, `pkgver=${version.replaceAll('-', '_')}`)
+  .replace(/^sha256sums=.*$/m, `sha256sums=('${sha256}')`);
+const pkgbuildFile = join(bundle, 'PKGBUILD');
+writeFileSync(pkgbuildFile, pkgbuild);
+await upload(pkgbuildFile);
+for (const channel of channels) await upload(pkgbuildFile, channel, 'PKGBUILD');

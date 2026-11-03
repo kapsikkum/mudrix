@@ -46,6 +46,10 @@ pub fn start(app: AppHandle) {
     if cfg!(debug_assertions) || !has_pubkey(&app) {
         return;
     }
+    // Only the AppImage updates itself on Linux; the tarball and packages are updated by their package manager
+    if cfg!(target_os = "linux") && std::env::var_os("APPIMAGE").is_none() {
+        return;
+    }
     let next = app.package_info().version.pre.as_str().starts_with("next");
     let channel = if next { "next" } else { "stable" };
     let Ok(feed) = Url::parse(&format!("{FEEDS}/{channel}/latest.json")) else {
