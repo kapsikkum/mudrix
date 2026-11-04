@@ -94,8 +94,9 @@ pub fn run() {
             let data = app.path().app_data_dir()?;
             std::fs::create_dir_all(&data)?;
             std::env::set_current_dir(&data)?;
-            // Outside macOS the app draws its own title bar, window buttons included
-            #[cfg(not(target_os = "macos"))]
+            // On Windows the app draws its own title bar, window buttons included. Linux keeps the
+            // window manager's frame: many ignore a frameless window and draw theirs anyway
+            #[cfg(windows)]
             if let Some(window) = app.get_webview_window("main") {
                 window.set_decorations(false)?;
             }

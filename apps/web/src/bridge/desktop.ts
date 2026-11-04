@@ -6,8 +6,9 @@ import i18n from '@/i18n';
 import { desktopApi, onDesktopEvent } from './desktopApi';
 
 export const isDesktop = import.meta.env.DESKTOP;
-/** Outside macOS the window has no frame and the app draws minimize/maximize/close */
-export const drawsWindowControls = isDesktop && !/Mac/.test(navigator.userAgent);
+const isMacDesktop = isDesktop && /Mac/.test(navigator.userAgent);
+/** On Windows the window has no frame and the app draws minimize/maximize/close */
+export const drawsWindowControls = isDesktop && /Windows/.test(navigator.userAgent);
 
 /**
  * Runs a browser sign-in (OAuth or SSO): the server's page opens in the system browser and
@@ -72,7 +73,9 @@ export function installDesktopHooks(): void {
   // The window has no title bar of its own on macOS: the app's title bar sits under the
   // window buttons, which need room unless the window is fullscreen
   const root = document.documentElement;
-  root.classList.add('desktop', drawsWindowControls ? 'desktop-other' : 'desktop-darwin');
+  root.classList.add('desktop');
+  if (isMacDesktop) root.classList.add('desktop-darwin');
+  if (drawsWindowControls) root.classList.add('desktop-other');
   const appWindow = getCurrentWindow();
   const syncFullscreen = () =>
     appWindow
