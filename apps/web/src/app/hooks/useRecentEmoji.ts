@@ -6,6 +6,7 @@ export interface RecentEmojiEntry {
   emoji: string;
   label: string;
   url?: string;
+  total?: number;
 }
 
 const MAX_RECENT = 30;
@@ -15,13 +16,20 @@ function parseRecentEmoji(content: unknown): RecentEmojiEntry[] {
   if (!content || typeof content !== 'object') return [];
   const list = (content as Record<string, unknown>).recent_emoji;
   if (!Array.isArray(list)) return [];
-  return list.filter(
-    (e): e is RecentEmojiEntry =>
-      typeof e === 'object' &&
-      e !== null &&
-      typeof (e as RecentEmojiEntry).emoji === 'string' &&
-      typeof (e as RecentEmojiEntry).label === 'string'
-  );
+  // Element X writes only `emoji` and a use count, without a label
+  return list.flatMap((e): RecentEmojiEntry[] => {
+    if (typeof e !== 'object' || e === null) return [];
+    const { emoji, label, url, total } = e as Record<string, unknown>;
+    if (typeof emoji !== 'string') return [];
+    return [
+      {
+        emoji,
+        label: typeof label === 'string' ? label : emoji,
+        ...(typeof url === 'string' ? { url } : {}),
+        ...(typeof total === 'number' ? { total } : {}),
+      },
+    ];
+  });
 }
 
 export function useRecentEmoji(client: MatrixClient | null | undefined): {
@@ -47,8 +55,9 @@ export function useRecentEmoji(client: MatrixClient | null | undefined): {
     (emoji: string, label: string, url?: string) => {
       if (!client) return;
       setRecent((prev) => {
+        const total = (prev.find((r) => r.emoji === emoji)?.total ?? 0) + 1;
         const next = prev.filter((r) => r.emoji !== emoji);
-        next.unshift(url ? { emoji, label, url } : { emoji, label });
+        next.unshift(url ? { emoji, label, url, total } : { emoji, label, total });
         if (next.length > MAX_RECENT) next.length = MAX_RECENT;
         latestRef.current = next;
 

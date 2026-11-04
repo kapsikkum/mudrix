@@ -105,7 +105,8 @@ fun Avatar(
         modifier
             .size(size)
             .clip(shape)
-            .background(hueColor(name)),
+            // The colour is only for the initial; transparent pictures show what's behind them
+            .background(if (image == null) hueColor(name) else Color.Transparent),
         contentAlignment = Alignment.Center,
     ) {
         val bitmap = image

@@ -16,7 +16,7 @@ struct SessionsSettings: View {
     @State private var loading = true
     @State private var error: String?
     @State private var showRecoveryKeyEntry = false
-    @State private var showVerification = false
+    @State private var verification: VerificationModel?
     @State private var newRecoveryKey: String?
     @State private var removing: DeviceInfo?
     private var isVerified: Bool { session.encryption?.deviceVerified == true }
@@ -44,8 +44,9 @@ struct SessionsSettings: View {
                 SettingsSection(title: "settings.sessions.yourDevices") {
                     ForEach(Array(others.enumerated()), id: \.element.id) { index, device in
                         if index > 0 { SettingsDivider() }
-                        DeviceRow(device: device, isCurrent: false, verified: nil,
-                                  onRename: rename, onRemove: { removing = $0 })
+                        DeviceRow(device: device, isCurrent: false, verified: device.isVerified,
+                                  onRename: rename, onRemove: { removing = $0 },
+                                  onVerify: device.isVerified ? nil : { verification = VerificationModel(.device($0.id)) })
                     }
                 }
             } else if !loading && devices.isEmpty {
@@ -55,7 +56,9 @@ struct SessionsSettings: View {
         }
         .task { await reload() }
         .sheet(isPresented: $showRecoveryKeyEntry, onDismiss: refreshState) { RecoveryKeyEntrySheet() }
-        .sheet(isPresented: $showVerification, onDismiss: refreshState) { VerificationSheet() }
+        .sheet(item: $verification, onDismiss: { refreshState(); Task { await reload() } }) { model in
+            VerificationSheet(model: model)
+        }
         .sheet(item: $removing) { device in
             RemoveDeviceSheet(device: device) { await reload() }
         }
@@ -91,7 +94,7 @@ struct SessionsSettings: View {
             VStack(spacing: WZ.Space.space4) {
                 if !isVerified {
                     Button {
-                        showVerification = true
+                        verification = VerificationModel(.ownDevice)
                     } label: {
                         Label(String(localized: "settings.verifyWithAnotherDevice"), image: "ph-devices-regular")
                     }
@@ -164,6 +167,7 @@ private struct DeviceRow: View {
     let verified: Bool?
     let onRename: (DeviceInfo, String) async -> Void
     let onRemove: ((DeviceInfo) -> Void)?
+    var onVerify: ((DeviceInfo) -> Void)?
 
     @Environment(\.theme) private var theme
     @State private var showDetails = false
@@ -212,6 +216,11 @@ private struct DeviceRow: View {
                         .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                 }
                 .accessibilityLabel(String(localized: "common.menu"))
+            }
+            if let onVerify {
+                Button(String(localized: "settings.sessions.verify")) { onVerify(device) }
+                    .buttonStyle(SecondaryButtonStyle())
+                    .frame(maxWidth: WZ.Size.sidebar)
             }
             if renaming {
                 VStack(alignment: .leading, spacing: WZ.Space.space3) {
@@ -365,150 +374,5 @@ private struct RecoveryKeyEntrySheet: View {
             .toolbar { ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.cancel")) { dismiss() } } }
         }
         .presentationDetents([.medium])
-    }
-}
-
-@MainActor
-private final class SelfVerification: ObservableObject {
-    enum Step {
-        case starting, waitingForOtherDevice, waitingForEmojis
-        case compare([VerificationEmoji])
-        case done, failed(String), cancelled
-    }
-
-    @Published var step = Step.starting
-    private var flow: VerificationFlow?
-    private var subscription: Subscription?
-    private var requested = false
-    private var sasStarted = false
-    private var sasAccepted = false
-
-    func start(session: MatrixSession) async {
-        guard !requested else { return }
-        requested = true
-        do {
-            let flow = try await session.requireClient.requestSelfVerification()
-            self.flow = flow
-            step = .waitingForOtherDevice
-            subscription = flow.watch { [weak self] status in
-                MainActor.assumeIsolated { self?.update(status) }
-            }
-        } catch {
-            step = .failed(error.localizedDescription)
-        }
-    }
-
-    private func update(_ status: VerificationStatus) {
-        switch status {
-        case .requested, .incoming: step = .waitingForOtherDevice
-        case .ready:
-            step = .waitingForEmojis
-            guard !sasStarted else { return }
-            sasStarted = true
-            run { try await $0.startSas() }
-        case .sasIncoming:
-            step = .waitingForEmojis
-            guard !sasAccepted else { return }
-            sasAccepted = true
-            run { try await $0.acceptSas() }
-        case .sasStarted, .confirmed: step = .waitingForEmojis
-        case .emojis(let sas): step = .compare(sas.emojis)
-        case .done: step = .done
-        case .cancelled(let cancelled):
-            if case .done = step { return }
-            step = cancelled.reason.isEmpty ? .cancelled : .failed(cancelled.reason)
-        }
-    }
-
-    private func run(_ action: @escaping (VerificationFlow) async throws -> Void) {
-        guard let flow else { return }
-        Task {
-            do { try await action(flow) } catch {
-                step = .failed(error.localizedDescription)
-            }
-        }
-    }
-
-    func confirm(_ matches: Bool) async {
-        do {
-            if matches { try await flow?.confirm() } else { try await flow?.mismatch() }
-        } catch {
-            step = .failed(error.localizedDescription)
-        }
-    }
-
-    func cancel() async {
-        try? await flow?.cancel()
-        subscription?.cancel()
-    }
-}
-
-private struct VerificationSheet: View {
-    @EnvironmentObject private var session: MatrixSession
-    @Environment(\.theme) private var theme
-    @Environment(\.dismiss) private var dismiss
-    @StateObject private var flow = SelfVerification()
-
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: WZ.Space.space6) {
-                switch flow.step {
-                case .starting, .waitingForOtherDevice:
-                    ProgressView().tint(theme.accent)
-                    Text(String(localized: "settings.openWizardchatOrAnother"))
-                        .multilineTextAlignment(.center)
-                case .waitingForEmojis:
-                    ProgressView().tint(theme.accent)
-                    Text(String(localized: "settings.waitingForTheOther"))
-                case .compare(let emojis):
-                    Text(String(localized: "settings.checkThatTheseEmojis"))
-                        .multilineTextAlignment(.center)
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: WZ.Space.space5) {
-                        ForEach(Array(emojis.enumerated()), id: \.offset) { _, emoji in
-                            VStack(spacing: WZ.Space.space2) {
-                                Text(emoji.symbol).font(.system(size: WZ.SizeIcon.xl))
-                                Text(emoji.description)
-                                    .font(.wizard(WZ.FontSize.xs))
-                                    .foregroundStyle(theme.textMuted)
-                                    .lineLimit(1)
-                            }
-                        }
-                    }
-                    HStack(spacing: WZ.Space.space4) {
-                        Button(String(localized: "verification.theyDontMatch")) { Task { await flow.confirm(false) } }
-                            .buttonStyle(SecondaryButtonStyle())
-                        Button(String(localized: "verification.theyMatch")) { Task { await flow.confirm(true) } }
-                            .buttonStyle(PrimaryButtonStyle())
-                    }
-                case .done:
-                    Image("ph-shield-check-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.success)
-                    Text(String(localized: "settings.sessions.verified")).font(.wizard(WZ.FontSize.lg, .bold))
-                    Button(String(localized: "common.done")) { dismiss() }.buttonStyle(PrimaryButtonStyle())
-                case .failed(let message):
-                    Image("ph-x-circle-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.error)
-                    Text(message).multilineTextAlignment(.center)
-                case .cancelled:
-                    Text(String(localized: "settings.verificationWasCancelled"))
-                }
-                Spacer()
-            }
-            .font(.wizard(WZ.FontSize.md))
-            .foregroundStyle(theme.textPrimary)
-            .padding(WZ.Space.space7)
-            .frame(maxWidth: .infinity)
-            .background(theme.bgSecondary)
-            .navigationTitle(String(localized: "settings.verifyWithAnotherDevice"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "common.cancel")) {
-                        Task { await flow.cancel() }
-                        dismiss()
-                    }
-                }
-            }
-        }
-        .presentationDetents([.medium, .large])
-        .task { await flow.start(session: session) }
     }
 }

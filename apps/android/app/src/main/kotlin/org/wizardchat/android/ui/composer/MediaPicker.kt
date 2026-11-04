@@ -61,6 +61,7 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.Emoji
 import org.wizardchat.android.matrix.ImagePack
 import org.wizardchat.android.matrix.PacksStore
+import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.text
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.PhIcon
@@ -154,19 +155,16 @@ fun MediaPicker(
 @Composable
 private fun EmojiGrid(packs: List<ImagePack>, onPick: (String, PackImage?) -> Unit) {
     var search by remember { mutableStateOf("") }
-    var recentRaw by remember { mutableStateOf(composerDefaults.getString("recentEmoji", "") ?: "") }
-    val recent = recentRaw.split('\u001F').filter { it.isNotEmpty() }
+    val recentEmoji = RecentEmoji.shared
+    val recent = recentEmoji.entries
     val customEmoji = packs.flatMap { pack -> pack.images.filter { it.emoticon } }
     val gridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
     val groups = remember { Emoji.groups }
     val all = remember { Emoji.all }
 
-    fun rememberRecent(emoji: String) {
-        val list = listOf(emoji) + recent.filter { it != emoji }
-        recentRaw = list.take(24).joinToString("\u001F")
-        composerDefaults.edit().putString("recentEmoji", recentRaw).apply()
-    }
+    fun rememberRecent(emoji: String) = recentEmoji.use(emoji, Emoji.labelOf(emoji))
+    fun rememberRecent(image: PackImage) = recentEmoji.use(":${image.shortcode}:", image.shortcode, image.url)
 
     // Grid positions of the group headers, for the jump bar
     val headerIndex = HashMap<Int, Int>()
@@ -200,11 +198,19 @@ private fun EmojiGrid(packs: List<ImagePack>, onPick: (String, PackImage?) -> Un
                 if (search.isEmpty()) {
                     if (recent.isNotEmpty()) {
                         sectionHeader(recentTitle)
-                        items(recent, key = { "r$it" }) { emoji -> EmojiCell(emoji) { rememberRecent(emoji); onPick(emoji, null) } }
+                        items(recent, key = { "r${it.emoji}" }) { entry ->
+                            val url = entry.url
+                            if (url != null) {
+                                val image = PackImage(shortcode = entry.label ?: entry.emoji.trim(':'), url = url, emoticon = true, sticker = false)
+                                CustomCell(image) { rememberRecent(image); onPick(":${image.shortcode}:", image) }
+                            } else {
+                                EmojiCell(entry.emoji) { rememberRecent(entry.emoji); onPick(entry.emoji, null) }
+                            }
+                        }
                     }
                     if (customEmoji.isNotEmpty()) {
                         sectionHeader(customTitle)
-                        items(customEmoji) { image -> CustomCell(image) { onPick(":${image.shortcode}:", image) } }
+                        items(customEmoji) { image -> CustomCell(image) { rememberRecent(image); onPick(":${image.shortcode}:", image) } }
                     }
                     groups.forEach { group ->
                         sectionHeader(group.name)
@@ -215,7 +221,7 @@ private fun EmojiGrid(packs: List<ImagePack>, onPick: (String, PackImage?) -> Un
                 } else {
                     val custom = customEmoji.filter { it.shortcode.contains(search, ignoreCase = true) }
                     val results = all.filter { it.matches(search) }
-                    items(custom) { image -> CustomCell(image) { onPick(":${image.shortcode}:", image) } }
+                    items(custom) { image -> CustomCell(image) { rememberRecent(image); onPick(":${image.shortcode}:", image) } }
                     items(results, key = { "e${it.e}" }) { emoji -> EmojiCell(emoji.e) { rememberRecent(emoji.e); onPick(emoji.e, null) } }
                     if (custom.isEmpty() && results.isEmpty()) {
                         item(span = { GridItemSpan(maxLineSpan) }) {

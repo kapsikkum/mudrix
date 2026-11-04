@@ -98,7 +98,6 @@ struct RoomListScreen: View {
                 }
             }
         }
-        .clearsBottomBar()
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(theme.bgPrimary.ignoresSafeArea())

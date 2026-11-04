@@ -82,6 +82,26 @@ extension MatrixSession {
         try await requireClient.recover(recoveryKey: recoveryKey.trimmingCharacters(in: .whitespacesAndNewlines))
     }
 
+    func hasEncryptionIdentity() async -> Bool? {
+        guard let client, let userId else { return nil }
+        return try? await client.userTrust(userId: userId).hasIdentity
+    }
+
+    /// A new encryption identity; OAuth accounts approve it on their account page (`approve`),
+    /// others confirm with their password
+    func resetIdentity(password: String?, approve: @escaping @Sendable (URL) -> Void) async throws {
+        let client = try requireClient
+        try await withPassword(password) { auth in
+            try await client.resetIdentityWithAuth(auth: auth) { url in
+                if let url = URL(string: url) { approve(url) }
+            }
+        }
+    }
+
+    func cancelIdentityReset() async {
+        try? await client?.cancelIdentityReset()
+    }
+
     func enableRecovery() async throws -> String {
         try await requireClient.enableRecovery()
     }

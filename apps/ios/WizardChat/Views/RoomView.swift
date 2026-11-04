@@ -7,7 +7,6 @@ struct RoomView: View {
     @EnvironmentObject private var prefs: AppPreferences
     @EnvironmentObject private var notifier: MessageNotifier
     @Environment(\.theme) private var theme
-    @Environment(\.bottomBarInset) private var bottomBarInset
 
     init(room: RoomSummary, client: WizardClient) {
         self.room = room
@@ -51,6 +50,8 @@ struct RoomView: View {
     @State private var replyTo: ChatEntry?
     @State private var editing: ChatEntry?
     @State private var reactingTo: ChatEntry?
+    @State private var menuTarget: MessageMenuTarget?
+    @State private var afterMenu: (() -> Void)?
     @StateObject private var reactionPacks = PacksStore()
     @State private var showInfo = false
     @State private var canPin = false
@@ -155,7 +156,6 @@ struct RoomView: View {
                     if prefs.typingIndicators { timeline.setTyping(typing) }
                 }
             }
-            .padding(.bottom, bottomBarInset)
             .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { composerTop = $0 }
         }
         .background(theme.bgSecondary.ignoresSafeArea())
@@ -228,6 +228,18 @@ struct RoomView: View {
             UserProfileSheet(userId: item.id, roomId: room.id)
         }
         .task { await timeline.start() }
+        .fullScreenCover(item: $menuTarget, onDismiss: {
+            afterMenu?()
+            afterMenu = nil
+        }) { target in
+            MessageMenuOverlay(target: target, actions: actions, isPrivateRoom: room.isDirect) { then in
+                afterMenu = then
+                var transaction = Transaction()
+                transaction.disablesAnimations = true
+                withTransaction(transaction) { menuTarget = nil }
+            }
+            .presentationBackground(.clear)
+        }
         .sheet(item: $reactingTo) { entry in
             MediaPicker(tab: .emoji, store: reactionPacks, onEmoji: { emoji, image in
                 Task { await timeline.toggleReaction(image?.url ?? emoji, on: entry) }
@@ -265,7 +277,13 @@ struct RoomView: View {
             report: { reporting = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
             linkPreviews: linkPreviews,
-            retry: { timeline.retrySending() }
+            retry: { timeline.retrySending() },
+            openMenu: { entry, frame in
+                // The menu fades in by itself; the cover's own slide-up would fight it
+                var transaction = Transaction()
+                transaction.disablesAnimations = true
+                withTransaction(transaction) { menuTarget = MessageMenuTarget(entry: entry, frame: frame) }
+            }
         )
     }
 
@@ -275,6 +293,9 @@ struct RoomView: View {
                 Color.clear
                     .frame(height: WZ.Space.space0)
                     .id(Self.bottomId)
+                ForEach(timeline.uploads.reversed()) { upload in
+                    UploadingRow(upload: upload).flippedVertically()
+                }
                 ForEach(timeline.entries.reversed()) { entry in
                     VStack(spacing: WZ.Space.space0) {
                         if entry.id == unreadDividerId { NewMessagesDivider() }
@@ -282,7 +303,7 @@ struct RoomView: View {
                             .background(highlightedId == entry.id ? theme.accent.opacity(0.18) : .clear)
                     }
                         .flippedVertically()
-                        .modifier(MessageContextMenu(entry: entry, actions: actions, isPrivateRoom: room.isDirect))
+                        .modifier(MessageContextMenu(entry: entry, actions: actions))
                         .id(entry.id)
                 }
                 Group {
@@ -395,6 +416,39 @@ private struct ScrollEdges: Equatable {
         farFromBottom = bottomGap > geometry.containerSize.height
         fillsScreen = geometry.contentSize.height + geometry.contentInsets.top + geometry.contentInsets.bottom
             > geometry.containerSize.height + 240
+    }
+}
+
+private struct UploadingRow: View {
+    let upload: PendingUpload
+    @Environment(\.theme) private var theme
+
+    private var size: CGSize {
+        guard let preview = upload.preview else { return CGSize(width: 260, height: 72) }
+        let scale = min(260 / max(preview.size.width, 1), 320 / max(preview.size.height, 1), 1)
+        return CGSize(width: max(preview.size.width * scale, 60), height: max(preview.size.height * scale, 60))
+    }
+
+    var body: some View {
+        HStack(alignment: .top, spacing: WZ.Space.space5) {
+            Color.clear.frame(width: WZ.SizeAvatar.md, height: WZ.Space.space0)
+            ZStack {
+                if let preview = upload.preview {
+                    Image(uiImage: preview).resizable().aspectRatio(contentMode: .fill)
+                } else {
+                    theme.fill
+                }
+                UploadProgressRing(progress: upload.progress)
+            }
+            .frame(width: size.width, height: size.height)
+            .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, WZ.Space.space6)
+        .padding(.vertical, WZ.Space.space1)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(L10n.format("timeline.uploading", upload.filename))
+        .accessibilityValue(upload.progress.map { "\(Int($0 * 100))%" } ?? "")
     }
 }
 
@@ -809,94 +863,19 @@ struct MessageRow: View {
     }
 }
 
-struct MessageMenu: View {
-    @Environment(\.theme) private var theme
-    let entry: ChatEntry
-    let actions: MessageActions
-
-    private static let quickReactions = ["👍", "❤️", "😂", "😮", "😢", "🎉"]
-
-    var body: some View {
-        let actions: MessageActions? = actions
-        if let actions, entry.itemKey != nil {
-            ControlGroup {
-                ForEach(Self.quickReactions, id: \.self) { emoji in
-                    Button(emoji) { actions.react(emoji, entry) }
-                }
-            }
-            .controlGroupStyle(.palette)
-            Button { actions.moreReactions(entry) } label: { Label(String(localized: "emoji.react"), image: "ph-smiley-regular") }
-            if entry.canBeRepliedTo {
-                Button { actions.reply(entry) } label: { Label(String(localized: "timeline.reply"), image: "ph-arrow-bend-up-left-regular") }
-            }
-            if entry.isOwn, entry.isEditable, case .message = entry.kind {
-                Button { actions.edit(entry) } label: { Label(String(localized: "common.edit"), image: "ph-pencil-simple-regular") }
-            }
-        }
-        if !entry.summary.isEmpty, case .message = entry.kind {
-            Button { copyToClipboard(entry.summary) } label: { Label(String(localized: "common.copy"), image: "ph-copy-regular") }
-        }
-        if let actions, let eventId = entry.eventId {
-            Button {
-                copyToClipboard("https://matrix.to/#/\(actions.roomId)/\(eventId)", message: String(localized: "timeline.linkCopied"))
-            } label: { Label(String(localized: "common.copyLink"), image: "ph-link-simple-regular") }
-            if actions.canPin {
-                let pinned = actions.pinnedIds.contains(eventId)
-                Button { actions.togglePin(entry) } label: {
-                    Label(pinned ? String(localized: "timeline.unpin") : String(localized: "timeline.pin"), image: pinned ? "ph-push-pin-slash-regular" : "ph-push-pin-regular")
-                }
-            }
-            Button { actions.viewSource(entry) } label: {
-                Label(String(localized: "timeline.viewSource"), image: "ph-code-regular")
-            }
-            Divider()
-            if !entry.isOwn {
-                Button(role: .destructive) { actions.report(entry) } label: {
-                    Label(String(localized: "timeline.reportShort"), image: "ph-flag-regular")
-                }
-            }
-            if entry.isOwn || actions.canRedactOthers {
-                Button(role: .destructive) { actions.delete(entry) } label: { Label(String(localized: "common.delete"), image: "ph-trash-regular") }
-                    .tint(theme.danger)
-            }
-        }
-    }
-}
-
 private struct MessageContextMenu: ViewModifier {
     let entry: ChatEntry
     let actions: MessageActions
-    let isPrivateRoom: Bool
-    @EnvironmentObject private var prefs: AppPreferences
-    @Environment(\.theme) private var theme
-    @Environment(\.mediaLoader) private var mediaLoader
+    @State private var frame: CGRect = .zero
 
     func body(content: Content) -> some View {
         if entry.isContent {
-            content.contextMenu {
-                MessageMenu(entry: entry, actions: actions)
-                    .menuOrder(.fixed)
-                    // Icons in the text colour, so only Delete stands out in red.
-                    .tint(theme.textPrimary)
-            } preview: {
-                MessageRow(entry: preview, isPrivateRoom: isPrivateRoom)
-                    .padding(.vertical, WZ.Space.space4)
-                    .frame(width: WZ.SizeDialog.sm)
-                    .background(theme.bgSecondary)
-                    .environmentObject(prefs)
-                    .environment(\.theme, theme)
-                    .environment(\.mediaLoader, mediaLoader)
-                    .environment(\.animatesMedia, true)
-            }
+            content
+                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { frame = $0 }
+                .onLongPressGesture(minimumDuration: 0.35) { actions.openMenu(entry, frame) }
         } else {
             content
         }
-    }
-
-    private var preview: ChatEntry {
-        var copy = entry
-        copy.isGrouped = false
-        return copy
     }
 }
 
@@ -919,6 +898,7 @@ struct MessageActions {
     /// Set only in unencrypted rooms (see `LinkPreviewLoader`).
     var linkPreviews: LinkPreviewLoader?
     var retry: () -> Void = {}
+    var openMenu: (ChatEntry, CGRect) -> Void = { _, _ in }
 }
 
 enum MessageText {

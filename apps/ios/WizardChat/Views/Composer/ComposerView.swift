@@ -604,10 +604,8 @@ struct ComposerView: View {
             attachments = []
             draft = ""
             replyTo = nil
-            for (index, attachment) in pending.enumerated() {
-                await timeline.sendFile(at: attachment.url, caption: index == 0 && !text.isEmpty ? text : nil,
-                                        replyTo: index == 0 ? reply : nil)
-            }
+            await timeline.sendFiles(pending.map { ($0.url, $0.thumbnail) }, caption: text.isEmpty ? nil : text,
+                                     replyTo: reply)
             return
         }
 

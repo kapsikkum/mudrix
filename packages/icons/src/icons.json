@@ -58,6 +58,7 @@
   ["link-simple", "regular"],
   ["list-bullets", "regular"],
   ["lock", "regular"],
+  ["lock-key", "regular"],
   ["lock-open", "regular"],
   ["magnifying-glass", "regular"],
   ["map-pin", "regular"],

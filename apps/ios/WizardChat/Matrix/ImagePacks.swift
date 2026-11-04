@@ -74,6 +74,12 @@ struct Emoji: Identifiable, Decodable {
     }()
 
     static let all: [Emoji] = file?.emoji ?? []
+    private static let byCharacter = Dictionary(all.map { ($0.e, $0) }, uniquingKeysWith: { first, _ in first })
+
+    /// The English name, which the web stores with recent emoji
+    static func label(of emoji: String) -> String {
+        byCharacter[emoji]?.n["en"] ?? emoji
+    }
 
     private static let language = Locale.current.language.languageCode?.identifier ?? "en"
 

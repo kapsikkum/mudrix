@@ -8,6 +8,8 @@ struct WizardChatApp: App {
     @StateObject private var prefs = AppPreferences()
     @StateObject private var notifier = MessageNotifier()
     @StateObject private var calls = CallManager()
+    @StateObject private var recentEmoji = RecentEmoji()
+    @StateObject private var verificationRequests = VerificationRequests()
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
@@ -51,6 +53,7 @@ struct WizardChatApp: App {
                 case .loggedIn:
                     if let roomList = session.roomList {
                         MainTabView(roomList: roomList)
+                            .sheet(item: $verificationRequests.presented) { VerificationSheet(model: $0) }
                     }
                 }
             }
@@ -60,6 +63,7 @@ struct WizardChatApp: App {
             .environmentObject(prefs)
             .environmentObject(notifier)
             .environmentObject(calls)
+            .environmentObject(recentEmoji)
             .environment(\.mediaLoader, session.media)
             }
             .transaction { transaction in
@@ -110,6 +114,8 @@ struct WizardChatApp: App {
             notifier.stop()
             calls.stopWatchingIncoming()
             calls.leave()
+            recentEmoji.stop()
+            verificationRequests.stop()
             MemberDirectory.shared.reset()
             prefs.onSyncedSettingsChange = nil
             return
@@ -124,7 +130,11 @@ struct WizardChatApp: App {
         if let roomList = session.roomList {
             notifier.start(roomList: roomList, prefs: prefs)
         }
-        if let client = session.client { calls.watchIncoming(client) }
+        if let client = session.client {
+            calls.watchIncoming(client)
+            recentEmoji.start(client: client)
+            verificationRequests.start(client: client)
+        }
     }
 
     private func applyAppIcon() {
