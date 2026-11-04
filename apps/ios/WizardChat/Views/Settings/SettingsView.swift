@@ -2,12 +2,15 @@ import SwiftUI
 
 struct SettingsView: View {
     var isTab = false
+    /// Changes when the You tab is tapped again, to go back to the list
+    var popToRoot = 0
+    @State private var path: [Page] = []
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, emojis, notifications, appearance, accessibility, language, sessions, developer, about
+        case account, privacy, emojis, notifications, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey {
             switch self {
@@ -19,6 +22,7 @@ struct SettingsView: View {
             case .accessibility: return "settings.accessibility.title"
             case .language: return "settings.language.title"
             case .sessions: return "settings.sessions.title"
+            case .encryption: return "settings.encryption.title"
             case .developer: return "settings.developer.title"
             case .about: return "settings.about.title"
             }
@@ -34,6 +38,7 @@ struct SettingsView: View {
             case .accessibility: return "ph-person-simple-circle-regular"
             case .language: return "ph-globe-simple-regular"
             case .sessions: return "ph-devices-regular"
+            case .encryption: return "ph-lock-key-regular"
             case .developer: return "ph-wrench-regular"
             case .about: return "ph-info-regular"
             }
@@ -41,7 +46,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 Section {
                     NavigationLink(value: Page.account) {
@@ -69,7 +74,7 @@ struct SettingsView: View {
                     ForEach([Page.appearance, .accessibility, .language]) { pageRow($0) }
                 }
                 Section {
-                    ForEach([Page.sessions, .developer, .about]) { pageRow($0) }
+                    ForEach([Page.sessions, .encryption, .developer, .about]) { pageRow($0) }
                 }
 
                 Section {
@@ -85,7 +90,6 @@ struct SettingsView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .clearsBottomBar()
             .scrollContentBackground(.hidden)
             .listRowBackground(theme.groupedRow)
             .background(theme.groupedBackground.ignoresSafeArea())
@@ -108,12 +112,14 @@ struct SettingsView: View {
                 case .accessibility: AccessibilitySettings()
                 case .language: LanguageSettings()
                 case .sessions: SessionsSettings()
+                case .encryption: EncryptionSettings()
                 case .developer: DeveloperSettings()
                 case .about: AboutSettings()
                 }
             }
             .tint(theme.accent)
         }
+        .onChange(of: popToRoot) { _, _ in path = [] }
     }
 
     private func pageRow(_ page: Page) -> some View {
@@ -146,7 +152,6 @@ struct SettingsPage<Content: View>: View {
             content()
                 .listRowBackground(theme.groupedRow)
         }
-        .clearsBottomBar()
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.interactively)

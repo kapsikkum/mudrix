@@ -52,6 +52,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MessageNotifier
+import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.UnreadState
@@ -66,6 +67,8 @@ import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.UnreadDot
 import org.wizardchat.android.ui.room.RoomScreen
 import org.wizardchat.android.ui.settings.SettingsScreen
+import org.wizardchat.android.ui.settings.VerificationRequests
+import org.wizardchat.android.ui.settings.VerificationSheet
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -165,6 +168,8 @@ fun MainScreen(roomList: RoomListModel) {
         session.applyPresence(prefs.showPresence)
         notifier.start(roomList, prefs)
         calls.watchIncoming(client)
+        RecentEmoji.shared.start(client)
+        VerificationRequests.shared.start(client)
     }
     // Signed out: MainScreen goes away
     DisposableEffect(Unit) {
@@ -172,6 +177,8 @@ fun MainScreen(roomList: RoomListModel) {
             notifier.stop()
             calls.stopWatchingIncoming()
             calls.leave()
+            RecentEmoji.shared.stop()
+            VerificationRequests.shared.stop()
             prefs.onSyncedSettingsChange = null
         }
     }
@@ -245,6 +252,9 @@ fun MainScreen(roomList: RoomListModel) {
             ExploreSheet(roomList, { showExplore = false }) { roomId ->
                 if (roomList.room(roomId) != null) show(roomId) else showSpace(roomId)
             }
+        }
+        VerificationRequests.shared.presented?.let { model ->
+            VerificationSheet(model) { VerificationRequests.shared.presented = null }
         }
     }
 }

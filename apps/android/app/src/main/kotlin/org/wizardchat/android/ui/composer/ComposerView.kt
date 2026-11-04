@@ -330,13 +330,11 @@ fun ComposerView(
             attachments.clear()
             setDraft("")
             onReplyToChange(null)
-            pending.forEachIndexed { index, attachment ->
-                timeline.sendFile(
-                    attachment.file,
-                    caption = if (index == 0 && message.isNotEmpty()) message else null,
-                    replyTo = if (index == 0) reply else null,
-                )
-            }
+            timeline.sendFiles(
+                pending.map { Uri.fromFile(it.file) to it.thumbnail },
+                caption = message.ifEmpty { null },
+                replyTo = reply,
+            )
             return
         }
 

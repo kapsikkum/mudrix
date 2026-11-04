@@ -63,10 +63,9 @@ private struct EmojiGrid: View {
     let onPick: (String, PackImage?) -> Void
 
     @Environment(\.theme) private var theme
+    @EnvironmentObject private var recentEmoji: RecentEmoji
     @State private var search = ""
-    @AppStorage("recentEmoji") private var recentRaw = ""
 
-    private var recent: [String] { recentRaw.split(separator: "\u{1F}").map(String.init) }
     private var customEmoji: [PackImage] { packs.flatMap { $0.images.filter(\.isEmoticon) } }
     private let columns = [GridItem(.adaptive(minimum: 44), spacing: WZ.Space.space2)]
 
@@ -77,9 +76,16 @@ private struct EmojiGrid: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: WZ.Space.space2, pinnedViews: .sectionHeaders) {
                         if search.isEmpty {
-                            if !recent.isEmpty {
+                            if !recentEmoji.entries.isEmpty {
                                 section("composer.recentEmoji", id: "recent") {
-                                    ForEach(recent, id: \.self) { emoji in cell(emoji) }
+                                    ForEach(recentEmoji.entries, id: \.emoji) { entry in
+                                        if let url = entry.url {
+                                            customCell(PackImage(shortcode: entry.label ?? entry.emoji.trimmingCharacters(in: [":"]), url: url,
+                                                             emoticon: true, sticker: false))
+                                        } else {
+                                            cell(entry.emoji)
+                                        }
+                                    }
                                 }
                             }
                             if !customEmoji.isEmpty {
@@ -146,7 +152,7 @@ private struct EmojiGrid: View {
 
     private func cell(_ emoji: String) -> some View {
         Button {
-            remember(emoji)
+            recentEmoji.use(emoji, label: Emoji.label(of: emoji))
             onPick(emoji, nil)
         } label: {
             Text(emoji).font(.system(size: WZ.SizeIcon.xl)).frame(width: WZ.Space.space10, height: WZ.Space.space10)
@@ -156,18 +162,13 @@ private struct EmojiGrid: View {
 
     private func customCell(_ image: PackImage) -> some View {
         Button {
+            recentEmoji.use(":\(image.shortcode):", label: image.shortcode, url: image.url)
             onPick(":\(image.shortcode):", image)
         } label: {
             PackThumb(url: image.url).frame(width: WZ.Space.space9, height: WZ.Space.space9).frame(width: WZ.Space.space10, height: WZ.Space.space10)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(image.shortcode)
-    }
-
-    private func remember(_ emoji: String) {
-        var list = recent.filter { $0 != emoji }
-        list.insert(emoji, at: 0)
-        recentRaw = list.prefix(24).joined(separator: "\u{1F}")
     }
 }
 

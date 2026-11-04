@@ -32,38 +32,25 @@ struct SpacesScreen: View {
                         }
                     }
                 }
-                if search.isEmpty {
-                    Button(action: onCreateSpace) {
-                        SpaceTile(name: String(localized: "home.createOrJoin"), unread: UnreadState()) {
-                            actionIcon("ph-plus-regular")
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    Button(action: onExplore) {
-                        SpaceTile(name: String(localized: "explore.title"), unread: UnreadState()) {
-                            actionIcon("ph-compass-regular")
-                        }
-                    }
-                    .buttonStyle(.plain)
-                }
             }
             .padding(.horizontal, WZ.Space.space6)
             .padding(.top, WZ.Space.space4)
         }
-        .clearsBottomBar()
         .background(theme.bgPrimary.ignoresSafeArea())
         .navigationTitle(String(localized: "room.settings.permissions.groups.spaces"))
         .navigationBarTitleDisplayMode(.large)
-        // Under the title: iOS 26 would otherwise put it at the bottom, behind the tab island.
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: onCreateSpace) { Image("ph-plus-regular") }
+                    .accessibilityLabel(String(localized: "home.createOrJoin"))
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: onExplore) { Image("ph-compass-regular") }
+                    .accessibilityLabel(String(localized: "explore.title"))
+            }
+        }
+        // Under the title: iOS 26 would otherwise put it at the bottom, next to the tab bar.
         .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic), prompt: Text(String(localized: "common.search")))
-    }
-
-    private func actionIcon(_ name: String) -> some View {
-        Image(name)
-            .font(.system(size: WZ.SizeIcon.xl, weight: .medium))
-            .foregroundStyle(theme.accent)
-            .frame(width: WZ.SizeAvatar.xl, height: WZ.SizeAvatar.xl)
-            .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
     }
 }
 

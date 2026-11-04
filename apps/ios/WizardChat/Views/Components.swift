@@ -22,8 +22,9 @@ struct AvatarView: View {
     @State private var image: UIImage?
 
     var body: some View {
+        // The colour is only for the initial; transparent pictures show what's behind them
         shape
-            .fill(fallbackColor)
+            .fill(image == nil ? fallbackColor : .clear)
             .overlay {
                 if let image {
                     Image(uiImage: image)

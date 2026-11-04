@@ -83,6 +83,10 @@ data class Emoji(
         }
 
         val all: List<Emoji> get() = file?.emoji.orEmpty()
+        private val byCharacter by lazy { all.associateBy { it.e } }
+
+        /** The English name, which the web stores with recent emoji */
+        fun labelOf(emoji: String): String = byCharacter[emoji]?.n?.get("en") ?: emoji
 
         private val icons = mapOf(
             "smileys-emotion" to "smiley", "people-body" to "user", "animals-nature" to "paw-print",

@@ -6,9 +6,11 @@ struct StoredSession: Codable {
     var session: Session
     var storeFolder: String
     var passphrase: String
+    var excludeInsecureDevices: Bool?
 
     var store: StoreConfig {
-        StoreConfig(location: SessionStore.storePath(for: storeFolder).path, passphrase: passphrase)
+        StoreConfig(location: SessionStore.storePath(for: storeFolder).path, passphrase: passphrase,
+                    excludeInsecureDevices: excludeInsecureDevices)
     }
 
     static func newStore() -> (folder: String, config: StoreConfig) {

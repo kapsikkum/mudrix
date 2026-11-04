@@ -1,5 +1,7 @@
 package org.wizardchat.android.matrix
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
@@ -26,6 +28,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
+import org.wizardchat.core.UploadedFile
 import org.wizardchat.core.EntryContent
 import org.wizardchat.core.ListDiff
 import org.wizardchat.core.MediaInfo
@@ -44,6 +47,18 @@ import org.wizardchat.core.TimelineKind
 import org.wizardchat.core.WizardClient
 
 /** A row of the timeline. Immutable: changes make copies. */
+data class PendingUpload(
+    val preview: Bitmap?,
+    val isVideo: Boolean,
+    val filename: String,
+    val progress: Float? = null,
+    val id: Long = nextId++,
+) {
+    private companion object {
+        var nextId = 0L
+    }
+}
+
 @Immutable
 data class ChatEntry(
     val id: String,
@@ -184,6 +199,8 @@ class TimelineModel(
     var firstUnreadId by mutableStateOf<String?>(null)
         private set
     var pinnedIds by mutableStateOf<Set<String>>(emptySet())
+        private set
+    var uploads by mutableStateOf<List<PendingUpload>>(emptyList())
         private set
 
     private val kind: TimelineKind = if (pinnedOnly) TimelineKind.Pinned else TimelineKind.Main
@@ -344,41 +361,93 @@ class TimelineModel(
     }
 
     /** Uploads a picked file (`content://` or `file://`) */
-    suspend fun sendFile(uri: Uri, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) {
+    suspend fun sendFile(uri: Uri, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) =
+        sendFiles(listOf(uri to null), caption, replyTo, spoiler)
+
+    /** The caption and reply go with the first file */
+    suspend fun sendFiles(
+        files: List<Pair<Uri, Bitmap?>>,
+        caption: String? = null,
+        replyTo: String? = null,
+        spoiler: Boolean = false,
+    ) {
+        if (timeline == null) return
+        val pending = files.map { (uri, preview) ->
+            val mimetype = mimeTypeOf(uri)
+            PendingUpload(
+                preview = preview ?: if (mimetype.startsWith("image/")) decodePreview(uri) else null,
+                isVideo = mimetype.startsWith("video/"),
+                filename = filenameOf(uri),
+            )
+        }
+        uploads = uploads + pending
+        files.zip(pending).forEachIndexed { index, (file, item) ->
+            upload(
+                file.first,
+                item.id,
+                caption = if (index == 0) caption else null,
+                replyTo = if (index == 0) replyTo else null,
+                spoiler = spoiler,
+            )
+            uploads = uploads.filter { it.id != item.id }
+        }
+    }
+
+    private suspend fun upload(uri: Uri, id: Long, caption: String?, replyTo: String?, spoiler: Boolean) {
         val timeline = timeline ?: return
         val context = WizardApplication.instance
-        val filename = displayName(uri) ?: uri.lastPathSegment?.substringAfterLast('/') ?: "file"
-        val mimetype = context.contentResolver.getType(uri)?.takeIf { it != "application/octet-stream" }
-            ?: mimeType(filename)
-        var options = AttachmentOptions(
-            filename = filename,
+        val mimetype = mimeTypeOf(uri)
+        var file = UploadedFile(
+            source = JsonPrimitive(""),
+            size = 0,
+            filename = filenameOf(uri),
             mimetype = mimetype,
             caption = caption,
             spoiler = spoiler,
-            replyTo = replyTo,
             isAnimated = mimetype == "image/gif",
+            replyTo = replyTo,
         )
         when {
             mimetype.startsWith("image/") -> MediaMetadata.imageSize(uri)?.let { (w, h) ->
-                options = options.copy(width = w.toLong(), height = h.toLong())
+                file = file.copy(width = w.toLong(), height = h.toLong())
             }
             mimetype.startsWith("video/") -> {
                 val video = MediaMetadata.video(uri)
-                options = options.copy(
+                file = file.copy(
                     width = video.size?.first?.toLong(),
                     height = video.size?.second?.toLong(),
                     durationMs = video.duration?.let { (it * 1000).toLong() },
                 )
             }
             mimetype.startsWith("audio/") ->
-                options = options.copy(durationMs = MediaMetadata.duration(uri)?.let { (it * 1000).toLong() })
+                file = file.copy(durationMs = MediaMetadata.duration(uri)?.let { (it * 1000).toLong() })
         }
         report {
             val data = withContext(Dispatchers.IO) {
                 context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             } ?: throw IllegalStateException(L10n.format("common.somethingWentWrong"))
-            timeline.sendFile(data, options)
+            val source = timeline.uploadFile(data, mimetype) { progress ->
+                if (progress.total <= 0) return@uploadFile
+                val fraction = progress.current.toFloat() / progress.total
+                scope.launch { uploads = uploads.map { if (it.id == id) it.copy(progress = fraction) else it } }
+            }
+            timeline.sendUploaded(file.copy(source = source, size = data.size.toLong()))
         }
+    }
+
+    private fun filenameOf(uri: Uri): String =
+        displayName(uri) ?: uri.lastPathSegment?.substringAfterLast('/') ?: "file"
+
+    private fun mimeTypeOf(uri: Uri): String =
+        WizardApplication.instance.contentResolver.getType(uri)?.takeIf { it != "application/octet-stream" }
+            ?: mimeType(filenameOf(uri))
+
+    private suspend fun decodePreview(uri: Uri): Bitmap? = withContext(Dispatchers.IO) {
+        runCatching {
+            WizardApplication.instance.contentResolver.openInputStream(uri)?.use {
+                BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = 4 })
+            }
+        }.getOrNull()
     }
 
     suspend fun sendFile(file: File, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) =

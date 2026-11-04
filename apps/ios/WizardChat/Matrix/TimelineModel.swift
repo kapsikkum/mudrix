@@ -1,6 +1,15 @@
 import Foundation
+import UIKit
 import UniformTypeIdentifiers
 import WizardChatCore
+
+struct PendingUpload: Identifiable {
+    let id = UUID()
+    let preview: UIImage?
+    let isVideo: Bool
+    let filename: String
+    var progress: Double?
+}
 
 struct MessageMention: Hashable {
     let label: String
@@ -158,6 +167,7 @@ final class TimelineModel: ObservableObject {
     @Published var sendError: String?
     @Published private(set) var firstUnreadId: String?
     @Published private(set) var pinnedIds: Set<String> = []
+    @Published private(set) var uploads: [PendingUpload] = []
 
     let client: WizardClient
     let roomId: String
@@ -320,30 +330,55 @@ final class TimelineModel: ObservableObject {
     }
 
     func sendFile(at url: URL, caption: String? = nil, replyTo: String? = nil, spoiler: Bool = false) async {
+        await sendFiles([(url, nil)], caption: caption, replyTo: replyTo, spoiler: spoiler)
+    }
+
+    /// The caption and reply go with the first file
+    func sendFiles(_ files: [(url: URL, preview: UIImage?)], caption: String? = nil, replyTo: String? = nil,
+                   spoiler: Bool = false) async {
+        guard timeline != nil else { return }
+        let pending = files.map { file in
+            let type = UTType(filenameExtension: file.url.pathExtension) ?? .data
+            return PendingUpload(preview: file.preview ?? (type.conforms(to: .image) ? UIImage(contentsOfFile: file.url.path) : nil),
+                                 isVideo: type.conforms(to: .movie), filename: file.url.lastPathComponent)
+        }
+        uploads.append(contentsOf: pending)
+        for (index, (file, item)) in zip(files, pending).enumerated() {
+            await upload(file.url, as: item.id, caption: index == 0 ? caption : nil,
+                         replyTo: index == 0 ? replyTo : nil, spoiler: spoiler)
+            uploads.removeAll { $0.id == item.id }
+        }
+    }
+
+    private func upload(_ url: URL, as id: UUID, caption: String?, replyTo: String?, spoiler: Bool) async {
         guard let timeline else { return }
         let type = UTType(filenameExtension: url.pathExtension) ?? .data
-        var options = AttachmentOptions(
-            filename: url.lastPathComponent,
-            mimetype: type.preferredMIMEType ?? "application/octet-stream",
-            caption: caption,
-            spoiler: spoiler,
-            replyTo: replyTo,
-            isAnimated: type.conforms(to: .gif)
-        )
+        let mimetype = type.preferredMIMEType ?? "application/octet-stream"
+        var file = UploadedFile(source: .null, size: 0, filename: url.lastPathComponent, mimetype: mimetype,
+                                caption: caption, spoiler: spoiler, isAnimated: type.conforms(to: .gif), replyTo: replyTo)
         if type.conforms(to: .image), let size = MediaMetadata.imageSize(at: url) {
-            options.width = Int(size.width)
-            options.height = Int(size.height)
+            file.width = Int(size.width)
+            file.height = Int(size.height)
         } else if type.conforms(to: .movie) {
             let video = await MediaMetadata.video(at: url)
-            options.width = video.size.map { Int($0.width) }
-            options.height = video.size.map { Int($0.height) }
-            options.durationMs = video.duration.map { Int($0 * 1000) }
+            file.width = video.size.map { Int($0.width) }
+            file.height = video.size.map { Int($0.height) }
+            file.durationMs = video.duration.map { Int($0 * 1000) }
         } else if type.conforms(to: .audio) {
-            options.durationMs = await MediaMetadata.duration(at: url).map { Int($0 * 1000) }
+            file.durationMs = await MediaMetadata.duration(at: url).map { Int($0 * 1000) }
         }
         await report {
             let data = try Data(contentsOf: url)
-            try await timeline.sendFile(bytes: data, options: options)
+            file.size = data.count
+            file.source = try await timeline.uploadFile(data: data, mimetype: mimetype) { [weak self] progress in
+                guard progress.total > 0 else { return }
+                let fraction = Double(progress.current) / Double(progress.total)
+                Task { @MainActor in
+                    guard let self, let index = self.uploads.firstIndex(where: { $0.id == id }) else { return }
+                    self.uploads[index].progress = fraction
+                }
+            }
+            try await timeline.sendUploaded(file: file)
         }
     }
 

@@ -162,6 +162,30 @@ final class MatrixSession: ObservableObject {
         }
     }
 
+    var excludesInsecureDevices: Bool { stored?.excludeInsecureDevices ?? false }
+
+    /// The client reads this when it's built, so it applies after `restart()`
+    func setExcludeInsecureDevices(_ exclude: Bool) {
+        guard var stored else { return }
+        stored.excludeInsecureDevices = exclude
+        self.stored = stored
+        SessionStore.save(stored)
+    }
+
+    /// Builds the client again from the stored session, like reloading the web app
+    func restart() async {
+        guard stored != nil else { return }
+        subscriptions.forEach { $0.cancel() }
+        subscriptions = []
+        roomList?.stop()
+        roomList = nil
+        media = nil
+        try? await client?.stopSync()
+        client = nil
+        state = .restoring
+        await restore()
+    }
+
     func logout() async {
         try? await client?.logout()
         if let stored { forget(stored) }

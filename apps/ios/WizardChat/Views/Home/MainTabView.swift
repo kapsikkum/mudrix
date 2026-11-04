@@ -1,4 +1,5 @@
 import SwiftUI
+import WizardChatCore
 
 struct MainTabView: View {
     enum Tab: String, CaseIterable { case home, dms, spaces, me }
@@ -12,44 +13,29 @@ struct MainTabView: View {
 
     @State private var tab: Tab = .home
     @State private var paths: [Tab: [Route]] = [:]
-    @State private var keyboardVisible = false
+    @State private var profileIcon: UIImage?
+    @State private var settingsPopToRoot = 0
     @State private var showCreateSpace = false
     @State private var showInbox = false
     @State private var showExplore = false
 
-    static let islandHeight: CGFloat = WZ.Size.tabBar + WZ.Space.space5 + WZ.Space.space1
-    static let callBarHeight: CGFloat = WZ.Size.callControl + WZ.Space.space5
-
     var body: some View {
-        ZStack {
-            ForEach(Tab.allCases, id: \.self) { item in
-                tabContent(item)
-                    .environment(\.bottomBarInset, (showsIsland(in: item) ? Self.islandHeight : 0)
-                                 + (showsCallBar(in: item) ? Self.callBarHeight : 0))
-                    .opacity(tab == item ? 1 : 0)
-                    .allowsHitTesting(tab == item)
-                    .accessibilityHidden(tab != item)
+        TabView(selection: Binding(get: { tab }, set: select)) {
+            tabItem(.home, title: "room.home", icon: "house", unread: roomList.unreadState(of: .home))
+            tabItem(.dms, title: "roomSwitcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
+            SwiftUI.Tab(value: Tab.me) {
+                tabContent(.me)
+            } label: {
+                Group {
+                    if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
+                }
+                .accessibilityLabel(String(localized: "mobileNav.you"))
             }
         }
-        .overlay(alignment: .bottom) {
-            VStack(spacing: WZ.Space.space4) {
-                if showsCallBar(in: tab) {
-                    CallBar {
-                        if calls.room?.isDirect == true { calls.showCallScreen = true }
-                        else if let id = calls.room?.id { show(id) }
-                    }
-                        .padding(.horizontal, WZ.Space.space6)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
-                if showsIsland(in: tab) {
-                    TabIsland(roomList: roomList, selected: tab) { select($0) }
-                        .padding(.horizontal, WZ.Space.space6)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
-            }
-            .padding(.bottom, WZ.Space.space1)
-            .animation(.easeOut(duration: WZ.MotionDuration.normal), value: calls.isInCall)
-        }
+        .tint(theme.accent)
+        .modifier(MinimizeTabBarOnScroll())
+        .task(id: session.avatarUrl) { profileIcon = await Self.tabIcon(session.avatarUrl, media: session.media) }
         .overlay(alignment: .top) {
             CopyToastView().padding(.top, WZ.Space.space2)
         }
@@ -78,14 +64,7 @@ struct MainTabView: View {
         .onChange(of: roomList.isLoaded, initial: true) { _, loaded in
             if loaded { Task { await ShareSender.sendPending(roomList: roomList, notifier: notifier) } }
         }
-        .animation(.easeOut(duration: WZ.MotionDuration.normal), value: keyboardVisible)
-        .animation(.easeOut(duration: WZ.MotionDuration.normal), value: showsIsland(in: tab))
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-            keyboardVisible = true
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-            keyboardVisible = false
-        }
+        .animation(.easeOut(duration: WZ.MotionDuration.normal), value: calls.isInCall)
         .onChange(of: notifier.roomToOpen) { _, _ in openNotificationRoom() }
         .onAppear(perform: openNotificationRoom)
         .onChange(of: roomList.isLoaded) { _, _ in openNotificationRoom() }
@@ -102,6 +81,53 @@ struct MainTabView: View {
         }
     }
 
+    private func tabItem(_ item: Tab, title: LocalizedStringKey, icon: String, unread: UnreadState) -> some TabContent<Tab> {
+        SwiftUI.Tab(value: item) {
+            tabContent(item)
+        } label: {
+            // One icon for both states, like Apple's tab bars: swapping outline for fill while the
+            // selection lens slides over makes the icon jump in size
+            Label { Text(title) } icon: { Image.ph(icon, .fill) }
+        }
+        // The tab bar only shows counts; this counts the rooms with something new
+        .badge(unreadRooms(item))
+    }
+
+    private func unreadRooms(_ item: Tab) -> Int {
+        let rooms: [RoomSummary]
+        switch item {
+        case .home: rooms = roomList.rooms(for: .home)
+        case .dms: rooms = roomList.rooms(for: .dms)
+        case .spaces: rooms = roomList.spaces.flatMap { roomList.rooms(for: .space($0.id)) }
+        case .me: return 0
+        }
+        return Set(rooms.filter { $0.unreadCount > 0 || $0.mentionCount > 0 }.map(\.id)).count
+    }
+
+    private var spacesUnread: UnreadState {
+        roomList.spaces.reduce(into: UnreadState()) { state, space in
+            let unread = roomList.unreadState(of: .space(space.id))
+            state.unread = state.unread || unread.unread
+            state.mention = state.mention || unread.mention
+        }
+    }
+
+    /// The tab bar takes only an image and tints it, so the avatar is drawn round and kept in colour
+    private static func tabIcon(_ url: String?, media: MediaLoader?) async -> UIImage? {
+        guard let url, let media else { return nil }
+        var image = media.cachedThumbnail(url)
+        if image == nil { image = await media.thumbnail(url, size: 96) }
+        guard let image else { return nil }
+        let side = WZ.SizeIcon.xl
+        let rendered = UIGraphicsImageRenderer(size: CGSize(width: side, height: side)).image { _ in
+            UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: side, height: side)).addClip()
+            let scale = max(side / image.size.width, side / image.size.height)
+            let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+            image.draw(in: CGRect(x: (side - size.width) / 2, y: (side - size.height) / 2, width: size.width, height: size.height))
+        }
+        return rendered.withRenderingMode(.alwaysOriginal)
+    }
+
     private var totalUnread: Int {
         roomList.joinedRooms.reduce(0) { $0 + Int($1.unreadCount) }
     }
@@ -110,7 +136,7 @@ struct MainTabView: View {
     private func tabContent(_ item: Tab) -> some View {
         switch item {
         case .me:
-            SettingsView(isTab: true)
+            SettingsView(isTab: true, popToRoot: settingsPopToRoot)
         default:
             NavigationStack(path: binding(for: item)) {
                 Group {
@@ -124,35 +150,42 @@ struct MainTabView: View {
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .room(let id), .chat(let id):
-                        if let room = roomList.room(id: id) {
-                            if room.isVoice, case .room = route {
-                                VoiceRoomView(room: room) { paths[item, default: []].append(.chat(id)) }
+                        Group {
+                            if let room = roomList.room(id: id) {
+                                if room.isVoice, case .room = route {
+                                    VoiceRoomView(room: room) { paths[item, default: []].append(.chat(id)) }
+                                } else {
+                                    RoomView(room: room, client: roomList.client).id(room.id)
+                                }
                             } else {
-                                RoomView(room: room, client: roomList.client).id(room.id)
+                                ProgressView().tint(theme.accent)
                             }
-                        } else {
-                            ProgressView().tint(theme.accent)
                         }
+                        .toolbar(.hidden, for: .tabBar)
                     case .space(let id):
                         RoomListScreen(roomList: roomList, selection: .space(id))
                     }
                 }
             }
+            .safeAreaInset(edge: .bottom) { callBar(in: item) }
         }
     }
 
-    private func showsIsland(in item: Tab) -> Bool {
-        guard !keyboardVisible else { return false }
-        return !(paths[item] ?? []).contains {
-            switch $0 {
-            case .room, .chat: return true
-            case .space: return false
+    @ViewBuilder
+    private func callBar(in item: Tab) -> some View {
+        if showsCallBar(in: item) {
+            CallBar {
+                if calls.room?.isDirect == true { calls.showCallScreen = true }
+                else if let id = calls.room?.id { show(id) }
             }
+            .padding(.horizontal, WZ.Space.space6)
+            .padding(.bottom, WZ.Space.space2)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }
 
     private func showsCallBar(in item: Tab) -> Bool {
-        guard calls.isInCall, !keyboardVisible, let id = calls.room?.id else { return false }
+        guard calls.isInCall, let id = calls.room?.id else { return false }
         return paths[item]?.last != .room(id)
     }
 
@@ -161,7 +194,9 @@ struct MainTabView: View {
     }
 
     private func select(_ item: Tab) {
-        if item == tab { paths[item] = [] } else { tab = item }
+        guard item == tab else { tab = item; return }
+        paths[item] = []
+        if item == .me { settingsPopToRoot += 1 }
     }
 
     private func show(_ roomId: String) {
@@ -191,99 +226,12 @@ struct MainTabView: View {
     }
 }
 
-private struct BottomBarInsetKey: EnvironmentKey {
-    static let defaultValue: CGFloat = 0
-}
-
-extension EnvironmentValues {
-    var bottomBarInset: CGFloat {
-        get { self[BottomBarInsetKey.self] }
-        set { self[BottomBarInsetKey.self] = newValue }
-    }
-}
-
-extension View {
-    func clearsBottomBar() -> some View { modifier(ClearsBottomBar()) }
-}
-
-private struct ClearsBottomBar: ViewModifier {
-    @Environment(\.bottomBarInset) private var inset
-    func body(content: Content) -> some View { content.safeAreaPadding(.bottom, inset) }
-}
-
-private struct TabIsland: View {
-    @ObservedObject var roomList: RoomListModel
-    let selected: MainTabView.Tab
-    let onSelect: (MainTabView.Tab) -> Void
-
-    @EnvironmentObject private var session: MatrixSession
-    @Environment(\.theme) private var theme
-
-    var body: some View {
-        HStack(spacing: WZ.Space.space0) {
-            item(.home, title: "room.home", icon: "house", unread: roomList.unreadState(of: .home))
-            item(.dms, title: "roomSwitcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
-            item(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
-            profileItem
-        }
-        .padding(WZ.Space.space2)
-        .floatingGlass(in: Capsule())
-        .sensoryFeedback(.selection, trigger: selected)
-    }
-
-    private var spacesUnread: UnreadState {
-        roomList.spaces.reduce(into: UnreadState()) { state, space in
-            let unread = roomList.unreadState(of: .space(space.id))
-            state.unread = state.unread || unread.unread
-            state.mention = state.mention || unread.mention
-        }
-    }
-
-    private func item(_ tab: MainTabView.Tab, title: LocalizedStringKey, icon: String, unread: UnreadState) -> some View {
-        let isSelected = selected == tab
-        return Button { onSelect(tab) } label: {
-            VStack(spacing: WZ.Space.space1) {
-                Image.ph(icon, isSelected ? .fill : .regular)
-                    .font(.system(size: WZ.SizeIcon.lg))
-                    .frame(height: WZ.Space.space8)
-                    .overlay(alignment: .topTrailing) { dot(unread).offset(x: WZ.Space.space3, y: -WZ.Space.space0) }
-                Text(title).font(.wizard(WZ.FontSize.xs, .semibold))
-            }
-            .foregroundStyle(isSelected ? theme.accent : theme.textMuted)
-            .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
-            .background(isSelected ? theme.accent.opacity(0.14) : .clear, in: Capsule())
-            .contentShape(Capsule())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(title)
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
-    }
-
-    private var profileItem: some View {
-        let isSelected = selected == .me
-        let name = session.displayName ?? session.userId ?? ""
-        return Button { onSelect(.me) } label: {
-            VStack(spacing: WZ.Space.space1) {
-                AvatarView(name: name, url: session.avatarUrl, size: WZ.SizeAvatar.sm)
-                    .overlay(Circle().stroke(isSelected ? theme.accent : .clear, lineWidth: WZ.BorderWidth.thick).padding(-WZ.Space.space1))
-                Text(String(localized: "mobileNav.you")).font(.wizard(WZ.FontSize.xs, .semibold))
-            }
-            .foregroundStyle(isSelected ? theme.accent : theme.textMuted)
-            .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
-            .background(isSelected ? theme.accent.opacity(0.14) : .clear, in: Capsule())
-            .contentShape(Capsule())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(String(localized: "common.settings"))
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
-    }
-
-    @ViewBuilder
-    private func dot(_ unread: UnreadState) -> some View {
-        if unread.unread {
-            Circle()
-                .fill(unread.mention ? theme.mention : theme.accent)
-                .frame(width: WZ.Space.space4, height: WZ.Space.space4)
+private struct MinimizeTabBarOnScroll: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26, *) {
+            content.tabBarMinimizeBehavior(.onScrollDown)
+        } else {
+            content
         }
     }
 }

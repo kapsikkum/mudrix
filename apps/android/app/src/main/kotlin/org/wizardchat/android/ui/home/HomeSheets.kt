@@ -47,6 +47,7 @@ import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.UnreadState
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
@@ -75,7 +76,10 @@ fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: 
     val spaces = if (search.isEmpty()) roomList.spaces else roomList.spaces.filter { it.name.contains(search, ignoreCase = true) }
 
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
-        WizardTopBar(tr("room.settings.permissions.groups.spaces"), large = true)
+        WizardTopBar(tr("room.settings.permissions.groups.spaces"), large = true) {
+            BarButton("plus", tr("home.createOrJoin"), onCreateSpace)
+            BarButton("compass", tr("explore.title"), onExplore)
+        }
         WizardTextField(
             search,
             { search = it },
@@ -99,14 +103,6 @@ fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: 
                     navigator.push(Route.Space(space.id))
                 }
             }
-            if (search.isEmpty()) {
-                item(key = "create") {
-                    SpaceTile(tr("home.createOrJoin"), UnreadState(), Modifier.clickable(onClick = onCreateSpace)) { ActionIcon("plus") }
-                }
-                item(key = "explore") {
-                    SpaceTile(tr("explore.title"), UnreadState(), Modifier.clickable(onClick = onExplore)) { ActionIcon("compass") }
-                }
-            }
         }
     }
 }
@@ -128,19 +124,6 @@ private fun SpaceGridItem(space: SpaceSummary, unread: UnreadState, onOpen: () -
                 },
             ),
         )
-    }
-}
-
-@Composable
-private fun ActionIcon(name: String) {
-    Box(
-        Modifier
-            .size(WZ.SizeAvatar.xl)
-            .clip(RoundedCornerShape(WZ.Radius.xl))
-            .background(theme.fill),
-        contentAlignment = Alignment.Center,
-    ) {
-        PhIcon(name, size = WZ.SizeIcon.xl, tint = theme.accent)
     }
 }
 

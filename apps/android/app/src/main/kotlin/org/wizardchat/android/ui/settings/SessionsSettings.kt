@@ -20,7 +20,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +35,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
@@ -65,10 +63,6 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.DeviceInfo
-import org.wizardchat.core.Subscription
-import org.wizardchat.core.VerificationEmoji
-import org.wizardchat.core.VerificationFlow
-import org.wizardchat.core.VerificationStatus
 import org.wizardchat.tokens.WZ
 
 private val DeviceInfo.name: String? get() = displayName
@@ -82,7 +76,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var showRecoveryKeyEntry by remember { mutableStateOf(false) }
-    var showVerification by remember { mutableStateOf(false) }
+    var verification by remember { mutableStateOf<VerificationModel?>(null) }
     var newRecoveryKey by remember { mutableStateOf<String?>(null) }
     var removing by remember { mutableStateOf<DeviceInfo?>(null) }
     val isVerified = session.encryption?.deviceVerified == true
@@ -149,7 +143,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             SettingsDivider()
             SettingsItem {
                 if (!isVerified) {
-                    LabelButton(tr("settings.verifyWithAnotherDevice"), "devices", { showVerification = true }, primary = true)
+                    LabelButton(tr("settings.verifyWithAnotherDevice"), "devices", { verification = VerificationModel(VerificationModel.Start.OwnDevice) }, primary = true)
                 }
                 if (recoveryDisabled) {
                     LabelButton(tr("settings.setUpRecoveryKey"), "key", { setUpRecovery(reset = false) })
@@ -177,7 +171,13 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             SettingsSection(tr("settings.sessions.yourDevices")) {
                 others.forEachIndexed { index, device ->
                     if (index > 0) SettingsDivider()
-                    DeviceRow(device, verified = null, onRename = ::rename, onRemove = { removing = it })
+                    DeviceRow(
+                        device,
+                        verified = device.isVerified,
+                        onRename = ::rename,
+                        onRemove = { removing = it },
+                        onVerify = if (device.isVerified) null else { other -> verification = VerificationModel(VerificationModel.Start.Device(other.deviceId)) },
+                    )
                 }
             }
         } else if (!loading && devices.isEmpty()) {
@@ -189,7 +189,12 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     }
 
     if (showRecoveryKeyEntry) RecoveryKeyEntrySheet { showRecoveryKeyEntry = false }
-    if (showVerification) VerificationSheet { showVerification = false }
+    verification?.let { model ->
+        VerificationSheet(model) {
+            verification = null
+            scope.launch { reload() }
+        }
+    }
     removing?.let { device ->
         RemoveDeviceSheet(device, onRemoved = { reload() }) { removing = null }
     }
@@ -224,6 +229,7 @@ private fun DeviceRow(
     verified: Boolean?,
     onRename: (DeviceInfo, String) -> Unit,
     onRemove: ((DeviceInfo) -> Unit)?,
+    onVerify: ((DeviceInfo) -> Unit)? = null,
 ) {
     var showDetails by remember { mutableStateOf(false) }
     var renaming by remember { mutableStateOf(false) }
@@ -294,6 +300,9 @@ private fun DeviceRow(
                     },
                 )
             }
+        }
+        onVerify?.let { verify ->
+            SecondaryButton(tr("settings.sessions.verify"), { verify(device) })
         }
         if (renaming) {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
@@ -440,173 +449,5 @@ private fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
             enabled = !busy && key.isNotBlank(),
         )
         error?.let { InlineStatus(it) }
-    }
-}
-
-/** Verifying this device with another of the account's devices (emoji comparison) */
-private class SelfVerification {
-    sealed interface Step {
-        data object Starting : Step
-        data object WaitingForOtherDevice : Step
-        data object WaitingForEmojis : Step
-        data class Compare(val emojis: List<VerificationEmoji>) : Step
-        data object Done : Step
-        data class Failed(val message: String) : Step
-        data object Cancelled : Step
-    }
-
-    var step by mutableStateOf<Step>(Step.Starting)
-        private set
-    private var flow: VerificationFlow? = null
-    private var subscription: Subscription? = null
-    private var requested = false
-    private var sasStarted = false
-    private var sasAccepted = false
-    private var scope: kotlinx.coroutines.CoroutineScope? = null
-
-    suspend fun start(session: MatrixSession, scope: kotlinx.coroutines.CoroutineScope) {
-        if (requested) return
-        requested = true
-        this.scope = scope
-        try {
-            val flow = session.requireClient.requestSelfVerification()
-            this.flow = flow
-            step = Step.WaitingForOtherDevice
-            subscription = flow.watch(::update)
-        } catch (error: Exception) {
-            step = Step.Failed(error.text)
-        }
-    }
-
-    private fun update(status: VerificationStatus) {
-        when (status) {
-            VerificationStatus.Requested, is VerificationStatus.Incoming -> step = Step.WaitingForOtherDevice
-            VerificationStatus.Ready -> {
-                step = Step.WaitingForEmojis
-                if (sasStarted) return
-                sasStarted = true
-                run { it.startSas() }
-            }
-            VerificationStatus.SasIncoming -> {
-                step = Step.WaitingForEmojis
-                if (sasAccepted) return
-                sasAccepted = true
-                run { it.acceptSas() }
-            }
-            VerificationStatus.SasStarted, VerificationStatus.Confirmed -> step = Step.WaitingForEmojis
-            is VerificationStatus.Emojis -> step = Step.Compare(status.emojis)
-            VerificationStatus.Done -> step = Step.Done
-            is VerificationStatus.Cancelled -> {
-                if (step == Step.Done) return
-                step = if (status.reason.isEmpty()) Step.Cancelled else Step.Failed(status.reason)
-            }
-        }
-    }
-
-    private fun run(action: suspend (VerificationFlow) -> Unit) {
-        val flow = flow ?: return
-        scope?.launch {
-            try {
-                action(flow)
-            } catch (error: Exception) {
-                step = Step.Failed(error.text)
-            }
-        }
-    }
-
-    suspend fun confirm(matches: Boolean) {
-        try {
-            if (matches) flow?.confirm() else flow?.mismatch()
-        } catch (error: Exception) {
-            step = Step.Failed(error.text)
-        }
-    }
-
-    suspend fun cancel() {
-        runCatching { flow?.cancel() }
-        subscription?.cancel()
-    }
-
-    fun stopWatching() = subscription?.cancel()
-}
-
-@Composable
-private fun VerificationSheet(onDismiss: () -> Unit) {
-    val session = LocalSession.current
-    val scope = rememberCoroutineScope()
-    val flow = remember { SelfVerification() }
-    LaunchedEffect(Unit) { flow.start(session, scope) }
-    DisposableEffect(Unit) { onDispose { flow.stopWatching() } }
-
-    WizardSheet(onDismiss) {
-        SheetTopBar(
-            tr("settings.verifyWithAnotherDevice"),
-            leading = {
-                BarTextButton(tr("common.cancel"), {
-                    scope.launch { flow.cancel() }
-                    onDismiss()
-                })
-            },
-        )
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(WZ.Space.space7),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(WZ.Space.space6),
-        ) {
-            val body = wizardFont(WZ.FontSize.md)
-            when (val step = flow.step) {
-                SelfVerification.Step.Starting, SelfVerification.Step.WaitingForOtherDevice -> {
-                    Spinner()
-                    Text(tr("settings.openWizardchatOrAnother"), style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
-                }
-                SelfVerification.Step.WaitingForEmojis -> {
-                    Spinner()
-                    Text(tr("settings.waitingForTheOther"), style = body, color = theme.textPrimary)
-                }
-                is SelfVerification.Step.Compare -> {
-                    Text(tr("settings.checkThatTheseEmojis"), style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
-                    step.emojis.chunked(4).forEach { row ->
-                        Row(Modifier.fillMaxWidth()) {
-                            row.forEach { emoji ->
-                                Column(
-                                    Modifier.weight(1f),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
-                                ) {
-                                    Text(emoji.symbol, style = TextStyle(fontSize = WZ.FontSize.display))
-                                    Text(
-                                        emoji.description,
-                                        style = wizardFont(WZ.FontSize.xs),
-                                        color = theme.textMuted,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                    )
-                                }
-                            }
-                            repeat(4 - row.size) { Box(Modifier.weight(1f)) }
-                        }
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
-                        SecondaryButton(tr("verification.theyDontMatch"), { scope.launch { flow.confirm(false) } }, Modifier.weight(1f))
-                        PrimaryButton(tr("verification.theyMatch"), { scope.launch { flow.confirm(true) } }, Modifier.weight(1f))
-                    }
-                }
-                SelfVerification.Step.Done -> {
-                    PhIcon("shield-check", size = WZ.SizeIcon.xxl, tint = theme.success)
-                    Text(tr("settings.sessions.verified"), style = wizardFont(WZ.FontSize.lg, FontWeight.Bold), color = theme.textPrimary)
-                    PrimaryButton(tr("common.done"), onDismiss)
-                }
-                is SelfVerification.Step.Failed -> {
-                    PhIcon("x-circle", size = WZ.SizeIcon.xxl, tint = theme.error)
-                    Text(step.message, style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
-                }
-                SelfVerification.Step.Cancelled -> {
-                    Text(tr("settings.verificationWasCancelled"), style = body, color = theme.textPrimary)
-                }
-            }
-        }
     }
 }
