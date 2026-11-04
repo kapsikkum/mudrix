@@ -21,6 +21,7 @@ const bundle = 'target/release/bundle';
 const registry = `${api}/projects/${project}/packages/generic/wizardchat-desktop`;
 
 const macBundle = (arch) => `target/${arch}-apple-darwin/release/bundle`;
+const windowsBundle = 'target/x86_64-pc-windows-msvc/release/bundle';
 
 function find(dir, suffix, root = bundle) {
   const path = join(root, dir);
@@ -53,7 +54,7 @@ const updates = {
   'linux-x86_64': find('appimage', '.AppImage'),
   'linux-x86_64-deb': find('deb', '.deb'),
   'linux-x86_64-rpm': find('rpm', '.rpm'),
-  'windows-x86_64': find('nsis', '-setup.exe'),
+  'windows-x86_64': find('nsis', '-setup.exe', windowsBundle),
 };
 const installers = [
   find('dmg', '.dmg', macBundle('aarch64')),

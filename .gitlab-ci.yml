@@ -1,7 +1,6 @@
 stages:
   - lint
   - prepare
-  - validate
   - build
   - deploy
   - release
@@ -15,6 +14,12 @@ variables:
   npm_config_cache: $CI_PROJECT_DIR/.npm
   npm_config_prefer_offline: 'true'
   WASM_PACK: '0.15.0'
+  SCCACHE: '0.19.0'
+  CARGO_XWIN: '0.23.1'
+  SCCACHE_DIR: $CI_PROJECT_DIR/.sccache
+  SCCACHE_CACHE_SIZE: 3G
+  RUSTC_WRAPPER: sccache
+  CARGO_INCREMENTAL: '0'
 
 workflow:
   rules:
@@ -32,19 +37,16 @@ workflow:
     - .npm/
 
 .cargo-cache: &cargo-cache
-  key:
-    prefix: $CI_JOB_NAME
-    files:
-      - Cargo.lock
+  key: cargo-$CI_JOB_NAME_SLUG
   paths:
-    - .cargo/registry/
     - .rustup/
-    - target/
+    - .sccache/
 
 .rust-web: &rust-web
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
   - export PATH="$CARGO_HOME/bin:$PATH"
   - rustup toolchain install
+  - curl -sSfL "https://github.com/mozilla/sccache/releases/download/v${SCCACHE}/sccache-v${SCCACHE}-x86_64-unknown-linux-musl.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "sccache-v${SCCACHE}-x86_64-unknown-linux-musl/sccache"
   - curl -sSfL "https://github.com/rustwasm/wasm-pack/releases/download/v${WASM_PACK}/wasm-pack-v${WASM_PACK}-x86_64-unknown-linux-musl.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "wasm-pack-v${WASM_PACK}-x86_64-unknown-linux-musl/wasm-pack"
   - npm ci --ignore-scripts
 
@@ -71,6 +73,7 @@ workflow:
 lint:
   stage: lint
   extends: .branch-rules
+  interruptible: true
   image: node:22-alpine
   cache: *node-cache
   before_script:
@@ -83,6 +86,7 @@ lint:
 build-web:
   stage: build
   extends: .branch-rules
+  interruptible: true
   image: node:22-bookworm
   cache:
     - *node-cache
@@ -145,8 +149,8 @@ prepare-release:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "web" && $VERSION'
 
-validate-and-build:
-  stage: validate
+build-web-release:
+  stage: build
   extends: .release-rules
   image: node:22-bookworm
   cache:
@@ -155,6 +159,19 @@ validate-and-build:
   before_script: *rust-web
   script:
     - npm run build
+  artifacts:
+    paths:
+      - apps/web/dist/
+    expire_in: 1 hour
+
+release-notes:
+  stage: build
+  extends: .release-rules
+  image: alpine:3
+  needs: []
+  before_script:
+    - apk add --no-cache git
+  script:
     - git fetch --tags
     - git fetch --unshallow || true
     - |
@@ -233,7 +250,6 @@ validate-and-build:
   artifacts:
     paths:
       - release-notes.md
-      - apps/web/dist/
     expire_in: 1 hour
 
 build-docker:
@@ -244,7 +260,7 @@ build-docker:
     - docker:dind
   variables:
     DOCKER_TLS_CERTDIR: '/certs'
-  needs: [validate-and-build]
+  needs: [build-web-release]
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
   script:
@@ -267,9 +283,7 @@ build-docker:
 .desktop-build:
   stage: build
   extends: .release-rules
-  needs:
-    - job: validate-and-build
-      artifacts: false
+  needs: []
   variables:
     CARGO_PROFILE_RELEASE_LTO: thin
     CARGO_PROFILE_RELEASE_CODEGEN_UNITS: '16'
@@ -284,7 +298,7 @@ build-docker:
       - target/release/bundle/deb/*.deb*
       - target/release/bundle/rpm/*.rpm*
       - target/release/bundle/tarball/
-      - target/release/bundle/nsis/*-setup.exe*
+      - target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe*
     expire_in: 1 day
 
 build-desktop-mac:
@@ -298,10 +312,12 @@ build-desktop-mac:
     - export PATH="$CARGO_HOME/bin:$PATH"
     - rustup toolchain install
     - rustup target add "$TARGET"
+    - curl -sSfL "https://github.com/mozilla/sccache/releases/download/v${SCCACHE}/sccache-v${SCCACHE}-aarch64-apple-darwin.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "sccache-v${SCCACHE}-aarch64-apple-darwin/sccache"
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run tokens
     - npm run build:release -w @wizardchat/desktop -- --target "$TARGET"
+    - sccache --show-stats
 
 build-desktop-linux:
   extends: .desktop-build
@@ -314,10 +330,17 @@ build-desktop-linux:
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
     - export PATH="$CARGO_HOME/bin:$PATH"
     - rustup toolchain install
+    - curl -sSfL "https://github.com/mozilla/sccache/releases/download/v${SCCACHE}/sccache-v${SCCACHE}-x86_64-unknown-linux-musl.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "sccache-v${SCCACHE}-x86_64-unknown-linux-musl/sccache"
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
-    - npm run desktop:release
+    - npm run tokens
+    - npm run build:release -w @wizardchat/desktop -- --bundles appimage,deb
+    # RPM versions can't contain '-': a pre-release 26.12.1-next.1 becomes 26.12.1 with release 0.next.1
+    - |
+      RPM_CONFIG=$(node -p "const [v, pre] = require('./package.json').version.split('-'); JSON.stringify(pre ? { version: v, bundle: { linux: { rpm: { release: '0.' + pre } } } } : {})")
+      npm run tauri -w @wizardchat/desktop -- bundle --bundles rpm --config src-tauri/tauri.release.conf.json --config "$RPM_CONFIG"
     - node apps/desktop/scripts/package-linux.mjs
+    - sccache --show-stats
 
 build-desktop-arch:
   stage: build
@@ -336,27 +359,35 @@ build-desktop-arch:
 
 build-desktop-win:
   extends: .desktop-build
-  tags: [saas-windows-medium-amd64]
+  image: node:22-trixie
+  variables:
+    XWIN_CACHE_DIR: $CI_PROJECT_DIR/.xwin
+  cache:
+    - *node-cache
+    - *cargo-cache
+    - key: xwin
+      paths:
+        - .xwin/
   script:
-    - $node = ((Invoke-RestMethod https://nodejs.org/dist/index.json) | Where-Object { $_.version -like 'v22.*' } | Select-Object -First 1).version
-    - Invoke-WebRequest "https://nodejs.org/dist/$node/node-$node-win-x64.zip" -OutFile node.zip
-    - Expand-Archive node.zip -DestinationPath C:\node
-    - $env:Path = "C:\node\node-$node-win-x64;$env:Path"
-    - node --version
-    - Invoke-WebRequest https://win.rustup.rs/x86_64 -OutFile rustup-init.exe
-    - .\rustup-init.exe -y --profile minimal --default-toolchain none
-    - $env:Path = "$env:CARGO_HOME\bin;$env:Path"
+    - apt-get update && apt-get install -y --no-install-recommends nsis lld llvm clang
+    - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
+    - export PATH="$CARGO_HOME/bin:$PATH"
     - rustup toolchain install
+    - rustup target add x86_64-pc-windows-msvc
+    - curl -sSfL "https://github.com/mozilla/sccache/releases/download/v${SCCACHE}/sccache-v${SCCACHE}-x86_64-unknown-linux-musl.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "sccache-v${SCCACHE}-x86_64-unknown-linux-musl/sccache"
+    - curl -sSfL "https://github.com/rust-cross/cargo-xwin/releases/download/v${CARGO_XWIN}/cargo-xwin-v${CARGO_XWIN}.x86_64-unknown-linux-musl.tar.gz" | tar -xz -C "$CARGO_HOME/bin" cargo-xwin
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
-    - npm run desktop:release
+    - npm run tokens
+    - npm run build:release -w @wizardchat/desktop -- --runner cargo-xwin --target x86_64-pc-windows-msvc
+    - sccache --show-stats
 
 deploy:
   stage: deploy
   extends: .release-rules
   image: node:22-alpine
   needs:
-    - validate-and-build
+    - build-web-release
     - job: build-docker
       artifacts: false
     - job: build-desktop-mac
@@ -395,7 +426,7 @@ create-release:
   stage: release
   extends: .release-rules
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs: [validate-and-build, build-docker, deploy, publish-desktop]
+  needs: [release-notes, build-docker, deploy, publish-desktop]
   script:
     - |
       if [ "$DRY_RUN" = "true" ]; then
