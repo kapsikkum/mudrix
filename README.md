@@ -14,29 +14,25 @@ macOS and Linux, and as a native app for iOS and Android. All apps share one Rus
 
 ## Features
 
-- E2EE
+- End-to-end encryption, with device verification and key backup
 - Direct messages and Spaces
-- Voice and video calls (1:1 and group, via MatrixRTC + LiveKit)
-- Screen sharing
-- File, image, and video sharing
-- Pin messages
-- Message search
-- Threads
-- Message reactions, edits, and replies
-- Advanced Message formatting
-- Typing indicators
-- Custom Stickers and Emojis
-- GIFs
-- SSO login
-- Read receipts
-- Themes (Carbon, Pewter, Umbra, Eclipse, Parrot, Hallow, Ethereal, Blossom, Garnet)
+- Voice and video calls (1:1 and group, via MatrixRTC + LiveKit) with screen sharing, push-to-talk and Watch Together
+- Threads, replies, reactions, edits and pinned messages
+- Advanced message formatting, custom stickers and emojis, GIFs
+- File, image and video sharing, voice messages, polls and location sharing
+- Link previews and message search
+- Typing indicators, read receipts and online status
+- Sign in with SSO, OAuth or a QR code
+- Multiple accounts (web and desktop)
+- A range of dark and light themes to choose from
+- English and German
 
 ## Try out WizardChat
 
 ### Web
 
-- **Stable**: [rust.wizardchat.org](https://rust.wizardchat.org)
-- **Next** (pre-release): [next-rust.wizardchat.org](https://next-rust.wizardchat.org)
+- **Stable**: [app.wizardchat.org](https://app.wizardchat.org)
+- **Next** (pre-release): [next.wizardchat.org](https://next.wizardchat.org)
 
 ### Desktop
 
