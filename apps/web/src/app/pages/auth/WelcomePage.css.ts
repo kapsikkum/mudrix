@@ -5,8 +5,9 @@ import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 export const page = style({
   minHeight: '100vh',
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  gap: '24px',
   backgroundColor: vars.color.bgPrimary,
   selectors: {
     'html.desktop &': {
@@ -16,8 +17,6 @@ export const page = style({
   padding: '24px',
   '@media': {
     '(max-width: 768px)': {
-      flexDirection: 'column',
-      justifyContent: 'center',
       gap: '16px',
       padding: `calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))`,
     },
@@ -35,6 +34,7 @@ export const container = style({
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
   padding: '40px 32px',
+  margin: 'auto 0',
   '@media': {
     '(max-width: 768px)': {
       order: 1,
@@ -62,11 +62,25 @@ export const tagline = style({
   marginBottom: '8px',
 });
 
-export const versionText = style({
-  fontSize: '0.75rem',
+export const footer = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  gap: '6px 20px',
+  '@media': {
+    '(max-width: 768px)': {
+      order: 2,
+    },
+  },
+});
+
+export const footerLink = style({
+  fontSize: '0.8rem',
   color: vars.color.textMuted,
-  textAlign: 'center',
-  marginTop: '8px',
+  textDecoration: 'none',
+  ':hover': {
+    color: vars.color.textPrimary,
+  },
 });
 
 export const formSection = style({

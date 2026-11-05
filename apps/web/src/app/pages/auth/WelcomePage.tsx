@@ -19,6 +19,7 @@ import { isDesktop } from '@/bridge/desktop';
 import { loadCredentials, loadCore, normalizeUrl } from '@/client/initMatrix';
 import { languageAtom } from '@/app/store/atoms';
 import { SUPPORTED_LANGUAGES } from '@/i18n/languages';
+import { GITLAB_URL, PRIVACY_POLICY_URL } from '@/const/links';
 import * as css from './WelcomePage.css';
 
 type View = 'login' | 'register' | 'reset';
@@ -168,8 +169,36 @@ function WelcomeContent() {
           }))}
           onChange={handleLanguageChange}
         />
-        <p className={css.versionText}>v{version}</p>
       </div>
+      <footer className={css.footer}>
+        <a href={GITLAB_URL} target="_blank" rel="noopener noreferrer" className={css.footerLink}>
+          {t('welcome.sourceCode')}
+        </a>
+        <a
+          href={PRIVACY_POLICY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={css.footerLink}
+        >
+          {t('settings.about.privacyPolicy')}
+        </a>
+        <a
+          href={`${GITLAB_URL}/-/releases/v${version}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={css.footerLink}
+        >
+          v{version}
+        </a>
+        <a
+          href="https://matrix.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={css.footerLink}
+        >
+          {t('welcome.poweredByMatrix')}
+        </a>
+      </footer>
     </div>
   );
 }

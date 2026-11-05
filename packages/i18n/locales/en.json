@@ -108,6 +108,8 @@
   "welcome": {
     "title": "Welcome to WizardChat",
     "tagline": "Simple, Secure, Magical",
+    "sourceCode": "Source code",
+    "poweredByMatrix": "Powered by [matrix]",
     "login": "Login",
     "register": "Register",
     "username": "Username",

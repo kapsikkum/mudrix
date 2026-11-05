@@ -12,12 +12,11 @@ import { useSetAtom } from 'jotai';
 import { whatsNewOpenAtom } from '@/app/store/atoms';
 import { latestWhatsNew } from '@/app/features/whatsNew';
 import * as css from '../Settings.css';
+import { GITLAB_URL, PRIVACY_POLICY_URL } from '@/const/links';
 import * as heroCss from './About.css';
 
-const GITLAB_URL = 'https://gitlab.com/wizardchat/wizardchat';
 const DOWNLOAD_URL = 'https://wizardchat.org';
 const LIBERAPAY_URL = 'https://liberapay.com/JPK/donate';
-const PRIVACY_POLICY_URL = 'https://wizardchat.org/privacy/';
 
 export function About() {
   const { t } = useTranslation();
