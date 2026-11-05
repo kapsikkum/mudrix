@@ -42,7 +42,20 @@ download from [wizardchat.org](https://wizardchat.org) or the
 for your password to install an update. The Arch package and the tarball can't, so they open the new release to
 download instead.
 
-On Arch Linux you can also build the package yourself. Stable:
+> **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings -> Privacy & Security**,
+> scroll down to **Security** and click **Allow WizardChat**.
+
+On Arch Linux, install [`wizardchat-bin`](https://aur.archlinux.org/packages/wizardchat-bin) from the AUR with your
+AUR helper, which also keeps it up to date:
+
+```sh
+yay -S wizardchat-bin
+```
+
+<details>
+<summary>Build the Arch package yourself (stable or next)</summary>
+
+Stable:
 
 ```sh
 curl -LO https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/stable/PKGBUILD
@@ -58,8 +71,7 @@ makepkg -si
 
 Both install as `wizardchat-bin`, so building the other one switches channels. Run it again to update.
 
-> **macOS:** the app isn't signed yet, so macOS may block it the first time. Open **System Settings -> Privacy & Security**,
-> scroll down to **Security** and click **Allow WizardChat**.
+</details>
 
 ### iOS and Android
 
