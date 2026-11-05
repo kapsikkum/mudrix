@@ -155,6 +155,7 @@ export function Dialog({
             const el = root?.querySelector<HTMLElement>('[data-dialog-autofocus]') ?? null;
             return isEditableField(el) ? el : false;
           },
+          fallbackFocus: () => panelRef.current ?? document.body,
           escapeDeactivates: false,
           allowOutsideClick: true,
         }}
