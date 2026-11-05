@@ -156,6 +156,12 @@ rpc_methods! {
             }))
         }
 
+        watch fn watchCallsHandledElsewhere(listener: Listener<String>) -> Subscription {
+            Ok(listener.clone().watch(async move {
+                this.watch_calls_handled_elsewhere(|room_id| listener.emit(&room_id)).await
+            }))
+        }
+
         call fn declineCall(room_id: String, event_id: String) -> () {
             this.decline_call(&room_id, &event_id).await
         }

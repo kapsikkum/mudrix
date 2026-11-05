@@ -20,6 +20,7 @@ use futures_util::{
 use matrix_sdk::{
     config::RequestConfig,
     deserialized_responses::{EncryptionInfo, RawAnySyncOrStrippedState},
+    event_handler::EventHandlerDropGuard,
     ruma::{
         api::{
             client::{
@@ -727,10 +728,14 @@ impl WizardClient {
         Ok(session)
     }
 
-    /// Reports incoming rings and call notifications until dropped. A ring needs the caller in
-    /// the call; in direct chats a caller's fresh membership rings even without a ring event.
-    pub async fn watch_incoming_calls(&self, mut on_call: impl FnMut(IncomingCall)) {
-        let (sender, mut receiver) = futures_channel::mpsc::unbounded::<(Value, Room)>();
+    /// Every timeline and state event as JSON, with the guards that keep the handlers alive
+    fn room_events(
+        &self,
+    ) -> (
+        futures_channel::mpsc::UnboundedReceiver<(Value, Room)>,
+        [EventHandlerDropGuard; 2],
+    ) {
+        let (sender, receiver) = futures_channel::mpsc::unbounded::<(Value, Room)>();
         let timeline = self.sdk().add_event_handler({
             let sender = sender.clone();
             move |raw: Raw<AnySyncTimelineEvent>, room: Room| {
@@ -752,10 +757,15 @@ impl WizardClient {
                     }
                 }
             });
-        let _guards = (
+        let guards = [
             self.sdk().event_handler_drop_guard(timeline),
             self.sdk().event_handler_drop_guard(state),
-        );
+        ];
+        (receiver, guards)
+    }
+
+    pub async fn watch_incoming_calls(&self, mut on_call: impl FnMut(IncomingCall)) {
+        let (mut receiver, _guards) = self.room_events();
         let own = self.own_device();
         let mut seen: VecDeque<String> = VecDeque::new();
         while let Some((event, room)) = receiver.next().await {
@@ -777,6 +787,16 @@ impl WizardClient {
         }
     }
 
+    pub async fn watch_calls_handled_elsewhere(&self, mut on_room: impl FnMut(String)) {
+        let (mut receiver, _guards) = self.room_events();
+        let own = self.own_device();
+        while let Some((event, room)) = receiver.next().await {
+            if handled_elsewhere(&event, &own) {
+                on_room(room.room_id().to_string());
+            }
+        }
+    }
+
     /// Tells the caller this device won't answer.
     pub async fn decline_call(&self, room_id: &str, notification_event_id: &str) -> Result<()> {
         let content = json!({
@@ -784,6 +804,23 @@ impl WizardClient {
         });
         self.room(room_id)?.send_raw(DECLINE_EVENT, content).await?;
         Ok(())
+    }
+}
+
+fn handled_elsewhere(event: &Value, own: &(String, String)) -> bool {
+    if event.get("sender").and_then(Value::as_str) != Some(own.0.as_str()) {
+        return false;
+    }
+    let now = now_ms();
+    match event.get("type").and_then(Value::as_str) {
+        Some(DECLINE_EVENT) => event
+            .get("origin_server_ts")
+            .and_then(Value::as_u64)
+            .is_some_and(|sent| sent + RING_TIMEOUT_MS >= now),
+        Some(CALL_MEMBER_EVENT) => {
+            parse_member(event, (&own.0, &own.1), now).is_some_and(|m| !m.is_own_device)
+        }
+        _ => false,
     }
 }
 
@@ -841,12 +878,11 @@ async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Op
         } else {
             return None;
         };
-    let in_call = call_members_of(room, own.clone())
-        .await
-        .ok()?
+    let members = call_members_of(room, own.clone()).await.ok()?;
+    let answered_elsewhere = members
         .iter()
-        .any(|m| m.user_id == from);
-    if !in_call {
+        .any(|m| m.user_id == own.0 && !m.is_own_device);
+    if answered_elsewhere || !members.iter().any(|m| m.user_id == from) {
         return None;
     }
     let user = <&matrix_sdk::ruma::UserId>::try_from(from).ok()?;

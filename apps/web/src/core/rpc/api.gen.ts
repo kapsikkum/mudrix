@@ -2116,6 +2116,14 @@ export class WizardClient extends Remote {
     return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
   }
 
+  /**
+   * Calls `listener` with the room whenever another of this account's devices answers or
+   * declines a call there; stop ringing for it.
+   */
+  watchCallsHandledElsewhere(listener: (value: string) => void): Subscription {
+    return runtime.watch('WizardClient.watchCallsHandledElsewhere', this, [listener], Subscription);
+  }
+
   declineCall(roomId: string, eventId: string): Promise<void> {
     return runtime.call('WizardClient.declineCall', this, [roomId, eventId]) as Promise<void>;
   }

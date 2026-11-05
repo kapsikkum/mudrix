@@ -303,7 +303,7 @@ function AvatarBubble({
   return (
     <div
       className={css.bubble}
-      title={participant.isLocal ? t('call.you', { name }) : name}
+      title={name}
       onContextMenu={(e) => {
         e.preventDefault();
         onMenu(e.clientX, e.clientY);

@@ -96,8 +96,14 @@ export function useIncomingCall(client: WizardClient | null) {
       clearTimer();
       dismissTimerRef.current = setTimeout(dismiss, RING_TIMEOUT_MS);
     });
+    const handledElsewhere = client.watchCallsHandledElsewhere((roomId) => {
+      if (uiRef.current.incoming?.roomId === roomId) dismiss();
+    });
 
-    return () => subscription.cancel();
+    return () => {
+      subscription.cancel();
+      handledElsewhere.cancel();
+    };
   }, [client, clearTimer, dismiss, setUi, store]);
 
   // Stop ringing once the caller is no longer in the call

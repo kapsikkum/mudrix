@@ -57,6 +57,7 @@ final class CallManager: NSObject, ObservableObject {
     private var session: CallSession?
     private var run: Subscription?
     private var incomingWatch: Subscription?
+    private var handledElsewhereWatch: Subscription?
     private var members: [CallMember] = []
     private var mutedBeforeDeafen = false
     private var client: WizardClient?
@@ -481,11 +482,19 @@ extension CallManager {
         incomingWatch = client.watchIncomingCalls { [weak self] call in
             MainActor.assumeIsolated { self?.ringIn(call) }
         }
+        handledElsewhereWatch?.cancel()
+        handledElsewhereWatch = client.watchCallsHandledElsewhere { [weak self] roomId in
+            MainActor.assumeIsolated {
+                if self?.incoming?.roomId == roomId { self?.dismissIncoming() }
+            }
+        }
     }
 
     func stopWatchingIncoming() {
         incomingWatch?.cancel()
         incomingWatch = nil
+        handledElsewhereWatch?.cancel()
+        handledElsewhereWatch = nil
         dismissIncoming()
     }
 

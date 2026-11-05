@@ -2162,6 +2162,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchIncomingCalls(listener: (IncomingCall) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCall>(listener)), ::Subscription)
 
+    /**
+     * Calls `listener` with the room whenever another of this account's devices answers or
+     * declines a call there; stop ringing for it.
+     */
+    fun watchCallsHandledElsewhere(listener: (String) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchCallsHandledElsewhere", handle, listOf(Arg.listener<String>(listener)), ::Subscription)
+
     suspend fun declineCall(roomId: String, eventId: String) {
         Runtime.callUnit("WizardClient.declineCall", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
     }

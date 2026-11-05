@@ -175,6 +175,7 @@ class CallManager {
     private var session: CallSession? = null
     private var run: Subscription? = null
     private var incomingWatch: Subscription? = null
+    private var handledElsewhereWatch: Subscription? = null
     private var members = listOf<CallMember>()
     private var mutedBeforeDeafen = false
     private var client: WizardClient? = null
@@ -674,11 +675,17 @@ class CallManager {
     fun watchIncoming(client: WizardClient) {
         incomingWatch?.cancel()
         incomingWatch = client.watchIncomingCalls { ringIn(it) }
+        handledElsewhereWatch?.cancel()
+        handledElsewhereWatch = client.watchCallsHandledElsewhere { roomId ->
+            if (incoming?.roomId == roomId) dismissIncoming()
+        }
     }
 
     fun stopWatchingIncoming() {
         incomingWatch?.cancel()
         incomingWatch = null
+        handledElsewhereWatch?.cancel()
+        handledElsewhereWatch = null
         dismissIncoming()
     }
 

@@ -3086,6 +3086,13 @@ public final class WizardClient: Remote, @unchecked Sendable {
         watch("WizardClient.watchIncomingCalls", [.listener(IncomingCall.self, listener)])
     }
 
+    /// Calls `listener` with the room whenever another of this account's devices answers or
+    /// declines a call there; stop ringing for it.
+    @discardableResult
+    public func watchCallsHandledElsewhere(listener: @escaping @Sendable (String) -> Void) -> Subscription {
+        watch("WizardClient.watchCallsHandledElsewhere", [.listener(String.self, listener)])
+    }
+
     public func declineCall(roomId: String, eventId: String) async throws {
         _ = try await call("WizardClient.declineCall", [.value(roomId), .value(eventId)]) as Empty
     }
