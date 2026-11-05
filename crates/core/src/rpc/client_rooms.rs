@@ -162,6 +162,12 @@ rpc_methods! {
             this.state_events_of_type(&room_id, &event_type).await
         }
 
+        /// Every state event of the given types as [type, stateKey, content], with one request
+        /// to the server at most.
+        call fn stateEventsOfTypes(room_id: String, event_types: Vec<String>) -> Vec<(String, String, Value)> {
+            this.state_events_of_types(&room_id, &event_types).await
+        }
+
         call fn setStateEvent(room_id: String, event_type: String, state_key: String, content: Value) -> () {
             this.set_state_event(&room_id, &event_type, &state_key, content).await
         }

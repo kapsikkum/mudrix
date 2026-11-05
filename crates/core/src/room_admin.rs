@@ -3,6 +3,7 @@
 //! for editors built on top (emoji packs, widgets, space order).
 
 use matrix_sdk::{
+    deserialized_responses::RawAnySyncOrStrippedState,
     room::RoomMemberRole,
     ruma::{
         api::client::{
@@ -11,9 +12,10 @@ use matrix_sdk::{
             room::{aliases, get_room_event, upgrade_room},
             state::{get_state_event_for_key, get_state_events},
         },
+        events::StateEventType,
         OwnedEventId, OwnedRoomAliasId, OwnedRoomOrAliasId, OwnedServerName, RoomVersionId,
     },
-    RoomMemberships,
+    Room, RoomMemberships, RoomState,
 };
 use serde::Serialize;
 use serde_json::{json, Value};
@@ -22,6 +24,42 @@ use crate::{
     rooms::{parse_room_id, parse_user_id},
     Error, Result, WizardClient,
 };
+
+const SYNCED_STATE_TYPES: [&str; 2] = ["m.space.parent", "m.space.child"];
+
+fn state_entry(event: &Value, event_types: &[String]) -> Option<(String, String, Value)> {
+    let event_type = event.get("type")?.as_str()?;
+    if !event_types.iter().any(|t| t == event_type) {
+        return None;
+    }
+    let content = event.get("content")?;
+    content.as_object().filter(|o| !o.is_empty())?;
+    Some((
+        event_type.to_owned(),
+        str_of(event, "/state_key").unwrap_or_default(),
+        content.clone(),
+    ))
+}
+
+async fn local_state_events(room: &Room, event_types: &[String]) -> Vec<(String, String, Value)> {
+    let mut entries = Vec::new();
+    for event_type in event_types {
+        let events = room
+            .get_state_events(StateEventType::from(event_type.as_str()))
+            .await
+            .unwrap_or_default();
+        entries.extend(events.into_iter().filter_map(|raw| {
+            match raw {
+                RawAnySyncOrStrippedState::Sync(raw) => raw
+                    .deserialize_as_unchecked::<Value>()
+                    .ok()
+                    .and_then(|e| state_entry(&e, event_types)),
+                RawAnySyncOrStrippedState::Stripped(_) => None,
+            }
+        }));
+    }
+    entries
+}
 
 /// Everything a room or space settings screen shows, read from the server
 #[derive(Clone, Debug, Serialize)]
@@ -605,7 +643,33 @@ impl WizardClient {
         room_id: &str,
         event_type: &str,
     ) -> Result<Vec<(String, Value)>> {
-        let request = get_state_events::v3::Request::new(parse_room_id(room_id)?.to_owned());
+        Ok(self
+            .state_events_of_types(room_id, &[event_type.to_owned()])
+            .await?
+            .into_iter()
+            .map(|(_, state_key, content)| (state_key, content))
+            .collect())
+    }
+
+    pub async fn state_events_of_types(
+        &self,
+        room_id: &str,
+        event_types: &[String],
+    ) -> Result<Vec<(String, String, Value)>> {
+        let room_id = parse_room_id(room_id)?;
+        let joined = self
+            .sdk()
+            .get_room(room_id)
+            .filter(|room| room.state() == RoomState::Joined);
+        if let Some(room) = joined {
+            if event_types
+                .iter()
+                .all(|t| SYNCED_STATE_TYPES.contains(&t.as_str()))
+            {
+                return Ok(local_state_events(&room, event_types).await);
+            }
+        }
+        let request = get_state_events::v3::Request::new(room_id.to_owned());
         Ok(self
             .sdk()
             .send(request)
@@ -613,12 +677,7 @@ impl WizardClient {
             .room_state
             .iter()
             .filter_map(|raw| raw.deserialize_as_unchecked::<Value>().ok())
-            .filter(|e| e.get("type").and_then(Value::as_str) == Some(event_type))
-            .filter_map(|e| {
-                let content = e.get("content")?.clone();
-                (content.as_object().is_some_and(|o| !o.is_empty()))
-                    .then(|| (str_of(&e, "/state_key").unwrap_or_default(), content))
-            })
+            .filter_map(|e| state_entry(&e, event_types))
             .collect())
     }
 

@@ -2006,6 +2006,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun stateEventsOfType(roomId: String, eventType: String): List<List<JsonElement>> =
         Runtime.call("WizardClient.stateEventsOfType", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType)))
 
+    /**
+     * Every state event of the given types as [type, stateKey, content], with one request
+     * to the server at most.
+     */
+    suspend fun stateEventsOfTypes(roomId: String, eventTypes: List<String>): List<List<JsonElement>> =
+        Runtime.call("WizardClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
+
     suspend fun setStateEvent(roomId: String, eventType: String, stateKey: String, content: JsonElement) {
         Runtime.callUnit("WizardClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
     }

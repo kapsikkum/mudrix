@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { pulse } from '@/theme/animations.css';
 
 export const popoverNaked = style({
   display: 'flex',
@@ -250,4 +251,21 @@ export const emptyLink = style({
   fontSize: '0.85rem',
   padding: 0,
   ':hover': { color: vars.color.accentHover },
+});
+
+export const skeletonLabel = style({
+  width: '96px',
+  height: '10px',
+  margin: '3px 0',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.4s ease-in-out infinite`,
+});
+
+export const skeletonTile = style({
+  height: '48px',
+  margin: '4px 2px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.4s ease-in-out infinite`,
 });

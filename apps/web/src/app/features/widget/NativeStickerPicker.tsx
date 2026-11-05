@@ -7,12 +7,8 @@ import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { getErrorMessage } from '@/util/error';
 import { useAtom } from 'jotai';
 import { roomSettingsRoomIdAtom, roomSettingsTabAtom } from '@/app/store/atoms';
-import {
-  readRoomPackContentsWithAncestors,
-  usePackRevision,
-  useStickerPacks,
-} from '@/app/hooks/useUserPacks';
-import { mergePackImageMap, mergePackInfo } from '@/app/features/settings/emojis/imagePackTypes';
+import { useRoomImagePacks, type ImagePack, type ImagePackImage } from '@/app/hooks/useImagePacks';
+import { useDelayedFlag } from '@/app/hooks/useDelayedFlag';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { Tooltip } from '@/app/components/Tooltip';
 import { PickerPreviewBar, type PreviewItem } from '@/app/components/PickerPreviewBar';
@@ -25,13 +21,27 @@ import {
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import * as css from './NativeStickerPicker.css';
 
-interface StickerImage {
-  shortcode: string;
-  url: string;
+type StickerImage = ImagePackImage;
+
+interface PackGroup {
   packName: string;
-  body?: string;
-  mimetype?: string;
-  info?: Record<string, unknown>;
+  stickers: StickerImage[];
+}
+
+function stickerGroups(packs: ImagePack[]): PackGroup[] {
+  const byName = new Map<string, Map<string, StickerImage>>();
+  for (const pack of packs) {
+    for (const image of pack.images) {
+      if (!image.usage.includes('sticker')) continue;
+      const stickers = byName.get(pack.name) ?? new Map<string, StickerImage>();
+      if (!stickers.has(image.shortcode)) stickers.set(image.shortcode, image);
+      byName.set(pack.name, stickers);
+    }
+  }
+  return Array.from(byName, ([packName, stickers]) => ({
+    packName,
+    stickers: Array.from(stickers.values()).sort((a, b) => a.shortcode.localeCompare(b.shortcode)),
+  })).sort((a, b) => a.packName.localeCompare(b.packName));
 }
 
 function hasDimensions(info: Record<string, unknown> | undefined): boolean {
@@ -70,11 +80,6 @@ async function resolveStickerInfo(
   } catch {
     return baseInfo;
   }
-}
-
-interface PackGroup {
-  packName: string;
-  stickers: StickerImage[];
 }
 
 interface Props {
@@ -118,81 +123,13 @@ export function NativeStickerPicker({
     });
   }, []);
 
-  const [grouped, setGrouped] = useState<PackGroup[]>([]);
-  const stickerPacks = useStickerPacks(client);
-  const packRevision = usePackRevision();
-
-  const buildGrouped = useCallback(async () => {
-    const byPackName = new Map<string, Map<string, StickerImage>>();
-
-    const addSticker = (packName: string, sticker: StickerImage) => {
-      const list = byPackName.get(packName) ?? new Map();
-      if (list.has(sticker.shortcode)) return;
-      list.set(sticker.shortcode, sticker);
-      byPackName.set(packName, list);
-    };
-
-    const byStateKey = await readRoomPackContentsWithAncestors(client, roomId);
-    for (const [stateKey, contents] of byStateKey) {
-      const info = mergePackInfo(...contents);
-      const packName: string = info.displayName || stateKey;
-      const packUsage = info.usage;
-      for (const [shortcode, img] of Object.entries(mergePackImageMap(...contents))) {
-        const effectiveUsage =
-          Array.isArray(img.usage) && img.usage.length > 0
-            ? img.usage
-            : Array.isArray(packUsage) && packUsage.length > 0
-              ? packUsage
-              : ['emoticon', 'sticker'];
-        if (img.url && effectiveUsage.includes('sticker')) {
-          addSticker(packName, {
-            shortcode,
-            url: img.url,
-            packName,
-            body: img.body,
-            mimetype: img.mimetype,
-            info: img.info,
-          });
-        }
-      }
-    }
-
-    for (const pack of stickerPacks) {
-      for (const sticker of pack.stickers) {
-        addSticker(pack.packName, {
-          shortcode: sticker.shortcode,
-          url: sticker.url,
-          packName: pack.packName,
-          body: sticker.body,
-          mimetype: sticker.mimetype,
-          info: sticker.info,
-        });
-      }
-    }
-
-    const packs: PackGroup[] = Array.from(byPackName.entries()).map(([packName, stickers]) => ({
-      packName,
-      stickers: Array.from(stickers.values()).sort((a, b) =>
-        a.shortcode.localeCompare(b.shortcode)
-      ),
-    }));
-    packs.sort((a, b) => a.packName.localeCompare(b.packName));
-    return packs;
-  }, [client, roomId, stickerPacks]);
-
-  useEffect(() => {
-    let cancelled = false;
-    void buildGrouped()
-      .then((packs) => {
-        if (!cancelled) setGrouped(packs);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [buildGrouped, packRevision]);
+  const imagePacks = useRoomImagePacks(client, roomId);
+  const grouped = useMemo(() => imagePacks && stickerGroups(imagePacks), [imagePacks]);
+  const loading = grouped === null;
+  const showSkeleton = useDelayedFlag(loading, 300);
 
   const filteredPacks = useMemo(() => {
+    if (!grouped) return [];
     const q = searchQuery.toLowerCase().trim();
     if (!q) return grouped;
     return grouped
@@ -322,7 +259,20 @@ export function NativeStickerPicker({
 
   const stickerContent = (
     <>
-      {filteredPacks.length === 0 && !hasResults && (
+      {showSkeleton && (
+        <div className={css.packSection} aria-busy="true" aria-label={t('common.loading')}>
+          <div className={css.packLabel}>
+            <div className={css.skeletonLabel} />
+          </div>
+          <div className={css.grid}>
+            {Array.from({ length: 12 }, (_, i) => (
+              <div key={i} className={css.skeletonTile} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {!loading && filteredPacks.length === 0 && !hasResults && (
         <div className={css.emptyState}>
           {searchQuery ? t('composer.noEmojiFound') : t('room.settings.emojis.noStickers')}
           <br />

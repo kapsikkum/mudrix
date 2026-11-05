@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { pulse } from '@/theme/animations.css';
 
 export const pickerWrap = style({
   position: 'fixed',
@@ -263,4 +264,21 @@ export const noResults = style({
   color: vars.color.textMuted,
   fontSize: '0.85rem',
   fontStyle: 'italic',
+});
+
+export const skeletonLabel = style({
+  width: '96px',
+  height: '10px',
+  margin: '3px 0',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.4s ease-in-out infinite`,
+});
+
+export const skeletonTile = style({
+  aspectRatio: '1',
+  margin: '4px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.4s ease-in-out infinite`,
 });

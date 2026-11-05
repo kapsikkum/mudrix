@@ -6,7 +6,6 @@ import {
   EMOTE_ROOMS_UNSTABLE,
   ROOM_PACK_TYPES,
   USER_PACK,
-  mergePackImageMap,
   mergePackImages,
   mergePackInfo,
   parsePackInfo,
@@ -43,7 +42,38 @@ type PackContent = Record<string, unknown>;
 
 const packListeners = new Set<() => void>();
 
+const STATE_TTL_MS = 5 * 60_000;
+let stateRequests = new WeakMap<
+  MatrixClient,
+  Map<string, { at: number; events: Promise<[string, string, PackContent][]> }>
+>();
+
+function stateEvents(
+  client: MatrixClient,
+  roomId: string,
+  types: readonly string[]
+): Promise<[string, string, PackContent][]> {
+  let byKey = stateRequests.get(client);
+  if (!byKey) {
+    byKey = new Map();
+    stateRequests.set(client, byKey);
+  }
+  const key = `${roomId}\n${types.join('\n')}`;
+  const hit = byKey.get(key);
+  if (hit && Date.now() - hit.at < STATE_TTL_MS) return hit.events;
+  const events = client.stateEventsOfTypes(roomId, [...types]) as Promise<
+    [string, string, PackContent][]
+  >;
+  const entry = { at: Date.now(), events };
+  byKey.set(key, entry);
+  events.catch(() => {
+    if (byKey.get(key) === entry) byKey.delete(key);
+  });
+  return events;
+}
+
 export function invalidateImagePacks(): void {
+  stateRequests = new WeakMap();
   packListeners.forEach((listener) => listener());
 }
 
@@ -74,9 +104,10 @@ export async function readRoomPackContents(
   roomId: string
 ): Promise<Map<string, PackContent[]>> {
   const byStateKey = new Map<string, PackContent[]>();
+  const events = await stateEvents(client, roomId, ROOM_PACK_TYPES).catch(() => []);
   for (const type of ROOM_PACK_TYPES) {
-    const events = await client.stateEventsOfType(roomId, type).catch(() => []);
-    for (const [stateKey, content] of events) {
+    for (const [eventType, stateKey, content] of events) {
+      if (eventType !== type) continue;
       const list = byStateKey.get(stateKey);
       if (list) list.push(content);
       else byStateKey.set(stateKey, [content]);
@@ -89,37 +120,8 @@ export async function readRoomPackContents(
 }
 
 export async function canonicalParents(client: MatrixClient, roomId: string): Promise<string[]> {
-  const parents = await client.stateEventsOfType(roomId, 'm.space.parent').catch(() => []);
-  return parents.filter(([, content]) => !!content?.canonical).map(([stateKey]) => stateKey);
-}
-
-export async function readRoomPackContentsWithAncestors(
-  client: MatrixClient,
-  roomId: string,
-  visited: Set<string> = new Set([roomId]),
-  depth = 1,
-  maxDepth = 5
-): Promise<Map<string, PackContent[]>> {
-  const merged = await readRoomPackContents(client, roomId);
-  if (depth > maxDepth) return merged;
-
-  for (const parentRoomId of await canonicalParents(client, roomId)) {
-    if (!parentRoomId || visited.has(parentRoomId)) continue;
-    visited.add(parentRoomId);
-
-    const parentPacks = await readRoomPackContentsWithAncestors(
-      client,
-      parentRoomId,
-      visited,
-      depth + 1,
-      maxDepth
-    );
-    for (const [stateKey, contents] of parentPacks) {
-      const existing = merged.get(stateKey);
-      merged.set(stateKey, existing ? [...existing, ...contents] : contents);
-    }
-  }
-  return merged;
+  const parents = await stateEvents(client, roomId, ['m.space.parent']).catch(() => []);
+  return parents.filter(([, , content]) => !!content?.canonical).map(([, stateKey]) => stateKey);
 }
 
 function summarizeRoomPack(
@@ -260,29 +262,6 @@ export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[]
   return packs;
 }
 
-export function useStickerPacks(client: MatrixClient | null): StickerPackGroup[] {
-  const userPack = useUserPack(client);
-  const rooms = useSubscribedPackRooms();
-  const revision = usePackRevision();
-  const [packs, setPacks] = useState<StickerPackGroup[]>([]);
-
-  useEffect(() => {
-    if (!client) {
-      setPacks([]);
-      return;
-    }
-    let cancelled = false;
-    void getStickerPacks(client, userPack, rooms).then((list) => {
-      if (!cancelled) setPacks(list);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [client, userPack, rooms, revision]);
-
-  return packs;
-}
-
 export async function saveUserPack(client: MatrixClient, pack: UserPackData): Promise<void> {
   const imageContent: Record<string, Partial<UserPackImage> & { url: string }> = {};
   for (const [shortcode, img] of Object.entries(pack.images)) {
@@ -352,74 +331,4 @@ export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[]
   }, [client, roomIds, revision]);
 
   return packs;
-}
-
-export interface StickerPackGroup {
-  packName: string;
-  stickers: {
-    shortcode: string;
-    url: string;
-    body?: string;
-    mimetype?: string;
-    info?: Record<string, unknown>;
-  }[];
-}
-
-export async function getStickerPacks(
-  client: MatrixClient,
-  userPack: UserPackData | null,
-  subscribedRooms: Record<string, PackContent>
-): Promise<StickerPackGroup[]> {
-  const groups = new Map<
-    string,
-    Map<string, { url: string; body?: string; mimetype?: string; info?: Record<string, unknown> }>
-  >();
-  const addImages = (
-    packName: string,
-    packUsage: PackUsage[],
-    images: Record<string, UserPackImage>
-  ) => {
-    const list = groups.get(packName) ?? new Map();
-    for (const [shortcode, img] of Object.entries(images)) {
-      if (!img.url) continue;
-      const effectiveUsage = img.usage.length > 0 ? img.usage : packUsage;
-      if (!effectiveUsage.includes('sticker')) continue;
-      if (list.has(shortcode)) continue;
-      list.set(shortcode, {
-        url: img.url,
-        body: img.body,
-        mimetype: img.mimetype,
-        info: img.info,
-      });
-    }
-    groups.set(packName, list);
-  };
-
-  if (userPack) {
-    addImages(userPack.displayName, userPack.usage, userPack.images);
-  }
-
-  for (const { summary: fav, contents } of await readFavoritePacks(client, subscribedRooms)) {
-    const images: Record<string, UserPackImage> = {};
-    for (const [shortcode, img] of Object.entries(mergePackImageMap(...contents))) {
-      images[shortcode] = {
-        url: img.url,
-        usage: parseUsage(img.usage),
-        body: img.body,
-        mimetype: img.mimetype,
-        info: img.info,
-      };
-    }
-    addImages(fav.displayName, fav.usage, images);
-  }
-
-  return Array.from(groups.entries())
-    .map(([packName, stickerMap]) => ({
-      packName,
-      stickers: Array.from(stickerMap.entries())
-        .map(([shortcode, s]) => ({ shortcode, ...s }))
-        .sort((a, b) => a.shortcode.localeCompare(b.shortcode)),
-    }))
-    .sort((a, b) => a.packName.localeCompare(b.packName))
-    .filter((g) => g.stickers.length > 0);
 }

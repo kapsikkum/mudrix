@@ -2904,6 +2904,12 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.stateEventsOfType", [.value(roomId), .value(eventType)])
     }
 
+    /// Every state event of the given types as [type, stateKey, content], with one request
+    /// to the server at most.
+    public func stateEventsOfTypes(roomId: String, eventTypes: [String]) async throws -> [[JSONValue]] {
+        try await call("WizardClient.stateEventsOfTypes", [.value(roomId), .value(eventTypes)])
+    }
+
     public func setStateEvent(roomId: String, eventType: String, stateKey: String, content: JSONValue) async throws {
         _ = try await call("WizardClient.setStateEvent", [.value(roomId), .value(eventType), .value(stateKey), .value(content)]) as Empty
     }

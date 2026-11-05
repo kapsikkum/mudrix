@@ -4,6 +4,12 @@ export const fast = '100ms';
 export const med = '200ms';
 export const slow = '300ms';
 
+export const pulse = keyframes({
+  '0%': { opacity: 0.6 },
+  '50%': { opacity: 1 },
+  '100%': { opacity: 0.6 },
+});
+
 export const fadeIn = keyframes({
   from: { opacity: 0 },
   to: { opacity: 1 },

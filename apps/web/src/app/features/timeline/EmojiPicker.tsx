@@ -22,6 +22,7 @@ import { useRecentEmoji } from '@/app/hooks/useRecentEmoji';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { useImagePacks } from '@/app/hooks/useImagePacks';
+import { useDelayedFlag } from '@/app/hooks/useDelayedFlag';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { Tooltip } from '@/app/components/Tooltip';
 import { PickerPreviewBar, type PreviewItem } from '@/app/components/PickerPreviewBar';
@@ -112,11 +113,15 @@ export function EmojiPicker({
     );
   }, []);
 
-  const ctx = embedded
-    ? propClient && propRoomId && propOnPick && propOnClose
-      ? { client: propClient, roomId: propRoomId, onPick: propOnPick, onClose: propOnClose }
-      : null
-    : picker;
+  const ctx = useMemo(
+    () =>
+      embedded
+        ? propClient && propRoomId && propOnPick && propOnClose
+          ? { client: propClient, roomId: propRoomId, onPick: propOnPick, onClose: propOnClose }
+          : null
+        : picker,
+    [embedded, propClient, propRoomId, propOnPick, propOnClose, picker]
+  );
 
   const { recent, saveRecent: saveRecentEmoji } = useRecentEmoji(ctx?.client ?? null);
 
@@ -141,7 +146,11 @@ export function EmojiPicker({
     return recent;
   }, [recent, searchQuery]);
 
-  const imagePacks = useImagePacks(ctx?.client ?? null, ctx?.roomId ?? null);
+  const { packs: imagePacks, loading: packsLoading } = useImagePacks(
+    ctx?.client ?? null,
+    ctx?.roomId ?? null
+  );
+  const showPacksSkeleton = useDelayedFlag(packsLoading, 300);
 
   const categories = useMemo(() => {
     if (!ctx) return [];
@@ -370,6 +379,19 @@ export function EmojiPicker({
         </div>
       )}
 
+      {showPacksSkeleton && (
+        <div className={css.section} aria-busy="true" aria-label={t('common.loading')}>
+          <div className={css.sectionHeader}>
+            <div className={css.skeletonLabel} />
+          </div>
+          <div className={css.grid}>
+            {Array.from({ length: 16 }, (_, i) => (
+              <div key={i} className={css.skeletonTile} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {filteredCategories.map((cat) => {
         if (cat.emojis.length === 0) return null;
 
@@ -425,7 +447,9 @@ export function EmojiPicker({
           </div>
         );
       })}
-      {!hasResults && <div className={css.noResults}>{t('composer.noEmojiFound')}</div>}
+      {!hasResults && !packsLoading && (
+        <div className={css.noResults}>{t('composer.noEmojiFound')}</div>
+      )}
     </>
   );
 

@@ -1872,6 +1872,19 @@ export class WizardClient extends Remote {
     >;
   }
 
+  /**
+   * Every state event of the given types as [type, stateKey, content], with one request
+   * to the server at most.
+   */
+  stateEventsOfTypes(
+    roomId: string,
+    eventTypes: Array<string>
+  ): Promise<Array<[string, string, JsonValue]>> {
+    return runtime.call('WizardClient.stateEventsOfTypes', this, [roomId, eventTypes]) as Promise<
+      Array<[string, string, JsonValue]>
+    >;
+  }
+
   setStateEvent(
     roomId: string,
     eventType: string,
