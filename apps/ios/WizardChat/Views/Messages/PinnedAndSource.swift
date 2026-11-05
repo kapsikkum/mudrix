@@ -51,7 +51,7 @@ struct PinnedMessagesView: View {
             }
             .navigationTitle(String(localized: "room.header.pinnedMessages"))
             .navigationBarTitleDisplayMode(.inline)
-            .tint(theme.accent)
+            .tint(theme.control)
             .task { await timeline.start() }
     }
 }
@@ -82,7 +82,60 @@ struct SourceView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
     }
+}
+
+struct SelectTextView: View {
+    let text: String
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            SelectableText(text: text, color: UIColor(theme.textPrimary), tint: UIColor(theme.accent))
+                .padding(.horizontal, WZ.Space.space5)
+                .background(theme.bgSecondary)
+                .overlay(alignment: .top) { CopyToastView().padding(.top, WZ.Space.space2) }
+                .navigationTitle(String(localized: "timeline.selectText"))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button { copyToClipboard(text) } label: { Image("ph-copy-regular") }
+                            .accessibilityLabel(String(localized: "common.copy"))
+                    }
+                    ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
+                }
+                .tint(theme.control)
+        }
+        .presentationDetents([.medium, .large])
+    }
+}
+
+private struct SelectableText: UIViewRepresentable {
+    let text: String
+    let color: UIColor
+    let tint: UIColor
+
+    func makeUIView(context: Context) -> UITextView {
+        let view = UITextView()
+        view.isEditable = false
+        view.isSelectable = true
+        view.backgroundColor = .clear
+        view.font = Font.wizardUIFont(WZ.FontSize.lg)
+        view.adjustsFontForContentSizeCategory = true
+        view.textColor = color
+        view.tintColor = tint
+        view.dataDetectorTypes = .link
+        view.textContainerInset = UIEdgeInsets(top: WZ.Space.space5, left: 0, bottom: WZ.Space.space5, right: 0)
+        view.text = text
+        DispatchQueue.main.async {
+            view.becomeFirstResponder()
+            view.selectedRange = NSRange(location: 0, length: (text as NSString).length)
+        }
+        return view
+    }
+
+    func updateUIView(_ view: UITextView, context: Context) {}
 }

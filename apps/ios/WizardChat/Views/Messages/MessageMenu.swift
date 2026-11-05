@@ -139,12 +139,16 @@ struct MessageMenuOverlay: View {
         if canReact, entry.canBeRepliedTo {
             main.append(.init(title: String(localized: "timeline.reply"), icon: "ph-arrow-bend-up-left-regular") { actions.reply(entry) })
         }
+        if canReact, entry.canBeRepliedTo, let openThread = actions.openThread {
+            main.append(.init(title: String(localized: "timeline.replyInThread"), icon: "ph-chat-dots-regular") { openThread(entry) })
+        }
         if canReact, entry.isOwn, entry.isEditable, case .message = entry.kind {
             main.append(.init(title: String(localized: "common.edit"), icon: "ph-pencil-simple-regular") { actions.edit(entry) })
         }
         if !entry.summary.isEmpty, case .message = entry.kind {
             let text = entry.summary
             main.append(.init(title: String(localized: "common.copy"), icon: "ph-copy-regular") { copyToClipboard(text) })
+            main.append(.init(title: String(localized: "timeline.selectText"), icon: "ph-text-aa-regular") { actions.selectText(entry) })
         }
         var danger: [MessageMenuItem] = []
         if let eventId = entry.eventId {

@@ -22,6 +22,8 @@ data class StoredSession(
     val session: Session,
     val storeFolder: String,
     val passphrase: String,
+    val displayName: String? = null,
+    val avatarUrl: String? = null,
 ) {
     val store: StoreConfig
         get() = StoreConfig(location = SessionStore.storePath(storeFolder).path, passphrase = passphrase)
@@ -36,31 +38,80 @@ data class StoredSession(
     }
 }
 
-/** The signed-in session, encrypted with a key that never leaves the Android keystore */
+@Serializable
+private data class StoredAccounts(
+    val active: String? = null,
+    val accounts: List<StoredSession> = emptyList(),
+)
+
+/** The signed-in accounts, encrypted with a key that never leaves the Android keystore */
 object SessionStore {
     private const val KEY_ALIAS = "org.wizardchat.session"
-    private val file: File get() = File(WizardApplication.instance.filesDir, "session.bin")
+    private val file: File get() = File(WizardApplication.instance.filesDir, "accounts.bin")
+    private val legacyFile: File get() = File(WizardApplication.instance.filesDir, "session.bin")
 
-    fun load(): StoredSession? = runCatching {
-        val bytes = file.takeIf { it.exists() }?.readBytes() ?: return null
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-        cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, bytes, 0, 12))
-        val json = cipher.doFinal(bytes, 12, bytes.size - 12).decodeToString()
-        CoreJson.decodeFromString(StoredSession.serializer(), json)
-    }.getOrNull()
+    fun all(): List<StoredSession> = read().accounts
 
+    fun active(): StoredSession? {
+        val state = read()
+        return state.accounts.firstOrNull { it.session.userId == state.active } ?: state.accounts.firstOrNull()
+    }
+
+    @Synchronized
     fun save(stored: StoredSession) {
+        val state = read()
+        val others = state.accounts.filter { it.session.userId != stored.session.userId }
+        val accounts = if (others.size == state.accounts.size) {
+            state.accounts + stored
+        } else {
+            state.accounts.map { if (it.session.userId == stored.session.userId) stored else it }
+        }
+        write(StoredAccounts(state.active ?: stored.session.userId, accounts))
+    }
+
+    @Synchronized
+    fun setActive(userId: String) {
+        val state = read()
+        if (state.accounts.any { it.session.userId == userId }) write(state.copy(active = userId))
+    }
+
+    @Synchronized
+    fun remove(userId: String) {
+        val state = read()
+        state.accounts.filter { it.session.userId == userId }.forEach { removeStore(it.storeFolder) }
+        val accounts = state.accounts.filter { it.session.userId != userId }
+        val active = if (state.active == userId) accounts.firstOrNull()?.session?.userId else state.active
+        write(StoredAccounts(active, accounts))
+    }
+
+    private fun read(): StoredAccounts {
+        decrypt(file)?.let { json ->
+            runCatching { return CoreJson.decodeFromString(StoredAccounts.serializer(), json) }
+        }
+        val legacy = decrypt(legacyFile)
+            ?.let { runCatching { CoreJson.decodeFromString(StoredSession.serializer(), it) }.getOrNull() }
+            ?: return StoredAccounts()
+        val migrated = StoredAccounts(legacy.session.userId, listOf(legacy))
+        write(migrated)
+        if (file.exists()) legacyFile.delete()
+        return migrated
+    }
+
+    private fun write(state: StoredAccounts) {
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key())
-        val sealed = cipher.doFinal(CoreJson.encodeToString(StoredSession.serializer(), stored).encodeToByteArray())
+        val sealed = cipher.doFinal(CoreJson.encodeToString(StoredAccounts.serializer(), state).encodeToByteArray())
         val tmp = File(file.path + ".tmp")
         tmp.writeBytes(cipher.iv + sealed)
         tmp.renameTo(file)
     }
 
-    fun clear() {
-        file.delete()
-    }
+    private fun decrypt(file: File): String? = runCatching {
+        val bytes = file.takeIf { it.exists() }?.readBytes() ?: return null
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.DECRYPT_MODE, key(), GCMParameterSpec(128, bytes, 0, 12))
+        cipher.doFinal(bytes, 12, bytes.size - 12).decodeToString()
+    }.getOrNull()
 
     fun storePath(folder: String): File = File(WizardApplication.instance.filesDir, "accounts/$folder")
 

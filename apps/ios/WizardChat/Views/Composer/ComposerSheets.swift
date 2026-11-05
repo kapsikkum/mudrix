@@ -82,7 +82,7 @@ struct PollCreatorSheet: View {
                 }
             }
         }
-        .tint(theme.accent)
+        .tint(theme.control)
     }
 }
 
@@ -208,7 +208,7 @@ struct LocationShareSheet: View {
             }
             .onAppear { location.request() }
         }
-        .tint(theme.accent)
+        .tint(theme.control)
     }
 }
 

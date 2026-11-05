@@ -68,7 +68,7 @@ data class SlashCommand(val name: String, val description: String) {
                     "roomname" -> client.setRoomName(roomId, args)
                     "nick" -> {
                         client.setDisplayName(args)
-                        session.displayName = args
+                        session.setProfile(args, session.avatarUrl)
                     }
                     else -> return Result.unknown
                 }

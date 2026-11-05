@@ -305,16 +305,16 @@ internal fun LabelButton(
     modifier: Modifier = Modifier,
     primary: Boolean = false,
     enabled: Boolean = true,
-    color: Color = theme.accent,
+    color: Color? = null,
 ) {
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
     val background = if (primary) {
-        if (pressed) theme.accentHover else color
+        if (pressed && color == null) theme.accentHover else color ?: theme.accent
     } else {
-        color.copy(alpha = if (pressed) 0.24f else 0.14f)
+        if (pressed) theme.bgActive else theme.fill
     }
-    val content = if (primary) theme.textOnAccent else color
+    val content = if (primary) theme.textOnAccent else color ?: theme.control
     Row(
         modifier
             .fillMaxWidth()

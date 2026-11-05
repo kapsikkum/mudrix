@@ -30,6 +30,7 @@ struct LoginView: View {
     @State private var usernameState = UsernameState.idle
     @State private var busy = false
     @State private var errorMessage: String?
+    @State private var showQrSignIn = false
 
     private var server: String {
         serverChoice == Self.custom ? customServer.trimmingCharacters(in: .whitespaces) : serverChoice
@@ -100,7 +101,7 @@ struct LoginView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(theme.bgPrimary.ignoresSafeArea())
-        .tint(theme.accent)
+        .tint(theme.control)
         .task(id: server) { await discover() }
         .task(id: "\(server)|\(username)|\(mode == .register)|\(registration?.enabled == true)") {
             await checkUsername()
@@ -140,6 +141,14 @@ struct LoginView: View {
             }
             .buttonStyle(PrimaryButtonStyle())
             .disabled(busy)
+            if info.qrLogin {
+                Button { showQrSignIn = true } label: {
+                    Label(String(localized: "qrLogin.signInTitle"), image: "ph-qr-code-regular")
+                }
+                .buttonStyle(SecondaryButtonStyle())
+                .disabled(busy)
+                .sheet(isPresented: $showQrSignIn) { QrSignInSheet(server: info.homeserverUrl) }
+            }
         }
 
         if info.password {

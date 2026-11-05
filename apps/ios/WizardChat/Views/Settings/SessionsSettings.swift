@@ -17,6 +17,8 @@ struct SessionsSettings: View {
     @State private var error: String?
     @State private var showRecoveryKeyEntry = false
     @State private var verification: VerificationModel?
+    @State private var canLinkDevices = false
+    @State private var linkingDevice = false
     @State private var newRecoveryKey: String?
     @State private var removing: DeviceInfo?
     private var isVerified: Bool { session.encryption?.deviceVerified == true }
@@ -39,6 +41,14 @@ struct SessionsSettings: View {
                               onRename: rename, onRemove: nil)
                 }
             }
+            if canLinkDevices && isVerified {
+                SettingsSection {
+                    Button { linkingDevice = true } label: {
+                        Label(String(localized: "qrLogin.linkTitle"), image: "ph-qr-code-regular")
+                    }
+                    .foregroundStyle(theme.control)
+                }
+            }
             let others = devices.filter { $0.id != session.deviceId }
             if !others.isEmpty {
                 SettingsSection(title: "settings.sessions.yourDevices") {
@@ -54,7 +64,11 @@ struct SessionsSettings: View {
             }
             if let error { StatusText(text: error) }
         }
-        .task { await reload() }
+        .task {
+            await reload()
+            canLinkDevices = await session.canLinkDevices()
+        }
+        .sheet(isPresented: $linkingDevice, onDismiss: { Task { await reload() } }) { LinkDeviceSheet() }
         .sheet(isPresented: $showRecoveryKeyEntry, onDismiss: refreshState) { RecoveryKeyEntrySheet() }
         .sheet(item: $verification, onDismiss: { refreshState(); Task { await reload() } }) { model in
             VerificationSheet(model: model)
@@ -203,11 +217,11 @@ private struct DeviceRow: View {
                 Spacer()
                 Menu {
                     Button { newName = device.name ?? ""; renaming = true } label: {
-                        Label(String(localized: "settings.sessions.renameSession"), image: "ph-pencil-simple-regular")
+                        Label(menu: String(localized: "settings.sessions.renameSession"), icon: "ph-pencil-simple-regular")
                     }
                     if let onRemove {
                         Button(role: .destructive) { onRemove(device) } label: {
-                            Label(String(localized: "common.remove"), image: "ph-trash-regular")
+                            Label(menu: String(localized: "common.remove"), icon: "ph-trash-regular", destructive: true)
                         }
                     }
                 } label: {
@@ -241,7 +255,7 @@ private struct DeviceRow: View {
                 withAnimation { showDetails.toggle() }
             }
             .font(.wizard(WZ.FontSize.sm, .semibold))
-            .foregroundStyle(theme.accent)
+            .foregroundStyle(theme.control)
             if showDetails {
                 VStack(alignment: .leading, spacing: WZ.Space.space2) {
                     detail("settings.sessions.deviceId", device.id)

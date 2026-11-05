@@ -53,7 +53,11 @@ struct WizardChatApp: App {
                 case .loggedIn:
                     if let roomList = session.roomList {
                         MainTabView(roomList: roomList)
+                            .id(session.userId)
                             .sheet(item: $verificationRequests.presented) { VerificationSheet(model: $0) }
+                            .sheet(isPresented: $session.isAddingAccount, onDismiss: {
+                                Task { await session.cancelBrowserLogin() }
+                            }) { AddAccountSheet() }
                     }
                 }
             }
@@ -72,7 +76,8 @@ struct WizardChatApp: App {
                     transaction.disablesAnimations = true
                 }
             }
-            .task(id: session.state == .loggedIn) { await onLoginChanged() }
+            .task(id: session.state == .loggedIn ? session.userId : nil) { await onLoginChanged() }
+            .onChange(of: notifier.accountToOpen) { _, _ in openNotificationAccount() }
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
         }
@@ -110,16 +115,15 @@ struct WizardChatApp: App {
     }
 
     private func onLoginChanged() async {
-        guard session.state == .loggedIn else {
-            notifier.stop()
-            calls.stopWatchingIncoming()
-            calls.leave()
-            recentEmoji.stop()
-            verificationRequests.stop()
-            MemberDirectory.shared.reset()
-            prefs.onSyncedSettingsChange = nil
-            return
-        }
+        notifier.stop()
+        calls.stopWatchingIncoming()
+        calls.leave()
+        recentEmoji.stop()
+        verificationRequests.stop()
+        MemberDirectory.shared.reset()
+        prefs.onSyncedSettingsChange = nil
+        guard session.state == .loggedIn, session.client != nil else { return }
+        if openNotificationAccount() { return }
         if let synced = await session.loadSyncedSettings() {
             prefs.applySynced(synced)
         }
@@ -135,6 +139,21 @@ struct WizardChatApp: App {
             recentEmoji.start(client: client)
             verificationRequests.start(client: client)
         }
+    }
+
+    @discardableResult
+    private func openNotificationAccount() -> Bool {
+        guard let userId = notifier.accountToOpen else { return false }
+        guard session.state == .loggedIn, session.userId != userId else {
+            if session.userId == userId { notifier.accountToOpen = nil }
+            return false
+        }
+        guard session.accounts.contains(where: { $0.userId == userId }) else {
+            notifier.accountToOpen = nil
+            return false
+        }
+        Task { await session.switchAccount(to: userId) }
+        return true
     }
 
     private func applyAppIcon() {
@@ -159,7 +178,8 @@ private struct ThemedRoot<Content: View>: View {
         let theme = WizardTheme(setting.resolved(systemScheme))
         content(theme)
             .environment(\.theme, theme)
-            .tint(theme.accent)
+            .tint(theme.control)
+            .toggleStyle(SwitchToggleStyle(tint: theme.accent))
             .preferredColorScheme(setting == .system ? nil : theme.colorScheme)
             .background(theme.bgPrimary.ignoresSafeArea())
             .onChange(of: theme.id, initial: true) { _, id in ShareInbox.saveTheme(id.rawValue) }

@@ -19,6 +19,12 @@ struct RoomListScreen: View {
     @State private var showNewRoom = false
     @State private var showNewMessage = false
     @State private var showSpaceSettings = false
+    @State private var reordering = false
+    @State private var newSectionFor: String?
+    @State private var renaming: RoomSection?
+    @State private var deleting: RoomSection?
+    @State private var sectionName = ""
+    @State private var sectionError: String?
 
     private var title: String {
         switch selection {
@@ -40,6 +46,13 @@ struct RoomListScreen: View {
         return rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }
     }
 
+    private var groups: [RoomGroup] {
+        guard roomList.isLoaded else { return [] }
+        let groups = roomList.groups(for: selection)
+        guard !search.isEmpty else { return groups }
+        return groups.map { RoomGroup(kind: $0.kind, rooms: $0.rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }) }
+    }
+
     var body: some View {
         List {
             if onOpenInbox != nil {
@@ -47,6 +60,9 @@ struct RoomListScreen: View {
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+            }
+            if selection == .home, search.isEmpty, roomList.isLoaded {
+                ActiveNowSection(roomList: roomList)
             }
             if !roomList.isLoaded {
                 ForEach(0..<8, id: \.self) { _ in
@@ -61,43 +77,22 @@ struct RoomListScreen: View {
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
-            ForEach(rooms) { room in
-                NavigationLink(value: Route.room(room.id)) {
-                    RoomRow(room: room,
-                            showsHashIcon: !prefs.showRoomAvatars && !room.isDirect)
-                }
-                .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-                .listRowBackground(theme.bgPrimary)
-                .listRowSeparator(.hidden)
-                .swipeActions(edge: .leading) {
-                    let unread = room.unreadCount > 0 || room.mentionCount > 0
-                    Button {
-                        Task { await roomList.setRead(room, read: unread) }
-                    } label: {
-                        Label(unread ? String(localized: "common.markRead") : String(localized: "home.markAsUnread"),
-                              image: unread ? "ph-envelope-open-regular" : "ph-envelope-simple-regular")
-                    }
-                    .tint(theme.accent)
-                }
-                .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) { leaving = room } label: {
-                        Label(String(localized: "common.leave"), image: "ph-sign-out-regular")
-                    }
-                }
-                .contextMenu {
-                    Button { Task { await roomList.setRead(room, read: true) } } label: {
-                        Label(String(localized: "common.markRead"), image: "ph-envelope-open-regular")
-                    }
-                    Button { copyToClipboard("https://matrix.to/#/\(room.id)", message: String(localized: "timeline.linkCopied")) } label: {
-                        Label(String(localized: "common.copyLink"), image: "ph-link-simple-regular")
-                    }
-                    Divider()
-                    Button(role: .destructive) { leaving = room } label: {
-                        Label(String(localized: "common.leave"), image: "ph-sign-out-regular")
+            let groups = groups
+            if selection == .dms, groups.count == 1, case .rooms = groups[0].kind {
+                ForEach(groups[0].rooms) { roomRow($0) }
+                    .onMove(perform: selection == .home && reordering ? { moveRooms(groups[0], from: $0, to: $1) } : nil)
+            } else {
+                ForEach(groups) { group in
+                    Section {
+                        ForEach(group.rooms) { roomRow($0) }
+                            .onMove(perform: canReorder(group) ? { moveRooms(group, from: $0, to: $1) } : nil)
+                    } header: {
+                        groupHeader(group, in: groups)
                     }
                 }
             }
         }
+        .environment(\.editMode, .constant(reordering ? .active : .inactive))
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(theme.bgPrimary.ignoresSafeArea())
@@ -115,18 +110,27 @@ struct RoomListScreen: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    Button { showNewMessage = true } label: { Label(String(localized: "common.newMessage"), image: "ph-note-pencil-regular") }
+                    Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newMessage"), icon: "ph-note-pencil-regular") }
                     if selection != .dms {
-                        Button { showNewRoom = true } label: { Label(String(localized: "rooms.newRoom"), image: "ph-hash-straight-regular") }
+                        Button { showNewRoom = true } label: { Label(menu: String(localized: "rooms.newRoom"), icon: "ph-hash-straight-regular") }
+                    }
+                    if selection != .dms {
+                        Button { startNewSection(for: nil) } label: { Label(menu: String(localized: "room.sections.new"), icon: "ph-list-bullets-regular") }
+                        Button { reordering = true } label: { Label(menu: String(localized: "home.reorderRooms"), icon: "ph-caret-up-down-regular") }
                     }
                     if spaceId != nil {
                         Divider()
-                        Button { showSpaceSettings = true } label: { Label(String(localized: "home.spaceSettings"), image: "ph-gear-regular") }
+                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "home.spaceSettings"), icon: "ph-gear-regular") }
                     }
                 } label: {
                     Image("ph-plus-regular")
                 }
                 .accessibilityLabel(String(localized: "home.new"))
+            }
+            if reordering {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(String(localized: "common.done")) { reordering = false }.fontWeight(.semibold)
+                }
             }
             if let onOpenInbox {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -141,6 +145,26 @@ struct RoomListScreen: View {
                 SpaceSettingsView(space: space, roomList: roomList)
             }
         }
+        .alert(String(localized: renaming == nil ? "room.sections.newTitle" : "room.sections.renameTitle"),
+               isPresented: Binding(get: { newSectionFor != nil || renaming != nil },
+                                    set: { if !$0 { newSectionFor = nil; renaming = nil } })) {
+            TextField("", text: $sectionName)
+            Button(String(localized: "common.save")) { Task { await saveSectionName() } }
+            Button(String(localized: "common.cancel"), role: .cancel) {}
+        }
+        .confirmationDialog(L10n.format("room.sections.deleteTitle", deleting?.name ?? ""),
+                            isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }),
+                            titleVisibility: .visible) {
+            Button(String(localized: "room.sections.delete"), role: .destructive) {
+                guard let section = deleting else { return }
+                sectionTask { try await roomList.client.deleteRoomSection(tag: section.tag) }
+            }
+        } message: {
+            Text(String(localized: "room.sections.deleteMessage"))
+        }
+        .alert(sectionError ?? "", isPresented: Binding(get: { sectionError != nil }, set: { if !$0 { sectionError = nil } })) {
+            Button(String(localized: "common.close"), role: .cancel) {}
+        }
         .confirmationDialog(
             L10n.format("room.leaveNamed2", leaving?.displayName ?? ""),
             isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }),
@@ -148,6 +172,184 @@ struct RoomListScreen: View {
         ) {
             Button(String(localized: "common.leave"), role: .destructive) {
                 if let room = leaving { Task { await roomList.leave(room) } }
+            }
+        }
+    }
+
+    private func roomRow(_ room: RoomSummary) -> some View {
+        NavigationLink(value: Route.room(room.id)) {
+            RoomRow(room: room, showsHashIcon: !prefs.showRoomAvatars && !room.isDirect)
+        }
+        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+        .listRowBackground(theme.bgPrimary)
+        .listRowSeparator(.hidden)
+        .swipeActions(edge: .leading) {
+            let unread = room.unreadCount > 0 || room.mentionCount > 0
+            Button {
+                Task { await roomList.setRead(room, read: unread) }
+            } label: {
+                Label(unread ? String(localized: "common.markRead") : String(localized: "home.markAsUnread"),
+                      image: unread ? "ph-envelope-open-regular" : "ph-envelope-simple-regular")
+            }
+            .tint(theme.control)
+        }
+        .swipeActions(edge: .trailing) {
+            Button(role: .destructive) { leaving = room } label: {
+                Label(String(localized: "common.leave"), image: "ph-sign-out-regular")
+            }
+        }
+        .contextMenu {
+            Button { Task { await roomList.setRead(room, read: true) } } label: {
+                Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+            }
+            Button {
+                sectionTask { try await roomList.client.setFavourite(roomId: room.id, favourite: !room.isFavourite) }
+            } label: {
+                Label(menu: String(localized: room.isFavourite ? "room.removeFavourite" : "room.addFavourite"),
+                      icon: room.isFavourite ? "ph-star-fill" : "ph-star-regular")
+            }
+            if selection != .dms { sectionMenu(for: room) }
+            Button { copyToClipboard("https://matrix.to/#/\(room.id)", message: String(localized: "timeline.linkCopied")) } label: {
+                Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
+            }
+            Divider()
+            Button(role: .destructive) { leaving = room } label: {
+                Label(menu: String(localized: "common.leave"), icon: "ph-sign-out-regular", destructive: true)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func sectionMenu(for room: RoomSummary) -> some View {
+        let context = roomList.sectionContext(selection)
+        let current = roomList.sectionTag(of: room.id)
+        Menu {
+            ForEach(roomList.sections.filter { $0.spaceId == context || $0.tag == current }, id: \.tag) { section in
+                Button {
+                    sectionTask { try await roomList.client.setRoomSection(roomId: room.id, tag: section.tag) }
+                } label: {
+                    if section.tag == current { Label(section.name, image: "ph-check-bold") } else { Text(section.name) }
+                }
+            }
+            Button { startNewSection(for: room.id) } label: {
+                Label(menu: String(localized: "room.sections.new"), icon: "ph-plus-regular")
+            }
+            if current != nil {
+                Divider()
+                Button {
+                    sectionTask { try await roomList.client.setRoomSection(roomId: room.id, tag: nil) }
+                } label: {
+                    Label(menu: String(localized: "room.sections.remove"), icon: "ph-x-regular")
+                }
+            }
+        } label: {
+            Label(menu: String(localized: "room.sections.moveTo"), icon: "ph-list-bullets-regular")
+        }
+    }
+
+    @ViewBuilder
+    private func groupHeader(_ group: RoomGroup, in groups: [RoomGroup]) -> some View {
+        let anchors = groups.filter { if case .favourites = $0.kind { false } else { true } }.map(\.id)
+        let index = anchors.firstIndex(of: group.id)
+        HStack {
+            Text(groupTitle(group).uppercased())
+                .font(.wizard(WZ.FontSize.xs, .semibold))
+                .foregroundStyle(theme.textMuted)
+            Spacer()
+            if let index, anchors.count > 1 || group.isSection {
+                Menu {
+                    if case .section(let section) = group.kind {
+                        Button { renaming = section; sectionName = section.name } label: {
+                            Label(menu: String(localized: "room.sections.rename"), icon: "ph-pencil-simple-regular")
+                        }
+                    }
+                    Button { moveGroup(group, by: -1, in: groups) } label: {
+                        Label(menu: String(localized: "room.sections.moveUp"), icon: "ph-caret-up-down-regular")
+                    }
+                    .disabled(index == 0)
+                    Button { moveGroup(group, by: 1, in: groups) } label: {
+                        Label(menu: String(localized: "room.sections.moveDown"), icon: "ph-caret-up-down-regular")
+                    }
+                    .disabled(index == anchors.count - 1)
+                    if case .section(let section) = group.kind {
+                        Divider()
+                        Button(role: .destructive) { deleting = section } label: {
+                            Label(menu: String(localized: "room.sections.delete"), icon: "ph-trash-regular", destructive: true)
+                        }
+                    }
+                } label: {
+                    Image("ph-dots-three-bold")
+                        .font(.system(size: WZ.SizeIcon.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(width: WZ.Size.touchTarget, height: WZ.SizeControl.sm)
+                }
+                .accessibilityLabel(String(localized: "room.sections.options"))
+            }
+        }
+    }
+
+    private func groupTitle(_ group: RoomGroup) -> String {
+        switch group.kind {
+        case .favourites: String(localized: "room.favourites")
+        case .section(let section): section.name
+        case .rooms: String(localized: "room.title")
+        }
+    }
+
+    private func canReorder(_ group: RoomGroup) -> Bool {
+        guard reordering else { return false }
+        switch group.kind {
+        case .favourites: return true
+        case .rooms: return selection == .home
+        case .section: return false
+        }
+    }
+
+    private func moveRooms(_ group: RoomGroup, from source: IndexSet, to destination: Int) {
+        var ids = group.rooms.map(\.id)
+        ids.move(fromOffsets: source, toOffset: destination)
+        Task {
+            if case .favourites = group.kind {
+                await roomList.saveFavouriteOrder(ids)
+            } else {
+                await roomList.saveHomeOrder(ids)
+            }
+        }
+    }
+
+    private func moveGroup(_ group: RoomGroup, by offset: Int, in groups: [RoomGroup]) {
+        sectionTask { try await roomList.moveGroup(group.id, by: offset, in: groups) }
+    }
+
+    private func startNewSection(for roomId: String?) {
+        sectionName = ""
+        renaming = nil
+        newSectionFor = roomId ?? ""
+    }
+
+    private func saveSectionName() async {
+        let name = sectionName.trimmingCharacters(in: .whitespaces)
+        let section = renaming
+        let roomId = newSectionFor
+        newSectionFor = nil
+        renaming = nil
+        guard !name.isEmpty else { return }
+        sectionTask {
+            if let section {
+                try await roomList.client.renameRoomSection(tag: section.tag, name: name)
+            } else {
+                let tag = try await roomList.client.createRoomSection(name: name, spaceId: roomList.sectionContext(selection))
+                if let roomId, !roomId.isEmpty {
+                    try await roomList.client.setRoomSection(roomId: roomId, tag: tag)
+                }
+            }
+        }
+    }
+
+    private func sectionTask(_ work: @escaping () async throws -> Void) {
+        Task {
+            do { try await work() } catch {
+                sectionError = L10n.format("room.sections.failed", error.localizedDescription)
             }
         }
     }

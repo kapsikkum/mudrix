@@ -111,6 +111,10 @@ import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
+import org.wizardchat.android.ui.MenuItem
+import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.home.LocalNavigator
+import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
@@ -149,21 +153,24 @@ class MessageActions(
     val togglePin: (ChatEntry) -> Unit = {},
     val report: (ChatEntry) -> Unit = {},
     val viewSource: (ChatEntry) -> Unit = {},
+    val openThread: ((ChatEntry) -> Unit)? = null,
     /** Set only in unencrypted rooms */
     val linkPreviews: LinkPreviewLoader? = null,
     val retry: () -> Unit = {},
 )
 
-/** A room's timeline and composer */
+/** A room's timeline and composer, or with `threadRoot` one of its threads */
 @Composable
-fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
+fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, threadRoot: String? = null) {
     val prefs = LocalPrefs.current
     val session = LocalSession.current
     val calls = LocalCalls.current
     val notifier = MessageNotifier.shared
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
-    val timeline = remember(room.id) { TimelineModel(client, room.id) }
+    val timeline = remember(room.id, threadRoot) { TimelineModel(client, room.id, threadRoot) }
+    val navigator = LocalNavigator.current
+    var showThreads by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
     var replyTo by remember { mutableStateOf<ChatEntry?>(null) }
@@ -275,9 +282,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
     }
 
     DisposableEffect(timeline) {
-        notifier.activeRoomId = room.id
+        if (threadRoot == null) notifier.activeRoomId = room.id
         onDispose {
-            if (notifier.activeRoomId == room.id) notifier.activeRoomId = null
+            if (threadRoot == null && notifier.activeRoomId == room.id) notifier.activeRoomId = null
             timeline.setTyping(false)
             timeline.close()
         }
@@ -293,14 +300,14 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
     }
     LaunchedEffect(notifier.eventToFocus) {
         val (roomId, eventId) = notifier.eventToFocus ?: return@LaunchedEffect
-        if (roomId != room.id) return@LaunchedEffect
+        if (threadRoot != null || roomId != room.id) return@LaunchedEffect
         notifier.eventToFocus = null
         jump(eventId)
     }
     LaunchedEffect(timeline.entries.isEmpty()) {
         if (timeline.entries.isEmpty() || positioned) return@LaunchedEffect
         positioned = true
-        if (room.unreadCount > 0 || room.mentionCount > 0) openAtFirstUnread()
+        if (threadRoot == null && (room.unreadCount > 0 || room.mentionCount > 0)) openAtFirstUnread()
         timeline.markAsRead(prefs.sendReadReceipts)
     }
     LaunchedEffect(timeline.entries.lastOrNull()?.id) {
@@ -358,6 +365,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
         togglePin = { entry -> scope.launch { timeline.togglePin(entry) } },
         report = { reporting = it },
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
+        openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
         linkPreviews = linkPreviews,
         retry = { timeline.retrySending() },
     )
@@ -369,7 +377,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
     }
 
     Column(Modifier.fillMaxSize().background(theme.bgSecondary)) {
-        RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall)
+        RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
+            inThread = threadRoot != null, onShowThreads = { showThreads = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
             LazyColumn(
                 Modifier.fillMaxSize(),
@@ -393,7 +402,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
                     }
                 }
                 item(key = TOP_ID) {
-                    if (timeline.reachedStart) {
+                    if (timeline.reachedStart && threadRoot != null) {
+                        Spacer(Modifier.height(0.dp))
+                    } else if (timeline.reachedStart) {
                         TimelineStart(room)
                     } else {
                         // Skeleton rows; history loads as they scroll into view
@@ -401,7 +412,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
                     }
                 }
             }
-            if (room.isDirect && !calls.isInCall(room.id) && room.callParticipants.any { it != session.userId }) {
+            if (threadRoot == null && !calls.isInCall(room.id) && room.callParticipants.any { it != session.userId }) {
                 JoinCallBar(room, Modifier.align(Alignment.TopCenter).padding(top = WZ.Space.space3))
             }
             androidx.compose.animation.AnimatedVisibility(
@@ -420,6 +431,16 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
             Modifier.fillMaxWidth().padding(bottom = LocalBottomBarInset.current).navigationBarsPadding().imePadding(),
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
         ) {
+            if (threadRoot != null && timeline.reachedStart && timeline.entries.count { it.isContent } <= 1) {
+                Text(
+                    tr("timeline.threadEmpty"),
+                    Modifier.fillMaxWidth(),
+                    style = wizardFont(WZ.FontSize.sm),
+                    color = theme.textMuted,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            org.wizardchat.android.ui.composer.IdentityWarning(room.id, client, room.isEncrypted)
             if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
                 TypingIndicator(timeline.typingNames)
             }
@@ -431,6 +452,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
                 editing = editing,
                 onEditingChange = { editing = it },
                 onTyping = { typing -> if (prefs.typingIndicators) timeline.setTyping(typing) },
+                threadRoot = threadRoot,
             )
         }
     }
@@ -449,6 +471,12 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
                 notifier.eventToFocus = room.id to eventId
             },
         )
+    }
+    if (showThreads) {
+        ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
+            showThreads = false
+            navigator.push(Route.Thread(room.id, root))
+        }
     }
     sourceText?.let { SourceSheet(it) { sourceText = null } }
     reporting?.let { entry -> ReportDialog(onDismiss = { reporting = null }) { reason ->
@@ -474,7 +502,14 @@ private const val TOP_ID = "timeline-top"
 
 /** The room's title capsule (opens the room info) and, in DMs, the call buttons */
 @Composable
-private fun RoomTopBar(room: RoomSummary, onBack: () -> Unit, onShowInfo: () -> Unit, onCall: (Boolean) -> Unit) {
+private fun RoomTopBar(
+    room: RoomSummary,
+    onBack: () -> Unit,
+    onShowInfo: () -> Unit,
+    onCall: (Boolean) -> Unit,
+    inThread: Boolean,
+    onShowThreads: () -> Unit,
+) {
     val hint = tr("timeline.showsRoomInfoMembers")
     Box(Modifier.fillMaxWidth().background(theme.bgSecondary).statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
         Box(Modifier.align(Alignment.CenterStart)) {
@@ -483,24 +518,49 @@ private fun RoomTopBar(room: RoomSummary, onBack: () -> Unit, onShowInfo: () -> 
         Box(
             Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = if (room.isDirect) WZ.Space.space12 + WZ.Space.space11 else WZ.Space.space11)
+                .padding(horizontal = if (inThread) WZ.Space.space11 else WZ.Space.space11 * 2)
                 .defaultMinSize(minHeight = WZ.Space.space10)
                 .shadow(2.dp, CircleShape)
                 .clip(CircleShape)
                 .background(theme.bgTertiary)
-                .clickable(onClick = onShowInfo)
+                .clickable(enabled = !inThread, onClick = onShowInfo)
                 .semantics { contentDescription = "${room.displayName}. $hint" }
                 .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
             contentAlignment = Alignment.Center,
         ) {
-            RoomTitle(room)
+            if (inThread) ThreadTitle(room) else RoomTitle(room)
         }
-        if (room.isDirect) {
+        if (!inThread) {
             Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically) {
-                BarButton("phone", tr("timeline.voiceCall"), { onCall(false) }, weight = PhWeight.fill)
-                BarButton("video-camera", tr("timeline.videoCall"), { onCall(true) }, weight = PhWeight.fill)
+                BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
+                Box {
+                    var callMenu by remember { mutableStateOf(false) }
+                    BarButton("phone", tr("voice.startCall"), { callMenu = true }, weight = PhWeight.fill)
+                    WizardMenu(
+                        callMenu,
+                        { callMenu = false },
+                        listOf(
+                            MenuItem(tr("timeline.voiceCall"), "phone") { onCall(false) },
+                            MenuItem(tr("timeline.videoCall"), "video-camera") { onCall(true) },
+                        ),
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun ThreadTitle(room: RoomSummary) {
+    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(tr("thread.title"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
+        Text(
+            room.displayName,
+            style = wizardFont(WZ.FontSize.xs),
+            color = theme.textMuted,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -795,6 +855,11 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     if (entry.reactions.isNotEmpty()) {
                         ReactionsBar(entry.reactions) { key -> actions?.react?.invoke(key, entry) }
                     }
+                    val thread = entry.thread
+                    val openThread = actions?.openThread
+                    if (thread != null && thread.replies > 0 && actions != null && openThread != null) {
+                        ThreadSummaryBadge(thread, actions.roomId) { openThread(entry) }
+                    }
                     val roomId = actions?.roomId
                     if (entry.readBy.isNotEmpty() && roomId != null) {
                         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
@@ -1003,6 +1068,8 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
             HorizontalDivider(color = theme.border)
             item(tr("emoji.react"), "smiley") { actions.moreReactions(entry) }
             if (entry.canBeRepliedTo) item(tr("timeline.reply"), "arrow-bend-up-left") { actions.reply(entry) }
+            val openThread = actions.openThread
+            if (entry.canBeRepliedTo && openThread != null) item(tr("timeline.replyInThread"), "chat-dots") { openThread(entry) }
             if (entry.isOwn && entry.isEditable && entry.kind is ChatEntry.Kind.Message) {
                 item(tr("common.edit"), "pencil-simple") { actions.edit(entry) }
             }

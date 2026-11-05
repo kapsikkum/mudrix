@@ -28,7 +28,7 @@ struct SpacesScreen: View {
                     .buttonStyle(.plain)
                     .contextMenu {
                         Button { copyToClipboard("https://matrix.to/#/\(space.id)", message: String(localized: "timeline.linkCopied")) } label: {
-                            Label(String(localized: "common.copyLink"), image: "ph-link-simple-regular")
+                            Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
                         }
                     }
                 }

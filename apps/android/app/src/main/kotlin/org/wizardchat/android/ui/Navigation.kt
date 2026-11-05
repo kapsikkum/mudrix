@@ -95,7 +95,7 @@ fun BarButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     weight: PhWeight = PhWeight.regular,
-    tint: Color = theme.accent,
+    tint: Color = theme.control,
     size: Dp = WZ.SizeIcon.lg,
     enabled: Boolean = true,
     badge: @Composable (() -> Unit)? = null,
@@ -121,7 +121,7 @@ fun BarTextButton(text: String, onClick: () -> Unit, enabled: Boolean = true, bo
         Text(
             text,
             style = wizardFont(WZ.FontSize.lg, if (bold) FontWeight.SemiBold else FontWeight.Normal),
-            color = if (enabled) theme.accent else theme.textMuted,
+            color = if (enabled) theme.control else theme.textMuted,
         )
     }
 }

@@ -235,6 +235,15 @@ struct DeveloperSettings: View {
                         CopyRow(label: "settings.sessions.deviceId", value: deviceId)
                     }
                 }
+                SettingsSection {
+                    NavigationLink {
+                        AccountDataExplorer()
+                    } label: {
+                        Text(String(localized: "settings.developer.accountData"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                    }
+                }
             }
         }
     }
@@ -245,6 +254,7 @@ extension WizardTheme {
 
 struct AboutSettings: View {
     @Environment(\.theme) private var theme
+    @State private var showWhatsNew = false
 
     private var version: String {
         let info = Bundle.main.infoDictionary
@@ -277,6 +287,13 @@ struct AboutSettings: View {
                     Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())
+                if let entry = WhatsNew.latest() {
+                    Button { showWhatsNew = true } label: {
+                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-fill")
+                    }
+                    .buttonStyle(SecondaryButtonStyle())
+                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                }
             }
 
             SettingsSection(title: "settings.about.credits") {

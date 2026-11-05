@@ -70,7 +70,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
@@ -105,7 +104,7 @@ fun Avatar(
         modifier
             .size(size)
             .clip(shape)
-            // The colour is only for the initial; transparent pictures show what's behind them
+            // The colour is only for the placeholder; transparent pictures show what's behind them
             .background(if (image == null) hueColor(name) else Color.Transparent),
         contentAlignment = Alignment.Center,
     ) {
@@ -113,18 +112,24 @@ fun Avatar(
         if (bitmap != null) {
             Image(bitmap.asImageBitmap(), null, Modifier.size(size), contentScale = ContentScale.Crop)
         } else {
-            Text(
-                initial(name),
-                style = wizardFont((size.value * 0.4f).sp, FontWeight.SemiBold),
-                color = theme.textOnAccent,
-            )
+            WizardMark(theme.textOnAccent, Modifier.size(size * 0.58f))
         }
     }
 }
 
-private fun initial(name: String): String {
-    val trimmed = name.dropWhile { it == '#' || it == '@' || it == '!' }
-    return (trimmed.firstOrNull() ?: name.firstOrNull())?.uppercase() ?: "?"
+@Composable
+fun WizardMark(color: Color, modifier: Modifier = Modifier) {
+    Canvas(modifier) {
+        val scale = minOf(this.size.width, this.size.height) / 400f
+        logoPolygons.forEach { points ->
+            val path = Path().apply {
+                moveTo(points[0].x * scale, points[0].y * scale)
+                points.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
+                close()
+            }
+            drawPath(path, color)
+        }
+    }
 }
 
 private val logoPolygons = listOf(

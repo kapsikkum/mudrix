@@ -18,6 +18,7 @@ struct MainTabView: View {
     @State private var showCreateSpace = false
     @State private var showInbox = false
     @State private var showExplore = false
+    @State private var whatsNew: WhatsNew.Entry?
 
     var body: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
@@ -25,7 +26,7 @@ struct MainTabView: View {
             tabItem(.dms, title: "roomSwitcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
             tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
             SwiftUI.Tab(value: Tab.me) {
-                tabContent(.me)
+                tabContent(.me).tint(theme.control)
             } label: {
                 Group {
                     if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
@@ -68,6 +69,12 @@ struct MainTabView: View {
         .onChange(of: notifier.roomToOpen) { _, _ in openNotificationRoom() }
         .onAppear(perform: openNotificationRoom)
         .onChange(of: roomList.isLoaded) { _, _ in openNotificationRoom() }
+        .sheet(item: $whatsNew) { entry in
+            WhatsNewSheet(entry: entry)
+        }
+        .onChange(of: roomList.isLoaded, initial: true) { _, loaded in
+            if loaded, whatsNew == nil { whatsNew = WhatsNew.unseen }
+        }
         .sheet(isPresented: $showInbox) {
             InboxView(roomList: roomList, onOpenRoom: show, onOpenSpace: showSpace)
         }
@@ -83,7 +90,7 @@ struct MainTabView: View {
 
     private func tabItem(_ item: Tab, title: LocalizedStringKey, icon: String, unread: UnreadState) -> some TabContent<Tab> {
         SwiftUI.Tab(value: item) {
-            tabContent(item)
+            tabContent(item).tint(theme.control)
         } label: {
             // One icon for both states, like Apple's tab bars: swapping outline for fill while the
             // selection lens slides over makes the icon jump in size
@@ -185,8 +192,11 @@ struct MainTabView: View {
     }
 
     private func showsCallBar(in item: Tab) -> Bool {
-        guard calls.isInCall, let id = calls.room?.id else { return false }
-        return paths[item]?.last != .room(id)
+        guard calls.isInCall, calls.room?.id != nil else { return false }
+        switch paths[item]?.last {
+        case .room?, .chat?: return false
+        default: return true
+        }
     }
 
     private func binding(for item: Tab) -> Binding<[Route]> {
@@ -219,7 +229,7 @@ struct MainTabView: View {
     }
 
     private func openNotificationRoom() {
-        guard let roomId = notifier.roomToOpen, roomList.isLoaded else { return }
+        guard let roomId = notifier.roomToOpen, notifier.accountToOpen == nil, roomList.isLoaded else { return }
         notifier.roomToOpen = nil
         showInbox = false; showCreateSpace = false; showExplore = false
         show(roomId)

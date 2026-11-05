@@ -57,15 +57,19 @@ struct SettingsView: View {
                                 Text(name)
                                     .font(.wizard(WZ.FontSize.xxl, .semibold))
                                     .foregroundStyle(theme.textPrimary)
-                                Text(session.userId ?? "")
-                                    .font(.wizard(WZ.FontSize.md))
-                                    .foregroundStyle(theme.textMuted)
+                                if let status = session.customStatus?.text {
+                                    Text(status)
+                                        .font(.wizard(WZ.FontSize.sm))
+                                        .foregroundStyle(theme.textSecondary)
+                                }
                             }
                             .lineLimit(1)
                         }
                         .padding(.vertical, WZ.Space.space2)
                     }
+                    AccountSwitcher(onLogout: { if !isTab { dismiss() } })
                 }
+                .listRowBackground(theme.groupedRow)
 
                 Section {
                     ForEach([Page.privacy, .notifications, .emojis]) { pageRow($0) }
@@ -77,17 +81,6 @@ struct SettingsView: View {
                     ForEach([Page.sessions, .encryption, .developer, .about]) { pageRow($0) }
                 }
 
-                Section {
-                    Button(role: .destructive) {
-                        if !isTab { dismiss() }
-                        Task { await session.logout() }
-                    } label: {
-                        Text(String(localized: "settings.account.logout"))
-                            .font(.wizard(WZ.FontSize.lg))
-                            .foregroundStyle(theme.error)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
@@ -117,7 +110,7 @@ struct SettingsView: View {
                 case .about: AboutSettings()
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
         .onChange(of: popToRoot) { _, _ in path = [] }
     }
@@ -135,6 +128,70 @@ struct SettingsView: View {
             }
         }
         .listRowBackground(theme.groupedRow)
+    }
+}
+
+private struct AccountSwitcher: View {
+    let onLogout: () -> Void
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Menu {
+            Section {
+                ForEach(session.accounts) { account in
+                    Toggle(isOn: Binding(
+                        get: { account.userId == session.userId },
+                        set: { _ in Task { await session.switchAccount(to: account.userId) } }
+                    )) {
+                        Text(account.displayName ?? account.userId)
+                        Text(account.userId)
+                    }
+                }
+            }
+            Button { session.isAddingAccount = true } label: {
+                Label(menu: String(localized: "settings.accounts.add"), icon: "ph-plus-regular")
+            }
+            Divider()
+            Button(role: .destructive) {
+                onLogout()
+                Task { await session.logout() }
+            } label: {
+                Label(menu: L10n.format("settings.accounts.logoutOf", session.displayName ?? session.userId ?? ""), icon: "ph-sign-out-regular", destructive: true)
+            }
+        } label: {
+            HStack(spacing: WZ.Space.space5) {
+                Image("ph-user-regular")
+                    .font(.system(size: WZ.SizeIcon.md))
+                    .foregroundStyle(theme.textMuted)
+                Text(String(localized: "settings.accounts.switch"))
+                    .font(.wizard(WZ.FontSize.lg))
+                    .foregroundStyle(theme.textPrimary)
+                Spacer()
+                Image("ph-caret-up-down-regular")
+                    .font(.system(size: WZ.SizeIcon.sm))
+                    .foregroundStyle(theme.textMuted)
+            }
+            .contentShape(Rectangle())
+        }
+        .listRowBackground(theme.groupedRow)
+    }
+}
+
+struct AddAccountSheet: View {
+    @EnvironmentObject private var session: MatrixSession
+
+    var body: some View {
+        NavigationStack {
+            LoginView()
+                .navigationTitle(String(localized: "auth.addAccountTitle"))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(String(localized: "common.cancel")) { session.isAddingAccount = false }
+                    }
+                }
+        }
     }
 }
 
@@ -309,7 +366,7 @@ struct CopyRow: View {
                 .accessibilityLabel(String(localized: "common.copy"))
             }
             .font(.system(size: WZ.SizeIcon.sm))
-            .foregroundStyle(theme.accent)
+            .foregroundStyle(theme.control)
             .buttonStyle(.borderless)
         }
         .padding(.vertical, WZ.Space.space1)

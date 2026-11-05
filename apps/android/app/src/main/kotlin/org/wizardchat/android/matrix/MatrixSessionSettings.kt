@@ -21,16 +21,16 @@ suspend fun MatrixSession.accountManagementUrl(): String? = runCatching { client
 
 suspend fun MatrixSession.setDisplayName(name: String) {
     requireClient.setDisplayName(name)
-    displayName = name
+    setProfile(name, avatarUrl)
 }
 
 suspend fun MatrixSession.setAvatar(data: ByteArray, mimeType: String) {
-    avatarUrl = requireClient.setAvatar(data, mimeType)
+    setProfile(displayName, requireClient.setAvatar(data, mimeType))
 }
 
 suspend fun MatrixSession.removeAvatar() {
     requireClient.removeAvatar()
-    avatarUrl = null
+    setProfile(displayName, null)
 }
 
 /**

@@ -2,6 +2,7 @@ package org.wizardchat.android.ui.composer
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,6 +57,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.Emoji
@@ -67,6 +70,7 @@ import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
+import org.wizardchat.android.ui.room.AnimatedDrawable
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -349,7 +353,7 @@ private fun StickerGrid(packs: List<ImagePack>, loading: Boolean, onPick: (PackI
                                 .semantics { contentDescription = sticker.text },
                             contentAlignment = Alignment.Center,
                         ) {
-                            PackThumb(sticker.url, Modifier.size(WZ.SizeAvatar.xl))
+                            PackThumb(sticker.url, Modifier.size(WZ.SizeAvatar.xl), animated = true)
                         }
                     }
                 }
@@ -360,13 +364,20 @@ private fun StickerGrid(packs: List<ImagePack>, loading: Boolean, onPick: (PackI
 
 /** An emoji/sticker image from a pack */
 @Composable
-fun PackThumb(url: String, modifier: Modifier = Modifier) {
+fun PackThumb(url: String, modifier: Modifier = Modifier, animated: Boolean = false) {
     val media = LocalMedia.current
     var image by remember(url) { mutableStateOf<Bitmap?>(null) }
-    LaunchedEffect(url, media) { image = media?.thumbnail(url, 160) }
+    var playing by remember(url) { mutableStateOf<Drawable?>(null) }
+    LaunchedEffect(url, media) {
+        image = media?.thumbnail(url, 160)
+        if (animated) playing = media?.animated(JsonObject(mapOf("url" to JsonPrimitive(url))))
+    }
     Box(modifier.clip(RoundedCornerShape(WZ.Radius.md))) {
         val bitmap = image
-        if (bitmap != null) {
+        val drawable = playing
+        if (drawable != null) {
+            AnimatedDrawable(drawable, fit = true, modifier = Modifier.fillMaxSize())
+        } else if (bitmap != null) {
             Image(bitmap.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
         } else {
             Box(Modifier.fillMaxSize().background(theme.fill))

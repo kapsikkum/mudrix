@@ -23,7 +23,7 @@ macOS and Linux, and as a native app for iOS and Android. All apps share one Rus
 - Link previews and message search
 - Typing indicators, read receipts and online status
 - Sign in with SSO, OAuth or a QR code
-- Multiple accounts (web and desktop)
+- Multiple accounts
 - A range of dark and light themes to choose from
 - English and German
 

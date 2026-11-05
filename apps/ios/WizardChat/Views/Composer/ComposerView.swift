@@ -1,5 +1,6 @@
 import WizardChatCore
 import PhotosUI
+import ImageIO
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -8,6 +9,7 @@ struct ComposerView: View {
     let room: RoomSummary
     @Binding var replyTo: ChatEntry?
     @Binding var editing: ChatEntry?
+    var threadRoot: String?
     let onTyping: (Bool) -> Void
 
     @EnvironmentObject private var session: MatrixSession
@@ -168,15 +170,15 @@ struct ComposerView: View {
 
     private var plusBubble: some View {
         Menu {
-            Button { showPhotos = true } label: { Label(String(localized: "composer.photosVideos"), image: "ph-images-regular") }
-            Button { showFiles = true } label: { Label(String(localized: "composer.file"), image: "ph-file-regular") }
+            Button { showPhotos = true } label: { Label(menu: String(localized: "composer.photosVideos"), icon: "ph-images-regular") }
+            Button { showFiles = true } label: { Label(menu: String(localized: "composer.file"), icon: "ph-file-regular") }
             if UIPasteboard.general.hasImages {
-                Button { pasteImages() } label: { Label(String(localized: "composer.pasteImage"), image: "ph-clipboard-text-regular") }
+                Button { pasteImages() } label: { Label(menu: String(localized: "composer.pasteImage"), icon: "ph-clipboard-text-regular") }
             }
             Divider()
-            Button { showPoll = true } label: { Label(String(localized: "composer.poll.create"), image: "ph-chart-bar-horizontal-regular") }
-            Button { showLocation = true } label: { Label(String(localized: "composer.location.share"), image: "ph-map-pin-regular") }
-            Button { Task { await recorder.start() } } label: { Label(String(localized: "composer.voice.record"), image: "ph-microphone-regular") }
+            Button { showPoll = true } label: { Label(menu: String(localized: "composer.poll.create"), icon: "ph-chart-bar-horizontal-regular") }
+            Button { showLocation = true } label: { Label(menu: String(localized: "composer.location.share"), icon: "ph-map-pin-regular") }
+            Button { Task { await recorder.start() } } label: { Label(menu: String(localized: "composer.voice.record"), icon: "ph-microphone-regular") }
         } label: {
             Image("ph-plus-regular")
                 .font(.system(size: WZ.SizeIcon.md, weight: .medium))
@@ -207,7 +209,9 @@ struct ComposerView: View {
     private var inputField: some View {
         ComposerTextView(
             text: $draft, selection: $selection, isFocused: $focused,
-            placeholder: editing == nil ? L10n.format("composer.messageRoom", "\(room.displayName)") : String(localized: "composer.editMessage"),
+            placeholder: editing != nil ? String(localized: "composer.editMessage")
+                : threadRoot != nil ? String(localized: "thread.composerPlaceholder")
+                : L10n.format("composer.messageRoom", "\(room.displayName)"),
             font: Font.wizardUIFont(17),
             textColor: UIColor(theme.textPrimary),
             placeholderColor: UIColor(theme.textMuted),
@@ -359,7 +363,7 @@ struct ComposerView: View {
         photoItems = []
     }
 
-    private var draftKey: String { "draft.\(room.id)" }
+    private var draftKey: String { threadRoot.map { "draft.\(room.id).\($0)" } ?? "draft.\(room.id)" }
 
     private func addPasted(_ providers: [NSItemProvider]) {
         let media = providers.filter { provider in
@@ -661,6 +665,9 @@ struct ComposerView: View {
             info["size"] = .number(Double(data.count))
             let isGif = data.starts(with: [0x47, 0x49, 0x46])
             info["mimetype"] = .string(isGif ? "image/gif" : data.starts(with: [0x89, 0x50]) ? "image/png" : "image/webp")
+            if let images = CGImageSourceCreateWithData(data as CFData, nil), CGImageSourceGetCount(images) > 1 {
+                info["is_animated"] = .bool(true)
+            }
         }
         await timeline.sendSticker(url: sticker.url, body: sticker.text, info: .object(info), replyTo: replyTo?.eventId)
         replyTo = nil

@@ -29,11 +29,11 @@ android {
     }
 
     // Shared with the other apps: colours (npm run tokens), translations (npm run i18n), icons
-    // (npm run icons), sounds (packages/sounds/raw) and emoji (npm run emoji)
+    // (npm run icons), sounds (packages/sounds/raw), emoji (npm run emoji) and the release notes (whatsnew/)
     sourceSets["main"].apply {
         kotlin.srcDir(packages.dir("design-tokens/dist/kotlin"))
         res.srcDirs(packages.dir("i18n/dist/android"), packages.dir("icons/dist/android"), packages.dir("sounds"))
-        assets.srcDir(packages.dir("emoji/dist"))
+        assets.srcDirs(packages.dir("emoji/dist"), packages.dir("../whatsnew"))
     }
 
     compileOptions {

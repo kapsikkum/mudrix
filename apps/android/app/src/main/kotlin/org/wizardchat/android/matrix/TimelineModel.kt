@@ -184,6 +184,7 @@ data class ChatEntry(
 class TimelineModel(
     val client: WizardClient,
     val roomId: String,
+    threadRoot: String? = null,
     pinnedOnly: Boolean = false,
     private val onlyTypes: Set<ChatEntry.ContentType>? = null,
 ) {
@@ -203,7 +204,8 @@ class TimelineModel(
     var uploads by mutableStateOf<List<PendingUpload>>(emptyList())
         private set
 
-    private val kind: TimelineKind = if (pinnedOnly) TimelineKind.Pinned else TimelineKind.Main
+    private val kind: TimelineKind = threadRoot?.let { TimelineKind.Thread(it) }
+        ?: if (pinnedOnly) TimelineKind.Pinned else TimelineKind.Main
     private val scope = MainScope()
     private var timeline: RoomTimeline? = null
     private val items = mutableListOf<TimelineEntry>()

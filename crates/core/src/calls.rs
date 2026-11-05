@@ -825,6 +825,12 @@ fn handled_elsewhere(event: &Value, own: &(String, String)) -> bool {
 }
 
 async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Option<IncomingCall> {
+    if room
+        .room_type()
+        .is_some_and(|t| t.to_string() == VOICE_ROOM_TYPE)
+    {
+        return None;
+    }
     let kind = event.get("type")?.as_str()?;
     let from = event.get("sender")?.as_str()?;
     if from == own.0 {

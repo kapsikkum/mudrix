@@ -58,6 +58,7 @@ export function LinkDeviceModal({
             approveUrlRef.current = status.url;
             setPhase({ kind: 'approve' });
             openApproval();
+            control.confirm().catch((err: unknown) => fail(failureKey(reasonOf(err))));
             return;
           case 'done':
             setPhase({ kind: 'done' });
@@ -84,14 +85,6 @@ export function LinkDeviceModal({
     setPhase({ kind: 'approve' });
     try {
       await control.sendCheckCode(Number(enteredCode.trim()));
-    } catch (err) {
-      setPhase({ kind: 'error', messageKey: failureKey(reasonOf(err)) });
-    }
-  };
-
-  const approved = async () => {
-    try {
-      await controlRef.current?.confirm();
     } catch (err) {
       setPhase({ kind: 'error', messageKey: failureKey(reasonOf(err)) });
     }
@@ -168,15 +161,6 @@ export function LinkDeviceModal({
           {t('qrLogin.decline')}
         </Button>
         <Button variant="primary" disabled={enteredCode.length !== 2} onClick={confirmCode}>
-          {t('common.continue')}
-        </Button>
-      </>
-    ) : phase.kind === 'approve' && approveUrlRef.current ? (
-      <>
-        <Button variant="secondary" onClick={decline}>
-          {t('common.cancel')}
-        </Button>
-        <Button variant="primary" onClick={approved}>
           {t('common.continue')}
         </Button>
       </>

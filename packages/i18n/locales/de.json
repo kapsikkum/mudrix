@@ -933,7 +933,8 @@
     "pinImportantMessagesFrom": "Wichtige Nachrichten heftest du über ihr Menü (lange drücken) an.",
     "mediaTabMedia": "Medien",
     "mediaTabDocs": "Dokumente",
-    "mediaTabLinks": "Links"
+    "mediaTabLinks": "Links",
+    "selectText": "Text auswählen"
   },
   "attachment": {
     "uploading": "Wird hochgeladen",
@@ -1457,7 +1458,8 @@
     "new": "Neu",
     "noDirectMessagesYet": "Noch keine Direktnachrichten",
     "noRoomsHereYet": "Hier gibt es noch keine Räume",
-    "createOrJoin": "Erstellen oder beitreten"
+    "createOrJoin": "Erstellen oder beitreten",
+    "reorderRooms": "Räume anordnen"
   },
   "roomSwitcher": {
     "title": "Suchen",
@@ -1657,7 +1659,19 @@
     "failInsecure": "Die Verbindung konnte nicht gesichert werden. Bitte starte neu.",
     "failUnsupported": "Dein Homeserver unterstützt keine Anmeldung per QR-Code.",
     "failAlreadySignedIn": "Dieses Gerät ist bereits angemeldet.",
-    "failGeneric": "Die Anmeldung per QR-Code ist fehlgeschlagen. Bitte versuche es erneut."
+    "failGeneric": "Die Anmeldung per QR-Code ist fehlgeschlagen. Bitte versuche es erneut.",
+    "cameraDenied": "Erlaube WizardChat in den Einstellungen den Kamerazugriff, um einen QR-Code zu scannen.",
+    "scanIntroTitle": "Öffne WizardChat auf einem anderen Gerät, um den QR-Code zu erhalten",
+    "scanIntroNote": "Nur verfügbar, wenn dein Kontoanbieter das unterstützt.",
+    "scanStep1": "Öffne WizardChat auf einem Gerät, auf dem du schon angemeldet bist.",
+    "scanStep2": "Gehe zu Einstellungen -> Sitzungen.",
+    "scanStep3": "Wähle „Neues Gerät verbinden“.",
+    "scanStep4": "Scanne den QR-Code mit diesem Gerät.",
+    "readyToScan": "Bereit zum Scannen",
+    "scanTitle": "QR-Code scannen",
+    "showQrInstead": "Stattdessen QR-Code anzeigen",
+    "scanQrInstead": "Stattdessen QR-Code scannen",
+    "showApprovalCode": "Wenn dort nach einem Sicherheitscode gefragt wird, gib diesen ein:"
   },
   "whatsNew": {
     "title": "Neuigkeiten",

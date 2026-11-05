@@ -98,6 +98,15 @@ extension MatrixSession {
         }
     }
 
+    func canLinkDevices() async -> Bool {
+        guard isOAuthAccount, let server = client?.session.homeserverUrl else { return false }
+        return (try? await WizardClient.discover(server: server).qrLogin) ?? false
+    }
+
+    func linkDevice(scanned: Data?, control: QrLoginControl, listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws {
+        try await requireClient.grantLoginWithQr(scanned: scanned, control: control, listener: listener)
+    }
+
     func cancelIdentityReset() async {
         try? await client?.cancelIdentityReset()
     }

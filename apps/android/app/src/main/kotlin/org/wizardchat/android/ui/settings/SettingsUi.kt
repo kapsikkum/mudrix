@@ -20,11 +20,15 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -42,6 +46,8 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTopBar
+import org.wizardchat.android.ui.login.LoginScreen
+import org.wizardchat.android.ui.room.FullScreenDialog
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -108,7 +114,6 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
 @Composable
 private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (SettingsPageId) -> Unit) {
     val session = LocalSession.current
-    val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxSize().background(theme.groupedBackground)) {
         WizardTopBar(tr("common.settings"), large = true) {
             if (!isTab && onDismiss != null) BarTextButton(tr("common.done"), onDismiss, bold = true)
@@ -133,35 +138,107 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
-                        Text(
-                            session.userId ?: "",
-                            style = wizardFont(WZ.FontSize.md),
-                            color = theme.textMuted,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                        session.customStatus?.text?.let {
+                            Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.textSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        }
                     }
                     Chevron()
                 }
+                SettingsDivider()
+                AccountSwitcher(onLogout = { if (!isTab) onDismiss?.invoke() })
             }
             PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
             PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
             PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
-            SettingsSection {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = WZ.Space.space11)
-                        .clickable {
-                            if (!isTab) onDismiss?.invoke()
-                            scope.launch { session.logout() }
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(tr("settings.account.logout"), style = wizardFont(WZ.FontSize.lg), color = theme.error)
-                }
-            }
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))
+        }
+    }
+}
+
+@Composable
+private fun AccountSwitcher(onLogout: () -> Unit) {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    var open by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .heightIn(min = WZ.Space.space11)
+                .clickable { open = true }
+                .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+        ) {
+            PhIcon("user", size = WZ.SizeIcon.md, tint = theme.textMuted)
+            Text(tr("settings.accounts.switch"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
+            PhIcon("caret-up-down", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+        }
+        DropdownMenu(open, { open = false }, containerColor = theme.bgTertiary) {
+            session.accounts.forEach { account ->
+                val isOpen = account.userId == session.userId
+                DropdownMenuItem(
+                    text = {
+                        Column {
+                            Text(account.displayName ?: account.userId, style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
+                            Text(account.userId, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                        }
+                    },
+                    leadingIcon = { Avatar(account.displayName ?: account.userId, account.avatarUrl, size = WZ.SizeAvatar.sm) },
+                    trailingIcon = if (isOpen) {
+                        { PhIcon("check", tint = theme.accent) }
+                    } else {
+                        null
+                    },
+                    onClick = {
+                        open = false
+                        if (!isOpen) scope.launch { session.switchAccount(account.userId) }
+                    },
+                )
+            }
+            DropdownMenuItem(
+                text = { Text(tr("settings.accounts.add"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary) },
+                leadingIcon = { PhIcon("plus", tint = theme.textPrimary) },
+                onClick = {
+                    open = false
+                    session.isAddingAccount = true
+                },
+            )
+            HorizontalDivider(color = theme.border)
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        tr("settings.accounts.logoutOf", session.displayName ?: session.userId ?: ""),
+                        style = wizardFont(WZ.FontSize.lg),
+                        color = theme.danger,
+                    )
+                },
+                leadingIcon = { PhIcon("sign-out", tint = theme.danger) },
+                onClick = {
+                    open = false
+                    onLogout()
+                    scope.launch { session.logout() }
+                },
+            )
+        }
+    }
+}
+
+@Composable
+fun AddAccountScreen() {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    val close = {
+        session.isAddingAccount = false
+        scope.launch { session.cancelBrowserLogin() }
+        Unit
+    }
+    FullScreenDialog(close) {
+        Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
+            WizardTopBar(tr("auth.addAccountTitle")) {
+                BarTextButton(tr("common.cancel"), close)
+            }
+            Box(Modifier.weight(1f)) { LoginScreen() }
         }
     }
 }

@@ -15,6 +15,27 @@ enum SidebarSelection: Hashable {
     case space(String)
 }
 
+struct RoomGroup: Identifiable {
+    enum Kind {
+        case favourites
+        case section(RoomSection)
+        case rooms
+    }
+
+    let kind: Kind
+    let rooms: [RoomSummary]
+
+    var isSection: Bool { if case .section = kind { true } else { false } }
+
+    var id: String {
+        switch kind {
+        case .favourites: "favourites"
+        case .section(let section): section.tag
+        case .rooms: RoomListModel.roomsAnchor
+        }
+    }
+}
+
 struct UnreadState {
     var unread = false
     var mention = false
@@ -28,6 +49,14 @@ final class RoomListModel: ObservableObject {
     @Published private(set) var spaces: [SpaceSummary] = []
     @Published private(set) var spaceRooms: [String: Set<String>] = [:]
     @Published private(set) var isLoaded = false
+    @Published private(set) var sections: [RoomSection] = []
+    @Published private(set) var roomTags: [String: Set<String>] = [:]
+    @Published private(set) var favouriteOrder: [String: Double] = [:]
+    @Published private(set) var homeOrder: [String] = []
+
+    static let roomsAnchor = "chats"
+    static let homeSpace = "home-space"
+    private static let homeOrderEvent = "org.wizardchat.home_order"
 
     let client: WizardClient
     private var rooms: [RoomSummary] = []
@@ -44,6 +73,21 @@ final class RoomListModel: ObservableObject {
         subscriptions = [
             client.watchRooms(pageSize: 5000) { [weak self] diffs in
                 MainActor.assumeIsolated { self?.apply(diffs) }
+            },
+            client.watchRoomSections { [weak self] sections in
+                MainActor.assumeIsolated { self?.sections = sections }
+            },
+            client.watchRoomAccountData(eventType: "m.tag") { [weak self] pairs in
+                MainActor.assumeIsolated { self?.applyTags(pairs) }
+            },
+            client.watchAccountData(eventType: Self.homeOrderEvent) { [weak self] content in
+                MainActor.assumeIsolated {
+                    guard case .object(let fields)? = content, case .array(let rooms)? = fields["rooms"] else {
+                        self?.homeOrder = []
+                        return
+                    }
+                    self?.homeOrder = rooms.compactMap { if case .string(let id) = $0 { id } else { nil } }
+                }
             },
             client.watchSpaces { [weak self] diffs in
                 MainActor.assumeIsolated {
@@ -121,6 +165,97 @@ final class RoomListModel: ObservableObject {
             let ids = spaceRooms[id] ?? []
             return joinedRooms.filter { ids.contains($0.id) }
         }
+    }
+
+    func groups(for selection: SidebarSelection) -> [RoomGroup] {
+        let rooms = rooms(for: selection)
+        guard selection != .dms else { return [RoomGroup(kind: .rooms, rooms: rooms)] }
+        let context = sectionContext(selection)
+        let favourites = rooms.filter(\.isFavourite).sorted { a, b in
+            switch (favouriteOrder[a.id], favouriteOrder[b.id]) {
+            case let (x?, y?) where x != y: return x < y
+            case (_?, nil): return true
+            case (nil, _?): return false
+            default: return a.displayName.localizedCompare(b.displayName) == .orderedAscending
+            }
+        }
+        var bySection: [String: [RoomSummary]] = [:]
+        var rest: [RoomSummary] = []
+        for room in rooms where !room.isFavourite {
+            if let tag = sectionTag(of: room.id) { bySection[tag, default: []].append(room) } else { rest.append(room) }
+        }
+        if selection == .home, !homeOrder.isEmpty {
+            let position = Dictionary(homeOrder.enumerated().map { ($1, $0) }, uniquingKeysWith: { a, _ in a })
+            rest = rest.enumerated().sorted { a, b in
+                switch (position[a.element.id], position[b.element.id]) {
+                case let (x?, y?): return x < y
+                case (_?, nil): return true
+                case (nil, _?): return false
+                default: return a.offset < b.offset
+                }
+            }.map(\.element)
+        }
+        let visible = sections.filter { bySection[$0.tag] != nil || $0.spaceId == context }
+        func block(above: Bool) -> [RoomGroup] {
+            visible.filter { $0.aboveRooms == above }.map { RoomGroup(kind: .section($0), rooms: bySection[$0.tag] ?? []) }
+        }
+        var groups: [RoomGroup] = []
+        if !favourites.isEmpty { groups.append(RoomGroup(kind: .favourites, rooms: favourites)) }
+        groups += block(above: true)
+        groups.append(RoomGroup(kind: .rooms, rooms: rest))
+        groups += block(above: false)
+        return groups
+    }
+
+    func sectionContext(_ selection: SidebarSelection) -> String {
+        if case .space(let id) = selection { return id }
+        return Self.homeSpace
+    }
+
+    func sectionTag(of roomId: String) -> String? {
+        guard let tags = roomTags[roomId] else { return nil }
+        return sections.first { tags.contains($0.tag) }?.tag
+    }
+
+    func moveGroup(_ anchor: String, by offset: Int, in groups: [RoomGroup]) async throws {
+        var anchors = groups.compactMap { group -> String? in
+            if case .favourites = group.kind { return nil }
+            return group.id
+        }
+        guard let index = anchors.firstIndex(of: anchor), anchors.indices.contains(index + offset) else { return }
+        anchors.swapAt(index, index + offset)
+        try await client.setRoomSectionOrder(tags: anchors)
+    }
+
+    func saveFavouriteOrder(_ roomIds: [String]) async {
+        let count = Double(roomIds.count)
+        for (index, roomId) in roomIds.enumerated() {
+            let order = Double(index + 1) / (count + 1)
+            guard favouriteOrder[roomId] != order else { continue }
+            favouriteOrder[roomId] = order
+            try? await client.setFavouriteOrder(roomId: roomId, order: order)
+        }
+    }
+
+    func saveHomeOrder(_ roomIds: [String]) async {
+        homeOrder = roomIds
+        try? await client.setAccountData(eventType: Self.homeOrderEvent,
+                                         content: .object(["rooms": .array(roomIds.map { .string($0) })]))
+    }
+
+    private func applyTags(_ pairs: [[JSONValue]]) {
+        var tags: [String: Set<String>] = [:]
+        var orders: [String: Double] = [:]
+        for pair in pairs {
+            guard pair.count == 2, case .string(let roomId) = pair[0],
+                  case .object(let content) = pair[1], case .object(let names)? = content["tags"] else { continue }
+            tags[roomId] = Set(names.keys)
+            if case .object(let favourite)? = names["m.favourite"], case .number(let order)? = favourite["order"] {
+                orders[roomId] = order
+            }
+        }
+        roomTags = tags
+        favouriteOrder = orders
     }
 
     private func apply(_ diffs: [ListDiff<RoomSummary>]) {
