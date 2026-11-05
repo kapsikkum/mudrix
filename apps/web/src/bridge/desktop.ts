@@ -93,11 +93,15 @@ export function installDesktopHooks(): void {
     }
     return open(url, target, features);
   };
-  document.addEventListener('click', (event) => {
-    const link = (event.target as Element | null)?.closest?.('a[href]');
-    if (!(link instanceof HTMLAnchorElement) || link.hasAttribute('download')) return;
-    if (link.origin === location.origin || !isExternal(link.href)) return;
-    event.preventDefault();
-    void openUrl(link.href);
-  });
+  document.addEventListener(
+    'click',
+    (event) => {
+      const link = (event.target as Element | null)?.closest?.('a[href]');
+      if (!(link instanceof HTMLAnchorElement) || link.hasAttribute('download')) return;
+      if (link.origin === location.origin || !isExternal(link.href)) return;
+      event.preventDefault();
+      void openUrl(link.href);
+    },
+    true
+  );
 }
