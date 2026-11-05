@@ -100,7 +100,7 @@ fun VoiceRoomScreen(room: RoomSummary, onBack: () -> Unit, onOpenChat: () -> Uni
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            BarButton("chat-dots", tr("room.openChat"), onOpenChat)
+            BarButton("chat-text", tr("room.openChat"), onOpenChat)
         }
         if (inThisCall) {
             CallStageView(live, Modifier.weight(1f))
@@ -170,7 +170,7 @@ private fun Lobby(room: RoomSummary, onOpenChat: () -> Unit, modifier: Modifier 
             }
 
             LabelButton(tr("call.joinVoice"), "phone", { calls.launchJoin(room, session) }, iconWeight = PhWeight.fill)
-            LabelButton(tr("room.openChat"), "chat-dots", onOpenChat, primary = false)
+            LabelButton(tr("room.openChat"), "chat-text", onOpenChat, primary = false)
         }
     }
 }
@@ -273,7 +273,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                 }
                 if (onOpenChat != null) {
                     HorizontalDivider(color = theme.border)
-                    MenuRow(tr("room.openChat"), "chat-dots") {
+                    MenuRow(tr("room.openChat"), "chat-text") {
                         showMenu = false
                         onOpenChat()
                     }

@@ -41,7 +41,7 @@ struct EmojisSettings: View {
                             .contextMenu {
                                 Button(role: .destructive) {
                                     Task { await removeImage(image.shortcode) }
-                                } label: { Label(String(localized: "common.remove"), image: "ph-trash-regular") }
+                                } label: { Label(menu: String(localized: "common.remove"), icon: "ph-trash-regular", destructive: true) }
                             }
                         }
                         PhotosPicker(selection: $photo, matching: .images) {
@@ -108,7 +108,7 @@ struct EmojisSettings: View {
                 } label: {
                     Label(String(localized: "settings.emojisStickers.selectPacks"), image: "ph-plus-regular")
                         .font(.wizard(WZ.FontSize.md, .semibold))
-                        .foregroundStyle(theme.accent)
+                        .foregroundStyle(theme.control)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .buttonStyle(.plain)

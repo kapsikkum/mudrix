@@ -21,6 +21,7 @@ type Phase =
   | { kind: 'showQr'; code: Uint8Array }
   | { kind: 'enterCheckCode' }
   | { kind: 'showCheckCode'; checkCode: string }
+  | { kind: 'waitingForApproval'; checkCode?: string; userCode?: string }
   | { kind: 'finishing' }
   | { kind: 'error'; messageKey: string };
 
@@ -70,6 +71,13 @@ export function SignInWithQrModal({
               return;
             case 'showCheckCode':
               setPhase({ kind: 'showCheckCode', checkCode: String(status.code).padStart(2, '0') });
+              return;
+            case 'waitingForApproval':
+              setPhase((current) => ({
+                kind: 'waitingForApproval',
+                checkCode: current.kind === 'showCheckCode' ? current.checkCode : undefined,
+                userCode: status.user_code ?? undefined,
+              }));
               return;
             case 'syncingSecrets':
             case 'done':
@@ -158,6 +166,24 @@ export function SignInWithQrModal({
           <>
             <p className={css.text}>{t('qrLogin.showCode')}</p>
             <span className={css.checkCode}>{phase.checkCode}</span>
+            <p className={css.text}>{t('qrLogin.waitingForApproval')}</p>
+          </>
+        );
+      case 'waitingForApproval':
+        return (
+          <>
+            {phase.checkCode && (
+              <>
+                <p className={css.text}>{t('qrLogin.showCode')}</p>
+                <span className={css.checkCode}>{phase.checkCode}</span>
+              </>
+            )}
+            {phase.userCode && (
+              <>
+                <p className={css.text}>{t('qrLogin.showApprovalCode')}</p>
+                <span className={css.checkCode}>{phase.userCode}</span>
+              </>
+            )}
             <p className={css.text}>{t('qrLogin.waitingForApproval')}</p>
           </>
         );

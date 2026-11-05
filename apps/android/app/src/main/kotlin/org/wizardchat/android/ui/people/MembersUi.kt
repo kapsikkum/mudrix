@@ -135,6 +135,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     val scope = rememberCoroutineScope()
     var name by remember { mutableStateOf<String?>(null) }
     var avatarUrl by remember { mutableStateOf<String?>(null) }
+    var statusText by remember { mutableStateOf<String?>(null) }
     var rights by remember { mutableStateOf(RoleRights(0, false)) }
     var level by remember { mutableStateOf(0L) }
     var isMember by remember { mutableStateOf(false) }
@@ -167,10 +168,11 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                 }
             }
         }
-        if (name == null || avatarUrl == null) {
+        run {
             session.profile(userId)?.let { profile ->
                 name = name ?: profile.displayName
                 avatarUrl = avatarUrl ?: profile.avatarUrl
+                statusText = profile.customStatus?.takeIf { (it.expiresAt ?: Long.MAX_VALUE) > System.currentTimeMillis() }?.text
             }
         }
     }
@@ -227,6 +229,9 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     )
                     SelectionContainer {
                         Text(userId, style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                    }
+                    statusText?.let {
+                        Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary, textAlign = TextAlign.Center)
                     }
                     if (isMember) RoleBadge(level)
                 }

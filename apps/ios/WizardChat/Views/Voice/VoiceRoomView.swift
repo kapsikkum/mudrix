@@ -34,7 +34,7 @@ struct VoiceRoomView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: onOpenChat) { Image("ph-chat-dots-regular") }
+                Button(action: onOpenChat) { Image("ph-chat-text-regular") }
                     .accessibilityLabel(String(localized: "room.openChat"))
             }
         }
@@ -82,7 +82,7 @@ struct VoiceRoomView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle())
                 Button(action: onOpenChat) {
-                    Label(String(localized: "room.openChat"), image: "ph-chat-dots-regular")
+                    Label(String(localized: "room.openChat"), image: "ph-chat-text-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())
             }
@@ -114,28 +114,28 @@ struct CallControls: View {
                 }
                 .controlGroupStyle(.palette)
                 Button { calls.toggleHand() } label: {
-                    calls.handRaised ? Label(String(localized: "call.lowerHand"), image: "ph-hand-regular")
-                        : Label(String(localized: "call.raiseHand"), image: "ph-hand-regular")
+                    calls.handRaised ? Label(menu: String(localized: "call.lowerHand"), icon: "ph-hand-regular")
+                        : Label(menu: String(localized: "call.raiseHand"), icon: "ph-hand-regular")
                 }
                 Button { calls.toggleScreenShare() } label: {
-                    calls.screenSharing ? Label(String(localized: "voice.stopSharingScreen"), image: "ph-monitor-regular")
-                        : Label(String(localized: "voice.shareScreen"), image: "ph-monitor-arrow-up-regular")
+                    calls.screenSharing ? Label(menu: String(localized: "voice.stopSharingScreen"), icon: "ph-monitor-regular")
+                        : Label(menu: String(localized: "voice.shareScreen"), icon: "ph-monitor-arrow-up-regular")
                 }
                 if let watch = calls.watch {
                     if watch.state != nil {
                         Button(role: .destructive) { watch.stop() } label: {
-                            Label(String(localized: "voice.stopWatchingTogether"), image: "ph-stop-fill")
+                            Label(menu: String(localized: "voice.stopWatchingTogether"), icon: "ph-stop-fill", destructive: true)
                         }
                         .tint(theme.danger)
                     } else {
                         Button { showWatchSheet = true } label: {
-                            Label(String(localized: "voice.watchTogetherBeta"), image: "ph-youtube-logo-fill")
+                            Label(menu: String(localized: "voice.watchTogetherBeta"), icon: "ph-youtube-logo-fill")
                         }
                     }
                 }
                 if let onOpenChat {
                     Divider()
-                    Button(action: onOpenChat) { Label(String(localized: "room.openChat"), image: "ph-chat-dots-regular") }
+                    Button(action: onOpenChat) { Label(menu: String(localized: "room.openChat"), icon: "ph-chat-text-regular") }
                 }
             } label: {
                 Image(calls.handRaised ? "ph-hand-regular" : "ph-dots-three-bold")

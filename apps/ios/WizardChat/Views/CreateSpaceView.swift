@@ -50,7 +50,7 @@ struct CreateSpaceView: View {
                     }
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
         .presentationDetents([.medium, .large])
     }
@@ -77,7 +77,7 @@ struct CreateSpaceView: View {
             HStack(spacing: WZ.Space.space5) {
                 Image(icon)
                     .font(.system(size: WZ.SizeIcon.lg))
-                    .foregroundStyle(theme.accent)
+                    .foregroundStyle(theme.control)
                     .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                     .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
@@ -121,7 +121,7 @@ struct CreateSpaceView: View {
                         .foregroundStyle(theme.textMuted)
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             Button(isWorking ? String(localized: "space.creating") : String(localized: "common.create")) {
                 Task { await create() }
             }

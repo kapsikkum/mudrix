@@ -466,7 +466,7 @@ private struct LinksList: View {
                 .buttonStyle(.plain)
                 .contextMenu {
                     Button { copyToClipboard(item.url.absoluteString, message: String(localized: "timeline.linkCopied")) } label: {
-                        Label(String(localized: "common.copyLink"), image: "ph-copy-regular")
+                        Label(menu: String(localized: "common.copyLink"), icon: "ph-copy-regular")
                     }
                 }
                 .listRowBackground(theme.bgSecondary)

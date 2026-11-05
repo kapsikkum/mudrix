@@ -933,7 +933,8 @@
     "pinImportantMessagesFrom": "Pin important messages from their long-press menu.",
     "mediaTabMedia": "Media",
     "mediaTabDocs": "Docs",
-    "mediaTabLinks": "Links"
+    "mediaTabLinks": "Links",
+    "selectText": "Select text"
   },
   "attachment": {
     "uploading": "Uploading",
@@ -1457,7 +1458,8 @@
     "new": "New",
     "noDirectMessagesYet": "No direct messages yet",
     "noRoomsHereYet": "No rooms here yet",
-    "createOrJoin": "Create or join"
+    "createOrJoin": "Create or join",
+    "reorderRooms": "Reorder rooms"
   },
   "roomSwitcher": {
     "title": "Search",
@@ -1657,7 +1659,19 @@
     "failInsecure": "The connection couldn't be secured. Please start again.",
     "failUnsupported": "Your homeserver doesn't support signing in with a QR code.",
     "failAlreadySignedIn": "That device is already signed in.",
-    "failGeneric": "Signing in with the QR code failed. Please try again."
+    "failGeneric": "Signing in with the QR code failed. Please try again.",
+    "cameraDenied": "Allow camera access for WizardChat in Settings to scan a QR code.",
+    "scanIntroTitle": "Open WizardChat on another device to get the QR code",
+    "scanIntroNote": "Only available if your account provider supports it.",
+    "scanStep1": "Open WizardChat on a device where you're already signed in.",
+    "scanStep2": "Go to Settings -> Sessions.",
+    "scanStep3": "Choose “Link new device”.",
+    "scanStep4": "Scan the QR code with this device.",
+    "readyToScan": "Ready to scan",
+    "scanTitle": "Scan the QR code",
+    "showQrInstead": "Show a QR code instead",
+    "scanQrInstead": "Scan a QR code instead",
+    "showApprovalCode": "When it asks for a security code, enter this one:"
   },
   "whatsNew": {
     "title": "What's new",

@@ -68,6 +68,8 @@ internal sealed interface PeoplePage {
     data object Search : PeoplePage
     data object Media : PeoplePage
     data class Pinned(val canPin: Boolean) : PeoplePage
+    data class Widgets(val canManage: Boolean) : PeoplePage
+    data object Bridges : PeoplePage
 }
 
 /** The pages shared by room info and space settings; false for pages the caller shows itself */
@@ -89,6 +91,7 @@ internal fun SharedPage(page: PeoplePage, push: (PeoplePage) -> Unit, pop: () ->
 @Composable
 fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit, onJump: (String) -> Unit) {
     val context = LocalContext.current
+    val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var stack by remember { mutableStateOf(listOf<PeoplePage>()) }
     var name by remember { mutableStateOf("") }
@@ -105,6 +108,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
     var canEditAvatar by remember { mutableStateOf(false) }
     var canInvite by remember { mutableStateOf(false) }
     var canPin by remember { mutableStateOf(false) }
+    var canManageWidgets by remember { mutableStateOf(false) }
+    var bridges by remember { mutableStateOf<List<RoomBridge>>(emptyList()) }
     var pinnedCount by remember { mutableStateOf(0) }
     var showInvite by remember { mutableStateOf(false) }
     var confirmLeave by remember { mutableStateOf(false) }
@@ -137,7 +142,9 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             canEditAvatar = permissions.changeAvatar
             canInvite = permissions.invite
             canPin = permissions.pin
+            canManageWidgets = permissions.manageWidgets
         }
+        bridges = loadBridges(session, room.id)
     }
 
     fun save() {
@@ -190,6 +197,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             }, pop)
                             PeoplePage.Media -> RoomMediaScreen(room, client, pop)
                             is PeoplePage.Pinned -> PinnedMessagesScreen(room, client, page.canPin, pop)
+                            is PeoplePage.Widgets -> RoomWidgetsScreen(room.id, client, page.canManage, pop)
+                            PeoplePage.Bridges -> RoomBridgesScreen(room.id, bridges, pop)
                             else -> {}
                         }
                     }
@@ -268,6 +277,12 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                                 NavRow(tr("room.settings.permissions.title"), "shield-check", { push(PeoplePage.Roles(room.id)) })
                                 RowDivider()
                                 NavRow(tr("room.settings.emojis.title"), "smiley", { push(PeoplePage.Packs(room.id)) })
+                                RowDivider()
+                                NavRow(tr("widgets.title"), "puzzle-piece", { push(PeoplePage.Widgets(canManageWidgets)) })
+                                if (bridges.isNotEmpty()) {
+                                    RowDivider()
+                                    NavRow(tr("room.settings.bridges.title"), "plugs-connected", { push(PeoplePage.Bridges) }, value = "${bridges.size}")
+                                }
                             }
                             if (canInvite) {
                                 RowDivider()

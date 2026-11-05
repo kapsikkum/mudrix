@@ -1,4 +1,5 @@
 import UIKit
+import UniformTypeIdentifiers
 import WizardChatCore
 
 @MainActor
@@ -35,7 +36,7 @@ final class MediaLoader {
 
     func file(for source: MediaSource, filename: String, mimetype: String?) async throws -> URL {
         let folder = files.appendingPathComponent(Self.key(source).addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? UUID().uuidString)
-        let url = folder.appendingPathComponent(filename.isEmpty ? "file" : filename)
+        let url = folder.appendingPathComponent(Self.safeName(filename, mimetype: mimetype))
         if FileManager.default.fileExists(atPath: url.path) { return url }
         let data = try await client.media(source: source)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
@@ -56,6 +57,16 @@ final class MediaLoader {
         inFlight[key] = nil
         if let image { store(image, for: key) }
         return image
+    }
+
+    private static func safeName(_ filename: String, mimetype: String?) -> String {
+        var name = filename.replacingOccurrences(of: "/", with: "-").trimmingCharacters(in: .whitespacesAndNewlines)
+        if name.isEmpty { name = "file" }
+        if let mimetype, let type = UTType(mimeType: mimetype), let ext = type.preferredFilenameExtension,
+           UTType(filenameExtension: (name as NSString).pathExtension)?.conforms(to: type) != true {
+            name += ".\(ext)"
+        }
+        return name
     }
 
     static func key(_ source: MediaSource) -> String {

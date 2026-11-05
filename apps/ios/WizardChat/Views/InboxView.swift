@@ -76,7 +76,7 @@ struct InboxView: View {
                     Button(String(localized: "common.done")) { dismiss() }
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
         .presentationDetents([.medium, .large])
     }

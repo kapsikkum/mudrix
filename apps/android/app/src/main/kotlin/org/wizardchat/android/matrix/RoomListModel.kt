@@ -7,7 +7,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.doubleOrNull
 import org.wizardchat.core.ListDiff
+import org.wizardchat.core.RoomSection
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.SpaceSummary
 import org.wizardchat.core.Subscription
@@ -38,6 +44,14 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         private set
     var isLoaded by mutableStateOf(false)
         private set
+    var sections by mutableStateOf(listOf<RoomSection>())
+        private set
+    var roomTags by mutableStateOf(mapOf<String, Set<String>>())
+        private set
+    var favouriteOrder by mutableStateOf(mapOf<String, Double>())
+        private set
+    var homeOrder by mutableStateOf(listOf<String>())
+        private set
 
     private var rooms = mutableListOf<RoomSummary>()
     private val spaceList = mutableListOf<SpaceSummary>()
@@ -47,6 +61,13 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     fun start() {
         subscriptions = listOf(
             client.watchRooms(5000) { diffs -> apply(diffs) },
+            client.watchRoomSections { sections = it },
+            client.watchRoomAccountData("m.tag") { pairs -> applyTags(pairs) },
+            client.watchAccountData(HOME_ORDER_EVENT) { content ->
+                homeOrder = ((content as? JsonObject)?.get("rooms") as? JsonArray)
+                    ?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content }
+                    .orEmpty()
+            },
             client.watchSpaces { diffs ->
                 diffs.forEach { it.applyTo(spaceList) }
                 spaces = spaceList.toList()
@@ -107,6 +128,82 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         }
     }
 
+    fun groups(selection: SidebarSelection): List<RoomGroup> {
+        val rooms = rooms(selection)
+        if (selection == SidebarSelection.Dms) return listOf(RoomGroup(RoomGroup.Kind.Rooms, rooms))
+        val context = sectionContext(selection)
+        val favourites = rooms.filter { it.isFavourite }.sortedWith(
+            compareBy<RoomSummary, Double?>(nullsLast()) { favouriteOrder[it.id] }.thenBy { it.displayName.lowercase() },
+        )
+        val bySection = mutableMapOf<String, MutableList<RoomSummary>>()
+        var rest = mutableListOf<RoomSummary>()
+        for (room in rooms) {
+            if (room.isFavourite) continue
+            val tag = sectionTag(room.id)
+            if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room) else rest.add(room)
+        }
+        if (selection == SidebarSelection.Home && homeOrder.isNotEmpty()) {
+            val position = homeOrder.withIndex().associate { it.value to it.index }
+            rest = rest.withIndex().sortedWith(
+                compareBy<IndexedValue<RoomSummary>, Int?>(nullsLast()) { position[it.value.id] }.thenBy { it.index },
+            ).map { it.value }.toMutableList()
+        }
+        val visible = sections.filter { it.tag in bySection || it.spaceId == context }
+        fun block(above: Boolean) = visible.filter { it.aboveRooms == above }
+            .map { RoomGroup(RoomGroup.Kind.Section(it), bySection[it.tag].orEmpty()) }
+        return buildList {
+            if (favourites.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Favourites, favourites))
+            addAll(block(above = true))
+            add(RoomGroup(RoomGroup.Kind.Rooms, rest))
+            addAll(block(above = false))
+        }
+    }
+
+    fun sectionContext(selection: SidebarSelection) = (selection as? SidebarSelection.Space)?.id ?: HOME_SPACE
+
+    fun sectionTag(roomId: String): String? {
+        val tags = roomTags[roomId] ?: return null
+        return sections.firstOrNull { it.tag in tags }?.tag
+    }
+
+    suspend fun moveGroup(anchor: String, offset: Int, groups: List<RoomGroup>) {
+        val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }.toMutableList()
+        val index = anchors.indexOf(anchor)
+        if (index < 0 || index + offset !in anchors.indices) return
+        java.util.Collections.swap(anchors, index, index + offset)
+        client.setRoomSectionOrder(anchors)
+    }
+
+    suspend fun saveFavouriteOrder(roomIds: List<String>) {
+        val count = roomIds.size.toDouble()
+        val next = favouriteOrder.toMutableMap()
+        roomIds.forEachIndexed { index, roomId ->
+            val order = (index + 1) / (count + 1)
+            if (next[roomId] == order) return@forEachIndexed
+            next[roomId] = order
+            favouriteOrder = next.toMap()
+            runCatching { client.setFavouriteOrder(roomId, order) }
+        }
+    }
+
+    suspend fun saveHomeOrder(roomIds: List<String>) {
+        homeOrder = roomIds
+        runCatching { client.setAccountData(HOME_ORDER_EVENT, JsonObject(mapOf("rooms" to JsonArray(roomIds.map { JsonPrimitive(it) })))) }
+    }
+
+    private fun applyTags(pairs: List<List<JsonElement>>) {
+        val tags = mutableMapOf<String, Set<String>>()
+        val orders = mutableMapOf<String, Double>()
+        for (pair in pairs) {
+            val roomId = (pair.getOrNull(0) as? JsonPrimitive)?.content ?: continue
+            val names = ((pair.getOrNull(1) as? JsonObject)?.get("tags") as? JsonObject) ?: continue
+            tags[roomId] = names.keys
+            ((names["m.favourite"] as? JsonObject)?.get("order") as? JsonPrimitive)?.doubleOrNull?.let { orders[roomId] = it }
+        }
+        roomTags = tags
+        favouriteOrder = orders
+    }
+
     private fun apply(diffs: List<ListDiff<RoomSummary>>) {
         diffs.forEach { it.applyTo(rooms) }
         joinedRooms = rooms.filter { !it.isInvite }
@@ -132,3 +229,22 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         }
     }
 }
+
+data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
+    sealed interface Kind {
+        data object Favourites : Kind
+        data class Section(val section: RoomSection) : Kind
+        data object Rooms : Kind
+    }
+
+    val id: String
+        get() = when (kind) {
+            Kind.Favourites -> "favourites"
+            is Kind.Section -> kind.section.tag
+            Kind.Rooms -> ROOMS_ANCHOR
+        }
+}
+
+const val ROOMS_ANCHOR = "chats"
+const val HOME_SPACE = "home-space"
+private const val HOME_ORDER_EVENT = "org.wizardchat.home_order"

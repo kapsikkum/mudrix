@@ -97,7 +97,7 @@ struct SpaceSettingsView: View {
                 }
                 if let error { Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error) }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             .navigationTitle(String(localized: "home.spaceSettings"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } } }
@@ -228,7 +228,7 @@ private struct AddRoomsToSpaceSheet: View {
             .safeAreaInset(edge: .bottom) {
                 if let error { Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error).padding() }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
     }
 
@@ -283,7 +283,7 @@ struct RoomPacksView: View {
         }
         .navigationTitle(String(localized: "room.settings.emojis.title"))
         .navigationBarTitleDisplayMode(.inline)
-        .tint(theme.accent)
+        .tint(theme.control)
         .task { await load() }
         .alert(String(localized: "room.settings.emojis.newPack"), isPresented: $showNewPack) {
             TextField(String(localized: "dialogs.name"), text: $newPackName)
@@ -372,8 +372,8 @@ private struct PackEditorView: View {
                         }
                         .contextMenu {
                             if canEdit {
-                                Button { renaming = image.code; newCode = image.code } label: { Label(String(localized: "settings.sessions.renameSession"), image: "ph-pencil-simple-regular") }
-                                Button(role: .destructive) { Task { await remove(image.code) } } label: { Label(String(localized: "common.remove"), image: "ph-trash-regular") }
+                                Button { renaming = image.code; newCode = image.code } label: { Label(menu: String(localized: "settings.sessions.renameSession"), icon: "ph-pencil-simple-regular") }
+                                Button(role: .destructive) { Task { await remove(image.code) } } label: { Label(menu: String(localized: "common.remove"), icon: "ph-trash-regular", destructive: true) }
                             }
                         }
                     }
@@ -405,7 +405,7 @@ private struct PackEditorView: View {
             }
             if let error { Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error) }
         }
-        .tint(theme.accent)
+        .tint(theme.control)
         .navigationTitle(RoomPacksView.displayName(content, key: stateKey))
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: photo) { _, item in

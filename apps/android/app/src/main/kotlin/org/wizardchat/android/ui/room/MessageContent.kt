@@ -109,7 +109,9 @@ import org.wizardchat.android.ui.composer.PackThumb
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.android.ui.trPlural
 import org.wizardchat.core.MediaSource
+import org.wizardchat.core.ThreadSummaryView
 import org.wizardchat.tokens.WZ
 
 /** Whether media should start covered: spoilers always, otherwise by the "Show media" setting */
@@ -890,6 +892,46 @@ fun ReadReceiptsView(roomId: String, userIds: List<String>, readAt: Map<String, 
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> Unit) {
+    val latest = thread.latestSummary?.lineSequence()?.firstOrNull()?.trim()?.takeIf { it.isNotEmpty() }
+    val preview = when {
+        thread.latestRedacted -> tr("timeline.messageDeleted")
+        latest != null -> thread.latestSenderName?.let { "$it: $latest" } ?: latest
+        thread.latestUndecryptable -> tr("timeline.couldNotDecrypt")
+        else -> null
+    }
+    val hint = tr("thread.openThread")
+    Row(
+        Modifier
+            .widthIn(max = WZ.Size.panel)
+            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .background(theme.fill)
+            .clickable(onClickLabel = hint, onClick = onOpen)
+            .padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        thread.latestSender?.let { ReceiptAvatar(roomId, it, WZ.SizeAvatar.xs) }
+        Text(
+            trPlural("timeline.threadReplies", thread.replies.toInt(), thread.replies.toInt()),
+            style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+            color = theme.accent,
+        )
+        preview?.let {
+            Text(
+                it,
+                Modifier.weight(1f, fill = false),
+                style = wizardFont(WZ.FontSize.sm),
+                color = theme.textMuted,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        PhIcon("caret-right", size = WZ.SizeIcon.xs, tint = theme.textMuted, weight = PhWeight.bold)
     }
 }
 

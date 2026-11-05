@@ -22,7 +22,7 @@ struct AvatarView: View {
     @State private var image: UIImage?
 
     var body: some View {
-        // The colour is only for the initial; transparent pictures show what's behind them
+        // The colour is only for the placeholder; transparent pictures show what's behind them
         shape
             .fill(image == nil ? fallbackColor : .clear)
             .overlay {
@@ -31,9 +31,9 @@ struct AvatarView: View {
                         .resizable()
                         .scaledToFill()
                 } else {
-                    Text(initial)
-                        .font(.wizard(size * 0.4, .semibold))
-                        .foregroundStyle(theme.textOnAccent)
+                    WizardMark()
+                        .fill(theme.textOnAccent)
+                        .frame(width: size * 0.58, height: size * 0.58)
                 }
             }
             .clipShape(shape)
@@ -54,11 +54,6 @@ struct AvatarView: View {
         RoundedRectangle(cornerRadius: cornerRadius ?? size / 2, style: .continuous)
     }
 
-    private var initial: String {
-        let trimmed = name.drop { $0 == "#" || $0 == "@" || $0 == "!" }
-        return (trimmed.first ?? name.first).map { String($0).uppercased() } ?? "?"
-    }
-
     private var fallbackColor: Color {
         let code = Double(name.unicodeScalars.first?.value ?? 63)
         let hue = (code * 137.508).truncatingRemainder(dividingBy: 360) / 360
@@ -74,7 +69,7 @@ struct WizardLogo: View {
     /// Theme colours only when the themed app icon is on, so it matches the home screen icon.
     private var colors: [Color] { prefs.themedAppIcon ? theme.logo : WizardTheme.baseLogo }
 
-    private static let polygons: [[CGPoint]] = [
+    static let polygons: [[CGPoint]] = [
         [(0, 280), (100, 320), (200, 270), (100, 230)],
         [(100, 320), (300, 320), (200, 270)],
         [(400, 280), (300, 320), (200, 270), (300, 230)],
@@ -95,6 +90,18 @@ struct WizardLogo: View {
         }
         .frame(width: size, height: size)
         .accessibilityLabel(String(localized: "app.name"))
+    }
+}
+
+struct WizardMark: Shape {
+    func path(in rect: CGRect) -> Path {
+        let scale = min(rect.width, rect.height) / 400
+        var path = Path()
+        for points in WizardLogo.polygons {
+            path.addLines(points.map { CGPoint(x: rect.minX + $0.x * scale, y: rect.minY + $0.y * scale) })
+            path.closeSubpath()
+        }
+        return path
     }
 }
 
@@ -121,9 +128,9 @@ struct SecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.wizard(WZ.FontSize.lg, .medium))
-            .foregroundStyle(theme.accent)
+            .foregroundStyle(theme.control)
             .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
-            .background(theme.accent.opacity(configuration.isPressed ? 0.24 : 0.14), in: Capsule())
+            .background(configuration.isPressed ? theme.bgActive : theme.fill, in: Capsule())
             .opacity(isEnabled ? 1 : 0.4)
     }
 }
@@ -345,5 +352,22 @@ struct VerificationBanner: View {
                 }
             }
         }
+    }
+}
+
+extension Label where Title == Text, Icon == Image {
+    init(menu title: String, icon: String, destructive: Bool = false) {
+        self.init { Text(title) } icon: { Image.menuIcon(icon, destructive: destructive) }
+    }
+
+    init(menu title: LocalizedStringKey, icon: String, destructive: Bool = false) {
+        self.init { Text(title) } icon: { Image.menuIcon(icon, destructive: destructive) }
+    }
+}
+
+extension Image {
+    static func menuIcon(_ name: String, destructive: Bool = false) -> Image {
+        guard let image = UIImage(named: name) else { return Image(name) }
+        return Image(uiImage: image.withTintColor(destructive ? .systemRed : .label, renderingMode: .alwaysOriginal))
     }
 }

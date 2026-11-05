@@ -3,15 +3,20 @@ import SwiftUI
 
 struct RoomView: View {
     let room: RoomSummary
+    let threadRoot: String?
     @StateObject private var timeline: TimelineModel
     @EnvironmentObject private var prefs: AppPreferences
     @EnvironmentObject private var notifier: MessageNotifier
     @Environment(\.theme) private var theme
 
-    init(room: RoomSummary, client: WizardClient) {
+    init(room: RoomSummary, client: WizardClient, threadRoot: String? = nil) {
         self.room = room
-        _timeline = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id))
+        self.threadRoot = threadRoot
+        _timeline = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id, threadRoot: threadRoot))
     }
+
+    @State private var openThread: IdentifiedString?
+    @State private var showThreads = false
 
     @State private var backAnchorVisible = false
     @State private var isAtBottom = true
@@ -59,6 +64,7 @@ struct RoomView: View {
     @State private var reporting: ChatEntry?
     @State private var reportReason = ""
     @State private var sourceText: IdentifiedString?
+    @State private var selectingText: IdentifiedString?
     @State private var linkPreviews: LinkPreviewLoader?
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var calls: CallManager
@@ -85,6 +91,12 @@ struct RoomView: View {
                     .flippedVertically()
                     .ignoresSafeArea(.container, edges: .vertical)
                     .ignoresSafeArea(.keyboard)
+                    .overlay(alignment: .top) {
+                        Color.clear
+                            .frame(height: WZ.Space.space0)
+                            .background(theme.bgSecondary.ignoresSafeArea(.container, edges: .top))
+                            .allowsHitTesting(false)
+                    }
 
                     .overlay(alignment: .bottomTrailing) {
                         if userScrolledAway && !isAtBottom && (farFromBottom || newWhileAway > 0) {
@@ -118,7 +130,7 @@ struct RoomView: View {
                         withAnimation(.easeOut(duration: WZ.MotionDuration.normal)) { scrollToNewest(proxy) }
                     }
                     .onChange(of: notifier.eventToFocus?.eventId, initial: true) { _, _ in
-                        guard let focus = notifier.eventToFocus, focus.roomId == room.id else { return }
+                        guard threadRoot == nil, let focus = notifier.eventToFocus, focus.roomId == room.id else { return }
                         notifier.eventToFocus = nil
                         Task { await jump(to: focus.eventId, proxy) }
                     }
@@ -126,7 +138,7 @@ struct RoomView: View {
                         guard !isEmpty, !positioned else { return }
                         positioned = true
                         Task {
-                            if room.unreadCount > 0 || room.mentionCount > 0 {
+                            if threadRoot == nil, room.unreadCount > 0 || room.mentionCount > 0 {
                                 await openAtFirstUnread(proxy)
                             }
                             await timeline.markAsRead(sendReceipts: prefs.sendReadReceipts)
@@ -149,10 +161,21 @@ struct RoomView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: WZ.Space.space0) {
             VStack(spacing: WZ.Space.space2) {
+                if threadRoot != nil, timeline.reachedStart, timeline.entries.filter(\.isContent).count <= 1 {
+                    Text(String(localized: "timeline.threadEmpty"))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(maxWidth: .infinity)
+                }
+                if threadRoot == nil, calls.isInCall, calls.room?.id != room.id || room.isDirect {
+                    CallBar { calls.showCallScreen = true }
+                        .padding(.horizontal, WZ.Space.space6)
+                }
+                IdentityWarning(roomId: room.id, client: timeline.client, encrypted: room.isEncrypted)
                 if prefs.typingIndicators && !timeline.typingNames.isEmpty {
                     TypingIndicator(names: timeline.typingNames)
                 }
-                ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing) { typing in
+                ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing, threadRoot: threadRoot) { typing in
                     if prefs.typingIndicators { timeline.setTyping(typing) }
                 }
             }
@@ -164,29 +187,57 @@ struct RoomView: View {
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Button { showInfo = true } label: {
-                    RoomTitle(room: room)
+                if threadRoot != nil {
+                    ThreadTitle(room: room)
                         .padding(.horizontal, WZ.Space.space6)
                         .padding(.vertical, WZ.Space.space2)
                         .frame(minHeight: WZ.Space.space10)
                         .floatingGlass(in: Capsule())
-                        .contentShape(Capsule())
+                } else {
+                    Button { showInfo = true } label: {
+                        RoomTitle(room: room)
+                            .padding(.horizontal, WZ.Space.space6)
+                            .padding(.vertical, WZ.Space.space2)
+                            .frame(minHeight: WZ.Space.space10)
+                            .floatingGlass(in: Capsule())
+                            .contentShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint(String(localized: "timeline.showsRoomInfoMembers"))
                 }
-                .buttonStyle(.plain)
-                .accessibilityHint(String(localized: "timeline.showsRoomInfoMembers"))
             }
             .glassBackgroundHidden()
-            if room.isDirect {
+            if threadRoot == nil {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { startCall(video: false) } label: { Image("ph-phone-fill") }
-                        .accessibilityLabel(String(localized: "timeline.voiceCall"))
-                    Button { startCall(video: true) } label: { Image("ph-video-camera-fill") }
-                        .accessibilityLabel(String(localized: "timeline.videoCall"))
+                    Button { showThreads = true } label: {
+                        Image("ph-chat-dots-regular").foregroundStyle(theme.textPrimary)
+                    }
+                        .accessibilityLabel(String(localized: "timeline.threads"))
+                    Menu {
+                        Button { startCall(video: false) } label: {
+                            Label(menu: String(localized: "timeline.voiceCall"), icon: "ph-phone-fill")
+                        }
+                        Button { startCall(video: true) } label: {
+                            Label(menu: String(localized: "timeline.videoCall"), icon: "ph-video-camera-fill")
+                        }
+                    } label: {
+                        Image("ph-phone-fill")
+                    }
+                    .accessibilityLabel(String(localized: "voice.startCall"))
                 }
             }
         }
+        .navigationDestination(item: $openThread) { root in
+            RoomView(room: room, client: timeline.client, threadRoot: root.id)
+        }
+        .sheet(isPresented: $showThreads) {
+            ThreadListView(room: room, client: timeline.client) { root in
+                showThreads = false
+                openThread = IdentifiedString(id: root)
+            }
+        }
         .overlay(alignment: .top) {
-            if room.isDirect, !calls.isInCall(roomId: room.id),
+            if threadRoot == nil, !calls.isInCall(roomId: room.id),
                room.callParticipants.contains(where: { $0 != session.userId }) {
                 JoinCallBar(room: room).padding(.top, WZ.Space.space3)
             }
@@ -198,6 +249,7 @@ struct RoomView: View {
             }
         }
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
+        .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
             TextField(String(localized: "room.members.reasonLabel"), text: $reportReason)
             Button(String(localized: "timeline.reportShort"), role: .destructive) {
@@ -246,9 +298,9 @@ struct RoomView: View {
             }, onSticker: { _ in }, onGif: { _ in }, emojiOnly: true)
             .task { await reactionPacks.load(session: session, roomId: room.id) }
         }
-        .onAppear { notifier.activeRoomId = room.id }
+        .onAppear { if threadRoot == nil { notifier.activeRoomId = room.id } }
         .onDisappear {
-            if notifier.activeRoomId == room.id { notifier.activeRoomId = nil }
+            if threadRoot == nil, notifier.activeRoomId == room.id { notifier.activeRoomId = nil }
             timeline.setTyping(false)
         }
     }
@@ -276,6 +328,8 @@ struct RoomView: View {
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
+            selectText: { selectingText = IdentifiedString(id: $0.summary) },
+            openThread: threadRoot != nil ? nil : { entry in openThread = entry.eventId.map(IdentifiedString.init) },
             linkPreviews: linkPreviews,
             retry: { timeline.retrySending() },
             openMenu: { entry, frame in
@@ -307,7 +361,9 @@ struct RoomView: View {
                         .id(entry.id)
                 }
                 Group {
-                    if timeline.reachedStart {
+                    if timeline.reachedStart && threadRoot != nil {
+                        EmptyView()
+                    } else if timeline.reachedStart {
                         TimelineStart(room: room)
                     } else {
                         // Skeleton rows that load the next page of history only once they
@@ -556,6 +612,24 @@ private struct TimelinePlaceholder: View {
     }
 }
 
+private struct ThreadTitle: View {
+    let room: RoomSummary
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        VStack(spacing: WZ.Space.space0) {
+            Text(String(localized: "thread.title"))
+                .font(.wizard(WZ.FontSize.lg, .semibold))
+                .foregroundStyle(theme.textPrimary)
+            Text(room.displayName)
+                .font(.wizard(WZ.FontSize.xs))
+                .foregroundStyle(theme.textMuted)
+        }
+        .lineLimit(1)
+        .frame(maxWidth: WZ.Size.sidebar)
+    }
+}
+
 private struct RoomTitle: View {
     let room: RoomSummary
     @EnvironmentObject private var prefs: AppPreferences
@@ -729,6 +803,9 @@ struct MessageRow: View {
                 if !entry.reactions.isEmpty {
                     ReactionsBar(reactions: entry.reactions) { key in actions?.react(key, entry) }
                 }
+                if let thread = entry.thread, thread.replies > 0, let actions, let openThread = actions.openThread {
+                    ThreadSummaryBadge(thread: thread, roomId: actions.roomId) { openThread(entry) }
+                }
                 if !entry.readBy.isEmpty, let roomId = actions?.roomId {
                     ReadReceiptsView(roomId: roomId, userIds: entry.readBy, readAt: entry.readAt)
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -752,7 +829,7 @@ struct MessageRow: View {
                     .padding(.leading, WZ.Space.space5)
             }
         }
-        .simultaneousGesture(swipeToReply)
+        .gesture(swipeToReply)
         .sensoryFeedback(.impact(weight: .medium), trigger: swipe >= Self.replyThreshold)
     }
 
@@ -776,22 +853,14 @@ struct MessageRow: View {
         }
     }
 
-    private var swipeToReply: some Gesture {
-        DragGesture(minimumDistance: 18)
-            .onChanged { value in
-                guard actions != nil, entry.canBeRepliedTo, entry.itemKey != nil else { return }
-                let dx = value.translation.width, dy = value.translation.height
-                // Only clearly sideways drags to the right; vertical ones scroll the chat.
-                guard dx > 0, abs(dx) > abs(dy) * 1.6 else {
-                    if swipe != 0 { withAnimation(.spring(duration: WZ.MotionDuration.slow)) { swipe = 0 } }
-                    return
-                }
-                swipe = min(dx * 0.6, Self.replyThreshold + 20)
-            }
-            .onEnded { _ in
-                if swipe >= Self.replyThreshold { actions?.reply(entry) }
-                withAnimation(.spring(duration: WZ.MotionDuration.slow)) { swipe = 0 }
-            }
+    private var swipeToReply: SwipeToReplyGesture {
+        SwipeToReplyGesture { dx in
+            guard actions != nil, entry.canBeRepliedTo, entry.itemKey != nil else { return }
+            swipe = min(max(dx, 0) * 0.6, Self.replyThreshold + 20)
+        } onEnd: {
+            if swipe >= Self.replyThreshold { actions?.reply(entry) }
+            withAnimation(.spring(duration: WZ.MotionDuration.slow)) { swipe = 0 }
+        }
     }
 
     @ViewBuilder
@@ -863,16 +932,72 @@ struct MessageRow: View {
     }
 }
 
+private struct MenuPressGesture: UIGestureRecognizerRepresentable {
+    let action: () -> Void
+
+    func makeCoordinator(converter: CoordinateSpaceConverter) -> Coordinator { Coordinator() }
+
+    func makeUIGestureRecognizer(context: Context) -> UILongPressGestureRecognizer {
+        let press = UILongPressGestureRecognizer()
+        press.minimumPressDuration = 0.35
+        press.delegate = context.coordinator
+        return press
+    }
+
+    func handleUIGestureRecognizerAction(_ recognizer: UILongPressGestureRecognizer, context: Context) {
+        if recognizer.state == .began { action() }
+    }
+
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        func gestureRecognizer(_ recognizer: UIGestureRecognizer,
+                               shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool { true }
+    }
+}
+
+/// Starts only on a clearly sideways drag to the right, so vertical drags always scroll
+struct SwipeToReplyGesture: UIGestureRecognizerRepresentable {
+    let onChange: (CGFloat) -> Void
+    let onEnd: () -> Void
+
+    func makeCoordinator(converter: CoordinateSpaceConverter) -> Coordinator { Coordinator() }
+
+    func makeUIGestureRecognizer(context: Context) -> UIPanGestureRecognizer {
+        let pan = UIPanGestureRecognizer()
+        pan.delegate = context.coordinator
+        return pan
+    }
+
+    func handleUIGestureRecognizerAction(_ recognizer: UIPanGestureRecognizer, context: Context) {
+        switch recognizer.state {
+        case .changed: onChange(recognizer.translation(in: recognizer.view).x)
+        case .ended, .cancelled, .failed: onEnd()
+        default: break
+        }
+    }
+
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
+            guard let pan = recognizer as? UIPanGestureRecognizer else { return true }
+            let velocity = pan.velocity(in: pan.view)
+            return velocity.x > 0 && abs(velocity.x) > abs(velocity.y) * 1.6
+        }
+    }
+}
+
+private final class FrameBox {
+    var value = CGRect.zero
+}
+
 private struct MessageContextMenu: ViewModifier {
     let entry: ChatEntry
     let actions: MessageActions
-    @State private var frame: CGRect = .zero
+    @State private var frame = FrameBox()
 
     func body(content: Content) -> some View {
         if entry.isContent {
             content
-                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { frame = $0 }
-                .onLongPressGesture(minimumDuration: 0.35) { actions.openMenu(entry, frame) }
+                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { [frame] in frame.value = $0 }
+                .gesture(MenuPressGesture { [frame] in actions.openMenu(entry, frame.value) })
         } else {
             content
         }
@@ -895,6 +1020,8 @@ struct MessageActions {
     var togglePin: (ChatEntry) -> Void = { _ in }
     var report: (ChatEntry) -> Void = { _ in }
     var viewSource: (ChatEntry) -> Void = { _ in }
+    var selectText: (ChatEntry) -> Void = { _ in }
+    var openThread: ((ChatEntry) -> Void)?
     /// Set only in unencrypted rooms (see `LinkPreviewLoader`).
     var linkPreviews: LinkPreviewLoader?
     var retry: () -> Void = {}
@@ -904,7 +1031,22 @@ struct MessageActions {
 enum MessageText {
     private static let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
 
+    private final class Cached {
+        let value: AttributedString
+        init(_ value: AttributedString) { self.value = value }
+    }
+
+    private static let cache = NSCache<NSString, Cached>()
+
     static func attributed(_ text: String, prettifyLinks: Bool) -> AttributedString {
+        let key = "\(prettifyLinks ? 1 : 0)\(text)" as NSString
+        if let cached = cache.object(forKey: key) { return cached.value }
+        let result = detectLinks(text, prettifyLinks: prettifyLinks)
+        cache.setObject(Cached(result), forKey: key)
+        return result
+    }
+
+    private static func detectLinks(_ text: String, prettifyLinks: Bool) -> AttributedString {
         guard let detector else { return AttributedString(text) }
         let ns = text as NSString
         var result = AttributedString()

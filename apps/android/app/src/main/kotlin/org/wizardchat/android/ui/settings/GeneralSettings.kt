@@ -361,6 +361,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
     val session = LocalSession.current
     var tokenExpanded by remember { mutableStateOf(false) }
+    var showAccountData by remember { mutableStateOf(false) }
     SettingsPage(tr("settings.developer.title"), onBack) {
         SettingsSection {
             ToggleRow(
@@ -405,14 +406,29 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                     CopyRow(tr("settings.sessions.deviceId"), deviceId)
                 }
             }
+            SettingsSection {
+                Text(
+                    tr("settings.developer.accountData"),
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { showAccountData = true }
+                        .heightIn(min = WZ.Space.space11)
+                        .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+                    style = wizardFont(WZ.FontSize.md),
+                    color = theme.textPrimary,
+                )
+            }
         }
     }
+    if (showAccountData) AccountDataSheet(onDismiss = { showAccountData = false })
 }
 
 @Composable
 internal fun AboutSettings(onBack: () -> Unit) {
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+    val whatsNew = remember { WhatsNew.latest(context) }
+    var showWhatsNew by remember { mutableStateOf(false) }
     val version = remember {
         runCatching {
             val info = context.packageManager.getPackageInfo(context.packageName, 0)
@@ -435,6 +451,7 @@ internal fun AboutSettings(onBack: () -> Unit) {
                     "code",
                     { uriHandler.openUri("https://gitlab.com/wizardchat/wizardchat") },
                 )
+                if (whatsNew != null) LabelButton(tr("whatsNew.title"), "sparkle", { showWhatsNew = true })
             }
         }
 
@@ -445,6 +462,7 @@ internal fun AboutSettings(onBack: () -> Unit) {
             }
         }
     }
+    if (showWhatsNew && whatsNew != null) WhatsNewSheet(whatsNew) { showWhatsNew = false }
 }
 
 @Composable

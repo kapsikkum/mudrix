@@ -18,7 +18,7 @@ struct ImageMessageView: View {
     @State private var image: UIImage?
     @State private var revealed = false
     @State private var playing = false
-    @GestureState private var holding = false
+    @State private var holding = false
     @State private var showViewer = false
     private static let tapPlays = 2
 
@@ -87,10 +87,7 @@ struct ImageMessageView: View {
             else if canAnimate && !animate { playing = true }
             else if !isSticker { showViewer = true }
         }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 30)
-                .updating($holding) { pressing, state, _ in state = pressing }
-        )
+        .gesture(HoldGesture { holding = $0 })
         .task(id: "\(animate)-\(hidden)-\(playing)") {
             guard !hidden, let mediaLoader else { return }
             image = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)
@@ -509,7 +506,7 @@ struct PollMessageView: View {
                 if isOwn && !poll.hasEnded {
                     Button(String(localized: "timeline.poll.end"), action: onEnd)
                         .font(.wizard(WZ.FontSize.sm, .semibold))
-                        .foregroundStyle(theme.accent)
+                        .foregroundStyle(theme.control)
                 }
             }
         }
@@ -626,6 +623,52 @@ struct ReadReceiptsView: View {
     }
 }
 
+struct ThreadSummaryBadge: View {
+    let thread: ThreadSummaryView
+    let roomId: String
+    let onOpen: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button(action: onOpen) {
+            HStack(spacing: WZ.Space.space3) {
+                if let sender = thread.latestSender {
+                    ReceiptAvatar(roomId: roomId, userId: sender, size: WZ.SizeAvatar.xs)
+                }
+                Text(L10n.format("timeline.threadReplies", thread.replies))
+                    .font(.wizard(WZ.FontSize.sm, .semibold))
+                    .foregroundStyle(theme.accent)
+                if let preview {
+                    Text(preview)
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .lineLimit(1)
+                }
+                Spacer(minLength: WZ.Space.space0)
+                Image("ph-caret-right-bold")
+                    .font(.system(size: WZ.SizeIcon.xs))
+                    .foregroundStyle(theme.textMuted)
+            }
+            .padding(.horizontal, WZ.Space.space4)
+            .padding(.vertical, WZ.Space.space3)
+            .frame(maxWidth: WZ.Size.panel, alignment: .leading)
+            .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(String(localized: "thread.openThread"))
+    }
+
+    private var preview: String? {
+        if thread.latestRedacted { return String(localized: "timeline.messageDeleted") }
+        let line = thread.latestSummary?.split(separator: "\n").first.map { $0.trimmingCharacters(in: .whitespaces) }
+        if let line, !line.isEmpty {
+            return thread.latestSenderName.map { "\($0): \(line)" } ?? line
+        }
+        return thread.latestUndecryptable ? String(localized: "timeline.couldNotDecrypt") : nil
+    }
+}
+
 private struct ReceiptAvatar: View {
     let roomId: String
     @EnvironmentObject private var session: MatrixSession
@@ -658,5 +701,31 @@ private struct ReceiptName: View {
         }
         .lineLimit(1)
         .task(id: userId) { name = await session.memberProfile(userId, in: roomId).name }
+    }
+}
+
+private struct HoldGesture: UIGestureRecognizerRepresentable {
+    let onChange: (Bool) -> Void
+
+    func makeCoordinator(converter: CoordinateSpaceConverter) -> Coordinator { Coordinator() }
+
+    func makeUIGestureRecognizer(context: Context) -> UILongPressGestureRecognizer {
+        let press = UILongPressGestureRecognizer()
+        press.minimumPressDuration = 0.2
+        press.delegate = context.coordinator
+        return press
+    }
+
+    func handleUIGestureRecognizerAction(_ recognizer: UILongPressGestureRecognizer, context: Context) {
+        switch recognizer.state {
+        case .began: onChange(true)
+        case .ended, .cancelled, .failed: onChange(false)
+        default: break
+        }
+    }
+
+    final class Coordinator: NSObject, UIGestureRecognizerDelegate {
+        func gestureRecognizer(_ recognizer: UIGestureRecognizer,
+                               shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool { true }
     }
 }

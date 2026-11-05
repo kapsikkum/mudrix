@@ -86,6 +86,7 @@ sealed interface Route {
     data class Space(val id: String) : Route
     /** A voice room's text chat */
     data class Chat(val id: String) : Route
+    data class Thread(val roomId: String, val rootEventId: String) : Route
 }
 
 /** Opens rooms and spaces from anywhere in the main screen (inbox, search, links, notifications) */
@@ -115,6 +116,11 @@ fun MainScreen(roomList: RoomListModel) {
     var showInbox by remember { mutableStateOf(false) }
     var showCreateSpace by remember { mutableStateOf(false) }
     var showExplore by remember { mutableStateOf(false) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    var whatsNew by remember { mutableStateOf<org.wizardchat.android.ui.settings.WhatsNew.Entry?>(null) }
+    LaunchedEffect(roomList.isLoaded) {
+        if (roomList.isLoaded && whatsNew == null) whatsNew = org.wizardchat.android.ui.settings.WhatsNew.unseen(context)
+    }
     val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
     fun show(roomId: String) {
@@ -145,7 +151,7 @@ fun MainScreen(roomList: RoomListModel) {
         if (item == tab) paths[item] = emptyList() else tab = item
     }
 
-    fun showsIsland(item: Tab) = !keyboardVisible && paths[item].orEmpty().none { it is Route.Room || it is Route.Chat }
+    fun showsIsland(item: Tab) = !keyboardVisible && paths[item].orEmpty().none { it is Route.Room || it is Route.Chat || it is Route.Thread }
 
     fun showsCallBar(item: Tab): Boolean {
         val callRoom = calls.room ?: return false
@@ -182,9 +188,9 @@ fun MainScreen(roomList: RoomListModel) {
             prefs.onSyncedSettingsChange = null
         }
     }
-    LaunchedEffect(notifier.roomToOpen, roomList.isLoaded) {
+    LaunchedEffect(notifier.roomToOpen, notifier.accountToOpen, roomList.isLoaded) {
         val roomId = notifier.roomToOpen ?: return@LaunchedEffect
-        if (!roomList.isLoaded) return@LaunchedEffect
+        if (!roomList.isLoaded || notifier.accountToOpen != null) return@LaunchedEffect
         notifier.roomToOpen = null
         showInbox = false
         showCreateSpace = false
@@ -246,6 +252,12 @@ fun MainScreen(roomList: RoomListModel) {
         }
 
         if (calls.showCallScreen) DMCallScreen(onDismiss = { calls.showCallScreen = false })
+        whatsNew?.let { entry ->
+            org.wizardchat.android.ui.settings.WhatsNewSheet(entry) {
+                org.wizardchat.android.ui.settings.WhatsNew.markSeen(context, entry)
+                whatsNew = null
+            }
+        }
         if (showInbox) InboxSheet(roomList, { showInbox = false }, onOpenRoom = ::show, onOpenSpace = ::showSpace)
         if (showCreateSpace) CreateSpaceSheet({ showCreateSpace = false }, onCreated = ::showSpace)
         if (showExplore) {
@@ -302,6 +314,14 @@ private fun TabContent(
                         room == null -> Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
                         room.isVoice && route is Route.Room -> VoiceRoomScreen(room, onBack = navigator.pop, onOpenChat = { navigator.push(Route.Chat(id)) })
                         else -> RoomScreen(room, roomList.client, onBack = navigator.pop)
+                    }
+                }
+                is Route.Thread -> {
+                    val room = roomList.room(route.roomId)
+                    if (room == null) {
+                        Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
+                    } else {
+                        RoomScreen(room, roomList.client, onBack = navigator.pop, threadRoot = route.rootEventId)
                     }
                 }
             }

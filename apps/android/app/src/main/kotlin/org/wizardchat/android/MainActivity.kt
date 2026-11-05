@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -37,6 +38,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MatrixSession
+import org.wizardchat.android.matrix.MessageNotifier
+import org.wizardchat.android.ui.settings.AddAccountScreen
 import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.home.MainScreen
@@ -158,9 +161,20 @@ private fun Root() {
             val roomList = session.roomList
             if (roomList != null) {
                 CompositionLocalProvider(LocalMedia provides session.media) {
-                    MainScreen(roomList)
+                    key(session.userId) { MainScreen(roomList) }
                 }
             }
+            if (session.isAddingAccount) AddAccountScreen()
+        }
+    }
+    val notifier = MessageNotifier.shared
+    LaunchedEffect(notifier.accountToOpen, session.state, session.userId) {
+        val userId = notifier.accountToOpen ?: return@LaunchedEffect
+        if (session.state != MatrixSession.State.LoggedIn || session.userId == null) return@LaunchedEffect
+        if (session.userId == userId || session.accounts.none { it.userId == userId }) {
+            notifier.accountToOpen = null
+        } else {
+            scope.launch { session.switchAccount(userId) }
         }
     }
 }

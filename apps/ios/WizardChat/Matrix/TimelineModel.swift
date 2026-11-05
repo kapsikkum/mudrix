@@ -172,6 +172,7 @@ final class TimelineModel: ObservableObject {
     let client: WizardClient
     let roomId: String
     private let kind: TimelineKind
+    var isThread: Bool { if case .thread = kind { true } else { false } }
     private let onlyTypes: Set<ChatEntry.ContentType>?
     private var timeline: RoomTimeline?
     private var items: [TimelineEntry] = []
@@ -182,10 +183,11 @@ final class TimelineModel: ObservableObject {
 
     private static let groupingInterval: TimeInterval = 5 * 60
 
-    init(client: WizardClient, roomId: String, pinnedOnly: Bool = false, onlyTypes: Set<ChatEntry.ContentType>? = nil) {
+    init(client: WizardClient, roomId: String, threadRoot: String? = nil, pinnedOnly: Bool = false,
+         onlyTypes: Set<ChatEntry.ContentType>? = nil) {
         self.client = client
         self.roomId = roomId
-        self.kind = pinnedOnly ? .pinned : .main
+        self.kind = threadRoot.map { .thread(.init(rootEventId: $0)) } ?? (pinnedOnly ? .pinned : .main)
         self.onlyTypes = onlyTypes
     }
 

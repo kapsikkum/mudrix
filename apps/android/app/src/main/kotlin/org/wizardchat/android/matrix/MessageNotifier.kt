@@ -42,6 +42,7 @@ class MessageNotifier {
     var roomToOpen by mutableStateOf<String?>(null)
     /** A message to scroll to once its room is open (room ID, event ID) */
     var eventToFocus by mutableStateOf<Pair<String, String>?>(null)
+    var accountToOpen by mutableStateOf<String?>(null)
 
     private var prefs: AppPreferences? = null
     private var roomList: RoomListModel? = null
@@ -61,7 +62,7 @@ class MessageNotifier {
     }
 
     fun stop() {
-        updateBadge(0)
+        badge = 0
         subscription?.cancel()
         subscription = null
         roomList = null
@@ -70,7 +71,12 @@ class MessageNotifier {
     /** Launchers show the notifications as the badge, so there is no count to set; at 0 everything is read */
     fun updateBadge(count: Int) {
         badge = count
-        if (count == 0) manager.cancelAll()
+        if (count == 0) roomList?.client?.userId?.let(::removeDelivered)
+    }
+
+    fun removeDelivered(userId: String) {
+        val system = context.getSystemService(NotificationManager::class.java) ?: return
+        system.activeNotifications.filter { it.tag?.startsWith("$userId|") == true }.forEach { manager.cancel(it.tag, it.id) }
     }
 
     private fun notify(notification: Notification) {
@@ -82,19 +88,20 @@ class MessageNotifier {
         var body = if (notification.isDirect || notification.roomName == null) notification.body else "$sender: ${notification.body}"
         if (body.isEmpty()) body = L10n.format("notifications.newMessage")
         val sound = prefs.notificationSounds && notification.sound
-        val tag = notification.roomId
+        val userId = roomList?.client?.userId ?: return
+        val tag = "$userId|${notification.roomId}"
         val id = notification.eventId.hashCode()
 
         val replyInput = RemoteInput.Builder(KEY_REPLY).setLabel(L10n.format("composer.typeMessage")).build()
         val reply = NotificationCompat.Action.Builder(
             PhIcons.id("arrow-bend-up-left"),
             L10n.format("timeline.reply"),
-            actionIntent(ACTION_REPLY, tag, id, mutable = true),
+            actionIntent(ACTION_REPLY, notification.roomId, userId, tag, id, mutable = true),
         ).addRemoteInput(replyInput).setAllowGeneratedReplies(false).build()
         val markRead = NotificationCompat.Action.Builder(
             PhIcons.id("envelope-open"),
             L10n.format("common.markRead"),
-            actionIntent(ACTION_MARK_READ, tag, id, mutable = false),
+            actionIntent(ACTION_MARK_READ, notification.roomId, userId, tag, id, mutable = false),
         ).build()
 
         val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
@@ -107,7 +114,7 @@ class MessageNotifier {
             .setSilent(!sound)
             .setAutoCancel(true)
             .setNumber(badge)
-            .setContentIntent(openIntent(notification.roomId))
+            .setContentIntent(openIntent(notification.roomId, userId))
             .addAction(reply)
             .addAction(markRead)
         try {
@@ -150,18 +157,20 @@ class MessageNotifier {
     private fun smallIcon(): Int =
         PhIcons.id("chat-circle", PhWeight.fill).takeIf { it != 0 } ?: context.applicationInfo.icon
 
-    private fun openIntent(roomId: String): PendingIntent =
+    private fun openIntent(roomId: String, userId: String): PendingIntent =
         PendingIntent.getActivity(
             context,
-            roomId.hashCode(),
-            Intent(context, NotifierActivity::class.java).putExtra(EXTRA_ROOM, roomId),
+            "$userId|$roomId".hashCode(),
+            Intent(context, NotifierActivity::class.java).putExtra(EXTRA_ROOM, roomId).putExtra(EXTRA_USER, userId),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
-    private fun actionIntent(action: String, roomId: String, id: Int, mutable: Boolean): PendingIntent {
+    private fun actionIntent(action: String, roomId: String, userId: String, tag: String, id: Int, mutable: Boolean): PendingIntent {
         val intent = Intent(context, NotificationActionReceiver::class.java)
             .setAction(action)
             .putExtra(EXTRA_ROOM, roomId)
+            .putExtra(EXTRA_USER, userId)
+            .putExtra(EXTRA_TAG, tag)
             .putExtra(EXTRA_ID, id)
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or (if (mutable) PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_IMMUTABLE)
         return PendingIntent.getBroadcast(context, id * 31 + action.hashCode(), intent, flags)
@@ -169,9 +178,12 @@ class MessageNotifier {
 
     internal fun handleAction(intent: Intent, done: () -> Unit) {
         val roomId = intent.getStringExtra(EXTRA_ROOM) ?: return done()
+        val userId = intent.getStringExtra(EXTRA_USER)
+        val tag = intent.getStringExtra(EXTRA_TAG) ?: roomId
         val id = intent.getIntExtra(EXTRA_ID, 0)
         scope.launch {
             try {
+                if (userId != null) openAccount(userId)
                 when (intent.action) {
                     ACTION_REPLY -> {
                         val text = RemoteInput.getResultsFromIntent(intent)?.getCharSequence(KEY_REPLY)?.toString()?.trim()
@@ -180,10 +192,16 @@ class MessageNotifier {
                     ACTION_MARK_READ -> room(roomId)?.let { currentRoomList()?.setRead(it, read = true) }
                 }
             } finally {
-                manager.cancel(roomId, id)
+                manager.cancel(tag, id)
                 done()
             }
         }
+    }
+
+    private suspend fun openAccount(userId: String) {
+        val session = WizardApplication.instance.session
+        if (session.state == MatrixSession.State.Restoring) runCatching { session.restore() }
+        if (session.userId != userId) session.switchAccount(userId)
     }
 
     private fun currentRoomList() = roomList ?: WizardApplication.instance.session.roomList
@@ -218,6 +236,8 @@ class MessageNotifier {
         private const val ACTION_MARK_READ = "org.wizardchat.android.MARK_READ"
         internal const val EXTRA_ROOM = "roomId"
         internal const val EXTRA_ID = "notificationId"
+        internal const val EXTRA_USER = "userId"
+        internal const val EXTRA_TAG = "tag"
         internal const val EXTRA_PERMISSION = "requestPermission"
     }
 }
@@ -245,7 +265,11 @@ class NotifierActivity : Activity() {
             }
             return
         }
-        intent.getStringExtra(MessageNotifier.EXTRA_ROOM)?.let { MessageNotifier.shared.roomToOpen = it }
+        val notifier = MessageNotifier.shared
+        intent.getStringExtra(MessageNotifier.EXTRA_USER)?.let { userId ->
+            if (userId != WizardApplication.instance.session.userId) notifier.accountToOpen = userId
+        }
+        intent.getStringExtra(MessageNotifier.EXTRA_ROOM)?.let { notifier.roomToOpen = it }
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP))
         finish()
     }

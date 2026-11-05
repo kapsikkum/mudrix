@@ -22,6 +22,8 @@ struct RoomInfoView: View {
     @State private var canEditAvatar = false
     @State private var canInvite = false
     @State private var canPin = false
+    @State private var canManageWidgets = false
+    @State private var bridges: [RoomBridge] = []
     @State private var pinnedCount = 0
     @State private var showInvite = false
     @State private var confirmLeave = false
@@ -95,6 +97,20 @@ struct RoomInfoView: View {
                         } label: {
                             Label(String(localized: "room.settings.emojis.title"), image: "ph-smiley-regular")
                         }
+                        NavigationLink {
+                            RoomWidgetsView(roomId: room.id, client: client, canManage: canManageWidgets)
+                        } label: {
+                            Label(String(localized: "widgets.title"), image: "ph-puzzle-piece-regular")
+                        }
+                        if !bridges.isEmpty {
+                            NavigationLink {
+                                RoomBridgesView(roomId: room.id, bridges: bridges)
+                            } label: {
+                                LabeledContent { Text("\(bridges.count)") } label: {
+                                    Label(String(localized: "room.settings.bridges.title"), image: "ph-plugs-connected-regular")
+                                }
+                            }
+                        }
                     }
                     if canInvite {
                         Button { showInvite = true } label: { Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular") }
@@ -121,7 +137,7 @@ struct RoomInfoView: View {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             .navigationTitle(room.isDirect ? String(localized: "room.conversation") : String(localized: "room.roomInfo"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -192,7 +208,9 @@ struct RoomInfoView: View {
             canEditAvatar = permissions.changeAvatar
             canInvite = permissions.invite
             canPin = permissions.pin
+            canManageWidgets = permissions.manageWidgets
         }
+        bridges = await RoomBridge.load(client: client, roomId: room.id)
     }
 
     private func save() async {
@@ -280,7 +298,7 @@ struct CreateRoomView: View {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             .navigationTitle(spaceId == nil ? String(localized: "rooms.newRoom") : String(localized: "room.newRoomInSpace"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

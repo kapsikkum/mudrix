@@ -13,10 +13,22 @@ final class MatrixSession: ObservableObject {
 
     @Published private(set) var state: State = .restoring
     @Published private(set) var userId: String?
-    @Published var displayName: String?
-    @Published var avatarUrl: String?
+    @Published var displayName: String? { didSet { rememberProfile() } }
+    @Published var avatarUrl: String? { didSet { rememberProfile() } }
+    @Published private(set) var customStatus: CustomStatus?
+    private var presenceVisible = true
+    private var statusExpiry: Task<Void, Never>?
     @Published private(set) var syncState: SyncState = .idle
     @Published private(set) var encryption: EncryptionStatus?
+    @Published private(set) var accounts: [Account] = []
+    @Published var isAddingAccount = false
+
+    struct Account: Identifiable, Equatable {
+        let userId: String
+        let displayName: String?
+        let avatarUrl: String?
+        var id: String { userId }
+    }
 
     private(set) var client: WizardClient?
     private(set) var roomList: RoomListModel?
@@ -45,20 +57,39 @@ final class MatrixSession: ObservableObject {
         }
         isRestoring = true
         defer { isRestoring = false }
-        guard let stored = SessionStore.load() else {
-            state = .loggedOut
-            return
+        reloadAccounts()
+        while let stored = SessionStore.active() {
+            do {
+                let client = try await WizardClient.restore(session: stored.session, store: stored.store)
+                SessionStore.setActive(stored.session.userId)
+                start(client, stored: stored)
+                return
+            } catch let error as WizardError where error.errcode == "M_UNKNOWN_TOKEN" {
+                // Only forget the account when the server says it's gone; anything else (offline,
+                // a bug) keeps it so the user isn't signed out
+                SessionStore.remove(stored.session.userId)
+                MessageNotifier.removeDelivered(userId: stored.session.userId)
+                reloadAccounts()
+            } catch {
+                state = .restoreFailed(error.localizedDescription)
+                return
+            }
         }
-        do {
-            let client = try await WizardClient.restore(session: stored.session, store: stored.store)
-            start(client, stored: stored)
-        } catch let error as WizardError where error.errcode == "M_UNKNOWN_TOKEN" {
-            // Only forget the account when the server says it's gone; anything else (offline,
-            // a bug) keeps it so the user isn't signed out
-            forget(stored)
-        } catch {
-            state = .restoreFailed(error.localizedDescription)
+        state = .loggedOut
+    }
+
+    private func reloadAccounts() {
+        accounts = SessionStore.all().map {
+            Account(userId: $0.session.userId, displayName: $0.displayName, avatarUrl: $0.avatarUrl)
         }
+    }
+
+    func switchAccount(to userId: String) async {
+        guard userId != self.userId, !isRestoring, accounts.contains(where: { $0.userId == userId }) else { return }
+        await close()
+        SessionStore.setActive(userId)
+        state = .restoring
+        await restore()
     }
 
     func retryRestore() async {
@@ -77,7 +108,7 @@ final class MatrixSession: ObservableObject {
                 server: server, username: username, password: password,
                 deviceName: Self.deviceName, store: store
             )
-            remember(client, folder: folder, store: store)
+            await remember(client, folder: folder, store: store)
         } catch {
             SessionStore.removeStore(folder)
             throw error
@@ -91,7 +122,20 @@ final class MatrixSession: ObservableObject {
                 server: server, username: username, password: password,
                 deviceName: Self.deviceName, token: nil, store: store
             )
-            remember(client, folder: folder, store: store)
+            await remember(client, folder: folder, store: store)
+        } catch {
+            SessionStore.removeStore(folder)
+            throw error
+        }
+    }
+
+    func loginWithQr(server: String, scanned: Data? = nil, control: QrLoginControl,
+                     listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws {
+        let (folder, store) = StoredSession.newStore()
+        do {
+            let client = try await WizardClient.loginWithQr(server: server, store: store, app: Self.app, scanned: scanned,
+                                                            control: control, listener: listener)
+            await remember(client, folder: folder, store: store)
         } catch {
             SessionStore.removeStore(folder)
             throw error
@@ -125,7 +169,7 @@ final class MatrixSession: ObservableObject {
         pendingLogin = nil
         do {
             let client = try await pending.login.finish(callbackUrl: callbackUrl.absoluteString, deviceName: Self.deviceName)
-            remember(client, folder: pending.folder, store: pending.store)
+            await remember(client, folder: pending.folder, store: pending.store)
         } catch {
             SessionStore.removeStore(pending.folder)
             throw error
@@ -162,6 +206,15 @@ final class MatrixSession: ObservableObject {
         }
     }
 
+    private func rememberProfile() {
+        guard var stored, stored.displayName != displayName || stored.avatarUrl != avatarUrl else { return }
+        stored.displayName = displayName
+        stored.avatarUrl = avatarUrl
+        self.stored = stored
+        SessionStore.save(stored)
+        reloadAccounts()
+    }
+
     var excludesInsecureDevices: Bool { stored?.excludeInsecureDevices ?? false }
 
     /// The client reads this when it's built, so it applies after `restart()`
@@ -175,20 +228,14 @@ final class MatrixSession: ObservableObject {
     /// Builds the client again from the stored session, like reloading the web app
     func restart() async {
         guard stored != nil else { return }
-        subscriptions.forEach { $0.cancel() }
-        subscriptions = []
-        roomList?.stop()
-        roomList = nil
-        media = nil
-        try? await client?.stopSync()
-        client = nil
+        await close()
         state = .restoring
         await restore()
     }
 
     func logout() async {
         try? await client?.logout()
-        if let stored { forget(stored) }
+        if let stored { await forget(stored) }
     }
 
     func loadSyncedSettings() async -> [String: JSONValue]? {
@@ -205,25 +252,83 @@ final class MatrixSession: ObservableObject {
     }
 
     func applyPresence(_ visible: Bool) async {
-        try? await client?.setPresence(presence: visible ? .online : .offline)
+        presenceVisible = visible
+        try? await client?.setPresence(presence: visible ? .online : .offline, statusMsg: customStatus?.text)
+    }
+
+    func setCustomStatus(_ text: String, expiresAt: Date?) async throws {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let presence: Presence = presenceVisible ? .online : .offline
+        if trimmed.isEmpty {
+            try await requireClient.clearCustomStatus(presence: presence)
+            showCustomStatus(nil)
+        } else {
+            let millis = expiresAt.map { ($0.timeIntervalSince1970 * 1000).rounded() }
+            try await requireClient.setCustomStatus(text: trimmed, expiresAt: millis, presence: presence)
+            showCustomStatus(CustomStatus(text: trimmed, expiresAt: millis.map { Int($0) }))
+        }
+    }
+
+    private func showCustomStatus(_ status: CustomStatus?) {
+        statusExpiry?.cancel()
+        let expiry = status?.expiresAt.map { Date(timeIntervalSince1970: Double($0) / 1000) }
+        if let expiry, expiry <= .now {
+            customStatus = nil
+            return
+        }
+        customStatus = status
+        guard let expiry else { return }
+        statusExpiry = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(expiry.timeIntervalSinceNow))
+            guard !Task.isCancelled else { return }
+            try? await self?.setCustomStatus("", expiresAt: nil)
+        }
     }
 
     func refreshProfile() async {
         guard let profile = try? await client?.ownProfile() else { return }
         displayName = profile.displayName
         avatarUrl = profile.avatarUrl
+        showCustomStatus(profile.customStatus)
     }
 
-    private func remember(_ client: WizardClient, folder: String, store: StoreConfig) {
+    private func remember(_ client: WizardClient, folder: String, store: StoreConfig) async {
         let stored = StoredSession(session: client.session, storeFolder: folder, passphrase: store.passphrase ?? "")
+        await close()
+        let replaced = SessionStore.all().first { $0.session.userId == stored.session.userId }
+        if let replaced, replaced.storeFolder != folder { SessionStore.removeStore(replaced.storeFolder) }
         SessionStore.save(stored)
+        SessionStore.setActive(stored.session.userId)
+        reloadAccounts()
+        isAddingAccount = false
         start(client, stored: stored)
+    }
+
+    private func close() async {
+        subscriptions.forEach { $0.cancel() }
+        subscriptions = []
+        roomList?.stop()
+        roomList = nil
+        media = nil
+        let client = self.client
+        self.client = nil
+        stored = nil
+        userId = nil
+        displayName = nil
+        avatarUrl = nil
+        statusExpiry?.cancel()
+        customStatus = nil
+        encryption = nil
+        syncState = .idle
+        try? await client?.stopSync()
     }
 
     private func start(_ client: WizardClient, stored: StoredSession) {
         self.client = client
         self.stored = stored
         userId = client.userId
+        displayName = stored.displayName
+        avatarUrl = stored.avatarUrl
         roomList = RoomListModel(client: client)
         media = MediaLoader(client: client)
         subscriptions = [
@@ -251,6 +356,7 @@ final class MatrixSession: ObservableObject {
             encryption = try? await client.encryptionStatus()
             await refreshProfile()
         }
+        Task { [weak self] in await self?.refreshProfile() }
         state = .loggedIn
     }
 
@@ -262,24 +368,17 @@ final class MatrixSession: ObservableObject {
             self.stored = stored
             SessionStore.save(stored)
         case .invalid:
-            if let stored { forget(stored) }
+            if let stored { Task { await forget(stored) } }
         }
     }
 
-    private func forget(_ stored: StoredSession) {
-        subscriptions.forEach { $0.cancel() }
-        subscriptions = []
-        roomList?.stop()
-        roomList = nil
-        media = nil
-        client = nil
-        self.stored = nil
-        SessionStore.removeStore(stored.storeFolder)
-        SessionStore.clear()
-        userId = nil
-        displayName = nil
-        avatarUrl = nil
-        state = .loggedOut
+    private func forget(_ stored: StoredSession) async {
+        await close()
+        SessionStore.remove(stored.session.userId)
+        MessageNotifier.removeDelivered(userId: stored.session.userId)
+        reloadAccounts()
+        state = .restoring
+        await restore()
     }
 }
 

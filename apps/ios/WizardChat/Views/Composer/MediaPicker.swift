@@ -54,7 +54,7 @@ struct MediaPicker: View {
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
-        .tint(theme.accent)
+        .tint(theme.control)
     }
 }
 
@@ -207,7 +207,7 @@ private struct StickerGrid: View {
                             Section {
                                 ForEach(pack.images) { sticker in
                                     Button { onPick(sticker) } label: {
-                                        PackThumb(url: sticker.url).frame(width: WZ.SizeAvatar.xl, height: WZ.SizeAvatar.xl)
+                                        PackThumb(url: sticker.url, animated: true).frame(width: WZ.SizeAvatar.xl, height: WZ.SizeAvatar.xl)
                                     }
                                     .buttonStyle(.plain)
                                     .accessibilityLabel(sticker.text)
@@ -231,16 +231,30 @@ private struct StickerGrid: View {
 
 struct PackThumb: View {
     let url: String
+    var animated = false
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
     @State private var image: UIImage?
 
     var body: some View {
         Group {
-            if let image { Image(uiImage: image).resizable().scaledToFit() } else { theme.fill }
+            if let image, image.images != nil {
+                AnimatedImageView(image: image, contentMode: .scaleAspectFit)
+                    .allowsHitTesting(false)
+            } else if let image {
+                Image(uiImage: image).resizable().scaledToFit()
+            } else {
+                theme.fill
+            }
         }
+        .contentShape(Rectangle())
         .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.md, style: .continuous))
-        .task(id: url) { image = await mediaLoader?.thumbnail(url, size: 160) }
+        .task(id: url) {
+            image = await mediaLoader?.thumbnail(url, size: 160)
+            guard animated, let full = await mediaLoader?.image(for: .object(["url": .string(url)]), thumbnailSize: nil, animated: true),
+                  full.images != nil else { return }
+            image = full
+        }
     }
 }
 

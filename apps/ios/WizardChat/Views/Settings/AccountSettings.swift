@@ -12,6 +12,7 @@ struct AccountSettings: View {
     @State private var photo: PhotosPickerItem?
     @State private var status: (String, Bool)?
     @State private var showDeactivate = false
+    @State private var editingStatus = false
 
     var body: some View {
         SettingsPage(title: "settings.account.title") {
@@ -58,6 +59,29 @@ struct AccountSettings: View {
                 SettingsDivider()
                 CopyRow(label: "auth.username", value: session.userId ?? "")
             }
+
+            SettingsSection(title: "status.title") {
+                HStack(spacing: WZ.Space.space4) {
+                    VStack(alignment: .leading, spacing: WZ.Space.space1) {
+                        Text(String(localized: "status.customStatus")).font(.wizard(WZ.FontSize.md))
+                        Text(session.customStatus?.text ?? String(localized: "status.none"))
+                            .font(.wizard(WZ.FontSize.sm))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                    Spacer()
+                    Button(String(localized: session.customStatus == nil ? "status.setCustomStatus" : "status.editCustomStatus")) {
+                        editingStatus = true
+                    }
+                    .font(.wizard(WZ.FontSize.md, .semibold))
+                }
+                if session.customStatus != nil {
+                    SettingsDivider()
+                    actionRow("status.clearStatus", icon: "ph-x-regular", destructive: true) {
+                        await run { try await session.setCustomStatus("", expiresAt: nil) }
+                    }
+                }
+            }
+            .sheet(isPresented: $editingStatus) { CustomStatusSheet() }
 
             if let status { StatusText(text: status.0, isError: status.1) }
 
@@ -309,5 +333,97 @@ private struct DeactivateSheet: View {
             }
         }
         .presentationDetents([.medium])
+    }
+}
+
+struct CustomStatusSheet: View {
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+    @State private var clearAfter = ClearAfter.today
+    @State private var saving = false
+    @State private var error: String?
+
+    enum ClearAfter: CaseIterable, Hashable {
+        case today, fourHours, oneHour, thirtyMinutes, never
+
+        var label: String {
+            switch self {
+            case .today: String(localized: "status.clearToday")
+            case .fourHours: L10n.format("status.clearHours", 4)
+            case .oneHour: L10n.format("status.clearHours", 1)
+            case .thirtyMinutes: L10n.format("status.clearMinutes", 30)
+            case .never: String(localized: "status.clearNever")
+            }
+        }
+
+        var expiry: Date? {
+            switch self {
+            case .today: Calendar.current.date(byAdding: .day, value: 1, to: Calendar.current.startOfDay(for: .now))
+            case .fourHours: .now.addingTimeInterval(4 * 3600)
+            case .oneHour: .now.addingTimeInterval(3600)
+            case .thirtyMinutes: .now.addingTimeInterval(30 * 60)
+            case .never: nil
+            }
+        }
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    TextField("", text: $text, prompt: Text(String(localized: "status.placeholder")).foregroundColor(theme.textMuted))
+                        .font(.wizard(WZ.FontSize.lg))
+                        .onChange(of: text) { _, value in if value.count > 128 { text = String(value.prefix(128)) } }
+                } header: {
+                    Text(String(localized: "status.whatsUp")).foregroundStyle(theme.textMuted)
+                }
+                .listRowBackground(theme.groupedRow)
+                Section {
+                    Picker(String(localized: "status.clearAfter"), selection: $clearAfter) {
+                        ForEach(ClearAfter.allCases, id: \.self) { Text($0.label).tag($0) }
+                    }
+                    .tint(theme.textMuted)
+                }
+                .listRowBackground(theme.groupedRow)
+                if let error {
+                    StatusText(text: error).listRowBackground(Color.clear)
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background(theme.groupedBackground.ignoresSafeArea())
+            .navigationTitle(String(localized: "status.setCustomStatus"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(String(localized: "common.cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(String(localized: "common.save")) { save() }
+                        .fontWeight(.semibold)
+                        .disabled(saving)
+                }
+            }
+            .tint(theme.control)
+        }
+        .presentationDetents([.medium])
+        .onAppear {
+            text = session.customStatus?.text ?? ""
+            clearAfter = session.customStatus == nil || session.customStatus?.expiresAt != nil ? .today : .never
+        }
+    }
+
+    private func save() {
+        saving = true
+        Task {
+            defer { saving = false }
+            do {
+                try await session.setCustomStatus(text, expiresAt: clearAfter.expiry)
+                dismiss()
+            } catch {
+                self.error = error.localizedDescription
+            }
+        }
     }
 }

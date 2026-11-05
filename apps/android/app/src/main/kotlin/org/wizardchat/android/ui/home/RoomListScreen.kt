@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.AlertDialog
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
@@ -34,12 +36,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.matrix.RoomGroup
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.displayName
@@ -47,7 +51,9 @@ import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
+import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.ConfirmDialog
+import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.MenuItem
@@ -72,6 +78,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.ParticipantStack
+import org.wizardchat.core.RoomSection
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
 
@@ -87,6 +94,20 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
     var showSpaceSettings by remember { mutableStateOf(false) }
     var showVerify by remember { mutableStateOf(false) }
     var menuOpen by remember { mutableStateOf(false) }
+    var reordering by remember { mutableStateOf(false) }
+    var newSectionFor by remember { mutableStateOf<String?>(null) }
+    var renaming by remember { mutableStateOf<RoomSection?>(null) }
+    var deleting by remember { mutableStateOf<RoomSection?>(null) }
+    var movingRoom by remember { mutableStateOf<RoomSummary?>(null) }
+    var sectionError by remember { mutableStateOf<String?>(null) }
+
+    fun sectionTask(work: suspend () -> Unit) = scope.launch {
+        try {
+            work()
+        } catch (e: Exception) {
+            sectionError = L10n.format("room.sections.failed", e.message ?: "")
+        }
+    }
 
     val spaceId = (selection as? SidebarSelection.Space)?.id
     val title = when (selection) {
@@ -95,6 +116,20 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         is SidebarSelection.Space -> roomList.space(selection.id)?.name ?: tr("explore.typeSpace")
     }
     val rooms = roomList.rooms(selection)
+    val groups = if (roomList.isLoaded) roomList.groups(selection) else emptyList()
+    val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }
+
+    fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||
+        (group.kind == RoomGroup.Kind.Rooms && selection == SidebarSelection.Home))
+
+    fun move(group: RoomGroup, index: Int, offset: Int) {
+        val ids = group.rooms.map { it.id }.toMutableList()
+        if (index + offset !in ids.indices) return
+        java.util.Collections.swap(ids, index, index + offset)
+        scope.launch {
+            if (group.kind == RoomGroup.Kind.Favourites) roomList.saveFavouriteOrder(ids) else roomList.saveHomeOrder(ids)
+        }
+    }
 
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
         WizardTopBar(
@@ -110,10 +145,15 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                     buildList {
                         add(MenuItem(tr("common.newMessage"), "note-pencil") { showNewMessage = true })
                         if (selection != SidebarSelection.Dms) add(MenuItem(tr("rooms.newRoom"), "hash-straight") { showNewRoom = true })
+                        if (selection != SidebarSelection.Dms) {
+                            add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
+                            add(MenuItem(tr("home.reorderRooms"), "caret-up-down") { reordering = true })
+                        }
                         if (spaceId != null) add(MenuItem(tr("home.spaceSettings"), "gear", divider = true) { showSpaceSettings = true })
                     },
                 )
             }
+            if (reordering) BarTextButton(tr("common.done"), { reordering = false }, bold = true)
             if (onOpenInbox != null) InboxButton(roomList, onOpenInbox)
         }
         // Typing searches everything, not just this list
@@ -135,6 +175,9 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                         }
                     }
                 }
+                if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded) {
+                    item(key = "active-now") { ActiveNowSection(roomList) }
+                }
                 if (!roomList.isLoaded) {
                     items(8) { Box(Modifier.padding(horizontal = WZ.Space.space6)) { SkeletonRow() } }
                 } else if (rooms.isEmpty()) {
@@ -145,14 +188,31 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                         )
                     }
                 }
-                items(rooms, key = { it.id }) { room ->
-                    SwipeableRoomRow(
-                        room,
-                        showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
-                        onOpen = { navigator.push(Route.Room(room.id)) },
-                        onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
-                        onLeave = { leaving = room },
-                    )
+                val headers = selection != SidebarSelection.Dms
+                groups.forEach { group ->
+                    if (headers) {
+                        item(key = "header-${group.id}") {
+                            GroupHeader(
+                                group,
+                                anchors,
+                                onRename = { renaming = it },
+                                onMove = { offset -> sectionTask { roomList.moveGroup(group.id, offset, groups) } },
+                                onDelete = { deleting = it },
+                            )
+                        }
+                    }
+                    itemsIndexed(group.rooms, key = { _, room -> room.id }) { index, room ->
+                        SwipeableRoomRow(
+                            room,
+                            showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
+                            onOpen = { navigator.push(Route.Room(room.id)) },
+                            onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                            onLeave = { leaving = room },
+                            onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                            onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
+                            reorder = if (canReorder(group)) ({ offset -> move(group, index, offset) }) else null,
+                        )
+                    }
                 }
             }
             if (search.isNotBlank()) {
@@ -161,6 +221,60 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         }
     }
 
+    movingRoom?.let { room ->
+        SectionPickerDialog(
+            sections = roomList.sections.filter { it.spaceId == roomList.sectionContext(selection) || it.tag == roomList.sectionTag(room.id) },
+            current = roomList.sectionTag(room.id),
+            onDismiss = { movingRoom = null },
+            onPick = { tag ->
+                movingRoom = null
+                sectionTask { roomList.client.setRoomSection(room.id, tag) }
+            },
+            onNew = {
+                movingRoom = null
+                newSectionFor = room.id
+            },
+        )
+    }
+    if (newSectionFor != null || renaming != null) {
+        SectionNameDialog(
+            title = tr(if (renaming != null) "room.sections.renameTitle" else "room.sections.newTitle"),
+            initial = renaming?.name ?: "",
+            onDismiss = {
+                newSectionFor = null
+                renaming = null
+            },
+            onSave = { name ->
+                val section = renaming
+                val roomId = newSectionFor
+                newSectionFor = null
+                renaming = null
+                if (name.isNotBlank()) sectionTask {
+                    if (section != null) {
+                        roomList.client.renameRoomSection(section.tag, name.trim())
+                    } else {
+                        val tag = roomList.client.createRoomSection(name.trim(), roomList.sectionContext(selection))
+                        if (!roomId.isNullOrEmpty()) roomList.client.setRoomSection(roomId, tag)
+                    }
+                }
+            },
+        )
+    }
+    deleting?.let { section ->
+        ConfirmDialog(
+            title = L10n.format("room.sections.deleteTitle", section.name),
+            confirmLabel = tr("room.sections.delete"),
+            message = tr("room.sections.deleteMessage"),
+            onConfirm = {
+                deleting = null
+                sectionTask { roomList.client.deleteRoomSection(section.tag) }
+            },
+            onDismiss = { deleting = null },
+        )
+    }
+    sectionError?.let { message ->
+        ConfirmDialog(title = message, confirmLabel = tr("common.close"), onConfirm = { sectionError = null }, onDismiss = { sectionError = null }, destructive = false)
+    }
     if (showNewMessage) UserPickerSheet(UserPickerMode.DirectMessage, onDismiss = { showNewMessage = false })
     if (showNewRoom) CreateRoomSheet(spaceId, onDismiss = { showNewRoom = false })
     if (showVerify) SessionsSheet(onDismiss = { showVerify = false })
@@ -192,6 +306,9 @@ private fun SwipeableRoomRow(
     onOpen: () -> Unit,
     onToggleRead: (Boolean) -> Unit,
     onLeave: () -> Unit,
+    onToggleFavourite: () -> Unit,
+    onMoveToSection: (() -> Unit)?,
+    reorder: ((Int) -> Unit)?,
 ) {
     val unread = room.unreadCount > 0 || room.mentionCount > 0
     var menuOpen by remember { mutableStateOf(false) }
@@ -227,12 +344,20 @@ private fun SwipeableRoomRow(
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
         ) {
-            RoomRow(room, showsHashIcon, Modifier.padding(horizontal = WZ.Space.space6))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RoomRow(room, showsHashIcon, Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0))
+                if (reorder != null) {
+                    BarButton("caret-left", tr("room.sections.moveUp"), { reorder(-1) }, modifier = Modifier.rotate(90f), weight = PhWeight.bold, tint = theme.textPrimary)
+                    BarButton("caret-left", tr("room.sections.moveDown"), { reorder(1) }, modifier = Modifier.rotate(-90f), weight = PhWeight.bold, tint = theme.textPrimary)
+                }
+            }
             WizardMenu(
                 menuOpen,
                 { menuOpen = false },
-                listOf(
+                listOfNotNull(
                     MenuItem(tr("common.markRead"), "envelope-open") { onToggleRead(true) },
+                    MenuItem(tr(if (room.isFavourite) "room.removeFavourite" else "room.addFavourite"), "star", onClick = onToggleFavourite),
+                    onMoveToSection?.let { MenuItem(tr("room.sections.moveTo"), "list-bullets", onClick = it) },
                     MenuItem(tr("common.copyLink"), "link-simple") {
                         copyToClipboard("https://matrix.to/#/${room.id}", L10n.format("timeline.linkCopied"))
                     },
@@ -302,4 +427,83 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
             room.unreadCount > 0 -> UnreadBadge(room.unreadCount, isMention = false)
         }
     }
+}
+
+@Composable
+private fun GroupHeader(
+    group: RoomGroup,
+    anchors: List<String>,
+    onRename: (RoomSection) -> Unit,
+    onMove: (Int) -> Unit,
+    onDelete: (RoomSection) -> Unit,
+) {
+    var menuOpen by remember { mutableStateOf(false) }
+    val section = (group.kind as? RoomGroup.Kind.Section)?.section
+    val index = anchors.indexOf(group.id)
+    val title = when (val kind = group.kind) {
+        RoomGroup.Kind.Favourites -> tr("room.favourites")
+        is RoomGroup.Kind.Section -> kind.section.name
+        RoomGroup.Kind.Rooms -> tr("room.title")
+    }
+    Row(
+        Modifier.fillMaxWidth().padding(start = WZ.Space.space6, end = WZ.Space.space3, top = WZ.Space.space5),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(title.uppercase(), Modifier.weight(1f), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = theme.textMuted)
+        if (index >= 0 && (anchors.size > 1 || section != null)) {
+            Box {
+                BarButton("dots-three", tr("room.sections.options"), { menuOpen = true }, weight = PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.textMuted)
+                WizardMenu(
+                    menuOpen,
+                    { menuOpen = false },
+                    listOfNotNull(
+                        section?.let { MenuItem(tr("room.sections.rename"), "pencil-simple") { onRename(it) } },
+                        MenuItem(tr("room.sections.moveUp"), "caret-up-down") { onMove(-1) }.takeIf { index > 0 },
+                        MenuItem(tr("room.sections.moveDown"), "caret-up-down") { onMove(1) }.takeIf { index < anchors.size - 1 },
+                        section?.let { MenuItem(tr("room.sections.delete"), "trash", destructive = true, divider = true) { onDelete(it) } },
+                    ),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SectionPickerDialog(
+    sections: List<RoomSection>,
+    current: String?,
+    onDismiss: () -> Unit,
+    onPick: (String?) -> Unit,
+    onNew: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = theme.bgPrimary,
+        title = { Text(tr("room.sections.moveTo"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary) },
+        text = {
+            Column {
+                sections.forEach { section ->
+                    GroupedRow(section.name, onClick = { onPick(section.tag) }) {
+                        if (section.tag == current) PhIcon("check", PhWeight.bold, WZ.SizeIcon.sm, tint = theme.accent)
+                    }
+                }
+                GroupedRow(tr("room.sections.new"), icon = "plus", onClick = onNew)
+                if (current != null) GroupedRow(tr("room.sections.remove"), icon = "x", onClick = { onPick(null) })
+            }
+        },
+        confirmButton = { BarTextButton(tr("common.cancel"), onDismiss) },
+    )
+}
+
+@Composable
+private fun SectionNameDialog(title: String, initial: String, onDismiss: () -> Unit, onSave: (String) -> Unit) {
+    var name by remember { mutableStateOf(initial) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        containerColor = theme.bgPrimary,
+        title = { Text(title, style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary) },
+        text = { WizardTextField(name, { name = it }, title) },
+        confirmButton = { BarTextButton(tr("common.save"), { onSave(name) }, bold = true) },
+        dismissButton = { BarTextButton(tr("common.cancel"), onDismiss) },
+    )
 }

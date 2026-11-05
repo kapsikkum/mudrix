@@ -152,7 +152,7 @@ internal fun ActionRow(
     title: String,
     icon: String?,
     onClick: () -> Unit,
-    color: Color = theme.accent,
+    color: Color = theme.control,
     enabled: Boolean = true,
 ) {
     GroupedRow(

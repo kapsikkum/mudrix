@@ -59,7 +59,7 @@ class MediaLoader(val client: WizardClient) {
     /** The decrypted file on disk, e.g. to share or open in another app */
     suspend fun file(source: MediaSource, filename: String): File {
         val folder = File(files, URLEncoder.encode(key(source), "UTF-8"))
-        val file = File(folder, filename.ifEmpty { "file" })
+        val file = File(folder, filename.replace('/', '-').trim().ifEmpty { "file" })
         if (file.exists()) return file
         val data = client.media(source)
         withContext(Dispatchers.IO) {

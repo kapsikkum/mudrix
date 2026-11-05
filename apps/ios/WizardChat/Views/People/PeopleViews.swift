@@ -47,7 +47,7 @@ struct MembersView: View {
         List {
             if canInvite {
                 Button { showInvite = true } label: {
-                    Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular").foregroundStyle(theme.accent)
+                    Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular").foregroundStyle(theme.control)
                 }
             }
             ForEach(groups) { group in
@@ -83,7 +83,7 @@ struct MembersView: View {
     }
 }
 
-struct IdentifiedString: Identifiable { let id: String }
+struct IdentifiedString: Identifiable, Hashable { let id: String }
 
 private struct MemberRow: View {
     let member: Member
@@ -142,6 +142,7 @@ struct UserProfileSheet: View {
     @Environment(\.theme) private var theme
     @State private var name: String?
     @State private var avatarUrl: String?
+    @State private var statusText: String?
     @State private var rights = RoleRights(ownLevel: 0, canEditLevels: false)
     @State private var level: Int64 = 0
     @State private var isMember = false
@@ -170,6 +171,12 @@ struct UserProfileSheet: View {
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textMuted)
                             .textSelection(.enabled)
+                        if let statusText {
+                            Text(statusText)
+                                .font(.wizard(WZ.FontSize.md))
+                                .foregroundStyle(theme.textSecondary)
+                                .multilineTextAlignment(.center)
+                        }
                         if isMember, let badge = RoleBadge(level: level) { badge }
                     }
                     .frame(maxWidth: .infinity)
@@ -218,7 +225,7 @@ struct UserProfileSheet: View {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
@@ -265,9 +272,11 @@ struct UserProfileSheet: View {
                 canBan = permissions.ban && level < rights.ownLevel
             }
         }
-        if name == nil || avatarUrl == nil, let profile = await session.profile(of: userId) {
+        if let profile = await session.profile(of: userId) {
             name = name ?? profile.displayName
             avatarUrl = avatarUrl ?? profile.avatarUrl
+            let expired = profile.customStatus?.expiresAt.map { Double($0) / 1000 < Date.now.timeIntervalSince1970 } ?? false
+            statusText = expired ? nil : profile.customStatus?.text
         }
     }
 
@@ -410,7 +419,7 @@ struct UserPickerView: View {
                     }
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
     }
 

@@ -67,6 +67,7 @@ struct WizardTheme {
     var textSecondary: Color { colors.textSecondary }
     var textMuted: Color { colors.textMuted }
     var textOnAccent: Color { colors.textOnAccent }
+    var control: Color { colors.textPrimary }
     var border: Color { colors.borderDefault }
     var msgMineBg: Color { colors.messageMine }
     var msgOtherBg: Color { colors.messageOther }

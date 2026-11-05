@@ -54,7 +54,7 @@ struct ExploreView: View {
                     Button(String(localized: "common.done")) { dismiss() }
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
         }
         .task {
             guard model == nil, let client = session.client else { return }

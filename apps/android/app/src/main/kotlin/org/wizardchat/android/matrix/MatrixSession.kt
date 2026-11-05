@@ -8,6 +8,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
@@ -16,6 +17,7 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.EncryptionStatus
 import org.wizardchat.core.IdentityProvider
+import org.wizardchat.core.CustomStatus
 import org.wizardchat.core.Presence
 import org.wizardchat.core.PendingLogin
 import org.wizardchat.core.ServerInfo
@@ -26,7 +28,6 @@ import org.wizardchat.core.SyncState
 import org.wizardchat.core.WizardClient
 import org.wizardchat.core.WizardError
 
-/** The signed-in account and its sync */
 class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     sealed interface State {
         data object Restoring : State
@@ -40,7 +41,16 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     var userId by mutableStateOf<String?>(null)
         private set
     var displayName by mutableStateOf<String?>(null)
+        private set
     var avatarUrl by mutableStateOf<String?>(null)
+        private set
+    var customStatus by mutableStateOf<CustomStatus?>(null)
+        private set
+    private var presenceVisible = true
+    private var statusExpiry: Job? = null
+    var accounts by mutableStateOf<List<Account>>(emptyList())
+        private set
+    var isAddingAccount by mutableStateOf(false)
     var syncState by mutableStateOf(SyncState.idle)
         private set
     var encryption by mutableStateOf<EncryptionStatus?>(null)
@@ -58,6 +68,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     private var subscriptions = listOf<Subscription>()
     private var pendingLogin: Triple<PendingLogin, String, StoreConfig>? = null
 
+    data class Account(val userId: String, val displayName: String?, val avatarUrl: String?)
+
     val requireClient: WizardClient
         get() = client ?: throw WizardError("notSignedIn", L10n.format("common.somethingWentWrong"))
 
@@ -69,22 +81,53 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         }
         isRestoring = true
         try {
-            val stored = SessionStore.load()
-            if (stored == null) {
-                state = State.LoggedOut
-                return
+            reloadAccounts()
+            while (true) {
+                val stored = SessionStore.active() ?: break
+                try {
+                    val client = WizardClient.restore(stored.session, stored.store)
+                    SessionStore.setActive(stored.session.userId)
+                    start(client, stored)
+                    return
+                } catch (error: WizardError) {
+                    // Only forget the account when the server says it's gone; anything else (offline,
+                    // a bug) keeps it so the user isn't signed out
+                    if (error.errcode != "M_UNKNOWN_TOKEN") {
+                        state = State.RestoreFailed(error.message)
+                        return
+                    }
+                    SessionStore.remove(stored.session.userId)
+                    MessageNotifier.shared.removeDelivered(stored.session.userId)
+                    reloadAccounts()
+                }
             }
-            try {
-                val client = WizardClient.restore(stored.session, stored.store)
-                start(client, stored)
-            } catch (error: WizardError) {
-                // Only forget the account when the server says it's gone; anything else (offline,
-                // a bug) keeps it so the user isn't signed out
-                if (error.errcode == "M_UNKNOWN_TOKEN") forget(stored) else state = State.RestoreFailed(error.message)
-            }
+            state = State.LoggedOut
         } finally {
             isRestoring = false
         }
+    }
+
+    private fun reloadAccounts() {
+        accounts = SessionStore.all().map { Account(it.session.userId, it.displayName, it.avatarUrl) }
+    }
+
+    suspend fun switchAccount(userId: String) {
+        if (userId == this.userId || isRestoring || accounts.none { it.userId == userId }) return
+        close()
+        SessionStore.setActive(userId)
+        state = State.Restoring
+        restore()
+    }
+
+    fun setProfile(displayName: String?, avatarUrl: String?) {
+        this.displayName = displayName
+        this.avatarUrl = avatarUrl
+        val stored = stored ?: return
+        if (stored.displayName == displayName && stored.avatarUrl == avatarUrl) return
+        val updated = stored.copy(displayName = displayName, avatarUrl = avatarUrl)
+        this.stored = updated
+        SessionStore.save(updated)
+        reloadAccounts()
     }
 
     suspend fun retryRestore() {
@@ -183,7 +226,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
     suspend fun logout() {
         runCatching { client?.logout() }
-        stored?.let(::forget)
+        stored?.let { forget(it) }
     }
 
     suspend fun loadSyncedSettings(): Map<String, JsonElement>? =
@@ -196,25 +239,84 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     }
 
     suspend fun applyPresence(visible: Boolean) {
-        runCatching { client?.setPresence(if (visible) Presence.online else Presence.offline) }
+        presenceVisible = visible
+        runCatching { client?.setPresence(if (visible) Presence.online else Presence.offline, customStatus?.text) }
+    }
+
+    suspend fun setCustomStatus(text: String, expiresAt: Long?) {
+        val trimmed = text.trim()
+        val presence = if (presenceVisible) Presence.online else Presence.offline
+        if (trimmed.isEmpty()) {
+            requireClient.clearCustomStatus(presence)
+            showCustomStatus(null)
+        } else {
+            requireClient.setCustomStatus(trimmed, expiresAt?.toDouble(), presence)
+            showCustomStatus(CustomStatus(trimmed, expiresAt))
+        }
+    }
+
+    private fun showCustomStatus(status: CustomStatus?) {
+        statusExpiry?.cancel()
+        val expiresAt = status?.expiresAt
+        if (expiresAt != null && expiresAt <= System.currentTimeMillis()) {
+            customStatus = null
+            return
+        }
+        customStatus = status
+        if (expiresAt == null) return
+        statusExpiry = scope.launch {
+            delay(expiresAt - System.currentTimeMillis())
+            runCatching { setCustomStatus("", null) }
+        }
     }
 
     suspend fun refreshProfile() {
-        val profile = runCatching { client?.ownProfile() }.getOrNull() ?: return
-        displayName = profile.displayName
-        avatarUrl = profile.avatarUrl
+        val client = client ?: return
+        val profile = runCatching { client.ownProfile() }.getOrNull() ?: return
+        if (this.client === client) {
+            setProfile(profile.displayName, profile.avatarUrl)
+            showCustomStatus(profile.customStatus)
+        }
     }
 
-    private fun remember(client: WizardClient, folder: String, store: StoreConfig) {
+    private suspend fun remember(client: WizardClient, folder: String, store: StoreConfig) {
         val stored = StoredSession(client.session, folder, store.passphrase ?: "")
+        close()
+        SessionStore.all().firstOrNull { it.session.userId == stored.session.userId }
+            ?.takeIf { it.storeFolder != folder }
+            ?.let { SessionStore.removeStore(it.storeFolder) }
         SessionStore.save(stored)
+        SessionStore.setActive(stored.session.userId)
+        reloadAccounts()
+        isAddingAccount = false
         start(client, stored)
+    }
+
+    private suspend fun close() {
+        subscriptions.forEach { it.cancel() }
+        subscriptions = emptyList()
+        roomList?.stop()
+        roomList = null
+        media = null
+        val client = client
+        this.client = null
+        stored = null
+        userId = null
+        displayName = null
+        avatarUrl = null
+        statusExpiry?.cancel()
+        customStatus = null
+        encryption = null
+        syncState = SyncState.idle
+        runCatching { client?.stopSync() }
     }
 
     private fun start(client: WizardClient, stored: StoredSession) {
         this.client = client
         this.stored = stored
         userId = client.userId
+        displayName = stored.displayName
+        avatarUrl = stored.avatarUrl
         val roomList = RoomListModel(client, scope)
         this.roomList = roomList
         media = MediaLoader(client)
@@ -246,24 +348,17 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                 stored = updated
                 scope.launch(Dispatchers.IO) { SessionStore.save(updated) }
             }
-            is SessionEvent.Invalid -> stored?.let(::forget)
+            is SessionEvent.Invalid -> stored?.let { scope.launch { forget(it) } }
         }
     }
 
-    private fun forget(stored: StoredSession) {
-        subscriptions.forEach { it.cancel() }
-        subscriptions = emptyList()
-        roomList?.stop()
-        roomList = null
-        media = null
-        client = null
-        this.stored = null
-        SessionStore.removeStore(stored.storeFolder)
-        SessionStore.clear()
-        userId = null
-        displayName = null
-        avatarUrl = null
-        state = State.LoggedOut
+    private suspend fun forget(stored: StoredSession) {
+        close()
+        SessionStore.remove(stored.session.userId)
+        MessageNotifier.shared.removeDelivered(stored.session.userId)
+        reloadAccounts()
+        state = State.Restoring
+        restore()
     }
 
     companion object {

@@ -42,6 +42,9 @@ targets:
         buildPhase: resources
       - path: ../../packages/sounds/raw
         buildPhase: resources
+      - path: ../../whatsnew
+        type: folder
+        buildPhase: resources
     info:
       path: WizardChat/Info.plist
       properties:
@@ -80,9 +83,9 @@ targets:
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         # Usage descriptions are iOS-only text, so they live here rather than in packages/i18n
-        INFOPLIST_KEY_NSMicrophoneUsageDescription: 'WizardChat uses the microphone for voice rooms and voice messages.'
-        INFOPLIST_KEY_NSCameraUsageDescription: 'WizardChat uses the camera for video in voice rooms and calls.'
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'WizardChat uses your location when you choose to share it in a chat.'
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: 'WizardChat uses your microphone for calls, voice rooms and voice messages.'
+        INFOPLIST_KEY_NSCameraUsageDescription: 'WizardChat uses your camera for video calls and to scan QR codes when you sign in.'
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'WizardChat uses your location only when you share it in a chat.'
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: 'AppIcon-Parrot AppIcon-Hallow'
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES

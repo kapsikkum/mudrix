@@ -349,7 +349,7 @@ struct WatchTogetherStartSheet: View {
                     }
                 }
             }
-            .tint(theme.accent)
+            .tint(theme.control)
             .navigationTitle(String(localized: "call.watchTogether.watch"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

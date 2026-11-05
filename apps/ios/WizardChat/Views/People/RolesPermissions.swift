@@ -71,7 +71,7 @@ struct RoleMenu: View {
                     }
                 } label: {
                     if currentLevel == level.rawValue {
-                        Label(level.title, image: "ph-check-bold")
+                        Label(menu: level.title, icon: "ph-check-bold")
                     } else {
                         Text(level.title)
                     }
@@ -197,7 +197,7 @@ struct RolesPermissionsView: View {
                 Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
             }
         }
-        .tint(theme.accent)
+        .tint(theme.control)
         .navigationTitle(String(localized: "room.settings.permissions.title"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }

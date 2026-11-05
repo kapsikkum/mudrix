@@ -148,6 +148,7 @@ fun ComposerView(
     editing: ChatEntry?,
     onEditingChange: (ChatEntry?) -> Unit,
     onTyping: (Boolean) -> Unit,
+    threadRoot: String? = null,
 ) {
     val session = LocalSession.current
     val context = LocalContext.current
@@ -176,7 +177,7 @@ fun ComposerView(
     val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
     val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
     val hasSelection = !draft.selection.collapsed
-    val draftKey = "draft.${room.id}"
+    val draftKey = threadRoot?.let { "draft.${room.id}.$it" } ?: "draft.${room.id}"
 
     val currentEditing by rememberUpdatedState(editing)
     val currentOnTyping by rememberUpdatedState(onTyping)
@@ -369,6 +370,7 @@ fun ComposerView(
                 put("h", bounds.outHeight)
                 put("size", data.size)
                 put("mimetype", if (isGif) "image/gif" else if (data.startsWith(0x89, 0x50)) "image/png" else "image/webp")
+                if (isAnimatedImage(data)) put("is_animated", true)
             }
         } ?: JsonObject(emptyMap())
         timeline.sendSticker(sticker.url, sticker.text, info, reply)
@@ -503,7 +505,11 @@ fun ComposerView(
                     }
                     InputField(
                         draft,
-                        placeholder = if (editing == null) L10n.format("composer.messageRoom", room.displayName) else tr("composer.editMessage"),
+                        placeholder = when {
+                            editing != null -> tr("composer.editMessage")
+                            threadRoot != null -> tr("thread.composerPlaceholder")
+                            else -> L10n.format("composer.messageRoom", room.displayName)
+                        },
                         modifier = Modifier
                             .focusRequester(focusRequester)
                             .onFocusChanged { focused = it.isFocused }
@@ -873,5 +879,18 @@ private fun RecordingBar(recorder: VoiceRecorder, modifier: Modifier, onSend: ()
         Box(Modifier.clip(CircleShape).clickable(onClick = onSend)) {
             PhIcon("arrow-circle-up", PhWeight.fill, size = WZ.SizeIcon.xl, tint = theme.accent, contentDescription = tr("composer.voice.send"))
         }
+    }
+}
+
+private fun isAnimatedImage(data: ByteArray): Boolean {
+    fun ascii(at: Int, text: String) = at + text.length <= data.size && text.indices.all { data[at + it] == text[it].code.toByte() }
+    return when {
+        ascii(0, "GIF") -> (0 until data.size - 1).count { data[it] == 0x21.toByte() && data[it + 1] == 0xF9.toByte() } > 1
+        ascii(0, "RIFF") && ascii(8, "WEBPVP8X") -> data.size > 20 && data[20].toInt() and 0x02 != 0
+        data.startsWith(0x89, 0x50) -> {
+            val idat = (0 until data.size - 4).firstOrNull { ascii(it, "IDAT") } ?: data.size
+            (0 until idat - 4).any { ascii(it, "acTL") }
+        }
+        else -> false
     }
 }

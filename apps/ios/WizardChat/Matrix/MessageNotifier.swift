@@ -7,6 +7,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
     var activeRoomId: String?
     @Published var roomToOpen: String?
     @Published var eventToFocus: (roomId: String, eventId: String)?
+    @Published var accountToOpen: String?
     private weak var prefs: AppPreferences?
     private weak var roomList: RoomListModel?
     private var subscription: Subscription?
@@ -60,32 +61,46 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         if content.body.isEmpty { content.body = String(localized: "notifications.newMessage") }
         content.threadIdentifier = notification.roomId
         content.categoryIdentifier = Self.messageCategory
-        content.userInfo = ["roomId": notification.roomId]
+        var info = ["roomId": notification.roomId, "eventId": notification.eventId]
+        if let userId = roomList?.client.userId { info["userId"] = userId }
+        content.userInfo = info
         if prefs.notificationSounds && notification.sound { content.sound = .default }
         if notification.highlight { content.interruptionLevel = .timeSensitive }
-        let request = UNNotificationRequest(identifier: notification.eventId, content: content, trigger: nil)
+        let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|\(notification.eventId)",
+                                            content: content, trigger: nil)
         try? await UNUserNotificationCenter.current().add(request)
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                            didReceive response: UNNotificationResponse) async {
-        guard let roomId = response.notification.request.content.userInfo["roomId"] as? String else { return }
-        switch response.actionIdentifier {
-        case "reply":
-            guard let text = (response as? UNTextInputNotificationResponse)?.userText
-                .trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
-            await reply(text, in: roomId)
-        case "markRead":
-            if let room = await room(roomId) { await roomList?.setRead(room, read: true) }
-            center.removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
-        default:
-            await MainActor.run { self.roomToOpen = roomId }
+                                            didReceive response: UNNotificationResponse,
+                                            withCompletionHandler completionHandler: @escaping () -> Void) {
+        let info = response.notification.request.content.userInfo
+        let action = response.actionIdentifier
+        let identifier = response.notification.request.identifier
+        let text = (response as? UNTextInputNotificationResponse)?.userText
+        let done = Unchecked(value: completionHandler)
+        Task { @MainActor in
+            defer { done.value() }
+            guard let roomId = info["roomId"] as? String else { return }
+            let current = roomList?.client.userId ?? SessionStore.active()?.session.userId
+            if let userId = info["userId"] as? String, userId != current { accountToOpen = userId }
+            switch action {
+            case "reply":
+                guard let text = text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
+                await reply(text, in: roomId)
+            case "markRead":
+                if let room = await room(roomId) { await roomList?.setRead(room, read: true) }
+                center.removeDeliveredNotifications(withIdentifiers: [identifier])
+            default:
+                if let eventId = info["eventId"] as? String { eventToFocus = (roomId, eventId) }
+                roomToOpen = roomId
+            }
         }
     }
 
     private func room(_ roomId: String) async -> RoomSummary? {
-        for _ in 0..<40 {
-            if let room = roomList?.room(id: roomId) { return room }
+        for _ in 0..<60 {
+            if accountToOpen == nil, let room = roomList?.room(id: roomId) { return room }
             try? await Task.sleep(for: .milliseconds(250))
         }
         return nil
@@ -99,17 +114,32 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         try? await Task.sleep(for: .seconds(2))
     }
 
+    static func removeDelivered(userId: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getDeliveredNotifications { delivered in
+            let ids = delivered.filter { $0.request.content.userInfo["userId"] as? String == userId }
+                .map(\.request.identifier)
+            center.removeDeliveredNotifications(withIdentifiers: ids)
+        }
+    }
+
     func updateBadge(_ count: Int) {
         UNUserNotificationCenter.current().setBadgeCount(count)
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                            willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        await MainActor.run {
+                                            willPresent notification: UNNotification,
+                                            withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let done = Unchecked(value: completionHandler)
+        Task { @MainActor in
             var options: UNNotificationPresentationOptions = []
             if prefs?.notificationBanners == true { options.formUnion([.banner, .list]) }
             if prefs?.notificationSounds == true { options.insert(.sound) }
-            return options
+            done.value(options)
         }
     }
+}
+
+private struct Unchecked<Value>: @unchecked Sendable {
+    let value: Value
 }

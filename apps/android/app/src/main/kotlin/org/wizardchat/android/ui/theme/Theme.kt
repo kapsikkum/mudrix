@@ -67,6 +67,7 @@ class WizardTheme(val id: WZ.Theme) {
     val textSecondary get() = colors.textSecondary
     val textMuted get() = colors.textMuted
     val textOnAccent get() = colors.textOnAccent
+    val control get() = colors.textPrimary
     val border get() = colors.borderDefault
     val msgMineBg get() = colors.messageMine
     val msgOtherBg get() = colors.messageOther
