@@ -154,6 +154,7 @@ const RECONNECT_GIVE_UP_MS = 120_000;
 const SUBSCRIBE_RETRY_MS = 5000;
 const REACTION_VISIBLE_MS = 3000;
 const NEW_JOINER_MIC_WINDOW_MS = 2000;
+const KEY_CHECK_MS = 2000;
 
 function roomOptions(
   devices: PreferredDevices,
@@ -188,23 +189,27 @@ function roomOptions(
   };
 }
 
+interface InboundStats {
+  type: string;
+  framesDecoded?: number;
+  totalSamplesReceived?: number;
+  concealedSamples?: number;
+}
+
 const STREAM_WATCH_TOPIC = 'org.wizardchat.stream-watch';
 
 export function listDevices(kind: DeviceKind): Promise<MediaDeviceInfo[]> {
   return LivekitRoom.getLocalDevices(kind, true);
 }
 
-/**
- * The media side of a call: LiveKit connections to every SFU the participants publish to,
- * with signalling and media keys from the core.
- */
 export class CallMedia {
   private snapshot: CallSnapshot;
   private listeners = new Set<() => void>();
   private dataListeners = new Set<DataListener>();
   private streamWatchers = new Set<string>();
-  /** Participants whose media we can't decrypt (no or wrong key yet) */
   private keyIssues = new Set<string>();
+  private decodedCounts = new Map<string, number>();
+  private keyCheckTimer?: ReturnType<typeof setInterval>;
   private updateQueued = false;
   private session: CallSession | null = null;
   private run: Subscription | null = null;
@@ -719,6 +724,8 @@ export class CallMedia {
         if (identity && (reason === 'MissingKey' || reason === 'InvalidKey')) {
           if (!this.keyIssues.has(identity)) {
             this.keyIssues.add(identity);
+            this.decodedCounts.delete(identity);
+            this.keyCheckTimer ??= setInterval(() => void this.checkKeyIssues(), KEY_CHECK_MS);
             update();
           }
         }
@@ -838,6 +845,47 @@ export class CallMedia {
     else publication.setSubscribed(true);
   }
 
+  private async checkKeyIssues() {
+    for (const identity of this.keyIssues) {
+      const decoded = await this.decodedMedia(identity);
+      if (decoded === undefined) continue;
+      const before = this.decodedCounts.get(identity);
+      this.decodedCounts.set(identity, decoded);
+      if (before !== undefined && decoded > before && this.keyIssues.delete(identity))
+        this.scheduleUpdate();
+    }
+    for (const identity of this.decodedCounts.keys())
+      if (!this.keyIssues.has(identity)) this.decodedCounts.delete(identity);
+    if (!this.keyIssues.size) this.stopKeyCheck();
+  }
+
+  private async decodedMedia(identity: string): Promise<number | undefined> {
+    const tracks = [...this.connections.values()].flatMap((connection) => {
+      const participant = connection.room.remoteParticipants.get(identity);
+      if (!participant) return [];
+      return [...participant.trackPublications.values()].flatMap((p) => (p.track ? [p.track] : []));
+    });
+    if (!tracks.length) return undefined;
+    let total = 0;
+    for (const track of tracks) {
+      const report = await track.getRTCStatsReport().catch(() => undefined);
+      report?.forEach((stats: InboundStats) => {
+        if (stats.type !== 'inbound-rtp') return;
+        total +=
+          (stats.framesDecoded ?? 0) +
+          (stats.totalSamplesReceived ?? 0) -
+          (stats.concealedSamples ?? 0);
+      });
+    }
+    return total;
+  }
+
+  private stopKeyCheck() {
+    if (this.keyCheckTimer) clearInterval(this.keyCheckTimer);
+    this.keyCheckTimer = undefined;
+    this.decodedCounts.clear();
+  }
+
   private resubscribe(identity: string) {
     for (const connection of this.connections.values()) {
       const participant = connection.room.remoteParticipants.get(identity);
@@ -913,6 +961,7 @@ export class CallMedia {
     this.run?.cancel();
     this.run = null;
     this.keyIssues.clear();
+    this.stopKeyCheck();
     window.removeEventListener('online', this.onOnline);
     if (this.subscribeRetry) clearTimeout(this.subscribeRetry);
     this.subscribeRetry = undefined;
