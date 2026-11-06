@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Fehler beim Aktualisieren der Berechtigungen: {{error}}",
         "showMore_one": "+ 1 weiteres anzeigen",
         "showMore_other": "+ {{count}} weitere anzeigen",
-        "showLess": "Weniger anzeigen"
+        "showLess": "Weniger anzeigen",
+        "promoteToOwnLevelConfirm": "Befördern",
+        "promoteToOwnLevelMessage": "{{name}} hat dann dieselben Rechte wie du. Du kannst das nicht wieder senken oder die Person entfernen.",
+        "promoteToOwnLevelTitle": "{{name}} zu {{level}} machen?"
       },
       "bridges": {
         "title": "Bridges",
@@ -476,6 +479,28 @@
         "intro": "Ordne die Räume, lege Sprachkanäle fest und verschiebe sie zwischen Kategorien. Diese Reihenfolge sehen alle in der modernen Raumliste.",
         "moveTo": "Verschieben nach...",
         "title": "Räume"
+      },
+      "roles": {
+        "add": "Rolle hinzufügen",
+        "assign": "Rollen ändern",
+        "color": "Rollenfarbe",
+        "delete": "Rolle löschen",
+        "deleteMessage": "Die Rolle wird bei allen entfernt, die sie haben.",
+        "deletePartial": "Rolle gelöscht, aber bei {{failed}} von {{total}} Mitgliedern ging die Aktualisierung schief: {{error}}",
+        "deleteTitle": "{{name}} löschen?",
+        "memberCount_one": "{{count}} Mitglied",
+        "memberCount_other": "{{count}} Mitglieder",
+        "moveDown": "Nach unten",
+        "moveUp": "Nach oben",
+        "name": "Rollenname",
+        "newRole": "Neue Rolle",
+        "note": "Rollen sind Namen und Farben für Personen in diesem Space. Sie ändern nicht, was jemand tun darf.",
+        "readOnly": "Nur Moderatoren und Admins können Rollen ändern.",
+        "reset": "Zurücksetzen",
+        "saveFailed": "Rollen konnten nicht gespeichert werden: {{error}}",
+        "saved": "Rollen gespeichert",
+        "separate": "Separat anzeigen",
+        "title": "Rollen"
       }
     },
     "space": {

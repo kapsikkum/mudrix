@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Falha ao atualizar as permissões: {{error}}",
         "showMore_one": "+ mostrar mais 1",
         "showMore_other": "+ mostrar mais {{count}}",
-        "showLess": "Mostrar menos"
+        "showLess": "Mostrar menos",
+        "promoteToOwnLevelConfirm": "Promover",
+        "promoteToOwnLevelMessage": "{{name}} terá o mesmo poder que você. Você não poderá reduzi-lo de novo nem removê-lo.",
+        "promoteToOwnLevelTitle": "Tornar {{name}} {{level}}?"
       },
       "bridges": {
         "title": "Pontes",
@@ -476,6 +479,28 @@
         "intro": "Ordene as salas, escolha quais são canais de voz e mova-as entre categorias. As pessoas veem essa ordem na lista de salas Moderna.",
         "moveTo": "Mover para...",
         "title": "Salas"
+      },
+      "roles": {
+        "add": "Adicionar função",
+        "assign": "Alterar funções",
+        "color": "Cor da função",
+        "delete": "Excluir função",
+        "deleteMessage": "Ela é removida de todos que a têm.",
+        "deletePartial": "Função excluída, mas a atualização de {{failed}} de {{total}} membros falhou: {{error}}",
+        "deleteTitle": "Excluir {{name}}?",
+        "memberCount_one": "{{count}} membro",
+        "memberCount_other": "{{count}} membros",
+        "moveDown": "Mover para baixo",
+        "moveUp": "Mover para cima",
+        "name": "Nome da função",
+        "newRole": "Nova função",
+        "note": "Funções são nomes e cores para as pessoas neste espaço. Elas não mudam o que cada um pode fazer.",
+        "readOnly": "Só moderadores e administradores podem alterar funções.",
+        "reset": "Restaurar padrão",
+        "saveFailed": "Não foi possível salvar as funções: {{error}}",
+        "saved": "Funções salvas",
+        "separate": "Mostrar separadamente",
+        "title": "Funções"
       }
     },
     "space": {

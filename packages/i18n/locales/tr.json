@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "İzinler güncellenemedi: {{error}}",
         "showMore_one": "+ 1 tane daha göster",
         "showMore_other": "+ {{count}} tane daha göster",
-        "showLess": "Daha azını göster"
+        "showLess": "Daha azını göster",
+        "promoteToOwnLevelConfirm": "Yükselt",
+        "promoteToOwnLevelMessage": "{{name}} sizinle aynı yetkiye sahip olacak. Bunu tekrar düşüremez ya da kişiyi çıkaramazsınız.",
+        "promoteToOwnLevelTitle": "{{name}} kişisini {{level}} yapmak istiyor musunuz?"
       },
       "bridges": {
         "title": "Köprüler",
@@ -476,6 +479,28 @@
         "intro": "Odaları sıralayın, hangilerinin sesli kanal olacağını seçin ve kategoriler arasında taşıyın. İnsanlar bu sırayı Modern oda listesinde görür.",
         "moveTo": "Şuraya taşı...",
         "title": "Odalar"
+      },
+      "roles": {
+        "add": "Rol ekle",
+        "assign": "Rolleri değiştir",
+        "color": "Rol rengi",
+        "delete": "Rolü sil",
+        "deleteMessage": "Rol, sahip olan herkesten alınır.",
+        "deletePartial": "Rol silindi, ancak {{total}} üyeden {{failed}} tanesi güncellenemedi: {{error}}",
+        "deleteTitle": "{{name}} silinsin mi?",
+        "memberCount_one": "{{count}} üye",
+        "memberCount_other": "{{count}} üye",
+        "moveDown": "Aşağı taşı",
+        "moveUp": "Yukarı taşı",
+        "name": "Rol adı",
+        "newRole": "Yeni rol",
+        "note": "Roller, bu alandaki insanlar için isimler ve renklerdir. Kimsenin neyi yapabileceğini değiştirmezler.",
+        "readOnly": "Rolleri yalnızca moderatörler ve yöneticiler değiştirebilir.",
+        "reset": "Varsayılana sıfırla",
+        "saveFailed": "Roller kaydedilemedi: {{error}}",
+        "saved": "Roller kaydedildi",
+        "separate": "Ayrı göster",
+        "title": "Roller"
       }
     },
     "space": {

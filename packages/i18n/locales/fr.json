@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Échec de la mise à jour des autorisations : {{error}}",
         "showMore_one": "+ afficher 1 de plus",
         "showMore_other": "+ afficher {{count}} de plus",
-        "showLess": "Afficher moins"
+        "showLess": "Afficher moins",
+        "promoteToOwnLevelConfirm": "Promouvoir",
+        "promoteToOwnLevelMessage": "{{name}} aura le même pouvoir que vous. Vous ne pourrez ni le réduire ni l'exclure.",
+        "promoteToOwnLevelTitle": "Faire de {{name}} {{level}} ?"
       },
       "bridges": {
         "title": "Passerelles",
@@ -476,6 +479,28 @@
         "intro": "Ordonnez les salons, choisissez lesquels sont des salons vocaux et déplacez-les entre catégories. Cet ordre apparaît dans la liste des salons Moderne.",
         "moveTo": "Déplacer vers...",
         "title": "Salons"
+      },
+      "roles": {
+        "add": "Ajouter un rôle",
+        "assign": "Modifier les rôles",
+        "color": "Couleur du rôle",
+        "delete": "Supprimer le rôle",
+        "deleteMessage": "Il sera retiré à toutes les personnes qui l'ont.",
+        "deletePartial": "Rôle supprimé, mais la mise à jour de {{failed}} membres sur {{total}} a échoué : {{error}}",
+        "deleteTitle": "Supprimer {{name}} ?",
+        "memberCount_one": "{{count}} membre",
+        "memberCount_other": "{{count}} membres",
+        "moveDown": "Descendre",
+        "moveUp": "Monter",
+        "name": "Nom du rôle",
+        "newRole": "Nouveau rôle",
+        "note": "Les rôles sont des noms et des couleurs pour les membres de cet espace. Ils ne changent rien à ce que chacun peut faire.",
+        "readOnly": "Seuls les modérateurs et les administrateurs peuvent modifier les rôles.",
+        "reset": "Rétablir les valeurs par défaut",
+        "saveFailed": "Impossible d'enregistrer les rôles : {{error}}",
+        "saved": "Rôles enregistrés",
+        "separate": "Afficher séparément",
+        "title": "Rôles"
       }
     },
     "space": {

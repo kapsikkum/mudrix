@@ -107,6 +107,8 @@ import { ReplyMediaThumb, isReplyMediaEvent } from './ReplyMediaThumb';
 import { extractPollData } from './PollViewer';
 import * as css from '../Timeline.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoomRolesContext } from '@/app/features/space/RoomRolesContext';
+import { builtinKeyOf, roleColorOf } from '@/app/features/space/spaceRoles';
 
 const FLOATING_OVERLAY_SELECTOR =
   '[data-emoji-picker], [data-popover], [role="menu"], [role="listbox"], [role="dialog"]';
@@ -233,7 +235,16 @@ export const Message = memo(function Message({
   const eventKey = entryEventId(event);
 
   const colorFor = useUsernameColor();
-  const senderColor = colorFor(senderId);
+  const { roles: roomRoles, settings: roomSettings } = useRoomRolesContext();
+  // A role's colour (a Modern space) replaces the name colour everyone gets by default.
+  const senderColor =
+    (senderId
+      ? roleColorOf(
+          roomRoles,
+          senderId,
+          builtinKeyOf(roomSettings, senderId, members.get(senderId)?.powerLevel ?? 0)
+        )
+      : undefined) ?? colorFor(senderId);
   const senderNameStyle = useMemo(
     () => (senderColor ? { color: senderColor } : undefined),
     [senderColor]

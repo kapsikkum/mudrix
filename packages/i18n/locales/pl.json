@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Nie udało się zaktualizować uprawnień: {{error}}",
         "showMore_one": "+ pokaż 1 więcej",
         "showMore_other": "+ pokaż więcej: {{count}}",
-        "showLess": "Pokaż mniej"
+        "showLess": "Pokaż mniej",
+        "promoteToOwnLevelConfirm": "Awansuj",
+        "promoteToOwnLevelMessage": "{{name}} będzie mieć takie same uprawnienia jak ty. Nie będziesz mógł ich obniżyć ani usunąć tej osoby.",
+        "promoteToOwnLevelTitle": "Nadać {{name}} rangę {{level}}?"
       },
       "bridges": {
         "title": "Mostki",
@@ -476,6 +479,28 @@
         "intro": "Ułóż pokoje w kolejności, wybierz, które są kanałami głosowymi, i przenoś je między kategoriami. Ludzie widzą tę kolejność na nowoczesnej liście pokojów.",
         "moveTo": "Przenieś do...",
         "title": "Pokoje"
+      },
+      "roles": {
+        "add": "Dodaj rolę",
+        "assign": "Zmień role",
+        "color": "Kolor roli",
+        "delete": "Usuń rolę",
+        "deleteMessage": "Zostanie odebrana wszystkim, którzy ją mają.",
+        "deletePartial": "Rola usunięta, ale aktualizacja {{failed}} z {{total}} członków się nie udała: {{error}}",
+        "deleteTitle": "Usunąć {{name}}?",
+        "memberCount_one": "{{count}} członek",
+        "memberCount_other": "{{count}} członka",
+        "moveDown": "Przesuń w dół",
+        "moveUp": "Przesuń w górę",
+        "name": "Nazwa roli",
+        "newRole": "Nowa rola",
+        "note": "Role to nazwy i kolory dla osób w tej przestrzeni. Nie zmieniają tego, co kto może robić.",
+        "readOnly": "Tylko moderatorzy i administratorzy mogą zmieniać role.",
+        "reset": "Przywróć domyślne",
+        "saveFailed": "Nie udało się zapisać ról: {{error}}",
+        "saved": "Zapisano role",
+        "separate": "Pokaż osobno",
+        "title": "Role"
       }
     },
     "space": {

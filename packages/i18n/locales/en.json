@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Failed to update permissions: {{error}}",
         "showMore_one": "+ show 1 more",
         "showMore_other": "+ show {{count}} more",
-        "showLess": "Show less"
+        "showLess": "Show less",
+        "promoteToOwnLevelConfirm": "Promote",
+        "promoteToOwnLevelMessage": "{{name}} will have the same power as you. You won't be able to lower it again or remove them.",
+        "promoteToOwnLevelTitle": "Make {{name}} {{level}}?"
       },
       "bridges": {
         "title": "Bridges",
@@ -476,6 +479,28 @@
         "intro": "Order the rooms, choose which are voice channels, and move them between categories. People see this order in the Modern room list.",
         "moveTo": "Move to...",
         "title": "Rooms"
+      },
+      "roles": {
+        "add": "Add role",
+        "assign": "Change roles",
+        "color": "Role colour",
+        "delete": "Delete role",
+        "deleteMessage": "It is taken off everyone who has it.",
+        "deletePartial": "Role deleted, but updating {{failed}} of {{total}} members failed: {{error}}",
+        "deleteTitle": "Delete {{name}}?",
+        "memberCount_one": "{{count}} member",
+        "memberCount_other": "{{count}} members",
+        "moveDown": "Move down",
+        "moveUp": "Move up",
+        "name": "Role name",
+        "newRole": "New role",
+        "note": "Roles are names and colours for people in this space. They do not change what anyone is allowed to do.",
+        "readOnly": "Only moderators and admins can change roles.",
+        "reset": "Reset to default",
+        "saveFailed": "Couldn't save roles: {{error}}",
+        "saved": "Roles saved",
+        "separate": "Show separately",
+        "title": "Roles"
       }
     },
     "space": {

@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Aggiornamento dei permessi non riuscito: {{error}}",
         "showMore_one": "+ mostra 1 altro",
         "showMore_other": "+ mostra altri {{count}}",
-        "showLess": "Mostra meno"
+        "showLess": "Mostra meno",
+        "promoteToOwnLevelConfirm": "Promuovi",
+        "promoteToOwnLevelMessage": "{{name}} avrà gli stessi poteri tuoi. Non potrai abbassarli di nuovo né rimuoverlo.",
+        "promoteToOwnLevelTitle": "Rendere {{name}} {{level}}?"
       },
       "bridges": {
         "title": "Bridge",
@@ -476,6 +479,28 @@
         "intro": "Ordina le stanze, scegli quali sono canali vocali e spostale tra le categorie. Le persone vedono questo ordine nell'elenco stanze Moderno.",
         "moveTo": "Sposta in...",
         "title": "Stanze"
+      },
+      "roles": {
+        "add": "Aggiungi ruolo",
+        "assign": "Cambia ruoli",
+        "color": "Colore del ruolo",
+        "delete": "Elimina ruolo",
+        "deleteMessage": "Verrà tolto a tutte le persone che lo hanno.",
+        "deletePartial": "Ruolo eliminato, ma l’aggiornamento di {{failed}} membri su {{total}} non è riuscito: {{error}}",
+        "deleteTitle": "Eliminare {{name}}?",
+        "memberCount_one": "{{count}} membro",
+        "memberCount_other": "{{count}} membri",
+        "moveDown": "Sposta giù",
+        "moveUp": "Sposta su",
+        "name": "Nome del ruolo",
+        "newRole": "Nuovo ruolo",
+        "note": "I ruoli sono nomi e colori per le persone di questo spazio. Non cambiano ciò che ciascuno può fare.",
+        "readOnly": "Solo moderatori e amministratori possono modificare i ruoli.",
+        "reset": "Ripristina predefiniti",
+        "saveFailed": "Impossibile salvare i ruoli: {{error}}",
+        "saved": "Ruoli salvati",
+        "separate": "Mostra separatamente",
+        "title": "Ruoli"
       }
     },
     "space": {

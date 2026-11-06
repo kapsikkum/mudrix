@@ -15,6 +15,7 @@ import type { PresenceState } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Avatar } from '@/app/components/Avatar';
 import { useSyncReady } from '@/app/hooks/useSync';
+import type { RoomSettings } from '@wizardchat/core';
 import { useRoomSettings } from '@/app/data';
 import { useMembers } from './useMembers';
 import type { MemberEntry } from './useMembers';
@@ -26,6 +27,8 @@ import {
   isRoleHeader,
 } from './memberRoles';
 import type { RoleSectionItem } from './memberRoles';
+import type { BuiltinRoleKey, SpaceRoles } from '@/app/features/space/spaceRoles';
+import { builtinKeyOf, roleColorOf, useRoomRoles } from '@/app/features/space/spaceRoles';
 import { useUserStatusText } from '@/app/features/status/customStatus';
 import * as css from './MembersList.css';
 
@@ -35,15 +38,24 @@ const MemberRow = memo(function MemberRow({
   roomId,
   showPresence,
   ownPresence,
+  roles,
+  roomSettings,
 }: {
   member: MemberEntry;
   client: ReturnType<typeof getMatrixClientOrNull>;
   roomId: string | null;
   showPresence: boolean;
   ownPresence: PresenceState | undefined;
+  roles: SpaceRoles;
+  roomSettings: RoomSettings | undefined;
 }) {
   const setProfile = useSetAtom(userProfileAtom);
   const localUserId = useAtomValue(userIdAtom);
+  const nameColor = roleColorOf(
+    roles,
+    member.userId,
+    builtinKeyOf(roomSettings, member.userId, member.powerLevel)
+  );
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -90,11 +102,18 @@ const MemberRow = memo(function MemberRow({
         />
         {statusText ? (
           <span className={css.memberText}>
-            <span className={css.memberNameStacked}>{member.displayName}</span>
+            <span
+              className={css.memberNameStacked}
+              style={nameColor ? { color: nameColor } : undefined}
+            >
+              {member.displayName}
+            </span>
             <span className={css.memberStatus}>{statusText}</span>
           </span>
         ) : (
-          <span className={css.memberName}>{member.displayName}</span>
+          <span className={css.memberName} style={nameColor ? { color: nameColor } : undefined}>
+            {member.displayName}
+          </span>
         )}
       </div>
     </Tooltip>
@@ -126,10 +145,40 @@ export function MembersList({ roomId: propRoomId }: MembersListProps = {}) {
       .sort((a, b) => getRoleRank(getRoleKey(b, creators)) - getRoleRank(getRoleKey(a, creators)));
   }, [members, creators]);
 
-  const roleSections = useMemo(
-    () => buildRoleSections(sortedMembers, creators, t),
-    [sortedMembers, creators, t]
-  );
+  const spaceRoles = useRoomRoles(roomId);
+
+  // Roles marked "show separately" get their own heading above the power level groups.
+  const roleSections = useMemo(() => {
+    const hoisted: RoleSectionItem[] = [];
+    const taken = new Set<string>();
+    for (const role of spaceRoles.roles) {
+      if (!role.hoist) continue;
+      const holders = sortedMembers.filter(
+        (m) =>
+          !taken.has(m.userId) &&
+          spaceRoles.byUser.get(m.userId)?.find((r) => r.hoist)?.id === role.id
+      );
+      if (holders.length === 0) continue;
+      hoisted.push({
+        kind: 'role',
+        roleKey: `space-role:${role.id}`,
+        label: role.name,
+        count: holders.length,
+      });
+      for (const member of holders) {
+        taken.add(member.userId);
+        hoisted.push({ kind: 'member', member });
+      }
+    }
+    const rest = taken.size ? sortedMembers.filter((m) => !taken.has(m.userId)) : sortedMembers;
+    // Admin, Moderator and Member can be renamed in the space's Roles settings.
+    const base = buildRoleSections(rest, creators, t).map((item) =>
+      isRoleHeader(item) && spaceRoles.builtin[item.roleKey as BuiltinRoleKey]?.name
+        ? { ...item, label: spaceRoles.builtin[item.roleKey as BuiltinRoleKey]!.name! }
+        : item
+    );
+    return [...hoisted, ...base];
+  }, [sortedMembers, creators, t, spaceRoles]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -199,6 +248,8 @@ export function MembersList({ roomId: propRoomId }: MembersListProps = {}) {
                     roomId={roomId}
                     showPresence={showPresence}
                     ownPresence={ownPresenceGated}
+                    roles={spaceRoles}
+                    roomSettings={settings}
                   />
                 </div>
               );

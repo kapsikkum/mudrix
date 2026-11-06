@@ -365,6 +365,14 @@ export const permRowName = style({
   whiteSpace: 'nowrap',
 });
 
+/** The role at the end of a member row. */
+export const permRowRole = style({
+  marginLeft: 'auto',
+  flexShrink: 0,
+  fontSize: '0.8rem',
+  color: vars.color.textMuted,
+});
+
 export const permRowId = style({
   fontSize: '0.72rem',
   color: vars.color.textMuted,

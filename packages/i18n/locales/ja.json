@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "権限の更新に失敗しました: {{error}}",
         "showMore_one": "+ さらに 1 件表示",
         "showMore_other": "+ さらに {{count}} 件表示",
-        "showLess": "表示を減らす"
+        "showLess": "表示を減らす",
+        "promoteToOwnLevelConfirm": "昇格",
+        "promoteToOwnLevelMessage": "{{name}} はあなたと同じ権限を持ちます。あとから下げたり、削除したりはできません。",
+        "promoteToOwnLevelTitle": "{{name}} を {{level}} にしますか？"
       },
       "bridges": {
         "title": "ブリッジ",
@@ -476,6 +479,28 @@
         "intro": "ルームの並べ替え、ボイスチャンネルの指定、カテゴリ間の移動ができます。この順序はモダンなルームリストに表示されます。",
         "moveTo": "移動先...",
         "title": "ルーム"
+      },
+      "roles": {
+        "add": "ロールを追加",
+        "assign": "ロールを変更",
+        "color": "ロールの色",
+        "delete": "ロールを削除",
+        "deleteMessage": "このロールを持つ全員から外されます。",
+        "deletePartial": "ロールは削除されましたが、{{total}} 人中 {{failed}} 人のメンバーの更新に失敗しました: {{error}}",
+        "deleteTitle": "{{name}} を削除しますか？",
+        "memberCount_one": "{{count}} 人のメンバー",
+        "memberCount_other": "{{count}} 人のメンバー",
+        "moveDown": "下へ移動",
+        "moveUp": "上へ移動",
+        "name": "ロール名",
+        "newRole": "新しいロール",
+        "note": "ロールは、このスペース内の人に付ける名前と色です。付けても、できることは変わりません。",
+        "readOnly": "ロールを変更できるのはモデレーターと管理者のみです。",
+        "reset": "デフォルトに戻す",
+        "saveFailed": "ロールを保存できませんでした: {{error}}",
+        "saved": "ロールを保存しました",
+        "separate": "別に表示",
+        "title": "ロール"
       }
     },
     "space": {

@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "No se pudieron actualizar los permisos: {{error}}",
         "showMore_one": "+ mostrar 1 más",
         "showMore_other": "+ mostrar {{count}} más",
-        "showLess": "Mostrar menos"
+        "showLess": "Mostrar menos",
+        "promoteToOwnLevelConfirm": "Ascender",
+        "promoteToOwnLevelMessage": "{{name}} tendrá el mismo poder que tú. No podrás bajarlo de nuevo ni expulsarle.",
+        "promoteToOwnLevelTitle": "¿Convertir a {{name}} en {{level}}?"
       },
       "bridges": {
         "title": "Puentes",
@@ -476,6 +479,28 @@
         "intro": "Ordena las salas, elige cuáles son canales de voz y muévelas entre categorías. La gente ve este orden en la lista de salas Moderna.",
         "moveTo": "Mover a...",
         "title": "Salas"
+      },
+      "roles": {
+        "add": "Añadir rol",
+        "assign": "Cambiar roles",
+        "color": "Color del rol",
+        "delete": "Eliminar rol",
+        "deleteMessage": "Se quitará a todas las personas que lo tengan.",
+        "deletePartial": "Rol eliminado, pero falló la actualización de {{failed}} de {{total}} miembros: {{error}}",
+        "deleteTitle": "¿Eliminar {{name}}?",
+        "memberCount_one": "{{count}} miembro",
+        "memberCount_other": "{{count}} miembros",
+        "moveDown": "Bajar",
+        "moveUp": "Subir",
+        "name": "Nombre del rol",
+        "newRole": "Nuevo rol",
+        "note": "Los roles son nombres y colores para las personas de este espacio. No cambian lo que cada una puede hacer.",
+        "readOnly": "Solo los moderadores y administradores pueden cambiar los roles.",
+        "reset": "Restablecer valores predeterminados",
+        "saveFailed": "No se pudieron guardar los roles: {{error}}",
+        "saved": "Roles guardados",
+        "separate": "Mostrar por separado",
+        "title": "Roles"
       }
     },
     "space": {

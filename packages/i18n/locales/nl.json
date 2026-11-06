@@ -415,7 +415,10 @@
         "permissionsApplyFailed": "Rechten bijwerken mislukt: {{error}}",
         "showMore_one": "+ 1 meer tonen",
         "showMore_other": "+ {{count}} meer tonen",
-        "showLess": "Minder tonen"
+        "showLess": "Minder tonen",
+        "promoteToOwnLevelConfirm": "Promoveren",
+        "promoteToOwnLevelMessage": "{{name}} krijgt dezelfde macht als jij. Je kunt dit niet meer verlagen of de persoon verwijderen.",
+        "promoteToOwnLevelTitle": "{{name}} {{level}} maken?"
       },
       "bridges": {
         "title": "Bruggen",
@@ -476,6 +479,28 @@
         "intro": "Orden de kamers, kies welke spraakkanalen zijn en verplaats ze tussen categorieën. Mensen zien deze volgorde in de moderne kamerlijst.",
         "moveTo": "Verplaatsen naar...",
         "title": "Kamers"
+      },
+      "roles": {
+        "add": "Rol toevoegen",
+        "assign": "Rollen wijzigen",
+        "color": "Kleur van de rol",
+        "delete": "Rol verwijderen",
+        "deleteMessage": "De rol wordt bij iedereen weggehaald.",
+        "deletePartial": "Rol verwijderd, maar bijwerken van {{failed}} van {{total}} leden mislukte: {{error}}",
+        "deleteTitle": "{{name}} verwijderen?",
+        "memberCount_one": "{{count}} lid",
+        "memberCount_other": "{{count}} leden",
+        "moveDown": "Omlaag",
+        "moveUp": "Omhoog",
+        "name": "Naam van de rol",
+        "newRole": "Nieuwe rol",
+        "note": "Rollen zijn namen en kleuren voor mensen in deze space. Ze veranderen niets aan wat iemand mag doen.",
+        "readOnly": "Alleen moderators en beheerders kunnen rollen wijzigen.",
+        "reset": "Standaard herstellen",
+        "saveFailed": "Rollen opslaan mislukt: {{error}}",
+        "saved": "Rollen opgeslagen",
+        "separate": "Apart tonen",
+        "title": "Rollen"
       }
     },
     "space": {

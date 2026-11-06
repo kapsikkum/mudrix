@@ -38,6 +38,7 @@ import { getMatrixClientOrNull, logout, onSessionInvalid } from '@/client/initMa
 import { useEnsureMudrixUserFlag } from '@/app/hooks/useExtendedProfile';
 import { roomsByIdAtom, useRoom, useSpaceGraph } from '@/app/data';
 import { useVoiceChannelFlag } from '@/app/features/room/voiceChannel';
+import { RoomRolesProvider } from '@/app/features/space/RoomRolesContext';
 import { isChildOfSpace, findParentSpaceId, isVoiceRoom } from '@/util/matrix';
 import { Timeline } from '@/app/features/timeline';
 import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
@@ -112,7 +113,11 @@ const RoomPage = memo(function RoomPage() {
   if (room && isVoiceRoom(room)) {
     return <VoiceRoomStage key={decodedRoomId} client={client} roomId={decodedRoomId} />;
   }
-  return <Timeline key={decodedRoomId} client={client} roomId={decodedRoomId} />;
+  return (
+    <RoomRolesProvider roomId={decodedRoomId}>
+      <Timeline key={decodedRoomId} client={client} roomId={decodedRoomId} />
+    </RoomRolesProvider>
+  );
 });
 
 function SpaceOverviewPage() {

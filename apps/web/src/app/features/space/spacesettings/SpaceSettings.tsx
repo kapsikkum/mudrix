@@ -6,6 +6,7 @@ import {
   ListBulletsIcon,
   UsersIcon,
   ShieldIcon,
+  TagIcon,
   SmileyStickerIcon,
   XIcon,
   type Icon as PhosphorIcon,
@@ -16,6 +17,7 @@ import { useRoomDetails, useSpaceGraph } from '@/app/data';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import { GeneralPanel } from './General';
 import { ChannelsPanel } from './ChannelsPanel';
+import { RolesPanel } from './RolesPanel';
 import { useSpaceListStyle } from '../spaceListStyle';
 import { PermissionsPanel } from '@/app/features/room/roomsettings/Permissions';
 import { RoomPermissionsMatrix } from '@/app/features/room/roomsettings/RoomPermissionsMatrix';
@@ -24,12 +26,13 @@ import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Setting
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'channels' | 'members' | 'permissions' | 'emojis';
+type Tab = 'general' | 'channels' | 'members' | 'roles' | 'permissions' | 'emojis';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
   { tab: 'channels', labelKey: 'room.settings.channels.title', Icon: ListBulletsIcon },
   { tab: 'members', labelKey: 'common.members', Icon: UsersIcon },
+  { tab: 'roles', labelKey: 'room.settings.roles.title', Icon: TagIcon },
   {
     tab: 'permissions',
     labelKey: 'room.settings.permissions.title',
@@ -55,9 +58,9 @@ export function SpaceSettings() {
   const details = useRoomDetails(spaceId);
   const space = spaceId && graph.some((s) => s.spaceId === spaceId) ? (details ?? null) : null;
 
-  // Channels and categories belong to the Modern room list style.
+  // Channels, categories and roles belong to the Modern room list style.
   const modern = useSpaceListStyle(spaceId) === 'modern';
-  const nav = NAV.filter((item) => item.tab !== 'channels' || modern);
+  const nav = NAV.filter((item) => (item.tab !== 'channels' && item.tab !== 'roles') || modern);
   // A tab goes away when the style changes under it; fall back to the first one.
   const activeTab = nav.some((item) => item.tab === selectedTab) ? selectedTab : 'general';
 
@@ -82,6 +85,7 @@ export function SpaceSettings() {
       {activeTab === 'general' && <GeneralPanel spaceId={spaceId!} />}
       {activeTab === 'channels' && modern && <ChannelsPanel spaceId={spaceId!} />}
       {activeTab === 'members' && <PermissionsPanel roomId={spaceId!} />}
+      {activeTab === 'roles' && modern && <RolesPanel spaceId={spaceId!} />}
       {activeTab === 'permissions' && space && <RoomPermissionsMatrix roomId={spaceId!} />}
       {activeTab === 'emojis' && space && client && (
         <EmojiStickerPanel roomId={spaceId!} client={client} />
