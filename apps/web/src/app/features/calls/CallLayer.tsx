@@ -17,6 +17,7 @@ import { useIncomingCall } from './useIncomingCall';
 import { useSoundboardReceiver } from '@/app/features/soundboard/useSoundboardReceiver';
 import { IncomingCallOverlay } from './IncomingCallOverlay';
 import { CallControlBar } from './CallControlBar';
+import { CallReactionsRail } from './CallReactionsRail';
 import { CallStage } from './stage/CallStage';
 import * as css from './CallLayer.css';
 import { DOCKED_HEADER_HEIGHT } from './CallLayer.css';
@@ -359,6 +360,13 @@ export function CallLayer({ client }: Props) {
         !isHidden &&
         containerEl &&
         createPortal(<CallControlBar />, containerEl)}
+
+      {inCall &&
+        joined &&
+        !isHidden &&
+        !isPip &&
+        containerEl &&
+        createPortal(<CallReactionsRail />, containerEl)}
 
       {ui.incoming && client && (
         <IncomingCallOverlay

@@ -315,43 +315,6 @@ export const reaction = style({
   pointerEvents: 'none',
 });
 
-export const panel = style({
-  position: 'absolute',
-  left: '50%',
-  bottom: `${CONTROL_BAR_SPACE}px`,
-  transform: 'translateX(-50%)',
-  zIndex: 80,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '10px',
-  padding: '12px',
-  minWidth: '280px',
-  backgroundColor: vars.color.bgSecondary,
-  border: `1px solid ${vars.color.border}`,
-  borderRadius: vars.radius.md,
-  boxShadow: '0 8px 28px rgba(0,0,0,0.35)',
-  pointerEvents: 'auto',
-});
-
-export const reactionRow = style({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '4px',
-  justifyContent: 'center',
-});
-
-export const reactionBtn = style({
-  width: '38px',
-  height: '38px',
-  borderRadius: vars.radius.sm,
-  border: 'none',
-  background: 'none',
-  fontSize: '1.3rem',
-  cursor: 'pointer',
-  transition: `background-color ${fast}`,
-  ':hover': { backgroundColor: vars.color.bgHover },
-});
-
 export const dockedRow = style({
   flex: 1,
   minHeight: 0,
@@ -504,37 +467,6 @@ export const watchBtn = style({
   transition: `transform ${fast}, background-color ${fast}`,
   ':hover': { backgroundColor: '#fff', transform: 'scale(1.04)' },
   ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '2px' },
-});
-
-export const handBtn = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '38px',
-  height: '38px',
-  borderRadius: vars.radius.sm,
-  border: 'none',
-  background: 'none',
-  color: vars.color.textPrimary,
-  cursor: 'pointer',
-  transition: `background-color ${fast}, color ${fast}`,
-  ':hover': { backgroundColor: vars.color.bgHover },
-});
-
-export const handBtnActive = style([
-  handBtn,
-  {
-    backgroundColor: vars.color.accent,
-    color: '#fff',
-    ':hover': { backgroundColor: vars.color.accentHover },
-  },
-]);
-
-export const reactionDivider = style({
-  alignSelf: 'stretch',
-  width: '1px',
-  margin: '4px 4px',
-  backgroundColor: vars.color.border,
 });
 
 export const userMenu = style({

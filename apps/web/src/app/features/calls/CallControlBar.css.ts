@@ -166,3 +166,64 @@ export const reconnectingSpinner = style({
   borderTopColor: vars.color.warning,
   animation: `${spin} 0.8s linear infinite`,
 });
+
+/** One column up the right side of the call, opened from a button in the corner. */
+export const reactionsRail = style({
+  position: 'absolute',
+  right: '12px',
+  bottom: '12px',
+  zIndex: 75,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '8px',
+  pointerEvents: 'auto',
+  userSelect: 'none',
+});
+
+const reactionsPanel = {
+  background: vars.color.bgSecondary,
+  border: `1px solid ${vars.color.border}`,
+  borderRadius: vars.radius.md,
+  boxShadow: '0 8px 28px rgba(0, 0, 0, 0.35)',
+} as const;
+
+export const reactionsColumn = style({
+  ...reactionsPanel,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  padding: '4px',
+  maxHeight: 'calc(100vh - 120px)',
+  overflowY: 'auto',
+  scrollbarWidth: 'none',
+});
+
+export const reactionsToggle = style([
+  button,
+  { ...reactionsPanel, width: '44px', height: '44px', boxShadow: 'none' },
+]);
+
+export const reactionsToggleOpen = style([reactionsToggle, { color: vars.color.accent }]);
+
+export const reactionBtn = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '36px',
+  height: '36px',
+  border: 0,
+  borderRadius: vars.radius.md,
+  background: 'transparent',
+  color: vars.color.textPrimary,
+  fontSize: '20px',
+  cursor: 'pointer',
+  transition: 'transform .12s ease, background .12s ease',
+  selectors: {
+    '&:hover:not(:disabled)': { background: vars.color.bgHover, transform: 'scale(1.15)' },
+    '&:disabled': { cursor: 'default', opacity: 0.4 },
+    '&:focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '1px' },
+  },
+});
+
+export const reactionBtnActive = style([reactionBtn, { color: vars.color.accent }]);

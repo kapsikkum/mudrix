@@ -71,6 +71,16 @@ export interface CallParticipant {
   reaction: string | null;
 }
 
+/** One entry of an RTCStatsReport (id and type are always set). */
+export type CallStatsEntry = { id: string; type: string } & Record<string, unknown>;
+
+/** The WebRTC stats of one call-server connection. */
+export interface CallConnectionStats {
+  server: string | null;
+  publisher: CallStatsEntry[];
+  subscriber: CallStatsEntry[];
+}
+
 export interface CallSnapshot {
   roomId: string;
   phase: CallPhase;
@@ -347,6 +357,26 @@ export class CallMedia {
     } catch (error) {
       this.fail(messageOf(error), error instanceof CallError ? error.kind : 'connection');
     }
+  }
+
+  /** The WebRTC stats of each call-server connection, for the connection info panel */
+  async getStats(): Promise<CallConnectionStats[]> {
+    const toEntries = async (
+      transport: { getStats(): Promise<RTCStatsReport> | undefined } | undefined
+    ) => {
+      const report = await transport?.getStats();
+      return report ? ([...report.values()] as CallStatsEntry[]) : [];
+    };
+    return Promise.all(
+      [...this.connections.values()].map(async (c) => {
+        const manager = c.room.engine?.pcManager;
+        return {
+          server: c.sfuUrl,
+          publisher: await toEntries(manager?.publisher),
+          subscriber: await toEntries(manager?.subscriber),
+        };
+      })
+    );
   }
 
   /** Rings again after nobody answered */

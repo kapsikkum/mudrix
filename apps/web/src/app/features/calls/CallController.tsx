@@ -11,7 +11,6 @@ import {
   callIsVoiceRoomAtom,
   callUiAtom,
   callSessionAtom,
-  callPanelAtom,
   pendingCallRoomIdAtom,
   leavingCallRoomIdAtom,
   pushToTalkModeAtom,
@@ -95,7 +94,6 @@ export function CallController() {
   const setSession = useSetAtom(callSessionAtom);
   const setUi = useSetAtom(callUiAtom);
   const setActions = useSetAtom(callActionsAtom);
-  const setPanel = useSetAtom(callPanelAtom);
   const setOverrideDomain = useSetAtom(callRtcOverrideDomainAtom);
   const currentRoomId = useAtomValue(currentRoomIdAtom);
   const sessionRef = useRef(session);
@@ -103,8 +101,7 @@ export function CallController() {
 
   const resetUi = useCallback(() => {
     setUi((prev) => ({ ...prev, ...IDLE_UI }));
-    setPanel(null);
-  }, [setUi, setPanel]);
+  }, [setUi]);
 
   const start = useCallback(
     async (roomId: string, opts: { voiceOnly?: boolean; presentation?: CallPresentation } = {}) => {
@@ -339,10 +336,6 @@ export function CallController() {
     (spotlight: boolean) => setUi((prev) => ({ ...prev, isSpotlight: spotlight })),
     [setUi]
   );
-  const openReactions = useCallback(
-    () => setPanel((p) => (p === 'reactions' ? null : 'reactions')),
-    [setPanel]
-  );
   const setPresentation = useCallback(
     (presentation: CallPresentation) => setUi((prev) => ({ ...prev, presentation })),
     [setUi]
@@ -376,7 +369,6 @@ export function CallController() {
       toggleVideo,
       toggleScreenshare,
       setSpotlight,
-      openReactions,
       setPresentation,
     });
     return () => setActions(null);
@@ -389,7 +381,6 @@ export function CallController() {
     toggleVideo,
     toggleScreenshare,
     setSpotlight,
-    openReactions,
     setPresentation,
     setActions,
   ]);

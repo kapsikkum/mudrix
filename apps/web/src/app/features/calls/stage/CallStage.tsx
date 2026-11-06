@@ -8,12 +8,11 @@ import {
   LockKeyIcon,
   EyeIcon,
   EyeSlashIcon,
-  HandIcon,
   MicrophoneSlashIcon,
   MonitorIcon,
   PhoneIcon,
 } from '@phosphor-icons/react';
-import type { CallMedia, CallParticipant, RingState, TrackHandle } from '@/call/media';
+import type { CallParticipant, RingState, TrackHandle } from '@/call/media';
 import { useClient, useMembers } from '@/app/data';
 import { Avatar, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { SoundboardTileChip } from '@/app/features/soundboard/SoundboardPersonUi';
@@ -23,7 +22,6 @@ import {
   callEffectiveViewAtom,
   callUiAtom,
   callSessionAtom,
-  callPanelAtom,
   callShowReactionsAtom,
   showNonVideoParticipantsAtom,
   showOwnScreenShareAtom,
@@ -33,7 +31,6 @@ import { buildCallBackground } from '@/app/features/calls/callBackground';
 import { useCallSnapshot } from './useCallSnapshot';
 import { TileAvatar } from './TileAvatar';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
-import { useDismiss } from './useDismiss';
 import { useMemberLookup, type MemberInfo } from '../useMemberLookup';
 import {
   watchActionsAtom,
@@ -421,61 +418,6 @@ function useGridLayout(count: number) {
   return { ref: setElement, columns: best.columns, tileWidth: Math.max(best.width, 0) };
 }
 
-const REACTIONS: { emoji: string; name: string }[] = [
-  { emoji: '👍', name: 'thumbsup' },
-  { emoji: '👏', name: 'clap' },
-  { emoji: '😂', name: 'laugh' },
-  { emoji: '❤️', name: 'heart' },
-  { emoji: '🎉', name: 'party' },
-  { emoji: '😮', name: 'surprised' },
-  { emoji: '🤔', name: 'thinking' },
-  { emoji: '👎', name: 'thumbsdown' },
-];
-
-function ReactionsPanel({
-  session,
-  handRaised,
-  onClose,
-}: {
-  session: CallMedia;
-  handRaised: boolean;
-  onClose: () => void;
-}) {
-  const { t } = useTranslation();
-  const ref = useRef<HTMLDivElement>(null);
-  useDismiss(ref, onClose);
-  const handLabel = handRaised ? t('call.lowerHand') : t('call.raiseHand');
-  return (
-    <div ref={ref} className={css.panel}>
-      <div className={css.reactionRow}>
-        <Tooltip content={handLabel}>
-          <button
-            type="button"
-            className={handRaised ? css.handBtnActive : css.handBtn}
-            aria-pressed={handRaised}
-            aria-label={handLabel}
-            onClick={() => void session.setHandRaised(!handRaised)}
-          >
-            <HandIcon size={20} weight={handRaised ? 'fill' : 'regular'} />
-          </button>
-        </Tooltip>
-        <span className={css.reactionDivider} aria-hidden />
-        {REACTIONS.map((r) => (
-          <button
-            key={r.name}
-            type="button"
-            className={css.reactionBtn}
-            aria-label={r.name}
-            onClick={() => void session.sendReaction(r.emoji, r.name)}
-          >
-            {r.emoji}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export function CallStage() {
   const { t } = useTranslation();
   const session = useAtomValue(callSessionAtom);
@@ -483,10 +425,8 @@ export function CallStage() {
   const [ui, setUi] = useAtom(callUiAtom);
   const view = useAtomValue(callEffectiveViewAtom);
   const theme = useAtomValue(effectiveThemeAtom);
-  const [panel, setPanel] = useAtom(callPanelAtom);
   const [focusedKey, setFocusedKey] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState<UserMenuAnchor | null>(null);
-  const closePanel = useCallback(() => setPanel(null), [setPanel]);
   const closeUserMenu = useCallback(() => setUserMenu(null), []);
   const roomId = session?.roomId ?? null;
   const lookup = useMemberLookup(roomId);
@@ -545,7 +485,6 @@ export function CallStage() {
     tiles[0];
 
   if (!session || !snapshot || !roomId) return null;
-  const own = snapshot.participants.find((p) => p.isLocal);
   const style = { backgroundColor: background.base, backgroundImage: background.glow };
 
   const select = (key: string) => {
@@ -701,9 +640,6 @@ export function CallStage() {
         {content}
       </div>
       {watchActive && <WatchPlayerLayer rootRef={stageRef} startedByName={watchStartedBy} />}
-      {!compact && panel === 'reactions' && (
-        <ReactionsPanel session={session} handRaised={!!own?.handRaised} onClose={closePanel} />
-      )}
       {userMenu?.screen && (
         <StreamCallMenu
           anchor={userMenu}

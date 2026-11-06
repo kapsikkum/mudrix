@@ -62,8 +62,6 @@ export const leavingCallRoomIdAtom = atom<string | null>(null);
 // The running call (LiveKit media plus the core's MatrixRTC session)
 export const callSessionAtom = atom<CallMedia | null>(null);
 
-export const callPanelAtom = atom<'reactions' | null>(null);
-
 export const showNonVideoParticipantsAtom = atom(true);
 
 export const showOwnScreenShareAtom = atom(true);
@@ -128,7 +126,6 @@ export interface CallActions {
   toggleVideo: () => void;
   toggleScreenshare: () => void;
   setSpotlight: (spotlight: boolean) => void;
-  openReactions: () => void;
   setPresentation: (presentation: CallPresentation) => void;
 }
 

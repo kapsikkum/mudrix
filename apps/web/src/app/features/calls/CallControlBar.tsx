@@ -14,7 +14,6 @@ import {
   MonitorArrowUpIcon,
   PhoneXIcon,
   PresentationIcon,
-  SmileyIcon,
   SquaresFourIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
@@ -336,20 +335,6 @@ export function CallControlBar() {
               <span className={css.menuBadge}>{t('call.watchTogether.beta')}</span>
             </button>
           )}
-
-          <button
-            type="button"
-            role="menuitem"
-            className={css.menuItem}
-            onClick={() => {
-              actions.openReactions();
-              closeMenu();
-            }}
-          >
-            <SmileyIcon size={16} />
-            <span className={css.menuItemLabel}>{t('voice.reactions')}</span>
-            <span className={css.menuItemSpacer} />
-          </button>
         </div>
       </Popover>
     </div>

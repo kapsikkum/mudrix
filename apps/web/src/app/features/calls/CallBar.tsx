@@ -1,14 +1,16 @@
-import { useAtomValue } from 'jotai';
+import { useRef, useState } from 'react';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
+  CellSignalHighIcon,
   HeadphonesIcon,
   MicrophoneIcon,
   MicrophoneSlashIcon,
   MonitorArrowUpIcon,
-  SpeakerHighIcon,
+  PhoneXIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
-  PhoneXIcon,
+  YoutubeLogoIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { callUiAtom, callActionsAtom } from '@/app/store/atoms/call';
@@ -18,16 +20,25 @@ import { useCallTileVisible } from './useCallParticipants';
 import { useCallSnapshot } from './stage/useCallSnapshot';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useGlobalVoiceState } from '@/app/features/voice/useGlobalVoice';
+import { SoundboardButton } from '@/app/features/soundboard/SoundboardButton';
+import { CallStatsPopover } from './CallStatsPopover';
+import { watchDialogOpenAtom, watchStateAtom } from './watchTogether/watchTogether';
 import * as css from './CallBar.css';
 
+/**
+ * The call's own panel in the sidebar, above the user panel: status (opens the connection stats)
+ * and room on top with a way to leave, then the call actions (camera, screen share, watch
+ * together, soundboard). On mobile there is no user panel, so mute and deafen sit in the header.
+ */
 export function CallBar() {
   const { t } = useTranslation();
   const ui = useAtomValue(callUiAtom);
   const actions = useAtomValue(callActionsAtom);
   const returnToCall = useReturnToCall();
-  // Mobile has no user panel, so mute/deafen live here
   const isMobile = useMediaQuery('(max-width: 768px)');
   const { micMuted, deafened, toggleMic, toggleDeafen } = useGlobalVoiceState();
+  const watching = useAtomValue(watchStateAtom) !== null;
+  const setWatchDialogOpen = useSetAtom(watchDialogOpenAtom);
 
   const roomId = ui.roomId;
   const room = useRoom(roomId);
@@ -41,83 +52,124 @@ export function CallBar() {
   const CamIcon = ui.isVideoMuted ? VideoCameraSlashIcon : VideoCameraIcon;
   const videoTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
   const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
+  const statusRef = useRef<HTMLButtonElement>(null);
+  const [statsOpen, setStatsOpen] = useState(false);
 
   if (!roomId) return null;
 
   return (
     <div className={css.bar}>
-      <div className={css.info}>
-        <div className={connected ? css.statusRow : css.statusRowConnecting}>
-          <SpeakerHighIcon size={14} weight="fill" />
-          <span className={css.callStatus}>
-            {reconnecting
-              ? t('voice.statusReconnecting')
-              : connected
-                ? t('voice.statusConnected')
-                : t('voice.statusConnecting')}
-          </span>
+      <div className={css.header}>
+        <div className={css.info}>
+          <button
+            ref={statusRef}
+            type="button"
+            className={connected ? css.statusRow : css.statusRowConnecting}
+            onClick={() => setStatsOpen((v) => !v)}
+            aria-haspopup="dialog"
+            aria-expanded={statsOpen}
+          >
+            <CellSignalHighIcon size={14} weight="bold" />
+            <span className={css.callStatus}>
+              {reconnecting
+                ? t('voice.statusReconnecting')
+                : connected
+                  ? t('voice.statusConnected')
+                  : t('voice.statusConnecting')}
+            </span>
+          </button>
+          <CallStatsPopover
+            open={statsOpen}
+            onClose={() => setStatsOpen(false)}
+            anchorRef={statusRef}
+          />
+          <button type="button" className={css.callerName} onClick={returnToCall}>
+            {roomName}
+          </button>
         </div>
-        <button type="button" className={css.callerName} onClick={returnToCall}>
-          {roomName}
-        </button>
+
+        <div className={css.controls}>
+          {isMobile && (
+            <>
+              <button
+                type="button"
+                className={micMuted ? css.ctrlMuted : css.ctrl}
+                onClick={toggleMic}
+                aria-label={micMuted ? t('voice.unmute') : t('voice.mute')}
+                aria-pressed={micMuted}
+              >
+                {micMuted ? <MicrophoneSlashIcon size={16} /> : <MicrophoneIcon size={16} />}
+              </button>
+              <button
+                type="button"
+                className={deafened ? css.ctrlMuted : css.ctrl}
+                onClick={toggleDeafen}
+                aria-label={deafened ? t('voice.undeafen') : t('voice.deafen')}
+                aria-pressed={deafened}
+              >
+                <HeadphonesIcon size={16} weight={deafened ? 'fill' : 'regular'} />
+              </button>
+            </>
+          )}
+          <Tooltip content={t('voice.hangup')}>
+            <button
+              type="button"
+              className={css.leaveBtn}
+              onClick={() => actions?.hangup()}
+              aria-label={t('voice.hangup')}
+            >
+              <PhoneXIcon size={16} />
+            </button>
+          </Tooltip>
+        </div>
       </div>
 
-      <div className={css.controls}>
-        {isMobile && (
-          <>
-            <button
-              type="button"
-              className={micMuted ? css.ctrlMuted : css.ctrl}
-              onClick={toggleMic}
-              aria-label={micMuted ? t('voice.unmute') : t('voice.mute')}
-              aria-pressed={micMuted}
-            >
-              {micMuted ? <MicrophoneSlashIcon size={16} /> : <MicrophoneIcon size={16} />}
-            </button>
-            <button
-              type="button"
-              className={deafened ? css.ctrlMuted : css.ctrl}
-              onClick={toggleDeafen}
-              aria-label={deafened ? t('voice.undeafen') : t('voice.deafen')}
-              aria-pressed={deafened}
-            >
-              <HeadphonesIcon size={16} weight={deafened ? 'fill' : 'regular'} />
-            </button>
-          </>
-        )}
+      <div className={css.actions}>
         <Tooltip content={videoTitle}>
           <button
             type="button"
-            className={ui.isVideoMuted ? css.ctrl : css.ctrlActive}
+            className={ui.isVideoMuted ? css.actionBtn : css.actionBtnActive}
             onClick={() => actions?.toggleVideo()}
             aria-label={videoTitle}
+            aria-pressed={!ui.isVideoMuted}
           >
-            {ui.isVideoMuted ? <CamIcon size={16} /> : <CamIcon size={16} weight="fill" />}
+            <CamIcon size={18} weight={ui.isVideoMuted ? 'regular' : 'fill'} />
           </button>
         </Tooltip>
 
         <Tooltip content={shareTitle}>
           <button
             type="button"
-            className={ui.isScreenSharing ? css.ctrlActive : css.ctrl}
+            className={ui.isScreenSharing ? css.actionBtnActive : css.actionBtn}
             onClick={() => actions?.toggleScreenshare()}
             aria-label={shareTitle}
             aria-pressed={ui.isScreenSharing}
           >
-            <MonitorArrowUpIcon size={16} weight={ui.isScreenSharing ? 'fill' : 'regular'} />
+            <MonitorArrowUpIcon size={18} weight={ui.isScreenSharing ? 'fill' : 'regular'} />
           </button>
         </Tooltip>
 
-        <Tooltip content={t('voice.hangup')}>
+        <Tooltip content={t('call.watchTogether.menu')}>
           <button
             type="button"
-            className={css.leaveBtn}
-            onClick={() => actions?.hangup()}
-            aria-label={t('voice.hangup')}
+            className={watching ? css.actionBtnActive : css.actionBtn}
+            onClick={() => setWatchDialogOpen(true)}
+            aria-label={t('call.watchTogether.menu')}
+            aria-pressed={watching}
+            disabled={!connected}
           >
-            <PhoneXIcon size={16} />
+            <YoutubeLogoIcon size={18} weight={watching ? 'fill' : 'regular'} />
           </button>
         </Tooltip>
+
+        <SoundboardButton
+          buttonClass={css.actionBtn}
+          activeClass={css.actionBtnActive}
+          anchorClass={css.actionSlot}
+          iconSize={18}
+          fill
+          disabled={!connected}
+        />
       </div>
     </div>
   );
