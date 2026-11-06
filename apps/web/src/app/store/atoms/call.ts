@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { atomWithStorage } from 'jotai/utils';
 import type { CallMedia, PreferredDevices } from '@/call/media';
 import { roomsByIdAtom } from '@/app/data/atoms';
@@ -104,15 +105,31 @@ export const callIsVoiceRoomAtom = atom((get) => {
   return !!roomId && !!get(roomsByIdAtom).get(roomId)?.isVoice;
 });
 
+/**
+ * Phones and touch tablets: a call there is a screen of its own, not a strip above the chat. Tracks
+ * the media query while something is subscribed.
+ */
+export const callDedicatedScreenAtom = atom(
+  typeof window !== 'undefined' && window.matchMedia(PANEL_OVERLAY_QUERY).matches
+);
+callDedicatedScreenAtom.onMount = (set) => {
+  const query = window.matchMedia(PANEL_OVERLAY_QUERY);
+  const update = () => set(query.matches);
+  update();
+  query.addEventListener('change', update);
+  return () => query.removeEventListener('change', update);
+};
+
 export const callEffectiveViewAtom = atom<CallView>((get) => {
   const { roomId, presentation } = get(callUiAtom);
   if (roomId === null) return 'hidden';
   if (presentation === 'tile') return 'tile';
   // Anywhere but the call's own room the call follows you as a tile, and docks back in when you
-  // return (see CallController).
-  if (get(currentRoomIdAtom) !== roomId) return 'tile';
+  // return (see CallController). Phones show a call as a screen of its own, so there it just stays
+  // out of the way (the call bar in the room list leads back).
+  if (get(currentRoomIdAtom) !== roomId) return get(callDedicatedScreenAtom) ? 'hidden' : 'tile';
   if (presentation === 'hidden') return 'hidden';
-  if (presentation === 'fullscreen') return 'fullscreen';
+  if (presentation === 'fullscreen' || get(callDedicatedScreenAtom)) return 'fullscreen';
   return get(callIsVoiceRoomAtom) ? 'fullscreen' : 'docked';
 });
 

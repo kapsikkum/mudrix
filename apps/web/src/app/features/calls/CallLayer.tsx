@@ -2,9 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import type { WizardClient } from '@wizardchat/core';
-import { SpeakerHighIcon } from '@phosphor-icons/react';
+import { useTranslation } from 'react-i18next';
+import { CaretDownIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import {
   callActionsAtom,
+  callDedicatedScreenAtom,
   callEffectiveViewAtom,
   callIsVoiceRoomAtom,
   callUiAtom,
@@ -69,6 +71,7 @@ function defaultPipPos() {
 }
 
 export function CallLayer({ client }: Props) {
+  const { t } = useTranslation();
   const ui = useAtomValue(callUiAtom);
   const setUi = useSetAtom(callUiAtom);
   const { containerRef } = useCallContainer();
@@ -83,6 +86,9 @@ export function CallLayer({ client }: Props) {
   const isPip = view === 'tile';
   const isFullscreen = view === 'fullscreen';
   const isDocked = view === 'docked';
+  // Phones and tablets: the fullscreen call has a header of its own, with a way to minimize it.
+  const dedicatedScreen = useAtomValue(callDedicatedScreenAtom);
+  const isDedicatedScreen = isFullscreen && dedicatedScreen;
 
   const joined = ui.phase === 'joined';
   const callSession = useAtomValue(callSessionAtom);
@@ -186,7 +192,7 @@ export function CallLayer({ client }: Props) {
       el.style.right = '';
       el.style.bottom = '';
       el.style.height = '';
-      el.style.paddingTop = '0px';
+      el.style.paddingTop = isDedicatedScreen ? `${DOCKED_HEADER_HEIGHT}px` : '0px';
     } else if (isPip) {
       el.classList.remove(css.fullscreen);
       el.classList.add(css.pip);
@@ -212,7 +218,7 @@ export function CallLayer({ client }: Props) {
       el.style.height = `${targetHeight}px`;
       if (dockedHeight !== targetHeight) setDockedHeight(targetHeight);
     }
-  }, [inCall, view, isHidden, isPip, isFullscreen, dockedHeight, containerRef]);
+  }, [inCall, view, isHidden, isPip, isFullscreen, isDedicatedScreen, dockedHeight, containerRef]);
 
   useEffect(() => {
     return () => {
@@ -229,7 +235,7 @@ export function CallLayer({ client }: Props) {
   );
 
   useEffect(() => {
-    if (!isFullscreen || isVoiceRoomCall) return;
+    if (!isFullscreen || (isVoiceRoomCall && !dedicatedScreen)) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape' || e.defaultPrevented) return;
       const target = e.target instanceof Element ? e.target : null;
@@ -241,11 +247,11 @@ export function CallLayer({ client }: Props) {
         return;
       }
       if (document.querySelector('[role="dialog"], [role="menu"], [role="listbox"]')) return;
-      showPresentation('room');
+      showPresentation(dedicatedScreen ? 'tile' : 'room');
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFullscreen, isVoiceRoomCall, showPresentation]);
+  }, [isFullscreen, isVoiceRoomCall, dedicatedScreen, showPresentation]);
 
   const handleResizeStart = useCallback(
     (e: React.PointerEvent) => {
@@ -348,6 +354,26 @@ export function CallLayer({ client }: Props) {
         containerEl &&
         createPortal(
           <div className={css.header}>
+            <span className={css.headerTitle}>
+              <SpeakerHighIcon size={14} className={css.headerIcon} />
+              {roomName}
+            </span>
+          </div>,
+          containerEl
+        )}
+
+      {isDedicatedScreen &&
+        containerEl &&
+        createPortal(
+          <div className={css.header}>
+            <button
+              type="button"
+              className={css.headerButton}
+              onClick={() => showPresentation('tile')}
+              aria-label={t('voice.minimizeCall')}
+            >
+              <CaretDownIcon size={20} />
+            </button>
             <span className={css.headerTitle}>
               <SpeakerHighIcon size={14} className={css.headerIcon} />
               {roomName}

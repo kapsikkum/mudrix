@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { ROOM_HEADER_HEIGHT } from '@/app/features/timeline/RoomHeader.css';
 
 export const DOCKED_HEADER_HEIGHT = 49;
@@ -57,10 +58,31 @@ export const fullscreen = style({
   height: 'auto',
   zIndex: 6000,
   '@media': {
-    '(max-width: 768px)': {
-      zIndex: 4000,
+    // A call on a phone or tablet is a screen of its own, over the room list and header too.
+    [PANEL_OVERLAY_QUERY]: {
+      position: 'fixed',
+      top: 'env(safe-area-inset-top)',
+      left: 'env(safe-area-inset-left)',
+      right: 'env(safe-area-inset-right)',
+      bottom: 'env(safe-area-inset-bottom)',
     },
   },
+});
+
+export const headerButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '36px',
+  height: '36px',
+  marginLeft: '-8px',
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: 'transparent',
+  color: vars.color.textPrimary,
+  cursor: 'pointer',
+  flexShrink: 0,
+  ':hover': { backgroundColor: vars.color.bgHover },
 });
 
 const chromeBar = {
