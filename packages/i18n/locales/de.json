@@ -62,7 +62,13 @@
     "accept": "Annehmen",
     "decline": "Ablehnen",
     "offlineReconnecting": "Offline – verbinde erneut…",
-    "useAnotherDeviceOr": "Nutze ein anderes Gerät oder deinen Wiederherstellungsschlüssel, um verschlüsselte Nachrichten zu lesen."
+    "useAnotherDeviceOr": "Nutze ein anderes Gerät oder deinen Wiederherstellungsschlüssel, um verschlüsselte Nachrichten zu lesen.",
+    "copyImage": "Bild kopieren",
+    "copyImageFailed": "Das Bild konnte nicht kopiert werden",
+    "saveImage": "Bild speichern",
+    "saveVideo": "Video speichern",
+    "downloadSaved": "Gespeichert unter {{path}}",
+    "downloadFailed": "Download fehlgeschlagen"
   },
   "auth": {
     "sessionLoadFailed": "Sitzung konnte nicht wiederhergestellt werden",

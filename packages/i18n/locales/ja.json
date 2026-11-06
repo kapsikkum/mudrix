@@ -62,7 +62,13 @@
     "accept": "承諾",
     "decline": "拒否",
     "offlineReconnecting": "オフライン — 再接続中…",
-    "useAnotherDeviceOr": "暗号化されたメッセージを読むには、別のデバイスまたはリカバリーキーを使用してください。"
+    "useAnotherDeviceOr": "暗号化されたメッセージを読むには、別のデバイスまたはリカバリーキーを使用してください。",
+    "copyImage": "画像をコピー",
+    "copyImageFailed": "画像をコピーできませんでした",
+    "saveImage": "画像を保存",
+    "saveVideo": "動画を保存",
+    "downloadSaved": "{{path}} に保存しました",
+    "downloadFailed": "ダウンロードに失敗しました"
   },
   "auth": {
     "sessionLoadFailed": "セッションを復元できませんでした",

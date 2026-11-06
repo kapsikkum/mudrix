@@ -14,6 +14,7 @@ import {
   EnterRecoveryKeyModal,
   CrossSigningUiaModal,
 } from '@/app/features/keybackup';
+import { LocalMediaMenu } from '@/app/features/contextMenu/LocalMediaMenu';
 import { ContextMenu } from '@/app/features/contextMenu/ContextMenu';
 import { SpaceSettings, CreateSpaceModal } from '@/app/features/space';
 import { UserProfilePopup } from '@/app/features/profile';
@@ -50,6 +51,7 @@ export function GlobalModals() {
       <EnterRecoveryKeyModal />
       <CrossSigningUiaModal />
       <ContextMenu />
+      <LocalMediaMenu />
       <UserProfilePopup />
       <RoomSwitcher />
       <GlobalSearch />

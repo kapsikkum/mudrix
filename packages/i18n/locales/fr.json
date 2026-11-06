@@ -62,7 +62,13 @@
     "accept": "Accepter",
     "decline": "Refuser",
     "offlineReconnecting": "Hors ligne — reconnexion…",
-    "useAnotherDeviceOr": "Utilise un autre appareil ou ta clé de récupération pour lire les messages chiffrés."
+    "useAnotherDeviceOr": "Utilise un autre appareil ou ta clé de récupération pour lire les messages chiffrés.",
+    "copyImage": "Copier l'image",
+    "copyImageFailed": "Impossible de copier l'image",
+    "saveImage": "Enregistrer l'image",
+    "saveVideo": "Enregistrer la vidéo",
+    "downloadSaved": "Enregistré dans {{path}}",
+    "downloadFailed": "Échec du téléchargement"
   },
   "auth": {
     "sessionLoadFailed": "Impossible de restaurer votre session",

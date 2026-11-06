@@ -47,6 +47,8 @@ interface DesktopAPI {
   >;
   onUpdateDownloaded?: (cb: () => void) => void;
   installUpdate?: () => void;
+  /** Saves bytes into the Downloads folder and resolves with the saved path; needs a native command. */
+  saveDownload?: (bytes: Uint8Array, filename: string) => Promise<string>;
   getPlatform?: () => string;
   setTitleBarTheme?: (background: string, foreground: string) => void;
   onFullscreenChange?: (cb: (fullscreen: boolean) => void) => void;

@@ -62,7 +62,13 @@
     "accept": "Accept",
     "decline": "Decline",
     "offlineReconnecting": "Offline — reconnecting…",
-    "useAnotherDeviceOr": "Use another device or your recovery key to read encrypted messages."
+    "useAnotherDeviceOr": "Use another device or your recovery key to read encrypted messages.",
+    "copyImage": "Copy image",
+    "copyImageFailed": "Could not copy the image",
+    "saveImage": "Save image",
+    "saveVideo": "Save video",
+    "downloadSaved": "Saved to {{path}}",
+    "downloadFailed": "Download failed"
   },
   "auth": {
     "sessionLoadFailed": "Couldn't restore your session",

@@ -62,7 +62,13 @@
     "accept": "Kabul et",
     "decline": "Reddet",
     "offlineReconnecting": "Çevrimdışı — yeniden bağlanılıyor…",
-    "useAnotherDeviceOr": "Şifreli mesajları okumak için başka bir cihaz veya kurtarma anahtarını kullan."
+    "useAnotherDeviceOr": "Şifreli mesajları okumak için başka bir cihaz veya kurtarma anahtarını kullan.",
+    "copyImage": "Resmi kopyala",
+    "copyImageFailed": "Resim kopyalanamadı",
+    "saveImage": "Resmi kaydet",
+    "saveVideo": "Videoyu kaydet",
+    "downloadSaved": "{{path}} konumuna kaydedildi",
+    "downloadFailed": "İndirme başarısız"
   },
   "auth": {
     "sessionLoadFailed": "Oturumunuz geri yüklenemedi",

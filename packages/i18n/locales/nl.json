@@ -62,7 +62,13 @@
     "accept": "Accepteren",
     "decline": "Weigeren",
     "offlineReconnecting": "Offline — opnieuw verbinden…",
-    "useAnotherDeviceOr": "Gebruik een ander apparaat of je herstelsleutel om versleutelde berichten te lezen."
+    "useAnotherDeviceOr": "Gebruik een ander apparaat of je herstelsleutel om versleutelde berichten te lezen.",
+    "copyImage": "Afbeelding kopiëren",
+    "copyImageFailed": "De afbeelding kon niet worden gekopieerd",
+    "saveImage": "Afbeelding opslaan",
+    "saveVideo": "Video opslaan",
+    "downloadSaved": "Opgeslagen in {{path}}",
+    "downloadFailed": "Download mislukt"
   },
   "auth": {
     "sessionLoadFailed": "Je sessie kon niet worden hersteld",
