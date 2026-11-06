@@ -174,6 +174,13 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 note = tr("settings.appearance.prettifyLinksNote"),
             )
             SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.groupImages"),
+                prefs.groupImages,
+                { prefs.groupImages = it },
+                note = tr("settings.appearance.groupImagesNote"),
+            )
+            SettingsDivider()
             // Android can't swap the launcher icon per theme, so this themes the in-app logo
             ToggleRow(
                 tr("settings.appearance.themedAppIcon"),

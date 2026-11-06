@@ -690,7 +690,7 @@ class TimelineModel(
                     current.timestamp.toEpochMilli() - previous.timestamp.toEpochMilli() < GROUPING_INTERVAL_MS,
             )
         }
-        this.entries = if (kind == TimelineKind.Main && onlyTypes == null) collapseGalleries(entries) else entries
+        this.entries = if (kind == TimelineKind.Main && onlyTypes == null && WizardApplication.instance.prefs.groupImages) collapseGalleries(entries) else entries
     }
 
     private fun displayName(uri: Uri): String? = runCatching {
@@ -701,6 +701,9 @@ class TimelineModel(
 
     companion object {
         private const val GROUPING_INTERVAL_MS = 5 * 60 * 1000L
+
+        // Images sent together are posted back to back; anything further apart is not one set
+        private const val GALLERY_INTERVAL_MS = 60 * 1000L
 
         private val prettyJson = Json { prettyPrint = true }
 
@@ -836,7 +839,9 @@ class TimelineModel(
         private fun collapseGalleries(entries: List<ChatEntry>): List<ChatEntry> {
             fun isCandidate(entry: ChatEntry): Boolean {
                 val image = entry.kind as? ChatEntry.Kind.Image ?: return false
-                return entry.replyTo == null && image.media.mimetype != "image/svg+xml" && image.media.caption == null
+                // GIFs and other animated images are usually reactions sent one at a time, not part of a set
+                return entry.replyTo == null && image.media.mimetype != "image/svg+xml" && image.media.caption == null &&
+                    image.media.mimetype != "image/gif" && !image.media.isAnimated
             }
             fun day(instant: Instant) = instant.atZone(ZoneId.systemDefault()).toLocalDate()
             val result = mutableListOf<ChatEntry>()
@@ -852,7 +857,7 @@ class TimelineModel(
                 var next = index + 1
                 while (next < entries.size && isCandidate(entries[next]) &&
                     entries[next].sender == entry.sender &&
-                    entries[next].timestamp.toEpochMilli() - group.last().timestamp.toEpochMilli() < GROUPING_INTERVAL_MS &&
+                    entries[next].timestamp.toEpochMilli() - group.last().timestamp.toEpochMilli() < GALLERY_INTERVAL_MS &&
                     day(entries[next].timestamp) == day(entry.timestamp)
                 ) {
                     group += entries[next]

@@ -132,6 +132,8 @@ class AppPreferences(context: Context) {
     var chatDensity by pref(enumPref("chatDensity", Density.default), enumCodec<Density>("chatDensity")) { putString("chatDensity", it.name) }
     var uiDensity by pref(enumPref("uiDensity", Density.default), enumCodec<Density>("uiDensity")) { putString("uiDensity", it.name) }
     var prettifyLinks by pref(defaults.getBoolean("prettifyLinks", true), boolCodec("prettifyLinks")) { putBoolean("prettifyLinks", it) }
+    /** Show images sent together as one gallery; off shows every image as its own message */
+    var groupImages by pref(defaults.getBoolean("groupImages", true), boolCodec("groupImages")) { putBoolean("groupImages", it) }
     var themedAppIcon by pref(defaults.getBoolean("themedAppIcon", false), boolCodec("themedAppIcon")) { putBoolean("themedAppIcon", it) }
     var showRoomAvatars by pref(defaults.getBoolean("showRoomAvatars", true), boolCodec("showRoomAvatars")) { putBoolean("showRoomAvatars", it) }
     var reducedMotion by pref(enumPref("reducedMotion", ReducedMotion.system), enumCodec<ReducedMotion>("reducedMotion")) { putString("reducedMotion", it.name) }

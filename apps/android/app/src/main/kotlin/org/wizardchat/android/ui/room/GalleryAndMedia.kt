@@ -1,7 +1,12 @@
 package org.wizardchat.android.ui.room
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.provider.DocumentsContract
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,6 +59,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -61,13 +67,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.matrix.ChatEntry
+import org.wizardchat.android.matrix.MediaLoader
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.ui.BarTextButton
+import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.MenuItem
@@ -148,7 +158,7 @@ fun GalleryGridView(items: List<ChatEntry>, isPrivateRoom: Boolean = true) {
         }
     }
     openIndex?.let { start ->
-        MediaPagerView(all.map { it.second }, start) { openIndex = null }
+        MediaPagerView(all.map { it.second }, start, saveAll = all.size > 1) { openIndex = null }
     }
 }
 
@@ -181,8 +191,28 @@ private fun GalleryTile(media: ChatEntry.MediaContent, spoiler: String?, isPriva
 
 /** Swipes through pictures (and videos) full screen */
 @Composable
-fun MediaPagerView(items: List<ChatEntry.MediaContent>, startIndex: Int, isVideo: List<Boolean> = emptyList(), onDismiss: () -> Unit) {
+fun MediaPagerView(
+    items: List<ChatEntry.MediaContent>,
+    startIndex: Int,
+    isVideo: List<Boolean> = emptyList(),
+    saveAll: Boolean = false,
+    onDismiss: () -> Unit,
+) {
     val pager = rememberPagerState(initialPage = startIndex) { items.size }
+    val loader = LocalMedia.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var saving by remember { mutableStateOf(false) }
+    // Android needs no storage permission to write into a folder the user picked
+    val folderPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { folder ->
+        if (folder == null || loader == null) return@rememberLauncherForActivityResult
+        scope.launch {
+            saving = true
+            val failed = saveAllInto(context, loader, folder, items)
+            saving = false
+            if (failed > 0) CopyToast.show(L10n.format("mediaLightbox.saveAllFailed", failed.toString(), items.size.toString()))
+        }
+    }
     FullScreenDialog(onDismiss) {
         Column(Modifier.fillMaxSize().background(Color.Black)) {
             Box(
@@ -197,6 +227,14 @@ fun MediaPagerView(items: List<ChatEntry.MediaContent>, startIndex: Int, isVideo
                         style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
                         color = Color.White,
                     )
+                }
+                if (saveAll) {
+                    Box(Modifier.align(Alignment.CenterEnd)) {
+                        BarTextButton(
+                            if (saving) tr("mediaLightbox.savingAll") else L10n.format("mediaLightbox.saveAll", items.size),
+                            { if (!saving) folderPicker.launch(null) },
+                        )
+                    }
                 }
             }
             HorizontalPager(pager, Modifier.weight(1f).fillMaxWidth().navigationBarsPadding()) { page ->
@@ -492,4 +530,24 @@ private fun LinksList(model: TimelineModel) {
         }
         item { LoadMoreFooter(model, items.isEmpty(), "timeline.noLinks", "link-simple") }
     }
+}
+
+/** Copies the full-size files into [folder] and returns how many could not be saved */
+private suspend fun saveAllInto(context: Context, loader: MediaLoader, folder: Uri, items: List<ChatEntry.MediaContent>): Int {
+    val resolver = context.contentResolver
+    val parent = DocumentsContract.buildDocumentUriUsingTree(folder, DocumentsContract.getTreeDocumentId(folder))
+    var failed = 0
+    for (media in items) {
+        val saved = runCatching {
+            val file = loader.file(media.source, media.filename)
+            withContext(Dispatchers.IO) {
+                val target = DocumentsContract.createDocument(resolver, parent, media.mimetype ?: "application/octet-stream", media.filename)
+                    ?: error("The folder did not take the file")
+                resolver.openOutputStream(target)?.use { out -> file.inputStream().use { it.copyTo(out) } }
+                    ?: error("The file could not be opened")
+            }
+        }
+        if (saved.isFailure) failed += 1
+    }
+    return failed
 }
