@@ -11,37 +11,31 @@ import {
   completePasswordReset,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
-import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
 import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
-import { Select } from '@/app/components/Select';
+import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
 
 type ResetStep = 'email' | 'password' | 'done';
 
 interface Props {
   onBackToLogin: () => void;
-  serverSelect: string;
-  customUrl: string;
-  onServerSelect: (value: string) => void;
-  onCustomUrlChange: (value: string) => void;
+  hs: Homeserver;
+  picker: ServerPickerState;
   serverUrl: string;
   capabilities: AuthCapabilities | null;
   capabilitiesLoading: boolean;
-  onRetryDiscovery: () => void;
 }
 
 export function ResetPasswordForm({
   onBackToLogin,
-  serverSelect,
-  customUrl,
-  onServerSelect,
-  onCustomUrlChange,
+  hs,
+  picker,
   serverUrl,
   capabilities,
   capabilitiesLoading,
-  onRetryDiscovery,
 }: Props) {
   const { t } = useTranslation();
   const [step, setStep] = useState<ResetStep>('email');
@@ -141,26 +135,12 @@ export function ResetPasswordForm({
     <div className={css.formSection}>
       <h2 className={css.formTitle}>{t('welcome.resetTitle')}</h2>
 
-      <div className={css.serverGroup}>
-        <Select
-          aria-label={t('welcome.customServer')}
-          value={serverSelect}
-          options={[...PRESET_SERVERS, { value: 'custom', label: t('welcome.customServer') }]}
-          onChange={onServerSelect}
-          disabled={step !== 'email'}
-        />
-        {serverSelect === 'custom' && (
-          <Input
-            type="text"
-            placeholder={t('welcome.serverUrl')}
-            aria-label={t('welcome.serverUrl')}
-            value={customUrl}
-            onChange={(e) => onCustomUrlChange(e.target.value)}
-            onBlur={onRetryDiscovery}
-            disabled={step !== 'email'}
-          />
-        )}
-      </div>
+      <ServerPicker
+        hs={hs}
+        label={t('welcome.serverLabelReset')}
+        {...picker}
+        disabled={step !== 'email'}
+      />
 
       {isChecking ? (
         <div className={css.checkingServer}>

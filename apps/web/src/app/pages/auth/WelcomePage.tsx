@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { GlobeSimpleIcon } from '@phosphor-icons/react';
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,17 +6,12 @@ import { useSetAtom } from 'jotai';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { ResetPasswordForm } from './ResetPasswordForm';
-import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
-import {
-  discoverAuthCapabilities,
-  DiscoveryStatus,
-  type AuthCapabilities,
-} from '@/app/features/sso/sso';
+import { initialHomeserver, rememberHomeserver, useHomeserver } from './useHomeserver';
 import { LogoHover } from '@/app/components/AppLoading';
 import { Select } from '@/app/components/Select';
 import { TitleBar } from '@/app/components/TitleBar';
 import { isDesktop } from '@/bridge/desktop';
-import { loadCredentials, loadCore, normalizeUrl } from '@/client/initMatrix';
+import { loadCredentials, loadCore } from '@/client/initMatrix';
 import { languageAtom } from '@/app/store/atoms';
 import { SUPPORTED_LANGUAGES } from '@/i18n/languages';
 import { GITLAB_URL, PRIVACY_POLICY_URL } from '@/const/links';
@@ -55,60 +50,29 @@ function WelcomeContent() {
     void loadCore();
   }, []);
 
-  const [serverSelect, setServerSelect] = useState(homeserver ? 'custom' : PRESET_SERVERS[0].value);
-  const [customUrl, setCustomUrl] = useState(homeserver ?? '');
   const [version, setVersion] = useState(import.meta.env.APP_VERSION ?? 'unknown');
 
   useEffect(() => {
     window.desktopAPI?.getAppVersion?.().then((v) => v && setVersion(v));
   }, []);
 
-  const rawServerUrl = serverSelect === 'custom' ? customUrl : serverSelect;
-  const serverUrl = normalizeUrl(rawServerUrl);
+  // A configured server (`/welcome/:homeserver`) wins over the last one used and the default.
+  const [initial] = useState(() => initialHomeserver(homeserver));
+  const hs = useHomeserver(initial);
+  const [serverOpen, setServerOpen] = useState(false);
+  const picker = { open: serverOpen, onOpenChange: setServerOpen };
 
-  const [capabilities, setCapabilities] = useState<AuthCapabilities | null>(null);
-  const [capabilitiesLoading, setCapabilitiesLoading] = useState(true);
-  const discoverSeq = useRef(0);
-  // Address whose last check failed: only then does leaving the field retry
-  const failedUrlRef = useRef<string | null>(null);
+  // The sign-in methods follow the last server that answered while a new address is checked, so
+  // the form does not rearrange itself for every half-typed address.
+  const capabilities = hs.current ?? (hs.checking ? hs.methods : null);
+  const capabilitiesLoading = hs.complete && !hs.current && !hs.methods;
+  // Always the address in the box, never the stale server's: that is where the password goes.
+  const effectiveServerUrl = hs.baseUrl;
 
-  const discover = useCallback(async (url: string) => {
-    const seq = ++discoverSeq.current;
-    if (!url) {
-      setCapabilities(null);
-      setCapabilitiesLoading(false);
-      return;
-    }
-    setCapabilitiesLoading(true);
-    setCapabilities(null);
-    try {
-      const caps = await discoverAuthCapabilities(url);
-      if (seq !== discoverSeq.current) return;
-      failedUrlRef.current = caps.discoveryStatus === DiscoveryStatus.Ok ? null : url;
-      setCapabilities(caps);
-    } catch (err) {
-      console.warn('[auth] capability discovery failed', err);
-      if (seq !== discoverSeq.current) return;
-      failedUrlRef.current = url;
-      setCapabilities(null);
-    } finally {
-      if (seq === discoverSeq.current) setCapabilitiesLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => discover(serverUrl), 300);
-    return () => clearTimeout(timer);
-  }, [serverUrl, discover]);
-
-  const effectiveServerUrl = capabilities?.resolvedBaseUrl ?? serverUrl;
-
-  const retryDiscovery = useCallback(() => {
-    if (failedUrlRef.current === serverUrl) void discover(serverUrl);
-  }, [discover, serverUrl]);
-
-  const onLoginSuccess = () => navigate('/', { replace: true });
-  const onRegisterSuccess = () => navigate('/', { replace: true });
+  const done = () => {
+    rememberHomeserver(hs.url);
+    navigate('/', { replace: true });
+  };
 
   return (
     <div className={css.page}>
@@ -120,42 +84,33 @@ function WelcomeContent() {
 
         {view === 'login' ? (
           <LoginForm
-            onSuccess={onLoginSuccess}
+            onSuccess={done}
             onShowRegister={() => setView('register')}
             onShowReset={() => setView('reset')}
-            serverSelect={serverSelect}
-            customUrl={customUrl}
-            onServerSelect={setServerSelect}
-            onCustomUrlChange={setCustomUrl}
+            hs={hs}
+            picker={picker}
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={retryDiscovery}
           />
         ) : view === 'register' ? (
           <RegisterForm
-            onSuccess={onRegisterSuccess}
+            onSuccess={done}
             onShowLogin={() => setView('login')}
-            serverSelect={serverSelect}
-            customUrl={customUrl}
-            onServerSelect={setServerSelect}
-            onCustomUrlChange={setCustomUrl}
+            hs={hs}
+            picker={picker}
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={retryDiscovery}
           />
         ) : (
           <ResetPasswordForm
             onBackToLogin={() => setView('login')}
-            serverSelect={serverSelect}
-            customUrl={customUrl}
-            onServerSelect={setServerSelect}
-            onCustomUrlChange={setCustomUrl}
+            hs={hs}
+            picker={picker}
             serverUrl={effectiveServerUrl}
             capabilities={capabilities}
             capabilitiesLoading={capabilitiesLoading}
-            onRetryDiscovery={retryDiscovery}
           />
         )}
 

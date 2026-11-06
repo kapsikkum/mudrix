@@ -179,7 +179,24 @@
       "okay": "Okay",
       "strong": "Stark"
     },
-    "weakPassword": "Der Server findet dieses Passwort zu schwach. {{error}}"
+    "weakPassword": "Der Server findet dieses Passwort zu schwach. {{error}}",
+    "serverLabelLogin": "Anmelden bei",
+    "serverLabelRegister": "Dein Konto entsteht auf",
+    "serverLabelReset": "Dein Konto ist auf",
+    "serverAddress": "Serveradresse",
+    "serverDone": "Fertig",
+    "serverPlaceholder": "example.org",
+    "serverPopular": "Beliebte Server",
+    "serverNone": "Kein Server gewählt",
+    "serverChange": "Ändern",
+    "serverChangeLabel": "Server ändern (gerade {{server}})",
+    "serverEmpty": "Gib die Adresse deines Servers ein",
+    "serverIncomplete": "Gib die vollständige Adresse ein, z.B. example.org",
+    "serverChecking": "Wird geprüft...",
+    "serverDetectedPlain": "Matrix-Homeserver erkannt",
+    "serverNotFound": "Kein Matrix-Homeserver unter dieser Adresse.",
+    "serverNoAnswer": "Adresse nicht erreichbar.",
+    "serverRetry": "Erneut versuchen"
   },
   "room": {
     "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden: {{error}}",

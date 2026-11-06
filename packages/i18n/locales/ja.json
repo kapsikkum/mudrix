@@ -179,7 +179,24 @@
       "okay": "普通",
       "strong": "安全"
     },
-    "weakPassword": "サーバーからこのパスワードは弱すぎると通知されました。{{error}}"
+    "weakPassword": "サーバーからこのパスワードは弱すぎると通知されました。{{error}}",
+    "serverLabelLogin": "ログイン先",
+    "serverLabelRegister": "アカウントの作成先",
+    "serverLabelReset": "アカウントのあるサーバー",
+    "serverAddress": "サーバーのアドレス",
+    "serverDone": "完了",
+    "serverPlaceholder": "example.org",
+    "serverPopular": "人気のサーバー",
+    "serverNone": "サーバーが選択されていません",
+    "serverChange": "変更",
+    "serverChangeLabel": "サーバーを変更（現在: {{server}}）",
+    "serverEmpty": "サーバーのアドレスを入力してください",
+    "serverIncomplete": "example.org のように、完全なアドレスを入力してください",
+    "serverChecking": "確認中...",
+    "serverDetectedPlain": "Matrixホームサーバーを検出しました",
+    "serverNotFound": "このアドレスにMatrixホームサーバーが見つかりません。",
+    "serverNoAnswer": "このアドレスに接続できませんでした。",
+    "serverRetry": "再試行"
   },
   "room": {
     "reorderFailed": "新しい並び順を保存できませんでした: {{error}}",

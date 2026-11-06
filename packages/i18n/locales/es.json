@@ -179,7 +179,24 @@
       "okay": "Aceptable",
       "strong": "Fuerte"
     },
-    "weakPassword": "El servidor dice que esta contraseña es demasiado débil. {{error}}"
+    "weakPassword": "El servidor dice que esta contraseña es demasiado débil. {{error}}",
+    "serverLabelLogin": "Iniciando sesión en",
+    "serverLabelRegister": "Creando tu cuenta en",
+    "serverLabelReset": "Tu cuenta está en",
+    "serverAddress": "Dirección del servidor",
+    "serverDone": "Listo",
+    "serverPlaceholder": "ejemplo.org",
+    "serverPopular": "Servidores populares",
+    "serverNone": "Ningún servidor elegido",
+    "serverChange": "Cambiar",
+    "serverChangeLabel": "Cambiar de servidor (ahora {{server}})",
+    "serverEmpty": "Escribe la dirección de tu servidor",
+    "serverIncomplete": "Introduce una dirección completa, como ejemplo.org",
+    "serverChecking": "Comprobando...",
+    "serverDetectedPlain": "Servidor doméstico de Matrix detectado",
+    "serverNotFound": "No se encontró ningún servidor doméstico de Matrix en esta dirección.",
+    "serverNoAnswer": "No se pudo conectar con esta dirección.",
+    "serverRetry": "Reintentar"
   },
   "room": {
     "reorderFailed": "No se pudo guardar el nuevo orden: {{error}}",

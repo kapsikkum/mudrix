@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WizardClient } from '@wizardchat/core';
-import { loadCore, normalizeUrl, register } from '@/client/initMatrix';
+import { loadCore, register } from '@/client/initMatrix';
 import { useSetAtom } from 'jotai';
 import { credentialsAtom } from '@/app/store/atoms';
 import { getErrorMessage, MatrixErrorCode } from '@/util/error';
@@ -16,11 +16,11 @@ import {
   DiscoveryStatus,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
-import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
 import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
-import { Select } from '@/app/components/Select';
+import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
 
 const LOCALPART_RE = /^[a-z0-9._=\-/+]+$/;
@@ -35,38 +35,24 @@ const STRENGTH_CLASS = {
   strong: css.strengthBarStrong,
 } as const;
 
-function serverNameOf(url: string): string {
-  try {
-    return new URL(normalizeUrl(url)).host;
-  } catch {
-    return '';
-  }
-}
-
 interface Props {
   onSuccess: () => void;
   onShowLogin: () => void;
-  serverSelect: string;
-  customUrl: string;
-  onServerSelect: (value: string) => void;
-  onCustomUrlChange: (value: string) => void;
+  hs: Homeserver;
+  picker: ServerPickerState;
   serverUrl: string;
   capabilities: AuthCapabilities | null;
   capabilitiesLoading: boolean;
-  onRetryDiscovery: () => void;
 }
 
 export function RegisterForm({
   onSuccess,
   onShowLogin,
-  serverSelect,
-  customUrl,
-  onServerSelect,
-  onCustomUrlChange,
+  hs,
+  picker,
   serverUrl,
   capabilities,
   capabilitiesLoading,
-  onRetryDiscovery,
 }: Props) {
   const { t } = useTranslation();
   const setCredentials = useSetAtom(credentialsAtom);
@@ -77,7 +63,7 @@ export function RegisterForm({
   const [statusType, setStatusType] = useState<'error' | 'success'>('error');
   const [loading, setLoading] = useState(false);
 
-  const serverName = serverNameOf(serverSelect === 'custom' ? customUrl : serverSelect);
+  const serverName = hs.serverName;
   const localpart = username.trim().replace(/^@/, '');
   const fullId = localpart && serverName ? `@${localpart}:${serverName}` : '';
   const strength = password ? passwordStrength(password) : null;
@@ -231,24 +217,7 @@ export function RegisterForm({
     <div className={css.formSection}>
       <h2 className={css.formTitle}>{t('welcome.register')}</h2>
 
-      <div className={css.serverGroup}>
-        <Select
-          aria-label={t('welcome.customServer')}
-          value={serverSelect}
-          options={[...PRESET_SERVERS, { value: 'custom', label: t('welcome.customServer') }]}
-          onChange={onServerSelect}
-        />
-        {serverSelect === 'custom' && (
-          <Input
-            type="text"
-            placeholder={t('welcome.serverUrl')}
-            aria-label={t('welcome.serverUrl')}
-            value={customUrl}
-            onChange={(e) => onCustomUrlChange(e.target.value)}
-            onBlur={onRetryDiscovery}
-          />
-        )}
-      </div>
+      <ServerPicker hs={hs} label={t('welcome.serverLabelRegister')} {...picker} />
 
       {isChecking ? (
         <div className={css.checkingServer}>

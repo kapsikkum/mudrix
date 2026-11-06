@@ -179,7 +179,24 @@
       "okay": "Okay",
       "strong": "Strong"
     },
-    "weakPassword": "The server says this password is too weak. {{error}}"
+    "weakPassword": "The server says this password is too weak. {{error}}",
+    "serverLabelLogin": "Logging in to",
+    "serverLabelRegister": "Creating your account on",
+    "serverLabelReset": "Your account is on",
+    "serverAddress": "Server address",
+    "serverDone": "Done",
+    "serverPlaceholder": "example.org",
+    "serverPopular": "Popular servers",
+    "serverNone": "No server chosen",
+    "serverChange": "Change",
+    "serverChangeLabel": "Change server (now {{server}})",
+    "serverEmpty": "Type your server's address",
+    "serverIncomplete": "Enter a full address, like example.org",
+    "serverChecking": "Checking...",
+    "serverDetectedPlain": "Matrix homeserver detected",
+    "serverNotFound": "No Matrix homeserver found at this address.",
+    "serverNoAnswer": "Couldn't reach this address.",
+    "serverRetry": "Try again"
   },
   "room": {
     "reorderFailed": "Couldn't save the new order: {{error}}",

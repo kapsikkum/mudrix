@@ -179,7 +179,24 @@
       "okay": "Średnie",
       "strong": "Silne"
     },
-    "weakPassword": "Serwer uważa to hasło za zbyt słabe. {{error}}"
+    "weakPassword": "Serwer uważa to hasło za zbyt słabe. {{error}}",
+    "serverLabelLogin": "Logowanie na",
+    "serverLabelRegister": "Tworzenie konta na",
+    "serverLabelReset": "Twoje konto jest na",
+    "serverAddress": "Adres serwera",
+    "serverDone": "Gotowe",
+    "serverPlaceholder": "przyklad.org",
+    "serverPopular": "Popularne serwery",
+    "serverNone": "Nie wybrano serwera",
+    "serverChange": "Zmień",
+    "serverChangeLabel": "Zmień serwer (teraz {{server}})",
+    "serverEmpty": "Wpisz adres swojego serwera",
+    "serverIncomplete": "Wpisz pełny adres, np. przyklad.org",
+    "serverChecking": "Sprawdzanie...",
+    "serverDetectedPlain": "Wykryto serwer domowy Matrix",
+    "serverNotFound": "Pod tym adresem nie znaleziono serwera domowego Matrix.",
+    "serverNoAnswer": "Nie udało się połączyć z tym adresem.",
+    "serverRetry": "Spróbuj ponownie"
   },
   "room": {
     "reorderFailed": "Nie udało się zapisać nowej kolejności: {{error}}",

@@ -15,39 +15,33 @@ import {
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
 import type { MatrixCredentials } from '@/client/types';
-import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
 import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
-import { Select } from '@/app/components/Select';
+import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
 
 interface Props {
   onSuccess: () => void;
   onShowRegister: () => void;
   onShowReset: () => void;
-  serverSelect: string;
-  customUrl: string;
-  onServerSelect: (value: string) => void;
-  onCustomUrlChange: (value: string) => void;
+  hs: Homeserver;
+  picker: ServerPickerState;
   serverUrl: string;
   capabilities: AuthCapabilities | null;
   capabilitiesLoading: boolean;
-  onRetryDiscovery: () => void;
 }
 
 export function LoginForm({
   onSuccess,
   onShowRegister,
   onShowReset,
-  serverSelect,
-  customUrl,
-  onServerSelect,
-  onCustomUrlChange,
+  hs,
+  picker,
   serverUrl,
   capabilities,
   capabilitiesLoading,
-  onRetryDiscovery,
 }: Props) {
   const { t } = useTranslation();
   const setCredentials = useSetAtom(credentialsAtom);
@@ -123,24 +117,7 @@ export function LoginForm({
     <div className={css.formSection}>
       <h2 className={css.formTitle}>{t('welcome.login')}</h2>
 
-      <div className={css.serverGroup}>
-        <Select
-          aria-label={t('welcome.customServer')}
-          value={serverSelect}
-          options={[...PRESET_SERVERS, { value: 'custom', label: t('welcome.customServer') }]}
-          onChange={onServerSelect}
-        />
-        {serverSelect === 'custom' && (
-          <Input
-            type="text"
-            placeholder={t('welcome.serverUrl')}
-            aria-label={t('welcome.serverUrl')}
-            value={customUrl}
-            onChange={(e) => onCustomUrlChange(e.target.value)}
-            onBlur={onRetryDiscovery}
-          />
-        )}
-      </div>
+      <ServerPicker hs={hs} label={t('welcome.serverLabelLogin')} {...picker} />
 
       {isChecking ? (
         <div className={css.checkingServer}>

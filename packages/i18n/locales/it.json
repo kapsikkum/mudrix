@@ -179,7 +179,24 @@
       "okay": "Accettabile",
       "strong": "Forte"
     },
-    "weakPassword": "Il server dice che questa password è troppo debole. {{error}}"
+    "weakPassword": "Il server dice che questa password è troppo debole. {{error}}",
+    "serverLabelLogin": "Accesso a",
+    "serverLabelRegister": "Creazione del tuo account su",
+    "serverLabelReset": "Il tuo account è su",
+    "serverAddress": "Indirizzo del server",
+    "serverDone": "Fatto",
+    "serverPlaceholder": "esempio.org",
+    "serverPopular": "Server popolari",
+    "serverNone": "Nessun server scelto",
+    "serverChange": "Cambia",
+    "serverChangeLabel": "Cambia server (ora {{server}})",
+    "serverEmpty": "Scrivi l'indirizzo del tuo server",
+    "serverIncomplete": "Inserisci un indirizzo completo, come esempio.org",
+    "serverChecking": "Controllo in corso...",
+    "serverDetectedPlain": "Homeserver Matrix rilevato",
+    "serverNotFound": "Nessun homeserver Matrix trovato a questo indirizzo.",
+    "serverNoAnswer": "Impossibile raggiungere questo indirizzo.",
+    "serverRetry": "Riprova"
   },
   "room": {
     "reorderFailed": "Impossibile salvare il nuovo ordine: {{error}}",

@@ -179,7 +179,24 @@
       "okay": "Нормальный",
       "strong": "Надёжный"
     },
-    "weakPassword": "Сервер считает этот пароль слишком слабым. {{error}}"
+    "weakPassword": "Сервер считает этот пароль слишком слабым. {{error}}",
+    "serverLabelLogin": "Вход на сервер",
+    "serverLabelRegister": "Создание аккаунта на сервере",
+    "serverLabelReset": "Ваш аккаунт на сервере",
+    "serverAddress": "Адрес сервера",
+    "serverDone": "Готово",
+    "serverPlaceholder": "example.org",
+    "serverPopular": "Популярные серверы",
+    "serverNone": "Сервер не выбран",
+    "serverChange": "Изменить",
+    "serverChangeLabel": "Сменить сервер (сейчас {{server}})",
+    "serverEmpty": "Введите адрес вашего сервера",
+    "serverIncomplete": "Введите полный адрес, например example.org",
+    "serverChecking": "Проверка...",
+    "serverDetectedPlain": "Обнаружен домашний сервер Matrix",
+    "serverNotFound": "По этому адресу не найден домашний сервер Matrix.",
+    "serverNoAnswer": "Не удалось подключиться к этому адресу.",
+    "serverRetry": "Повторить"
   },
   "room": {
     "reorderFailed": "Не удалось сохранить новый порядок: {{error}}",

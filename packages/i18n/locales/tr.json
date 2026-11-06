@@ -179,7 +179,24 @@
       "okay": "Orta",
       "strong": "Güçlü"
     },
-    "weakPassword": "Sunucu bu parolayı çok zayıf buluyor. {{error}}"
+    "weakPassword": "Sunucu bu parolayı çok zayıf buluyor. {{error}}",
+    "serverLabelLogin": "Giriş yapılan sunucu",
+    "serverLabelRegister": "Hesabın oluşturulacağı sunucu",
+    "serverLabelReset": "Hesabınızın bulunduğu sunucu",
+    "serverAddress": "Sunucu adresi",
+    "serverDone": "Bitti",
+    "serverPlaceholder": "example.org",
+    "serverPopular": "Popüler sunucular",
+    "serverNone": "Sunucu seçilmedi",
+    "serverChange": "Değiştir",
+    "serverChangeLabel": "Sunucuyu değiştir (şu an {{server}})",
+    "serverEmpty": "Sunucunuzun adresini yazın",
+    "serverIncomplete": "example.org gibi tam bir adres girin",
+    "serverChecking": "Denetleniyor...",
+    "serverDetectedPlain": "Matrix ana sunucusu algılandı",
+    "serverNotFound": "Bu adreste Matrix ana sunucusu bulunamadı.",
+    "serverNoAnswer": "Bu adrese ulaşılamadı.",
+    "serverRetry": "Tekrar dene"
   },
   "room": {
     "reorderFailed": "Yeni sıra kaydedilemedi: {{error}}",

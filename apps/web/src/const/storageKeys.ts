@@ -64,3 +64,5 @@ export const STORAGE_KEY_WHATS_NEW_SEEN = 'wz_whats_new_seen';
 
 // matrix.to target opened via /to#/..., kept across sign-in until the client is ready
 export const STORAGE_KEY_PENDING_LINK = 'wz_pending_link';
+/** The homeserver last used to sign in, offered first the next time. */
+export const STORAGE_KEY_LAST_HOMESERVER = 'wz_last_homeserver';

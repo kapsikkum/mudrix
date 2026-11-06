@@ -179,7 +179,24 @@
       "okay": "Razoável",
       "strong": "Forte"
     },
-    "weakPassword": "O servidor diz que esta palavra-passe é demasiado fraca. {{error}}"
+    "weakPassword": "O servidor diz que esta palavra-passe é demasiado fraca. {{error}}",
+    "serverLabelLogin": "Entrando em",
+    "serverLabelRegister": "Criando sua conta em",
+    "serverLabelReset": "Sua conta está em",
+    "serverAddress": "Endereço do servidor",
+    "serverDone": "Concluído",
+    "serverPlaceholder": "exemplo.org",
+    "serverPopular": "Servidores populares",
+    "serverNone": "Nenhum servidor escolhido",
+    "serverChange": "Alterar",
+    "serverChangeLabel": "Alterar servidor (atual: {{server}})",
+    "serverEmpty": "Digite o endereço do seu servidor",
+    "serverIncomplete": "Digite um endereço completo, como exemplo.org",
+    "serverChecking": "Verificando...",
+    "serverDetectedPlain": "Homeserver Matrix detectado",
+    "serverNotFound": "Nenhum homeserver Matrix encontrado neste endereço.",
+    "serverNoAnswer": "Não foi possível acessar este endereço.",
+    "serverRetry": "Tentar novamente"
   },
   "room": {
     "reorderFailed": "Não foi possível guardar a nova ordem: {{error}}",

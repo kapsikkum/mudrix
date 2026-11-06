@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 
@@ -212,3 +212,215 @@ export const strengthBar = style({
 export const strengthBarWeak = style([strengthBar, { backgroundColor: vars.color.error }]);
 export const strengthBarOkay = style([strengthBar, { backgroundColor: vars.color.warning }]);
 export const strengthBarStrong = style([strengthBar, { backgroundColor: vars.color.success }]);
+
+// ---------- server picker ----------
+
+const TOUCH = '(max-width: 768px), (pointer: coarse)';
+const NO_MOTION = '(prefers-reduced-motion: reduce)';
+
+const appear = keyframes({
+  from: { opacity: 0, transform: 'translateY(6px)' },
+  to: { opacity: 1, transform: 'none' },
+});
+const spin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+const linkLike = {
+  color: vars.color.accent,
+  cursor: 'pointer',
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  font: 'inherit',
+  ':hover': { textDecoration: 'underline' },
+} as const;
+
+export const server = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+});
+
+export const serverLabelRow = style({
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  gap: '8px',
+  minHeight: '18px',
+});
+
+export const serverLabel = style({
+  fontSize: '0.78rem',
+  fontWeight: 700,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  color: vars.color.textMuted,
+});
+
+export const serverDone = style({
+  ...linkLike,
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  padding: '4px 6px',
+  margin: '-4px -6px',
+  '@media': { [TOUCH]: { padding: '10px 8px', margin: '-10px -8px' } },
+});
+
+export const serverChip = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  minHeight: '56px',
+  padding: '8px 8px 8px 12px',
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgTertiary,
+});
+
+export const serverIcon = style({
+  flexShrink: 0,
+  color: vars.color.textMuted,
+  display: 'flex',
+});
+
+export const serverText = style({
+  flex: 1,
+  minWidth: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+});
+
+export const serverName = style({
+  fontSize: '0.95rem',
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+});
+
+export const serverChange = style({
+  flexShrink: 0,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  minHeight: '36px',
+  padding: '0 12px',
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.accent}`,
+  background: 'none',
+  color: vars.color.accent,
+  font: 'inherit',
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':disabled': { opacity: 0.5, cursor: 'default' },
+  '@media': { [TOUCH]: { minHeight: '44px' } },
+});
+
+export const serverEditor = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  padding: '12px',
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${appear} 150ms ease-out`,
+  '@media': { [NO_MOTION]: { animation: 'none' } },
+});
+
+export const serverPresets = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '6px',
+});
+
+export const serverPreset = style({
+  minHeight: '32px',
+  padding: '0 12px',
+  borderRadius: '999px',
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgSecondary,
+  color: vars.color.textPrimary,
+  font: 'inherit',
+  fontSize: '0.82rem',
+  cursor: 'pointer',
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':disabled': { opacity: 0.5, cursor: 'default' },
+  selectors: {
+    '&[aria-pressed="true"]': {
+      borderColor: vars.color.accent,
+      backgroundColor: `rgba(${vars.color.accentRgb}, 0.15)`,
+    },
+  },
+  '@media': { [TOUCH]: { minHeight: '40px', padding: '0 14px' } },
+});
+
+/**
+ * The status line under the server address: one line, always present, so the answer arriving
+ * (or changing) never moves anything. Long text is cut with an ellipsis (full text in `title`).
+ */
+export const serverStatus = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  height: '18px',
+  minWidth: 0,
+  fontSize: '0.8rem',
+  lineHeight: '18px',
+  color: vars.color.textMuted,
+  transition: 'opacity 150ms',
+});
+export const serverStatusStale = style({ opacity: 0.55 });
+export const serverStatusOk = style({ color: vars.color.success });
+export const serverStatusBad = style({ color: vars.color.error });
+
+export const serverStatusText = style({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  minWidth: 0,
+});
+
+/** The fixed-size slot at the start of the status line: a dot, or a spinner while checking. */
+export const serverStatusMark = style({
+  flexShrink: 0,
+  width: '10px',
+  height: '10px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+export const serverDot = style({
+  width: '8px',
+  height: '8px',
+  borderRadius: '50%',
+  backgroundColor: 'currentColor',
+});
+export const serverSpinner = style({
+  width: '10px',
+  height: '10px',
+  borderRadius: '50%',
+  border: '2px solid currentColor',
+  borderRightColor: 'transparent',
+  animation: `${spin} 700ms linear infinite`,
+  '@media': { [NO_MOTION]: { animation: `${spin} 2s linear infinite` } },
+});
+
+export const serverRetry = style({ ...linkLike, flexShrink: 0, fontSize: '0.8rem' });
+
+/** Read by screen readers, not shown. */
+export const serverSrOnly = style({
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+});

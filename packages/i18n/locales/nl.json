@@ -179,7 +179,24 @@
       "okay": "Redelijk",
       "strong": "Sterk"
     },
-    "weakPassword": "De server vindt dit wachtwoord te zwak. {{error}}"
+    "weakPassword": "De server vindt dit wachtwoord te zwak. {{error}}",
+    "serverLabelLogin": "Inloggen bij",
+    "serverLabelRegister": "Je account aanmaken op",
+    "serverLabelReset": "Je account staat op",
+    "serverAddress": "Serveradres",
+    "serverDone": "Klaar",
+    "serverPlaceholder": "voorbeeld.org",
+    "serverPopular": "Populaire servers",
+    "serverNone": "Geen server gekozen",
+    "serverChange": "Wijzigen",
+    "serverChangeLabel": "Server wijzigen (nu {{server}})",
+    "serverEmpty": "Typ het adres van je server",
+    "serverIncomplete": "Voer een volledig adres in, zoals voorbeeld.org",
+    "serverChecking": "Controleren...",
+    "serverDetectedPlain": "Matrix-homeserver gevonden",
+    "serverNotFound": "Geen Matrix-homeserver gevonden op dit adres.",
+    "serverNoAnswer": "Dit adres kon niet worden bereikt.",
+    "serverRetry": "Opnieuw proberen"
   },
   "room": {
     "reorderFailed": "Kon de nieuwe volgorde niet opslaan: {{error}}",

@@ -179,7 +179,24 @@
       "okay": "Moyen",
       "strong": "Fort"
     },
-    "weakPassword": "Le serveur juge ce mot de passe trop faible. {{error}}"
+    "weakPassword": "Le serveur juge ce mot de passe trop faible. {{error}}",
+    "serverLabelLogin": "Connexion à",
+    "serverLabelRegister": "Création de votre compte sur",
+    "serverLabelReset": "Votre compte est sur",
+    "serverAddress": "Adresse du serveur",
+    "serverDone": "Terminé",
+    "serverPlaceholder": "exemple.org",
+    "serverPopular": "Serveurs populaires",
+    "serverNone": "Aucun serveur choisi",
+    "serverChange": "Modifier",
+    "serverChangeLabel": "Changer de serveur (actuellement {{server}})",
+    "serverEmpty": "Saisissez l'adresse de votre serveur",
+    "serverIncomplete": "Saisissez une adresse complète, comme exemple.org",
+    "serverChecking": "Vérification...",
+    "serverDetectedPlain": "Serveur d'accueil Matrix détecté",
+    "serverNotFound": "Aucun serveur d'accueil Matrix trouvé à cette adresse.",
+    "serverNoAnswer": "Impossible de joindre cette adresse.",
+    "serverRetry": "Réessayer"
   },
   "room": {
     "reorderFailed": "Impossible d'enregistrer le nouvel ordre : {{error}}",
