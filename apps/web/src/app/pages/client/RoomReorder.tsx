@@ -35,6 +35,8 @@ export interface ReorderRow {
   group: string | null;
   section: string | null;
   anchor?: string;
+  /** A category header that can be moved among the categories of the same parent space */
+  category?: { id: string; parent: string };
   /** What a screen reader calls the row while it is dragged; the id when absent. */
   label?: string;
 }
@@ -51,6 +53,7 @@ interface RoomReorderProviderProps {
   onReorder: (section: string, orderedIds: string[], movedId: string) => void;
   onMoveRoom?: (roomId: string, group: string) => void;
   onReorderSections?: (orderedAnchors: string[]) => void;
+  onReorderCategories?: (parentId: string, orderedIds: string[], movedId: string) => void;
   onActiveChange?: (id: string | null) => void;
   onDropGroupChange?: (group: string | null) => void;
   renderOverlay: (id: string) => ReactNode;
@@ -61,6 +64,7 @@ type Plan =
   | { kind: 'reorder'; section: string; ids: string[]; line: InsertLine }
   | { kind: 'move'; group: string }
   | { kind: 'sections'; anchors: string[]; line: InsertLine }
+  | { kind: 'categories'; parent: string; ids: string[]; moved: string; line: InsertLine }
   | null;
 
 export function RoomReorderProvider({
@@ -68,6 +72,7 @@ export function RoomReorderProvider({
   onReorder,
   onMoveRoom,
   onReorderSections,
+  onReorderCategories,
   onActiveChange,
   onDropGroupChange,
   renderOverlay,
@@ -117,6 +122,33 @@ export function RoomReorderProvider({
       const from = byId.get(active)?.row;
       const to = over ? byId.get(over)?.row : undefined;
       if (!from || !to || active === over) return null;
+
+      if (from.kind === 'header' && from.category) {
+        const { id, parent } = from.category;
+        // The category the pointer is over: a header, or the room under one
+        let over: ReorderRow | undefined;
+        for (let i = byId.get(to.id)!.index; i >= 0 && !over; i--) {
+          if (rows[i].kind === 'header') over = rows[i];
+        }
+        const target = over?.category;
+        if (!target || target.parent !== parent || target.id === id) return null;
+        const siblings = rows
+          .filter((r) => r.kind === 'header' && r.category?.parent === parent)
+          .map((r) => r.category!.id);
+        const a = siblings.indexOf(id);
+        const b = siblings.indexOf(target.id);
+        if (a === -1 || b === -1) return null;
+        const headerOf = (categoryId: string) =>
+          rows.find((r) => r.kind === 'header' && r.category?.id === categoryId)!.id;
+        const following = siblings[b + 1];
+        const line: InsertLine =
+          a > b
+            ? { id: headerOf(target.id), position: 'before' }
+            : following
+              ? { id: headerOf(following), position: 'before' }
+              : { id: rows[rows.length - 1].id, position: 'after' };
+        return { kind: 'categories', parent, ids: arrayMove(siblings, a, b), moved: id, line };
+      }
 
       if (from.kind === 'header') {
         const source = from.anchor;
@@ -200,6 +232,7 @@ export function RoomReorderProvider({
     if (!next) return;
     if (next.kind === 'reorder') onReorder(next.section, next.ids, String(active.id));
     else if (next.kind === 'move') onMoveRoom?.(String(active.id), next.group);
+    else if (next.kind === 'categories') onReorderCategories?.(next.parent, next.ids, next.moved);
     else onReorderSections?.(next.anchors);
   };
 
@@ -252,15 +285,18 @@ export function SortableRoomRow({
 export function SortableHeaderRow({
   id,
   draggable,
+  droppable = false,
   children,
 }: {
   id: string;
   draggable: boolean;
+  /** Rooms can be dropped on it (a category that may be empty) */
+  droppable?: boolean;
   children: ReactNode;
 }) {
   const { listeners, setNodeRef, isDragging } = useSortable({
     id,
-    disabled: { draggable: !draggable, droppable: false },
+    disabled: { draggable: !draggable, droppable: !droppable },
   });
   const { insertLine } = useContext(ReorderContext);
   return (

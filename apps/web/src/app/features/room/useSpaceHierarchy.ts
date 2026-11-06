@@ -87,7 +87,9 @@ interface BuiltSubtree {
 
 export function useSpaceHierarchy(
   spaceId: string | null,
-  exclude: ReadonlySet<string> = EMPTY_FAVOURITES
+  exclude: ReadonlySet<string> = EMPTY_FAVOURITES,
+  /** Keep categories (sub-spaces) that hold no rooms yet, so they can be filled and managed */
+  includeEmpty = false
 ): HierarchyItem[] {
   const allRooms = useAllRooms();
   const graph = useSpaceGraph();
@@ -148,7 +150,7 @@ export function useSpaceHierarchy(
       for (const { id, catKey, sub } of childSubtrees) {
         const local = spaceInfo.get(id);
         const hasContent = sub.rooms.length > 0 || sub.spaces.length > 0;
-        if (!(sub.activeChain && hasContent)) continue;
+        if (!(sub.activeChain && (hasContent || includeEmpty))) continue;
         const summ = serverMap.get(id);
         const unread = spaceUnreadState(id, graph, roomsById, exclude);
         spaces.push({
@@ -198,7 +200,7 @@ export function useSpaceHierarchy(
       }
     };
 
-    if (tree.rooms.length > 0) {
+    if (tree.rooms.length > 0 || includeEmpty) {
       const rootUnread = spaceUnreadState(spaceId, graph, roomsById, exclude);
       const root = spaceInfo.get(spaceId);
       result.push({
@@ -218,5 +220,5 @@ export function useSpaceHierarchy(
     emitSpaces(tree.spaces);
 
     return result;
-  }, [allRooms, graph, joinedSpaceIds, spaceInfo, spaceId, exclude, serverMap]);
+  }, [allRooms, graph, joinedSpaceIds, spaceInfo, spaceId, exclude, serverMap, includeEmpty]);
 }

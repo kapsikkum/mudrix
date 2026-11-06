@@ -320,7 +320,9 @@
         "encryptionNote": "Una volta attivata, la crittografia non può essere disattivata.",
         "encryptionConfirm": "Sei sicuro? Una volta attivata, la crittografia di una stanza non può essere disattivata. I messaggi inviati in una stanza crittografata possono essere letti solo dai partecipanti, e molti bot e bridge potrebbero smettere di funzionare correttamente.",
         "encryptionPublicRoomWarning": "Questa è una stanza pubblica. Chiunque può trovarla e unirsi, quindi chiunque potrebbe leggere i messaggi anche con la crittografia attiva.",
-        "encryptionEnableFailed": "Impossibile attivare la crittografia: {{error}}"
+        "encryptionEnableFailed": "Impossibile attivare la crittografia: {{error}}",
+        "autoJoin": "Aggiungi i nuovi membri a ogni stanza",
+        "autoJoinNote": "Chiunque entri in questo spazio viene aggiunto a tutte le sue stanze e categorie, e alle stanze aggiunte in seguito. Le stanze private restano solo su invito, e una stanza che qualcuno lascia non viene riunita di nuovo."
       },
       "addresses": {
         "title": "Indirizzi",
@@ -467,6 +469,13 @@
           "modify_widgets": "Modifica widget",
           "space_child": "Aggiungi / rimuovi spazi"
         }
+      },
+      "channels": {
+        "category": "Categoria",
+        "empty": "Ancora nessuna stanza qui.",
+        "intro": "Ordina le stanze, scegli quali sono canali vocali e spostale tra le categorie. Le persone vedono questo ordine nell'elenco stanze Moderno.",
+        "moveTo": "Sposta in...",
+        "title": "Stanze"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Panoramica dello spazio",
       "setSuggested": "Imposta come suggerito",
       "unsetSuggested": "Rimuovi suggerimento",
-      "chooseCreateJoin": "Crea o unisciti a uno spazio"
+      "chooseCreateJoin": "Crea o unisciti a uno spazio",
+      "banner": {
+        "colors": "Colori del banner",
+        "remove": "Rimuovi banner",
+        "title": "Banner",
+        "upload": "Carica banner"
+      }
     },
     "dm": {
       "directMessages": "Messaggi diretti",
@@ -622,7 +637,19 @@
       "over": "Sopra {{name}}",
       "dropped": "Hai rilasciato {{name}} su {{target}}",
       "cancelled": "Spostamento di {{name}} annullato"
-    }
+    },
+    "categoryName": "Nome della categoria",
+    "categoryNamePlaceholder": "Nuova categoria",
+    "categoryPrivate": "Categoria privata",
+    "categoryPrivateNote": "Solo le persone che inviti possono vedere questa categoria. I canali che ci metti restano privati quanto la categoria.",
+    "createCategory": "Crea categoria",
+    "makeTextChannel": "Rendi canale di testo",
+    "makeVoiceChannel": "Rendi canale vocale",
+    "moveDown": "Sposta giù",
+    "moveFailed": "Impossibile riordinare: {{error}}",
+    "moveUp": "Sposta su",
+    "noCategory": "Nessuna categoria",
+    "voiceChannelFailed": "Impossibile cambiare il tipo di canale: {{error}}"
   },
   "notifLevel": {
     "default": "Predefinito",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Zoom dell'interfaccia",
       "uiZoomNote": "Ridimensiona testo e spaziature in tutta l'app.",
       "groupImages": "Raggruppa le immagini in gallerie",
-      "groupImagesNote": "Mostra le immagini inviate insieme come un'unica galleria. Se disattivato, ogni immagine è un messaggio a sé, come negli altri client Matrix."
+      "groupImagesNote": "Mostra le immagini inviate insieme come un'unica galleria. Se disattivato, ogni immagine è un messaggio a sé, come negli altri client Matrix.",
+      "roomListStyle": "Stile dell'elenco stanze",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Moderno",
+      "roomListStyleNote": "Matrix mostra un avatar su ogni stanza. Moderno usa righe di canale semplici, ti permette di ordinare i canali all'interno di uno spazio e di segnare i canali vocali."
     },
     "accessibility": {
       "title": "Accessibilità",

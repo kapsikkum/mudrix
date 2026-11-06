@@ -320,7 +320,9 @@
         "encryptionNote": "Depois de ativada, a criptografia não pode ser desativada.",
         "encryptionConfirm": "Tem certeza? Depois de ativada, a criptografia de uma sala não pode ser desativada. As mensagens enviadas em uma sala criptografada só podem ser lidas pelos participantes, e muitos bots e pontes podem deixar de funcionar corretamente.",
         "encryptionPublicRoomWarning": "Esta é uma sala pública. Qualquer pessoa pode encontrá-la e entrar, então qualquer um poderia ler as mensagens, mesmo com a criptografia ativada.",
-        "encryptionEnableFailed": "Falha ao ativar a criptografia: {{error}}"
+        "encryptionEnableFailed": "Falha ao ativar a criptografia: {{error}}",
+        "autoJoin": "Adicionar novos membros a todas as salas",
+        "autoJoinNote": "Quem entrar neste espaço entra em todas as suas salas e categorias, e nas salas adicionadas depois. Salas privadas continuam só por convite, e uma sala que alguém deixou não o adiciona de novo."
       },
       "addresses": {
         "title": "Endereços",
@@ -467,6 +469,13 @@
           "modify_widgets": "Modificar widgets",
           "space_child": "Adicionar / remover espaços"
         }
+      },
+      "channels": {
+        "category": "Categoria",
+        "empty": "Nenhuma sala aqui ainda.",
+        "intro": "Ordene as salas, escolha quais são canais de voz e mova-as entre categorias. As pessoas veem essa ordem na lista de salas Moderna.",
+        "moveTo": "Mover para...",
+        "title": "Salas"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Visão geral do espaço",
       "setSuggested": "Definir como sugerido",
       "unsetSuggested": "Remover dos sugeridos",
-      "chooseCreateJoin": "Criar ou entrar em espaço"
+      "chooseCreateJoin": "Criar ou entrar em espaço",
+      "banner": {
+        "colors": "Cores do banner",
+        "remove": "Remover banner",
+        "title": "Banner",
+        "upload": "Enviar banner"
+      }
     },
     "dm": {
       "directMessages": "Mensagens diretas",
@@ -622,7 +637,19 @@
       "over": "Sobre {{name}}",
       "dropped": "{{name}} solto sobre {{target}}",
       "cancelled": "Movimento de {{name}} cancelado"
-    }
+    },
+    "categoryName": "Nome da categoria",
+    "categoryNamePlaceholder": "Nova categoria",
+    "categoryPrivate": "Categoria privada",
+    "categoryPrivateNote": "Só as pessoas que você convidar veem esta categoria. Os canais que você colocar nela continuam tão privados quanto a categoria.",
+    "createCategory": "Criar categoria",
+    "makeTextChannel": "Transformar em canal de texto",
+    "makeVoiceChannel": "Transformar em canal de voz",
+    "moveDown": "Mover para baixo",
+    "moveFailed": "Não foi possível reordenar: {{error}}",
+    "moveUp": "Mover para cima",
+    "noCategory": "Sem categoria",
+    "voiceChannelFailed": "Não foi possível alterar o tipo do canal: {{error}}"
   },
   "notifLevel": {
     "default": "Padrão",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Zoom da interface",
       "uiZoomNote": "Ajusta o tamanho do texto e do espaçamento em todo o app.",
       "groupImages": "Agrupar imagens em galerias",
-      "groupImagesNote": "Mostra as imagens enviadas juntas como uma só galeria. Quando desativado, cada imagem é uma mensagem separada, como em outros clientes Matrix."
+      "groupImagesNote": "Mostra as imagens enviadas juntas como uma só galeria. Quando desativado, cada imagem é uma mensagem separada, como em outros clientes Matrix.",
+      "roomListStyle": "Estilo da lista de salas",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Moderno",
+      "roomListStyleNote": "Matrix mostra um avatar em cada sala. Moderno usa linhas de canal simples, deixa você ordenar canais dentro de um espaço e marcar canais de voz."
     },
     "accessibility": {
       "title": "Acessibilidade",

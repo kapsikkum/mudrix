@@ -320,7 +320,9 @@
         "encryptionNote": "Once enabled, encryption cannot be disabled.",
         "encryptionConfirm": "Are you sure? Once enabled, encryption for a room cannot be disabled. Messages sent in an encrypted room can only be read by its participants, and many bots and bridges may stop working correctly.",
         "encryptionPublicRoomWarning": "This is a public room. Anyone can find and join it, so anyone could read messages in it even with encryption enabled.",
-        "encryptionEnableFailed": "Failed to enable encryption: {{error}}"
+        "encryptionEnableFailed": "Failed to enable encryption: {{error}}",
+        "autoJoin": "Join new members to every room",
+        "autoJoinNote": "Anyone who joins this space is joined to all of its rooms and categories, and to rooms added later. Private rooms stay invite only, and a room someone leaves is not joined again."
       },
       "addresses": {
         "title": "Addresses",
@@ -467,6 +469,13 @@
           "modify_widgets": "Modify widgets",
           "space_child": "Add / remove spaces"
         }
+      },
+      "channels": {
+        "category": "Category",
+        "empty": "No rooms here yet.",
+        "intro": "Order the rooms, choose which are voice channels, and move them between categories. People see this order in the Modern room list.",
+        "moveTo": "Move to...",
+        "title": "Rooms"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Space Overview",
       "setSuggested": "Set Suggested",
       "unsetSuggested": "Unset Suggested",
-      "chooseCreateJoin": "Create or Join Space"
+      "chooseCreateJoin": "Create or Join Space",
+      "banner": {
+        "colors": "Banner colours",
+        "remove": "Remove banner",
+        "title": "Banner",
+        "upload": "Upload banner"
+      }
     },
     "dm": {
       "directMessages": "Direct Messages",
@@ -622,7 +637,19 @@
       "over": "Over {{name}}",
       "dropped": "Dropped {{name}} on {{target}}",
       "cancelled": "Moving {{name}} cancelled"
-    }
+    },
+    "categoryName": "Category name",
+    "categoryNamePlaceholder": "New category",
+    "categoryPrivate": "Private category",
+    "categoryPrivateNote": "Only people you invite can see this category. Channels you put in it stay as private as the category.",
+    "createCategory": "Create category",
+    "makeTextChannel": "Make text channel",
+    "makeVoiceChannel": "Make voice channel",
+    "moveDown": "Move down",
+    "moveFailed": "Couldn't reorder: {{error}}",
+    "moveUp": "Move up",
+    "noCategory": "No category",
+    "voiceChannelFailed": "Couldn't change the channel type: {{error}}"
   },
   "notifLevel": {
     "default": "Default",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Interface zoom",
       "uiZoomNote": "Scales text and spacing across the app.",
       "groupImages": "Group images into galleries",
-      "groupImagesNote": "Show images sent together as one gallery. When off, every image is its own message, like in other Matrix clients."
+      "groupImagesNote": "Show images sent together as one gallery. When off, every image is its own message, like in other Matrix clients.",
+      "roomListStyle": "Room list style",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Modern",
+      "roomListStyleNote": "Matrix shows an avatar on every room. Modern uses plain channel rows, lets you order channels inside a space and mark voice channels."
     },
     "accessibility": {
       "title": "Accessibility",

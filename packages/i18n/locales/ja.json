@@ -320,7 +320,9 @@
         "encryptionNote": "一度有効にすると、暗号化は無効にできません。",
         "encryptionConfirm": "よろしいですか？一度有効にすると、ルームの暗号化は無効にできません。暗号化されたルームで送信されたメッセージは参加者だけが読むことができ、多くのボットやブリッジが正しく動作しなくなる可能性があります。",
         "encryptionPublicRoomWarning": "これは公開ルームです。誰でも見つけて参加できるため、暗号化を有効にしていても誰でもメッセージを読むことができます。",
-        "encryptionEnableFailed": "暗号化の有効化に失敗しました: {{error}}"
+        "encryptionEnableFailed": "暗号化の有効化に失敗しました: {{error}}",
+        "autoJoin": "新しいメンバーを全ルームに参加させる",
+        "autoJoinNote": "このスペースに参加した人は、すべてのルームとカテゴリ、および後から追加されたルームにも参加します。プライベートルームは招待制のままで、退出したルームには再参加しません。"
       },
       "addresses": {
         "title": "アドレス",
@@ -467,6 +469,13 @@
           "modify_widgets": "ウィジェットを変更",
           "space_child": "スペースを追加・削除"
         }
+      },
+      "channels": {
+        "category": "カテゴリ",
+        "empty": "ルームはまだありません。",
+        "intro": "ルームの並べ替え、ボイスチャンネルの指定、カテゴリ間の移動ができます。この順序はモダンなルームリストに表示されます。",
+        "moveTo": "移動先...",
+        "title": "ルーム"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "スペースの概要",
       "setSuggested": "おすすめに設定",
       "unsetSuggested": "おすすめを解除",
-      "chooseCreateJoin": "スペースを作成または参加"
+      "chooseCreateJoin": "スペースを作成または参加",
+      "banner": {
+        "colors": "バナーの色",
+        "remove": "バナーを削除",
+        "title": "バナー",
+        "upload": "バナーをアップロード"
+      }
     },
     "dm": {
       "directMessages": "ダイレクトメッセージ",
@@ -622,7 +637,19 @@
       "over": "{{name}} の上",
       "dropped": "{{name}} を {{target}} にドロップしました",
       "cancelled": "{{name}} の移動をキャンセルしました"
-    }
+    },
+    "categoryName": "カテゴリ名",
+    "categoryNamePlaceholder": "新しいカテゴリ",
+    "categoryPrivate": "プライベートカテゴリ",
+    "categoryPrivateNote": "招待した人だけがこのカテゴリを見られます。中に入れたチャンネルも、カテゴリと同じ非公開になります。",
+    "createCategory": "カテゴリを作成",
+    "makeTextChannel": "テキストチャンネルにする",
+    "makeVoiceChannel": "ボイスチャンネルにする",
+    "moveDown": "下へ移動",
+    "moveFailed": "並べ替えできませんでした: {{error}}",
+    "moveUp": "上へ移動",
+    "noCategory": "カテゴリなし",
+    "voiceChannelFailed": "チャンネルの種類を変更できませんでした: {{error}}"
   },
   "notifLevel": {
     "default": "デフォルト",
@@ -1393,7 +1420,11 @@
       "uiZoom": "インターフェースの拡大率",
       "uiZoomNote": "アプリ全体の文字と余白を拡大・縮小します。",
       "groupImages": "画像をギャラリーにまとめる",
-      "groupImagesNote": "一緒に送信された画像を1つのギャラリーとして表示します。オフにすると、他のMatrixクライアントと同様に、画像ごとに個別のメッセージになります。"
+      "groupImagesNote": "一緒に送信された画像を1つのギャラリーとして表示します。オフにすると、他のMatrixクライアントと同様に、画像ごとに個別のメッセージになります。",
+      "roomListStyle": "ルームリストのスタイル",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "モダン",
+      "roomListStyleNote": "Matrixはすべてのルームにアバターを表示します。モダンはシンプルなチャンネル行を使い、スペース内でチャンネルを並べ替えたり、ボイスチャンネルに指定したりできます。"
     },
     "accessibility": {
       "title": "アクセシビリティ",

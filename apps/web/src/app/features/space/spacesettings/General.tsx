@@ -17,6 +17,7 @@ import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { getErrorMessage } from '@/util/error';
 import { joinRuleToAccess } from '@/util/matrix';
 import { SoundboardRoomSettings } from '@/app/features/soundboard/SoundboardRoomSettings';
+import { SpaceModernSettings } from './SpaceModernSettings';
 import * as css from '@/app/components/Settings/Settings.css';
 import { vars } from '@/theme/vars.css';
 
@@ -196,6 +197,8 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
   return (
     <div>
       <h2 className={css.panelTitle}>{t('room.settings.general.title')}</h2>
+
+      <SpaceModernSettings spaceId={spaceId} />
 
       <div className={css.section}>
         <div className={css.avatarRow}>

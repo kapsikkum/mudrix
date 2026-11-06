@@ -320,7 +320,9 @@
         "encryptionNote": "Eenmaal ingeschakeld kan versleuteling niet meer worden uitgeschakeld.",
         "encryptionConfirm": "Weet je het zeker? Eenmaal ingeschakeld kan versleuteling voor een kamer niet meer worden uitgeschakeld. Berichten die in een versleutelde kamer worden verstuurd, kunnen alleen door de deelnemers worden gelezen, en veel bots en bridges werken mogelijk niet meer goed.",
         "encryptionPublicRoomWarning": "Dit is een openbare kamer. Iedereen kan deze vinden en betreden, dus iedereen kan de berichten erin lezen, ook als versleuteling is ingeschakeld.",
-        "encryptionEnableFailed": "Versleuteling inschakelen mislukt: {{error}}"
+        "encryptionEnableFailed": "Versleuteling inschakelen mislukt: {{error}}",
+        "autoJoin": "Nieuwe leden aan elke kamer toevoegen",
+        "autoJoinNote": "Iedereen die lid wordt van deze space, wordt toegevoegd aan alle kamers en categorieën ervan, en aan kamers die later worden toegevoegd. Privékamers blijven alleen op uitnodiging, en een kamer die iemand verlaat, wordt niet opnieuw toegevoegd."
       },
       "addresses": {
         "title": "Adressen",
@@ -467,6 +469,13 @@
           "modify_widgets": "Widgets wijzigen",
           "space_child": "Spaces toevoegen / verwijderen"
         }
+      },
+      "channels": {
+        "category": "Categorie",
+        "empty": "Hier zijn nog geen kamers.",
+        "intro": "Orden de kamers, kies welke spraakkanalen zijn en verplaats ze tussen categorieën. Mensen zien deze volgorde in de moderne kamerlijst.",
+        "moveTo": "Verplaatsen naar...",
+        "title": "Kamers"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Spaceoverzicht",
       "setSuggested": "Als aanbevolen instellen",
       "unsetSuggested": "Aanbeveling verwijderen",
-      "chooseCreateJoin": "Space aanmaken of betreden"
+      "chooseCreateJoin": "Space aanmaken of betreden",
+      "banner": {
+        "colors": "Bannerkleuren",
+        "remove": "Banner verwijderen",
+        "title": "Banner",
+        "upload": "Banner uploaden"
+      }
     },
     "dm": {
       "directMessages": "Directe berichten",
@@ -622,7 +637,19 @@
       "over": "Boven {{name}}",
       "dropped": "{{name}} neergezet op {{target}}",
       "cancelled": "Verplaatsen van {{name}} geannuleerd"
-    }
+    },
+    "categoryName": "Categorienaam",
+    "categoryNamePlaceholder": "Nieuwe categorie",
+    "categoryPrivate": "Privécategorie",
+    "categoryPrivateNote": "Alleen mensen die je uitnodigt, kunnen deze categorie zien. Kanalen die je erin zet, blijven net zo privé als de categorie.",
+    "createCategory": "Categorie aanmaken",
+    "makeTextChannel": "Tekstkanaal van maken",
+    "makeVoiceChannel": "Spraakkanaal van maken",
+    "moveDown": "Omlaag",
+    "moveFailed": "Opnieuw ordenen mislukt: {{error}}",
+    "moveUp": "Omhoog",
+    "noCategory": "Geen categorie",
+    "voiceChannelFailed": "Kanaaltype wijzigen mislukt: {{error}}"
   },
   "notifLevel": {
     "default": "Standaard",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Interfacezoom",
       "uiZoomNote": "Schaalt tekst en witruimte in de hele app.",
       "groupImages": "Afbeeldingen groeperen in galerijen",
-      "groupImagesNote": "Afbeeldingen die samen zijn verstuurd als één galerij tonen. Uit: elke afbeelding is een eigen bericht, zoals in andere Matrix-clients."
+      "groupImagesNote": "Afbeeldingen die samen zijn verstuurd als één galerij tonen. Uit: elke afbeelding is een eigen bericht, zoals in andere Matrix-clients.",
+      "roomListStyle": "Stijl van de kamerlijst",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Modern",
+      "roomListStyleNote": "Matrix toont een avatar bij elke kamer. Modern gebruikt gewone kanaalrijen, laat je kanalen ordenen binnen een space en spraakkanalen markeren."
     },
     "accessibility": {
       "title": "Toegankelijkheid",

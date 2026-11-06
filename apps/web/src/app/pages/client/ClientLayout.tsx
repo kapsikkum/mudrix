@@ -37,6 +37,7 @@ import { useVoiceKeybinds } from '@/app/hooks/useKeybinds';
 import { getMatrixClientOrNull, logout, onSessionInvalid } from '@/client/initMatrix';
 import { useEnsureMudrixUserFlag } from '@/app/hooks/useExtendedProfile';
 import { roomsByIdAtom, useRoom, useSpaceGraph } from '@/app/data';
+import { useVoiceChannelFlag } from '@/app/features/room/voiceChannel';
 import { isChildOfSpace, findParentSpaceId, isVoiceRoom } from '@/util/matrix';
 import { Timeline } from '@/app/features/timeline';
 import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
@@ -103,6 +104,8 @@ const RoomPage = memo(function RoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const client = getMatrixClientOrNull();
   const room = useRoom(roomId ? decodeURIComponent(roomId) : null);
+  // A text room can be dedicated as a voice channel; the flag loads here for the room being opened.
+  useVoiceChannelFlag(roomId ? decodeURIComponent(roomId) : null);
   if (!client || !roomId) return null;
   const decodedRoomId = decodeURIComponent(roomId);
   if (room?.isInvite) return null;

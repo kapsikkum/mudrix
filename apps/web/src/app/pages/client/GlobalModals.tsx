@@ -16,7 +16,7 @@ import {
 } from '@/app/features/keybackup';
 import { LocalMediaMenu } from '@/app/features/contextMenu/LocalMediaMenu';
 import { ContextMenu } from '@/app/features/contextMenu/ContextMenu';
-import { SpaceSettings, CreateSpaceModal } from '@/app/features/space';
+import { SpaceSettings, CreateSpaceModal, CreateCategoryModal } from '@/app/features/space';
 import { UserProfilePopup } from '@/app/features/profile';
 import { Settings } from '@/app/features/settings';
 import { RoomSwitcher } from '@/app/features/roomSwitcher/RoomSwitcher';
@@ -39,6 +39,7 @@ export function GlobalModals() {
       <NewDmModal />
       <SpaceSettings />
       <CreateSpaceModal />
+      <CreateCategoryModal />
       <RoomSettings />
       <EmojiPicker />
       <ReportMessageModal />

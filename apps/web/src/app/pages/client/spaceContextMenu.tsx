@@ -120,6 +120,8 @@ export interface SpaceMenuDeps {
   setSpaceSettings: (roomId: string) => void;
   markSpaceAsRead: (spaceId: string) => void;
   onCreateSection?: () => void;
+  /** Modern list style: makes a category (a sub-space) in this space */
+  onCreateCategory?: () => void;
 }
 
 export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextMenuItem[] {
@@ -156,6 +158,13 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
       label: t('room.sections.new'),
       icon: <FolderSimplePlusIcon size={14} />,
       onClick: deps.onCreateSection,
+    });
+  }
+  if (deps.onCreateCategory) {
+    items.push({
+      label: t('room.createCategory'),
+      icon: <StackIcon size={14} />,
+      onClick: deps.onCreateCategory,
     });
   }
   if (pinnedSubSpaces.has(space.roomId)) {

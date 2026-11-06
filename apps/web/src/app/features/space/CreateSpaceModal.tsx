@@ -12,6 +12,10 @@ import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { ToggleRow } from '@/app/components/Toggle';
+import { Field } from '@/app/components/Field';
+import { Select } from '@/app/components/Select';
+import { SPACE_LIST_STYLE_STATE_TYPE, type RoomListStyle } from './spaceListStyle';
+import { SPACE_AUTO_JOIN_STATE_TYPE } from './spaceAutoJoin';
 import {
   FoundersField,
   useFoundersRoomVersion,
@@ -54,6 +58,7 @@ export function CreateSpaceModal() {
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [federated, setFederated] = useState(true);
+  const [listStyle, setListStyle] = useState<RoomListStyle>('matrix');
   const [spaceAlias, setSpaceAlias] = useState('');
   const [founders, setFounders] = useState<Founder[]>([]);
   const [createLoading, setCreateLoading] = useState(false);
@@ -72,6 +77,7 @@ export function CreateSpaceModal() {
     setDescription('');
     setIsPublic(false);
     setFederated(true);
+    setListStyle('matrix');
     setSpaceAlias('');
     setSpaceId('');
     setFounders([]);
@@ -98,6 +104,28 @@ export function CreateSpaceModal() {
         parentSpaceId: parentSpaceId ?? null,
         federate: federated,
         powerLevels: SPACE_POWER_LEVELS,
+        // How the space's rooms are listed. A sub-space follows the space it is in. A Modern space
+        // only lists rooms you are in, so it joins people to its rooms from the start.
+        ...(!parentSpaceId
+          ? {
+              initialState: [
+                {
+                  type: SPACE_LIST_STYLE_STATE_TYPE,
+                  state_key: '',
+                  content: { style: listStyle },
+                },
+                ...(listStyle === 'modern'
+                  ? [
+                      {
+                        type: SPACE_AUTO_JOIN_STATE_TYPE,
+                        state_key: '',
+                        content: { enabled: true },
+                      },
+                    ]
+                  : []),
+              ],
+            }
+          : {}),
         ...(founderIds.length > 0 && foundersRoomVersion
           ? { founders: founderIds, roomVersion: foundersRoomVersion, invite: founderIds }
           : {}),
@@ -262,6 +290,22 @@ export function CreateSpaceModal() {
             onChange={setFederated}
             size="sm"
           />
+          {!parentSpaceId && (
+            <Field
+              label={t('settings.appearance.roomListStyle')}
+              hint={t('settings.appearance.roomListStyleNote')}
+            >
+              <Select<RoomListStyle>
+                aria-label={t('settings.appearance.roomListStyle')}
+                value={listStyle}
+                options={[
+                  { value: 'matrix', label: t('settings.appearance.roomListStyleMatrix') },
+                  { value: 'modern', label: t('settings.appearance.roomListStyleModern') },
+                ]}
+                onChange={setListStyle}
+              />
+            </Field>
+          )}
           {foundersRoomVersion && mx && (
             <FoundersField client={mx} founders={founders} onChange={setFounders} />
           )}

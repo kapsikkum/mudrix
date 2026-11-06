@@ -29,6 +29,7 @@ import {
   mobileDrawerOpenAtom,
   favouriteRoomsAtom,
   openRoomChatAtom,
+  createCategoryOpenAtom,
 } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';
 import { useContextMenu } from '@/app/hooks/useContextMenu';
@@ -101,6 +102,14 @@ import {
 import { usePrompt } from '@/app/hooks/usePrompt';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { isVoiceRoom } from '@/util/matrix';
+import { activeRoomListStyleAtom, useSpaceListStyle } from '@/app/features/space/spaceListStyle';
+import { useSpaceBanner } from '@/app/features/space/spaceBanner';
+import { SpaceBannerView } from '@/app/features/space/SpaceBannerView';
+import * as bannerCss from '@/app/features/space/SpaceBanner.css';
+import { moveRoomToCategory, saveSpaceChildrenOrder } from '@/app/features/space/spaceOrder';
+import { useRoomsWhereCanSendState } from '@/app/features/space/useStatePermissions';
+import { useFlaggedVoiceChannels } from '@/app/features/room/voiceChannel';
+import { arrangeModernItems, categoryParentsOf } from './modernRoomList';
 
 const LIST_OVERSCAN = 5;
 
@@ -341,6 +350,22 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const spaceGraph = useSpaceGraph();
   const roomsById = useAtomValue(roomsByIdAtom);
 
+  const isDmView = sidebarView === 'dms';
+  const isSpaceView = sidebarView === 'space' && !!currentSpaceId;
+  // Modern: the space's own list style (Mudrix), shared by everyone in it
+  const modernList = useSpaceListStyle(isSpaceView ? currentSpaceId : null) === 'modern';
+  const setActiveListStyle = useSetAtom(activeRoomListStyleAtom);
+  useEffect(() => {
+    setActiveListStyle(modernList ? 'modern' : 'matrix');
+  }, [modernList, setActiveListStyle]);
+  const spaceBanner = useSpaceBanner(isSpaceView ? currentSpaceId : null);
+  const setCreateCategoryOpen = useSetAtom(createCategoryOpenAtom);
+  const ownSpaceIds = useMemo(
+    () => (isSpaceView && currentSpaceId ? [currentSpaceId] : []),
+    [isSpaceView, currentSpaceId]
+  );
+  const canOrderCurrentSpace = useRoomsWhereCanSendState(ownSpaceIds, 'm.space.child').size > 0;
+
   const handleMarkSpaceAsRead = useCallback(
     (spaceId: string) => {
       markSpaceAsRead(client, sendReadReceipts, spaceId, allRooms, spaceGraph);
@@ -370,8 +395,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       setSpaceSettings,
       markSpaceAsRead: handleMarkSpaceAsRead,
       onCreateSection: () => void handleNewSectionRef.current(),
+      onCreateCategory:
+        modernList && canOrderCurrentSpace && currentSpaceId
+          ? () => setCreateCategoryOpen({ open: true, parentSpaceId: currentSpaceId })
+          : undefined,
     });
   }, [
+    modernList,
+    canOrderCurrentSpace,
+    currentSpaceId,
+    setCreateCategoryOpen,
     currentSpaceEntry,
     t,
     navigate,
@@ -452,9 +485,6 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     [openContextMenu, buildDmsMenuItems]
   );
 
-  const isDmView = sidebarView === 'dms';
-  const isSpaceView = sidebarView === 'space' && !!currentSpaceId;
-
   const closedCategories = useMemo(() => new Set(closedNavCategoriesArr), [closedNavCategoriesArr]);
 
   const toggleCategory = useCallback(
@@ -475,7 +505,26 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const { rooms: homeRooms, loading: homeLoading } = useRooms();
   const dms = useDms();
 
-  const hierarchyItems = useSpaceHierarchy(isSpaceView ? currentSpaceId : null, favouriteRooms);
+  // Modern keeps categories that are still empty, so channels can be put in them
+  const rawHierarchyItems = useSpaceHierarchy(
+    isSpaceView ? currentSpaceId : null,
+    favouriteRooms,
+    modernList
+  );
+  const hierarchyRoomIds = useMemo(
+    () =>
+      modernList ? rawHierarchyItems.flatMap((i) => (i.kind === 'room' ? [i.roomId] : [])) : [],
+    [modernList, rawHierarchyItems]
+  );
+  const flaggedVoice = useFlaggedVoiceChannels(hierarchyRoomIds);
+  const hierarchyItems = useMemo(
+    () => (modernList ? arrangeModernItems(rawHierarchyItems, flaggedVoice) : rawHierarchyItems),
+    [modernList, rawHierarchyItems, flaggedVoice]
+  );
+  const categoryParents = useMemo(
+    () => (modernList ? categoryParentsOf(hierarchyItems) : new Map<string, string>()),
+    [modernList, hierarchyItems]
+  );
 
   const spaceFavKey = isSpaceView && currentSpaceId ? `${currentSpaceId}::favourites` : null;
   const favouriteOrdersVersion = useFavouriteOrders();
@@ -702,7 +751,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     items.push(...sectionBlock(true));
 
     const hasRootSection = rest.some((i) => i.kind === 'space' && i.isRoot);
-    if (!hasRootSection) {
+    // The Modern style has no "Rooms" heading: the space's own channels simply start the list.
+    // Favourites and sections above the rooms need it to tell where they end.
+    const hideRootHeader =
+      modernList && favRooms.length === 0 && !grouped.visible.some((sec) => sec.aboveRooms);
+    if (!hasRootSection && !hideRootHeader) {
       items.push({
         kind: 'header',
         item: {
@@ -738,9 +791,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         while (remaining.length > 0 && remaining[0].depth > depth) {
           chunk.push(remaining.shift()!);
         }
-        const closed = isCollapsed(head.categoryKey);
+        // Without a heading the root can't be reopened, so Modern never collapses it
+        const closed = !(hideRootHeader && head.isRoot) && isCollapsed(head.categoryKey);
         const fullyOpen = !closed;
-        if (fullyOpen || head.isRoot || chunk.length > 0) {
+        // A category stays listed while empty in Modern: it is how channels get put there
+        if (fullyOpen || head.isRoot || chunk.length > 0 || modernList) {
           out.push({ kind: 'header', item: head });
           if (fullyOpen) {
             out.push(...collect(chunk));
@@ -758,10 +813,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
     const collected = collect(rest);
     const split = collected.findIndex((it) => it.kind === 'header' && !it.item.isRoot);
-    const roomsPart = split === -1 ? collected : collected.slice(0, split);
+    const roomsAndHeader = split === -1 ? collected : collected.slice(0, split);
+    const roomsPart = hideRootHeader
+      ? roomsAndHeader.filter((it) => !(it.kind === 'header' && it.item.isRoot))
+      : roomsAndHeader;
     const subspacePart = split === -1 ? [] : collected.slice(split);
     return items.concat(roomsPart, sectionBlock(false), subspacePart);
   }, [
+    modernList,
     groupBySection,
     isCollapsed,
     isSpaceView,
@@ -973,9 +1032,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const parentSpaceIds = useMemo(
     () =>
       Array.from(
-        new Set(spaceItemsBase.flatMap((it) => (it.kind === 'room' ? [it.item.parentSpaceId] : [])))
+        new Set([
+          ...spaceItemsBase.flatMap((it) => (it.kind === 'room' ? [it.item.parentSpaceId] : [])),
+          // Modern: a category may be empty yet still take rooms and be moved
+          ...(modernList ? [...categoryParents.keys(), ...categoryParents.values()] : []),
+        ])
       ),
-    [spaceItemsBase]
+    [spaceItemsBase, modernList, categoryParents]
   );
   const parentSpaceSettings = useQueries({
     queries: parentSpaceIds.map((spaceId) => ({
@@ -998,17 +1061,32 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     (items: SpaceListItem[]): ReorderRow[] => {
       const rows: ReorderRow[] = [];
       let headerKey: string | null = null;
-      let group: string | null = null;
+      // Modern with no "Rooms" heading: the rooms before the first heading are the space's own
+      let group: string | null = modernList && currentSpaceId ? `cat:${currentSpaceId}` : null;
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.item.categoryKey;
-          group = headerKey === spaceFavKey ? 'fav' : it.item.isRoot ? 'rooms' : 'subspaces';
+          // Modern: each category is a group of its own, so a room dropped on another category's
+          // row moves there
+          group =
+            headerKey === spaceFavKey
+              ? 'fav'
+              : modernList
+                ? `cat:${it.item.roomId}`
+                : it.item.isRoot
+                  ? 'rooms'
+                  : 'subspaces';
+          const parent = categoryParents.get(it.item.roomId);
           rows.push({
             id: `hdr:${headerKey}`,
             kind: 'header',
             group,
             section: null,
             anchor: it.item.isRoot ? ROOMS_ANCHOR : undefined,
+            category:
+              modernList && parent && canEditSpace.has(parent)
+                ? { id: it.item.roomId, parent }
+                : undefined,
             label: it.item.name,
           });
           continue;
@@ -1049,7 +1127,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
       return rows;
     },
-    [canEditSpace, spaceFavKey, closedCategories]
+    [canEditSpace, spaceFavKey, closedCategories, modernList, categoryParents, currentSpaceId]
   );
 
   const homeReorderRows = useCallback(
@@ -1141,6 +1219,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       isSpaceView ? spaceReorderRows(spaceItems) : !isDmView ? homeReorderRows(homeItems) : [],
     [isSpaceView, isDmView, spaceItems, homeItems, spaceReorderRows, homeReorderRows]
   );
+  // The categories the user may move (Modern), by space id
+  const categoryRowOf = useMemo(
+    () =>
+      new Map(
+        reorderRows.flatMap((r) =>
+          r.kind === 'header' && r.category ? [[r.category.id, r.category] as const] : []
+        )
+      ),
+    [reorderRows]
+  );
   visibleAnchorsRef.current = reorderRows.reduce<string[]>((list, row) => {
     if (row.kind !== 'header') return list;
     if (row.anchor && !list.includes(row.anchor)) list.push(row.anchor);
@@ -1196,12 +1284,65 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         save = client.setRoomSection(roomId, null);
       } else if (group.startsWith('section:')) {
         save = client.setRoomSection(roomId, group.slice('section:'.length));
+      } else if (group.startsWith('cat:')) {
+        // Modern: dropped in another category (or the space itself). Both ends must be ones the
+        // user may change; a room that is not in the list yet has nowhere to move from.
+        const target = group.slice('cat:'.length);
+        const from = hierarchyItems.find(
+          (it): it is HierarchyRoomItem => it.kind === 'room' && it.roomId === roomId
+        )?.parentSpaceId;
+        if (!from || from === target || !canEditSpace.has(from) || !canEditSpace.has(target))
+          return;
+        save = moveRoomToCategory(client, spaceGraph, roomId, from, target).catch((err: unknown) =>
+          toast.error(t('room.moveFailed', { error: getErrorMessage(err) }))
+        );
       } else {
         return;
       }
       save.catch(sectionError);
     },
-    [client, sectionError]
+    [client, sectionError, hierarchyItems, canEditSpace, spaceGraph, toast, t]
+  );
+
+  const handleReorderCategories = useCallback(
+    (parentId: string, orderedIds: string[], movedId: string) => {
+      if (!client) return;
+      const node = spaceGraph.find((s) => s.spaceId === parentId);
+      saveSpaceChildrenOrder(client, node, orderedIds, movedId).catch((err: unknown) =>
+        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }))
+      );
+    },
+    [client, spaceGraph, toast, t]
+  );
+
+  // Modern: a category's menu moves it among the categories of the same space
+  const openCategoryMenu = useCallback(
+    (e: React.MouseEvent, category: HierarchySpaceItem) => {
+      const parent = categoryParents.get(category.roomId);
+      if (!client || !parent || !canEditSpace.has(parent)) return;
+      const siblings = [...categoryParents].filter(([, p]) => p === parent).map(([id]) => id);
+      const index = siblings.indexOf(category.roomId);
+      const move = (delta: -1 | 1) => {
+        const next = [...siblings];
+        [next[index], next[index + delta]] = [next[index + delta], next[index]];
+        handleReorderCategories(parent, next, category.roomId);
+      };
+      openContextMenu(e, [
+        {
+          label: t('room.moveUp'),
+          icon: <ArrowUpIcon size={14} />,
+          disabled: index <= 0,
+          onClick: () => move(-1),
+        },
+        {
+          label: t('room.moveDown'),
+          icon: <ArrowDownIcon size={14} />,
+          disabled: index === -1 || index >= siblings.length - 1,
+          onClick: () => move(1),
+        },
+      ]);
+    },
+    [client, categoryParents, canEditSpace, openContextMenu, handleReorderCategories, t]
   );
 
   const handleReorderSections = useCallback(
@@ -1491,6 +1632,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           onReorder={handleReorder}
           onMoveRoom={handleMoveRoom}
           onReorderSections={handleReorderSections}
+          onReorderCategories={handleReorderCategories}
           onActiveChange={(id) =>
             setDraggingSection(!!id && (id.startsWith('sec:') || id === roomsHeaderId))
           }
@@ -1519,7 +1661,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                   ) : item.kind === 'header' ? (
                     <SortableHeaderRow
                       id={`hdr:${item.item.categoryKey}`}
-                      draggable={item.item.isRoot}
+                      draggable={
+                        item.item.isRoot ||
+                        (modernList && categoryRowOf.get(item.item.roomId) !== undefined)
+                      }
+                      droppable={modernList && canEditSpace.has(item.item.roomId)}
                     >
                       {spaceFavKey && item.item.categoryKey === spaceFavKey ? (
                         <HomeCategoryHeader
@@ -1535,9 +1681,15 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                           isClosed={isCollapsed(item.item.categoryKey)}
                           onToggle={toggleCategory}
                           onAdd={handleSubspaceAdd}
-                          onMenu={item.item.isRoot ? openRoomsMenu : undefined}
+                          onMenu={
+                            item.item.isRoot
+                              ? openRoomsMenu
+                              : modernList && categoryRowOf.get(item.item.roomId)
+                                ? (e) => openCategoryMenu(e, item.item)
+                                : undefined
+                          }
                           client={client}
-                          showAvatar={showRoomAvatars}
+                          showAvatar={showRoomAvatars && !modernList}
                         />
                       )}
                     </SortableHeaderRow>
@@ -1740,6 +1892,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           )}
         </div>
       </header>
+
+      {isSpaceView && spaceBanner && (
+        <SpaceBannerView client={client} banner={spaceBanner} className={bannerCss.headerBanner} />
+      )}
 
       {!isDmView && !isSpaceView && (
         <button

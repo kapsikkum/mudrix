@@ -320,7 +320,9 @@
         "encryptionNote": "Einmal aktiviert, kann die Verschlüsselung nicht mehr deaktiviert werden.",
         "encryptionConfirm": "Bist du sicher? Einmal aktiviert, kann die Verschlüsselung eines Raums nicht mehr deaktiviert werden. Nachrichten in einem verschlüsselten Raum können nur von dessen Teilnehmern gelesen werden, und viele Bots und Bridges funktionieren möglicherweise nicht mehr korrekt.",
         "encryptionPublicRoomWarning": "Dies ist ein öffentlicher Raum. Jeder kann ihn finden und ihm beitreten, sodass jeder die Nachrichten darin lesen könnte — selbst mit aktivierter Verschlüsselung.",
-        "encryptionEnableFailed": "Aktivieren der Verschlüsselung fehlgeschlagen: {{error}}"
+        "encryptionEnableFailed": "Aktivieren der Verschlüsselung fehlgeschlagen: {{error}}",
+        "autoJoin": "Neue Mitglieder in alle Räume aufnehmen",
+        "autoJoinNote": "Wer diesem Space beitritt, tritt allen seinen Räumen und Kategorien bei, ebenso später hinzugefügten. Private Räume bleiben nur auf Einladung, und ein verlassener Raum wird nicht erneut betreten."
       },
       "addresses": {
         "title": "Adressen",
@@ -467,6 +469,13 @@
           "modify_widgets": "Widgets ändern",
           "space_child": "Spaces hinzufügen / entfernen"
         }
+      },
+      "channels": {
+        "category": "Kategorie",
+        "empty": "Hier gibt es noch keine Räume.",
+        "intro": "Ordne die Räume, lege Sprachkanäle fest und verschiebe sie zwischen Kategorien. Diese Reihenfolge sehen alle in der modernen Raumliste.",
+        "moveTo": "Verschieben nach...",
+        "title": "Räume"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Space-Übersicht",
       "setSuggested": "Als vorgeschlagen markieren",
       "unsetSuggested": "Vorschlag entfernen",
-      "chooseCreateJoin": "Space erstellen oder beitreten"
+      "chooseCreateJoin": "Space erstellen oder beitreten",
+      "banner": {
+        "colors": "Bannerfarben",
+        "remove": "Banner entfernen",
+        "title": "Banner",
+        "upload": "Banner hochladen"
+      }
     },
     "dm": {
       "directMessages": "Direktnachrichten",
@@ -622,7 +637,19 @@
       "over": "Über {{name}}",
       "dropped": "{{name}} auf {{target}} abgelegt",
       "cancelled": "Verschieben von {{name}} abgebrochen"
-    }
+    },
+    "categoryName": "Kategoriename",
+    "categoryNamePlaceholder": "Neue Kategorie",
+    "categoryPrivate": "Private Kategorie",
+    "categoryPrivateNote": "Nur eingeladene Personen sehen diese Kategorie. Kanäle darin sind so privat wie die Kategorie.",
+    "createCategory": "Kategorie erstellen",
+    "makeTextChannel": "Zum Textkanal machen",
+    "makeVoiceChannel": "Zum Sprachkanal machen",
+    "moveDown": "Nach unten",
+    "moveFailed": "Reihenfolge konnte nicht geändert werden: {{error}}",
+    "moveUp": "Nach oben",
+    "noCategory": "Keine Kategorie",
+    "voiceChannelFailed": "Kanaltyp konnte nicht geändert werden: {{error}}"
   },
   "notifLevel": {
     "default": "Standard",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Oberflächen-Zoom",
       "uiZoomNote": "Skaliert Text und Abstände in der gesamten App.",
       "groupImages": "Bilder zu Galerien gruppieren",
-      "groupImagesNote": "Zusammen gesendete Bilder als eine Galerie anzeigen. Wenn deaktiviert, ist jedes Bild eine eigene Nachricht, wie in anderen Matrix-Clients."
+      "groupImagesNote": "Zusammen gesendete Bilder als eine Galerie anzeigen. Wenn deaktiviert, ist jedes Bild eine eigene Nachricht, wie in anderen Matrix-Clients.",
+      "roomListStyle": "Raumlisten-Stil",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Modern",
+      "roomListStyleNote": "Matrix zeigt bei jedem Raum einen Avatar. Modern nutzt schlichte Kanalzeilen, erlaubt die Reihenfolge der Kanäle in einem Space und markierte Sprachkanäle."
     },
     "accessibility": {
       "title": "Barrierefreiheit",

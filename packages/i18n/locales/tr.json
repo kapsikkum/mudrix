@@ -320,7 +320,9 @@
         "encryptionNote": "Etkinleştirildikten sonra şifreleme devre dışı bırakılamaz.",
         "encryptionConfirm": "Emin misiniz? Şifreleme etkinleştirildikten sonra bir oda için devre dışı bırakılamaz. Şifreli bir odada gönderilen mesajlar yalnızca katılımcılar tarafından okunabilir ve birçok bot ile köprü düzgün çalışmayabilir.",
         "encryptionPublicRoomWarning": "Bu herkese açık bir oda. Herkes bulup katılabilir, bu nedenle şifreleme etkin olsa bile herkes içindeki mesajları okuyabilir.",
-        "encryptionEnableFailed": "Şifreleme etkinleştirilemedi: {{error}}"
+        "encryptionEnableFailed": "Şifreleme etkinleştirilemedi: {{error}}",
+        "autoJoin": "Yeni üyeleri her odaya katıl",
+        "autoJoinNote": "Bu alana katılan herkes, tüm odalarına ve kategorilerine, ayrıca sonradan eklenen odalara da katılır. Özel odalar yalnızca davetle kalır ve birinin ayrıldığı odaya yeniden katılmaz."
       },
       "addresses": {
         "title": "Adresler",
@@ -467,6 +469,13 @@
           "modify_widgets": "Widget'ları değiştir",
           "space_child": "Alan ekle / kaldır"
         }
+      },
+      "channels": {
+        "category": "Kategori",
+        "empty": "Henüz burada oda yok.",
+        "intro": "Odaları sıralayın, hangilerinin sesli kanal olacağını seçin ve kategoriler arasında taşıyın. İnsanlar bu sırayı Modern oda listesinde görür.",
+        "moveTo": "Şuraya taşı...",
+        "title": "Odalar"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Alan genel bakışı",
       "setSuggested": "Önerilen olarak ayarla",
       "unsetSuggested": "Önerilenlerden çıkar",
-      "chooseCreateJoin": "Alan oluştur veya katıl"
+      "chooseCreateJoin": "Alan oluştur veya katıl",
+      "banner": {
+        "colors": "Afiş renkleri",
+        "remove": "Afişi kaldır",
+        "title": "Afiş",
+        "upload": "Afiş yükle"
+      }
     },
     "dm": {
       "directMessages": "Doğrudan mesajlar",
@@ -622,7 +637,19 @@
       "over": "{{name}} üzerinde",
       "dropped": "{{name}}, {{target}} üzerine bırakıldı",
       "cancelled": "{{name}} taşıma iptal edildi"
-    }
+    },
+    "categoryName": "Kategori adı",
+    "categoryNamePlaceholder": "Yeni kategori",
+    "categoryPrivate": "Özel kategori",
+    "categoryPrivateNote": "Bu kategoriyi yalnızca davet ettiğiniz kişiler görebilir. İçine koyduğunuz kanallar da kategori kadar özel kalır.",
+    "createCategory": "Kategori oluştur",
+    "makeTextChannel": "Metin kanalı yap",
+    "makeVoiceChannel": "Sesli kanal yap",
+    "moveDown": "Aşağı taşı",
+    "moveFailed": "Yeniden sıralanamadı: {{error}}",
+    "moveUp": "Yukarı taşı",
+    "noCategory": "Kategori yok",
+    "voiceChannelFailed": "Kanal türü değiştirilemedi: {{error}}"
   },
   "notifLevel": {
     "default": "Varsayılan",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Arayüz yakınlaştırma",
       "uiZoomNote": "Uygulama genelinde metni ve boşlukları ölçeklendirir.",
       "groupImages": "Görselleri galerilerde grupla",
-      "groupImagesNote": "Birlikte gönderilen görselleri tek bir galeri olarak göster. Kapalıyken her görsel, diğer Matrix istemcilerinde olduğu gibi kendi mesajı olur."
+      "groupImagesNote": "Birlikte gönderilen görselleri tek bir galeri olarak göster. Kapalıyken her görsel, diğer Matrix istemcilerinde olduğu gibi kendi mesajı olur.",
+      "roomListStyle": "Oda listesi stili",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Modern",
+      "roomListStyleNote": "Matrix her odada bir avatar gösterir. Modern ise düz kanal satırları kullanır, bir alan içinde kanalları sıralamanıza ve sesli kanalları işaretlemenize izin verir."
     },
     "accessibility": {
       "title": "Erişilebilirlik",

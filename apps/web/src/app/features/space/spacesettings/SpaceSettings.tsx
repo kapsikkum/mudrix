@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
   SlidersIcon,
+  ListBulletsIcon,
   UsersIcon,
   ShieldIcon,
   SmileyStickerIcon,
@@ -14,6 +15,8 @@ import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useRoomDetails, useSpaceGraph } from '@/app/data';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import { GeneralPanel } from './General';
+import { ChannelsPanel } from './ChannelsPanel';
+import { useSpaceListStyle } from '../spaceListStyle';
 import { PermissionsPanel } from '@/app/features/room/roomsettings/Permissions';
 import { RoomPermissionsMatrix } from '@/app/features/room/roomsettings/RoomPermissionsMatrix';
 import { EmojiStickerPanel } from '@/app/features/room/roomsettings/EmojiStickerPanel';
@@ -21,10 +24,11 @@ import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Setting
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'members' | 'permissions' | 'emojis';
+type Tab = 'general' | 'channels' | 'members' | 'permissions' | 'emojis';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
+  { tab: 'channels', labelKey: 'room.settings.channels.title', Icon: ListBulletsIcon },
   { tab: 'members', labelKey: 'common.members', Icon: UsersIcon },
   {
     tab: 'permissions',
@@ -42,7 +46,7 @@ export function SpaceSettings() {
   const { t } = useTranslation();
   const [spaceId, setSpaceId] = useAtom(spaceSettingsRoomIdAtom);
   const client = getMatrixClientOrNull();
-  const [activeTab, setActiveTab] = useState<Tab>('general');
+  const [selectedTab, setActiveTab] = useState<Tab>('general');
   const isNarrow = useMediaQuery('(max-width: 768px)');
   const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
   const backToList = useCallback(() => setNarrowView('list'), []);
@@ -50,6 +54,12 @@ export function SpaceSettings() {
   const graph = useSpaceGraph();
   const details = useRoomDetails(spaceId);
   const space = spaceId && graph.some((s) => s.spaceId === spaceId) ? (details ?? null) : null;
+
+  // Channels and categories belong to the Modern room list style.
+  const modern = useSpaceListStyle(spaceId) === 'modern';
+  const nav = NAV.filter((item) => item.tab !== 'channels' || modern);
+  // A tab goes away when the style changes under it; fall back to the first one.
+  const activeTab = nav.some((item) => item.tab === selectedTab) ? selectedTab : 'general';
 
   useLayoutEffect(() => {
     if (spaceId) {
@@ -70,6 +80,7 @@ export function SpaceSettings() {
   const panel = (
     <>
       {activeTab === 'general' && <GeneralPanel spaceId={spaceId!} />}
+      {activeTab === 'channels' && modern && <ChannelsPanel spaceId={spaceId!} />}
       {activeTab === 'members' && <PermissionsPanel roomId={spaceId!} />}
       {activeTab === 'permissions' && space && <RoomPermissionsMatrix roomId={spaceId!} />}
       {activeTab === 'emojis' && space && client && (
@@ -94,7 +105,7 @@ export function SpaceSettings() {
       {!valid ? null : isNarrow ? (
         showPage ? (
           <NarrowSettingsPage
-            title={t(NAV.find((item) => item.tab === activeTab)?.labelKey ?? '')}
+            title={t(nav.find((item) => item.tab === activeTab)?.labelKey ?? '')}
             onBack={backToList}
             onClose={close}
           >
@@ -103,7 +114,7 @@ export function SpaceSettings() {
         ) : (
           <NarrowSettingsList
             title={space?.name ?? t('common.settings')}
-            items={NAV.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }))}
+            items={nav.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }))}
             onSelect={openTab}
             onClose={close}
           />
@@ -112,7 +123,7 @@ export function SpaceSettings() {
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('common.settings')}</span>
-            {NAV.map((item) => {
+            {nav.map((item) => {
               const isActive = activeTab === item.tab;
               return (
                 <button

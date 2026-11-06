@@ -320,7 +320,9 @@
         "encryptionNote": "Une fois activé, le chiffrement ne peut plus être désactivé.",
         "encryptionConfirm": "Êtes-vous sûr ? Une fois activé, le chiffrement d'un salon ne peut plus être désactivé. Les messages envoyés dans un salon chiffré ne peuvent être lus que par ses participants, et de nombreux bots et ponts risquent de ne plus fonctionner correctement.",
         "encryptionPublicRoomWarning": "Ce salon est public. N'importe qui peut le trouver et le rejoindre ; n'importe qui pourrait donc lire ses messages, même avec le chiffrement activé.",
-        "encryptionEnableFailed": "Échec de l'activation du chiffrement : {{error}}"
+        "encryptionEnableFailed": "Échec de l'activation du chiffrement : {{error}}",
+        "autoJoin": "Ajouter les nouveaux membres à tous les salons",
+        "autoJoinNote": "Toute personne qui rejoint cet espace rejoint tous ses salons et catégories, ainsi que les salons ajoutés plus tard. Les salons privés restent sur invitation, et un salon quitté par quelqu'un n'est pas rejoint à nouveau."
       },
       "addresses": {
         "title": "Adresses",
@@ -467,6 +469,13 @@
           "modify_widgets": "Modifier les widgets",
           "space_child": "Ajouter / retirer des espaces"
         }
+      },
+      "channels": {
+        "category": "Catégorie",
+        "empty": "Aucun salon ici pour le moment.",
+        "intro": "Ordonnez les salons, choisissez lesquels sont des salons vocaux et déplacez-les entre catégories. Cet ordre apparaît dans la liste des salons Moderne.",
+        "moveTo": "Déplacer vers...",
+        "title": "Salons"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Aperçu de l'espace",
       "setSuggested": "Marquer comme suggéré",
       "unsetSuggested": "Ne plus suggérer",
-      "chooseCreateJoin": "Créer ou rejoindre un espace"
+      "chooseCreateJoin": "Créer ou rejoindre un espace",
+      "banner": {
+        "colors": "Couleurs de la bannière",
+        "remove": "Supprimer la bannière",
+        "title": "Bannière",
+        "upload": "Téléverser une bannière"
+      }
     },
     "dm": {
       "directMessages": "Messages privés",
@@ -622,7 +637,19 @@
       "over": "Au-dessus de {{name}}",
       "dropped": "{{name}} déposé sur {{target}}",
       "cancelled": "Déplacement de {{name}} annulé"
-    }
+    },
+    "categoryName": "Nom de la catégorie",
+    "categoryNamePlaceholder": "Nouvelle catégorie",
+    "categoryPrivate": "Catégorie privée",
+    "categoryPrivateNote": "Seules les personnes que vous invitez peuvent voir cette catégorie. Les salons que vous y placez restent aussi privés que la catégorie.",
+    "createCategory": "Créer une catégorie",
+    "makeTextChannel": "Transformer en salon textuel",
+    "makeVoiceChannel": "Transformer en salon vocal",
+    "moveDown": "Descendre",
+    "moveFailed": "Impossible de réorganiser : {{error}}",
+    "moveUp": "Monter",
+    "noCategory": "Aucune catégorie",
+    "voiceChannelFailed": "Impossible de changer le type de salon : {{error}}"
   },
   "notifLevel": {
     "default": "Par défaut",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Zoom de l'interface",
       "uiZoomNote": "Met à l'échelle le texte et les espacements dans toute l'application.",
       "groupImages": "Regrouper les images en galeries",
-      "groupImagesNote": "Affiche les images envoyées ensemble sous forme de galerie. Si désactivé, chaque image est un message distinct, comme dans les autres clients Matrix."
+      "groupImagesNote": "Affiche les images envoyées ensemble sous forme de galerie. Si désactivé, chaque image est un message distinct, comme dans les autres clients Matrix.",
+      "roomListStyle": "Style de la liste des salons",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Moderne",
+      "roomListStyleNote": "Matrix affiche un avatar sur chaque salon. Moderne utilise des lignes de salon simples, permet d'ordonner les salons au sein d'un espace et de marquer des salons vocaux."
     },
     "accessibility": {
       "title": "Accessibilité",

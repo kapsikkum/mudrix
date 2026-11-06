@@ -320,7 +320,9 @@
         "encryptionNote": "Po włączeniu szyfrowania nie można go wyłączyć.",
         "encryptionConfirm": "Na pewno? Po włączeniu szyfrowania pokoju nie można go wyłączyć. Wiadomości wysłane w zaszyfrowanym pokoju mogą odczytać tylko jego uczestnicy, a wiele botów i mostów może przestać działać poprawnie.",
         "encryptionPublicRoomWarning": "To jest pokój publiczny. Każdy może go znaleźć i do niego dołączyć, więc każdy może czytać wiadomości w nim, nawet przy włączonym szyfrowaniu.",
-        "encryptionEnableFailed": "Nie udało się włączyć szyfrowania: {{error}}"
+        "encryptionEnableFailed": "Nie udało się włączyć szyfrowania: {{error}}",
+        "autoJoin": "Dołączaj nowych członków do każdego pokoju",
+        "autoJoinNote": "Każdy, kto dołączy do tej przestrzeni, zostanie dodany do wszystkich jej pokojów i kategorii oraz do pokojów dodanych później. Pokoje prywatne pozostają tylko za zaproszeniem, a pokój, który ktoś opuścił, nie dodaje go ponownie."
       },
       "addresses": {
         "title": "Adresy",
@@ -467,6 +469,13 @@
           "modify_widgets": "Modyfikacja widżetów",
           "space_child": "Dodawanie / usuwanie przestrzeni"
         }
+      },
+      "channels": {
+        "category": "Kategoria",
+        "empty": "Nie ma tu jeszcze pokojów.",
+        "intro": "Ułóż pokoje w kolejności, wybierz, które są kanałami głosowymi, i przenoś je między kategoriami. Ludzie widzą tę kolejność na nowoczesnej liście pokojów.",
+        "moveTo": "Przenieś do...",
+        "title": "Pokoje"
       }
     },
     "space": {
@@ -517,7 +526,13 @@
       "overview": "Przegląd przestrzeni",
       "setSuggested": "Oznacz jako polecaną",
       "unsetSuggested": "Usuń oznaczenie polecanej",
-      "chooseCreateJoin": "Utwórz lub dołącz do przestrzeni"
+      "chooseCreateJoin": "Utwórz lub dołącz do przestrzeni",
+      "banner": {
+        "colors": "Kolory banera",
+        "remove": "Usuń baner",
+        "title": "Baner",
+        "upload": "Prześlij baner"
+      }
     },
     "dm": {
       "directMessages": "Wiadomości bezpośrednie",
@@ -622,7 +637,19 @@
       "over": "Nad {{name}}",
       "dropped": "Upuszczono {{name}} na {{target}}",
       "cancelled": "Anulowano przenoszenie {{name}}"
-    }
+    },
+    "categoryName": "Nazwa kategorii",
+    "categoryNamePlaceholder": "Nowa kategoria",
+    "categoryPrivate": "Kategoria prywatna",
+    "categoryPrivateNote": "Tylko osoby, które zaprosisz, widzą tę kategorię. Kanały w niej są tak samo prywatne jak sama kategoria.",
+    "createCategory": "Utwórz kategorię",
+    "makeTextChannel": "Zmień w kanał tekstowy",
+    "makeVoiceChannel": "Zmień w kanał głosowy",
+    "moveDown": "Przesuń w dół",
+    "moveFailed": "Nie udało się zmienić kolejności: {{error}}",
+    "moveUp": "Przesuń w górę",
+    "noCategory": "Bez kategorii",
+    "voiceChannelFailed": "Nie udało się zmienić typu kanału: {{error}}"
   },
   "notifLevel": {
     "default": "Domyślne",
@@ -1393,7 +1420,11 @@
       "uiZoom": "Powiększenie interfejsu",
       "uiZoomNote": "Skaluje tekst i odstępy w całej aplikacji.",
       "groupImages": "Grupuj obrazy w galerie",
-      "groupImagesNote": "Pokazuj obrazy wysłane razem jako jedną galerię. Gdy wyłączone, każdy obraz jest osobną wiadomością, jak w innych klientach Matrix."
+      "groupImagesNote": "Pokazuj obrazy wysłane razem jako jedną galerię. Gdy wyłączone, każdy obraz jest osobną wiadomością, jak w innych klientach Matrix.",
+      "roomListStyle": "Styl listy pokojów",
+      "roomListStyleMatrix": "Matrix",
+      "roomListStyleModern": "Nowoczesny",
+      "roomListStyleNote": "Matrix pokazuje awatar przy każdym pokoju. Nowoczesny używa zwykłych wierszy kanałów, pozwala ustalać kolejność kanałów w przestrzeni i oznaczać kanały głosowe."
     },
     "accessibility": {
       "title": "Dostępność",

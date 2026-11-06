@@ -29,6 +29,7 @@ import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { markRoomAsRead } from './markAsRead';
 import { sendReadReceiptsAtom, showRoomAvatarsAtom } from '@/app/store/atoms/settings';
+import { activeRoomListStyleAtom } from '@/app/features/space/spaceListStyle';
 import { useToast } from '@/app/hooks/useToast';
 import { useContextMenu } from '@/app/hooks/useContextMenu';
 import { useRoomActions } from './hooks/useRoomActions';
@@ -103,7 +104,10 @@ export const RoomListItem = memo(function RoomListItem({
   const roomActions = useRoomActions();
   const [, setRoomSettings] = useAtom(roomSettingsRoomIdAtom);
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
-  const showRoomAvatars = useAtomValue(showRoomAvatarsAtom);
+  // Modern lists are plain channel rows
+  const avatarsOn = useAtomValue(showRoomAvatarsAtom);
+  const modernStyle = useAtomValue(activeRoomListStyleAtom) === 'modern';
+  const showRoomAvatars = avatarsOn && !modernStyle;
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const favourite = useAtomValue(favouriteRoomsAtom).has(entry.roomId);
   const sidebarView = useAtomValue(sidebarViewAtom);

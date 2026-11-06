@@ -1,3 +1,4 @@
+import { isFlaggedVoiceChannel } from './voiceChannelFlags';
 import type { RoomSummary, SpaceNode } from '@wizardchat/core';
 
 export function formatUserId(userId: string | null | undefined): string {
@@ -15,6 +16,7 @@ export function isDmRoom(room: RoomSummary | null | undefined): boolean {
 }
 
 export function isVoiceRoom(room: RoomSummary | null | undefined): boolean {
+  if (room && isFlaggedVoiceChannel(room.id)) return true;
   return !!room?.isVoice;
 }
 
