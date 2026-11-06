@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import {
   ArrowsInIcon,
   ArrowsOutIcon,
@@ -14,7 +15,8 @@ import {
   PhoneIcon,
 } from '@phosphor-icons/react';
 import type { CallMedia, CallParticipant, RingState, TrackHandle } from '@/call/media';
-import { useClient, useMembers } from '@/app/data';
+import { useClient, useMembers, useRoom } from '@/app/data';
+import { isDmRoom } from '@/util/matrix';
 import { Avatar, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -100,6 +102,18 @@ function useFullscreen(ref: React.RefObject<HTMLElement | null>): [boolean, () =
   return [active, toggle];
 }
 
+/** The user's other devices in the call are named as such */
+function participantInfo(
+  participant: CallParticipant,
+  lookup: (userId: string) => MemberInfo,
+  myId: string | null,
+  t: TFunction
+): MemberInfo {
+  const info = lookup(participant.userId);
+  if (participant.isLocal || participant.userId !== myId) return info;
+  return { ...info, name: t('call.ownOtherDevice', { name: info.name }) };
+}
+
 function Tile({
   tile,
   lookup,
@@ -122,7 +136,7 @@ function Tile({
   const ref = useRef<HTMLDivElement>(null);
   const client = useClient();
   const { participant, screen } = tile;
-  const { name, avatarUrl: mxc } = lookup(participant.userId);
+  const { name, avatarUrl: mxc } = participantInfo(participant, lookup, client.userId(), t);
   const previewHidden = screen && participant.isLocal && !showOwnScreen;
   const unwatched = screen && !participant.watchingScreen;
   const track = screen ? participant.screen : participant.camera;
@@ -188,7 +202,7 @@ function Tile({
         <VideoTrack track={track} mirror={participant.isLocal && !screen} contain={screen} />
       ) : (
         !screen && (
-          <span className={css.avatar}>
+          <span className={participant.connected ? css.avatar : `${css.avatar} ${css.connecting}`}>
             <Avatar
               name={name}
               mxcUrl={mxc}
@@ -283,6 +297,13 @@ function Tile({
           <MicrophoneSlashIcon size={13} weight="fill" className={css.mutedIcon} />
         )}
         <span className={css.labelName}>{name}</span>
+        {!screen && !participant.connected && (
+          <span
+            className={css.connectingSpinner}
+            role="status"
+            aria-label={t('voice.statusConnecting')}
+          />
+        )}
       </span>
     </div>
   );
@@ -299,7 +320,7 @@ function AvatarBubble({
 }) {
   const { t } = useTranslation();
   const client = useClient();
-  const { name, avatarUrl } = lookup(participant.userId);
+  const { name, avatarUrl } = participantInfo(participant, lookup, client.userId(), t);
   return (
     <div
       className={css.bubble}
@@ -309,9 +330,25 @@ function AvatarBubble({
         onMenu(e.clientX, e.clientY);
       }}
     >
-      <span className={participant.speaking ? css.bubbleRingSpeaking : css.bubbleRing}>
+      <span
+        className={[
+          participant.speaking ? css.bubbleRingSpeaking : css.bubbleRing,
+          participant.connected ? '' : css.connecting,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <Avatar name={name} mxcUrl={avatarUrl} client={client} size="fill" placeholder="logo" />
       </span>
+      {!participant.connected && (
+        <span
+          className={css.bubbleConnecting}
+          role="status"
+          aria-label={t('voice.statusConnecting')}
+        >
+          <span className={css.connectingSpinner} />
+        </span>
+      )}
       {participant.audioMuted && (
         <span className={css.bubbleMuted} aria-label={t('voice.mute')}>
           <MicrophoneSlashIcon size={14} weight="fill" />
@@ -347,12 +384,19 @@ function CallingView({
   const { t } = useTranslation();
   const client = useClient();
   const { data: members } = useMembers(roomId);
+  const room = useRoom(roomId);
   const myId = client.userId();
   const self = myId ? lookup(myId) : null;
+  // A group rings everyone in it, so it shows the room instead of one person
+  const group = !!room && !isDmRoom(room);
   const targetId = members?.find((m) => m.userId !== myId)?.userId ?? null;
-  const target = targetId ? lookup(targetId) : null;
+  const target = group
+    ? { name: room.name ?? '', avatarUrl: room.avatarUrl }
+    : targetId
+      ? lookup(targetId)
+      : null;
   const targetName = target?.name ?? '';
-  const bubble = (member: typeof self, pulsing: boolean) => (
+  const bubble = (member: { name: string; avatarUrl: string | null } | null, pulsing: boolean) => (
     <span
       className={[css.bubbleRing, compact ? css.bubbleRingSmall : '', pulsing ? css.ringPulse : '']
         .filter(Boolean)
@@ -371,7 +415,9 @@ function CallingView({
     ring === 'ringing'
       ? t('call.calling', { name: targetName })
       : ring === 'declined'
-        ? t('call.declined', { name: targetName })
+        ? group
+          ? t('voice.callDeclined')
+          : t('call.declined', { name: targetName })
         : t('call.noAnswer');
 
   return (

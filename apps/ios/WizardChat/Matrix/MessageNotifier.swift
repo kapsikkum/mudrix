@@ -67,8 +67,42 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         if prefs.notificationSounds && notification.sound { content.sound = .default }
         if notification.highlight { content.interruptionLevel = .timeSensitive }
         let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|\(notification.eventId)",
-                                            content: content, trigger: nil)
+                                            content: await withAvatar(content, for: notification), trigger: nil)
         try? await UNUserNotificationCenter.current().add(request)
+    }
+
+    func notifyMissedCall(_ call: IncomingCall) {
+        guard let prefs, prefs.notificationBanners || prefs.notificationSounds,
+              call.roomId != activeRoomId else { return }
+        let content = UNMutableNotificationContent()
+        content.title = call.roomName ?? call.senderName ?? call.sender
+        content.body = L10n.format("call.missedFrom", call.senderName ?? call.sender)
+        content.threadIdentifier = call.roomId
+        var info = ["roomId": call.roomId]
+        if let userId = roomList?.client.userId { info["userId"] = userId }
+        content.userInfo = info
+        if prefs.notificationSounds { content.sound = .default }
+        let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|missed|\(call.eventId)",
+                                            content: content, trigger: nil)
+        Task { try? await UNUserNotificationCenter.current().add(request) }
+    }
+
+    private func withAvatar(_ content: UNMutableNotificationContent,
+                            for notification: WizardChatCore.Notification) async -> UNNotificationContent {
+        guard let client = roomList?.client else { return content }
+        let roomAvatar = roomList?.room(id: notification.roomId)?.avatarUrl
+        var avatar = roomAvatar
+        if notification.isDirect, avatar == nil {
+            avatar = await MemberDirectory.shared.profile(notification.sender, in: notification.roomId, client: client).avatarUrl
+        }
+        guard let avatar, let data = try? await client.thumbnail(mxc: avatar, width: 192, height: 192, crop: true) else { return content }
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).png")
+        guard (try? data.write(to: file)) != nil,
+              let attachment = try? UNNotificationAttachment(identifier: "avatar", url: file,
+                                                             options: [UNNotificationAttachmentOptionsTypeHintKey: "public.image"])
+        else { return content }
+        content.attachments = [attachment]
+        return content
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,

@@ -57,8 +57,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.delay
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.CallManager
+import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.CallReaction
 import org.wizardchat.android.matrix.RingingCall
 import org.wizardchat.android.matrix.displayName
@@ -66,6 +68,8 @@ import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.people.RoomInfoSheet
+import org.wizardchat.android.ui.room.RoomHeader
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -79,27 +83,10 @@ fun VoiceRoomScreen(room: RoomSummary, onBack: () -> Unit, onOpenChat: () -> Uni
     val session = LocalSession.current
     val live = session.roomList?.room(room.id) ?: room
     val inThisCall = calls.isInCall(room.id)
+    var showInfo by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxSize().background(theme.bgSecondary)) {
-        Row(
-            Modifier.fillMaxWidth().statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold)
-            Row(
-                Modifier.weight(1f).padding(horizontal = WZ.Space.space3),
-                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterHorizontally),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                PhIcon("speaker-high", PhWeight.fill, size = WZ.SizeIcon.xs, tint = theme.success)
-                Text(
-                    live.displayName,
-                    style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
-                    color = theme.textPrimary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
+        RoomHeader(live, onBack, onShowInfo = { showInfo = true }, buttons = 1) {
             BarButton("chat-text", tr("room.openChat"), onOpenChat)
         }
         if (inThisCall) {
@@ -114,6 +101,14 @@ fun VoiceRoomScreen(room: RoomSummary, onBack: () -> Unit, onOpenChat: () -> Uni
             )
         } else {
             Lobby(live, onOpenChat, Modifier.weight(1f))
+        }
+    }
+    val client = session.client
+    if (showInfo && client != null) {
+        RoomInfoSheet(live, client, onDismiss = { showInfo = false }) { eventId ->
+            showInfo = false
+            MessageNotifier.shared.eventToFocus = room.id to eventId
+            onOpenChat()
         }
     }
 }
@@ -132,17 +127,18 @@ private fun Lobby(room: RoomSummary, onOpenChat: () -> Unit, modifier: Modifier 
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space6),
         ) {
             Box {
+                val active = room.callParticipants.isNotEmpty()
                 Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.xl)
                 Box(
                     Modifier
                         .align(Alignment.BottomEnd)
                         .size(WZ.Space.space9)
                         .clip(CircleShape)
-                        .background(theme.success)
-                        .border(WZ.BorderWidth.thick, theme.bgSecondary, CircleShape),
+                        .background(theme.bgSecondary)
+                        .border(WZ.BorderWidth.thin, if (active) theme.success else theme.border, CircleShape),
                     contentAlignment = Alignment.Center,
                 ) {
-                    PhIcon("speaker-high", PhWeight.fill, size = WZ.SizeIcon.sm, tint = theme.textOnAccent)
+                    PhIcon("speaker-high", PhWeight.regular, size = WZ.SizeIcon.sm, tint = if (active) theme.success else theme.textMuted)
                 }
             }
             Text(room.displayName, style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
@@ -165,11 +161,11 @@ private fun Lobby(room: RoomSummary, onOpenChat: () -> Unit, modifier: Modifier 
             }
 
             val failed = calls.state as? CallManager.State.Failed
-            if (failed != null && (calls.room?.id == room.id || calls.room == null)) {
+            if (failed != null && (failed.roomId == room.id || failed.roomId == null)) {
                 Text(failed.message, style = wizardFont(WZ.FontSize.sm), color = theme.error, textAlign = TextAlign.Center)
             }
 
-            LabelButton(tr("call.joinVoice"), "phone", { calls.launchJoin(room, session) }, iconWeight = PhWeight.fill)
+            LabelButton(tr("call.joinVoice"), "speaker-high", { calls.launchJoin(room, session) })
             LabelButton(tr("room.openChat"), "chat-text", onOpenChat, primary = false)
         }
     }
@@ -212,7 +208,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
             if (calls.cameraOn) "video-camera" else "video-camera-slash",
             active = false,
             highlighted = calls.cameraOn,
-            weight = if (calls.cameraOn) PhWeight.fill else PhWeight.regular,
+            weight = PhWeight.regular,
             label = tr(if (calls.cameraOn) "voice.turnCameraOff" else "voice.turnCameraOn"),
         ) { calls.toggleCamera() }
         Box {
@@ -341,7 +337,7 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(Modifier.size(WZ.Space.space9).clip(CircleShape).background(theme.success), contentAlignment = Alignment.Center) {
-                PhIcon("speaker-high", PhWeight.fill, size = WZ.SizeIcon.sm, tint = theme.textOnAccent)
+                PhIcon("speaker-high", PhWeight.regular, size = WZ.SizeIcon.sm, tint = theme.textOnAccent)
             }
             Column {
                 Text(
@@ -352,9 +348,15 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    tr(if (joined) "voice.statusConnected" else "voice.statusConnecting"),
+                    tr(
+                        when {
+                            calls.reconnecting -> "voice.statusReconnecting"
+                            joined -> "voice.statusConnected"
+                            else -> "voice.statusConnecting"
+                        },
+                    ),
                     style = wizardFont(WZ.FontSize.sm),
-                    color = if (joined) theme.success else theme.textMuted,
+                    color = if (calls.reconnecting) theme.warningColor else if (joined) theme.success else theme.textMuted,
                     maxLines = 1,
                 )
             }
@@ -412,7 +414,6 @@ fun ParticipantRow(roomId: String, userId: String) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        PhIcon("waveform", tint = theme.success)
     }
 }
 
@@ -495,8 +496,10 @@ private fun IncomingCallCard(call: RingingCall) {
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
             Text(name, style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            val kind = tr(if (call.voiceOnly) "voice.incomingVoiceCall" else "voice.incomingVideoCall")
+            val room = session.roomList?.room(call.roomId)
             IconLabel(
-                tr(if (call.voiceOnly) "voice.incomingVoiceCall" else "voice.incomingVideoCall"),
+                if (room == null || room.isDirect) kind else "$kind · ${room.displayName}",
                 if (call.voiceOnly) "phone" else "video-camera",
                 color = theme.textMuted,
                 size = WZ.FontSize.sm,
@@ -539,7 +542,7 @@ fun DMCallScreen(onDismiss: () -> Unit) {
 private fun DMCallContent(onDismiss: () -> Unit) {
     val calls = CallManager.shared
     val room = calls.room
-    val waitingForOther = calls.participants.none { !it.isLocal }
+    val waitingForOther = calls.participants.none { !it.isLocal && !it.isOwnOtherDevice }
     val other = rememberMemberProfile(room?.dmUserId, room?.id)
 
     Column(Modifier.fillMaxSize().background(theme.bgSecondary).statusBarsPadding().navigationBarsPadding()) {
@@ -612,11 +615,15 @@ private fun Waiting(room: RoomSummary, otherName: String?, otherAvatar: String?,
     }
 }
 
-/** "Call in progress · Join" at the top of a DM with an active call */
+/**
+ * "Call in progress · Join" at the top of a room with an active call, or "You're in this call on
+ * another device · Join here"
+ */
 @Composable
 fun JoinCallBar(room: RoomSummary, modifier: Modifier = Modifier) {
     val calls = CallManager.shared
     val session = LocalSession.current
+    val elsewhere = room.inCallElsewhere
     Row(
         modifier
             .padding(horizontal = WZ.Space.space5)
@@ -627,14 +634,14 @@ fun JoinCallBar(room: RoomSummary, modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(Modifier.size(WZ.Space.space9).clip(CircleShape).background(theme.success), contentAlignment = Alignment.Center) {
-            PhIcon("phone", PhWeight.fill, size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
+            PhIcon("phone", PhWeight.regular, size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
         }
         Text(
-            tr("voice.callInProgress"),
+            tr(if (elsewhere) "call.inCallElsewhere" else "voice.callInProgress"),
             Modifier.weight(1f),
             style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
             color = theme.textPrimary,
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
         Box(
@@ -647,7 +654,46 @@ fun JoinCallBar(room: RoomSummary, modifier: Modifier = Modifier) {
                 }
                 .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
         ) {
-            Text(tr("common.join"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textOnAccent)
+            Text(tr(if (elsewhere) "call.joinHere" else "common.join"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textOnAccent)
         }
     }
 }
+
+/** Why a call (not a voice room's, whose lobby shows it) failed or ended, for a few seconds */
+@Composable
+fun CallErrorBanner(modifier: Modifier = Modifier) {
+    val calls = CallManager.shared
+    val session = LocalSession.current
+    val failed = calls.state as? CallManager.State.Failed
+    val inVoiceRoom = failed?.roomId?.let { session.roomList?.room(it)?.isVoice } == true
+    val shown = if (inVoiceRoom) null else failed
+    var last by remember { mutableStateOf(shown) }
+    if (shown != null) last = shown
+    LaunchedEffect(shown) {
+        if (shown == null) return@LaunchedEffect
+        delay(ERROR_VISIBLE_MILLIS)
+        calls.dismissFailure(shown)
+    }
+    AnimatedVisibility(
+        shown != null,
+        modifier,
+        enter = slideInVertically { -it } + fadeIn(),
+        exit = slideOutVertically { -it } + fadeOut(),
+    ) {
+        val message = last?.message ?: ""
+        Row(
+            Modifier
+                .padding(horizontal = WZ.Space.space5)
+                .floatingGlass(RoundedCornerShape(WZ.Radius.xl))
+                .clickable { last?.let(calls::dismissFailure) }
+                .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            PhIcon("warning", size = WZ.SizeIcon.sm, tint = theme.error)
+            Text(message, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+        }
+    }
+}
+
+private const val ERROR_VISIBLE_MILLIS = 6000L

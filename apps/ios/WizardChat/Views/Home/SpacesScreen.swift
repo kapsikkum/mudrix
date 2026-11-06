@@ -27,6 +27,11 @@ struct SpacesScreen: View {
                     }
                     .buttonStyle(.plain)
                     .contextMenu {
+                        if roomList.unreadState(of: .space(space.id)).unread {
+                            Button { Task { await roomList.markAsRead(roomList.rooms(for: .space(space.id))) } } label: {
+                                Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+                            }
+                        }
                         Button { copyToClipboard("https://matrix.to/#/\(space.id)", message: String(localized: "timeline.linkCopied")) } label: {
                             Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
                         }

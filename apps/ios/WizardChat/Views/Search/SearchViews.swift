@@ -240,7 +240,7 @@ struct GlobalSearchResults: View {
 
     private func roomRow(_ room: RoomSummary) -> some View {
         row(name: room.displayName, avatarUrl: room.avatarUrl, isSpace: false,
-            icon: room.isDirect ? "ph-user-regular" : room.isVoice ? "ph-speaker-high-fill" : "ph-hash-straight-regular")
+            icon: room.isDirect ? "ph-user-regular" : room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-regular")
     }
 
     private func row(name: String, avatarUrl: String?, isSpace: Bool, icon: String) -> some View {

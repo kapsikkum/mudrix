@@ -70,7 +70,7 @@ struct ActiveNowSection: View {
         return VStack(alignment: .leading, spacing: WZ.Space.space4) {
             VStack(alignment: .leading, spacing: WZ.Space.space1) {
                 HStack(spacing: WZ.Space.space2) {
-                    Image("ph-speaker-high-fill")
+                    Image("ph-speaker-high-regular")
                         .font(.system(size: WZ.SizeIcon.xs))
                         .foregroundStyle(theme.success)
                     Text(card.room.displayName)

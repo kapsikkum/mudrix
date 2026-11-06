@@ -465,7 +465,7 @@ fun VerificationBanner(onVerify: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
-        PhIcon("shield-check", size = WZ.SizeIcon.lg, tint = theme.warningColor)
+        PhIcon("shield-warning", size = WZ.SizeIcon.lg, tint = theme.danger)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
             Text(tr("verifySession.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
             Text(tr("common.useAnotherDeviceOr"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)

@@ -30,6 +30,7 @@ struct ChatEntry: Identifiable {
         case redacted
         case undecryptable(String)
         case system(String)
+        case call(CallHistoryView)
         case dateDivider(Date)
     }
 
@@ -112,10 +113,17 @@ struct ChatEntry: Identifiable {
     var sendFailed = false
     var replyTo: ReplyQuote?
     var isEditable = false
-    var canBeRepliedTo: Bool { eventId != nil }
+    var allowsActions: Bool {
+        switch kind {
+        case .redacted, .undecryptable: false
+        default: true
+        }
+    }
+    var canBeRepliedTo: Bool { eventId != nil && allowsActions }
     var isGrouped = false
     var spoilers: [String] = []
     var mentions: [MessageMention] = []
+    var rich: [RichBlock]?
     var mediaSpoiler: String?
     var galleryItems: [ChatEntry] = []
     var thread: ThreadSummaryView?
@@ -152,7 +160,7 @@ struct ChatEntry: Identifiable {
 
     var isContent: Bool {
         switch kind {
-        case .system, .dateDivider: return false
+        case .system, .call, .dateDivider: return false
         default: return true
         }
     }
@@ -539,15 +547,18 @@ final class TimelineModel: ObservableObject {
         var contentType: ChatEntry.ContentType?
         var spoilers: [String] = []
         var mentions: [MessageMention] = []
+        var rich: [RichBlock]?
         var mediaSpoiler: String?
         switch event.content {
         case .text(let text):
+            rich = text.rich
             let mentioned = Self.mentionText(text.html, ownUserId: ownUserId)
             kind = .message(body: mentioned?.text ?? text.body, isEmote: false, isNotice: false)
             contentType = .text
             spoilers = Self.spoilers(in: text.html)
             mentions = mentioned?.mentions ?? []
         case .notice(let notice):
+            rich = notice.rich
             let mentioned = Self.mentionText(notice.html, ownUserId: ownUserId)
             kind = .message(body: mentioned?.text ?? notice.body, isEmote: false, isNotice: true)
             contentType = .notice
@@ -596,6 +607,8 @@ final class TimelineModel: ObservableObject {
         case .membership(let membership):
             guard let text = describe(membership, sender: event.senderName ?? event.sender) else { return nil }
             kind = .system(text)
+        case .call(let call):
+            kind = .call(call.call)
         default:
             return nil
         }
@@ -617,6 +630,7 @@ final class TimelineModel: ObservableObject {
         entry.sendFailed = event.sendState == .failed
         entry.spoilers = spoilers
         entry.mentions = mentions
+        entry.rich = rich
         entry.mediaSpoiler = mediaSpoiler
         entry.isEditable = event.isEditable
         entry.thread = event.thread

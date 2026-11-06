@@ -26,7 +26,7 @@ import {
   settingsPageAtom,
 } from '@/app/store/atoms';
 import { commandActionsAtom } from '@/app/store/atoms/call';
-import type { CallPresentation, SidebarView } from '@/app/store/atoms';
+import type { SidebarView } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
@@ -312,18 +312,13 @@ export function ClientLayout() {
   const callToggleMute = callActions?.toggleMute;
   const callToggleDeafen = callActions?.toggleDeafen;
 
-  const startCallInRoom = useCallback(
-    async (roomId: string, presentation: CallPresentation) => {
+  const placeCall = useCallback(
+    async (roomId: string) => {
       if (!client || !startCall) return;
       if (!roomsById.has(roomId)) return;
-      await startCall(roomId, { voiceOnly: true, presentation });
+      await startCall(roomId, { voiceOnly: true, presentation: 'room', ring: true });
     },
     [client, startCall, roomsById]
-  );
-
-  const placeCall = useCallback(
-    (roomId: string) => startCallInRoom(roomId, 'room'),
-    [startCallInRoom]
   );
 
   const joinVoiceRoom = useJoinVoiceRoom(client);

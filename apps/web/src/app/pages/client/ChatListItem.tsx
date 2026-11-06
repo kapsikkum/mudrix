@@ -13,7 +13,6 @@ import { RoomVoiceParticipants } from '@/app/features/voice/VoiceParticipants';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useTouchUi } from '@/app/hooks/useUiDensitySync';
 import { isMenuOpenKey, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
-import type { CallMember } from '@wizardchat/core';
 import * as css from './ChatListItem.css';
 import { vars } from '@/theme/vars.css';
 
@@ -32,7 +31,7 @@ interface ChatListItemProps {
   isMuted?: boolean;
   showTypeBadge?: boolean;
   hideAvatar?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
   compactVoice?: boolean;
   onClick: () => void;
   onDoubleClick?: () => void;
@@ -212,7 +211,7 @@ export function ChatListItem({
       </div>
       {/* Voice participants list: only mounted for rooms that actually have a voice room */}
       {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
-        <RoomVoiceParticipants members={voiceMembers} roomId={roomId} compact={compactVoice} />
+        <RoomVoiceParticipants userIds={voiceMembers} roomId={roomId} compact={compactVoice} />
       )}
     </div>
   );

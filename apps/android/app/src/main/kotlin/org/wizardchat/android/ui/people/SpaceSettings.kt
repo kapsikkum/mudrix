@@ -238,10 +238,10 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                     }
                 }
                 if (showCreateRoom) {
-                    CreateRoomSheet(space.id) {
+                    CreateRoomSheet(space.id, onDismiss = {
                         showCreateRoom = false
                         reloads++
-                    }
+                    })
                 }
             }
         }

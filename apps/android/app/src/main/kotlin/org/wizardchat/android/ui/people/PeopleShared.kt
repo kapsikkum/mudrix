@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -176,8 +177,8 @@ internal fun NavRow(title: String, icon: String, onClick: () -> Unit, value: Str
 
 /** A row with a switch */
 @Composable
-internal fun ToggleRow(title: String, checked: Boolean, onChange: (Boolean) -> Unit, icon: String? = null) {
-    GroupedRow(title, icon = icon, iconTint = theme.accent, onClick = { onChange(!checked) }) {
+internal fun ToggleRow(title: String, checked: Boolean, onChange: (Boolean) -> Unit, icon: String? = null, subtitle: String? = null) {
+    GroupedRow(title, icon = icon, iconTint = theme.accent, subtitle = subtitle, onClick = { onChange(!checked) }) {
         WizardSwitch(checked, onChange)
     }
 }
@@ -283,20 +284,20 @@ internal fun EmptyState(title: String, icon: String, modifier: Modifier = Modifi
 /** The small role capsule next to admins, moderators and creators */
 @Composable
 internal fun RoleBadge(level: Long) {
-    val key = when {
-        level == Long.MAX_VALUE -> "room.creator"
-        level >= 100 -> "profile.roleAdmin"
-        level >= 50 -> "profile.roleModerator"
-        else -> return
+    val (key, color) = when {
+        level == Long.MAX_VALUE -> "room.members.founder" to theme.roleFounder
+        level >= 100 -> "profile.roleAdmin" to theme.roleAdmin
+        level >= 50 -> "profile.roleModerator" to theme.roleModerator
+        else -> "profile.roleMember" to theme.roleMember
     }
     Text(
         tr(key),
         Modifier
             .clip(CircleShape)
-            .background(theme.accent.copy(alpha = 0.15f))
+            .background(color.copy(alpha = 0.15f))
             .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
         style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
-        color = theme.accent,
+        color = color,
     )
 }
 

@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.displayName
+import org.wizardchat.android.matrix.memberProfile
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.ConfirmDialog
@@ -99,6 +100,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
     var originalName by remember { mutableStateOf("") }
     var originalTopic by remember { mutableStateOf("") }
     var avatarUrl by remember { mutableStateOf<String?>(null) }
+    var hasCustomAvatar by remember { mutableStateOf(false) }
+    var confirmResetAvatar by remember { mutableStateOf(false) }
     var memberCount by remember { mutableStateOf(0L) }
     var encrypted by remember { mutableStateOf(false) }
     var isFavourite by remember { mutableStateOf(false) }
@@ -130,7 +133,15 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             originalTopic = topic
             loaded = true
         }
-        avatarUrl = info?.avatarUrl ?: room.avatarUrl
+        val custom = info?.avatarUrl
+        hasCustomAvatar = custom != null
+        val partner = room.dmUserId
+        avatarUrl = when {
+            custom != null -> custom
+            room.isDirect && partner != null -> session.memberProfile(partner, room.id).avatarUrl ?: room.dmUserAvatar
+            info == null -> room.avatarUrl
+            else -> null
+        }
         alias = info?.canonicalAlias
         pinnedCount = info?.pinnedEventIds?.size ?: 0
         isFavourite = info?.isFavourite ?: room.isFavourite
@@ -172,6 +183,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                 client.setRoomAvatar(room.id, jpeg, "image/jpeg")
                 delay(500)
                 avatarUrl = runCatching { client.roomDetails(room.id) }.getOrNull()?.avatarUrl
+                hasCustomAvatar = avatarUrl != null
             } catch (e: Exception) {
                 error = errorText(e)
             } finally {
@@ -217,6 +229,9 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                         ) {
                             AvatarWithBadge(room.displayName, avatarUrl, canEditAvatar, saving, pickAvatar)
+                            if (room.isDirect && canEditAvatar && hasCustomAvatar) {
+                                BarTextButton(tr("room.settings.general.resetAvatar"), { confirmResetAvatar = true }, enabled = !saving)
+                            }
                             Text(
                                 name.ifEmpty { room.displayName },
                                 style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
@@ -312,6 +327,28 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                 }
             }
 
+            if (confirmResetAvatar) {
+                ConfirmDialog(
+                    title = tr("common.removeAvatarConfirm"),
+                    confirmLabel = tr("room.settings.general.resetAvatar"),
+                    onConfirm = {
+                        scope.launch {
+                            saving = true
+                            try {
+                                client.removeRoomAvatar(room.id)
+                                hasCustomAvatar = false
+                                delay(500)
+                                reloads++
+                            } catch (e: Exception) {
+                                error = errorText(e)
+                            } finally {
+                                saving = false
+                            }
+                        }
+                    },
+                    onDismiss = { confirmResetAvatar = false },
+                )
+            }
             if (confirmLeave) {
                 ConfirmDialog(
                     title = L10n.format("room.leaveNamed2", room.displayName),

@@ -27,6 +27,8 @@ interface DesktopAPI {
     roomUrl?: string;
   }) => Promise<boolean>;
   onOpenRoom?: (cb: (url: string) => void) => void;
+  /** Flashes the taskbar entry or bounces the dock icon until the window is focused or `false` */
+  requestAttention?: (on: boolean) => void;
   getPendingRoom?: () => Promise<string | null>;
   getAppVersion?: () => Promise<string>;
   setPushToTalkKey?: (code: string | null) => Promise<'active' | 'no-permission' | 'unsupported'>;

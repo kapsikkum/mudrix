@@ -126,7 +126,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
                     PhIcon(
                         if (isVerified) "shield-check" else "shield-warning",
                         size = WZ.SizeIcon.md,
-                        tint = if (isVerified) theme.success else theme.warningColor,
+                        tint = if (isVerified) theme.success else theme.danger,
                     )
                     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
                         Text(
@@ -265,7 +265,7 @@ private fun DeviceRow(
                             Modifier
                                 .size(WZ.Space.space4)
                                 .clip(CircleShape)
-                                .background(if (verified) theme.success else theme.warningColor)
+                                .background(if (verified) theme.success else theme.danger)
                                 .semantics { contentDescription = label },
                         )
                     }

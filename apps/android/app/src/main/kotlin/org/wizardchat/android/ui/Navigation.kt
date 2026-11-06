@@ -193,6 +193,7 @@ data class MenuItem(
     val icon: String? = null,
     val destructive: Boolean = false,
     val divider: Boolean = false,
+    val checked: Boolean = false,
     val onClick: () -> Unit,
 )
 
@@ -205,6 +206,7 @@ fun WizardMenu(expanded: Boolean, onDismiss: () -> Unit, items: List<MenuItem>) 
             DropdownMenuItem(
                 text = { Text(item.label, style = wizardFont(WZ.FontSize.lg), color = color) },
                 leadingIcon = item.icon?.let { { PhIcon(it, tint = color) } },
+                trailingIcon = if (item.checked) ({ PhIcon("check", PhWeight.bold, tint = theme.accent) }) else null,
                 onClick = {
                     onDismiss()
                     item.onClick()

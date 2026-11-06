@@ -166,7 +166,7 @@ class CallService : Service() {
         private fun placeholder(context: Context): Notification {
             ensureChannel(context)
             return NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(PhIcons.id("phone", PhWeight.fill))
+                .setSmallIcon(PhIcons.id("phone", PhWeight.regular))
                 .setContentTitle(L10n.format("call.wizardchatCall"))
                 .setSilent(true)
                 .build()
@@ -186,7 +186,7 @@ class CallService : Service() {
                 PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             }
             return NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(PhIcons.id("phone", PhWeight.fill))
+                .setSmallIcon(PhIcons.id("phone", PhWeight.regular))
                 .setContentTitle(controller.roomName)
                 .setContentText(status)
                 .setContentIntent(open)
@@ -205,7 +205,7 @@ class CallService : Service() {
                     action(context, ACTION_TOGGLE_MIC, 1),
                 )
                 .addAction(
-                    PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", if (state.deafened) PhWeight.regular else PhWeight.fill),
+                    PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", PhWeight.regular),
                     L10n.format(if (state.deafened) "voice.undeafen" else "voice.deafen"),
                     action(context, ACTION_TOGGLE_DEAFEN, 2),
                 )

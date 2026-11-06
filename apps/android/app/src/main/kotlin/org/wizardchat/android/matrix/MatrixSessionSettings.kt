@@ -87,9 +87,6 @@ suspend fun MatrixSession.enableRecovery(): String = requireClient.enableRecover
 
 suspend fun MatrixSession.resetRecoveryKey(): String = requireClient.resetRecoveryKey()
 
-suspend fun MatrixSession.createSpace(name: String, topic: String?, isPublic: Boolean): String =
-    requireClient.createRoom(CreateRoomOptions(name = name, topic = topic, isPublic = isPublic, isSpace = true))
-
 suspend fun MatrixSession.createRoom(
     name: String,
     topic: String?,
@@ -98,17 +95,34 @@ suspend fun MatrixSession.createRoom(
     isVoice: Boolean,
     alias: String?,
     spaceId: String?,
+    federate: Boolean = true,
+    spaceMembers: Boolean = false,
+    founders: List<String> = emptyList(),
+    roomVersion: String? = null,
+    isSpace: Boolean = false,
 ): String = requireClient.createRoom(
     CreateRoomOptions(
         name = name,
         topic = topic,
         isPublic = isPublic,
         alias = if (isPublic) alias else null,
+        isSpace = isSpace,
         isVoice = isVoice,
         parentSpaceId = spaceId,
-        encrypted = encrypted && !isPublic,
+        invite = founders,
+        encrypted = encrypted && !isPublic && !isSpace,
+        federate = federate,
+        access = if (spaceMembers && spaceId != null) "restricted" else null,
+        founders = founders,
+        roomVersion = if (founders.isEmpty()) null else roomVersion,
     ),
 )
+
+suspend fun MatrixSession.foundersRoomVersion(): String? {
+    val capabilities = runCatching { client?.serverCapabilities() }.getOrNull() ?: return null
+    if ((capabilities.defaultRoomVersion.toIntOrNull() ?: 0) >= 12) return capabilities.defaultRoomVersion
+    return if (capabilities.roomVersions.any { it.firstOrNull() == "12" }) "12" else null
+}
 
 suspend fun MatrixSession.startDirectMessage(userId: String): String = requireClient.startDm(userId)
 

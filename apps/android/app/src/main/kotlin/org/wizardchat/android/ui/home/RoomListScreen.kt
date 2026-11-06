@@ -2,6 +2,7 @@ package org.wizardchat.android.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
@@ -78,6 +83,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.ParticipantStack
+import org.wizardchat.core.NotificationMode
 import org.wizardchat.core.RoomSection
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
@@ -117,6 +123,15 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
     }
     val rooms = roomList.rooms(selection)
     val groups = if (roomList.isLoaded) roomList.groups(selection) else emptyList()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val collapsedPrefs = remember { context.getSharedPreferences("room_list", android.content.Context.MODE_PRIVATE) }
+    var collapsed by remember { mutableStateOf(collapsedPrefs.getStringSet("collapsed", emptySet()).orEmpty()) }
+    fun collapseKey(group: RoomGroup) = "${roomList.sectionContext(selection)}::${group.id}"
+    fun toggle(group: RoomGroup) {
+        val key = collapseKey(group)
+        collapsed = if (key in collapsed) collapsed - key else collapsed + key
+        collapsedPrefs.edit().putStringSet("collapsed", collapsed).apply()
+    }
     val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }
 
     fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||
@@ -144,7 +159,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                     menuOpen,
                     { menuOpen = false },
                     buildList {
-                        add(MenuItem(tr("common.newMessage"), "note-pencil") { showNewMessage = true })
+                        add(MenuItem(tr("common.newDm"), "chat-circle") { showNewMessage = true })
                         if (selection != SidebarSelection.Dms) add(MenuItem(tr("rooms.newRoom"), "hash-straight") { showNewRoom = true })
                         if (selection != SidebarSelection.Dms) {
                             add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
@@ -196,13 +211,16 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                             GroupHeader(
                                 group,
                                 anchors,
+                                closed = collapseKey(group) in collapsed && !reordering,
+                                onToggle = { if (!reordering) toggle(group) },
                                 onRename = { renaming = it },
                                 onMove = { offset -> sectionTask { roomList.moveGroup(group.id, offset, groups) } },
                                 onDelete = { deleting = it },
                             )
                         }
                     }
-                    itemsIndexed(group.rooms, key = { _, room -> room.id }) { index, room ->
+                    val shown = if (headers && collapseKey(group) in collapsed && !reordering) emptyList() else group.rooms
+                    itemsIndexed(shown, key = { _, room -> room.id }) { index, room ->
                         SwipeableRoomRow(
                             room,
                             showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
@@ -211,6 +229,8 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                             onLeave = { leaving = room },
                             onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                             onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
+                            notificationMode = roomList.notificationMode(room),
+                            onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                             reorder = if (canReorder(group)) ({ offset -> move(group, index, offset) }) else null,
                         )
                     }
@@ -309,10 +329,13 @@ private fun SwipeableRoomRow(
     onLeave: () -> Unit,
     onToggleFavourite: () -> Unit,
     onMoveToSection: (() -> Unit)?,
+    notificationMode: NotificationMode?,
+    onSetNotificationMode: (NotificationMode?) -> Unit,
     reorder: ((Int) -> Unit)?,
 ) {
     val unread = room.unreadCount > 0 || room.mentionCount > 0
     var menuOpen by remember { mutableStateOf(false) }
+    var notificationsOpen by remember { mutableStateOf(false) }
     val state = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
             when (value) {
@@ -328,13 +351,13 @@ private fun SwipeableRoomRow(
         backgroundContent = {
             val leading = state.dismissDirection == SwipeToDismissBoxValue.StartToEnd
             Row(
-                Modifier.fillMaxSize().background(if (leading) theme.accent else theme.danger).padding(horizontal = WZ.Space.space8),
+                Modifier.fillMaxSize().background(if (leading) theme.control else theme.danger).padding(horizontal = WZ.Space.space8),
                 horizontalArrangement = if (leading) Arrangement.Start else Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 PhIcon(
                     if (!leading) "sign-out" else if (unread) "envelope-open" else "envelope-simple",
-                    tint = theme.textOnAccent,
+                    tint = if (leading) theme.bgPrimary else theme.textOnAccent,
                     size = WZ.SizeIcon.lg,
                 )
             }
@@ -346,7 +369,12 @@ private fun SwipeableRoomRow(
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                RoomRow(room, showsHashIcon, Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0))
+                RoomRow(
+                    room,
+                    showsHashIcon,
+                    Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0),
+                    muted = notificationMode == NotificationMode.mute,
+                )
                 if (reorder != null) {
                     BarButton("caret-left", tr("room.sections.moveUp"), { reorder(-1) }, modifier = Modifier.rotate(90f), weight = PhWeight.bold, tint = theme.textPrimary)
                     BarButton("caret-left", tr("room.sections.moveDown"), { reorder(1) }, modifier = Modifier.rotate(-90f), weight = PhWeight.bold, tint = theme.textPrimary)
@@ -357,6 +385,7 @@ private fun SwipeableRoomRow(
                 { menuOpen = false },
                 listOfNotNull(
                     MenuItem(tr("common.markRead"), "envelope-open") { onToggleRead(true) },
+                    MenuItem(tr("room.notifications.title"), "bell") { notificationsOpen = true },
                     MenuItem(tr(if (room.isFavourite) "room.removeFavourite" else "room.addFavourite"), "star", onClick = onToggleFavourite),
                     onMoveToSection?.let { MenuItem(tr("room.sections.moveTo"), "list-bullets", onClick = it) },
                     MenuItem(tr("common.copyLink"), "link-simple") {
@@ -365,22 +394,34 @@ private fun SwipeableRoomRow(
                     MenuItem(tr("common.leave"), "sign-out", destructive = true, divider = true, onClick = onLeave),
                 ),
             )
+            WizardMenu(
+                notificationsOpen,
+                { notificationsOpen = false },
+                listOf(
+                    Triple(null, "notifLevel.default", "bell"),
+                    Triple(NotificationMode.all, "notifLevel.all", "bell-ringing"),
+                    Triple(NotificationMode.mentions, "notifLevel.mentions", "bell-simple"),
+                    Triple(NotificationMode.mute, "notifLevel.mute", "bell-slash"),
+                ).map { (mode, label, icon) ->
+                    MenuItem(tr(label), icon, checked = mode == notificationMode) { onSetNotificationMode(mode) }
+                },
+            )
         }
     }
 }
 
 @Composable
-fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modifier) {
+fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modifier, muted: Boolean = false) {
     val prefs = LocalPrefs.current
     val avatarSize = prefs.roomAvatarSize
-    val inCall = room.isVoice && room.callParticipants.isNotEmpty()
+    val inCall = room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
 
     @Composable
     fun TypeIcon(size: androidx.compose.ui.unit.Dp) {
         PhIcon(
             if (room.isVoice) "speaker-high" else "hash-straight",
-            if (room.isVoice) PhWeight.fill else PhWeight.bold,
+            if (room.isVoice) PhWeight.regular else PhWeight.bold,
             size = size,
             tint = if (inCall) theme.success else theme.textMuted,
         )
@@ -420,9 +461,13 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            if (inCall) ParticipantStack(room.id, room.callParticipants)
+            if (inCall && room.isVoice) ParticipantStack(room.id, room.callParticipants)
         }
         Spacer(Modifier.width(6.dp))
+        if (muted) {
+            PhIcon("bell-slash", size = WZ.SizeIcon.sm, tint = theme.textMuted, contentDescription = tr("notifLevel.mute"))
+            if (room.mentionCount > 0 || room.unreadCount > 0) Spacer(Modifier.width(WZ.Space.space3))
+        }
         when {
             room.mentionCount > 0 -> UnreadBadge(room.mentionCount, isMention = true)
             room.unreadCount > 0 -> UnreadBadge(room.unreadCount, isMention = false)
@@ -434,6 +479,8 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
 private fun GroupHeader(
     group: RoomGroup,
     anchors: List<String>,
+    closed: Boolean,
+    onToggle: () -> Unit,
     onRename: (RoomSection) -> Unit,
     onMove: (Int) -> Unit,
     onDelete: (RoomSection) -> Unit,
@@ -446,11 +493,34 @@ private fun GroupHeader(
         is RoomGroup.Kind.Section -> kind.section.name
         RoomGroup.Kind.Rooms -> tr("room.title")
     }
+    val rotation by androidx.compose.animation.core.animateFloatAsState(if (closed) 0f else 90f, label = "chevron")
+    val haptics = androidx.compose.ui.platform.LocalHapticFeedback.current
+    val hint = tr(if (closed) "common.expand" else "common.collapse")
     Row(
-        Modifier.fillMaxWidth().padding(start = WZ.Space.space6, end = WZ.Space.space3, top = WZ.Space.space5),
+        Modifier.fillMaxWidth().padding(start = WZ.Space.space4, end = WZ.Space.space3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(title.uppercase(), Modifier.weight(1f), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = theme.textMuted)
+        Row(
+            Modifier
+                .weight(1f)
+                .heightIn(min = WZ.SizeControl.sm + WZ.Space.space1)
+                .clip(RoundedCornerShape(WZ.Radius.md))
+                .clickable(onClickLabel = hint) {
+                    haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                    onToggle()
+                }
+                .padding(horizontal = WZ.Space.space2)
+                .semantics { heading() },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            PhIcon("caret-right", PhWeight.bold, WZ.SizeIcon.xs, tint = theme.textMuted, modifier = Modifier.rotate(rotation))
+            Text(title, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textSecondary, maxLines = 1)
+            if (closed) {
+                val unread = group.rooms.sumOf { maxOf(it.unreadCount, it.mentionCount) }
+                if (unread > 0) UnreadBadge(unread, group.rooms.any { it.mentionCount > 0 })
+            }
+        }
         if (index >= 0 && (anchors.size > 1 || section != null)) {
             Box {
                 BarButton("dots-three", tr("room.sections.options"), { menuOpen = true }, weight = PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.textMuted)

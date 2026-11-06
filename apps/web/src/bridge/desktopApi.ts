@@ -2,6 +2,7 @@
 import { getVersion } from '@tauri-apps/api/app';
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
+import { getCurrentWindow, UserAttentionType } from '@tauri-apps/api/window';
 import {
   getDesktopSources,
   onOpenDesktopPicker,
@@ -33,6 +34,11 @@ export const desktopApi: DesktopAPI = {
     });
   },
   getPendingRoom: takePendingRoom,
+  requestAttention(on) {
+    void getCurrentWindow()
+      .requestUserAttention(on ? UserAttentionType.Critical : null)
+      .catch(() => {});
+  },
   getAppVersion: getVersion,
   getPlatform: platform,
   setTitleBarTheme(background) {

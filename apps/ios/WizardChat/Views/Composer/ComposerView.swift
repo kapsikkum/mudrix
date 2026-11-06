@@ -17,6 +17,7 @@ struct ComposerView: View {
 
     @State private var draft = ""
     @State private var selection = NSRange(location: 0, length: 0)
+    @State private var formatting = false
     @State private var attachments: [PendingAttachment] = []
     @StateObject private var packStore = PacksStore()
     private var packs: [ImagePack] { packStore.packs }
@@ -26,6 +27,7 @@ struct ComposerView: View {
     @State private var pickerTab: MediaPicker.Tab?
     @State private var showPhotos = false
     @State private var photoItems: [PhotosPickerItem] = []
+    @State private var showCamera = false
     @State private var showFiles = false
     @State private var showPoll = false
     @State private var showLocation = false
@@ -65,8 +67,7 @@ struct ComposerView: View {
                             draft = ""
                         } }
                         if !attachments.isEmpty || preparing > 0 { attachmentTray }
-                        // Formatting appears only while text is selected.
-                        if focused && hasSelection {
+                        if formatting || (focused && hasSelection) {
                             formatBar
                                 .padding(.horizontal, WZ.Space.space4)
                                 .padding(.top, WZ.Space.space2)
@@ -87,7 +88,7 @@ struct ComposerView: View {
         .padding(.bottom, WZ.Space.space4)
         .padding(.top, WZ.Space.space2)
         .animation(.spring(duration: WZ.MotionDuration.slow), value: canSend)
-        .animation(.easeOut(duration: WZ.MotionDuration.fast), value: focused && hasSelection)
+        .animation(.easeOut(duration: WZ.MotionDuration.fast), value: formatting || (focused && hasSelection))
         .animation(.spring(duration: WZ.MotionDuration.slow), value: isRecording)
         .sensoryFeedback(.impact(weight: .light), trigger: sent)
         .task { await packStore.load(session: session, roomId: room.id) }
@@ -116,6 +117,17 @@ struct ComposerView: View {
                         onEmoji: insertEmoji,
                         onSticker: { sticker in Task { await sendSticker(sticker) } },
                         onGif: sendGif)
+        }
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraPicker { result in
+                showCamera = false
+                switch result {
+                case .photo(let image): if let data = image.jpegData(compressionQuality: 0.9) { addData(data, ext: "jpg") }
+                case .video(let url): addCapturedVideo(url)
+                case nil: break
+                }
+            }
+            .ignoresSafeArea()
         }
         .photosPicker(isPresented: $showPhotos, selection: $photoItems, maxSelectionCount: 10,
                       matching: .any(of: [.images, .videos]))
@@ -171,11 +183,20 @@ struct ComposerView: View {
     private var plusBubble: some View {
         Menu {
             Button { showPhotos = true } label: { Label(menu: String(localized: "composer.photosVideos"), icon: "ph-images-regular") }
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                Button { showCamera = true } label: { Label(menu: String(localized: "composer.camera"), icon: "ph-camera-regular") }
+            }
             Button { showFiles = true } label: { Label(menu: String(localized: "composer.file"), icon: "ph-file-regular") }
             if UIPasteboard.general.hasImages {
                 Button { pasteImages() } label: { Label(menu: String(localized: "composer.pasteImage"), icon: "ph-clipboard-text-regular") }
             }
             Divider()
+            Button {
+                formatting.toggle()
+                if formatting { focused = true }
+            } label: {
+                Label(menu: String(localized: "composer.formatting.toolbar"), icon: "ph-text-aa-regular")
+            }
             Button { showPoll = true } label: { Label(menu: String(localized: "composer.poll.create"), icon: "ph-chart-bar-horizontal-regular") }
             Button { showLocation = true } label: { Label(menu: String(localized: "composer.location.share"), icon: "ph-map-pin-regular") }
             Button { Task { await recorder.start() } } label: { Label(menu: String(localized: "composer.voice.record"), icon: "ph-microphone-regular") }
@@ -226,14 +247,22 @@ struct ComposerView: View {
     private var formatBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: WZ.Space.space1) {
+                // The same options as the web's toolbar, written as the Markdown sending turns into formatting
                 formatButton("ph-text-b-regular", label: "composer.formatting.bold") { wrap("**", "**") }
                 formatButton("ph-text-italic-regular", label: "composer.formatting.italic") { wrap("_", "_") }
                 formatButton("ph-text-strikethrough-regular", label: "composer.formatting.strikethrough") { wrap("~~", "~~") }
-                formatButton("ph-code-regular", label: "composer.code") { wrap("`", "`") }
-                formatButton("ph-brackets-curly-regular", label: "composer.codeBlock") { wrap("```\n", "\n```", block: true) }
+                formatButton("ph-code-regular", label: "composer.formatting.code") {
+                    if draft[selectedRange].contains("\n") { wrap("```\n", "\n```", block: true) } else { wrap("`", "`") }
+                }
+                formatButton("ph-text-h-regular", label: "composer.formatting.heading") { prefixLines("# ") }
+                formatButton("ph-list-bullets-regular", label: "composer.formatting.bulletList") { prefixLines("- ") }
+                formatButton("ph-list-numbers-regular", label: "composer.formatting.numberedList") { numberLines() }
                 formatButton("ph-quotes-regular", label: "composer.formatting.quote") { prefixLines("> ") }
-                formatButton("ph-list-bullets-regular", label: "composer.list") { prefixLines("- ") }
-                formatButton("ph-link-regular", label: "composer.link") { wrap("[", "](https://)") }
+                formatButton("ph-link-regular", label: "composer.formatting.link") { wrap("[", "](https://)") }
+                if formatting {
+                    formatButton("ph-x-regular", label: "common.close") { formatting = false }
+                        .foregroundStyle(theme.textMuted)
+                }
             }
         }
         .foregroundStyle(theme.textPrimary)
@@ -269,12 +298,24 @@ struct ComposerView: View {
         setCursor(draft.index(draft.startIndex, offsetBy: cursorOffset))
     }
 
+    private func numberLines() {
+        var number = 0
+        prefixLines { _ in
+            number += 1
+            return "\(number). "
+        }
+    }
+
     private func prefixLines(_ prefix: String) {
+        prefixLines { _ in prefix }
+    }
+
+    private func prefixLines(_ prefix: (Substring) -> String) {
         let range = selectedRange
         let lineStart = draft[..<range.lowerBound].lastIndex(of: "\n").map { draft.index(after: $0) } ?? draft.startIndex
         let lineEnd = draft[range.upperBound...].firstIndex(of: "\n") ?? draft.endIndex
         let lines = draft[lineStart..<lineEnd].split(separator: "\n", omittingEmptySubsequences: false)
-        let replaced = lines.map { prefix + $0 }.joined(separator: "\n")
+        let replaced = lines.map { prefix($0) + $0 }.joined(separator: "\n")
         let startOffset = draft.distance(from: draft.startIndex, to: lineStart)
         draft.replaceSubrange(lineStart..<lineEnd, with: replaced)
         setCursor(draft.index(draft.startIndex, offsetBy: startOffset + replaced.count))
@@ -310,7 +351,7 @@ struct ComposerView: View {
                                 Image(uiImage: thumbnail).resizable().scaledToFill()
                             } else {
                                 VStack(spacing: WZ.Space.space2) {
-                                    Image(attachment.isVideo ? "ph-video-camera-fill" : "ph-file-regular")
+                                    Image(attachment.isVideo ? "ph-video-camera-regular" : "ph-file-regular")
                                         .font(.system(size: WZ.SizeIcon.md))
                                     Text(attachment.url.lastPathComponent)
                                         .font(.wizard(WZ.FontSize.xs))
@@ -420,6 +461,13 @@ struct ComposerView: View {
         let name = "\(isImage ? "image" : "file")-\(Int(Date().timeIntervalSince1970 * 1000)).\(fileExt)"
         guard let url = try? MediaMetadata.temporaryCopy(of: data, filename: name) else { return }
         attachments.append(PendingAttachment(url: url, thumbnail: isImage ? UIImage(data: data) : nil, isVideo: false))
+    }
+
+    private func addCapturedVideo(_ url: URL) {
+        guard let data = try? Data(contentsOf: url),
+              let copy = try? MediaMetadata.temporaryCopy(of: data, filename: "video-\(Int(Date().timeIntervalSince1970)).\(url.pathExtension.isEmpty ? "mov" : url.pathExtension)")
+        else { return }
+        attachments.append(PendingAttachment(url: copy, thumbnail: nil, isVideo: true))
     }
 
     private func addFiles(_ urls: [URL]) {
@@ -624,7 +672,7 @@ struct ComposerView: View {
     }
 
     private func send(_ text: String, replyTo: String?) async {
-        let html = Self.richHtml(text, emotes: usedEmotes, mentions: mentions)
+        let html = await Self.richHtml(text, emotes: usedEmotes, mentions: mentions, client: session.client)
         // Always set (even empty) so legacy push rules don't fire
         let userIds = mentions.filter { text.contains($0.key) && $0.value != session.userId }.map(\.value)
         let room = text.range(of: #"(^|\s)@room\b"#, options: .regularExpression) != nil
@@ -634,13 +682,17 @@ struct ComposerView: View {
                             mentions: Mentions(userIds: Array(Set(userIds)).sorted(), room: room ? true : nil))
     }
 
-    /// Builds HTML only when the message has custom emoji or mentions (otherwise Markdown is used).
-    static func richHtml(_ text: String, emotes: [String: PackImage], mentions: [String: String]) -> String? {
+    /// Builds HTML only when the message has custom emoji or mentions (otherwise the core turns
+    /// the Markdown into HTML); its Markdown is rendered first so formatting isn't lost.
+    static func richHtml(_ text: String, emotes: [String: PackImage], mentions: [String: String],
+                         client: WizardClient?) async -> String? {
         let usedEmotes = emotes.filter { text.contains(":\($0.key):") }
         let usedMentions = mentions.filter { text.contains($0.key) }
         guard !usedEmotes.isEmpty || !usedMentions.isEmpty else { return nil }
-        var html = text.replacingOccurrences(of: "&", with: "&amp;")
+        let markdown = (try? await client?.markdownToHtml(body: text)) ?? nil
+        var html = markdown ?? text.replacingOccurrences(of: "&", with: "&amp;")
             .replacingOccurrences(of: "<", with: "&lt;").replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\n", with: "<br>")
         // Longest first, so "@Ann" doesn't match inside "@Anna"
         for (name, userId) in usedMentions.sorted(by: { $0.key.count > $1.key.count }) {
             let escaped = name.replacingOccurrences(of: "&", with: "&amp;")
@@ -652,7 +704,7 @@ struct ComposerView: View {
                 of: ":\(code):",
                 with: "<img data-mx-emoticon height=\"32\" src=\"\(image.url)\" alt=\":\(code):\" title=\":\(code):\">")
         }
-        return html.replacingOccurrences(of: "\n", with: "<br>")
+        return html
     }
 
     private func sendSticker(_ sticker: PackImage) async {
@@ -697,4 +749,45 @@ struct PendingAttachment: Identifiable {
 
 extension MediaPicker.Tab: Identifiable {
     var id: Self { self }
+}
+
+struct CameraPicker: UIViewControllerRepresentable {
+    enum Result {
+        case photo(UIImage)
+        case video(URL)
+    }
+
+    let onFinish: (Result?) -> Void
+
+    func makeCoordinator() -> Coordinator { Coordinator(onFinish: onFinish) }
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.mediaTypes = [UTType.image.identifier, UTType.movie.identifier]
+        picker.videoQuality = .typeHigh
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ picker: UIImagePickerController, context: Context) {}
+
+    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let onFinish: (Result?) -> Void
+
+        init(onFinish: @escaping (Result?) -> Void) { self.onFinish = onFinish }
+
+        func imagePickerController(_ picker: UIImagePickerController,
+                                   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let url = info[.mediaURL] as? URL {
+                onFinish(.video(url))
+            } else if let image = info[.originalImage] as? UIImage {
+                onFinish(.photo(image))
+            } else {
+                onFinish(nil)
+            }
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) { onFinish(nil) }
+    }
 }

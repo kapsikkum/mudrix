@@ -8,6 +8,7 @@ struct CallParticipantInfo: Identifiable, Equatable {
     let userId: String
     let deviceId: String
     let isLocal: Bool
+    var isOwnOtherDevice = false
     var connected = false
     var speaking = false
     var micMuted = true
@@ -31,6 +32,8 @@ final class CallManager: NSObject, ObservableObject {
     enum State: Equatable { case idle, joining, joined, failed(String) }
 
     private static let reactionVisibleSeconds = 3.0
+    private static let joinTimeout = Duration.seconds(30)
+    private static let remoteRetryDelay = Duration.seconds(2)
 
     @Published private(set) var state = State.idle
     @Published private(set) var room: RoomSummary?
@@ -45,9 +48,13 @@ final class CallManager: NSObject, ObservableObject {
     @Published private(set) var ring: RingState?
     @Published private(set) var incoming: RingingCall?
     @Published var showCallScreen = false
+    /// A failed DM or group call; voice rooms show their failure in the lobby
+    @Published var alert: String?
     private var ringback: CallSounds.Loop?
     private var ringtone: CallSounds.Loop?
-    private var incomingTimer: Task<Void, Never>?
+    private var onMissedCall: ((IncomingCall) -> Void)?
+    private var attempt = 0
+    private var joinTimer: Task<Void, Never>?
     private var knownOthers: Set<String> = []
     private let liveActivity = CallLiveActivityController()
     private var displayNames: [String: String] = [:]
@@ -57,7 +64,6 @@ final class CallManager: NSObject, ObservableObject {
     private var session: CallSession?
     private var run: Subscription?
     private var incomingWatch: Subscription?
-    private var handledElsewhereWatch: Subscription?
     private var members: [CallMember] = []
     private var mutedBeforeDeafen = false
     private var client: WizardClient?
@@ -88,25 +94,47 @@ final class CallManager: NSObject, ObservableObject {
         if isInCall(roomId: room.id) { return }
         if incoming?.roomId == room.id { dismissIncoming() }
         if isInCall { await leaveAndWait() }
+        alert = nil
+        attempt += 1
+        let current = attempt
         guard await AVAudioApplication.requestRecordPermission() else {
-            state = .failed(String(localized: "call.micPermission"))
+            await fail(String(localized: "call.micPermission"), room: room)
             return
         }
-        guard let client = app.client else { return }
+        guard attempt == current, let client = app.client else { return }
         self.room = room
         self.client = client
         state = .joining
+        joinTimer = Task { [weak self] in
+            try? await Task.sleep(for: Self.joinTimeout)
+            guard !Task.isCancelled, let self, self.attempt == current, self.state == .joining else { return }
+            self.joinTimer = nil
+            await self.fail(String(localized: "call.joinTimeout"), room: room)
+        }
         do {
+            guard try await client.rtcServiceUrl() != nil else { throw JoinFailure.noSfu }
+            guard attempt == current else { return }
             let session = try await client.joinCall(roomId: room.id, video: intent == "video", ring: ring)
+            guard attempt == current else {
+                try? await session.leave()
+                return
+            }
             self.session = session
+            // The ringback waits for LiveKit's audio session, but the state is set now so an
+            // early decline or answer isn't missed
+            if session.rang { self.ring = .ringing }
             if try await session.encrypted() {
                 keyProvider = BaseKeyProvider(options: KeyProviderOptions(
                     sharedKey: false, ratchetWindowSize: 10, keyRingSize: 256, keyDerivationAlgorithm: .hkdf))
             }
+            guard attempt == current else { return }
             run = session.run { [weak self] event in
                 MainActor.assumeIsolated { self?.handle(event) }
             }
             let publisher = try await connect(service: session.serviceUrl, publisher: true)
+            guard attempt == current else { return }
+            joinTimer?.cancel()
+            joinTimer = nil
             state = .joined
             watch = WatchTogether(
                 ownUserId: client.userId ?? "",
@@ -116,25 +144,29 @@ final class CallManager: NSObject, ObservableObject {
                 })
             _ = try? await publisher.localParticipant.setMicrophone(enabled: !micMuted && !deafened)
             CallSounds.play("call_join")
+            if self.ring == .ringing { ringback = CallSounds.loop("ringback") }
             liveActivity.start(roomName: room.displayName, isDirect: room.isDirect, state: activityState)
             if intent == "video" { toggleCamera() }
-            if ring && room.isDirect && !members.contains(where: { $0.userId != client.userId }) {
-                startRinging()
-            }
             syncRemoteConnections()
             startRefreshing()
         } catch {
-            try? await session?.leave()
-            await tearDown()
-            state = .failed(error.localizedDescription)
+            guard attempt == current else { return }
+            switch error {
+            case is CancellationError: await fail(nil, room: room)
+            case JoinFailure.noSfu: await fail(String(localized: "call.noSfu"), room: room)
+            default: await fail(L10n.format("call.failed", error.localizedDescription), room: room)
+            }
         }
     }
+
+    private enum JoinFailure: Error { case noSfu }
 
     func leave() {
         Task { await leaveAndWait() }
     }
 
     private func leaveAndWait() async {
+        attempt += 1
         if state == .joined { CallSounds.play("call_leave") }
         let session = session
         await tearDown()
@@ -143,7 +175,28 @@ final class CallManager: NSObject, ObservableObject {
         room = nil
     }
 
+    /// Ends the call; `message` nil means it was cancelled and ends quietly
+    private func fail(_ message: String?, room failedRoom: RoomSummary?, leave: Bool = true) async {
+        attempt += 1
+        let session = session
+        let wasShowingScreen = showCallScreen
+        await tearDown()
+        if leave { try? await session?.leave() }
+        room = nil
+        guard let message else {
+            state = .idle
+            return
+        }
+        state = .failed(message)
+        guard failedRoom?.isVoice != true else { return }
+        // The call screen is still animating away; an alert presented now would be dropped
+        if wasShowingScreen { try? await Task.sleep(for: .milliseconds(600)) }
+        if case .failed(message) = state { alert = message }
+    }
+
     private func tearDown() async {
+        joinTimer?.cancel()
+        joinTimer = nil
         liveActivity.end()
         displayNames = [:]
         stopRinging()
@@ -156,7 +209,7 @@ final class CallManager: NSObject, ObservableObject {
         refreshTimer = nil
         run?.cancel()
         run = nil
-        let rooms = connections.values
+        let rooms = Dictionary(connections.values.map { (ObjectIdentifier($0), $0) }, uniquingKeysWith: { a, _ in a }).values
         connections = [:]
         pendingServices = []
         for connection in rooms { await connection.disconnect() }
@@ -192,6 +245,9 @@ final class CallManager: NSObject, ObservableObject {
             refresh()
         case .error(let error):
             NSLog("WZCALL %@", error.message)
+            if error.fatal {
+                Task { await fail(L10n.format("call.failed", error.message), room: room, leave: false) }
+            }
         }
     }
 
@@ -220,9 +276,14 @@ final class CallManager: NSObject, ObservableObject {
 
     @discardableResult
     private func connect(service: String, publisher: Bool) async throws -> LiveKit.Room {
-        guard let session, let client, let room else { throw CancellationError() }
-        let sfu = try await client.sfuConfig(roomId: room.id, serviceUrl: service)
-        if let same = connections.values.first(where: { $0.url == sfu.url }) { return same }
+        guard let session else { throw CancellationError() }
+        let sfu = try await session.sfuConfig(serviceUrl: service, publisher: publisher)
+        guard self.session === session else { throw CancellationError() }
+        // Two service URLs can lead to the same SFU; keep it under both so neither asks for tokens again
+        if let same = connections.values.first(where: { $0.url == sfu.url }) {
+            connections[service] = same
+            return same
+        }
         let options = RoomOptions(
             defaultCameraCaptureOptions: CameraCaptureOptions(position: .front, dimensions: .h720_169, fps: 30),
             defaultScreenShareCaptureOptions: ScreenShareCaptureOptions(dimensions: .h1080_169, fps: 30),
@@ -264,7 +325,21 @@ final class CallManager: NSObject, ObservableObject {
         }
         for (service, connection) in connections where service != own && !wanted.contains(service) {
             connections[service] = nil
-            Task { await connection.disconnect() }
+            if !connections.values.contains(where: { $0 === connection }) {
+                Task { await connection.disconnect() }
+            }
+        }
+    }
+
+    private func remoteDisconnected(_ connection: LiveKit.Room) {
+        let services = connections.filter { $0.value === connection }.map(\.key)
+        guard !services.isEmpty else { return }
+        for service in services { connections[service] = nil }
+        let session = session
+        Task {
+            try? await Task.sleep(for: Self.remoteRetryDelay)
+            guard self.session === session else { return }
+            syncRemoteConnections()
         }
     }
 
@@ -399,6 +474,7 @@ final class CallManager: NSObject, ObservableObject {
             let isLocal = member.isOwnDevice
             var info = CallParticipantInfo(identity: member.identity, userId: member.userId,
                                            deviceId: member.deviceId, isLocal: isLocal)
+            info.isOwnOtherDevice = !isLocal && member.userId == client?.userId
             let participant: Participant? = isLocal ? local : remotes[member.identity]
             if let participant {
                 info.connected = true
@@ -440,6 +516,8 @@ struct RingingCall: Equatable {
     let callerId: String
     let callerName: String?
     let voiceOnly: Bool
+    /// Rings audibly (DMs and small rooms), or only tells of a call in a larger room
+    let ring: Bool
 }
 
 extension CallManager {
@@ -476,40 +554,43 @@ extension CallManager {
         ringback = nil
     }
 
-
-    func watchIncoming(_ client: WizardClient) {
+    func watchIncoming(_ client: WizardClient, onMissedCall: @escaping (IncomingCall) -> Void) {
+        self.onMissedCall = onMissedCall
         incomingWatch?.cancel()
-        incomingWatch = client.watchIncomingCalls { [weak self] call in
-            MainActor.assumeIsolated { self?.ringIn(call) }
-        }
-        handledElsewhereWatch?.cancel()
-        handledElsewhereWatch = client.watchCallsHandledElsewhere { [weak self] roomId in
-            MainActor.assumeIsolated {
-                if self?.incoming?.roomId == roomId { self?.dismissIncoming() }
-            }
+        incomingWatch = client.watchIncomingCalls { [weak self] event in
+            MainActor.assumeIsolated { self?.handleIncoming(event) }
         }
     }
 
     func stopWatchingIncoming() {
         incomingWatch?.cancel()
         incomingWatch = nil
-        handledElsewhereWatch?.cancel()
-        handledElsewhereWatch = nil
+        onMissedCall = nil
         dismissIncoming()
     }
 
+    private func handleIncoming(_ event: IncomingCallEvent) {
+        switch event {
+        case .ringing(let ringing):
+            ringIn(ringing.call)
+        case .ended(let ended):
+            if incoming?.roomId == ended.call.roomId { dismissIncoming() }
+            if ended.call.ring, ended.reason == .callerLeft || ended.reason == .expired {
+                onMissedCall?(ended.call)
+            }
+        }
+    }
+
     private func ringIn(_ call: IncomingCall) {
-        guard incoming == nil, !isInCall(roomId: call.roomId) else { return }
-        let remaining = Double(call.expiresAt) / 1000 - Date().timeIntervalSince1970
-        guard remaining > 0 else { return }
+        guard !isInCall(roomId: call.roomId) else { return }
+        if let incoming, incoming.roomId != call.roomId { return }
         incoming = RingingCall(roomId: call.roomId, eventId: call.eventId, callerId: call.sender,
-                               callerName: call.senderName, voiceOnly: call.intent == "audio")
-        if call.ring { ringtone = CallSounds.loop("ringtone") }
-        incomingTimer?.cancel()
-        incomingTimer = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(remaining))
-            guard !Task.isCancelled else { return }
-            self?.dismissIncoming()
+                               callerName: call.senderName, voiceOnly: call.intent != "video", ring: call.ring)
+        if call.ring {
+            if ringtone == nil { ringtone = CallSounds.ringtone() }
+        } else {
+            ringtone?.stop()
+            ringtone = nil
         }
     }
 
@@ -517,18 +598,17 @@ extension CallManager {
         guard let call = incoming, let room = session.roomList?.room(id: call.roomId) else { return }
         dismissIncoming()
         showCallScreen = true
-        Task { await join(room, session: session, intent: call.voiceOnly ? "audio" : "video") }
+        Task { await join(room, session: session, intent: call.voiceOnly ? "audio" : "video", ring: false) }
     }
 
     func declineIncoming(session: MatrixSession) {
         guard let call = incoming else { return }
         dismissIncoming()
+        guard call.ring else { return }
         Task { try? await session.client?.declineCall(roomId: call.roomId, eventId: call.eventId) }
     }
 
     func dismissIncoming() {
-        incomingTimer?.cancel()
-        incomingTimer = nil
         ringtone?.stop()
         ringtone = nil
         incoming = nil
@@ -553,12 +633,12 @@ extension CallManager: RoomDelegate {
 
     nonisolated func room(_ room: LiveKit.Room, didDisconnectWithError error: LiveKitError?) {
         Task { @MainActor in
-            guard room === self.publisher, self.state == .joined else { return }
-            let session = self.session
-            await self.tearDown()
-            try? await session?.leave()
-            self.room = nil
-            self.state = .failed(error?.localizedDescription ?? String(localized: "call.disconnected"))
+            guard self.state == .joined else { return }
+            if room === self.publisher {
+                await self.fail(String(localized: "call.disconnected"), room: self.room)
+            } else {
+                self.remoteDisconnected(room)
+            }
         }
     }
 }

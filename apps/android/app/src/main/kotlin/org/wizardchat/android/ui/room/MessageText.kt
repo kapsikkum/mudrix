@@ -1,6 +1,9 @@
 package org.wizardchat.android.ui.room
 
+import android.icu.lang.UCharacter
+import android.icu.lang.UProperty
 import android.net.Uri
+import android.os.Build
 import android.text.format.DateFormat
 import android.text.format.Formatter
 import android.util.Patterns
@@ -31,6 +34,25 @@ data class MentionColors(val own: Color, val other: Color) {
 
 /** Links, mentions and spoilers in message text */
 object MessageText {
+    fun isEmojiOnly(text: String): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return false
+        val points = text.codePoints().toArray()
+        var found = false
+        points.forEachIndexed { index, point ->
+            val next = points.getOrNull(index + 1)
+            val allowed = when {
+                Character.isWhitespace(point) -> true
+                point == 0x200D || point == 0xFE0F || point == 0x20E3 || point in 0xE0020..0xE007F -> true
+                UCharacter.hasBinaryProperty(point, UProperty.EMOJI_PRESENTATION) ||
+                    UCharacter.hasBinaryProperty(point, UProperty.EMOJI_MODIFIER) -> true.also { found = true }
+                UCharacter.hasBinaryProperty(point, UProperty.EMOJI) && (next == 0xFE0F || next == 0x20E3) -> true.also { found = true }
+                else -> false
+            }
+            if (!allowed) return false
+        }
+        return found
+    }
+
     private data class Match(val start: Int, val end: Int, val url: String)
 
     private fun links(text: String): List<Match> {

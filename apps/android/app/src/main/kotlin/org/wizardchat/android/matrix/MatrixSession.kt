@@ -293,6 +293,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     }
 
     private suspend fun close() {
+        CallManager.shared.signedOut()
         subscriptions.forEach { it.cancel() }
         subscriptions = emptyList()
         roomList?.stop()

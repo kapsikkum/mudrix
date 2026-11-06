@@ -29,6 +29,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
+import org.wizardchat.core.CallHistoryView
 import org.wizardchat.core.UploadedFile
 import org.wizardchat.core.EntryContent
 import org.wizardchat.core.ListDiff
@@ -39,6 +40,7 @@ import org.wizardchat.core.Mentions
 import org.wizardchat.core.MessageKind
 import org.wizardchat.core.ReadReceiptView
 import org.wizardchat.core.ReplyPreview
+import org.wizardchat.core.RichBlock
 import org.wizardchat.core.RoomTimeline
 import org.wizardchat.core.SendState
 import org.wizardchat.core.Subscription
@@ -85,6 +87,8 @@ data class ChatEntry(
     val isGrouped: Boolean = false,
     val spoilers: List<String> = emptyList(),
     val mentions: List<MessageMention> = emptyList(),
+    /** The message's formatting (headings, lists, code...) to draw instead of the plain body */
+    val rich: List<RichBlock>? = null,
     val mediaSpoiler: String? = null,
     val galleryItems: List<ChatEntry> = emptyList(),
     val thread: ThreadSummaryView? = null,
@@ -101,6 +105,7 @@ data class ChatEntry(
         data object Redacted : Kind
         data class Undecryptable(val text: String) : Kind
         data class System(val text: String) : Kind
+        data class Call(val call: CallHistoryView) : Kind
         data class DateDivider(val date: Instant) : Kind
     }
 
@@ -152,7 +157,8 @@ data class ChatEntry(
 
     data class ReplyQuote(val eventId: String, val senderName: String, val text: String)
 
-    val canBeRepliedTo: Boolean get() = eventId != null
+    val allowsActions: Boolean get() = kind !is Kind.Redacted && kind !is Kind.Undecryptable
+    val canBeRepliedTo: Boolean get() = eventId != null && allowsActions
 
     val summary: String
         get() = when (val kind = kind) {
@@ -167,7 +173,7 @@ data class ChatEntry(
             else -> ""
         }
 
-    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider
+    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider && kind !is Kind.Call
 
     /** With read receipts added (not your own), newest first */
     fun addReceipts(receipts: List<ReadReceiptView>, ownUserId: String): ChatEntry {
@@ -616,10 +622,12 @@ class TimelineModel(
             var contentType: ChatEntry.ContentType? = null
             var spoilers = emptyList<String>()
             var mentions = emptyList<MessageMention>()
+            var rich: List<RichBlock>? = null
             var mediaSpoiler: String? = null
             val kind: ChatEntry.Kind = when (val content = event.content) {
                 is EntryContent.Text -> {
                     contentType = ChatEntry.ContentType.text
+                    rich = content.rich
                     spoilers = spoilers(content.html)
                     val mentioned = mentionText(content.html, ownUserId)
                     mentions = mentioned?.second ?: emptyList()
@@ -627,6 +635,7 @@ class TimelineModel(
                 }
                 is EntryContent.Notice -> {
                     contentType = ChatEntry.ContentType.notice
+                    rich = content.rich
                     spoilers = spoilers(content.html)
                     val mentioned = mentionText(content.html, ownUserId)
                     mentions = mentioned?.second ?: emptyList()
@@ -684,6 +693,8 @@ class TimelineModel(
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)
                 }
+                is EntryContent.Call -> ChatEntry.Kind.Call(content.call)
+                EntryContent.CallPart -> return null
                 else -> return null
             }
             return ChatEntry(
@@ -702,6 +713,7 @@ class TimelineModel(
                 sendFailed = event.sendState == SendState.failed,
                 spoilers = spoilers,
                 mentions = mentions,
+                rich = rich,
                 mediaSpoiler = mediaSpoiler,
                 isEditable = event.isEditable,
                 thread = event.thread,

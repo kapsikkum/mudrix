@@ -3,7 +3,8 @@ import WizardChatCore
 
 extension RoomSummary: @retroactive Identifiable {
     var displayName: String { name ?? canonicalAlias ?? id }
-    var unreadCount: Int { markedUnread ? max(unreadMessages, 1) : unreadMessages }
+    /// Messages that notify under the room's notification setting (as on the web), or 1 when marked unread
+    var unreadCount: Int { unreadNotifications > 0 ? unreadNotifications : markedUnread ? 1 : 0 }
     var mentionCount: Int { unreadMentions }
 }
 
@@ -46,6 +47,8 @@ final class RoomListModel: ObservableObject {
     @Published private(set) var joinedRooms: [RoomSummary] = []
     @Published private(set) var invites: [RoomSummary] = []
     @Published private(set) var mentionRooms: [RoomSummary] = []
+    /// Notification settings just picked here, shown until the room list catches up (as on the web)
+    @Published private var notificationOverrides: [String: NotificationMode?] = [:]
     @Published private(set) var spaces: [SpaceSummary] = []
     @Published private(set) var spaceRooms: [String: Set<String>] = [:]
     @Published private(set) var isLoaded = false
@@ -123,6 +126,21 @@ final class RoomListModel: ObservableObject {
             try? await client.timeline(roomId: room.id).markAsRead()
         }
         try? await client.setMarkedUnread(roomId: room.id, unread: !read)
+    }
+
+    func notificationMode(of room: RoomSummary) -> NotificationMode? {
+        if let override = notificationOverrides[room.id] { return override }
+        return room.notificationMode
+    }
+
+    func setNotificationMode(_ room: RoomSummary, _ mode: NotificationMode?) async {
+        let previous = notificationOverrides[room.id]
+        notificationOverrides[room.id] = .some(mode)
+        do {
+            try await client.setRoomNotificationMode(roomId: room.id, mode: mode)
+        } catch {
+            notificationOverrides[room.id] = previous
+        }
     }
 
     func leave(_ room: RoomSummary) async {
@@ -261,6 +279,9 @@ final class RoomListModel: ObservableObject {
     private func apply(_ diffs: [ListDiff<RoomSummary>]) {
         diffs.forEach { $0.apply(to: &rooms) }
         joinedRooms = rooms.filter { !$0.isInvite }
+        notificationOverrides = notificationOverrides.filter { id, mode in
+            joinedRooms.first { $0.id == id }?.notificationMode != mode
+        }
         invites = rooms.filter(\.isInvite)
         mentionRooms = joinedRooms.filter { $0.mentionCount > 0 }
         roomsReceived = true

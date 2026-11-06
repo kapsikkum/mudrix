@@ -10,6 +10,12 @@ struct IncomingCallBanner: View {
     @State private var avatarUrl: String?
     @State private var pulse = false
 
+    private var kindLabel: String {
+        let kind = call.voiceOnly ? String(localized: "voice.incomingVoiceCall") : String(localized: "voice.incomingVideoCall")
+        guard let room = session.roomList?.room(id: call.roomId), !room.isDirect else { return kind }
+        return "\(kind) · \(room.displayName)"
+    }
+
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
             AvatarView(name: name ?? call.callerName ?? call.callerId, url: avatarUrl, size: WZ.SizeAvatar.lg)
@@ -19,14 +25,13 @@ struct IncomingCallBanner: View {
                     .font(.wizard(WZ.FontSize.lg, .semibold))
                     .foregroundStyle(theme.textPrimary)
                     .lineLimit(1)
-                Label(call.voiceOnly ? String(localized: "voice.incomingVoiceCall") : String(localized: "voice.incomingVideoCall"),
-                      image: call.voiceOnly ? "ph-phone-fill" : "ph-video-camera-fill")
+                Label(kindLabel, image: call.voiceOnly ? "ph-phone-regular" : "ph-video-camera-regular")
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)
             }
             Spacer(minLength: 4)
             round("ph-phone-x-regular", color: theme.danger, label: "common.decline") { calls.declineIncoming(session: session) }
-            round(call.voiceOnly ? "ph-phone-fill" : "ph-video-camera-fill", color: theme.success, label: "common.accept") {
+            round(call.voiceOnly ? "ph-phone-regular" : "ph-video-camera-regular", color: theme.success, label: "common.accept") {
                 calls.acceptIncoming(session: session)
             }
         }
@@ -150,16 +155,17 @@ struct JoinCallBar: View {
 
     var body: some View {
         HStack(spacing: WZ.Space.space4) {
-            Image("ph-phone-fill")
+            Image("ph-phone-regular")
                 .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
                 .foregroundStyle(theme.textOnAccent)
                 .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                 .background(theme.success, in: Circle())
-            Text(String(localized: "voice.callInProgress"))
+            Text(room.inCallElsewhere ? String(localized: "call.inCallElsewhere") : String(localized: "voice.callInProgress"))
                 .font(.wizard(WZ.FontSize.md, .semibold))
                 .foregroundStyle(theme.textPrimary)
+                .lineLimit(2)
             Spacer()
-            Button(String(localized: "common.join")) {
+            Button(room.inCallElsewhere ? String(localized: "call.joinHere") : String(localized: "common.join")) {
                 calls.showCallScreen = true
                 Task { await calls.join(room, session: session, intent: "audio") }
             }

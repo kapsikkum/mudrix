@@ -249,7 +249,7 @@ fun GlobalSearchResults(roomList: RoomListModel, query: String, onOpenRoom: (Str
 
 private fun roomIcon(room: RoomSummary): Pair<String, PhWeight> = when {
     room.isDirect -> "user" to PhWeight.regular
-    room.isVoice -> "speaker-high" to PhWeight.fill
+    room.isVoice -> "speaker-high" to PhWeight.regular
     else -> "hash-straight" to PhWeight.regular
 }
 

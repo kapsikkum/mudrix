@@ -10,6 +10,7 @@ interface Props {
   callerName: string;
   callerId: string;
   voiceOnly: boolean;
+  roomName: string | null;
   client: WizardClient;
   onAccept: () => void;
   onDecline: () => void;
@@ -19,6 +20,7 @@ export function IncomingCallOverlay({
   callerName,
   callerId,
   voiceOnly,
+  roomName,
   client,
   onAccept,
   onDecline,
@@ -37,8 +39,9 @@ export function IncomingCallOverlay({
         <span className={css.callerName}>{callerName}</span>
         <span className={css.callKind}>
           <CallIcon size={12} weight="fill" />
-          {kind}
+          <span className={css.ellipsis}>{kind}</span>
         </span>
+        {roomName && <span className={css.roomName}>{roomName}</span>}
       </div>
       <Tooltip content={t('voice.declineShort')}>
         <button

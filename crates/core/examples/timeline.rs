@@ -144,6 +144,7 @@ async fn main() -> Result<(), BoxError> {
                     EntryContent::Text {
                         body,
                         html: Some(html),
+                        ..
                     },
                 ..
             } if body == "emoji" => Some(html.clone()),

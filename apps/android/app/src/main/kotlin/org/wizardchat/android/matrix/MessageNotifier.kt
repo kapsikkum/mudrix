@@ -9,6 +9,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import androidx.compose.runtime.getValue
@@ -29,8 +35,10 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcons
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.core.Notification
+import org.wizardchat.core.NotificationMode
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.Subscription
+import org.wizardchat.core.WizardClient
 
 /**
  * Shows a notification for new messages while the app runs (there's no push server). Tapping one
@@ -117,10 +125,57 @@ class MessageNotifier {
             .setContentIntent(openIntent(notification.roomId, userId))
             .addAction(reply)
             .addAction(markRead)
+        val client = roomList?.client ?: return
+        val roomAvatar = roomList?.room(notification.roomId)?.avatarUrl
+        scope.launch {
+            val avatar = if (notification.isDirect) {
+                roomAvatar ?: MemberDirectory.profile(notification.sender, notification.roomId, client).avatarUrl
+            } else {
+                roomAvatar
+            }
+            avatarBitmap(avatar, client)?.let(builder::setLargeIcon)
+            try {
+                manager.notify(tag, id, builder.build())
+            } catch (_: SecurityException) {
+            }
+        }
+    }
+
+    /** A ring that ended without any of the user's devices answering */
+    fun missedCall(roomId: String, callerName: String, roomName: String?) {
+        val prefs = prefs ?: return
+        if (!(prefs.notificationBanners || prefs.notificationSounds) || !canPost()) return
+        // The ring watch outlives the screen, so the room list may come from the session
+        val roomList = currentRoomList() ?: return
+        if (roomList.room(roomId)?.notificationMode == NotificationMode.mute) return
+        val userId = roomList.client.userId ?: return
+        val sound = prefs.notificationSounds
+        val title = L10n.format("call.missedFrom", callerName)
+        val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
+            .setSmallIcon(smallIcon())
+            .setContentTitle(title)
+            .setCategory(NotificationCompat.CATEGORY_MISSED_CALL)
+            .setSilent(!sound)
+            .setAutoCancel(true)
+            .setContentIntent(openIntent(roomId, userId))
+        if (roomName != null && roomName != callerName) builder.setContentText(roomName)
         try {
-            manager.notify(tag, id, builder.build())
+            manager.notify("$userId|$roomId", "missed|$roomId".hashCode(), builder.build())
         } catch (_: SecurityException) {
         }
+    }
+
+    private suspend fun avatarBitmap(mxc: String?, client: WizardClient): Bitmap? {
+        mxc ?: return null
+        val data = runCatching { client.thumbnail(mxc, 192, 192, true) }.getOrNull() ?: return null
+        val source = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
+        val size = minOf(source.width, source.height)
+        val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            shader = BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
+        Canvas(output).drawCircle(size / 2f, size / 2f, size / 2f, paint)
+        return output
     }
 
     private fun canPost(): Boolean =

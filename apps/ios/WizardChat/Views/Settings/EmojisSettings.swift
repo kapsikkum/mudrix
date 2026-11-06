@@ -9,7 +9,7 @@ struct EmojisSettings: View {
     @Environment(\.theme) private var theme
 
     @State private var pack: [String: Any] = [:]
-    @State private var favorites: [(roomId: String, stateKey: String)] = []
+    @State private var favorites: [(roomId: String, stateKey: String, name: String?)] = []
     @State private var photo: PhotosPickerItem?
     @State private var pendingImage: (url: String, mime: String)?
     @State private var shortcode = ""
@@ -84,7 +84,7 @@ struct EmojisSettings: View {
                     if index > 0 { SettingsDivider() }
                     HStack {
                         VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                            Text(favorite.stateKey.isEmpty ? roomName(favorite.roomId) : favorite.stateKey)
+                            Text(favorite.name ?? (favorite.stateKey.isEmpty ? roomName(favorite.roomId) : favorite.stateKey))
                                 .font(.wizard(WZ.FontSize.md, .medium))
                                 .foregroundStyle(theme.textPrimary)
                             Text(roomName(favorite.roomId))
@@ -96,9 +96,9 @@ struct EmojisSettings: View {
                         Button {
                             Task { await setFavorite(favorite.roomId, favorite.stateKey, false) }
                         } label: {
-                            Image("ph-star-regular")
+                            Image("ph-star-fill")
                         }
-                        .foregroundStyle(theme.textMuted)
+                        .foregroundStyle(theme.accent)
                         .accessibilityLabel(String(localized: "settings.emojisStickers.removeFavorite"))
                     }
                 }
@@ -142,7 +142,19 @@ struct EmojisSettings: View {
                 }
             }
         }
-        favorites = result.map { (roomId: $0.0, stateKey: $0.1) }
+        var named: [(roomId: String, stateKey: String, name: String?)] = []
+        for (roomId, key) in result {
+            named.append((roomId: roomId, stateKey: key, name: await packName(roomId, key)))
+        }
+        favorites = named
+    }
+
+    private func packName(_ roomId: String, _ stateKey: String) async -> String? {
+        for type in ["im.ponies.room_emotes", "m.room.image_pack"] {
+            let content = await session.stateEvents(type, in: roomId).first { $0.key == stateKey }?.content
+            if let name = (content?["pack"] as? [String: Any])?["display_name"] as? String, !name.isEmpty { return name }
+        }
+        return nil
     }
 
     private func upload(_ item: PhotosPickerItem) async {

@@ -9,7 +9,8 @@ enum MediaMetadata {
               let props = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = props[kCGImagePropertyPixelWidth] as? CGFloat,
               let height = props[kCGImagePropertyPixelHeight] as? CGFloat else { return nil }
-        return CGSize(width: width, height: height)
+        let orientation = props[kCGImagePropertyOrientation] as? UInt32 ?? 1
+        return (5...8).contains(orientation) ? CGSize(width: height, height: width) : CGSize(width: width, height: height)
     }
 
     static func video(at url: URL) async -> (duration: TimeInterval?, size: CGSize?) {

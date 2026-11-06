@@ -135,7 +135,8 @@ struct WizardChatApp: App {
             notifier.start(roomList: roomList, prefs: prefs)
         }
         if let client = session.client {
-            calls.watchIncoming(client)
+            let notifier = notifier
+            calls.watchIncoming(client) { [weak notifier] call in notifier?.notifyMissedCall(call) }
             recentEmoji.start(client: client)
             verificationRequests.start(client: client)
         }

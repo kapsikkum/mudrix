@@ -57,7 +57,7 @@ struct MembersView: View {
                             .buttonStyle(.plain)
                     }
                 } header: {
-                    Text(group.title) + Text(" — \(group.members.count)")
+                    Text(group.title) + Text("  \(group.members.count)").foregroundStyle(theme.textMuted.opacity(0.7))
                 }
             }
         }
@@ -102,32 +102,33 @@ private struct MemberRow: View {
             }
             .lineLimit(1)
             Spacer()
-            if let badge = RoleBadge(level: member.level) { badge }
+            RoleBadge(level: member.level)
         }
         .contentShape(Rectangle())
     }
 }
 
+/// The member's role, tinted in its colour as on the web
 struct RoleBadge: View {
-    let text: LocalizedStringKey
+    let level: Int64
     @Environment(\.theme) private var theme
 
-    init?(level: Int64) {
+    private var role: (text: LocalizedStringKey, color: Color) {
         switch level {
-        case .max: text = "room.creator"
-        case 100...: text = "profile.roleAdmin"
-        case 50..<100: text = "profile.roleModerator"
-        default: return nil
+        case .max: ("room.members.founder", theme.roleFounder)
+        case 100...: ("profile.roleAdmin", theme.roleAdmin)
+        case 50..<100: ("profile.roleModerator", theme.roleModerator)
+        default: ("profile.roleMember", theme.roleMember)
         }
     }
 
     var body: some View {
-        Text(text)
+        Text(role.text)
             .font(.wizard(WZ.FontSize.xs, .semibold))
-            .foregroundStyle(theme.accent)
+            .foregroundStyle(role.color)
             .padding(.horizontal, WZ.Space.space3)
             .padding(.vertical, WZ.Space.space1)
-            .background(theme.accent.opacity(0.15), in: Capsule())
+            .background(role.color.opacity(0.15), in: Capsule())
     }
 }
 
@@ -177,7 +178,7 @@ struct UserProfileSheet: View {
                                 .foregroundStyle(theme.textSecondary)
                                 .multilineTextAlignment(.center)
                         }
-                        if isMember, let badge = RoleBadge(level: level) { badge }
+                        if isMember { RoleBadge(level: level) }
                     }
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
@@ -313,6 +314,7 @@ struct UserPickerView: View {
     enum Mode {
         case invite(String)
         case directMessage
+        case select(title: String, exclude: [String], onSelect: ([UserResult]) -> Void)
     }
 
     let mode: Mode
@@ -329,7 +331,25 @@ struct UserPickerView: View {
     @State private var busy = false
     @State private var error: String?
 
-    private var isInvite: Bool { if case .invite = mode { return true }; return false }
+    private var isInvite: Bool {
+        switch mode {
+        case .invite, .select: true
+        case .directMessage: false
+        }
+    }
+
+    private var excluded: Set<String> {
+        if case .select(_, let exclude, _) = mode { return Set(exclude) }
+        return []
+    }
+
+    private var title: String {
+        switch mode {
+        case .invite: String(localized: "room.invitePeople")
+        case .directMessage: String(localized: "common.newDm")
+        case .select(let title, _, _): title
+        }
+    }
 
     private var typedId: UserResult? {
         let trimmed = query.trimmingCharacters(in: .whitespaces)
@@ -363,7 +383,7 @@ struct UserPickerView: View {
                     }
                 }
                 Section {
-                    ForEach(([typedId].compactMap { $0 }) + results, id: \.userId) { user in
+                    ForEach((([typedId].compactMap { $0 }) + results).filter { !excluded.contains($0.userId) }, id: \.userId) { user in
                         Button { pick(user) } label: {
                             HStack(spacing: WZ.Space.space5) {
                                 AvatarView(name: user.displayName ?? user.userId, url: user.avatarUrl, size: WZ.SizeAvatar.md)
@@ -408,11 +428,19 @@ struct UserPickerView: View {
                 results = await session.searchUsers(query).filter { $0.userId != session.userId }
                 searching = false
             }
-            .navigationTitle(isInvite ? String(localized: "room.invitePeople") : String(localized: "common.newMessage"))
+            .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.cancel")) { dismiss() } }
-                if isInvite {
+                if case .select(_, _, let onSelect) = mode {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button(String(localized: "common.add")) {
+                            onSelect(selected)
+                            dismiss()
+                        }
+                        .disabled(selected.isEmpty)
+                    }
+                } else if isInvite {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(String(localized: "common.invite")) { Task { await invite() } }
                             .disabled(selected.isEmpty || busy)
