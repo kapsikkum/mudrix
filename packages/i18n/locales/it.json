@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Homeserver Matrix rilevato",
     "serverNotFound": "Nessun homeserver Matrix trovato a questo indirizzo.",
     "serverNoAnswer": "Impossibile raggiungere questo indirizzo.",
-    "serverRetry": "Riprova"
+    "serverRetry": "Riprova",
+    "serverDetected": "{{software}} rilevato",
+    "errNotAServer": "A quell'indirizzo non c'è nessun server Matrix. Controllalo o scegli uno dei server popolari.",
+    "errWrongEmail": "Questa email e questa password non corrispondono a nessun account su {{server}}.",
+    "errNoEmailLogin": "Questo server non permette l'accesso con email o numero di telefono. Usa invece il tuo nome utente.",
+    "idEmail": "Accesso con il tuo indirizzo email.",
+    "idPhone": "Accesso con il tuo numero di telefono."
   },
   "room": {
     "reorderFailed": "Impossibile salvare il nuovo ordine: {{error}}",

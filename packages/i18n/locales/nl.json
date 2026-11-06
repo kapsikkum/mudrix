@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Matrix-homeserver gevonden",
     "serverNotFound": "Geen Matrix-homeserver gevonden op dit adres.",
     "serverNoAnswer": "Dit adres kon niet worden bereikt.",
-    "serverRetry": "Opnieuw proberen"
+    "serverRetry": "Opnieuw proberen",
+    "serverDetected": "{{software}} gevonden",
+    "errNotAServer": "Er is geen Matrix-server op dat adres. Controleer het of kies een van de populaire servers.",
+    "errWrongEmail": "Dat e-mailadres en wachtwoord horen niet bij een account op {{server}}.",
+    "errNoEmailLogin": "Deze server ondersteunt inloggen met e-mail of telefoonnummer niet. Gebruik je gebruikersnaam.",
+    "idEmail": "Inloggen met je e-mailadres.",
+    "idPhone": "Inloggen met je telefoonnummer."
   },
   "room": {
     "reorderFailed": "Kon de nieuwe volgorde niet opslaan: {{error}}",

@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Serveur d'accueil Matrix détecté",
     "serverNotFound": "Aucun serveur d'accueil Matrix trouvé à cette adresse.",
     "serverNoAnswer": "Impossible de joindre cette adresse.",
-    "serverRetry": "Réessayer"
+    "serverRetry": "Réessayer",
+    "serverDetected": "{{software}} détecté",
+    "errNotAServer": "Il n'y a pas de serveur Matrix à cette adresse. Vérifiez-la ou choisissez un des serveurs populaires.",
+    "errWrongEmail": "Cet e-mail et ce mot de passe ne correspondent à aucun compte sur {{server}}.",
+    "errNoEmailLogin": "Ce serveur ne permet pas de se connecter par e-mail ou par numéro de téléphone. Utilisez plutôt votre nom d'utilisateur.",
+    "idEmail": "Connexion avec votre adresse e-mail.",
+    "idPhone": "Connexion avec votre numéro de téléphone."
   },
   "room": {
     "reorderFailed": "Impossible d'enregistrer le nouvel ordre : {{error}}",

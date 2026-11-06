@@ -1,4 +1,4 @@
-import { WizardClient, type PendingLogin } from '@wizardchat/core';
+import { WizardClient, type LoginIdentifier, type PendingLogin } from '@wizardchat/core';
 import { setStoredUserId } from '@/const/accountStorage';
 import {
   DEVICE_NAME,
@@ -163,10 +163,10 @@ if (typeof window !== 'undefined') {
 /** Signs in with a password and stores the account */
 export async function login(
   server: string,
-  username: string,
+  identifier: LoginIdentifier,
   password: string
 ): Promise<MatrixCredentials> {
-  await signInWithPassword(server, username, password);
+  await signInWithPassword(server, identifier, password);
   return loadCredentials()!;
 }
 

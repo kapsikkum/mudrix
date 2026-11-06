@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Wykryto serwer domowy Matrix",
     "serverNotFound": "Pod tym adresem nie znaleziono serwera domowego Matrix.",
     "serverNoAnswer": "Nie udało się połączyć z tym adresem.",
-    "serverRetry": "Spróbuj ponownie"
+    "serverRetry": "Spróbuj ponownie",
+    "serverDetected": "Wykryto {{software}}",
+    "errNotAServer": "Pod tym adresem nie ma serwera Matrix. Sprawdź go lub wybierz jeden z popularnych serwerów.",
+    "errWrongEmail": "Ten e-mail i hasło nie pasują do żadnego konta na {{server}}.",
+    "errNoEmailLogin": "Ten serwer nie obsługuje logowania przez e-mail ani numer telefonu. Użyj nazwy użytkownika.",
+    "idEmail": "Logowanie za pomocą adresu e-mail.",
+    "idPhone": "Logowanie za pomocą numeru telefonu."
   },
   "room": {
     "reorderFailed": "Nie udało się zapisać nowej kolejności: {{error}}",

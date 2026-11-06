@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Servidor doméstico de Matrix detectado",
     "serverNotFound": "No se encontró ningún servidor doméstico de Matrix en esta dirección.",
     "serverNoAnswer": "No se pudo conectar con esta dirección.",
-    "serverRetry": "Reintentar"
+    "serverRetry": "Reintentar",
+    "serverDetected": "{{software}} detectado",
+    "errNotAServer": "No hay ningún servidor de Matrix en esa dirección. Revísala o elige uno de los servidores populares.",
+    "errWrongEmail": "Ese correo y esa contraseña no coinciden con ninguna cuenta de {{server}}.",
+    "errNoEmailLogin": "Este servidor no permite iniciar sesión con correo o teléfono. Usa tu nombre de usuario.",
+    "idEmail": "Iniciando sesión con tu correo electrónico.",
+    "idPhone": "Iniciando sesión con tu número de teléfono."
   },
   "room": {
     "reorderFailed": "No se pudo guardar el nuevo orden: {{error}}",

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { credentialsAtom } from '@/app/store/atoms';
 import { login } from '@/client/initMatrix';
 import { getErrorMessage } from '@/util/error';
+import { errorCode } from '@/core/client';
+import { matrixErrcode } from '@/app/features/auth/matrixError';
 import {
   resolveIdpIconUrl,
   isPopupClosed,
@@ -19,6 +21,7 @@ import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import { interpretIdentifier, toLoginIdentifier } from './signInIdentifier';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
 
@@ -64,19 +67,52 @@ export function LoginForm({
   const isChecking = capabilitiesLoading && !capabilities;
   const qrAvailable = oidcMetadata && !!serverUrl && !!capabilities?.qrLogin;
 
+  const identifier = interpretIdentifier(username, hs.serverName);
+  const byEmail = identifier?.kind === 'email' || identifier?.kind === 'phone';
+  const idHint =
+    identifier?.kind === 'email'
+      ? t('welcome.idEmail')
+      : identifier?.kind === 'phone'
+        ? t('welcome.idPhone')
+        : '';
+
+  const loginErrorMessage = (err: unknown): string => {
+    const code = errorCode(err);
+    if (code === 'notMatrix') return t('welcome.errNotAServer');
+    if (byEmail) {
+      if (code === 'invalidCredentials') {
+        return t('welcome.errWrongEmail', { server: hs.host });
+      }
+      const errcode = matrixErrcode(err);
+      if (
+        errcode === 'M_INVALID_USERNAME' ||
+        errcode === 'M_INVALID_PARAM' ||
+        errcode === 'M_UNKNOWN' ||
+        errcode === 'M_UNRECOGNIZED'
+      ) {
+        return t('welcome.errNoEmailLogin');
+      }
+    }
+    return getErrorMessage(err);
+  };
+
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!identifier || !password) {
       setStatus(t('welcome.fillAllFields'));
+      return;
+    }
+    if (capabilities?.discoveryStatus === DiscoveryStatus.NotMatrix) {
+      setStatus(t('welcome.errNotAServer'));
       return;
     }
     setLoading(true);
     setStatus('');
     try {
-      const credentials = await login(serverUrl, username, password);
+      const credentials = await login(serverUrl, toLoginIdentifier(identifier), password);
       setCredentials(credentials);
       onSuccess();
     } catch (err) {
-      setStatus(getErrorMessage(err));
+      setStatus(loginErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -162,6 +198,7 @@ export function LoginForm({
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
               />
+              {idHint && <p className={css.switchText}>{idHint}</p>}
               <Input
                 type="password"
                 placeholder={t('welcome.password')}

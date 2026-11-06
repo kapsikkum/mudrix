@@ -41,9 +41,21 @@ export function describeServer(hs: Homeserver, t: TFunction): StatusView {
     final: !hs.checking,
   };
   if (caps.discoveryStatus === DiscoveryStatus.Ok) {
-    return { ...base, tone: 'ok', text: t('welcome.serverDetectedPlain'), retry: false };
+    const sw = caps.software;
+    const name = sw ? [sw.name, sw.version].filter(Boolean).join(' ') : '';
+    return {
+      ...base,
+      tone: 'ok',
+      text: name
+        ? t('welcome.serverDetected', { software: name })
+        : t('welcome.serverDetectedPlain'),
+      retry: false,
+    };
   }
-  if (caps.discoveryStatus === DiscoveryStatus.WellKnownInvalid) {
+  if (
+    caps.discoveryStatus === DiscoveryStatus.WellKnownInvalid ||
+    caps.discoveryStatus === DiscoveryStatus.NotMatrix
+  ) {
     return { ...base, tone: 'bad', text: t('welcome.serverNotFound'), retry: false };
   }
   return { ...base, tone: 'bad', text: t('welcome.serverNoAnswer'), retry: !hs.checking };

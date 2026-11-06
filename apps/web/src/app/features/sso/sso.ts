@@ -1,4 +1,4 @@
-import { WizardClient, type IdentityProvider } from '@wizardchat/core';
+import { WizardClient, type HomeserverSoftware, type IdentityProvider } from '@wizardchat/core';
 import { appInfo, loadCore, loginWithPopup } from '@/client/initMatrix';
 import type { MatrixCredentials } from '@/client/types';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
@@ -26,6 +26,8 @@ export enum DiscoveryStatus {
   Ok = 'ok',
   Unreachable = 'unreachable',
   WellKnownInvalid = 'wellKnownInvalid',
+  /** The address answers, but it is not a Matrix server */
+  NotMatrix = 'notMatrix',
 }
 
 export interface AuthCapabilities {
@@ -40,6 +42,8 @@ export interface AuthCapabilities {
   delegatedAuth: boolean;
   /** Signing in by scanning a QR code with another device works with this server */
   qrLogin: boolean;
+  /** What the server runs, when it could be asked before signing in */
+  software?: HomeserverSoftware;
   accountManagementUri?: string;
 }
 
@@ -88,10 +92,13 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
     info = await WizardClient.discover(homeserverUrl);
   } catch (err) {
     console.warn('[auth] login flow discovery failed for', homeserverUrl, err);
+    const code = errorCode(err);
     result.discoveryStatus =
-      errorCode(err) === 'wellKnownInvalid'
+      code === 'wellKnownInvalid'
         ? DiscoveryStatus.WellKnownInvalid
-        : DiscoveryStatus.Unreachable;
+        : code === 'notMatrix'
+          ? DiscoveryStatus.NotMatrix
+          : DiscoveryStatus.Unreachable;
     return result;
   }
 
@@ -100,6 +107,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
   result.ssoProviders = info.sso;
   result.delegatedAuth = info.oauth;
   result.qrLogin = info.qrLogin;
+  result.software = info.software ?? undefined;
 
   const [registration, accountManagementUri] = await Promise.allSettled([
     WizardClient.registrationInfo(info.homeserverUrl),

@@ -1,4 +1,9 @@
-import init, { WizardClient, type PendingLogin, type Session } from '@wizardchat/core';
+import init, {
+  WizardClient,
+  type LoginIdentifier,
+  type PendingLogin,
+  type Session,
+} from '@wizardchat/core';
 import {
   activeAccount,
   deleteStore,
@@ -67,12 +72,16 @@ function remember(client: WizardClient, store: ReturnType<typeof newStoreConfig>
   client.free();
 }
 
-export async function signInWithPassword(server: string, username: string, password: string) {
+export async function signInWithPassword(
+  server: string,
+  identifier: LoginIdentifier,
+  password: string
+) {
   await loadCore();
   const store = newStoreConfig();
   try {
     remember(
-      await WizardClient.loginPassword(server, username, password, DEVICE_NAME, store),
+      await WizardClient.loginPassword(server, identifier, password, DEVICE_NAME, store),
       store
     );
   } catch (error) {

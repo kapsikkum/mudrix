@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Matrix ana sunucusu algılandı",
     "serverNotFound": "Bu adreste Matrix ana sunucusu bulunamadı.",
     "serverNoAnswer": "Bu adrese ulaşılamadı.",
-    "serverRetry": "Tekrar dene"
+    "serverRetry": "Tekrar dene",
+    "serverDetected": "{{software}} algılandı",
+    "errNotAServer": "Bu adreste bir Matrix sunucusu yok. Adresi denetleyin ya da popüler sunuculardan birini seçin.",
+    "errWrongEmail": "Bu e-posta ve parola, {{server}} üzerindeki hiçbir hesapla eşleşmiyor.",
+    "errNoEmailLogin": "Bu sunucu e-posta veya telefon numarasıyla girişi desteklemiyor. Bunun yerine kullanıcı adınızı kullanın.",
+    "idEmail": "E-posta adresinizle giriş yapılıyor.",
+    "idPhone": "Telefon numaranızla giriş yapılıyor."
   },
   "room": {
     "reorderFailed": "Yeni sıra kaydedilemedi: {{error}}",

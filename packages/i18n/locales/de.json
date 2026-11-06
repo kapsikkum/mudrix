@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Matrix-Homeserver erkannt",
     "serverNotFound": "Kein Matrix-Homeserver unter dieser Adresse.",
     "serverNoAnswer": "Adresse nicht erreichbar.",
-    "serverRetry": "Erneut versuchen"
+    "serverRetry": "Erneut versuchen",
+    "serverDetected": "{{software}} erkannt",
+    "errNotAServer": "Unter dieser Adresse gibt es keinen Matrix-Server. Prüfe sie oder wähle einen der beliebten Server.",
+    "errWrongEmail": "E-Mail-Adresse und Passwort passen zu keinem Konto auf {{server}}.",
+    "errNoEmailLogin": "Dieser Server erlaubt keine Anmeldung per E-Mail oder Telefonnummer. Nutze stattdessen deinen Benutzernamen.",
+    "idEmail": "Anmeldung mit deiner E-Mail-Adresse.",
+    "idPhone": "Anmeldung mit deiner Telefonnummer."
   },
   "room": {
     "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden: {{error}}",

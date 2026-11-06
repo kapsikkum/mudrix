@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Matrix homeserver detected",
     "serverNotFound": "No Matrix homeserver found at this address.",
     "serverNoAnswer": "Couldn't reach this address.",
-    "serverRetry": "Try again"
+    "serverRetry": "Try again",
+    "serverDetected": "{{software}} detected",
+    "errNotAServer": "There's no Matrix server at that address. Check it, or pick one of the popular servers.",
+    "errWrongEmail": "That email and password don't match an account on {{server}}.",
+    "errNoEmailLogin": "This server can't log in by email or phone number. Use your username instead.",
+    "idEmail": "Logging in with your email address.",
+    "idPhone": "Logging in with your phone number."
   },
   "room": {
     "reorderFailed": "Couldn't save the new order: {{error}}",

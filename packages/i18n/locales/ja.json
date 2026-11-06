@@ -202,7 +202,13 @@
     "serverDetectedPlain": "Matrixホームサーバーを検出しました",
     "serverNotFound": "このアドレスにMatrixホームサーバーが見つかりません。",
     "serverNoAnswer": "このアドレスに接続できませんでした。",
-    "serverRetry": "再試行"
+    "serverRetry": "再試行",
+    "serverDetected": "{{software}} を検出しました",
+    "errNotAServer": "そのアドレスにMatrixサーバーはありません。アドレスを確認するか、人気のサーバーから選んでください。",
+    "errWrongEmail": "そのメールアドレスとパスワードの組み合わせは、{{server}} のアカウントと一致しません。",
+    "errNoEmailLogin": "このサーバーはメールアドレスや電話番号でのログインに対応していません。ユーザー名を使用してください。",
+    "idEmail": "メールアドレスでログインします。",
+    "idPhone": "電話番号でログインします。"
   },
   "room": {
     "reorderFailed": "新しい並び順を保存できませんでした: {{error}}",
