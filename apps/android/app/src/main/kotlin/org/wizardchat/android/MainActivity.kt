@@ -23,6 +23,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,6 +46,7 @@ import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.home.MainScreen
 import org.wizardchat.android.ui.login.LoginScreen
 import org.wizardchat.android.ui.theme.WizardThemeRoot
+import org.wizardchat.android.ui.theme.rememberAppTheme
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -59,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         handle(intent)
         setContent {
             // Status and navigation bar icons follow the app's theme, not the system's
-            val dark = app.prefs.theme.resolved(isSystemInDarkTheme()).isDark
+            val resolved = rememberAppTheme(app.prefs)
+            val dark = resolved.isDark
             LaunchedEffect(dark) {
                 val style = if (dark) {
                     SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 enableEdgeToEdge(style, style)
             }
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
-                WizardThemeRoot(app.prefs.theme) { Root() }
+                WizardThemeRoot(resolved) { Root() }
             }
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {

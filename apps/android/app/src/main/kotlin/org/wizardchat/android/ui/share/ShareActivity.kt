@@ -71,6 +71,7 @@ import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.theme.WizardThemeRoot
+import org.wizardchat.android.ui.theme.rememberAppTheme
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -96,7 +97,7 @@ class ShareActivity : ComponentActivity() {
         lifecycleScope.launch { load(intent) }
         setContent {
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
-                WizardThemeRoot(app.prefs.theme) {
+                WizardThemeRoot(rememberAppTheme(app.prefs)) {
                     CompositionLocalProvider(LocalMedia provides app.session.media) {
                         ShareScreen(
                             files.size,

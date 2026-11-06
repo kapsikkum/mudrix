@@ -1,58 +1,59 @@
 package org.wizardchat.android.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
-import org.wizardchat.android.ui.tr
+import org.wizardchat.android.matrix.AppPreferences
 import org.wizardchat.tokens.WZ
 
-/** The theme picked in settings: one of the themes, or light/dark following the system */
-sealed interface ThemeSetting {
-    data object System : ThemeSetting
-    data class Fixed(val theme: WZ.Theme) : ThemeSetting
+/**
+ * Themes by the name the synced settings use: a built-in theme's name (`Carbon`), or `custom:<id>`
+ * for one the user made. The built-in ones come from the shared design tokens, already in the
+ * order every app lists them in (the default first, dark by hue, light last).
+ */
+object Themes {
+    val builtin: List<WZ.Theme> get() = WZ.Theme.entries
 
-    val rawValue: String
-        get() = when (this) {
-            System -> "system"
-            is Fixed -> theme.name.lowercase()
+    val defaultName: String get() = WZ.Theme.default.label
+    val defaultLightName: String get() = WZ.Theme.ETHEREAL.label
+
+    fun builtin(name: String): WZ.Theme? = WZ.Theme.entries.firstOrNull { it.label == name }
+
+    /** Whether [name] is a built-in theme or has the shape of a custom theme's name (it may not exist yet) */
+    fun isValidName(name: String) = builtin(name) != null || CustomThemes.isCustomThemeName(name)
+
+    /** Whether [name] can be used right now */
+    fun exists(name: String, customs: List<CustomTheme>) = builtin(name) != null || CustomThemes.find(name, customs) != null
+
+    /** The theme [name] refers to; a name that does not exist falls back to the default */
+    fun resolve(name: String, customs: List<CustomTheme>): WizardTheme {
+        builtin(name)?.let { return WizardTheme(it) }
+        CustomThemes.find(name, customs)?.let { custom ->
+            val colors = ThemeDerive.build(custom.colors)
+            return WizardTheme(colors, isDark = !ThemeDerive.isLightColor(custom.colors.bgPrimary))
         }
-
-    @Composable
-    fun label(): String = when (this) {
-        System -> tr("settings.themeSystem")
-        is Fixed -> theme.label
+        return WizardTheme.default
     }
 
-    fun resolved(systemDark: Boolean): WZ.Theme = when (this) {
-        is Fixed -> theme
-        System -> if (systemDark) WZ.Theme.CARBON else WZ.Theme.ETHEREAL
-    }
+    fun label(name: String, customs: List<CustomTheme>): String = CustomThemes.find(name, customs)?.name ?: name
 
-    companion object {
-        val allCases: List<ThemeSetting> = listOf(System) + listOf(
-            WZ.Theme.CARBON, WZ.Theme.PEWTER, WZ.Theme.UMBRA, WZ.Theme.ECLIPSE, WZ.Theme.PARROT,
-            WZ.Theme.HALLOW, WZ.Theme.GARNET, WZ.Theme.ETHEREAL, WZ.Theme.BLOSSOM,
-        ).map(::Fixed)
-
-        fun from(raw: String?): ThemeSetting = when (raw) {
-            null, "", "system" -> System
-            else -> WZ.Theme.entries.firstOrNull { it.name.equals(raw, ignoreCase = true) }?.let(::Fixed) ?: System
-        }
-    }
+    /** The name of the built-in theme the logo artwork comes from (themed app icons exist for two) */
+    fun hasThemedLogo(name: String) = name == WZ.Theme.PARROT.label || name == WZ.Theme.HALLOW.label
 }
 
 @Immutable
-class WizardTheme(val id: WZ.Theme) {
-    private val colors = id.colors
+class WizardTheme(val colors: WZ.ThemeColors, val isDark: Boolean) {
+    constructor(id: WZ.Theme) : this(id.colors, id.isDark)
 
     val bgPrimary get() = colors.bgApp
     val bgSecondary get() = colors.bgSurface
@@ -87,7 +88,6 @@ class WizardTheme(val id: WZ.Theme) {
             colors.usernameC5, colors.usernameC6, colors.usernameC7, colors.usernameC8,
         )
     val logo get() = listOf(colors.logoP0, colors.logoP1, colors.logoP2, colors.logoP3, colors.logoP4, colors.logoP5)
-    val isDark get() = id.isDark
 
     val fill get() = bgHover
     val groupedBackground get() = if (isDark) bgPrimary else bgSecondary
@@ -109,8 +109,7 @@ val theme: WizardTheme
 fun wizardFont(size: TextUnit, weight: FontWeight = FontWeight.Normal) = TextStyle(fontSize = size, fontWeight = weight)
 
 @Composable
-fun WizardThemeRoot(setting: ThemeSetting, content: @Composable () -> Unit) {
-    val resolved = WizardTheme(setting.resolved(isSystemInDarkTheme()))
+fun WizardThemeRoot(resolved: WizardTheme, content: @Composable () -> Unit) {
     val scheme = if (resolved.isDark) {
         darkColorScheme(
             primary = resolved.accent,
@@ -158,4 +157,12 @@ fun hueColor(name: String): Color {
     val code = (name.firstOrNull()?.code ?: 63).toDouble()
     val hue = ((code * 137.508) % 360).toFloat()
     return Color.hsv(hue, 0.75f, 0.672f)
+}
+
+/** The theme in use, following the system's light and dark mode when the settings say so */
+@Composable
+fun rememberAppTheme(prefs: AppPreferences): WizardTheme {
+    val name = prefs.effectiveThemeName(isSystemInDarkTheme())
+    val customs = prefs.customThemes
+    return remember(name, customs) { Themes.resolve(name, customs) }
 }

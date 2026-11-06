@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,8 +64,8 @@ import org.wizardchat.android.matrix.deviceId
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.WizardLogo
-import org.wizardchat.android.ui.theme.ThemeSetting
-import org.wizardchat.android.ui.theme.WizardTheme
+import org.wizardchat.android.ui.theme.CustomTheme
+import org.wizardchat.android.ui.theme.Themes
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -73,36 +74,52 @@ import org.wizardchat.tokens.WZ
 @Composable
 internal fun AppearanceSettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
-    val themeHasIcon = prefs.theme == ThemeSetting.Fixed(WZ.Theme.PARROT) || prefs.theme == ThemeSetting.Fixed(WZ.Theme.HALLOW)
+    val customs = prefs.customThemes
+    val themeHasIcon = Themes.hasThemedLogo(prefs.effectiveThemeName(isSystemInDarkTheme()))
+    val themeNames = Themes.builtin.map { it.label } + customs.map { it.themeName }
+    val themeOptions = themeNames.map { name -> name to Themes.label(name, customs) }
 
     SettingsPage(tr("settings.appearance.title"), onBack) {
         SettingsSection { ChatPreview() }
 
         SettingsSection {
-            // Ten themes don't fit beside the label, so it sits above them
-            SettingsItem {
-                Text(tr("settings.appearance.theme"), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
-                Row(
-                    Modifier.horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
-                ) {
-                    ThemeSetting.allCases.forEach { setting ->
-                        val selected = prefs.theme == setting
-                        val label = setting.label()
-                        Box(
-                            Modifier
-                                .padding(WZ.Space.space1)
-                                .size(WZ.Space.space9)
-                                .clip(CircleShape)
-                                .background(swatch(setting))
-                                .border(if (selected) 2.5.dp else 1.dp, if (selected) theme.accent else theme.border, CircleShape)
-                                .clickable { prefs.theme = setting }
-                                .semantics {
-                                    contentDescription = label
-                                    this.selected = selected
-                                    role = Role.RadioButton
-                                },
-                        )
+            ToggleRow(
+                tr("settings.appearance.followSystemTheme"),
+                prefs.followSystemTheme,
+                { prefs.followSystemTheme = it },
+                note = tr("settings.appearance.followSystemThemeNote"),
+            )
+            SettingsDivider()
+            if (prefs.followSystemTheme) {
+                PickerRow(tr("settings.appearance.systemDarkTheme"), prefs.systemDarkTheme, themeOptions, { prefs.systemDarkTheme = it })
+                SettingsDivider()
+                PickerRow(tr("settings.appearance.systemLightTheme"), prefs.systemLightTheme, themeOptions, { prefs.systemLightTheme = it })
+            } else {
+                // So many themes don't fit beside the label, so it sits above them
+                SettingsItem {
+                    Text(tr("settings.appearance.theme"), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
+                    Row(
+                        Modifier.horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                    ) {
+                        themeNames.forEach { name ->
+                            val selected = prefs.theme == name
+                            val label = Themes.label(name, customs)
+                            Box(
+                                Modifier
+                                    .padding(WZ.Space.space1)
+                                    .size(WZ.Space.space9)
+                                    .clip(CircleShape)
+                                    .background(swatch(name, customs))
+                                    .border(if (selected) 2.5.dp else 1.dp, if (selected) theme.accent else theme.border, CircleShape)
+                                    .clickable { prefs.theme = name }
+                                    .semantics {
+                                        contentDescription = label
+                                        this.selected = selected
+                                        role = Role.RadioButton
+                                    },
+                            )
+                        }
                     }
                 }
             }
@@ -162,6 +179,8 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             )
         }
 
+        CustomThemesSection()
+
         SettingsSection {
             PickerRow(
                 tr("settings.appearance.uiDensity"),
@@ -183,12 +202,9 @@ private fun densityOptions() = listOf(
     Density.spacious to tr("settings.appearance.densitySpacious"),
 )
 
-private fun swatch(setting: ThemeSetting): Brush {
-    val (first, second) = when (setting) {
-        ThemeSetting.System -> WizardTheme(setting.resolved(false)).bgSecondary to WizardTheme(setting.resolved(true)).bgSecondary
-        is ThemeSetting.Fixed -> WizardTheme(setting.theme).let { it.bgSecondary to it.accent }
-    }
-    return Brush.linearGradient(0f to first, 0.5f to first, 0.5f to second, 1f to second)
+private fun swatch(name: String, customs: List<CustomTheme>): Brush {
+    val resolved = Themes.resolve(name, customs)
+    return Brush.linearGradient(0f to resolved.bgSecondary, 0.5f to resolved.bgSecondary, 0.5f to resolved.accent, 1f to resolved.accent)
 }
 
 /** Two sample messages in the current theme, text size, density and layout */

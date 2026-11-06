@@ -8,6 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -15,7 +17,9 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
-import org.wizardchat.android.ui.theme.ThemeSetting
+import org.wizardchat.android.ui.theme.CustomTheme
+import org.wizardchat.android.ui.theme.CustomThemes
+import org.wizardchat.android.ui.theme.Themes
 
 enum class MessageLayout { modern, classic }
 enum class Density { compact, default, spacious }
@@ -40,8 +44,35 @@ class AppPreferences(context: Context) {
     /** Called after a synced setting changed on this device */
     var onSyncedSettingsChange: (() -> Unit)? = null
 
-    // Per device like the system's light and dark mode, so not synced with the web
-    var theme by pref(ThemeSetting.from(defaults.getString("theme.device", null))) { putString("theme.device", it.rawValue) }
+    // "theme.device" is where this app kept the theme before it followed the web's settings: "system" or a theme id
+    private val earlierTheme = defaults.getString("theme.device", null)
+
+    /** The chosen theme: a built-in theme's name or `custom:<id>` */
+    var theme by pref(
+        defaults.getString("theme", null)
+            ?: Themes.builtin.firstOrNull { it.name.equals(earlierTheme, ignoreCase = true) }?.label
+            ?: Themes.defaultName,
+        themeCodec("theme", topLevel = true),
+    ) { putString("theme", it) }
+
+    /** Themes the user made; chosen as `custom:<id>` */
+    var customThemes by pref(
+        defaults.getString("customThemes", null)?.let { runCatching { CustomThemes.sanitize(Json.parseToJsonElement(it)) }.getOrNull() }.orEmpty(),
+        Codec<List<CustomTheme>>(
+            "customThemes",
+            { CustomThemes.toJson(it) },
+            { json -> (json as? JsonArray)?.let(CustomThemes::sanitize) },
+            topLevel = true,
+        ),
+    ) { putString("customThemes", CustomThemes.toJson(it).toString()) }
+
+    /** Switch between the two themes below when the system changes between light and dark (the default until a theme is picked) */
+    var followSystemTheme by pref(
+        defaults.getBoolean("followSystemTheme", earlierTheme == null || earlierTheme == "system"),
+        boolCodec("followSystemTheme"),
+    ) { putBoolean("followSystemTheme", it) }
+    var systemDarkTheme by pref(defaults.getString("systemDarkTheme", null) ?: Themes.defaultName, themeCodec("systemDarkTheme")) { putString("systemDarkTheme", it) }
+    var systemLightTheme by pref(defaults.getString("systemLightTheme", null) ?: Themes.defaultLightName, themeCodec("systemLightTheme")) { putString("systemLightTheme", it) }
 
     // The main layout comes from the account (the web's desktop layout); this device is a phone, so its own
     // choice is the phone layout, and until one is made it follows the main one
@@ -91,6 +122,13 @@ class AppPreferences(context: Context) {
     var developerMode by pref(defaults.getBoolean("developerMode", false)) { putBoolean("developerMode", it) }
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
+    }
+
+    /** The theme in use: the chosen one, or the one for the system's light or dark mode when following it */
+    fun effectiveThemeName(systemDark: Boolean): String = when {
+        !followSystemTheme -> theme
+        systemDark -> systemDarkTheme
+        else -> systemLightTheme
     }
 
     val chatScale: Float get() = chatFontSize / DEFAULT_CHAT_FONT_SIZE
@@ -154,6 +192,14 @@ class AppPreferences(context: Context) {
         key,
         { JsonPrimitive(it.name) },
         { json -> (json as? JsonPrimitive)?.takeIf { it.isString }?.content?.let { raw -> enumValues<E>().firstOrNull { it.name == raw } } },
+    )
+
+    /** A built-in theme's name, or a custom theme's (`custom:<id>`, which may not have arrived yet) */
+    private fun themeCodec(key: String, topLevel: Boolean = false) = Codec<String>(
+        key,
+        { JsonPrimitive(it) },
+        { json -> (json as? JsonPrimitive)?.takeIf { it.isString }?.content?.takeIf(Themes::isValidName) },
+        topLevel,
     )
 
     private fun numberCodec(key: String, range: ClosedFloatingPointRange<Float>) = Codec<Float>(
