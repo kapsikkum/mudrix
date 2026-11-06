@@ -28,6 +28,7 @@ mod profile;
 mod qr_login;
 mod room_admin;
 mod room_details;
+mod room_events;
 mod rooms;
 pub mod rpc;
 mod sections;
@@ -65,6 +66,7 @@ pub use room_admin::{
     StateChange, Tombstone,
 };
 pub use room_details::{Member, RoomDetails, RoomPermissions};
+pub use room_events::RoomEvent;
 pub use rooms::UnreadMention;
 pub use rooms::{CreateRoomOptions, InviteInfo, RoomFilter, RoomKind, RoomSummary};
 pub use sections::RoomSection;

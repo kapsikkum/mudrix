@@ -843,6 +843,21 @@ data class RoomDetails(
     val permissions: RoomPermissions,
 )
 
+/** A message-like event that arrived through sync (decrypted when the room is encrypted) */
+@Serializable
+data class RoomEvent(
+    val roomId: String,
+    val sender: String,
+    val eventId: String,
+    val type: String,
+    val content: JsonElement,
+    /**
+     * When the sender's server saw the event, in milliseconds; `0` when missing. Sync also
+     * delivers recent history, so an app that only wants live events compares this to the clock.
+     */
+    val originServerTs: Long,
+)
+
 @Serializable
 data class RoomFilter(
     val kind: RoomKind? = null,
@@ -2192,6 +2207,14 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     /** Reports every state change arriving through sync (to refresh cached settings). */
     fun watchStateChanges(listener: (StateChange) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchStateChanges", handle, listOf(Arg.listener<StateChange>(listener)), ::Subscription)
+
+    /**
+     * Calls `listener` with every message-like event (not state) of one of `types` that
+     * arrives in a joined room, your own included. `originServerTs` lets an app skip the
+     * recent history sync also delivers.
+     */
+    fun watchRoomEvents(types: List<String>, listener: (RoomEvent) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchRoomEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<RoomEvent>(listener)), ::Subscription)
 
     suspend fun serverFeatures(): ServerFeatures =
         Runtime.call("WizardClient.serverFeatures", handle, listOf())

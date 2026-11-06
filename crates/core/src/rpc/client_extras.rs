@@ -98,6 +98,15 @@ rpc_methods! {
             }))
         }
 
+        /// Calls `listener` with every message-like event (not state) of one of `types` that
+        /// arrives in a joined room, your own included. `originServerTs` lets an app skip the
+        /// recent history sync also delivers.
+        watch fn watchRoomEvents(types: Vec<String>, listener: Listener<crate::RoomEvent>) -> Subscription {
+            Ok(listener.clone().watch(async move {
+                this.watch_room_events(types, |e| listener.emit(&e)).await
+            }))
+        }
+
         call fn serverFeatures() -> ServerFeatures {
             this.server_features().await
         }

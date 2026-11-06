@@ -1339,6 +1339,27 @@ public struct RoomDetails: Codable, Hashable, Sendable {
     }
 }
 
+/// A message-like event that arrived through sync (decrypted when the room is encrypted)
+public struct RoomEvent: Codable, Hashable, Sendable {
+    public var roomId: String
+    public var sender: String
+    public var eventId: String
+    public var type: String
+    public var content: JSONValue
+    /// When the sender's server saw the event, in milliseconds; `0` when missing. Sync also
+    /// delivers recent history, so an app that only wants live events compares this to the clock.
+    public var originServerTs: Int
+
+    public init(roomId: String, sender: String, eventId: String, type: String, content: JSONValue, originServerTs: Int) {
+        self.roomId = roomId
+        self.sender = sender
+        self.eventId = eventId
+        self.type = type
+        self.content = content
+        self.originServerTs = originServerTs
+    }
+}
+
 public struct RoomFilter: Codable, Hashable, Sendable {
     public var kind: RoomKind?
     /// Only rooms inside this joined space (at any depth)
@@ -3109,6 +3130,14 @@ public final class WizardClient: Remote, @unchecked Sendable {
     @discardableResult
     public func watchStateChanges(listener: @escaping @Sendable (StateChange) -> Void) -> Subscription {
         watch("WizardClient.watchStateChanges", [.listener(StateChange.self, listener)])
+    }
+
+    /// Calls `listener` with every message-like event (not state) of one of `types` that
+    /// arrives in a joined room, your own included. `originServerTs` lets an app skip the
+    /// recent history sync also delivers.
+    @discardableResult
+    public func watchRoomEvents(types: [String], listener: @escaping @Sendable (RoomEvent) -> Void) -> Subscription {
+        watch("WizardClient.watchRoomEvents", [.value(types), .listener(RoomEvent.self, listener)])
     }
 
     public func serverFeatures() async throws -> ServerFeatures {

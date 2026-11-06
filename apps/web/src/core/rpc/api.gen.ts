@@ -642,6 +642,22 @@ export type RoomDetails = {
   permissions: RoomPermissions;
 };
 
+/**
+ * A message-like event that arrived through sync (decrypted when the room is encrypted)
+ */
+export type RoomEvent = {
+  roomId: string;
+  sender: string;
+  eventId: string;
+  type: string;
+  content: JsonValue;
+  /**
+   * When the sender's server saw the event, in milliseconds; `0` when missing. Sync also
+   * delivers recent history, so an app that only wants live events compares this to the clock.
+   */
+  originServerTs: number;
+};
+
 export type RoomFilter = {
   kind?: RoomKind;
   /**
@@ -2151,6 +2167,15 @@ export class WizardClient extends Remote {
   /** Reports every state change arriving through sync (to refresh cached settings). */
   watchStateChanges(listener: (value: StateChange) => void): Subscription {
     return runtime.watch('WizardClient.watchStateChanges', this, [listener], Subscription);
+  }
+
+  /**
+   * Calls `listener` with every message-like event (not state) of one of `types` that
+   * arrives in a joined room, your own included. `originServerTs` lets an app skip the
+   * recent history sync also delivers.
+   */
+  watchRoomEvents(types: Array<string>, listener: (value: RoomEvent) => void): Subscription {
+    return runtime.watch('WizardClient.watchRoomEvents', this, [types, listener], Subscription);
   }
 
   serverFeatures(): Promise<ServerFeatures> {
