@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
 
@@ -195,4 +195,71 @@ export const externalLink = style({
 export const navFooter = style({
   marginTop: 'auto',
   paddingTop: '12px',
+});
+
+// The sections of the open page, listed under its sidebar entry, with a rule down the left. The
+// wrapper grows from nothing to the list's height (a grid row goes from 0fr to 1fr).
+export const navSubWrap = style({
+  display: 'grid',
+  gridTemplateRows: '0fr',
+  opacity: 0,
+  transition: 'grid-template-rows 360ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 300ms ease-out',
+});
+
+export const navSubWrapOpen = style([navSubWrap, { gridTemplateRows: '1fr', opacity: 1 }]);
+
+export const navSubClip = style({ minHeight: 0, overflow: 'hidden' });
+
+export const navSub = style({
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '2px 0 4px 18px',
+  borderLeft: `2px solid ${vars.color.border}`,
+});
+
+export const navSubItem = style({
+  position: 'relative',
+  padding: '6px 12px',
+  border: 'none',
+  background: 'none',
+  textAlign: 'left',
+  cursor: 'pointer',
+  fontSize: '0.85rem',
+  fontWeight: 500,
+  color: vars.color.textMuted,
+  transition: `color ${fast}`,
+  ':hover': { color: vars.color.textPrimary },
+});
+
+export const navSubItemActive = style([
+  navSubItem,
+  {
+    color: vars.color.textPrimary,
+    selectors: {
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        left: '-2px',
+        top: '4px',
+        bottom: '4px',
+        width: '2px',
+        borderRadius: '1px',
+        backgroundColor: vars.color.textPrimary,
+      },
+    },
+  },
+]);
+
+// A heading the sidebar just jumped to lights up, then fades.
+const flashFade = keyframes({
+  '0%': {
+    backgroundColor: `color-mix(in srgb, ${vars.color.accent} 38%, transparent)`,
+    boxShadow: `0 0 0 6px color-mix(in srgb, ${vars.color.accent} 38%, transparent)`,
+  },
+  '100%': { backgroundColor: 'transparent', boxShadow: '0 0 0 6px transparent' },
+});
+
+export const sectionFlash = style({
+  borderRadius: vars.radius.sm,
+  animation: `${flashFade} 1400ms ease-out`,
 });

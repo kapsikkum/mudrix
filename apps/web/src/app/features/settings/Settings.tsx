@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { motionReduced } from '@/app/util/elastic';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue } from 'jotai';
@@ -54,6 +55,7 @@ import {
   NarrowSettingsPage,
   type NarrowSettingsItem,
 } from '@/app/components/Settings/NarrowSettings';
+import { useSubSections, type SubSection } from './useSubSections';
 import * as css from './Settings.css';
 
 function AccountPage() {
@@ -227,12 +229,49 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   ];
 }
 
+/** The sections of the open page under its sidebar entry; it opens out when it first appears. */
+function NavSubList({
+  sections,
+  activeId,
+  onPick,
+}: {
+  sections: SubSection[];
+  activeId: number | null;
+  onPick: (id: number) => void;
+}) {
+  // Mounted closed, opened on the next frame, so the height has something to grow from.
+  const [open, setOpen] = useState(motionReduced);
+  useLayoutEffect(() => {
+    const frame = requestAnimationFrame(() => setOpen(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  return (
+    <div className={open ? css.navSubWrapOpen : css.navSubWrap}>
+      <div className={css.navSubClip}>
+        <div className={css.navSub}>
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              type="button"
+              className={section.id === activeId ? css.navSubItemActive : css.navSubItem}
+              onClick={() => onPick(section.id)}
+            >
+              {section.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Settings() {
   const { t } = useTranslation();
   const [open, setOpen] = useAtom(settingsOpenAtom);
   const youTabOpen = useAtomValue(mobileYouOpenAtom);
   const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
   const [activePage, setActivePage] = useState<SettingsPage>('account');
+  const [scrollerEl, setScrollerEl] = useState<HTMLDivElement | null>(null);
   const keyboardHints = useKeyboardHints();
   const [isNarrow, setIsNarrow] = useState(false);
   useEffect(() => {
@@ -246,6 +285,7 @@ export function Settings() {
   targetPageRef.current = targetPage;
 
   const NAV = useSettingsNav();
+  const subs = useSubSections(scrollerEl, activePage);
 
   const close = useCallback(() => setOpen(false), [setOpen]);
   const navigate = useNavigate();
@@ -332,6 +372,13 @@ export function Settings() {
                     <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
                     <span className={css.navLabelText}>{item.label}</span>
                   </button>
+                  {isActive && subs.sections.length > 1 && (
+                    <NavSubList
+                      sections={subs.sections}
+                      activeId={subs.activeId}
+                      onPick={subs.scrollTo}
+                    />
+                  )}
                 </div>
               );
             })}
@@ -340,7 +387,7 @@ export function Settings() {
             </div>
           </nav>
 
-          <div className={css.content}>
+          <div className={css.content} ref={setScrollerEl}>
             <button
               type="button"
               className={css.closeBtn}
