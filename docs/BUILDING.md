@@ -22,7 +22,17 @@ stable, `v26.11.0-next.1` for next (add `DRY_RUN=true` to try it without publish
   installs only next ones
 - creates the GitLab release with the notes from the commits and the installers
 
-The "What's new" notes in the apps come from `whatsnew/<version>.md`.
+The "What's new" notes in the apps come from `whatsnew/<version>.md`, with translations in `whatsnew/<version>.<lang>.md`.
+Each section starts with a `##` heading. Optional frontmatter sets the release date
+shown under the title, which translations inherit from the English file:
+
+```markdown
+---
+date: 2026-11-01
+---
+
+## A section
+```
 
 CI needs `GITLAB_RELEASE_TOKEN` (pushes the branch and tag, opens the merge request), `CLOUDFLARE_API_TOKEN` and
 `CLOUDFLARE_ACCOUNT_ID` (the Pages projects `wizardchat` and `wizardchat-next`) and the updater key. The updates are signed with Tauri's updater key, which CI reads from the `TAURI_SIGNING_PRIVATE_KEY`,

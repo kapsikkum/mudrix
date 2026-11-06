@@ -113,21 +113,41 @@ struct AppearanceSettings: View {
 private struct ChatPreview: View {
     @EnvironmentObject private var session: MatrixSession
 
+    private static let otherId = "@merlin:wizardchat.org"
+    private static let otherName = "Merlin"
+
     var body: some View {
         let now = Date()
+        let myId = session.userId ?? "@you:wizardchat.org"
+        let myName = session.displayName ?? session.userId ?? "You"
         VStack(spacing: WZ.Space.space0) {
-            MessageRow(entry: ChatEntry(
-                id: "preview-1", kind: .message(body: L10n.format("settings.appearance.previewOtherMessage", session.displayName ?? session.userId ?? ""), isEmote: false, isNotice: false),
-                sender: "@merlin:wizardchat.org", senderName: "Merlin", senderAvatarUrl: nil, isOwn: false,
-                timestamp: now.addingTimeInterval(-120), isSending: false, isEdited: false))
-            MessageRow(entry: ChatEntry(
-                id: "preview-2", kind: .message(body: L10n.format("settings.appearance.previewOwnMessage", "Merlin"), isEmote: false, isNotice: false),
-                sender: session.userId ?? "", senderName: session.displayName ?? session.userId ?? "",
-                senderAvatarUrl: session.avatarUrl, isOwn: true,
-                timestamp: now.addingTimeInterval(-60), isSending: false, isEdited: false))
+            MessageRow(entry: entry(
+                id: "preview-1", text: "settings.appearance.previewOtherMessage",
+                mention: MessageMention(label: Self.label(myName), userId: myId, isOwn: true),
+                sender: Self.otherId, senderName: Self.otherName, avatarUrl: nil, isOwn: false,
+                timestamp: now.addingTimeInterval(-120)))
+            MessageRow(entry: entry(
+                id: "preview-2", text: "settings.appearance.previewOwnMessage",
+                mention: MessageMention(label: Self.label(Self.otherName), userId: Self.otherId, isOwn: false),
+                sender: myId, senderName: myName, avatarUrl: session.avatarUrl, isOwn: true,
+                timestamp: now.addingTimeInterval(-60)))
         }
         .padding(.vertical, WZ.Space.space4)
         .allowsHitTesting(false)
+    }
+
+    private static func label(_ name: String) -> String {
+        name.hasPrefix("@") ? name : "@" + name
+    }
+
+    private func entry(id: String, text: String, mention: MessageMention, sender: String, senderName: String,
+                       avatarUrl: String?, isOwn: Bool, timestamp: Date) -> ChatEntry {
+        var entry = ChatEntry(
+            id: id, kind: .message(body: L10n.format(text, mention.label), isEmote: false, isNotice: false),
+            sender: sender, senderName: senderName, senderAvatarUrl: avatarUrl, isOwn: isOwn,
+            timestamp: timestamp, isSending: false, isEdited: false)
+        entry.mentions = [mention]
+        return entry
     }
 }
 
@@ -287,13 +307,10 @@ struct AboutSettings: View {
                     Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())
-                if let entry = WhatsNew.latest() {
-                    Button { showWhatsNew = true } label: {
-                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-fill")
-                    }
-                    .buttonStyle(SecondaryButtonStyle())
-                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                Link(destination: URL(string: "https://liberapay.com/JPK/donate")!) {
+                    Label(String(localized: "settings.about.donate"), image: "ph-heart-regular")
                 }
+                .buttonStyle(SecondaryButtonStyle(color: theme.danger))
             }
 
             SettingsSection(title: "settings.about.credits") {
@@ -303,6 +320,35 @@ struct AboutSettings: View {
                     credit("Roboto", url: "https://fonts.google.com/specimen/Roboto",
                            text: String(localized: "settings.about.creditRoboto"))
                 }
+            }
+
+            HStack(spacing: WZ.Space.space7) {
+                if let entry = WhatsNew.latest() {
+                    Button { showWhatsNew = true } label: {
+                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-regular")
+                    }
+                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                }
+                Link(destination: URL(string: "https://wizardchat.org/privacy/")!) {
+                    Label(String(localized: "settings.about.privacyPolicy"), image: "ph-shield-check-regular")
+                }
+            }
+            .labelStyle(FooterLinkLabelStyle())
+            .buttonStyle(.borderless)
+            .font(.wizard(WZ.FontSize.sm))
+            .foregroundStyle(theme.textMuted)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, WZ.Space.space7)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private struct FooterLinkLabelStyle: LabelStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            HStack(spacing: WZ.Space.space3) {
+                configuration.icon
+                configuration.title
             }
         }
     }

@@ -121,16 +121,19 @@ fun Avatar(
 fun WizardMark(color: Color, modifier: Modifier = Modifier) {
     Canvas(modifier) {
         val scale = minOf(this.size.width, this.size.height) / 400f
-        logoPolygons.forEach { points ->
-            val path = Path().apply {
-                moveTo(points[0].x * scale, points[0].y * scale)
-                points.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
-                close()
-            }
-            drawPath(path, color)
+        val path = Path().apply {
+            moveTo(logoOutline[0].x * scale, logoOutline[0].y * scale)
+            logoOutline.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
+            close()
         }
+        drawPath(path, color)
     }
 }
+
+// The polygons' outline as one path, so a single-colour mark has no seams between them
+private val logoOutline = listOf(
+    0 to 280, 100 to 230, 200 to 70, 300 to 0, 260 to 75, 300 to 230, 400 to 280, 300 to 320, 100 to 320,
+).map { (x, y) -> Offset(x.toFloat(), y + 40f) }
 
 private val logoPolygons = listOf(
     listOf(0 to 280, 100 to 320, 200 to 270, 100 to 230),

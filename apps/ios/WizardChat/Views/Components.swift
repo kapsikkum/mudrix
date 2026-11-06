@@ -78,6 +78,11 @@ struct WizardLogo: View {
         [(200, 70), (230, 80), (260, 75), (300, 0)],
     ].map { $0.map { CGPoint(x: $0.0, y: $0.1 + 40) } }
 
+    /// The polygons' outline as one path, so a single-colour mark has no seams between them
+    static let outline: [CGPoint] = [
+        (0, 280), (100, 230), (200, 70), (300, 0), (260, 75), (300, 230), (400, 280), (300, 320), (100, 320),
+    ].map { CGPoint(x: $0.0, y: $0.1 + 40) }
+
     var body: some View {
         Canvas { context, canvasSize in
             let scale = canvasSize.width / 400
@@ -97,10 +102,8 @@ struct WizardMark: Shape {
     func path(in rect: CGRect) -> Path {
         let scale = min(rect.width, rect.height) / 400
         var path = Path()
-        for points in WizardLogo.polygons {
-            path.addLines(points.map { CGPoint(x: rect.minX + $0.x * scale, y: rect.minY + $0.y * scale) })
-            path.closeSubpath()
-        }
+        path.addLines(WizardLogo.outline.map { CGPoint(x: rect.minX + $0.x * scale, y: rect.minY + $0.y * scale) })
+        path.closeSubpath()
         return path
     }
 }
@@ -122,13 +125,14 @@ struct PrimaryButtonStyle: ButtonStyle {
 }
 
 struct SecondaryButtonStyle: ButtonStyle {
+    var color: Color?
     @Environment(\.theme) private var theme
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.wizard(WZ.FontSize.lg, .medium))
-            .foregroundStyle(theme.control)
+            .foregroundStyle(color ?? theme.control)
             .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
             .background(configuration.isPressed ? theme.bgActive : theme.fill, in: Capsule())
             .opacity(isEnabled ? 1 : 0.4)

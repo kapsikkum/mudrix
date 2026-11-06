@@ -1431,6 +1431,7 @@
     "openSecurity": "Wiederherstellung und Verifizierung",
     "openSessions": "Sitzungen verwalten",
     "version": "Version {{version}}",
+    "dateVersion": "{{date}} · Version {{version}}",
     "aboutText": "WizardChat ist ein Matrix-Client mit einem Rust-Kern, den alle seine Apps teilen.",
     "synced": "Mit deinen anderen Geräten synchronisiert",
     "oneImage": "1 Bild",
@@ -1712,9 +1713,10 @@
   },
   "whatsNew": {
     "title": "Neuigkeiten",
-    "gotIt": "Verstanden",
     "fullChangelog": "Vollständiges Änderungsprotokoll auf GitLab",
-    "titleVersion": "Neu in {{version}}"
+    "version": "Version {{version}}",
+    "dateVersion": "{{date}} · Version {{version}}",
+    "website": "Website"
   },
   "call": {
     "noSfu": "Auf diesem Homeserver ist kein Anrufserver (LiveKit) eingerichtet, daher können integrierte Anrufe keine Verbindung herstellen.",

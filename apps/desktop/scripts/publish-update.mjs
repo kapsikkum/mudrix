@@ -93,7 +93,9 @@ writeFileSync('desktop-assets.json', JSON.stringify(assets));
 const notesFile = `whatsnew/${version.replace(/-.*$/, '')}.md`;
 const feed = JSON.stringify({
   version,
-  notes: existsSync(notesFile) ? readFileSync(notesFile, 'utf8') : '',
+  notes: existsSync(notesFile)
+    ? readFileSync(notesFile, 'utf8').replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '')
+    : '',
   pub_date: new Date().toISOString(),
   platforms,
 });

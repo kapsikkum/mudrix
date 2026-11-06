@@ -1431,6 +1431,7 @@
     "openSecurity": "Recovery and verification",
     "openSessions": "Manage sessions",
     "version": "Version {{version}}",
+    "dateVersion": "{{date}} · Version {{version}}",
     "aboutText": "WizardChat is a Matrix client with a Rust core shared by all its apps.",
     "synced": "Synced to your other devices",
     "oneImage": "1 image",
@@ -1712,9 +1713,10 @@
   },
   "whatsNew": {
     "title": "What's new",
-    "gotIt": "Got it",
     "fullChangelog": "Full changelog on GitLab",
-    "titleVersion": "What's new in {{version}}"
+    "version": "Version {{version}}",
+    "dateVersion": "{{date}} · Version {{version}}",
+    "website": "Website"
   },
   "call": {
     "noSfu": "This homeserver has no call server (LiveKit) configured, so built-in calls can't connect.",

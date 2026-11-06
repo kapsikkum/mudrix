@@ -890,7 +890,7 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
                 Modifier
             },
         ) {
-            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark)
+            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark, onMention = actions?.openProfile)
         }
         return
     }
@@ -923,7 +923,7 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
 }
 
 @Composable
-private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
+private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((String) -> Unit)?) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     var spoilersRevealed by remember { mutableStateOf(false) }
@@ -938,6 +938,9 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
                 linkColor,
                 if (spoilersRevealed) emptyList() else entry.spoilers,
                 theme.textMuted,
+                entry.mentions,
+                MentionColors(theme.mention, if (linkOnAccent) theme.textOnAccent else theme.accent),
+                onMention,
             )
             val edited = tr("timeline.edited")
             val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")

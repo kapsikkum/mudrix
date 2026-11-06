@@ -20,6 +20,7 @@ interface DialogProps {
   open: boolean;
   onClose?: () => void;
   title?: string;
+  subtitle?: React.ReactNode;
   titleIcon?: React.ReactNode;
   size?: DialogSize;
   zIndex?: number;
@@ -32,6 +33,7 @@ interface DialogProps {
   className?: string;
   overlayClassName?: string;
   bodyClassName?: string;
+  footerClassName?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -40,6 +42,7 @@ export function Dialog({
   open,
   onClose,
   title,
+  subtitle,
   titleIcon,
   size = 'md',
   zIndex,
@@ -51,6 +54,7 @@ export function Dialog({
   className,
   overlayClassName,
   bodyClassName,
+  footerClassName,
   ariaLabel,
   children,
   footer,
@@ -130,6 +134,13 @@ export function Dialog({
 
   const titleId = title ? `dialog-title-${generatedTitleId}` : undefined;
 
+  const titleEl = (
+    <span className={css.title} id={titleId}>
+      {titleIcon && <span className={css.titleIcon}>{titleIcon}</span>}
+      {title}
+    </span>
+  );
+
   const sizeClass = css.sizes[size];
   const surfaceClass = surface === 'primary' ? css.panelPrimary : undefined;
   const fullscreenClass = fullscreenOnMobile ? css.panelFullscreenMobile : undefined;
@@ -175,10 +186,14 @@ export function Dialog({
         >
           {title && (
             <div className={css.header}>
-              <span className={css.title} id={titleId}>
-                {titleIcon && <span className={css.titleIcon}>{titleIcon}</span>}
-                {title}
-              </span>
+              {subtitle ? (
+                <div className={css.titleGroup}>
+                  {titleEl}
+                  <span className={css.subtitle}>{subtitle}</span>
+                </div>
+              ) : (
+                titleEl
+              )}
               {onClose && (
                 <IconButton size="sm" onClick={onClose} aria-label={t('common.close')}>
                   <XIcon size={16} />
@@ -189,7 +204,11 @@ export function Dialog({
 
           <div className={`${css.body}${bodyClassName ? ` ${bodyClassName}` : ''}`}>{children}</div>
 
-          {footer && <div className={css.footer}>{footer}</div>}
+          {footer && (
+            <div className={`${css.footer}${footerClassName ? ` ${footerClassName}` : ''}`}>
+              {footer}
+            </div>
+          )}
         </div>
       </FocusTrap>
     </div>

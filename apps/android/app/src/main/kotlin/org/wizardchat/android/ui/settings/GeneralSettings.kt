@@ -58,11 +58,14 @@ import org.wizardchat.android.matrix.AppPreferences
 import org.wizardchat.android.matrix.Density
 import org.wizardchat.android.matrix.MediaVisibility
 import org.wizardchat.android.matrix.MessageLayout
+import org.wizardchat.android.matrix.MessageMention
 import org.wizardchat.android.matrix.ReducedMotion
 import org.wizardchat.android.matrix.deviceId
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.WizardLogo
+import org.wizardchat.android.ui.room.MentionColors
+import org.wizardchat.android.ui.room.MessageText
 import org.wizardchat.android.ui.theme.ThemeSetting
 import org.wizardchat.android.ui.theme.WizardTheme
 import org.wizardchat.android.ui.theme.theme
@@ -196,37 +199,56 @@ private fun swatch(setting: ThemeSetting): Brush {
 private fun ChatPreview() {
     val session = LocalSession.current
     val now = remember { System.currentTimeMillis() }
-    val ownName = session.displayName ?: session.userId ?: ""
+    val ownName = session.displayName ?: session.userId ?: "You"
     Column(Modifier.fillMaxWidth().padding(vertical = WZ.Space.space4)) {
         PreviewMessage(
             "Merlin",
             null,
-            tr("settings.appearance.previewOtherMessage", ownName),
+            "settings.appearance.previewOtherMessage",
+            mention = mentionLabel(ownName),
+            mentionsMe = true,
             isOwn = false,
             timestamp = now - 120_000,
         )
-        PreviewMessage(ownName, session.avatarUrl, tr("settings.appearance.previewOwnMessage", "Merlin"), isOwn = true, timestamp = now - 60_000)
+        PreviewMessage(
+            ownName,
+            session.avatarUrl,
+            "settings.appearance.previewOwnMessage",
+            mention = mentionLabel("Merlin"),
+            mentionsMe = false,
+            isOwn = true,
+            timestamp = now - 60_000,
+        )
     }
 }
 
+private fun mentionLabel(name: String) = if (name.startsWith("@")) name else "@$name"
+
 @Composable
-private fun PreviewMessage(sender: String, avatarUrl: String?, body: String, isOwn: Boolean, timestamp: Long) {
+private fun PreviewMessage(
+    sender: String,
+    avatarUrl: String?,
+    textKey: String,
+    mention: String,
+    mentionsMe: Boolean,
+    isOwn: Boolean,
+    timestamp: Long,
+) {
+    val body = tr(textKey, mention)
     val prefs = LocalPrefs.current
     val context = LocalContext.current
     val scale = prefs.chatScale
     val spacing = prefs.chatSpacing
     val isClassic = prefs.messageLayout == MessageLayout.classic
     val linkColor = if (isClassic && isOwn && theme.isDark) theme.textOnAccent else theme.linkColor
-    val text = buildAnnotatedString {
-        val match = Regex("https?://\\S+").find(body)
-        if (match == null) {
-            append(body)
-        } else {
-            append(body.substring(0, match.range.first))
-            withStyle(SpanStyle(color = linkColor)) { append(match.value) }
-            append(body.substring(match.range.last + 1))
-        }
-    }
+    val text = MessageText.attributed(
+        body,
+        prefs.prettifyLinks,
+        linkColor,
+        mentions = listOf(MessageMention(mention, "", isOwn = mentionsMe)),
+        mentionColors = MentionColors(theme.mention, if (isClassic && isOwn && theme.isDark) theme.textOnAccent else theme.accent),
+        onMention = {},
+    )
     Row(
         Modifier
             .fillMaxWidth()
@@ -451,7 +473,12 @@ internal fun AboutSettings(onBack: () -> Unit) {
                     "code",
                     { uriHandler.openUri("https://gitlab.com/wizardchat/wizardchat") },
                 )
-                if (whatsNew != null) LabelButton(tr("whatsNew.title"), "sparkle", { showWhatsNew = true })
+                LabelButton(
+                    tr("settings.about.donate"),
+                    "heart",
+                    { uriHandler.openUri("https://liberapay.com/JPK/donate") },
+                    color = theme.danger,
+                )
             }
         }
 
@@ -461,8 +488,28 @@ internal fun AboutSettings(onBack: () -> Unit) {
                 Credit("Roboto", "https://fonts.google.com/specimen/Roboto", tr("settings.about.creditRoboto"))
             }
         }
+
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6),
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space7),
+        ) {
+            if (whatsNew != null) FooterLink(tr("whatsNew.title"), "sparkle") { showWhatsNew = true }
+            FooterLink(tr("settings.about.privacyPolicy"), "shield-check") { uriHandler.openUri("https://wizardchat.org/privacy/") }
+        }
     }
     if (showWhatsNew && whatsNew != null) WhatsNewSheet(whatsNew) { showWhatsNew = false }
+}
+
+@Composable
+private fun FooterLink(text: String, icon: String, onClick: () -> Unit) {
+    Row(
+        Modifier.clickable(onClick = onClick).padding(vertical = WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        PhIcon(icon, size = WZ.SizeIcon.sm, tint = theme.textMuted)
+        Text(text, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+    }
 }
 
 @Composable
