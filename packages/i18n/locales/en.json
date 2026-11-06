@@ -1257,7 +1257,16 @@
       "languageDisplay": "Display Language",
       "languageEn": "English",
       "languageDe": "Deutsch",
-      "languageSystem": "System"
+      "languageSystem": "System",
+      "languageEs": "Español",
+      "languageFr": "Français",
+      "languageIt": "Italiano",
+      "languagePt": "Português",
+      "languageRu": "Русский",
+      "languageJa": "日本語",
+      "languageTr": "Türkçe",
+      "languageNl": "Nederlands",
+      "languagePl": "Polski"
     },
     "notifications": {
       "title": "Notifications",

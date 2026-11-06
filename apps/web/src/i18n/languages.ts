@@ -1,6 +1,15 @@
 export const SUPPORTED_LANGUAGES = [
   { code: 'en', labelKey: 'settings.language.languageEn' },
   { code: 'de', labelKey: 'settings.language.languageDe' },
+  { code: 'es', labelKey: 'settings.language.languageEs' },
+  { code: 'fr', labelKey: 'settings.language.languageFr' },
+  { code: 'it', labelKey: 'settings.language.languageIt' },
+  { code: 'pt', labelKey: 'settings.language.languagePt' },
+  { code: 'ru', labelKey: 'settings.language.languageRu' },
+  { code: 'ja', labelKey: 'settings.language.languageJa' },
+  { code: 'tr', labelKey: 'settings.language.languageTr' },
+  { code: 'nl', labelKey: 'settings.language.languageNl' },
+  { code: 'pl', labelKey: 'settings.language.languagePl' },
 ] as const;
 
 export function detectBrowserLanguage(): string {
