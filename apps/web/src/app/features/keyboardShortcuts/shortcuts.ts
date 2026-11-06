@@ -132,6 +132,18 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
         keys: '',
         editable: true,
       },
+      {
+        id: 'toggleVideo',
+        labelKey: 'settings.keybinds.toggleVideo',
+        keys: '',
+        editable: true,
+      },
+      {
+        id: 'disconnect',
+        labelKey: 'settings.keybinds.disconnect',
+        keys: '',
+        editable: true,
+      },
     ],
   },
 ];

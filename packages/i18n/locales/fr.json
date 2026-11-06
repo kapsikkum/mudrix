@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Appuyer pour parler dans tout le système nécessite l'autorisation de surveiller la saisie au clavier. En attendant, cela ne fonctionne que lorsque Mudrix est actif.",
       "pushToTalkGrant": "Accorder l'autorisation",
       "resetDefault": "Rétablir les valeurs par défaut",
-      "changeShortcut": "Changer le raccourci de {{name}}"
+      "changeShortcut": "Changer le raccourci de {{name}}",
+      "toggleVideo": "Activer/désactiver la vidéo",
+      "disconnect": "Se déconnecter"
     },
     "developer": {
       "title": "Développeur",

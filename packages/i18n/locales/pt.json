@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Pressionar para falar em todo o sistema precisa de permissão para monitorar o teclado. Até lá, só funciona enquanto o Mudrix está em foco.",
       "pushToTalkGrant": "Conceder permissão",
       "resetDefault": "Restaurar padrão",
-      "changeShortcut": "Alterar atalho de {{name}}"
+      "changeShortcut": "Alterar atalho de {{name}}",
+      "toggleVideo": "Alternar vídeo",
+      "disconnect": "Desconectar"
     },
     "developer": {
       "title": "Desenvolvedor",

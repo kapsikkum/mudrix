@@ -52,12 +52,16 @@ export type { UiDensity, UiScale } from '@/theme/uiDensity';
 export interface Keybinds {
   toggleMute: string;
   toggleDeafen: string;
+  toggleVideo: string;
+  disconnect: string;
   pushToTalk: string;
 }
 
 export const DEFAULT_KEYBINDS: Keybinds = {
   toggleMute: `${MOD_MODIFIER}+Shift+KeyM`,
   toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
+  toggleVideo: '',
+  disconnect: '',
   pushToTalk: '',
 };
 

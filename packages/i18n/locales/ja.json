@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "システム全体のプッシュトゥトークには、キーボード入力を監視する許可が必要です。許可するまでは、Mudrixがアクティブな間のみ動作します。",
       "pushToTalkGrant": "許可する",
       "resetDefault": "デフォルトに戻す",
-      "changeShortcut": "{{name}} のショートカットを変更"
+      "changeShortcut": "{{name}} のショートカットを変更",
+      "toggleVideo": "ビデオを切り替え",
+      "disconnect": "切断"
     },
     "developer": {
       "title": "開発者",

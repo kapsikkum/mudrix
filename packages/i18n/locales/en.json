@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "System-wide push to talk needs permission to monitor keyboard input. Until then it only works while Mudrix is focused.",
       "pushToTalkGrant": "Grant permission",
       "resetDefault": "Reset to default",
-      "changeShortcut": "Change shortcut for {{name}}"
+      "changeShortcut": "Change shortcut for {{name}}",
+      "toggleVideo": "Toggle Video",
+      "disconnect": "Disconnect"
     },
     "developer": {
       "title": "Developer",

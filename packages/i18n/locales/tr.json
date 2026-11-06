@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Sistem genelinde bas-konuş için klavye girişini izleme izni gerekir. O zamana kadar yalnızca Mudrix odaktayken çalışır.",
       "pushToTalkGrant": "İzin ver",
       "resetDefault": "Varsayılana sıfırla",
-      "changeShortcut": "{{name}} kısayolunu değiştir"
+      "changeShortcut": "{{name}} kısayolunu değiştir",
+      "toggleVideo": "Videoyu aç/kapat",
+      "disconnect": "Bağlantıyı kes"
     },
     "developer": {
       "title": "Geliştirici",

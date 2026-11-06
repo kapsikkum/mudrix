@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Premi per parlare in tutto il sistema richiede il permesso di monitorare l'input da tastiera. Fino ad allora funziona solo mentre Mudrix è in primo piano.",
       "pushToTalkGrant": "Concedi permesso",
       "resetDefault": "Ripristina predefiniti",
-      "changeShortcut": "Cambia scorciatoia per {{name}}"
+      "changeShortcut": "Cambia scorciatoia per {{name}}",
+      "toggleVideo": "Attiva/disattiva video",
+      "disconnect": "Disconnetti"
     },
     "developer": {
       "title": "Sviluppatore",

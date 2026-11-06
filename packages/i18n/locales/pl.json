@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Naciśnij, aby mówić, w całym systemie wymaga zgody na monitorowanie klawiatury. Do tego czasu działa tylko, gdy Mudrix jest aktywny.",
       "pushToTalkGrant": "Udziel zgody",
       "resetDefault": "Przywróć domyślne",
-      "changeShortcut": "Zmień skrót dla: {{name}}"
+      "changeShortcut": "Zmień skrót dla: {{name}}",
+      "toggleVideo": "Przełącz wideo",
+      "disconnect": "Rozłącz"
     },
     "developer": {
       "title": "Deweloperskie",

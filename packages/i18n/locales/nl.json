@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Push-to-talk op het hele systeem heeft toestemming nodig om toetsenbordinvoer te volgen. Tot die tijd werkt het alleen terwijl Mudrix actief is.",
       "pushToTalkGrant": "Toestemming geven",
       "resetDefault": "Standaard herstellen",
-      "changeShortcut": "Sneltoets voor {{name}} wijzigen"
+      "changeShortcut": "Sneltoets voor {{name}} wijzigen",
+      "toggleVideo": "Video wisselen",
+      "disconnect": "Verbinding verbreken"
     },
     "developer": {
       "title": "Ontwikkelaar",

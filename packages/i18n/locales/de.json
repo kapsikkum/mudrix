@@ -1508,7 +1508,9 @@
       "pushToTalkPermission": "Systemweites Push-to-Talk braucht die Berechtigung, Tastatureingaben zu überwachen. Bis dahin funktioniert es nur, solange Mudrix im Fokus ist.",
       "pushToTalkGrant": "Berechtigung erteilen",
       "resetDefault": "Auf Standard zurücksetzen",
-      "changeShortcut": "Tastenkürzel für {{name}} ändern"
+      "changeShortcut": "Tastenkürzel für {{name}} ändern",
+      "toggleVideo": "Video Ein/Aus",
+      "disconnect": "Auflegen"
     },
     "developer": {
       "title": "Entwickler",

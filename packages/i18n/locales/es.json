@@ -1524,7 +1524,9 @@
       "pushToTalkPermission": "Pulsar para hablar en todo el sistema necesita permiso para supervisar la entrada del teclado. Hasta entonces solo funciona mientras Mudrix tiene el foco.",
       "pushToTalkGrant": "Conceder permiso",
       "resetDefault": "Restablecer valores predeterminados",
-      "changeShortcut": "Cambiar atajo de {{name}}"
+      "changeShortcut": "Cambiar atajo de {{name}}",
+      "toggleVideo": "Activar/desactivar vídeo",
+      "disconnect": "Desconectar"
     },
     "developer": {
       "title": "Desarrollador",
