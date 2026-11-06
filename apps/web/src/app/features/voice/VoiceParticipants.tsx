@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useDraggable } from '@dnd-kit/core';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -25,11 +26,14 @@ function ParticipantRow({
   isDominant,
   showIcons,
   roomId,
+  draggable,
 }: {
   p: VoiceParticipant;
   isDominant: boolean;
   showIcons: boolean;
   roomId?: string;
+  /** Can be dragged onto another voice channel to send them there */
+  draggable?: boolean;
 }) {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
@@ -38,6 +42,12 @@ function ParticipantRow({
   const [menu, setMenu] = useState<UserMenuAnchor | null>(null);
   const closeMenu = useCallback(() => setMenu(null), []);
   const room = useRoom(roomId);
+  // Moving yourself is just joining the other channel.
+  const drag = useDraggable({
+    id: `participant:${roomId}:${p.userId}`,
+    data: { kind: 'participant', fromRoomId: roomId, userId: p.userId, label: p.name },
+    disabled: !draggable || !roomId || !p.userId || p.userId === client?.userId(),
+  });
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -55,6 +65,9 @@ function ParticipantRow({
   return (
     <>
       <div
+        ref={drag.setNodeRef}
+        {...drag.listeners}
+        style={drag.isDragging ? { opacity: 0.45 } : undefined}
         className={isDominant ? css.entrySpeaking : css.entry}
         onClick={handleClick}
         onContextMenu={
@@ -181,11 +194,13 @@ export function VoiceParticipants({
   localInCall,
   roomId,
   compact,
+  draggable,
 }: {
   participants: VoiceParticipant[];
   localInCall: boolean;
   roomId?: string;
   compact?: boolean;
+  draggable?: boolean;
 }) {
   if (participants.length === 0) return null;
   if (compact) return <CompactParticipants participants={participants} roomId={roomId} />;
@@ -199,6 +214,7 @@ export function VoiceParticipants({
           isDominant={p.speaking}
           showIcons={localInCall}
           roomId={roomId}
+          draggable={draggable}
         />
       ))}
     </div>
@@ -209,10 +225,12 @@ export function RoomVoiceParticipants({
   members,
   roomId,
   compact,
+  draggable,
 }: {
   members: CallMember[];
   roomId: string;
   compact?: boolean;
+  draggable?: boolean;
 }) {
   const callUi = useAtomValue(callUiAtom);
   const client = getMatrixClientOrNull();
@@ -256,6 +274,7 @@ export function RoomVoiceParticipants({
       localInCall={localInCall}
       roomId={roomId}
       compact={compact}
+      draggable={draggable}
     />
   );
 }

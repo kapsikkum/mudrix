@@ -6,7 +6,9 @@ import { callActionsAtom, isInCallAtom } from '@/app/store/atoms/call';
 import { roomsByIdAtom } from '@/app/data';
 import { useConfirm } from '@/app/hooks/useConfirm';
 
-export function useJoinVoiceRoom(client: WizardClient | null): (roomId: string) => Promise<void> {
+export function useJoinVoiceRoom(
+  client: WizardClient | null
+): (roomId: string, opts?: { skipConfirm?: boolean }) => Promise<void> {
   const { t } = useTranslation();
   const confirmDialog = useConfirm();
   const isInCall = useAtomValue(isInCallAtom);
@@ -14,11 +16,11 @@ export function useJoinVoiceRoom(client: WizardClient | null): (roomId: string) 
   const roomsById = useAtomValue(roomsByIdAtom);
 
   return useCallback(
-    async (roomId: string) => {
+    async (roomId: string, opts?: { skipConfirm?: boolean }) => {
       if (!client || !startCall) return;
       if (!roomsById.has(roomId)) return;
 
-      if (isInCall) {
+      if (isInCall && !opts?.skipConfirm) {
         const confirmed = await confirmDialog({
           title: t('room.switchVoiceRoom'),
           message: t('room.switchVoiceRoomMessage'),

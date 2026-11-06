@@ -52,6 +52,7 @@ interface ChatListItemProps {
   showTypeBadge?: boolean;
   hideAvatar?: boolean;
   voiceMembers?: CallMember[];
+  canMoveVoiceUsers?: boolean;
   compactVoice?: boolean;
   onClick: () => void;
   onDoubleClick?: () => void;
@@ -75,6 +76,7 @@ export function ChatListItem({
   showTypeBadge,
   hideAvatar,
   voiceMembers,
+  canMoveVoiceUsers,
   compactVoice,
   onClick,
   onDoubleClick,
@@ -234,7 +236,12 @@ export function ChatListItem({
       </div>
       {/* Voice participants list: only mounted for rooms that actually have a voice room */}
       {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
-        <RoomVoiceParticipants members={voiceMembers} roomId={roomId} compact={compactVoice} />
+        <RoomVoiceParticipants
+          members={voiceMembers}
+          roomId={roomId}
+          compact={compactVoice}
+          draggable={canMoveVoiceUsers}
+        />
       )}
     </div>
   );

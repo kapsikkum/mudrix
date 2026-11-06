@@ -30,6 +30,24 @@ export const insertLine = style({
   },
 });
 
+export const personDropTarget = style({
+  outline: `2px solid ${vars.color.accent}`,
+  outlineOffset: '-2px',
+  borderRadius: vars.radius.sm,
+});
+
+export const personOverlay = style({
+  padding: '6px 12px',
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.color.bgTertiary,
+  border: `1px solid color-mix(in srgb, ${vars.color.accent} 45%, transparent)`,
+  boxShadow: '0 10px 28px rgba(0, 0, 0, 0.4)',
+  color: vars.color.textPrimary,
+  fontSize: '0.85rem',
+  whiteSpace: 'nowrap',
+  cursor: 'grabbing',
+});
+
 export const overlay = style({
   height: '100%',
   borderRadius: vars.radius.md,

@@ -1292,7 +1292,8 @@
     },
     "inCall": "通話中",
     "noOneInCall": "まだ誰も通話にいません",
-    "joinVoice": "ボイスに参加"
+    "joinVoice": "ボイスに参加",
+    "movedBy": "{{name}} によって {{room}} に移動されました"
   },
   "time": {
     "justNow": "たった今",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "ミュートしたサウンドボード",
       "soundboardMutedNone": "ミュートしているサウンドボードはありません。",
       "soundboardMutedNote": "この人たちの声は引き続き聞こえます。このデバイスでサウンドボードのクリップだけがミュートされます。",
-      "soundboardUnmute": "ミュート解除"
+      "soundboardUnmute": "ミュート解除",
+      "allowMoves": "スペース管理者によるボイスチャンネル間の移動を許可",
+      "allowMovesNote": "スペースを管理している人は、通話中のあなたをそのスペースの別のボイスチャンネルへドラッグして移動できます。"
     }
   },
   "titleBar": {

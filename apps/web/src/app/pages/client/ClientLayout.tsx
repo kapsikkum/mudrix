@@ -36,7 +36,7 @@ import { isEditableTarget, isModOnly } from '@/app/features/keyboardShortcuts/ke
 import { useVoiceKeybinds } from '@/app/hooks/useKeybinds';
 import { getMatrixClientOrNull, logout, onSessionInvalid } from '@/client/initMatrix';
 import { useEnsureMudrixUserFlag } from '@/app/hooks/useExtendedProfile';
-import { roomsByIdAtom, useRoom, useSpaceGraph } from '@/app/data';
+import { roomsByIdAtom, useRoom, useSpaceGraph, useUserId } from '@/app/data';
 import { useVoiceChannelFlag } from '@/app/features/room/voiceChannel';
 import { RoomRolesProvider } from '@/app/features/space/RoomRolesContext';
 import { isChildOfSpace, findParentSpaceId, isVoiceRoom } from '@/util/matrix';
@@ -71,6 +71,7 @@ import { useCustomStatusSync } from '@/app/features/status/customStatus';
 import { useSavedMessagesSync } from '@/app/hooks/useSavedMessagesSync';
 import { useReminderDelivery } from '@/app/hooks/useReminderDelivery';
 import { useAutoJoinSpaceRooms } from '@/app/hooks/useAutoJoinSpaceRooms';
+import { useVoiceMoves } from '@/app/features/voice/useVoiceMoves';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { SpacesList } from './SpacesList';
@@ -479,6 +480,8 @@ export function ClientLayout() {
   useSavedMessagesSync(client);
   useReminderDelivery(client);
   useAutoJoinSpaceRooms(client);
+  const myUserId = useUserId();
+  useVoiceMoves(client, joinVoiceRoom, myUserId);
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   const touchFirst = useMediaQuery(TOUCH_FIRST_QUERY);

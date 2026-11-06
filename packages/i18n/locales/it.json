@@ -1292,7 +1292,8 @@
     },
     "inCall": "Nella chiamata",
     "noOneInCall": "Nessuno è ancora nella chiamata",
-    "joinVoice": "Entra nella vocale"
+    "joinVoice": "Entra nella vocale",
+    "movedBy": "Spostato in {{room}} da {{name}}"
   },
   "time": {
     "justNow": "adesso",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "Soundboard silenziate",
       "soundboardMutedNone": "Non hai silenziato la soundboard di nessuno.",
       "soundboardMutedNote": "Senti ancora la voce di queste persone. Solo le loro clip vengono silenziate, su questo dispositivo.",
-      "soundboardUnmute": "Riattiva"
+      "soundboardUnmute": "Riattiva",
+      "allowMoves": "Consenti agli amministratori dello spazio di spostarmi tra i canali vocali",
+      "allowMovesNote": "Chi gestisce uno spazio può trascinarti da uno dei suoi canali vocali a un altro mentre sei in chiamata."
     }
   },
   "titleBar": {

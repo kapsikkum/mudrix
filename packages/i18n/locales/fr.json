@@ -1292,7 +1292,8 @@
     },
     "inCall": "Dans l'appel",
     "noOneInCall": "Personne n'est encore dans l'appel",
-    "joinVoice": "Rejoindre le vocal"
+    "joinVoice": "Rejoindre le vocal",
+    "movedBy": "Déplacé vers {{room}} par {{name}}"
   },
   "time": {
     "justNow": "à l'instant",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "Tableaux de sons mis en sourdine",
       "soundboardMutedNone": "Vous n'avez mis le tableau de sons de personne en sourdine.",
       "soundboardMutedNote": "Vous entendez toujours la voix de ces personnes. Seuls leurs clips sont coupés, sur cet appareil.",
-      "soundboardUnmute": "Réactiver le son"
+      "soundboardUnmute": "Réactiver le son",
+      "allowMoves": "Autoriser les administrateurs d'espace à me déplacer entre salons vocaux",
+      "allowMovesNote": "Une personne qui gère un espace peut vous faire glisser d'un de ses salons vocaux vers un autre pendant un appel."
     }
   },
   "titleBar": {

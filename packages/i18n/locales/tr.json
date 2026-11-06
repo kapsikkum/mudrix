@@ -1292,7 +1292,8 @@
     },
     "inCall": "Aramada",
     "noOneInCall": "Aramada henüz kimse yok",
-    "joinVoice": "Sese katıl"
+    "joinVoice": "Sese katıl",
+    "movedBy": "{{name}} tarafından {{room}} odasına taşındınız"
   },
   "time": {
     "justNow": "az önce",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "Sessize alınan ses panoları",
       "soundboardMutedNone": "Kimsenin ses panosunu sessize almadınız.",
       "soundboardMutedNote": "Bu kişilerin seslerini hâlâ duyarsınız. Bu cihazda yalnızca ses panosu klipleri sessize alınır.",
-      "soundboardUnmute": "Sesi aç"
+      "soundboardUnmute": "Sesi aç",
+      "allowMoves": "Alan yöneticilerinin beni sesli kanallar arasında taşımasına izin ver",
+      "allowMovesNote": "Bir alanı yöneten biri, siz bir aramadayken sizi o alanın bir sesli kanalından diğerine sürükleyebilir."
     }
   },
   "titleBar": {

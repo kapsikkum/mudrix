@@ -39,6 +39,8 @@ export interface ReorderRow {
   category?: { id: string; parent: string };
   /** What a screen reader calls the row while it is dragged; the id when absent. */
   label?: string;
+  /** A voice channel: a person dragged out of another channel can be dropped on it */
+  voice?: boolean;
 }
 
 interface InsertLine {
@@ -46,7 +48,22 @@ interface InsertLine {
   position: 'before' | 'after';
 }
 
-const ReorderContext = createContext<{ insertLine: InsertLine | null }>({ insertLine: null });
+/** A person being dragged out of a voice channel (the data their draggable carries) */
+export interface DraggedParticipant {
+  kind: 'participant';
+  fromRoomId: string;
+  userId: string;
+  label: string;
+}
+
+const isParticipant = (data: unknown): data is DraggedParticipant =>
+  !!data && (data as { kind?: unknown }).kind === 'participant';
+
+const ReorderContext = createContext<{
+  insertLine: InsertLine | null;
+  /** The voice channel a dragged person would be sent to if dropped now */
+  personTarget: string | null;
+}>({ insertLine: null, personTarget: null });
 
 interface RoomReorderProviderProps {
   rows: ReorderRow[];
@@ -55,6 +72,9 @@ interface RoomReorderProviderProps {
   onReorderSections?: (orderedAnchors: string[]) => void;
   onReorderCategories?: (parentId: string, orderedIds: string[], movedId: string) => void;
   onActiveChange?: (id: string | null) => void;
+  /** Whether a person may be sent from one voice channel to another */
+  canMoveParticipant?: (fromRoomId: string, toRoomId: string) => boolean;
+  onMoveParticipant?: (userId: string, fromRoomId: string, toRoomId: string) => void;
   onDropGroupChange?: (group: string | null) => void;
   renderOverlay: (id: string) => ReactNode;
   children: ReactNode;
@@ -74,6 +94,8 @@ export function RoomReorderProvider({
   onReorderSections,
   onReorderCategories,
   onActiveChange,
+  canMoveParticipant,
+  onMoveParticipant,
   onDropGroupChange,
   renderOverlay,
   children,
@@ -87,6 +109,8 @@ export function RoomReorderProvider({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [insertLine, setInsertLine] = useState<InsertLine | null>(null);
   const [dropGroup, setDropGroup] = useState<string | null>(null);
+  const [person, setPerson] = useState<DraggedParticipant | null>(null);
+  const [personTarget, setPersonTarget] = useState<string | null>(null);
   useEffect(() => onDropGroupChange?.(dropGroup), [dropGroup, onDropGroupChange]);
 
   const byId = useMemo(() => new Map(rows.map((r, i) => [r.id, { row: r, index: i }])), [rows]);
@@ -194,15 +218,21 @@ export function RoomReorderProvider({
 
   // Screen readers get names, not the ids the rows are keyed by.
   const announcements = useMemo<Announcements>(() => {
-    const label = (id: string | number) => byId.get(String(id))?.row.label ?? String(id);
+    const label = (id: string | number, data?: unknown) =>
+      (isParticipant(data) ? data.label : byId.get(String(id))?.row.label) ?? String(id);
     return {
-      onDragStart: ({ active }) => t('room.drag.pickedUp', { name: label(active.id) }),
+      onDragStart: ({ active }) =>
+        t('room.drag.pickedUp', { name: label(active.id, active.data.current) }),
       onDragOver: ({ over }) => (over ? t('room.drag.over', { name: label(over.id) }) : undefined),
       onDragEnd: ({ active, over }) =>
         over
-          ? t('room.drag.dropped', { name: label(active.id), target: label(over.id) })
-          : t('room.drag.cancelled', { name: label(active.id) }),
-      onDragCancel: ({ active }) => t('room.drag.cancelled', { name: label(active.id) }),
+          ? t('room.drag.dropped', {
+              name: label(active.id, active.data.current),
+              target: label(over.id),
+            })
+          : t('room.drag.cancelled', { name: label(active.id, active.data.current) }),
+      onDragCancel: ({ active }) =>
+        t('room.drag.cancelled', { name: label(active.id, active.data.current) }),
     };
   }, [byId, t]);
 
@@ -211,6 +241,15 @@ export function RoomReorderProvider({
     onActiveChange?.(null);
     setInsertLine(null);
     setDropGroup(null);
+    setPerson(null);
+    setPersonTarget(null);
+  };
+
+  /** The voice channel under the pointer when a person is dragged, if they may go there */
+  const targetForPerson = (dragged: DraggedParticipant, over: string | null): string | null => {
+    const row = over ? byId.get(over)?.row : undefined;
+    if (!row?.voice || row.id === dragged.fromRoomId) return null;
+    return canMoveParticipant?.(dragged.fromRoomId, row.id) ? row.id : null;
   };
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -218,16 +257,32 @@ export function RoomReorderProvider({
     onActiveChange?.(String(event.active.id));
     setInsertLine(null);
     setDropGroup(null);
+    const data = event.active.data.current;
+    setPerson(isParticipant(data) ? data : null);
+    setPersonTarget(null);
   };
 
   const handleDragOver = ({ active, over }: DragOverEvent) => {
+    const data = active.data.current;
+    if (isParticipant(data)) {
+      setInsertLine(null);
+      setDropGroup(null);
+      setPersonTarget(targetForPerson(data, over ? String(over.id) : null));
+      return;
+    }
     const next = plan(String(active.id), over ? String(over.id) : null);
     setInsertLine(next && next.kind !== 'move' ? next.line : null);
     setDropGroup(next?.kind === 'move' ? next.group : null);
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    const data = active.data.current;
     reset();
+    if (isParticipant(data)) {
+      const target = targetForPerson(data, over ? String(over.id) : null);
+      if (target) onMoveParticipant?.(data.userId, data.fromRoomId, target);
+      return;
+    }
     const next = plan(String(active.id), over ? String(over.id) : null);
     if (!next) return;
     if (next.kind === 'reorder') onReorder(next.section, next.ids, String(active.id));
@@ -247,10 +302,16 @@ export function RoomReorderProvider({
       accessibility={{ announcements }}
     >
       <SortableContext items={rows.map((r) => r.id)} strategy={verticalListSortingStrategy}>
-        <ReorderContext.Provider value={{ insertLine }}>{children}</ReorderContext.Provider>
+        <ReorderContext.Provider value={{ insertLine, personTarget }}>
+          {children}
+        </ReorderContext.Provider>
       </SortableContext>
       <DragOverlay dropAnimation={null}>
-        {activeId && <div className={css.overlay}>{renderOverlay(activeId)}</div>}
+        {person ? (
+          <div className={css.personOverlay}>{person.label}</div>
+        ) : (
+          activeId && <div className={css.overlay}>{renderOverlay(activeId)}</div>
+        )}
       </DragOverlay>
     </DndContext>
   );
@@ -266,11 +327,11 @@ export function SortableRoomRow({
   children: ReactNode;
 }) {
   const { listeners, setNodeRef, isDragging } = useSortable({ id: roomId, disabled });
-  const { insertLine } = useContext(ReorderContext);
+  const { insertLine, personTarget } = useContext(ReorderContext);
   return (
     <div
       ref={setNodeRef}
-      className={css.row}
+      className={personTarget === roomId ? `${css.row} ${css.personDropTarget}` : css.row}
       style={{ opacity: isDragging ? 0.4 : 1 }}
       {...(disabled ? {} : listeners)}
     >

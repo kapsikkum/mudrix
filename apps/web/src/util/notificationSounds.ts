@@ -45,10 +45,7 @@ export const SOUND_KINDS: readonly SoundKind[] = [
 ];
 
 /** Sounds the picker lists: every kind that something in the app plays. */
-export const PLAYED_SOUND_KINDS: readonly SoundKind[] = SOUND_KINDS.filter(
-  // Nothing moves people between voice channels here yet.
-  (kind) => kind !== 'moved'
-);
+export const PLAYED_SOUND_KINDS: readonly SoundKind[] = SOUND_KINDS;
 
 /** Kinds the "Notification sounds" switch silences; the rest are feedback for what you just did. */
 const GATED_KINDS: ReadonlySet<SoundKind> = new Set([

@@ -137,6 +137,8 @@ export interface Preferences {
   soundboardVolume: number;
   /** User ids whose soundboard clips are muted on this device. Device-only. */
   soundboardMutedUsers: string[];
+  /** Let people who manage a space move me from one of its voice channels to another. */
+  allowVoiceMoves: boolean;
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
@@ -211,6 +213,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   soundboardEnabled: true,
   soundboardVolume: 70,
   soundboardMutedUsers: [],
+  allowVoiceMoves: true,
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -279,6 +282,7 @@ export const autoGainControlAtom = preferenceFieldAtom('autoGainControl');
 export const soundboardEnabledAtom = preferenceFieldAtom('soundboardEnabled');
 export const soundboardVolumeAtom = preferenceFieldAtom('soundboardVolume');
 export const soundboardMutedUsersAtom = preferenceFieldAtom('soundboardMutedUsers');
+export const allowVoiceMovesAtom = preferenceFieldAtom('allowVoiceMoves');
 
 /**
  * Per-sound pack overrides. Reads fold in the legacy notificationMentionSoundPack as the mention

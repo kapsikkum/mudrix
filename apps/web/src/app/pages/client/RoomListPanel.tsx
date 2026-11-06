@@ -102,6 +102,7 @@ import {
 import { usePrompt } from '@/app/hooks/usePrompt';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { isVoiceRoom } from '@/util/matrix';
+import { manageableAncestors, moveVoiceUser } from '@/app/features/voice/voiceMove';
 import { activeRoomListStyleAtom, useSpaceListStyle } from '@/app/features/space/spaceListStyle';
 import { useSpaceBanner } from '@/app/features/space/spaceBanner';
 import { SpaceBannerView } from '@/app/features/space/SpaceBannerView';
@@ -1057,6 +1058,33 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     return allowed;
   }, [client, parentSpaceIds, parentSpaceSettings]);
 
+  // Sending a person from one voice channel to another needs a space above both that the user
+  // manages (the spaces known here are those of the rooms on screen).
+  const manageableAbove = useCallback(
+    (roomId: string) => manageableAncestors(spaceGraph, canEditSpace, roomId),
+    [spaceGraph, canEditSpace]
+  );
+  const canMoveVoiceUsersFrom = useCallback(
+    (roomId: string) => manageableAbove(roomId).size > 0,
+    [manageableAbove]
+  );
+  const canMoveParticipant = useCallback(
+    (fromRoomId: string, toRoomId: string) => {
+      const above = manageableAbove(toRoomId);
+      return [...manageableAbove(fromRoomId)].some((id) => above.has(id));
+    },
+    [manageableAbove]
+  );
+  const handleMoveParticipant = useCallback(
+    (userId: string, fromRoomId: string, toRoomId: string) => {
+      if (!client) return;
+      moveVoiceUser(client, fromRoomId, userId, toRoomId).catch((err: unknown) =>
+        toast.error(t('room.moveFailed', { error: getErrorMessage(err) }))
+      );
+    },
+    [client, toast, t]
+  );
+
   const spaceReorderRows = useCallback(
     (items: SpaceListItem[]): ReorderRow[] => {
       const rows: ReorderRow[] = [];
@@ -1111,6 +1139,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             label: it.item.entry.name,
+            voice: it.item.entry.hasVoiceRoom,
           });
           continue;
         }
@@ -1123,6 +1152,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           group,
           section: allowed ? (isFavourite ? 'fav' : `space:${it.item.parentSpaceId}`) : null,
           label: it.item.entry.name,
+          voice: it.item.entry.hasVoiceRoom,
         });
       }
       return rows;
@@ -1169,6 +1199,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             label: it.entry.name,
+            voice: it.entry.hasVoiceRoom,
           });
           continue;
         }
@@ -1179,6 +1210,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           group,
           section: closed ? null : headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'home',
           label: it.entry.name,
+          voice: it.entry.hasVoiceRoom,
         });
       }
       return rows;
@@ -1633,6 +1665,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           onMoveRoom={handleMoveRoom}
           onReorderSections={handleReorderSections}
           onReorderCategories={handleReorderCategories}
+          canMoveParticipant={canMoveParticipant}
+          onMoveParticipant={handleMoveParticipant}
           onActiveChange={(id) =>
             setDraggingSection(!!id && (id.startsWith('sec:') || id === roomsHeaderId))
           }
@@ -1703,6 +1737,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         }
                         isInCall={callUi.roomId === item.item.roomId}
                         voiceMembers={voiceMembersByRoom.get(item.item.roomId)}
+                        canMoveVoiceUsers={canMoveVoiceUsersFrom(item.item.roomId)}
                         compactVoice={item.compact}
                         onSelect={selectRoom}
                         onOpenChat={openVoiceChat}
@@ -1744,6 +1779,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           onReorder={handleReorder}
           onMoveRoom={handleMoveRoom}
           onReorderSections={handleReorderSections}
+          canMoveParticipant={canMoveParticipant}
+          onMoveParticipant={handleMoveParticipant}
           onActiveChange={(id) =>
             setDraggingSection(!!id && (id.startsWith('sec:') || id === roomsHeaderId))
           }
@@ -1794,6 +1831,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         }
                         isInCall={callUi.roomId === item.entry.roomId}
                         voiceMembers={voiceMembersByRoom.get(item.entry.roomId)}
+                        canMoveVoiceUsers={canMoveVoiceUsersFrom(item.entry.roomId)}
                         compactVoice={item.compact}
                         onSelect={selectRoom}
                         onOpenChat={openVoiceChat}

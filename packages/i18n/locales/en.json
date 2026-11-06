@@ -1292,7 +1292,8 @@
     },
     "inCall": "In the call",
     "noOneInCall": "No one is in the call yet",
-    "joinVoice": "Join voice"
+    "joinVoice": "Join voice",
+    "movedBy": "Moved to {{room}} by {{name}}"
   },
   "time": {
     "justNow": "just now",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "Muted soundboards",
       "soundboardMutedNone": "You have not muted anyone's soundboard.",
       "soundboardMutedNote": "You still hear these people's voices. Only their soundboard clips are silenced, on this device.",
-      "soundboardUnmute": "Unmute"
+      "soundboardUnmute": "Unmute",
+      "allowMoves": "Let space admins move me between voice channels",
+      "allowMovesNote": "Someone who manages a space can drag you from one of its voice channels to another while you are in a call."
     }
   },
   "titleBar": {

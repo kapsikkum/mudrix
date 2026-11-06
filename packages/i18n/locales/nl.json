@@ -1292,7 +1292,8 @@
     },
     "inCall": "In het gesprek",
     "noOneInCall": "Nog niemand in het gesprek",
-    "joinVoice": "Deelnemen aan spraak"
+    "joinVoice": "Deelnemen aan spraak",
+    "movedBy": "Verplaatst naar {{room}} door {{name}}"
   },
   "time": {
     "justNow": "zojuist",
@@ -1937,7 +1938,9 @@
       "soundboardMuted": "Gedempte soundboards",
       "soundboardMutedNone": "Je hebt niemands soundboard gedempt.",
       "soundboardMutedNote": "Je hoort de stemmen van deze mensen nog steeds. Alleen hun soundboardclips worden gedempt, op dit apparaat.",
-      "soundboardUnmute": "Dempen opheffen"
+      "soundboardUnmute": "Dempen opheffen",
+      "allowMoves": "Space-beheerders mogen me tussen spraakkanalen verplaatsen",
+      "allowMovesNote": "Iemand die een space beheert, kan je van het ene spraakkanaal naar het andere slepen terwijl je in een gesprek zit."
     }
   },
   "titleBar": {
