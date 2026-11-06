@@ -47,6 +47,21 @@ For the other apps:
   (`brew install openjdk@21 && brew install --cask android-commandlinetools`). Point the build at the SDK with
   `sdk.dir=...` in `apps/android/local.properties` and set `JAVA_HOME`.
 
+### Building Android on Windows
+
+Run the scripts from Git Bash with JDK 17+, the Android SDK (with an NDK) and Rust installed. Git checks out `*.sh` and
+`gradlew` with LF endings (see `.gitattributes`), so they run even with `core.autocrlf=true`. From the repo root:
+
+```sh
+export ANDROID_HOME="$LOCALAPPDATA/Android/Sdk"   # build-core.sh also finds it there by itself
+echo 'sdk.dir=C\:/Users/you/AppData/Local/Android/Sdk' > apps/android/local.properties   # gitignored
+npm install && npm run assets
+apps/android/scripts/build-core.sh --debug        # installs cargo-ndk on first use; slow the first time
+cd apps/android && ./gradlew :app:assembleDebug   # apps/android/app/build/outputs/apk/debug/
+```
+
+Don't run cargo and Gradle at the same time on a small machine; both are memory-hungry.
+
 ## Running the apps
 
 | App     | Command           |                                                                         |
