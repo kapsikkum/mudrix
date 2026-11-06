@@ -1,6 +1,7 @@
 package org.wizardchat.android.matrix
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
@@ -59,6 +60,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     var roomList by mutableStateOf<RoomListModel?>(null)
         private set
     var media: MediaLoader? = null
+        private set
+
+    /** The largest upload the homeserver takes, in bytes; [DEFAULT_UPLOAD_LIMIT] until it has been asked (or when it will not say) */
+    var uploadLimit by mutableLongStateOf(DEFAULT_UPLOAD_LIMIT)
         private set
 
     private var stored: StoredSession? = null
@@ -309,6 +314,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         val roomList = RoomListModel(client, scope)
         this.roomList = roomList
         media = MediaLoader(client)
+        uploadLimit = DEFAULT_UPLOAD_LIMIT
         subscriptions = listOf(
             client.watchSession { sessionChanged(it) },
             client.watchEncryptionStatus { encryption = it },
@@ -326,6 +332,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             roomList.start()
             encryption = runCatching { client.encryptionStatus() }.getOrNull()
             refreshProfile()
+            // The core asks the authenticated media config first and the legacy one only when the server lacks it
+            runCatching { client.serverCapabilities().uploadSize }.getOrNull()?.takeIf { it > 0 }?.let {
+                if (this@MatrixSession.client === client) uploadLimit = it
+            }
         }
         state = State.LoggedIn
     }
@@ -351,6 +361,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     }
 
     companion object {
+        /** What the web app assumes until the server says otherwise */
+        const val DEFAULT_UPLOAD_LIMIT = 15L * 1024 * 1024
         const val DEVICE_NAME = "WizardChat Android"
         const val CALLBACK_SCHEME = "org.wizardchat"
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"

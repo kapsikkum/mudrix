@@ -58,6 +58,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     account("settings.account.title", "user"),
     privacy("settings.privacy.title", "shield"),
     emojis("room.settings.emojis.title", "smiley-sticker"),
+    media("settings.media.title", "film-strip"),
     notifications("settings.notifications.title", "bell"),
     appearance("settings.appearance.title", "palette"),
     accessibility("settings.accessibility.title", "person-simple-circle"),
@@ -100,6 +101,7 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.account -> AccountSettings(pop)
             SettingsPageId.privacy -> PrivacySettings(pop)
             SettingsPageId.emojis -> EmojisSettings(pop)
+            SettingsPageId.media -> MediaSettings(pop)
             SettingsPageId.notifications -> NotificationSettingsPage(pop)
             SettingsPageId.appearance -> AppearanceSettings(pop)
             SettingsPageId.accessibility -> AccessibilitySettings(pop)
@@ -147,7 +149,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
                 SettingsDivider()
                 AccountSwitcher(onLogout = { if (!isTab) onDismiss?.invoke() })
             }
-            PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
+            PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis, SettingsPageId.media), open)
             PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
             PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))

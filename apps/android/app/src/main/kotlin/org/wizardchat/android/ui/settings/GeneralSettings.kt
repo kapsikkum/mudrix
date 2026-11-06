@@ -59,7 +59,6 @@ import org.wizardchat.android.matrix.AppPreferences
 import org.wizardchat.android.matrix.DateFormatStyle
 import org.wizardchat.android.matrix.Density
 import org.wizardchat.android.matrix.EmojiOnlySize
-import org.wizardchat.android.matrix.MediaVisibility
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.ReducedMotion
 import org.wizardchat.android.matrix.StreamerMode
@@ -378,18 +377,6 @@ internal fun PrivacySettings(onBack: () -> Unit) {
             )
             SettingsDivider()
             ToggleRow(tr("settings.readReceipts"), prefs.sendReadReceipts, { prefs.sendReadReceipts = it }, note = tr("settings.letOtherUsersKnow"))
-        }
-        SettingsSection(tr("settings.privacy.media")) {
-            PickerRow(
-                tr("settings.privacy.mediaVisibility"),
-                prefs.mediaVisibility,
-                listOf(
-                    MediaVisibility.always to tr("settings.privacy.mediaVisibilityAlways"),
-                    MediaVisibility.private to tr("settings.privacy.mediaVisibilityPrivate"),
-                    MediaVisibility.never to tr("settings.privacy.mediaVisibilityNever"),
-                ),
-                { prefs.mediaVisibility = it },
-            )
         }
         SettingsSection(tr("settings.privacy.streamer.title")) {
             PickerRow(

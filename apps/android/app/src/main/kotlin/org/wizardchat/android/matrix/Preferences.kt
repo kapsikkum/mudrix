@@ -17,6 +17,7 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
+import org.wizardchat.android.media.VideoPlan
 import org.wizardchat.android.ui.theme.CustomTheme
 import org.wizardchat.android.ui.theme.CustomThemes
 import org.wizardchat.android.ui.theme.Themes
@@ -34,6 +35,30 @@ interface JsonName {
 enum class TimeFormat(override val json: String) : JsonName { auto("auto"), h12("12h"), h24("24h") }
 enum class DateFormatStyle(override val json: String) : JsonName { long("long"), dmy("dmy"), mdy("mdy"), ymd("ymd") }
 enum class EmojiOnlySize(override val json: String) : JsonName { normal("normal"), large("large"), jumbo("jumbo") }
+
+/** Videos sent as they are, shrunk to fit a size (smart), or shrunk to one fixed resolution */
+enum class VideoUploadMode { original, smart, fixed }
+
+/** Short side, in pixels, a fixed-resolution upload is scaled to */
+enum class VideoUploadHeight(override val json: String, val pixels: Int) : JsonName { p1080("1080", 1080), p720("720", 720), p480("480", 480) }
+
+/** Size a smart upload aims for, in MB, or whatever the server allows */
+enum class VideoUploadTarget(override val json: String, val megabytes: Int?) : JsonName {
+    mb25("25", 25), mb50("50", 50), mb100("100", 100), server("server", null)
+}
+
+/** Videos smaller than this many MB are never re-encoded */
+enum class VideoUploadMinSize(override val json: String, val megabytes: Int) : JsonName {
+    mb10("10", 10), mb25("25", 25), mb50("50", 50), mb100("100", 100)
+}
+
+/** Longest side, in pixels, bigger photos are scaled down to before sending; null keeps them */
+enum class PhotoUploadSize(override val json: String, val maxSide: Int?) : JsonName {
+    original("original", null), px2560("2560", 2560), px1920("1920", 1920), px1280("1280", 1280)
+}
+
+/** YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all) */
+enum class YouTubeEmbeds { ask, on, off }
 
 /** Streamer mode: hide private details always, or only while this device shares its screen */
 enum class StreamerMode(override val json: String) : JsonName { off("off"), on("on"), auto("auto") }
@@ -116,6 +141,27 @@ class AppPreferences(context: Context) {
     var mediaVisibility by pref(enumPref("mediaVisibility", MediaVisibility.always), enumCodec<MediaVisibility>("mediaVisibility")) {
         putString("mediaVisibility", it.name)
     }
+    var videoUploadMode by pref(enumPref("videoUploadMode", VideoUploadMode.original), enumCodec<VideoUploadMode>("videoUploadMode")) {
+        putString("videoUploadMode", it.name)
+    }
+    var videoUploadHeight by pref(
+        jsonEnumPref("videoUploadHeight", VideoUploadHeight.entries, VideoUploadHeight.p720),
+        jsonEnumCodec("videoUploadHeight", VideoUploadHeight.entries),
+    ) { putString("videoUploadHeight", it.json) }
+    var videoUploadTarget by pref(
+        jsonEnumPref("videoUploadTarget", VideoUploadTarget.entries, VideoUploadTarget.mb50),
+        jsonEnumCodec("videoUploadTarget", VideoUploadTarget.entries),
+    ) { putString("videoUploadTarget", it.json) }
+    var videoUploadMinSize by pref(
+        jsonEnumPref("videoUploadMinSize", VideoUploadMinSize.entries, VideoUploadMinSize.mb25),
+        jsonEnumCodec("videoUploadMinSize", VideoUploadMinSize.entries),
+    ) { putString("videoUploadMinSize", it.json) }
+    var photoStripMetadata by pref(defaults.getBoolean("photoStripMetadata", false), boolCodec("photoStripMetadata")) { putBoolean("photoStripMetadata", it) }
+    var photoUploadSize by pref(
+        jsonEnumPref("photoUploadSize", PhotoUploadSize.entries, PhotoUploadSize.original),
+        jsonEnumCodec("photoUploadSize", PhotoUploadSize.entries),
+    ) { putString("photoUploadSize", it.json) }
+    var youtubeEmbeds by pref(enumPref("youtubeEmbeds", YouTubeEmbeds.ask), enumCodec<YouTubeEmbeds>("youtubeEmbeds")) { putString("youtubeEmbeds", it.name) }
     var timeFormat by pref(jsonEnumPref("timeFormat", TimeFormat.entries, TimeFormat.auto), jsonEnumCodec("timeFormat", TimeFormat.entries)) {
         putString("timeFormat", it.json)
     }
@@ -149,6 +195,15 @@ class AppPreferences(context: Context) {
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }
+
+    /** The video options in the form [VideoPlan] plans with */
+    fun videoUploadPrefs(): VideoPlan.UploadPrefs = VideoPlan.UploadPrefs(
+        mode = VideoPlan.Mode.valueOf(videoUploadMode.name),
+        height = videoUploadHeight.pixels,
+        // Without a size the server limit is the target; smartMaxBytes caps it anyway
+        targetBytes = videoUploadTarget.megabytes?.let { it * 1024L * 1024 } ?: Long.MAX_VALUE,
+        minBytes = videoUploadMinSize.megabytes * 1024L * 1024,
+    )
 
     /** The theme in use: the chosen one, or the one for the system's light or dark mode when following it */
     fun effectiveThemeName(systemDark: Boolean): String = when {
