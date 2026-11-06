@@ -216,7 +216,7 @@ impl WizardClient {
 }
 
 /// Starts the download of an `mxc://` file from the homeserver; `None` when it can't be started
-/// this way (the caller then uses the SDK, which also refreshes an expired token).
+/// this way (the caller then uses the SDK).
 async fn open_download(
     client: &Client,
     uri: &MxcUri,
@@ -230,15 +230,26 @@ async fn open_download(
         .ok()?
         .pop_if_empty()
         .extend(download_path(authenticated, server.as_str(), media_id));
-    let mut request = reqwest::Client::new().get(url);
-    if authenticated {
-        request = request.bearer_auth(client.access_token()?);
+    for attempt in 0..2 {
+        let mut request = reqwest::Client::new().get(url.clone());
+        if authenticated {
+            request = request.bearer_auth(client.access_token()?);
+        }
+        if let Some(length) = range {
+            request = request.header(reqwest::header::RANGE, range_header(length));
+        }
+        let response = request.send().await.ok()?;
+        if response.status().is_success() {
+            return Some(response);
+        }
+        // An expired token: any request of the SDK's own refreshes it, then try again
+        if attempt == 0 && response.status() == reqwest::StatusCode::UNAUTHORIZED {
+            let _ = client.whoami().await;
+            continue;
+        }
+        return None;
     }
-    if let Some(length) = range {
-        request = request.header(reqwest::header::RANGE, range_header(length));
-    }
-    let response = request.send().await.ok()?;
-    response.status().is_success().then_some(response)
+    None
 }
 
 #[cfg(test)]
