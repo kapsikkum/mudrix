@@ -180,6 +180,7 @@ export function ThreadListPanel({
   return (
     <aside
       data-swipe-back="panel"
+      data-swipe-drawer="right"
       className={`${panelCss.sidePanel}${className ? ` ${className}` : ''}${expanded ? ` ${panelCss.sidePanelExpanded}` : ''}`}
       aria-label={t('timeline.threads')}
       style={isDesktop && !expanded ? { width: `${threadPanelWidth}px` } : undefined}

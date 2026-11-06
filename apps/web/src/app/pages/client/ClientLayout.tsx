@@ -43,6 +43,9 @@ import { TitleBar, TitleBarSearch } from '@/app/components/TitleBar';
 import { Inbox, MobileInboxPage } from '@/app/features/inbox';
 import { MobileSettingsHome } from '@/app/features/settings/MobileSettingsHome';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { ListIcon } from '@phosphor-icons/react';
+import { TABLET_QUERY } from '@/const/breakpoints';
+import { SWIPE_DRAWER_ATTR, SWIPE_SCRIM_ATTR, useSwipePanels } from '@/app/hooks/useSwipePanels';
 import { useEdgeSwipeBack, useLongPressContextMenu } from '@/app/hooks/useTouchGestures';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
 import { AccountSwitchGuard } from '@/app/components/AccountSwitchGuard';
@@ -472,11 +475,29 @@ export function ClientLayout() {
   useLongPressContextMenu(touchFirst);
   useEdgeSwipeBack(touchFirst && isMobile);
   const mobileListOpen = useMobileListOpen();
+  // Touch tablets keep the title bar and the chat's width: the sidebar is a drawer there.
+  const isTablet = useMediaQuery(TABLET_QUERY);
+  const drawerOpen = useAtomValue(mobileDrawerOpenAtom);
+  const tabletDrawerOpen = isTablet && drawerOpen;
+  useSwipePanels({
+    enabled: touchFirst && (isMobile || isTablet),
+    leftDrawer: isTablet,
+    leftOpen: tabletDrawerOpen,
+    setLeftOpen: setDrawerOpen,
+    canOpenRight:
+      !mobileListOpen &&
+      !!sidebarRoomId &&
+      !membersPanelVisible &&
+      !threadsPanelView &&
+      !roomChatOpen,
+    openRight: () => setMembersVisible(true),
+    leftEdgeOwned: isMobile,
+  });
   const inboxOpen = useAtomValue(inboxOpenAtom);
   const youOpen = useAtomValue(mobileYouOpenAtom);
   const sidebarClass = [
     css.sidebar,
-    mobileListOpen ? css.sidebarOpen : null,
+    mobileListOpen || tabletDrawerOpen ? css.sidebarOpen : null,
     sidebarView !== 'space' ? css.sidebarNoRail : null,
   ]
     .filter(Boolean)
@@ -491,6 +512,17 @@ export function ClientLayout() {
         <div className={css.appFrame}>
           {!isMobile && (
             <TitleBar
+              start={
+                <button
+                  type="button"
+                  className={css.titleBarMenuBtn}
+                  aria-label={t('room.navigation')}
+                  aria-expanded={tabletDrawerOpen}
+                  onClick={() => setDrawerOpen((open) => !open)}
+                >
+                  <ListIcon size={18} />
+                </button>
+              }
               center={<TitleBarSearch />}
               end={
                 <>
@@ -503,7 +535,12 @@ export function ClientLayout() {
           )}
           <div className={css.appShell}>
             {/* Sidebar: spaces column + room list panel */}
-            <nav aria-label={t('room.navigation')} className={sidebarClass} data-swipe-back-reveal>
+            <nav
+              aria-label={t('room.navigation')}
+              className={sidebarClass}
+              data-swipe-back-reveal
+              {...{ [SWIPE_DRAWER_ATTR]: 'left' }}
+            >
               <SpacesList
                 sidebarView={sidebarView}
                 currentSpaceId={currentSpaceId}
@@ -511,6 +548,15 @@ export function ClientLayout() {
               />
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
+            {tabletDrawerOpen && (
+              <div
+                className={css.panelDrawerOverlay}
+                role="presentation"
+                data-back-dismiss
+                {...{ [SWIPE_SCRIM_ATTR]: 'left' }}
+                onClick={() => setDrawerOpen(false)}
+              />
+            )}
             {mobileListOpen && youOpen && (
               <div className={css.mobileInbox}>
                 <MobileSettingsHome />
@@ -556,6 +602,7 @@ export function ClientLayout() {
                 className={css.membersDrawerOverlay}
                 role="presentation"
                 data-back-dismiss
+                {...{ [SWIPE_SCRIM_ATTR]: 'right' }}
                 onClick={() => setMembersVisible(false)}
               />
             )}
@@ -586,6 +633,7 @@ export function ClientLayout() {
                   className={css.drawerOverlay}
                   role="presentation"
                   data-back-dismiss
+                  {...{ [SWIPE_SCRIM_ATTR]: 'right' }}
                   onClick={closeThreads}
                 />
               </>
@@ -603,6 +651,7 @@ export function ClientLayout() {
                   className={css.drawerOverlay}
                   role="presentation"
                   data-back-dismiss
+                  {...{ [SWIPE_SCRIM_ATTR]: 'right' }}
                   onClick={closeRoomChatPanel}
                 />
               </>

@@ -39,6 +39,7 @@ export function VoiceRoomChatPanel({
   return (
     <aside
       data-swipe-back="panel"
+      data-swipe-drawer="right"
       className={`${panelCss.sidePanel}${className ? ` ${className}` : ''}`}
       aria-label={t('room.openChat')}
       style={isDesktop ? { width: `${threadPanelWidth}px` } : undefined}

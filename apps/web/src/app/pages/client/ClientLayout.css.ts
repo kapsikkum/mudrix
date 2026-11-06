@@ -1,6 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
+import { PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
+import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { spacesList } from './SpacesList.css';
 import { bottomDock, roomList } from './RoomListPanel.css';
 import { NATIVE_TAB_BAR, TAB_BAR_HEIGHT } from './MobileTabBar.css';
@@ -50,6 +52,19 @@ export const sidebar = style({
       transform: 'translateX(-100%)',
       transition: `transform ${med} ease`,
     },
+    // Touch tablets: the sidebar is a drawer under the title bar (a menu button there opens it)
+    // instead of taking a third of the screen from the chat.
+    [TABLET_QUERY]: {
+      position: 'fixed',
+      left: 'env(safe-area-inset-left)',
+      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
+      bottom: 'env(safe-area-inset-bottom)',
+      height: 'auto',
+      zIndex: 5000,
+      backgroundColor: vars.color.bgPrimary,
+      transform: 'translateX(-100%)',
+      transition: `transform ${med} ease`,
+    },
   },
 });
 
@@ -66,6 +81,10 @@ export const sidebarOpen = style({
     '(max-width: 768px)': {
       transform: 'translateX(0)',
     },
+    [TABLET_QUERY]: {
+      transform: 'translateX(0)',
+      boxShadow: '8px 0 32px rgba(0, 0, 0, 0.35)',
+    },
   },
 });
 
@@ -80,7 +99,7 @@ export const mainContent = style({
 
 export const mainContentHidden = style({
   '@media': {
-    '(min-width: 769px)': {
+    '(min-width: 769px) and (pointer: fine), (min-width: 1101px)': {
       display: 'none',
     },
   },
@@ -92,10 +111,11 @@ export const homeLayout = style({
   minHeight: 0,
 });
 
+// Behind the tablet sidebar drawer.
 export const panelDrawerOverlay = style({
   display: 'none',
   '@media': {
-    '(max-width: 768px)': {
+    [TABLET_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,
@@ -108,7 +128,7 @@ export const panelDrawerOverlay = style({
 export const membersDrawerOverlay = style({
   display: 'none',
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,
@@ -121,13 +141,34 @@ export const membersDrawerOverlay = style({
 export const drawerOverlay = style({
   display: 'none',
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,
       backgroundColor: 'rgba(0,0,0,0.5)',
       zIndex: 4999,
     },
+  },
+});
+
+// Opens the sidebar drawer; only touch tablets need it (phones have the mobile header, desktops
+// keep the sidebar open).
+export const titleBarMenuBtn = style({
+  display: 'none',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '36px',
+  height: '32px',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  backgroundColor: 'transparent',
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+  '@media': {
+    [TABLET_QUERY]: { display: 'flex' },
+  },
+  selectors: {
+    '&:active': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
   },
 });
 

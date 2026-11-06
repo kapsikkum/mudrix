@@ -1,4 +1,6 @@
 import { style } from '@vanilla-extract/css';
+import { TABLET_QUERY } from '@/const/breakpoints';
+import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { vars } from '@/theme/vars.css';
 import { med, slideInRight } from '@/theme/animations.css';
 
@@ -23,6 +25,22 @@ const base = {
       transform: 'translateX(100%)',
       transition: `transform ${med} ease`,
     },
+    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
+    [TABLET_QUERY]: {
+      position: 'fixed',
+      left: 'auto',
+      right: 'env(safe-area-inset-right)',
+      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
+      bottom: 'env(safe-area-inset-bottom)',
+      width: '360px !important',
+      minWidth: 0,
+      flex: '0 0 auto',
+      padding: 'initial',
+      borderLeft: `1px solid ${vars.color.border}`,
+      zIndex: 5000,
+      transform: 'translateX(100%)',
+      transition: `transform ${med} ease`,
+    },
   },
 } as const;
 
@@ -36,6 +54,22 @@ export const sidePanelOpen = style({
       right: 'env(safe-area-inset-right)',
       top: 'env(safe-area-inset-top)',
       bottom: 'env(safe-area-inset-bottom)',
+      zIndex: 5000,
+      transform: 'translateX(0)',
+      animation: `${slideInRight} ${med} ease`,
+    },
+    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
+    [TABLET_QUERY]: {
+      position: 'fixed',
+      left: 'auto',
+      right: 'env(safe-area-inset-right)',
+      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
+      bottom: 'env(safe-area-inset-bottom)',
+      width: '360px !important',
+      minWidth: 0,
+      flex: '0 0 auto',
+      padding: 'initial',
+      borderLeft: `1px solid ${vars.color.border}`,
       zIndex: 5000,
       transform: 'translateX(0)',
       animation: `${slideInRight} ${med} ease`,

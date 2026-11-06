@@ -1,6 +1,7 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { TABLET_QUERY } from '@/const/breakpoints';
 
 export const TITLE_BAR_HEIGHT = 40;
 
@@ -51,7 +52,13 @@ export const titleBar = style({
   },
   '@media': {
     '(max-width: 768px)': { display: 'none' },
+    // The sidebar is a drawer here, so the bar has no space column to curve around.
+    [TABLET_QUERY]: { paddingLeft: '4px' },
   },
+});
+globalStyle(`${titleBar}::before`, { '@media': { [TABLET_QUERY]: { display: 'none' } } });
+globalStyle(`${titleBar}::after`, {
+  '@media': { [TABLET_QUERY]: { left: 0, borderLeft: 'none', borderTopLeftRadius: 0 } },
 });
 
 export const titleBarFixed = style([
@@ -67,6 +74,13 @@ export const titleBarFixed = style([
     '::after': { display: 'none' },
   },
 ]);
+
+export const start = style({
+  ...noDrag,
+  display: 'flex',
+  alignItems: 'center',
+  marginRight: 'auto',
+});
 
 export const center = style({
   ...noDrag,

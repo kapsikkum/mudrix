@@ -11,14 +11,16 @@ import { WindowControls } from './WindowControls';
 import * as css from './TitleBar.css';
 
 interface TitleBarProps {
+  start?: ReactNode;
   center?: ReactNode;
   end?: ReactNode;
   fixed?: boolean;
 }
 
-export function TitleBar({ center, end, fixed }: TitleBarProps) {
+export function TitleBar({ start, center, end, fixed }: TitleBarProps) {
   return (
     <header className={fixed ? css.titleBarFixed : css.titleBar} data-tauri-drag-region>
+      {start && <div className={css.start}>{start}</div>}
       {center && (
         <div className={css.center} data-global-search-anchor>
           {center}

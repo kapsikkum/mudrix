@@ -335,6 +335,7 @@ export function ThreadPanel({
   return (
     <aside
       data-swipe-back="panel"
+      data-swipe-drawer="right"
       className={`${css.threadPanel}${className ? ` ${className}` : ''}${expanded ? ` ${css.threadPanelExpanded}` : ''}`}
       aria-label={t('timeline.threadPanel')}
       style={isDesktop && !expanded ? { width: `${threadPanelWidth}px` } : undefined}
