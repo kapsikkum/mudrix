@@ -1,5 +1,5 @@
 import { createReadStream, existsSync, readFileSync, readdirSync } from 'node:fs';
-import { basename, join } from 'node:path';
+import { basename, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -21,21 +21,27 @@ function versionFilePlugin(): Plugin {
   };
 }
 
-// The shared sounds (packages/sounds/raw) at /assets/sounds/<name>.wav: served in dev, copied into builds
+// The shared sounds (packages/sounds/raw) at /assets/sounds/<name>.<wav|mp3|ogg>: served in dev, copied into builds
 const soundsDir = fileURLToPath(new URL('../../packages/sounds/raw/', import.meta.url));
+const SOUND_TYPES: Record<string, string> = {
+  '.wav': 'audio/wav',
+  '.mp3': 'audio/mpeg',
+  '.ogg': 'audio/ogg',
+};
 function soundsPlugin(): Plugin {
   return {
     name: 'shared-sounds',
     configureServer(server) {
       server.middlewares.use('/assets/sounds', (req, res, next) => {
         const file = join(soundsDir, basename(decodeURIComponent((req.url ?? '').split('?')[0])));
-        if (!file.endsWith('.wav') || !existsSync(file)) return next();
-        res.setHeader('Content-Type', 'audio/wav');
+        const type = SOUND_TYPES[extname(file)];
+        if (!type || !existsSync(file)) return next();
+        res.setHeader('Content-Type', type);
         createReadStream(file).pipe(res);
       });
     },
     generateBundle() {
-      for (const file of readdirSync(soundsDir).filter((name) => name.endsWith('.wav'))) {
+      for (const file of readdirSync(soundsDir).filter((name) => extname(name) in SOUND_TYPES)) {
         this.emitFile({
           type: 'asset',
           fileName: `assets/sounds/${file}`,
