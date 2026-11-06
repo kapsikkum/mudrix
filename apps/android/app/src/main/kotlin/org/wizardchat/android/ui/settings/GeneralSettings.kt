@@ -56,10 +56,14 @@ import java.util.Date
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.AppPreferences
+import org.wizardchat.android.matrix.DateFormatStyle
 import org.wizardchat.android.matrix.Density
+import org.wizardchat.android.matrix.EmojiOnlySize
 import org.wizardchat.android.matrix.MediaVisibility
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.ReducedMotion
+import org.wizardchat.android.matrix.StreamerMode
+import org.wizardchat.android.matrix.TimeFormat
 import org.wizardchat.android.matrix.deviceId
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.PhIcon
@@ -125,10 +129,11 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             }
             SettingsDivider()
             PickerRow(
-                tr("settings.appearance.messageLayout"),
+                tr("settings.appearance.messageLayoutMobile"),
                 prefs.messageLayout,
                 listOf(MessageLayout.modern to tr("settings.appearance.modern"), MessageLayout.classic to tr("settings.appearance.classic")),
                 { prefs.messageLayout = it },
+                note = tr("settings.appearance.messageLayoutMobileNote"),
             )
             SettingsDivider()
             SettingsItem {
@@ -191,6 +196,52 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             )
             SettingsDivider()
             ToggleRow(tr("settings.appearance.showRoomAvatars"), prefs.showRoomAvatars, { prefs.showRoomAvatars = it })
+        }
+
+        SettingsSection {
+            PickerRow(
+                tr("settings.appearance.timeFormat"),
+                prefs.timeFormat,
+                listOf(
+                    TimeFormat.auto to tr("settings.appearance.timeFormatAuto"),
+                    TimeFormat.h12 to tr("settings.appearance.timeFormat12h"),
+                    TimeFormat.h24 to tr("settings.appearance.timeFormat24h"),
+                ),
+                { prefs.timeFormat = it },
+            )
+            SettingsDivider()
+            PickerRow(
+                tr("settings.appearance.dateFormat"),
+                prefs.dateFormat,
+                listOf(
+                    DateFormatStyle.long to tr("settings.appearance.dateFormatLong"),
+                    DateFormatStyle.dmy to tr("settings.appearance.dateFormatDmy"),
+                    DateFormatStyle.mdy to tr("settings.appearance.dateFormatMdy"),
+                    DateFormatStyle.ymd to tr("settings.appearance.dateFormatYmd"),
+                ),
+                { prefs.dateFormat = it },
+            )
+        }
+
+        SettingsSection(tr("settings.appearance.emoji")) {
+            PickerRow(
+                tr("settings.appearance.emojiOnlySize"),
+                prefs.emojiOnlySize,
+                listOf(
+                    EmojiOnlySize.normal to tr("settings.appearance.emojiOnlySizeNormal"),
+                    EmojiOnlySize.large to tr("settings.appearance.emojiOnlySizeLarge"),
+                    EmojiOnlySize.jumbo to tr("settings.appearance.emojiOnlySizeJumbo"),
+                ),
+                { prefs.emojiOnlySize = it },
+                note = tr("settings.appearance.emojiOnlySizeNote"),
+            )
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.emoticonsToEmoji"),
+                prefs.emoticonsToEmoji,
+                { prefs.emoticonsToEmoji = it },
+                note = tr("settings.appearance.emoticonsToEmojiNote"),
+            )
         }
     }
 }
@@ -338,6 +389,19 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                     MediaVisibility.never to tr("settings.privacy.mediaVisibilityNever"),
                 ),
                 { prefs.mediaVisibility = it },
+            )
+        }
+        SettingsSection(tr("settings.privacy.streamer.title")) {
+            PickerRow(
+                tr("settings.privacy.streamer.mode"),
+                prefs.streamerMode,
+                listOf(
+                    StreamerMode.off to tr("settings.privacy.streamer.off"),
+                    StreamerMode.auto to tr("settings.privacy.streamer.auto"),
+                    StreamerMode.on to tr("settings.privacy.streamer.on"),
+                ),
+                { prefs.streamerMode = it },
+                note = tr("settings.privacy.streamer.note"),
             )
         }
         SettingsSection(tr("settings.privacy.other")) {

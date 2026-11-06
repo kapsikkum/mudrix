@@ -26,6 +26,18 @@ enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
 enum class MediaVisibility { always, private, never }
 
+/** An enum whose synced value is not its Kotlin name (`12h` cannot be one) */
+interface JsonName {
+    val json: String
+}
+
+enum class TimeFormat(override val json: String) : JsonName { auto("auto"), h12("12h"), h24("24h") }
+enum class DateFormatStyle(override val json: String) : JsonName { long("long"), dmy("dmy"), mdy("mdy"), ymd("ymd") }
+enum class EmojiOnlySize(override val json: String) : JsonName { normal("normal"), large("large"), jumbo("jumbo") }
+
+/** Streamer mode: hide private details always, or only while this device shares its screen */
+enum class StreamerMode(override val json: String) : JsonName { off("off"), on("on"), auto("auto") }
+
 /**
  * Settings on this device. Most of them sync with the other Mudrix apps through account data
  * ([SettingsSync]): a setting with a [Codec] is part of the synced event under that key.
@@ -104,6 +116,20 @@ class AppPreferences(context: Context) {
     var mediaVisibility by pref(enumPref("mediaVisibility", MediaVisibility.always), enumCodec<MediaVisibility>("mediaVisibility")) {
         putString("mediaVisibility", it.name)
     }
+    var timeFormat by pref(jsonEnumPref("timeFormat", TimeFormat.entries, TimeFormat.auto), jsonEnumCodec("timeFormat", TimeFormat.entries)) {
+        putString("timeFormat", it.json)
+    }
+    var dateFormat by pref(jsonEnumPref("dateFormat", DateFormatStyle.entries, DateFormatStyle.long), jsonEnumCodec("dateFormat", DateFormatStyle.entries)) {
+        putString("dateFormat", it.json)
+    }
+    var emojiOnlySize by pref(jsonEnumPref("emojiOnlySize", EmojiOnlySize.entries, EmojiOnlySize.large), jsonEnumCodec("emojiOnlySize", EmojiOnlySize.entries)) {
+        putString("emojiOnlySize", it.json)
+    }
+    var emoticonsToEmoji by pref(defaults.getBoolean("emoticonsToEmoji", true), boolCodec("emoticonsToEmoji")) { putBoolean("emoticonsToEmoji", it) }
+
+    // Whether this device is being streamed is a fact about this device, so it is not synced
+    var streamerMode by pref(jsonEnumPref("streamerMode", StreamerMode.entries, StreamerMode.auto)) { putString("streamerMode", it.json) }
+
     var showPresence by pref(defaults.getBoolean("showPresence", false), boolCodec("showPresence")) { putBoolean("showPresence", it) }
     var notificationSounds by pref(defaults.getBoolean("notificationSounds", true), boolCodec("notificationSounds")) { putBoolean("notificationSounds", it) }
     var notificationBanners by pref(defaults.getBoolean("notificationBanners", true)) { putBoolean("notificationBanners", it) }
@@ -130,6 +156,10 @@ class AppPreferences(context: Context) {
         systemDark -> systemDarkTheme
         else -> systemLightTheme
     }
+
+    /** Whether streamer mode hides private details now: always when chosen, or "auto" while this device shares its screen */
+    fun streamerModeActive(screenSharing: Boolean): Boolean =
+        streamerMode == StreamerMode.on || (streamerMode == StreamerMode.auto && screenSharing)
 
     val chatScale: Float get() = chatFontSize / DEFAULT_CHAT_FONT_SIZE
 
@@ -201,6 +231,15 @@ class AppPreferences(context: Context) {
         { json -> (json as? JsonPrimitive)?.takeIf { it.isString }?.content?.takeIf(Themes::isValidName) },
         topLevel,
     )
+
+    private fun <E> jsonEnumCodec(key: String, entries: List<E>) where E : Enum<E>, E : JsonName = Codec<E>(
+        key,
+        { JsonPrimitive(it.json) },
+        { json -> (json as? JsonPrimitive)?.takeIf { it.isString }?.content?.let { raw -> entries.firstOrNull { it.json == raw } } },
+    )
+
+    private fun <E> jsonEnumPref(key: String, entries: List<E>, fallback: E): E where E : Enum<E>, E : JsonName =
+        defaults.getString(key, null)?.let { raw -> entries.firstOrNull { it.json == raw } } ?: fallback
 
     private fun numberCodec(key: String, range: ClosedFloatingPointRange<Float>) = Codec<Float>(
         key,

@@ -97,7 +97,9 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.Emoticons
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.Emoji
 import org.wizardchat.android.matrix.MediaMetadata
@@ -151,6 +153,7 @@ fun ComposerView(
     threadRoot: String? = null,
 ) {
     val session = LocalSession.current
+    val prefs = LocalPrefs.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
@@ -307,6 +310,7 @@ fun ComposerView(
     }
 
     suspend fun send(message: String, reply: String?) {
+        val message = if (prefs.emoticonsToEmoji) Emoticons.replaceInMessage(message) else message
         val html = richHtml(message, usedEmotes, mentions)
         usedEmotes.clear()
         mentions.clear()

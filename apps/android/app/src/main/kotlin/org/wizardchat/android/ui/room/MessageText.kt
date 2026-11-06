@@ -18,6 +18,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.matrix.DisplayFormats
+import org.wizardchat.android.matrix.TimeFormat
 
 /** Links and spoilers in message text */
 object MessageText {
@@ -117,19 +119,33 @@ internal val LocalAnimatesMedia = compositionLocalOf { false }
 internal object Formats {
     private val zone get() = ZoneId.systemDefault()
     private val locale get() = Locale.getDefault()
+    private val prefs get() = WizardApplication.instance.prefs
 
-    fun time(instant: Instant): String =
-        DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale).format(instant.atZone(zone))
+    /** "14:05" or "2:05 PM", as the time format setting says (the device's own by default) */
+    fun time(instant: Instant): String {
+        val time = instant.atZone(zone)
+        val skeleton = when (prefs.timeFormat) {
+            TimeFormat.auto -> return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale).format(time)
+            TimeFormat.h12 -> "hm"
+            TimeFormat.h24 -> "Hm"
+        }
+        return DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, skeleton), locale).format(time)
+    }
+
+    /** The date in the numeric form the date format setting asks for, or null for the localised one */
+    private fun numericDate(instant: Instant): String? = DisplayFormats.numericDate(instant.atZone(zone).toLocalDate(), prefs.dateFormat)
 
     fun abbreviatedDate(instant: Instant): String =
-        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale).format(instant.atZone(zone))
+        numericDate(instant) ?: DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale).format(instant.atZone(zone))
 
     fun abbreviatedDateTime(instant: Instant): String =
-        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT).withLocale(locale).format(instant.atZone(zone))
+        numericDate(instant)?.let { "$it ${time(instant)}" }
+            ?: DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT).withLocale(locale).format(instant.atZone(zone))
 
     /** "October 31, 2026" */
     fun longDate(instant: Instant): String =
-        DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "MMMMdy"), locale).format(instant.atZone(zone))
+        numericDate(instant)
+            ?: DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "MMMMdy"), locale).format(instant.atZone(zone))
 
     fun isToday(instant: Instant): Boolean = instant.atZone(zone).toLocalDate() == LocalDate.now(zone)
 

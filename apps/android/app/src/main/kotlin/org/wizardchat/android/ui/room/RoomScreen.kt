@@ -100,6 +100,8 @@ import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.Emoji
+import org.wizardchat.android.matrix.DisplayFormats
+import org.wizardchat.android.matrix.EmojiOnlySize
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.PacksStore
@@ -932,6 +934,17 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
         is ChatEntry.Kind.Message -> {
             val linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor
             val body = if (kind.isEmote) "* ${entry.senderName} ${kind.body}" else kind.body
+            // Messages of only emoji are shown larger, like on the web
+            val emojiSize = if (!kind.isEmote && DisplayFormats.isOnlyEmoji(body)) {
+                when (prefs.emojiOnlySize) {
+                    EmojiOnlySize.normal -> null
+                    EmojiOnlySize.large -> 40f
+                    EmojiOnlySize.jumbo -> 56f
+                }
+            } else {
+                null
+            }
+            val textStyle = if (emojiSize == null) style else wizardFont((emojiSize * scale).sp).copy(lineHeight = (emojiSize * scale * 1.2f).sp)
             val text = MessageText.attributed(
                 body,
                 prefs.prettifyLinks,
@@ -953,7 +966,7 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
                 Modifier
                     .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
                     .then(if (hint != null) Modifier.semantics { contentDescription = "${text.text} $hint" } else Modifier),
-                style = style,
+                style = textStyle,
                 color = if (kind.isNotice) theme.textMuted else theme.textPrimary,
             )
         }
