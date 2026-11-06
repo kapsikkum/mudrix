@@ -31,6 +31,28 @@ export function getReactionSenderIds(events: EventEntry[], key: string): string[
   return senders;
 }
 
+export interface ReactionSender {
+  userId: string;
+  name: string;
+  avatarMxc: string | null;
+}
+
+/** Who reacted with `key`, once each, in the order the reactions arrived. */
+export function getReactionSenders(
+  events: EventEntry[],
+  key: string,
+  memberOf: (userId: string) => { displayName: string | null; avatarUrl: string | null } | undefined
+): ReactionSender[] {
+  return getReactionSenderIds(events, key).map((userId) => {
+    const member = memberOf(userId);
+    return {
+      userId,
+      name: member?.displayName ?? formatUserId(userId),
+      avatarMxc: member?.avatarUrl ?? null,
+    };
+  });
+}
+
 export function getReactionSenderNames(
   events: EventEntry[],
   key: string,

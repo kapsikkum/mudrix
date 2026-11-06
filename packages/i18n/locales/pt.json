@@ -1024,6 +1024,25 @@
       "friendsHeading": "Atividade dos amigos",
       "whatsNewHeading": "Novidades",
       "readAll": "Ler tudo"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} mensagem não pôde ser descriptografada",
+      "group_other": "{{count}} mensagens não puderam ser descriptografadas",
+      "showAll": "Mostrar mensagens",
+      "collapse": "Recolher",
+      "howToFix": "Como resolver",
+      "verifySession": "Verificar esta sessão",
+      "help": {
+        "notJoined": "Você não estava nesta sala quando a mensagem foi enviada, e as salas não compartilham o histórico anterior por padrão. Não há nada a recuperar neste dispositivo.",
+        "withheld": "O dispositivo do remetente deliberadamente não compartilhou a chave com este dispositivo. Peça para ele reenviar a mensagem.",
+        "senderUntrusted": "Por segurança, mensagens de remetentes cuja identidade ou dispositivo não podem ser confiáveis não são exibidas. Verifique o remetente ou peça para ele reenviar.",
+        "unverified": "Esta sessão é nova, então não tem as chaves das mensagens enviadas antes de ela entrar. Digite sua chave de recuperação ou verifique esta sessão a partir de uma das suas outras sessões; depois, seu histórico será restaurado do backup de chaves.",
+        "noBackup": "A cópia de segurança das chaves está desligada nesta conta, por isso as mensagens enviadas antes de esta sessão começar só podem ser lidas em sessões que já têm as suas chaves. As mensagens novas não são afetadas.",
+        "waiting": "Esta sessão está verificada, por isso pede a chave às suas outras sessões por si só. Abra o Mudrix numa delas e a mensagem deverá desbloquear."
+      },
+      "historyPaused": "Este dispositivo ainda não consegue ler as mensagens anteriores",
+      "historyPausedReason": "As mensagens antigas desta sala não podem ser descriptografadas nesta sessão, por isso não são mais carregadas automaticamente. Você ainda pode carregar mais manualmente.",
+      "loadOlder": "Carregar mensagens anteriores"
     }
   },
   "attachment": {

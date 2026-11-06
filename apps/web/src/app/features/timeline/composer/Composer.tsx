@@ -185,7 +185,19 @@ export function Composer({
     onDroppedFileConsumed,
   });
 
+  // The send button only shows once there is something to send; the tools it replaces come back
+  // when the box is cleared.
+  const hasContent = !(isEmpty && attachments.length === 0);
+
   const [popoverStyle, setPopoverStyle] = useState<React.CSSProperties>({});
+
+  // Opening the docked picker puts the keyboard away: the picker takes its place.
+  useEffect(() => {
+    if (!pickerDocked || !mediaPickerOpen) return;
+    if (document.activeElement instanceof HTMLElement && ReactEditor.isFocused(editor)) {
+      document.activeElement.blur();
+    }
+  }, [pickerDocked, mediaPickerOpen, editor]);
 
   const inCall = useAtomValue(isInCallAtom);
   const keybinds = useAtomValue(keybindsAtom);
@@ -409,77 +421,83 @@ export function Composer({
                     </button>
                   </Tooltip>
 
-                  <Tooltip content={t('composer.stickers')}>
-                    <button
-                      type="button"
-                      className={stickerActive ? css.emojiBtnActive : css.emojiBtn}
-                      aria-label={t('composer.stickers')}
-                      aria-pressed={stickerActive}
-                      onClick={() => {
-                        if (stickerActive) {
-                          setMediaPickerOpen(false);
-                        } else {
-                          setMediaPickerTab('sticker');
-                          setMediaPickerOpen(true);
-                        }
-                      }}
-                    >
-                      <StickerIcon size={20} weight={stickerActive ? 'fill' : 'regular'} />
-                    </button>
-                  </Tooltip>
+                  {!hasContent && (
+                    <>
+                      <Tooltip content={t('composer.stickers')}>
+                        <button
+                          type="button"
+                          className={stickerActive ? css.emojiBtnActive : css.emojiBtn}
+                          aria-label={t('composer.stickers')}
+                          aria-pressed={stickerActive}
+                          onClick={() => {
+                            if (stickerActive) {
+                              setMediaPickerOpen(false);
+                            } else {
+                              setMediaPickerTab('sticker');
+                              setMediaPickerOpen(true);
+                            }
+                          }}
+                        >
+                          <StickerIcon size={20} weight={stickerActive ? 'fill' : 'regular'} />
+                        </button>
+                      </Tooltip>
 
-                  <Tooltip content={t('composer.gif')}>
-                    <button
-                      type="button"
-                      className={gifActive ? css.emojiBtnActive : css.emojiBtn}
-                      aria-label={t('composer.gif')}
-                      aria-pressed={gifActive}
-                      onClick={() => {
-                        if (gifActive) {
-                          setMediaPickerOpen(false);
-                        } else {
-                          setMediaPickerTab('gif');
-                          setMediaPickerOpen(true);
-                        }
-                      }}
-                    >
-                      <GifIcon size={20} weight="bold" />
-                    </button>
-                  </Tooltip>
+                      <Tooltip content={t('composer.gif')}>
+                        <button
+                          type="button"
+                          className={gifActive ? css.emojiBtnActive : css.emojiBtn}
+                          aria-label={t('composer.gif')}
+                          aria-pressed={gifActive}
+                          onClick={() => {
+                            if (gifActive) {
+                              setMediaPickerOpen(false);
+                            } else {
+                              setMediaPickerTab('gif');
+                              setMediaPickerOpen(true);
+                            }
+                          }}
+                        >
+                          <GifIcon size={20} weight="bold" />
+                        </button>
+                      </Tooltip>
 
-                  <Tooltip content={t('composer.moreOptions')}>
-                    <button
-                      type="button"
-                      className={moreOpen ? css.moreBtnActive : css.moreBtn}
-                      aria-label={t('composer.moreOptions')}
-                      aria-haspopup="menu"
-                      aria-expanded={moreOpen}
-                      onClick={openMoreMenu}
-                      onKeyDown={(e) => {
-                        if (!isMenuOpenKey(e)) return;
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openMoreMenu(e);
-                      }}
-                    >
-                      <DotsThreeVerticalIcon size={20} weight="bold" />
-                    </button>
-                  </Tooltip>
+                      <Tooltip content={t('composer.moreOptions')}>
+                        <button
+                          type="button"
+                          className={moreOpen ? css.moreBtnActive : css.moreBtn}
+                          aria-label={t('composer.moreOptions')}
+                          aria-haspopup="menu"
+                          aria-expanded={moreOpen}
+                          onClick={openMoreMenu}
+                          onKeyDown={(e) => {
+                            if (!isMenuOpenKey(e)) return;
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openMoreMenu(e);
+                          }}
+                        >
+                          <DotsThreeVerticalIcon size={20} weight="bold" />
+                        </button>
+                      </Tooltip>
+                    </>
+                  )}
 
-                  <Tooltip content={t('composer.send')}>
-                    <button
-                      type="button"
-                      className={css.sendBtn}
-                      onClick={sendMessage}
-                      disabled={
-                        (isEmpty && attachments.length === 0) ||
-                        attachments.some((a) => a.oversized)
-                      }
-                      aria-label={t('composer.send')}
-                    >
-                      <PaperPlaneRightIcon size={18} weight="fill" />
-                    </button>
-                  </Tooltip>
+                  {hasContent && (
+                    <Tooltip content={t('composer.send')}>
+                      <button
+                        type="button"
+                        className={css.sendBtn}
+                        // Tapping the button must not take focus from the message box, or the
+                        // keyboard closes after every send.
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={sendMessage}
+                        disabled={attachments.some((a) => a.oversized)}
+                        aria-label={t('composer.send')}
+                      >
+                        <PaperPlaneRightIcon size={18} weight="fill" />
+                      </button>
+                    </Tooltip>
+                  )}
                 </>
               )}
             </div>

@@ -1024,6 +1024,25 @@
       "friendsHeading": "Aktivität deiner Freunde",
       "whatsNewHeading": "Neuigkeiten",
       "readAll": "Alles lesen"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} Nachricht konnte nicht entschlüsselt werden",
+      "group_other": "{{count}} Nachrichten konnten nicht entschlüsselt werden",
+      "showAll": "Nachrichten anzeigen",
+      "collapse": "Einklappen",
+      "howToFix": "So behebst du das",
+      "verifySession": "Diese Sitzung verifizieren",
+      "help": {
+        "notJoined": "Du warst nicht in diesem Raum, als die Nachricht gesendet wurde, und Räume teilen ihren früheren Verlauf standardmäßig nicht. Auf diesem Gerät gibt es nichts wiederherzustellen.",
+        "withheld": "Das Gerät des Absenders hat den Schlüssel absichtlich nicht an dieses Gerät weitergegeben. Bitte den Absender, die Nachricht erneut zu senden.",
+        "senderUntrusted": "Zu deiner Sicherheit werden Nachrichten von Absendern, deren Identität oder Gerät nicht vertrauenswürdig ist, nicht angezeigt. Verifiziere den Absender oder bitte ihn, erneut zu senden.",
+        "unverified": "Diese Sitzung ist neu und hat daher nicht die Schlüssel für Nachrichten, die vor ihrer Anmeldung gesendet wurden. Gib deinen Wiederherstellungsschlüssel ein oder verifiziere diese Sitzung mit einer deiner anderen Sitzungen, dann wird dein Verlauf aus der Schlüsselsicherung wiederhergestellt.",
+        "noBackup": "Die Schlüsselsicherung ist für dieses Konto ausgeschaltet. Nachrichten, die vor dem Start dieser Sitzung gesendet wurden, lassen sich daher nur auf Sitzungen lesen, die ihre Schlüssel schon haben. Neue Nachrichten sind nicht betroffen.",
+        "waiting": "Diese Sitzung ist verifiziert und fragt deine anderen Sitzungen von selbst nach dem Schlüssel. Öffne Mudrix auf einer davon, dann sollte die Nachricht freigeschaltet werden."
+      },
+      "historyPaused": "Dieses Gerät kann frühere Nachrichten noch nicht lesen",
+      "historyPausedReason": "Ältere Nachrichten in diesem Raum können in dieser Sitzung nicht entschlüsselt werden, deshalb werden sie nicht mehr automatisch geladen. Du kannst trotzdem selbst weitere laden.",
+      "loadOlder": "Ältere Nachrichten laden"
     }
   },
   "attachment": {

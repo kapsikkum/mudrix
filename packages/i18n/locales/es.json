@@ -1024,6 +1024,25 @@
       "friendsHeading": "Actividad de tus amigos",
       "whatsNewHeading": "Novedades",
       "readAll": "Leer todo"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} mensaje no se pudo descifrar",
+      "group_other": "{{count}} mensajes no se pudieron descifrar",
+      "showAll": "Mostrar mensajes",
+      "collapse": "Contraer",
+      "howToFix": "Cómo solucionarlo",
+      "verifySession": "Verificar esta sesión",
+      "help": {
+        "notJoined": "No estabas en esta sala cuando se envió el mensaje, y las salas no comparten el historial anterior de forma predeterminada. No hay nada que recuperar en este dispositivo.",
+        "withheld": "El dispositivo del remitente decidió no compartir la clave con este dispositivo. Pídele que vuelva a enviar el mensaje.",
+        "senderUntrusted": "Por tu seguridad, no se muestran los mensajes de un remitente cuya identidad o dispositivo no se puede confiar. Verifica al remitente o pídele que vuelva a enviar el mensaje.",
+        "unverified": "Esta sesión es nueva, así que no tiene las claves de los mensajes enviados antes de que iniciara sesión. Introduce tu clave de recuperación o verifica esta sesión desde otra de tus sesiones, y tu historial se restaurará desde la copia de seguridad de claves.",
+        "noBackup": "La copia de seguridad de claves está desactivada en esta cuenta, así que los mensajes enviados antes de que empezara esta sesión solo se pueden leer en sesiones que ya tengan sus claves. Los mensajes nuevos no se ven afectados.",
+        "waiting": "Esta sesión está verificada, así que pide la clave a tus otras sesiones por sí sola. Abre Mudrix en una de ellas y el mensaje debería desbloquearse."
+      },
+      "historyPaused": "Este dispositivo todavía no puede leer los mensajes anteriores",
+      "historyPausedReason": "Los mensajes antiguos de esta sala no se pueden descifrar en esta sesión, así que ya no se cargan automáticamente. Aun así, puedes cargar más manualmente.",
+      "loadOlder": "Cargar mensajes anteriores"
     }
   },
   "attachment": {

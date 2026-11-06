@@ -199,8 +199,10 @@ export const msgRowActive = style({
 // the pointer over the receipts column) so the toolbar and the highlight stay in sync.
 export const msgHoverRegion = style({
   display: 'flex',
+  flexWrap: 'wrap',
   alignItems: 'flex-start',
   gap: '12px',
+  rowGap: 0,
   flex: 1,
   minWidth: 0,
   position: 'relative',
@@ -210,6 +212,68 @@ export const msgHoverRegion = style({
     [`${msgRow}:hover &`]: { backgroundColor: vars.color.bgHover },
     [`${msgRowGrouped}:hover &`]: { backgroundColor: vars.color.bgHover },
   },
+});
+
+// Discord-style reply line (modern layout): the quoted message sits on its own line above the
+// avatar row, joined to the avatar by an L-shaped connector. A reply is never grouped, so every
+// reply has an avatar row to join.
+export const replyLineRow = style({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  flex: '0 0 100%',
+  minWidth: 0,
+  // The avatar column is 36px wide: the connector starts at its centre.
+  paddingLeft: '54px',
+  marginBottom: '2px',
+  minHeight: '22px',
+});
+
+export const replyConnector = style({
+  position: 'absolute',
+  left: '18px',
+  top: '50%',
+  width: '30px',
+  height: '60%',
+  boxSizing: 'border-box',
+  borderLeft: `2px solid ${vars.color.border}`,
+  borderTop: `2px solid ${vars.color.border}`,
+  borderTopLeftRadius: '8px',
+  pointerEvents: 'none',
+});
+
+export const replyLineSkeleton = style({
+  width: '45%',
+  maxWidth: '240px',
+  height: '0.7rem',
+  borderRadius: '6px',
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.5s ease-in-out infinite`,
+});
+
+export const replyLineButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  minWidth: 0,
+  maxWidth: '100%',
+  textAlign: 'left',
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  font: 'inherit',
+  fontSize: chatSize(0.85),
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  ':hover': { color: vars.color.textPrimary },
+});
+
+// The button that folds an expanded run of unreadable messages back up.
+export const undecryptableCollapseRow = style({
+  padding: '4px 16px 0',
 });
 
 // Sender name + timestamp row (sits above the first message content)

@@ -573,6 +573,37 @@ export function useComposer({
     });
   }, [focusRequest, draftKey, editor]);
 
+  // Landing in a room or DM, or coming back to the window (restored, or tabbed back in), puts the
+  // cursor in the message box. Skipped on touch devices, where it would raise the keyboard, and when
+  // focus is already in a field or dialog on purpose; a room-list button or the page itself does not
+  // count as that, so clicking through rooms keeps typing one click away.
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return undefined;
+    const focusIfIdle = () => {
+      const active = document.activeElement;
+      if (
+        active?.closest(
+          'input, textarea, select, [contenteditable="true"], [role="dialog"], [role="menu"]'
+        )
+      ) {
+        return;
+      }
+      try {
+        const node = ReactEditor.toDOMNode(editor, editor);
+        if (!node.isConnected || node.getClientRects().length === 0) return;
+        ReactEditor.focus(editor);
+      } catch {
+        // editor not mounted
+      }
+    };
+    const frame = requestAnimationFrame(focusIfIdle);
+    window.addEventListener('focus', focusIfIdle);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('focus', focusIfIdle);
+    };
+  }, [editor, draftKey]);
+
   const removeAttachment = useCallback(
     (id: string) => {
       cancelAttachmentUpload(id);

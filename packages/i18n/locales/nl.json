@@ -1024,6 +1024,25 @@
       "friendsHeading": "Activiteit van vrienden",
       "whatsNewHeading": "Nieuw",
       "readAll": "Alles lezen"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} bericht kon niet worden ontsleuteld",
+      "group_other": "{{count}} berichten konden niet worden ontsleuteld",
+      "showAll": "Berichten tonen",
+      "collapse": "Samenvouwen",
+      "howToFix": "Oplossen",
+      "verifySession": "Deze sessie verifiëren",
+      "help": {
+        "notJoined": "Je was niet in deze kamer toen het bericht werd verzonden, en kamers delen standaard geen eerdere geschiedenis. Er valt op dit apparaat niets te herstellen.",
+        "withheld": "Het apparaat van de afzender heeft de sleutel bewust niet met dit apparaat gedeeld. Vraag hem het bericht opnieuw te verzenden.",
+        "senderUntrusted": "Voor je veiligheid worden berichten van een afzender wiens identiteit of apparaat niet vertrouwd kan worden, niet getoond. Verifieer de afzender of vraag hem het bericht opnieuw te verzenden.",
+        "unverified": "Deze sessie is nieuw, dus ze heeft niet de sleutels voor berichten die zijn verzonden voordat ze zich aanmeldde. Voer je herstelsleutel in of verifieer deze sessie vanuit een van je andere sessies. Daarna wordt je geschiedenis hersteld uit de sleutelback-up.",
+        "noBackup": "Sleutelback-up staat uit voor dit account, dus berichten van voor deze sessie zijn alleen te lezen op sessies die hun sleutels al hebben. Nieuwe berichten worden niet beïnvloed.",
+        "waiting": "Deze sessie is geverifieerd en vraagt je andere sessies zelf om de sleutel. Open Mudrix op een van die sessies en het bericht zou moeten ontgrendelen."
+      },
+      "historyPaused": "Dit apparaat kan eerdere berichten nog niet lezen",
+      "historyPausedReason": "Oudere berichten in deze ruimte kunnen in deze sessie niet worden ontsleuteld, dus ze worden niet meer automatisch geladen. Je kunt zelf nog wel meer laden.",
+      "loadOlder": "Oudere berichten laden"
     }
   },
   "attachment": {

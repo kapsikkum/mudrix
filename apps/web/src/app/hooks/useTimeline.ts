@@ -28,6 +28,10 @@ import {
 import { entryEventId, isEventEntry, type EventEntry } from '@/app/features/timeline/message/entry';
 import { getGalleryTag, isPendingEcho } from '@/app/features/timeline/message/gallery';
 import type { ItemRange } from '@/app/hooks/useVirtualPaginator';
+import {
+  UNREADABLE_PAGES_BEFORE_PAUSE,
+  isUnreadablePage,
+} from '@/app/features/timeline/message/undecryptable';
 
 export type { EventEntry };
 
@@ -193,6 +197,8 @@ export function buildItems(
     const isGrouped =
       !isSystemMessage &&
       !isCallEvent &&
+      // A reply always starts a new row, so the line that quotes the message it answers has a place.
+      !event.inReplyTo &&
       !showDateSep &&
       senderId === lastSenderId &&
       ts - lastTs < GROUP_MS;
@@ -486,12 +492,15 @@ export interface UseTimelineResult {
   rangeAtStart: boolean;
   rangeAtEnd: boolean;
   isPaginating: boolean;
+  /** Scrollback stopped by itself because the older history is all messages this device cannot read. */
+  backfillPaused: boolean;
   timelineResetEpoch: number;
   firstUnreadEventId: string | null;
   readUpToEventId: string | null;
   clearUnreadDivider: () => void;
   setRange: (range: ItemRange) => void;
-  handlePaginate: (backwards: boolean) => Promise<void>;
+  /** `manual` loads a page even while scrollback is paused on unreadable history. */
+  handlePaginate: (backwards: boolean, options?: { manual?: boolean }) => Promise<void>;
   getEventAtIndex: (index: number) => EventEntry | undefined;
   getEventIndex: (eventId: string) => number | undefined;
   loadEventTimeline: (
@@ -562,6 +571,15 @@ export function useTimeline(
   const [ownAtStart, setOwnAtStart] = useState(false);
   const [isPaginating, setIsPaginating] = useState(false);
   const fetchingRef = useRef(false);
+
+  // Older history that is all unreadable would otherwise load page after page: folded rows never
+  // fill the screen, so the top of the timeline stays in view. After two such pages scrollback
+  // waits for a gesture, and starts by itself again once one of those messages can be read.
+  const [backfillPaused, setBackfillPaused] = useState(false);
+  const backfillPausedRef = useRef(false);
+  const unreadablePagesRef = useRef(0);
+  const frontIdRef = useRef<string | null>(null);
+  const unreadableAtPauseRef = useRef(0);
   const atStart = core.atStart || ownAtStart;
   const atStartRef = useRef(atStart);
   atStartRef.current = atStart;
@@ -580,7 +598,40 @@ export function useTimeline(
     setOwnAtStart(false);
     setIsPaginating(false);
     fetchingRef.current = false;
+    backfillPausedRef.current = false;
+    unreadablePagesRef.current = 0;
+    frontIdRef.current = null;
+    setBackfillPaused(false);
   }, [roomId, kindKey]);
+  useEffect(() => {
+    const front = events[0]?.id ?? null;
+    const prevFront = frontIdRef.current;
+    frontIdRef.current = front;
+    const isUnreadable = (e: EventEntry) => e.content.type === 'unableToDecrypt';
+    const unreadable = events.filter(isUnreadable).length;
+    if (backfillPausedRef.current && unreadable < unreadableAtPauseRef.current) {
+      backfillPausedRef.current = false;
+      unreadablePagesRef.current = 0;
+      setBackfillPaused(false);
+      return;
+    }
+    if (!prevFront || !front || prevFront === front) return;
+    const at = events.findIndex((e) => e.id === prevFront);
+    if (at <= 0) return;
+    const page = events.slice(0, at);
+    if (isUnreadablePage(page.length, page.filter(isUnreadable).length)) {
+      unreadablePagesRef.current += 1;
+      if (unreadablePagesRef.current >= UNREADABLE_PAGES_BEFORE_PAUSE) {
+        backfillPausedRef.current = true;
+        unreadableAtPauseRef.current = unreadable;
+        setBackfillPaused(true);
+      }
+    } else {
+      unreadablePagesRef.current = 0;
+      backfillPausedRef.current = false;
+      setBackfillPaused(false);
+    }
+  }, [events]);
   useEffect(() => {
     setFocus((prev) => (prev?.roomId === roomId ? prev : null));
     unreadLatchRef.current = false;
@@ -690,7 +741,7 @@ export function useTimeline(
   }, []);
 
   const handlePaginate = useCallback(
-    async (backwards: boolean) => {
+    async (backwards: boolean, options?: { manual?: boolean }) => {
       if (!backwards) {
         // Only a timeline opened at an event has newer messages to load; at the newest one
         // it hands over to the live timeline again
@@ -711,6 +762,7 @@ export function useTimeline(
         return;
       }
       if (fetchingRef.current || atStartRef.current || !timelineRef.current) return;
+      if (backfillPausedRef.current && !options?.manual) return;
       fetchingRef.current = true;
       setIsPaginating(true);
       const forRoom = roomId;
@@ -820,6 +872,7 @@ export function useTimeline(
     rangeAtStart: range.start === 0,
     rangeAtEnd: range.end === eventsLength,
     isPaginating: isPaginating || core.loading,
+    backfillPaused,
     timelineResetEpoch: currentWindow.epoch,
     firstUnreadEventId: unread.firstUnread,
     readUpToEventId: unread.readUpTo,

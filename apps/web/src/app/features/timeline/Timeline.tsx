@@ -42,6 +42,16 @@ import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useVirtualPaginator } from '@/app/hooks/useVirtualPaginator';
+import {
+  UndecryptableCollapse,
+  UndecryptableFold,
+  UndecryptableHistoryNotice,
+} from './message/UndecryptableMessage';
+import {
+  UNDECRYPTABLE_RUN_THRESHOLD,
+  computeUndecryptableRuns,
+  expandedUndecryptableRoomsAtom,
+} from './message/undecryptable';
 import { useMessageHover } from './useMessageHover';
 import {
   getIntersectionObserverEntry,
@@ -69,6 +79,8 @@ interface Props {
 
 const EMPTY_RECEIPTS: ReceiptUser[] = [];
 const PAGINATION_LIMIT = 80;
+/** Least time between two pages of unreadable history loaded by scrolling up at the top. */
+const MANUAL_BACKFILL_INTERVAL_MS = 1500;
 const STICK_TO_BOTTOM_PX = 4;
 const EMPTY_SEARCH_ITEMS: TimelineItem[] = [];
 
@@ -155,6 +167,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     canPaginateBack,
     rangeAtStart,
     rangeAtEnd,
+    isPaginating,
+    backfillPaused,
     timelineResetEpoch,
     firstUnreadEventId,
     readUpToEventId,
@@ -834,6 +848,64 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     [client, roomId, timeline, setEmojiPicker, toast, t]
   );
 
+  // Runs of unreadable messages fold into one row, unless this room was told to show them all.
+  const expandedUndecryptableRooms = useAtomValue(expandedUndecryptableRoomsAtom);
+  const undecryptableRuns = useMemo(() => computeUndecryptableRuns(items), [items]);
+  const showAllUndecryptable = expandedUndecryptableRooms.has(roomId);
+
+  // Older history stopped loading by itself because it was all messages this device cannot read:
+  // say so once at the top instead of a skeleton that keeps fetching.
+  const showHistoryNotice = !isSearching && backfillPaused && canPaginateBack && rangeAtStart;
+  const historyNoticeReason = useMemo(() => {
+    const first = events.find((e) => e.content.type === 'unableToDecrypt');
+    return first?.content.type === 'unableToDecrypt' ? first.content.reason : null;
+  }, [events]);
+  const loadOlderManually = useCallback(() => {
+    void handlePaginate(true, { manual: true });
+  }, [handlePaginate]);
+
+  // While paused, scrolling up at the very top (wheel, swipe, PageUp/Home/ArrowUp) still loads one
+  // more page per gesture, at most every MANUAL_BACKFILL_INTERVAL_MS. The time lives in a ref: the
+  // notice briefly unmounts while a page lands, which must not reset the limit.
+  const lastManualBackfillRef = useRef(0);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || !showHistoryNotice) return undefined;
+    let touchY: number | null = null;
+    const loadIfAtTop = () => {
+      if (el.scrollTop > 8) return;
+      const now = Date.now();
+      if (now - lastManualBackfillRef.current < MANUAL_BACKFILL_INTERVAL_MS) return;
+      lastManualBackfillRef.current = now;
+      loadOlderManually();
+    };
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY < 0) loadIfAtTop();
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0]?.clientY ?? null;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY;
+      if (touchY === null || y === undefined || y - touchY < 40) return;
+      touchY = y;
+      loadIfAtTop();
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'PageUp' || e.key === 'Home' || e.key === 'ArrowUp') loadIfAtTop();
+    };
+    el.addEventListener('wheel', onWheel, { passive: true });
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    el.addEventListener('keydown', onKeyDown);
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('keydown', onKeyDown);
+    };
+  }, [showHistoryNotice, loadOlderManually]);
+
   const itemByEventId = useMemo(() => {
     const map = new Map<string, TimelineItem>();
     for (const item of items) map.set(item.eventId, item);
@@ -846,6 +918,10 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       isSearching && activeItemIndex !== null && searchItems[activeItemIndex]?.eventId === eventId;
     const showUnreadDivider =
       !isSearching && !!firstUnreadEventId && itemContainsEvent(timelineItem, firstUnreadEventId);
+    const run = isSearching ? undefined : undecryptableRuns.get(eventId);
+    const inLongRun = !!run && run.count >= UNDECRYPTABLE_RUN_THRESHOLD;
+    const foldedRun = inLongRun && !showAllUndecryptable ? run : undefined;
+    const unfoldedRun = inLongRun && showAllUndecryptable ? run : undefined;
     const isLive = liveIdsRef.current.has(timelineItem.event.id);
     const isFlashing = flashEventId === eventId;
 
@@ -939,9 +1015,29 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
             label={t('timeline.unreadMessages')}
           />
         )}
-        <DecryptionGate event={timelineItem.event}>
-          {() => <Message {...messageProps} />}
-        </DecryptionGate>
+        {foldedRun && !foldedRun.isFirst ? null : foldedRun ? (
+          <UndecryptableFold
+            client={client}
+            roomId={roomId}
+            count={foldedRun.count}
+            reason={
+              timelineItem.event.content.type === 'unableToDecrypt'
+                ? timelineItem.event.content.reason
+                : null
+            }
+          />
+        ) : (
+          <>
+            {unfoldedRun?.isFirst && (
+              <div className={css.undecryptableCollapseRow}>
+                <UndecryptableCollapse roomId={roomId} />
+              </div>
+            )}
+            <DecryptionGate event={timelineItem.event}>
+              {() => <Message {...messageProps} />}
+            </DecryptionGate>
+          </>
+        )}
       </div>
     );
   };
@@ -1073,7 +1169,16 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                   </div>
                 )}
 
-                {!isSearching && (canPaginateBack || !rangeAtStart) && (
+                {showHistoryNotice && (
+                  <UndecryptableHistoryNotice
+                    client={client}
+                    reason={historyNoticeReason}
+                    loading={isPaginating}
+                    onLoadOlder={loadOlderManually}
+                  />
+                )}
+
+                {!isSearching && !showHistoryNotice && (canPaginateBack || !rangeAtStart) && (
                   <div ref={observeBackAnchor} className={css.timelinePlaceholder}>
                     <SkeletonRow width1="55%" width2="35%" />
                     <SkeletonRow width1="70%" width2="50%" />

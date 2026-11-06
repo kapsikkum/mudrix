@@ -1024,6 +1024,25 @@
       "friendsHeading": "Activité de vos amis",
       "whatsNewHeading": "Nouveautés",
       "readAll": "Tout lire"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} message n'a pas pu être déchiffré",
+      "group_other": "{{count}} messages n'ont pas pu être déchiffrés",
+      "showAll": "Afficher les messages",
+      "collapse": "Réduire",
+      "howToFix": "Comment résoudre",
+      "verifySession": "Vérifier cette session",
+      "help": {
+        "notJoined": "Vous n'étiez pas dans ce salon lorsque le message a été envoyé, et les salons ne partagent pas l'historique antérieur par défaut. Il n'y a rien à récupérer sur cet appareil.",
+        "withheld": "L'appareil de l'expéditeur n'a pas volontairement partagé la clé avec cet appareil. Demandez-lui de renvoyer le message.",
+        "senderUntrusted": "Pour votre sécurité, les messages d'un expéditeur dont l'identité ou l'appareil ne peut pas être approuvé ne sont pas affichés. Vérifiez l'expéditeur ou demandez-lui de renvoyer le message.",
+        "unverified": "Cette session est nouvelle : elle ne dispose donc pas des clés des messages envoyés avant sa connexion. Saisissez votre clé de récupération ou vérifiez cette session depuis l'une de vos autres sessions ; votre historique sera alors restauré depuis la sauvegarde des clés.",
+        "noBackup": "La sauvegarde des clés est désactivée pour ce compte : les messages envoyés avant le début de cette session ne sont lisibles que sur les sessions qui ont déjà leurs clés. Les nouveaux messages ne sont pas concernés.",
+        "waiting": "Cette session est vérifiée : elle demande d'elle-même la clé à vos autres sessions. Ouvrez Mudrix sur l'une d'elles et le message devrait se débloquer."
+      },
+      "historyPaused": "Cet appareil ne peut pas encore lire les messages précédents",
+      "historyPausedReason": "Les anciens messages de ce salon ne peuvent pas être déchiffrés dans cette session, ils ne sont donc plus chargés automatiquement. Vous pouvez toujours en charger davantage vous-même.",
+      "loadOlder": "Charger les messages précédents"
     }
   },
   "attachment": {

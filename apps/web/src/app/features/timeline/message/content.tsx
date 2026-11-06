@@ -47,6 +47,7 @@ import { prettifyLinksAtom, sessionVerificationAtom } from '@/app/store/atoms';
 import { AudioFilePlayer } from '@/app/components/AudioFilePlayer/AudioFilePlayer';
 import { VoiceMessagePlayer } from '@/app/components/VoiceMessagePlayer/VoiceMessagePlayer';
 import { PollViewer } from './PollViewer';
+import { UndecryptableNote } from './UndecryptableMessage';
 import { LinkPreview } from './LinkPreview';
 import { extractFirstUrl } from '@/util/extractFirstUrl';
 import { formatFileSize } from '@/util/format';
@@ -618,9 +619,11 @@ export function MessageContent({
   if (isUndecryptable || event.content.type === 'unableToDecrypt') {
     const reason = event.content.type === 'unableToDecrypt' ? event.content.reason : null;
     return (
-      <span className={css.redactedMsg}>
-        <LockIcon size={14} /> {t(decryptionFailureKey(reason, sessionVerified))}
-      </span>
+      <UndecryptableNote
+        client={client}
+        reason={reason}
+        text={t(decryptionFailureKey(reason, sessionVerified))}
+      />
     );
   }
 

@@ -1024,6 +1024,25 @@
       "friendsHeading": "Arkadaş etkinliği",
       "whatsNewHeading": "Yenilikler",
       "readAll": "Tümünü oku"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} mesajın şifresi çözülemedi",
+      "group_other": "{{count}} mesajın şifresi çözülemedi",
+      "showAll": "Mesajları göster",
+      "collapse": "Daralt",
+      "howToFix": "Nasıl düzeltilir",
+      "verifySession": "Bu oturumu doğrula",
+      "help": {
+        "notJoined": "Mesaj gönderildiğinde bu odada değildiniz ve odalar varsayılan olarak önceki geçmişi paylaşmaz. Bu cihazda kurtarılacak bir şey yok.",
+        "withheld": "Göndericinin cihazı anahtarı bu cihazla bilerek paylaşmadı. Mesajı yeniden göndermesini isteyin.",
+        "senderUntrusted": "Güvenliğiniz için kimliği veya cihazı güvenilmeyen göndericilerden gelen mesajlar gösterilmez. Göndericiyi doğrulayın veya mesajı yeniden göndermesini isteyin.",
+        "unverified": "Bu oturum yeni olduğu için oturum açmadan önce gönderilen mesajların anahtarlarına sahip değil. Kurtarma anahtarınızı girin ya da diğer oturumlarınızdan birinden bu oturumu doğrulayın; geçmişiniz anahtar yedeğinden geri yüklenecektir.",
+        "noBackup": "Bu hesapta anahtar yedeği kapalı; bu oturum başlamadan önce gönderilen iletiler yalnızca anahtarlarına zaten sahip oturumlarda okunabilir. Bundan sonra gönderilen iletiler etkilenmez.",
+        "waiting": "Bu oturum doğrulanmış, bu yüzden anahtarı diğer oturumlarından kendisi ister. Onlardan birinde Mudrix'i aç; ileti açılmalı."
+      },
+      "historyPaused": "Bu cihaz önceki mesajları henüz okuyamıyor",
+      "historyPausedReason": "Bu odadaki eski mesajların şifresi bu oturumda çözülemiyor, bu yüzden artık otomatik olarak yüklenmiyor. Yine de daha fazlasını kendiniz yükleyebilirsiniz.",
+      "loadOlder": "Eski mesajları yükle"
     }
   },
   "attachment": {

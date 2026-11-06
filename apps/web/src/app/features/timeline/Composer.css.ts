@@ -1,4 +1,4 @@
-import { style, globalStyle } from '@vanilla-extract/css';
+import { style, globalStyle, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast, med } from '@/theme/animations.css';
 
@@ -289,7 +289,14 @@ globalStyle(`${richEditor} .mention-pill.room-mention-pill`, {
   color: vars.color.mention,
 });
 
+// The send button pops in the moment there is something to send.
+const sendPop = keyframes({
+  from: { opacity: 0, transform: 'scale(0.6)' },
+  to: { opacity: 1, transform: 'scale(1)' },
+});
+
 export const sendBtn = style({
+  animation: `${sendPop} 160ms ease-out`,
   width: '28px',
   height: '28px',
   borderRadius: vars.radius.sm,

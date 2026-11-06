@@ -1024,6 +1024,25 @@
       "friendsHeading": "Friends activity",
       "whatsNewHeading": "What's new",
       "readAll": "Read all"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} message couldn't be decrypted",
+      "group_other": "{{count}} messages couldn't be decrypted",
+      "showAll": "Show messages",
+      "collapse": "Collapse",
+      "howToFix": "How to fix",
+      "verifySession": "Verify this session",
+      "help": {
+        "notJoined": "You weren't in this room when the message was sent, and rooms don't share earlier history by default. There is nothing to recover on this device.",
+        "withheld": "The sender's device deliberately didn't share the key with this device. Ask them to resend the message.",
+        "senderUntrusted": "For your safety, messages from a sender whose identity or device can't be trusted are not shown. Verify the sender, or ask them to resend.",
+        "unverified": "This session is new, so it does not have the keys for messages sent before it signed in. Enter your recovery key or verify this session from one of your other sessions, then your history is restored from the key backup.",
+        "noBackup": "Key backup is off for this account, so messages sent before this session started can only be read on sessions that already have their keys. Messages sent from now on are not affected.",
+        "waiting": "This session is verified, so it asks your other sessions for the key on its own. Open Mudrix on one of them and the message should unlock."
+      },
+      "historyPaused": "This device can't read earlier messages yet",
+      "historyPausedReason": "Older messages in this room can't be decrypted on this session, so they are no longer loaded automatically. You can still load more yourself.",
+      "loadOlder": "Load older messages"
     }
   },
   "attachment": {

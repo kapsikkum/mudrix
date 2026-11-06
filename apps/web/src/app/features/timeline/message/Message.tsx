@@ -26,6 +26,7 @@ import {
   useReactionHandler,
   useGalleryReactionHandler,
   getReactionSenderNames,
+  getReactionSenders,
 } from './reactions';
 import { useImagePacksContext } from '@/app/hooks/useImagePacks';
 import { emojiToShortcode } from '@/app/features/timeline/emojiData';
@@ -89,6 +90,7 @@ function formatReactors(names: string[]): string {
 import { buildReplyContent, isEditableEvent, type ReplyContent } from './textContent';
 import { ReceiptAvatar } from './receiptAvatar';
 import { ReadReceiptsPopover, useReadReceiptsPopover } from './readReceiptsPopover';
+import { ReactorsSheet } from './ReactorsSheet';
 import {
   editMessageAtom,
   userProfileAtom,
@@ -548,6 +550,19 @@ export const Message = memo(function Message({
     [reactionMap, handleReactionClick]
   );
 
+  // Touch: a long press on a reaction chip lists who reacted instead of opening the message menu.
+  const [reactors, setReactors] = useState<{ key: string; anchor: HTMLElement } | null>(null);
+  const reactorsAnchorRef = useRef<HTMLElement | null>(null);
+  reactorsAnchorRef.current = reactors?.anchor ?? null;
+  const handleReactionContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!window.matchMedia('(pointer: coarse)').matches) return;
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-reaction-key]');
+    if (!btn?.dataset.reactionKey) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setReactors({ key: btn.dataset.reactionKey, anchor: btn });
+  }, []);
+
   // Pinning
   const handlePin = useCallback(() => {
     const eventId = event.eventId;
@@ -852,6 +867,7 @@ export const Message = memo(function Message({
         role="group"
         aria-label={t('timeline.reactions')}
         onClick={handleReactionDelegate}
+        onContextMenu={handleReactionContextMenu}
       >
         {Array.from(reactionMap.values())
           .sort((a, b) => b.count - a.count)
@@ -900,6 +916,19 @@ export const Message = memo(function Message({
             <span className={css.reactionQuickAddPlus}>+</span>
           </span>
         </button>
+        {reactors && (
+          <ReactorsSheet
+            anchorRef={reactorsAnchorRef}
+            client={client}
+            senders={getReactionSenders(
+              isGallery ? (galleryEvents ?? []) : [event],
+              reactors.key,
+              (userId) => members.get(userId)
+            )}
+            emoji={renderReactionKey(reactors.key)}
+            onClose={() => setReactors(null)}
+          />
+        )}
       </div>
     );
 
@@ -941,6 +970,61 @@ export const Message = memo(function Message({
       </button>
     </div>
   );
+
+  // The quoted message as it reads after the sender's name: text, a picture or a placeholder.
+  const replyBody = displayReply ? (
+    <>
+      {displayReply.isUndecryptable ? (
+        <span>{t('timeline.couldNotDecrypt')}</span>
+      ) : displayReply.event && isReplyMediaEvent(displayReply.event) ? (
+        <ReplyMediaThumb
+          event={displayReply.event}
+          client={client}
+          roomId={roomId}
+          body={displayReply.body.substring(0, 100)}
+        />
+      ) : displayReply.mxcUrl ? (
+        <AuthMediaImg
+          client={client}
+          mxcUrl={displayReply.mxcUrl}
+          width={24}
+          height={24}
+          alt={displayReply.body || ''}
+          placeholder="none"
+          style={{
+            height: '1.4em',
+            width: 'auto',
+            verticalAlign: 'middle',
+            display: 'inline',
+          }}
+        />
+      ) : (
+        <span
+          dangerouslySetInnerHTML={{
+            __html: displayReply.formattedBody
+              ? markdownToHtml(displayReply.formattedBody, myId, true, false, true)
+              : plainTextToHtml(displayReply.body.substring(0, 100), myId, true),
+          }}
+        />
+      )}
+      {!displayReply.isUndecryptable &&
+      !(displayReply.event && isReplyMediaEvent(displayReply.event)) &&
+      !displayReply.formattedBody &&
+      displayReply.body.length > 100
+        ? '...'
+        : ''}
+    </>
+  ) : null;
+  const replyName = displayReply
+    ? (members.get(displayReply.senderId)?.displayName ??
+      displayReply.senderName ??
+      formatUserId(displayReply.senderId))
+    : '';
+  const hasReplyLine =
+    variant === 'modern' &&
+    !hideReplyQuote &&
+    !!inReplyTo &&
+    (!!displayReply || inReplyTo.state === 'pending');
 
   const contentClass =
     variant === 'classic'
@@ -989,6 +1073,32 @@ export const Message = memo(function Message({
         className={`${css.msgHoverRegion} ${css.msgJumpFlash}`}
         data-flashing={isFlashing ? 'true' : undefined}
       >
+        {hasReplyLine && !displayReply && (
+          <div className={css.replyLineRow} aria-hidden="true">
+            <span className={css.replyConnector} />
+            <span className={css.replyLineSkeleton} />
+          </div>
+        )}
+        {hasReplyLine && displayReply && (
+          <div className={css.replyLineRow}>
+            <span className={css.replyConnector} aria-hidden="true" />
+            <button
+              type="button"
+              className={css.replyLineButton}
+              onClick={() => onJumpToEvent?.(displayReply.eventId)}
+            >
+              <Avatar
+                name={replyName}
+                mxcUrl={members.get(displayReply.senderId)?.avatarUrl ?? undefined}
+                client={client}
+                size="xs"
+                placeholder="logo"
+              />
+              <strong style={{ color: colorFor(displayReply.senderId) }}>@{replyName}</strong>{' '}
+              {replyBody}
+            </button>
+          </div>
+        )}
         {!isCompact && (
           <div className={css.msgAvatarCol}>
             {!isGrouped && (
@@ -1032,7 +1142,7 @@ export const Message = memo(function Message({
             </div>
           ) : null}
 
-          {!hideReplyQuote && displayReply && (
+          {!hideReplyQuote && !hasReplyLine && displayReply && (
             <button
               type="button"
               className={css.replyQuote}
@@ -1044,45 +1154,7 @@ export const Message = memo(function Message({
                   formatUserId(displayReply.senderId)}
                 :{' '}
               </strong>
-              {displayReply.isUndecryptable ? (
-                <span>{t('timeline.couldNotDecrypt')}</span>
-              ) : displayReply.event && isReplyMediaEvent(displayReply.event) ? (
-                <ReplyMediaThumb
-                  event={displayReply.event}
-                  client={client}
-                  roomId={roomId}
-                  body={displayReply.body.substring(0, 100)}
-                />
-              ) : displayReply.mxcUrl ? (
-                <AuthMediaImg
-                  client={client}
-                  mxcUrl={displayReply.mxcUrl}
-                  width={24}
-                  height={24}
-                  alt={displayReply.body || ''}
-                  placeholder="none"
-                  style={{
-                    height: '1.4em',
-                    width: 'auto',
-                    verticalAlign: 'middle',
-                    display: 'inline',
-                  }}
-                />
-              ) : (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: displayReply.formattedBody
-                      ? markdownToHtml(displayReply.formattedBody, myId, true, false, true)
-                      : plainTextToHtml(displayReply.body.substring(0, 100), myId, true),
-                  }}
-                />
-              )}
-              {!displayReply.isUndecryptable &&
-              !(displayReply.event && isReplyMediaEvent(displayReply.event)) &&
-              !displayReply.formattedBody &&
-              displayReply.body.length > 100
-                ? '...'
-                : ''}
+              {replyBody}
             </button>
           )}
 

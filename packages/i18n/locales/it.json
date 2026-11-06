@@ -1024,6 +1024,25 @@
       "friendsHeading": "Attività dei tuoi amici",
       "whatsNewHeading": "Novità",
       "readAll": "Leggi tutto"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} messaggio non è stato decifrato",
+      "group_other": "{{count}} messaggi non sono stati decifrati",
+      "showAll": "Mostra messaggi",
+      "collapse": "Comprimi",
+      "howToFix": "Come risolvere",
+      "verifySession": "Verifica questa sessione",
+      "help": {
+        "notJoined": "Non eri in questa stanza quando il messaggio è stato inviato, e per impostazione predefinita le stanze non condividono la cronologia precedente. Su questo dispositivo non c'è nulla da recuperare.",
+        "withheld": "Il dispositivo del mittente ha deliberatamente scelto di non condividere la chiave con questo dispositivo. Chiedigli di inviare di nuovo il messaggio.",
+        "senderUntrusted": "Per la tua sicurezza, i messaggi di un mittente la cui identità o dispositivo non può essere considerato attendibile non vengono mostrati. Verifica il mittente o chiedigli di inviare di nuovo il messaggio.",
+        "unverified": "Questa sessione è nuova, quindi non ha le chiavi dei messaggi inviati prima del suo accesso. Inserisci la tua chiave di recupero o verifica questa sessione da una delle tue altre sessioni: la cronologia verrà poi ripristinata dal backup delle chiavi.",
+        "noBackup": "Il backup delle chiavi è disattivato per questo account, quindi i messaggi inviati prima dell'inizio di questa sessione si leggono solo su sessioni che hanno già le loro chiavi. I messaggi nuovi non sono interessati.",
+        "waiting": "Questa sessione è verificata, quindi chiede da sola la chiave alle tue altre sessioni. Apri Mudrix su una di esse e il messaggio dovrebbe sbloccarsi."
+      },
+      "historyPaused": "Questo dispositivo non può ancora leggere i messaggi precedenti",
+      "historyPausedReason": "I messaggi più vecchi di questa stanza non possono essere decifrati in questa sessione, quindi non vengono più caricati automaticamente. Puoi comunque caricarne altri manualmente.",
+      "loadOlder": "Carica messaggi precedenti"
     }
   },
   "attachment": {

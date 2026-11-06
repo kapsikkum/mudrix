@@ -1024,6 +1024,25 @@
       "friendsHeading": "Aktywność znajomych",
       "whatsNewHeading": "Nowości",
       "readAll": "Czytaj wszystko"
+    },
+    "undecryptable": {
+      "group_one": "{{count}} wiadomość nie została odszyfrowana",
+      "group_other": "Liczba nieodszyfrowanych wiadomości: {{count}}",
+      "showAll": "Pokaż wiadomości",
+      "collapse": "Zwiń",
+      "howToFix": "Jak to naprawić",
+      "verifySession": "Zweryfikuj tę sesję",
+      "help": {
+        "notJoined": "Nie byłeś w tym pokoju, gdy wysłano wiadomość, a pokoje domyślnie nie udostępniają wcześniejszej historii. Na tym urządzeniu nie ma nic do odzyskania.",
+        "withheld": "Urządzenie nadawcy celowo nie udostępniło klucza temu urządzeniu. Poproś o ponowne wysłanie wiadomości.",
+        "senderUntrusted": "Dla Twojego bezpieczeństwa wiadomości od nadawcy, którego tożsamość lub urządzenie nie może być zaufane, nie są wyświetlane. Zweryfikuj nadawcę lub poproś go o ponowne wysłanie.",
+        "unverified": "Ta sesja jest nowa, więc nie ma kluczy do wiadomości wysłanych przed jej zalogowaniem. Wpisz klucz odzyskiwania lub zweryfikuj tę sesję z jednej z pozostałych sesji, a Twoja historia zostanie przywrócona z kopii kluczy.",
+        "noBackup": "Kopia zapasowa kluczy jest wyłączona dla tego konta, więc wiadomości wysłane przed rozpoczęciem tej sesji można czytać tylko w sesjach, które mają już swoje klucze. Nowe wiadomości nie są dotknięte.",
+        "waiting": "Ta sesja jest zweryfikowana, więc sama prosi pozostałe sesje o klucz. Otwórz Mudrix w jednej z nich, a wiadomość powinna się odblokować."
+      },
+      "historyPaused": "To urządzenie nie może jeszcze odczytać wcześniejszych wiadomości",
+      "historyPausedReason": "Starszych wiadomości w tym pokoju nie można odszyfrować w tej sesji, więc nie są już wczytywane automatycznie. Nadal możesz wczytać więcej ręcznie.",
+      "loadOlder": "Wczytaj starsze wiadomości"
     }
   },
   "attachment": {
