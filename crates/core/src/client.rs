@@ -85,6 +85,7 @@ pub struct WizardClient {
     shared_tokens: Arc<Mutex<Option<SessionTokens>>>,
     sync: Mutex<Option<Arc<SyncService>>>,
     pub(crate) identity_reset_cancel: Mutex<Option<futures_channel::oneshot::Sender<()>>>,
+    pub(crate) downloads: Mutex<crate::media_download::Downloads>,
     pub(crate) spaces: Mutex<Option<Arc<SpaceService>>>,
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
@@ -141,6 +142,7 @@ impl WizardClient {
             shared_tokens: Arc::new(Mutex::new(None)),
             sync: Mutex::new(None),
             identity_reset_cancel: Mutex::new(None),
+            downloads: Mutex::default(),
             spaces: Mutex::new(None),
             notifications: Mutex::new(None),
         }

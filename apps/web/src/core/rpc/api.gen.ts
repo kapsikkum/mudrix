@@ -177,6 +177,17 @@ export type DeviceInfo = {
 };
 
 /**
+ * How much of a download has arrived, in bytes
+ */
+export type DownloadProgress = {
+  received: number;
+  /**
+   * The size of the file, when the server (or the caller's hint) says
+   */
+  total: number | null;
+};
+
+/**
  * An emoji/sticker pack (MSC2545: the user's own, or one shared in a room)
  */
 export type EmojiPack = {
@@ -272,6 +283,20 @@ export type EventSource = {
  * Who may read a room's history
  */
 export type HistoryVisibility = 'world_readable' | 'shared' | 'invited' | 'joined';
+
+/**
+ * What `/_matrix/federation/v1/version` says a server runs
+ */
+export type HomeserverSoftware = {
+  /**
+   * "Synapse", "Tuwunel", ...
+   */
+  name: string;
+  /**
+   * Empty when the server hides it
+   */
+  version: string;
+};
 
 /**
  * Someone in a room whose identity changed
@@ -1061,6 +1086,11 @@ export type TimelineEntry =
        * Why sending failed, when `sendState` is `failed`
        */
       sendError: string | null;
+      /**
+       * The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
+       * as an object; null when there are none or the content is not at hand (a local echo)
+       */
+      customContent: JsonValue | null;
     }
   | { kind: 'dateDivider'; id: string; timestamp: number }
   | { kind: 'readMarker'; id: string }
@@ -1150,6 +1180,11 @@ export type UploadedFile = {
   thumbnail?: UploadedThumbnail | null;
   mentions?: Mentions | null;
   replyTo?: string | null;
+  /**
+   * More content keys (an object) merged into the message, like a gallery tag or a GIF's
+   * source. Keys the message already has (`body`, `url`, ...) are kept as they are.
+   */
+  extraContent?: JsonValue | null;
 };
 
 export type UploadedThumbnail = {
@@ -1418,6 +1453,39 @@ export class WizardClient extends Remote {
    */
   media(source: MediaSource, width?: number | null, height?: number | null): Promise<Uint8Array> {
     return runtime.call('WizardClient.media', this, [source, width, height]) as Promise<Uint8Array>;
+  }
+
+  /**
+   * Like `media`, with the progress of the download (`listener`) and a way to stop it:
+   * `cancelMediaDownload` with the same `token` (unique per download) rejects this call
+   * with code `cancelled`. `sizeHint` (the size in the message's info) stands in for the
+   * total when the server's own length isn't readable, as in a browser.
+   */
+  mediaDownload(
+    source: MediaSource,
+    sizeHint: number | null | undefined,
+    token: string,
+    listener: (value: DownloadProgress) => void
+  ): Promise<Uint8Array> {
+    return runtime.call('WizardClient.mediaDownload', this, [
+      source,
+      sizeHint,
+      token,
+      listener,
+    ]) as Promise<Uint8Array>;
+  }
+
+  /** Stops the `mediaDownload` that was started with `token`. */
+  cancelMediaDownload(token: string): Promise<void> {
+    return runtime.call('WizardClient.cancelMediaDownload', this, [token]) as Promise<void>;
+  }
+
+  /**
+   * The first `length` bytes of a message's media (all of it when shorter), without
+   * downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
+   */
+  mediaHead(source: MediaSource, length: number): Promise<Uint8Array> {
+    return runtime.call('WizardClient.mediaHead', this, [source, length]) as Promise<Uint8Array>;
   }
 
   /**
@@ -1953,6 +2021,30 @@ export class WizardClient extends Remote {
     ]) as Promise<JsonValue | null>;
   }
 
+  /**
+   * A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
+   * as one object, from one request.
+   */
+  profileFields(userId: string): Promise<JsonValue> {
+    return runtime.call('WizardClient.profileFields', this, [userId]) as Promise<JsonValue>;
+  }
+
+  /** Whether the homeserver supports extended profile fields (MSC4133). */
+  supportsExtendedProfiles(): Promise<boolean> {
+    return runtime.call('WizardClient.supportsExtendedProfiles', this, []) as Promise<boolean>;
+  }
+
+  /**
+   * The software and version the server named `serverName` runs (`{ name, version }`),
+   * asked of that server over federation, or null when it can't be asked. A browser can
+   * only ask servers that allow cross-site requests; native apps can ask any public one.
+   */
+  homeserverSoftware(serverName: string): Promise<HomeserverSoftware | null> {
+    return runtime.call('WizardClient.homeserverSoftware', this, [
+      serverName,
+    ]) as Promise<HomeserverSoftware | null>;
+  }
+
   setProfileField(field: string, value: JsonValue): Promise<void> {
     return runtime.call('WizardClient.setProfileField', this, [field, value]) as Promise<void>;
   }
@@ -2116,10 +2208,6 @@ export class WizardClient extends Remote {
     return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
   }
 
-  /**
-   * Calls `listener` with the room whenever another of this account's devices answers or
-   * declines a call there; stop ringing for it.
-   */
   watchCallsHandledElsewhere(listener: (value: string) => void): Subscription {
     return runtime.watch('WizardClient.watchCallsHandledElsewhere', this, [listener], Subscription);
   }

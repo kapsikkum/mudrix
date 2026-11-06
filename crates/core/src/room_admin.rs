@@ -904,13 +904,7 @@ impl WizardClient {
     /// Whether the server lets the user set an extended profile field (MSC4133): it must support
     /// extended profiles, and its `m.profile_fields` capability must allow the field.
     pub async fn can_set_profile_field(&self, field: &str) -> Result<bool> {
-        let versions = self.sdk().server_versions().await?;
-        let unstable = self.sdk().unstable_features().await?;
-        let supported = versions.iter().any(|v| v.as_str() == Some("v1.16"))
-            || unstable
-                .iter()
-                .any(|f| matches!(f.as_ref(), "uk.tcpip.msc4133" | "uk.tcpip.msc4133.stable"));
-        if !supported {
+        if !self.supports_extended_profiles().await? {
             return Ok(false);
         }
         let Ok(response) = self.sdk().send(get_capabilities::v3::Request::new()).await else {

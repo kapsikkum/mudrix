@@ -223,6 +223,34 @@ rpc_methods! {
             Ok(Bytes(this.media(source.0, width.zip(height)).await?))
         }
 
+        /// Like `media`, with the progress of the download (`listener`) and a way to stop it:
+        /// `cancelMediaDownload` with the same `token` (unique per download) rejects this call
+        /// with code `cancelled`. `sizeHint` (the size in the message's info) stands in for the
+        /// total when the server's own length isn't readable, as in a browser.
+        call fn mediaDownload(
+            source: super::types::MediaSource,
+            size_hint: Option<u64>,
+            token: String,
+            listener: Listener<crate::DownloadProgress>,
+        ) -> Bytes {
+            Ok(Bytes(
+                this.download_media(source.0, size_hint, &token, |p| listener.emit(&p))
+                    .await?,
+            ))
+        }
+
+        /// Stops the `mediaDownload` that was started with `token`.
+        call fn cancelMediaDownload(token: String) -> () {
+            this.cancel_media_download(&token);
+            Ok(())
+        }
+
+        /// The first `length` bytes of a message's media (all of it when shorter), without
+        /// downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
+        call fn mediaHead(source: super::types::MediaSource, length: u64) -> Bytes {
+            Ok(Bytes(this.media_head(source.0, length).await?))
+        }
+
         /// Bytes of a thumbnail for an `mxc://` URI, fetched with this account's credentials;
         /// scaled to fit unless `crop` is set.
         call fn thumbnail(mxc: String, width: u32, height: u32, crop: Option<bool>) -> Bytes {

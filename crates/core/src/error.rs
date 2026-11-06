@@ -28,6 +28,9 @@ pub enum Error {
     /// The homeserver refused, with a Matrix error code like `M_FORBIDDEN` or `M_LIMIT_EXCEEDED`
     #[error("{message}")]
     Matrix { errcode: String, message: String },
+    /// The app cancelled the call (a media download)
+    #[error("cancelled")]
+    Cancelled,
     #[error("the recovery key or passphrase is wrong")]
     WrongRecoveryKey,
     #[error("{0}")]

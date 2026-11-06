@@ -127,6 +127,7 @@ impl From<Error> for RpcError {
             Error::Call(_) => "call",
             Error::Matrix { .. } => "matrix",
             Error::WrongRecoveryKey => "wrongRecoveryKey",
+            Error::Cancelled => "cancelled",
             Error::Sdk(_) => "sdk",
         };
         let errcode = match &error {

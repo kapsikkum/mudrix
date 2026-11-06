@@ -196,6 +196,14 @@ data class DeviceInfo(
     val crossSignedByOwner: Boolean,
 )
 
+/** How much of a download has arrived, in bytes */
+@Serializable
+data class DownloadProgress(
+    val received: Long,
+    /** The size of the file, when the server (or the caller's hint) says */
+    val total: Long? = null,
+)
+
 /** An emoji/sticker pack (MSC2545: the user's own, or one shared in a room) */
 @Serializable
 data class EmojiPack(
@@ -369,6 +377,15 @@ data class EventSource(
 
 /** Who may read a room's history */
 typealias HistoryVisibility = String
+
+/** What `/_matrix/federation/v1/version` says a server runs */
+@Serializable
+data class HomeserverSoftware(
+    /** "Synapse", "Tuwunel", ... */
+    val name: String,
+    /** Empty when the server hides it */
+    val version: String,
+)
 
 /** Someone in a room whose identity changed */
 @Serializable
@@ -1223,6 +1240,11 @@ sealed interface TimelineEntry {
         val mentions: MentionsView? = null,
         /** Why sending failed, when `sendState` is `failed` */
         val sendError: String? = null,
+        /**
+         * The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
+         * as an object; null when there are none or the content is not at hand (a local echo)
+         */
+        val customContent: JsonElement? = null,
     ) : TimelineEntry
     @Serializable
     data class DateDivider(
@@ -1400,6 +1422,11 @@ data class UploadedFile(
     val thumbnail: UploadedThumbnail? = null,
     val mentions: Mentions? = null,
     val replyTo: String? = null,
+    /**
+     * More content keys (an object) merged into the message, like a gallery tag or a GIF's
+     * source. Keys the message already has (`body`, `url`, ...) are kept as they are.
+     */
+    val extraContent: JsonElement? = null,
 )
 
 @Serializable
@@ -1718,6 +1745,27 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      */
     suspend fun media(source: MediaSource, width: Long? = null, height: Long? = null): Bytes =
         Runtime.call("WizardClient.media", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(width), Arg.value<Long?>(height)))
+
+    /**
+     * Like `media`, with the progress of the download (`listener`) and a way to stop it:
+     * `cancelMediaDownload` with the same `token` (unique per download) rejects this call
+     * with code `cancelled`. `sizeHint` (the size in the message's info) stands in for the
+     * total when the server's own length isn't readable, as in a browser.
+     */
+    suspend fun mediaDownload(source: MediaSource, sizeHint: Long?, token: String, listener: (DownloadProgress) -> Unit): Bytes =
+        Runtime.call("WizardClient.mediaDownload", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(sizeHint), Arg.value<String>(token), Arg.listener<DownloadProgress>(listener)))
+
+    /** Stops the `mediaDownload` that was started with `token`. */
+    suspend fun cancelMediaDownload(token: String) {
+        Runtime.callUnit("WizardClient.cancelMediaDownload", handle, listOf(Arg.value<String>(token)))
+    }
+
+    /**
+     * The first `length` bytes of a message's media (all of it when shorter), without
+     * downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
+     */
+    suspend fun mediaHead(source: MediaSource, length: Long): Bytes =
+        Runtime.call("WizardClient.mediaHead", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long>(length)))
 
     /**
      * Bytes of a thumbnail for an `mxc://` URI, fetched with this account's credentials;
@@ -2047,6 +2095,25 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun profileField(userId: String, field: String): JsonElement? =
         Runtime.call("WizardClient.profileField", handle, listOf(Arg.value<String>(userId), Arg.value<String>(field)))
 
+    /**
+     * A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
+     * as one object, from one request.
+     */
+    suspend fun profileFields(userId: String): JsonElement =
+        Runtime.call("WizardClient.profileFields", handle, listOf(Arg.value<String>(userId)))
+
+    /** Whether the homeserver supports extended profile fields (MSC4133). */
+    suspend fun supportsExtendedProfiles(): Boolean =
+        Runtime.call("WizardClient.supportsExtendedProfiles", handle, listOf())
+
+    /**
+     * The software and version the server named `serverName` runs (`{ name, version }`),
+     * asked of that server over federation, or null when it can't be asked. A browser can
+     * only ask servers that allow cross-site requests; native apps can ask any public one.
+     */
+    suspend fun homeserverSoftware(serverName: String): HomeserverSoftware? =
+        Runtime.call("WizardClient.homeserverSoftware", handle, listOf(Arg.value<String>(serverName)))
+
     suspend fun setProfileField(field: String, value: JsonElement) {
         Runtime.callUnit("WizardClient.setProfileField", handle, listOf(Arg.value<String>(field), Arg.value<JsonElement>(value)))
     }
@@ -2162,10 +2229,6 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchIncomingCalls(listener: (IncomingCall) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCall>(listener)), ::Subscription)
 
-    /**
-     * Calls `listener` with the room whenever another of this account's devices answers or
-     * declines a call there; stop ringing for it.
-     */
     fun watchCallsHandledElsewhere(listener: (String) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchCallsHandledElsewhere", handle, listOf(Arg.listener<String>(listener)), ::Subscription)
 

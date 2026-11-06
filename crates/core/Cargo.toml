@@ -20,7 +20,7 @@ thiserror = "2"
 tracing = "0.1"
 url = "2"
 base64 = "0.22"
-reqwest = { version = "0.13", default-features = false, features = ["json"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "stream"] }
 getrandom = "0.4"
 specta = { version = "=2.0.0-rc.27", features = ["derive", "serde_json"], optional = true }
 specta-serde = { version = "=0.0.14", optional = true }

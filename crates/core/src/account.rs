@@ -543,6 +543,23 @@ impl WizardClient {
         Ok(profile.get(field).cloned())
     }
 
+    /// Every field of a user's profile (`displayname`, `avatar_url` and the extended ones,
+    /// MSC4133) as one object, from a single request.
+    pub async fn profile_fields(&self, user_id: &str) -> Result<Value> {
+        let id = crate::rooms::parse_user_id(user_id)?.to_owned();
+        let profile = self.sdk().account().fetch_user_profile_of(&id).await?.data;
+        Ok(Value::Object(profile.into_iter().collect()))
+    }
+
+    /// Whether the homeserver supports extended profile fields (MSC4133, stable in Matrix 1.16).
+    pub async fn supports_extended_profiles(&self) -> Result<bool> {
+        let versions = self.sdk().server_versions().await?;
+        let unstable = self.sdk().unstable_features().await?;
+        let versions: Vec<&str> = versions.iter().filter_map(|v| v.as_str()).collect();
+        let unstable: Vec<&str> = unstable.iter().map(|f| f.as_ref()).collect();
+        Ok(extended_profiles_supported(&versions, &unstable))
+    }
+
     pub async fn set_profile_field(&self, field: &str, value: Value) -> Result<()> {
         use matrix_sdk::ruma::profile::ProfileFieldValue;
         let value = ProfileFieldValue::new(field, value).map_err(|e| Error::Sdk(e.to_string()))?;
@@ -584,6 +601,14 @@ impl WizardClient {
     }
 }
 
+/// Whether a server's spec versions or unstable features include extended profile fields
+pub(crate) fn extended_profiles_supported(versions: &[&str], unstable_features: &[&str]) -> bool {
+    versions.contains(&"v1.16")
+        || unstable_features
+            .iter()
+            .any(|f| matches!(*f, "uk.tcpip.msc4133" | "uk.tcpip.msc4133.stable"))
+}
+
 /// What the homeserver says it supports
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
@@ -605,5 +630,22 @@ impl WizardClient {
                 .collect(),
             unstable_features: unstable.iter().map(|f| f.as_ref().to_owned()).collect(),
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn extended_profiles_need_the_spec_version_or_the_msc_flag() {
+        assert!(!extended_profiles_supported(&["v1.11", "v1.15"], &[]));
+        assert!(extended_profiles_supported(&["v1.15", "v1.16"], &[]));
+        assert!(extended_profiles_supported(&[], &["uk.tcpip.msc4133"]));
+        assert!(extended_profiles_supported(
+            &[],
+            &["uk.tcpip.msc4133.stable"]
+        ));
+        assert!(!extended_profiles_supported(&[], &["org.matrix.msc4380"]));
     }
 }

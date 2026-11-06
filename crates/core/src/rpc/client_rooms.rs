@@ -208,6 +208,24 @@ rpc_methods! {
             this.profile_field(&user_id, &field).await
         }
 
+        /// A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
+        /// as one object, from one request.
+        call fn profileFields(user_id: String) -> Value {
+            this.profile_fields(&user_id).await
+        }
+
+        /// Whether the homeserver supports extended profile fields (MSC4133).
+        call fn supportsExtendedProfiles() -> bool {
+            this.supports_extended_profiles().await
+        }
+
+        /// The software and version the server named `serverName` runs (`{ name, version }`),
+        /// asked of that server over federation, or null when it can't be asked. A browser can
+        /// only ask servers that allow cross-site requests; native apps can ask any public one.
+        call fn homeserverSoftware(server_name: String) -> Option<crate::HomeserverSoftware> {
+            this.homeserver_software(&server_name).await
+        }
+
         call fn setProfileField(field: String, value: Value) -> () {
             this.set_profile_field(&field, value).await
         }

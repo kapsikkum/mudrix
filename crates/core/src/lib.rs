@@ -21,6 +21,9 @@ mod encryption;
 mod error;
 mod extras;
 mod features;
+mod homeserver;
+mod media_download;
+mod net;
 mod profile;
 mod qr_login;
 mod room_admin;
@@ -51,6 +54,8 @@ pub use encryption::{
 pub use error::{Error, Result};
 pub use extras::{ThreadInfo, ThreadPage, UrlPreview};
 pub use features::{EmojiPack, Notification, PackImage, SearchHit};
+pub use homeserver::HomeserverSoftware;
+pub use media_download::DownloadProgress;
 pub use profile::{
     CustomStatus, Presence, PresenceInfo, UserProfile, MAX_STATUS_LENGTH, STATUS_FIELD,
 };

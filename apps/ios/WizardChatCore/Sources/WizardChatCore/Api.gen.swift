@@ -296,6 +296,18 @@ public struct DeviceInfo: Codable, Hashable, Sendable {
     }
 }
 
+/// How much of a download has arrived, in bytes
+public struct DownloadProgress: Codable, Hashable, Sendable {
+    public var received: Int
+    /// The size of the file, when the server (or the caller's hint) says
+    public var total: Int?
+
+    public init(received: Int, total: Int? = nil) {
+        self.received = received
+        self.total = total
+    }
+}
+
 /// An emoji/sticker pack (MSC2545: the user's own, or one shared in a room)
 public struct EmojiPack: Codable, Hashable, Sendable {
     public var id: String
@@ -596,6 +608,19 @@ public struct EventSource: Codable, Hashable, Sendable {
 
 /// Who may read a room's history
 public typealias HistoryVisibility = String
+
+/// What `/_matrix/federation/v1/version` says a server runs
+public struct HomeserverSoftware: Codable, Hashable, Sendable {
+    /// "Synapse", "Tuwunel", ...
+    public var name: String
+    /// Empty when the server hides it
+    public var version: String
+
+    public init(name: String, version: String) {
+        self.name = name
+        self.version = version
+    }
+}
 
 /// Someone in a room whose identity changed
 public struct IdentityChange: Codable, Hashable, Sendable {
@@ -1913,8 +1938,11 @@ public enum TimelineEntry: Codable, Hashable, Sendable {
         public var mentions: MentionsView?
         /// Why sending failed, when `sendState` is `failed`
         public var sendError: String?
+        /// The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
+        /// as an object; null when there are none or the content is not at hand (a local echo)
+        public var customContent: JSONValue?
 
-        public init(id: String, itemKey: String, eventId: String? = nil, sender: String, senderName: String? = nil, senderAvatar: String? = nil, timestamp: Int, isOwn: Bool, isEditable: Bool, content: EntryContent, inReplyTo: ReplyPreview? = nil, threadRoot: String? = nil, thread: ThreadSummaryView? = nil, edited: Bool, reactions: [Reaction], sendState: SendState? = nil, readBy: [ReadReceiptView], mentions: MentionsView? = nil, sendError: String? = nil) {
+        public init(id: String, itemKey: String, eventId: String? = nil, sender: String, senderName: String? = nil, senderAvatar: String? = nil, timestamp: Int, isOwn: Bool, isEditable: Bool, content: EntryContent, inReplyTo: ReplyPreview? = nil, threadRoot: String? = nil, thread: ThreadSummaryView? = nil, edited: Bool, reactions: [Reaction], sendState: SendState? = nil, readBy: [ReadReceiptView], mentions: MentionsView? = nil, sendError: String? = nil, customContent: JSONValue? = nil) {
             self.id = id
             self.itemKey = itemKey
             self.eventId = eventId
@@ -1934,6 +1962,7 @@ public enum TimelineEntry: Codable, Hashable, Sendable {
             self.readBy = readBy
             self.mentions = mentions
             self.sendError = sendError
+            self.customContent = customContent
         }
     }
     public struct DateDivider: Codable, Hashable, Sendable {
@@ -2198,8 +2227,11 @@ public struct UploadedFile: Codable, Hashable, Sendable {
     public var thumbnail: UploadedThumbnail?
     public var mentions: Mentions?
     public var replyTo: String?
+    /// More content keys (an object) merged into the message, like a gallery tag or a GIF's
+    /// source. Keys the message already has (`body`, `url`, ...) are kept as they are.
+    public var extraContent: JSONValue?
 
-    public init(source: JSONValue, size: Int, filename: String, mimetype: String, caption: String? = nil, captionHtml: String? = nil, width: Int? = nil, height: Int? = nil, durationMs: Int? = nil, spoiler: Bool? = nil, spoilerReason: String? = nil, voice: Bool? = nil, waveform: [Int]? = nil, isAnimated: Bool? = nil, thumbnail: UploadedThumbnail? = nil, mentions: Mentions? = nil, replyTo: String? = nil) {
+    public init(source: JSONValue, size: Int, filename: String, mimetype: String, caption: String? = nil, captionHtml: String? = nil, width: Int? = nil, height: Int? = nil, durationMs: Int? = nil, spoiler: Bool? = nil, spoilerReason: String? = nil, voice: Bool? = nil, waveform: [Int]? = nil, isAnimated: Bool? = nil, thumbnail: UploadedThumbnail? = nil, mentions: Mentions? = nil, replyTo: String? = nil, extraContent: JSONValue? = nil) {
         self.source = source
         self.size = size
         self.filename = filename
@@ -2217,6 +2249,7 @@ public struct UploadedFile: Codable, Hashable, Sendable {
         self.thumbnail = thumbnail
         self.mentions = mentions
         self.replyTo = replyTo
+        self.extraContent = extraContent
     }
 }
 
@@ -2578,6 +2611,25 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// of unencrypted media is fetched instead of the full file.
     public func media(source: MediaSource, width: Int? = nil, height: Int? = nil) async throws -> Data {
         try await call("WizardClient.media", [.value(source), .value(width), .value(height)])
+    }
+
+    /// Like `media`, with the progress of the download (`listener`) and a way to stop it:
+    /// `cancelMediaDownload` with the same `token` (unique per download) rejects this call
+    /// with code `cancelled`. `sizeHint` (the size in the message's info) stands in for the
+    /// total when the server's own length isn't readable, as in a browser.
+    public func mediaDownload(source: MediaSource, sizeHint: Int?, token: String, listener: @escaping @Sendable (DownloadProgress) -> Void) async throws -> Data {
+        try await call("WizardClient.mediaDownload", [.value(source), .value(sizeHint), .value(token), .listener(DownloadProgress.self, listener)])
+    }
+
+    /// Stops the `mediaDownload` that was started with `token`.
+    public func cancelMediaDownload(token: String) async throws {
+        _ = try await call("WizardClient.cancelMediaDownload", [.value(token)]) as Empty
+    }
+
+    /// The first `length` bytes of a message's media (all of it when shorter), without
+    /// downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
+    public func mediaHead(source: MediaSource, length: Int) async throws -> Data {
+        try await call("WizardClient.mediaHead", [.value(source), .value(length)])
     }
 
     /// Bytes of a thumbnail for an `mxc://` URI, fetched with this account's credentials;
@@ -2950,6 +3002,24 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.profileField", [.value(userId), .value(field)])
     }
 
+    /// A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
+    /// as one object, from one request.
+    public func profileFields(userId: String) async throws -> JSONValue {
+        try await call("WizardClient.profileFields", [.value(userId)])
+    }
+
+    /// Whether the homeserver supports extended profile fields (MSC4133).
+    public func supportsExtendedProfiles() async throws -> Bool {
+        try await call("WizardClient.supportsExtendedProfiles", [])
+    }
+
+    /// The software and version the server named `serverName` runs (`{ name, version }`),
+    /// asked of that server over federation, or null when it can't be asked. A browser can
+    /// only ask servers that allow cross-site requests; native apps can ask any public one.
+    public func homeserverSoftware(serverName: String) async throws -> HomeserverSoftware? {
+        try await call("WizardClient.homeserverSoftware", [.value(serverName)])
+    }
+
     public func setProfileField(field: String, value: JSONValue) async throws {
         _ = try await call("WizardClient.setProfileField", [.value(field), .value(value)]) as Empty
     }
@@ -3086,8 +3156,6 @@ public final class WizardClient: Remote, @unchecked Sendable {
         watch("WizardClient.watchIncomingCalls", [.listener(IncomingCall.self, listener)])
     }
 
-    /// Calls `listener` with the room whenever another of this account's devices answers or
-    /// declines a call there; stop ringing for it.
     @discardableResult
     public func watchCallsHandledElsewhere(listener: @escaping @Sendable (String) -> Void) -> Subscription {
         watch("WizardClient.watchCallsHandledElsewhere", [.listener(String.self, listener)])

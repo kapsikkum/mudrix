@@ -60,6 +60,9 @@ pub enum TimelineEntry {
         mentions: Option<MentionsView>,
         /// Why sending failed, when `sendState` is `failed`
         send_error: Option<String>,
+        /// The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
+        /// as an object; null when there are none or the content is not at hand (a local echo)
+        custom_content: Option<serde_json::Value>,
     },
     DateDivider {
         id: String,
@@ -276,6 +279,39 @@ fn event_entry(
         read_by,
         mentions,
         send_error,
+        custom_content: event
+            .original_json()
+            .or_else(|| event.latest_json())
+            .and_then(|raw| raw.get_field::<serde_json::Value>("content").ok().flatten())
+            .and_then(|content| custom_content(&content)),
+    }
+}
+
+/// The top-level keys of event content that someone else's namespace owns, like
+/// `xyz.mudrix.gif`: they hold a dot, but neither Matrix's `m.` nor its `org.matrix.` unstable
+/// prefix (the voice message blocks would only repeat their waveform).
+fn custom_content(content: &serde_json::Value) -> Option<serde_json::Value> {
+    let custom: serde_json::Map<String, serde_json::Value> = content
+        .as_object()?
+        .iter()
+        .filter(|(key, _)| {
+            key.contains('.') && !key.starts_with("m.") && !key.starts_with("org.matrix.")
+        })
+        .map(|(key, value)| (key.clone(), value.clone()))
+        .collect();
+    (!custom.is_empty()).then_some(serde_json::Value::Object(custom))
+}
+
+/// Adds `extra` (an object) to message content under keys it doesn't have yet, so what a
+/// caller sends along can never replace the message itself.
+fn merge_extra(
+    content: &mut serde_json::Map<String, serde_json::Value>,
+    extra: Option<serde_json::Value>,
+) {
+    if let Some(serde_json::Value::Object(extra)) = extra {
+        for (key, value) in extra {
+            content.entry(key).or_insert(value);
+        }
     }
 }
 
@@ -570,6 +606,9 @@ pub struct UploadedAttachment {
     /// The uploaded preview: its source, type, size in pixels and bytes
     pub thumbnail: Option<(serde_json::Value, String, u32, u32, u64)>,
     pub mentions: Option<MentionsInput>,
+    /// More content keys (an object) to send with the message, like a gallery tag; keys the
+    /// message already has are kept as they are
+    pub extra_content: Option<serde_json::Value>,
 }
 
 impl UploadedAttachment {
@@ -683,6 +722,7 @@ impl UploadedAttachment {
             }
             content.insert("m.mentions".into(), Value::Object(m));
         }
+        merge_extra(&mut content, self.extra_content);
         Value::Object(content)
     }
 }
@@ -1299,4 +1339,71 @@ pub(crate) fn mentions_of(input: MentionsInput) -> matrix_sdk::ruma::events::Men
     );
     mentions.room = input.room;
     mentions
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::*;
+
+    #[test]
+    fn custom_content_keeps_only_foreign_namespaced_keys() {
+        let content = json!({
+            "msgtype": "m.image",
+            "body": "a.gif",
+            "info": { "w": 1 },
+            "m.relates_to": {},
+            "org.matrix.msc1767.audio": { "waveform": [1, 2] },
+            "xyz.mudrix.gif": { "provider": "giphy", "id": "abc" },
+            "io.github.kapsikkum.mudrix.gallery": { "id": "g1", "index": 0, "count": 3 },
+        });
+        assert_eq!(
+            custom_content(&content),
+            Some(json!({
+                "xyz.mudrix.gif": { "provider": "giphy", "id": "abc" },
+                "io.github.kapsikkum.mudrix.gallery": { "id": "g1", "index": 0, "count": 3 },
+            }))
+        );
+        assert_eq!(
+            custom_content(&json!({ "msgtype": "m.text", "body": "hi" })),
+            None
+        );
+        assert_eq!(custom_content(&json!("text")), None);
+    }
+
+    #[test]
+    fn extra_content_never_replaces_the_message() {
+        let mut content = json!({ "msgtype": "m.image", "body": "a.png" })
+            .as_object()
+            .cloned()
+            .unwrap();
+        merge_extra(
+            &mut content,
+            Some(json!({ "msgtype": "m.text", "body": "x", "xyz.mudrix.gif": { "id": "1" } })),
+        );
+        assert_eq!(
+            serde_json::Value::Object(content.clone()),
+            json!({ "msgtype": "m.image", "body": "a.png", "xyz.mudrix.gif": { "id": "1" } })
+        );
+        merge_extra(&mut content, Some(json!("not an object")));
+        merge_extra(&mut content, None);
+        assert_eq!(content.len(), 3);
+    }
+
+    #[test]
+    fn uploaded_files_carry_their_extra_content() {
+        let content = UploadedAttachment {
+            source: json!({ "url": "mxc://example.org/abc" }),
+            size: 3,
+            filename: "a.png".into(),
+            mimetype: "image/png".into(),
+            extra_content: Some(json!({ "xyz.mudrix.gif": { "provider": "klipy", "id": "9" } })),
+            ..Default::default()
+        }
+        .content();
+        assert_eq!(content["xyz.mudrix.gif"]["id"], "9");
+        assert_eq!(content["msgtype"], "m.image");
+        assert_eq!(content["url"], "mxc://example.org/abc");
+    }
 }

@@ -112,6 +112,11 @@ pub struct UploadedFile {
     #[serde(default)]
     #[cfg_attr(feature = "typegen", specta(optional))]
     reply_to: Option<String>,
+    /// More content keys (an object) merged into the message, like a gallery tag or a GIF's
+    /// source. Keys the message already has (`body`, `url`, ...) are kept as they are.
+    #[serde(default)]
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    extra_content: Option<Value>,
 }
 
 #[derive(Deserialize)]
@@ -253,6 +258,7 @@ rpc_methods! {
                 is_animated: f.is_animated,
                 thumbnail: f.thumbnail.map(|t| (t.source, t.mimetype, t.width, t.height, t.size)),
                 mentions: f.mentions,
+                extra_content: f.extra_content,
             };
             this.send_uploaded(attachment, f.reply_to.as_deref()).await
         }
