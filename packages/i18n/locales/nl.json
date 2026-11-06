@@ -1163,6 +1163,7 @@
       "pronounsHint": "Scheid met komma's. Tot {{count}} items van elk {{chars}} tekens.",
       "timezone": "Tijdzone",
       "timezoneHint": "Hiermee kunnen anderen je lokale tijd op je profiel zien.",
+      "extendedProfileUnsupported": "Je homeserver ondersteunt geen uitgebreide profielen, dus banner, bio, voornaamwoorden en tijdzone kunnen niet worden opgeslagen. Weergavenaam en avatar werken nog wel. Vraag je serverbeheerder om MSC4133 in te schakelen (Synapse: experimental_features.msc4133_enabled, of Matrix 1.16+).",
       "timezoneUnset": "Niet gedeeld",
       "timezoneBrowser": "{{tz}} (dit apparaat)",
       "profileSaved": "Profiel opgeslagen",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Uitnodigingen blokkeren bijwerken mislukt: {{error}}",
       "showPresence": "Aanwezigheid van gebruikers tonen",
       "showPresenceNote": "Toon wanneer gebruikers online, offline of niet beschikbaar zijn. Je aanwezigheid is zichtbaar voor anderen.",
+      "showHomeserverSoftware": "Homeserver-software tonen",
+      "showHomeserverSoftwareNote": "Zoekt op welke software (Synapse, Tuwunel, ...) de homeserver van iemand draait en toont die op hun profielkaart. Dit neemt rechtstreeks contact op met hun server.",
       "streamer": {
         "auto": "Terwijl ik mijn scherm deel",
         "indicator": "Streamermodus staat aan. Klik om te wijzigen.",

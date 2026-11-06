@@ -1163,6 +1163,7 @@
       "pronounsHint": "Virgülle ayırın. En fazla {{count}} giriş, her biri {{chars}} karakter.",
       "timezone": "Saat dilimi",
       "timezoneHint": "Diğerlerinin profilinizde yerel saatinizi görmesini sağlar.",
+      "extendedProfileUnsupported": "Ana sunucunuz genişletilmiş profilleri desteklemiyor, bu nedenle banner, biyografi, zamir ve saat dilimi kaydedilemez. Görünen ad ve avatar hâlâ çalışır. Sunucu yöneticinizden MSC4133 özelliğini etkinleştirmesini isteyin (Synapse: experimental_features.msc4133_enabled veya Matrix 1.16+).",
       "timezoneUnset": "Paylaşılmıyor",
       "timezoneBrowser": "{{tz}} (bu cihaz)",
       "profileSaved": "Profil kaydedildi",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Davet engelleme güncellenemedi: {{error}}",
       "showPresence": "Kullanıcı durumunu göster",
       "showPresenceNote": "Kullanıcıların çevrimiçi, çevrimdışı veya müsait olmadığını gösterin. Durumunuz diğerlerine görünür olacak.",
+      "showHomeserverSoftware": "Sunucu yazılımını göster",
+      "showHomeserverSoftwareNote": "Bir kişinin ana sunucusunun hangi yazılımı (Synapse, Tuwunel, ...) kullandığını sorgulayıp profil kartında gösterir. Sunucusuyla doğrudan iletişim kurar.",
       "streamer": {
         "auto": "Ekranımı paylaşırken",
         "indicator": "Yayıncı modu açık. Değiştirmek için tıklayın.",

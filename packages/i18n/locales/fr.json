@@ -1163,6 +1163,7 @@
       "pronounsHint": "Séparez-les par des virgules. Jusqu'à {{count}} entrées de {{chars}} caractères.",
       "timezone": "Fuseau horaire",
       "timezoneHint": "Permet aux autres de voir votre heure locale sur votre profil.",
+      "extendedProfileUnsupported": "Votre serveur d'accueil ne prend pas en charge les profils étendus : la bannière, la bio, les pronoms et le fuseau horaire ne peuvent donc pas être enregistrés. Le nom d'affichage et l'avatar fonctionnent toujours. Demandez à l'administrateur de votre serveur d'activer MSC4133 (Synapse : experimental_features.msc4133_enabled, ou Matrix 1.16+).",
       "timezoneUnset": "Non partagé",
       "timezoneBrowser": "{{tz}} (cet appareil)",
       "profileSaved": "Profil enregistré",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Échec de la mise à jour du blocage des invitations : {{error}}",
       "showPresence": "Afficher la présence des utilisateurs",
       "showPresenceNote": "Indique si les utilisateurs sont en ligne, hors ligne ou indisponibles. Votre présence sera visible par les autres.",
+      "showHomeserverSoftware": "Afficher le logiciel du serveur",
+      "showHomeserverSoftwareNote": "Recherche le logiciel (Synapse, Tuwunel, ...) utilisé par le serveur d’une personne et l’affiche sur sa carte de profil. Cela contacte directement son serveur.",
       "streamer": {
         "auto": "Pendant le partage d'écran",
         "indicator": "Le mode streamer est activé. Cliquez pour le modifier.",

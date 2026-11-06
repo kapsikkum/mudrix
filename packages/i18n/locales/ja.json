@@ -1163,6 +1163,7 @@
       "pronounsHint": "カンマで区切ってください。{{chars}} 文字までの項目を最大 {{count}} 件まで設定できます。",
       "timezone": "タイムゾーン",
       "timezoneHint": "プロフィールに現地時刻を表示できるようにします。",
+      "extendedProfileUnsupported": "お使いのホームサーバーは拡張プロフィールに対応していないため、バナー、自己紹介、代名詞、タイムゾーンは保存できません。表示名とアバターは引き続き使用できます。サーバー管理者に MSC4133 の有効化を依頼してください（Synapse: experimental_features.msc4133_enabled、または Matrix 1.16 以降）。",
       "timezoneUnset": "共有しない",
       "timezoneBrowser": "{{tz}}（このデバイス）",
       "profileSaved": "プロフィールを保存しました",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "招待ブロックの更新に失敗しました: {{error}}",
       "showPresence": "ユーザーのオンライン状態を表示",
       "showPresenceNote": "ユーザーがオンライン、オフライン、または取り込み中かを表示します。あなたの状態も他のユーザーに表示されます。",
+      "showHomeserverSoftware": "サーバーソフトウェアを表示",
+      "showHomeserverSoftwareNote": "相手のホームサーバーが使っているソフトウェア（Synapse、Tuwunelなど）を調べてプロフィールカードに表示します。相手のサーバーに直接接続します。",
       "streamer": {
         "auto": "画面共有中",
         "indicator": "配信者モードがオンです。クリックして変更できます。",

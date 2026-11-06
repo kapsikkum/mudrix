@@ -34,15 +34,7 @@ const statusWritable = new WeakMap<MatrixClient, Promise<boolean>>();
 function supportsProfileFields(client: MatrixClient): Promise<boolean> {
   let support = profileSupport.get(client);
   if (!support) {
-    support = client
-      .serverFeatures()
-      .then(
-        ({ versions, unstableFeatures }) =>
-          versions.includes('v1.16') ||
-          unstableFeatures.includes('uk.tcpip.msc4133') ||
-          unstableFeatures.includes('uk.tcpip.msc4133.stable')
-      )
-      .catch(() => false);
+    support = client.supportsExtendedProfiles().catch(() => false);
     profileSupport.set(client, support);
   }
   return support;

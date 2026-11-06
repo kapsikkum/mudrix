@@ -1163,6 +1163,7 @@
       "pronounsHint": "Separali con virgole. Fino a {{count}} voci di {{chars}} caratteri.",
       "timezone": "Fuso orario",
       "timezoneHint": "Permette agli altri di vedere la tua ora locale nel tuo profilo.",
+      "extendedProfileUnsupported": "Il tuo homeserver non supporta i profili estesi, quindi banner, bio, pronomi e fuso orario non possono essere salvati. Nome visualizzato e avatar funzionano ancora. Chiedi all'amministratore del server di attivare MSC4133 (Synapse: experimental_features.msc4133_enabled, oppure Matrix 1.16+).",
       "timezoneUnset": "Non condiviso",
       "timezoneBrowser": "{{tz}} (questo dispositivo)",
       "profileSaved": "Profilo salvato",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Aggiornamento del blocco inviti non riuscito: {{error}}",
       "showPresence": "Mostra presenza utenti",
       "showPresenceNote": "Mostra se gli utenti sono online, offline o non disponibili. La tua presenza sarà visibile agli altri.",
+      "showHomeserverSoftware": "Mostra il software del server",
+      "showHomeserverSoftwareNote": "Cerca quale software (Synapse, Tuwunel, ...) usa il server di una persona e lo mostra sulla sua scheda profilo. Contatta direttamente il suo server.",
       "streamer": {
         "auto": "Mentre condivido lo schermo",
         "indicator": "La modalità streamer è attiva. Clicca per cambiarla.",

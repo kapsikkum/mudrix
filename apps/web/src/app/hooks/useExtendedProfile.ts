@@ -38,23 +38,6 @@ import { useSyncReady } from '@/app/hooks/useSync';
 
 export const EXTENDED_PROFILE_KEY = 'extended-profile';
 
-/**
- * Every profile field this app shows, under each name it is stored by. The core reads one field per
- * call (it fetches the whole profile each time), so only fields that are displayed are listed.
- * The custom status and the banner have their own readers.
- */
-const READ_KEYS: readonly string[] = [
-  ...BIO_KEYS,
-  ...PRONOUN_KEYS,
-  PROFILE_TZ_KEY,
-  ...PROFILE_ACTIVITY_KEYS,
-  ...PROFILE_ACCENT_KEYS,
-  ...PROFILE_AVATAR_DECORATION_KEYS,
-  ...PROFILE_NAMEPLATE_KEYS,
-  ...PROFILE_FRAME_KEYS,
-  ...PROFILE_IS_MUDRIX_USER_KEYS,
-];
-
 // Lists mount many rows at once; cap how many profile requests run at the same time.
 const MAX_CONCURRENT_PROFILE_FETCHES = 4;
 let activeProfileFetches = 0;
@@ -78,23 +61,13 @@ async function withProfileFetchSlot<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-/** The fields of a user's profile as one object. A field that cannot be read counts as unset. */
+/** The whole profile of a user as one object (one request). */
 async function fetchRawProfile(
   client: MatrixClient,
   userId: string
 ): Promise<Record<string, unknown>> {
-  const results = await Promise.allSettled(
-    READ_KEYS.map((key) => withProfileFetchSlot(() => client.profileField(userId, key)))
-  );
-  // Every read failing means the network or the account is the problem, not an empty profile
-  if (results.every((r) => r.status === 'rejected')) {
-    throw (results[0] as PromiseRejectedResult).reason;
-  }
-  const raw: Record<string, unknown> = {};
-  results.forEach((result, i) => {
-    if (result.status === 'fulfilled' && result.value !== null) raw[READ_KEYS[i]] = result.value;
-  });
-  return raw;
+  const profile = await withProfileFetchSlot(() => client.profileFields(userId));
+  return profile && typeof profile === 'object' && !Array.isArray(profile) ? profile : {};
 }
 
 /** The query function behind `useExtendedProfile`, for callers that batch several users. */
@@ -124,6 +97,18 @@ export function useExtendedProfile(
     // interval refetches while the tab is hidden.
     refetchInterval: options?.refetchInterval ?? false,
   });
+}
+
+/** Whether the homeserver supports extended profile fields (bio, pronouns, timezone, banner). */
+export function useExtendedProfileSupport(client: MatrixClient | null) {
+  const { data, isLoading } = useQuery<boolean>({
+    queryKey: ['extended-profile-support', client?.userId() ?? null],
+    queryFn: () => (client ? client.supportsExtendedProfiles() : false),
+    enabled: !!client,
+    staleTime: 10 * 60_000,
+  });
+  // A failed check must not lock the editor: the save shows its own error
+  return { supported: data ?? true, loading: isLoading };
 }
 
 const MAX_TIMEOUT_MS = 2 ** 31 - 1;

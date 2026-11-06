@@ -1163,6 +1163,7 @@
       "pronounsHint": "Oddziel przecinkami. Maksymalna liczba wpisów: {{count}}, każdy do {{chars}} znaków.",
       "timezone": "Strefa czasowa",
       "timezoneHint": "Pozwala innym zobaczyć Twój lokalny czas na Twoim profilu.",
+      "extendedProfileUnsupported": "Twój serwer domowy nie obsługuje rozszerzonych profili, więc baner, opis, zaimki i strefa czasowa nie mogą zostać zapisane. Nazwa wyświetlana i awatar nadal działają. Poproś administratora serwera o włączenie MSC4133 (Synapse: experimental_features.msc4133_enabled lub Matrix 1.16+).",
       "timezoneUnset": "Nieudostępniana",
       "timezoneBrowser": "{{tz}} (to urządzenie)",
       "profileSaved": "Profil został zapisany",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Nie udało się zaktualizować blokowania zaproszeń: {{error}}",
       "showPresence": "Pokazuj obecność użytkowników",
       "showPresenceNote": "Pokazuj, kiedy użytkownicy są online, offline lub niedostępni. Twoja obecność będzie widoczna dla innych.",
+      "showHomeserverSoftware": "Pokazuj oprogramowanie serwera",
+      "showHomeserverSoftwareNote": "Sprawdza, jakiego oprogramowania (Synapse, Tuwunel, ...) używa serwer danej osoby, i pokazuje je na jej karcie profilu. Łączy się bezpośrednio z jej serwerem.",
       "streamer": {
         "auto": "Gdy udostępniam ekran",
         "indicator": "Tryb streamera jest włączony. Kliknij, aby go zmienić.",

@@ -1,7 +1,16 @@
+import { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { SealCheckIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { Tooltip } from '@/app/components/Tooltip';
+import { showHomeserverSoftwareAtom } from '@/app/store/atoms';
+import {
+  describeSoftware,
+  getHomeserverSoftware,
+  serverNameOf,
+  type HomeserverSoftware,
+} from '@/util/homeserverSoftware';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import {
@@ -60,23 +69,93 @@ export function MudrixBadgeIcon() {
   );
 }
 
+function HomeserverBadgeIcon({ software }: { software: HomeserverSoftware }) {
+  const known = describeSoftware(software.name);
+  const label = software.version ? `${known.label} ${software.version}` : known.label;
+  const plain = !known.logo && !known.emoji;
+  return (
+    <Tooltip content={label}>
+      <span
+        className={css.badge}
+        role="img"
+        aria-label={label}
+        style={
+          plain
+            ? {
+                color: known.color,
+                borderColor: `color-mix(in srgb, ${known.color} 55%, transparent)`,
+                backgroundColor: `color-mix(in srgb, ${known.color} 18%, transparent)`,
+                fontSize: known.glyph.length > 1 ? 9 : 11,
+                fontWeight: 800,
+                lineHeight: 1,
+              }
+            : { fontSize: 13, lineHeight: 1 }
+        }
+      >
+        {known.logo ? (
+          <img
+            src={`/assets/homeservers/${known.logo}`}
+            alt=""
+            width={16}
+            height={16}
+            draggable={false}
+            style={{ objectFit: 'contain' }}
+          />
+        ) : (
+          (known.emoji ?? known.glyph)
+        )}
+      </span>
+    </Tooltip>
+  );
+}
+
 /**
- * The badges on a profile card (today only the automatic Mudrix-user one). `floating` pins the
- * row to the top-right of the nearest positioned ancestor (the card's name block).
+ * The software the user's homeserver runs, or null while unknown, when the lookup is switched
+ * off in Privacy, or when the server can't be asked (a browser can only ask servers that allow
+ * cross-site requests).
+ */
+export function useHomeserverSoftware(
+  client: MatrixClient | null | undefined,
+  userId: string
+): HomeserverSoftware | null {
+  const enabled = useAtomValue(showHomeserverSoftwareAtom);
+  const serverName = serverNameOf(userId);
+  const [software, setSoftware] = useState<HomeserverSoftware | null>(null);
+  useEffect(() => {
+    setSoftware(null);
+    if (!client || !serverName || !enabled) return undefined;
+    let cancelled = false;
+    void getHomeserverSoftware(client, serverName).then((found) => {
+      if (!cancelled) setSoftware(found);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [client, serverName, enabled]);
+  return software;
+}
+
+/**
+ * The badges on a profile card: the automatic Mudrix-user badge and the software of the
+ * account's homeserver (hover for name and version). `floating` pins the row to the top-right
+ * of the nearest positioned ancestor (the card's name block).
  */
 export function ProfileBadges({
+  software,
   showMudrix,
   floating = false,
   style,
 }: {
+  software: HomeserverSoftware | null;
   showMudrix: boolean;
   floating?: boolean;
   style?: React.CSSProperties;
 }) {
-  if (!showMudrix) return null;
+  if (!showMudrix && !software) return null;
   return (
     <div className={floating ? `${css.badgeRow} ${css.badgeFloating}` : css.badgeRow} style={style}>
-      <MudrixBadgeIcon />
+      {showMudrix && <MudrixBadgeIcon />}
+      {software && <HomeserverBadgeIcon software={software} />}
     </div>
   );
 }

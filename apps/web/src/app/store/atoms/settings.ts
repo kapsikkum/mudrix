@@ -118,6 +118,8 @@ export interface Preferences {
   streamerMode: StreamerMode;
   /** Share whether you are online (off: you appear offline and nobody's presence is shown) */
   showPresence: boolean;
+  /** Ask a person's homeserver what software it runs and show it as a badge on their profile */
+  showHomeserverSoftware: boolean;
   followSystemTheme: boolean;
   systemDarkTheme: ThemeName;
   systemLightTheme: ThemeName;
@@ -185,6 +187,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   messageSendAnimation: false,
   streamerMode: 'auto',
   showPresence: false,
+  showHomeserverSoftware: true,
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
   systemLightTheme: 'Ethereal',
@@ -246,6 +249,7 @@ export const emoticonsToEmojiAtom = preferenceFieldAtom('emoticonsToEmoji');
 export const messageSendAnimationAtom = preferenceFieldAtom('messageSendAnimation');
 export const streamerModeAtom = preferenceFieldAtom('streamerMode');
 export const showPresenceAtom = preferenceFieldAtom('showPresence');
+export const showHomeserverSoftwareAtom = preferenceFieldAtom('showHomeserverSoftware');
 export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
 export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
 export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');

@@ -1163,6 +1163,7 @@
       "pronounsHint": "Sepáralos con comas. Hasta {{count}} entradas de {{chars}} caracteres.",
       "timezone": "Zona horaria",
       "timezoneHint": "Permite que otros vean tu hora local en tu perfil.",
+      "extendedProfileUnsupported": "Tu servidor doméstico no admite perfiles extendidos, por lo que el banner, la biografía, los pronombres y la zona horaria no se pueden guardar. El nombre visible y el avatar siguen funcionando. Pide al administrador de tu servidor que active MSC4133 (Synapse: experimental_features.msc4133_enabled, o Matrix 1.16+).",
       "timezoneUnset": "No compartida",
       "timezoneBrowser": "{{tz}} (este dispositivo)",
       "profileSaved": "Perfil guardado",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "No se pudo actualizar el bloqueo de invitaciones: {{error}}",
       "showPresence": "Mostrar presencia de usuarios",
       "showPresenceNote": "Muestra si los usuarios están en línea, desconectados o no disponibles. Tu presencia será visible para los demás.",
+      "showHomeserverSoftware": "Mostrar el software del servidor",
+      "showHomeserverSoftwareNote": "Consulta qué software (Synapse, Tuwunel, ...) usa el servidor de una persona y lo muestra en su tarjeta de perfil. Contacta directamente con su servidor.",
       "streamer": {
         "auto": "Mientras comparto pantalla",
         "indicator": "El modo streamer está activado. Haz clic para cambiarlo.",

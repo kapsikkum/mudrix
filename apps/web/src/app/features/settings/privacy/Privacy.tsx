@@ -5,6 +5,7 @@ import {
   typingIndicatorsAtom,
   sendReadReceiptsAtom,
   showPresenceAtom,
+  showHomeserverSoftwareAtom,
   streamerModeAtom,
   type StreamerMode,
 } from '@/app/store/atoms';
@@ -33,6 +34,7 @@ export function Privacy() {
   const [typingIndicators, setTypingIndicators] = useAtom(typingIndicatorsAtom);
   const [sendReadReceipts, setSendReadReceipts] = useAtom(sendReadReceiptsAtom);
   const [showPresence, setShowPresence] = useAtom(showPresenceAtom);
+  const [showHomeserverSoftware, setShowHomeserverSoftware] = useAtom(showHomeserverSoftwareAtom);
   const [streamerMode, setStreamerMode] = useAtom(streamerModeAtom);
 
   return (
@@ -66,6 +68,12 @@ export function Privacy() {
           description={t('settings.privacy.showPresenceNote')}
           checked={showPresence}
           onChange={setShowPresence}
+        />
+        <ToggleRow
+          label={t('settings.privacy.showHomeserverSoftware')}
+          description={t('settings.privacy.showHomeserverSoftwareNote')}
+          checked={showHomeserverSoftware}
+          onChange={setShowHomeserverSoftware}
         />
         <BlockInvitesToggle />
       </div>

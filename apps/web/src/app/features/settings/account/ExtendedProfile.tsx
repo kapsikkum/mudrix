@@ -6,7 +6,11 @@ import { Input, Textarea } from '@/app/components/Input';
 import { Field } from '@/app/components/Field';
 import { Select } from '@/app/components/Select';
 import { useToast } from '@/app/hooks/useToast';
-import { useExtendedProfile, useExtendedProfileMutations } from '@/app/hooks/useExtendedProfile';
+import {
+  useExtendedProfile,
+  useExtendedProfileMutations,
+  useExtendedProfileSupport,
+} from '@/app/hooks/useExtendedProfile';
 import { getErrorMessage } from '@/util/error';
 import {
   MAX_BIO_CHARS,
@@ -20,6 +24,7 @@ import {
   sanitizeBio,
 } from '@/util/profileFields';
 import * as settingsCss from '@/app/components/Settings/Settings.css';
+import * as css from './ProfileStyle.css';
 import { isTouchDevice } from '@/util/touch';
 import { ProfileStyle } from './ProfileStyle';
 
@@ -30,6 +35,7 @@ export function ExtendedProfile() {
   const toast = useToast();
   const { data: fields } = useExtendedProfile(client, client?.userId() ?? null);
   const { saveFields, busy } = useExtendedProfileMutations(client);
+  const { supported, loading: supportLoading } = useExtendedProfileSupport(client);
 
   const [bio, setBio] = useState('');
   const [pronouns, setPronouns] = useState('');
@@ -85,6 +91,9 @@ export function ExtendedProfile() {
 
   return (
     <div className={settingsCss.fieldGroup}>
+      {!supportLoading && !supported && (
+        <p className={css.note}>{t('settings.account.extendedProfileUnsupported')}</p>
+      )}
       <Textarea
         label={t('settings.account.bio')}
         placeholder={t('settings.account.bioPlaceholder')}

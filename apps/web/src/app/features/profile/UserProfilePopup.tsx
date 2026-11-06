@@ -68,7 +68,12 @@ import { vars } from '@/theme/vars.css';
 import * as css from './UserProfilePopup.css';
 import * as extrasCss from './ProfileExtras.css';
 import * as cardCss from './ProfileCard.css';
-import { DecoratedAvatar, NameplateWrapper, ProfileBadges } from './ProfileCosmetics';
+import {
+  DecoratedAvatar,
+  NameplateWrapper,
+  ProfileBadges,
+  useHomeserverSoftware,
+} from './ProfileCosmetics';
 import { ExpandableBio, LocalTime, NotesSection } from './ProfileExtras';
 import { ActivityCards } from './ActivityCards';
 import { ProfileFrame } from './ProfileFrame';
@@ -111,6 +116,8 @@ export function UserProfilePopup() {
   const bannerColor = useImageEdgeColor(bannerSrc);
   const { data: extFields } = useExtendedProfile(client, profileState?.userId ?? null);
   const liveActivities = useLiveActivities(extFields?.activities);
+  const software = useHomeserverSoftware(client, profileState?.userId ?? '');
+  const badgeCount = (extFields?.isMudrixUser ? 1 : 0) + (software ? 1 : 0);
   const { data: avatarBlob } = useAvatarBlobUrl(profile?.avatarMxc, client);
   const bannerGradient = useBannerGradient(avatarBlob, profile?.displayName ?? '');
   const fileRef = useRef<HTMLInputElement>(null);
@@ -664,7 +671,9 @@ export function UserProfilePopup() {
             <div
               className={css.nameSection}
               style={
-                { '--badge-room': extFields?.isMudrixUser ? '36px' : '0px' } as React.CSSProperties
+                {
+                  '--badge-room': badgeCount ? `${badgeCount * 30 + 6}px` : '0px',
+                } as React.CSSProperties
               }
             >
               <span className={css.displayNameRow}>
@@ -690,7 +699,7 @@ export function UserProfilePopup() {
               {extFields && extFields.pronouns.length > 0 && (
                 <span className={extrasCss.pronouns}>{formatPronouns(extFields.pronouns)}</span>
               )}
-              <ProfileBadges showMudrix={!!extFields?.isMudrixUser} floating />
+              <ProfileBadges showMudrix={!!extFields?.isMudrixUser} software={software} floating />
             </div>
           </div>
 

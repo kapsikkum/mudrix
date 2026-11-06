@@ -1163,6 +1163,7 @@
       "pronounsHint": "Separate with commas. Up to {{count}} entries of {{chars}} characters.",
       "timezone": "Timezone",
       "timezoneHint": "Lets others see your local time on your profile.",
+      "extendedProfileUnsupported": "Your homeserver doesn't support extended profiles, so banner, bio, pronouns and timezone can't be saved. Display name and avatar still work. Ask your server admin to enable MSC4133 (Synapse: experimental_features.msc4133_enabled, or Matrix 1.16+).",
       "timezoneUnset": "Not shared",
       "timezoneBrowser": "{{tz}} (this device)",
       "profileSaved": "Profile saved",
@@ -1295,6 +1296,8 @@
       "blockInvitesFailed": "Failed to update invite blocking: {{error}}",
       "showPresence": "Show user presence",
       "showPresenceNote": "Display when users are online, offline, or unavailable. Your presence will be visible to others.",
+      "showHomeserverSoftware": "Show homeserver software",
+      "showHomeserverSoftwareNote": "Look up what software (Synapse, Tuwunel, ...) a person's homeserver runs and show it on their profile card. This contacts their server directly.",
       "streamer": {
         "auto": "While sharing my screen",
         "indicator": "Streamer mode is on. Click to change it.",
