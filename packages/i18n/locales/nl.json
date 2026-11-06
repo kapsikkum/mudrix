@@ -698,7 +698,10 @@
     "preparing": "Voorbereiden",
     "gifSendFailed": "Kon de GIF niet versturen.",
     "sendASpoilerMessage": "Stuur een spoilerbericht. Gebruik “reden” tussen aanhalingstekens om een waarschuwing toe te voegen. Voorbeeld: /spoiler “film” de butler heeft het gedaan",
-    "customEmoji": "Aangepast"
+    "customEmoji": "Aangepast",
+    "compressing": "Comprimeren {{percent}}%",
+    "compressFailed": "De video kon niet worden gecomprimeerd, het origineel wordt verzonden",
+    "photoPrepareFailed": "De gegevens konden niet uit de foto worden verwijderd, dus is hij niet verzonden"
   },
   "timeline": {
     "copyText": "Tekst kopiëren",
@@ -946,7 +949,13 @@
     "removeOversized": "Verwijder bestanden boven de uploadlimiet van {{limit}} om te verzenden",
     "captionPlaceholder": "Voeg een bijschrift toe... (optioneel)",
     "captionLabel": "Bijschrift",
-    "fileTooLarge": "Overschrijdt de serverlimiet (max. {{limit}})"
+    "fileTooLarge": "Overschrijdt de serverlimiet (max. {{limit}})",
+    "videoQuality": "Videogrootte",
+    "qualityOriginal": "Origineel",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Slim",
+    "qualitySmartHint": "Verkleint de video zodat hij past, met de best mogelijke kwaliteit",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Uitzoomen",

@@ -35,6 +35,16 @@ import { useAutocomplete } from '../useAutocomplete';
 import type { Suggestion } from '../useAutocomplete';
 import { callUiAtom } from '@/app/store/atoms/call';
 import {
+  canCompressVideo,
+  compressVideo,
+  probeVideoCompression,
+  type CompressTarget,
+  type VideoQuality,
+} from '@/util/videoCompress';
+import { isProcessableImage, prepareImage, willProcessImage } from '@/util/imageSanitize';
+import { defaultVideoQuality, qualityTarget, useVideoUploadPrefs } from './videoUpload';
+import { useImageUploadOptions } from './imageUpload';
+import {
   cancelAttachmentUpload,
   forgetAttachmentUpload,
   getAttachmentUpload,
@@ -42,6 +52,7 @@ import {
   subscribeAttachmentUpload,
   type PreparedAttachment,
 } from './attachmentUploads';
+import { getAttachmentQuality, setAttachmentQuality } from './attachmentQuality';
 import { parseCommand, getCommandDefinition } from './commands';
 import type { FormatType } from './FormatToolbar';
 import type { CommandContext } from './commands';
@@ -84,6 +95,8 @@ export interface ComposerState {
 
   uploadProgress: number | null;
   uploadFileInfo: { name: string; size: number; current: number; total: number } | null;
+  /** Whether `uploadProgress` is the re-encoding of a video rather than its upload. */
+  compressing: boolean;
 
   cancelUpload: () => void;
   handleEditorChange: (value: Descendant[]) => void;
@@ -105,6 +118,8 @@ export interface ComposerState {
     id: string,
     patch: Partial<Pick<ComposerAttachment, 'caption' | 'spoiler'>> & { name?: string }
   ) => void;
+  /** Picks whether a video is sent as it is or re-encoded smaller when the message is sent. */
+  setVideoQuality: (id: string, quality: VideoQuality) => void;
 }
 
 interface LeadingText {
@@ -120,6 +135,8 @@ interface UploadQueueItem {
   captionExtra?: TextMessage;
   leadingText?: LeadingText;
   spoiler: boolean;
+  /** Set when a video is to be re-encoded for this target before it is uploaded. */
+  compressTarget?: CompressTarget;
   replyTo: ReplyTarget | null;
 }
 
@@ -143,6 +160,20 @@ export function useComposer({
   const typingIndicators = useAtomValue(typingIndicatorsAtom);
   const markdownEnabled = useAtomValue(markdownAtom);
   const maxUploadBytes = useAtomValue(serverUploadLimitAtom);
+  const videoPrefs = useVideoUploadPrefs();
+  const imageOptions = useImageUploadOptions();
+  // Decided early, so a dropped video already knows whether it can be shrunk.
+  useEffect(() => {
+    void probeVideoCompression();
+  }, []);
+  /** What a file is sent as when nothing was picked for it: the settings decide for videos. */
+  const defaultQuality = useCallback(
+    (file: File): VideoQuality =>
+      file.type.startsWith('video/')
+        ? defaultVideoQuality(videoPrefs, file.size, maxUploadBytes, canCompressVideo())
+        : 'original',
+    [videoPrefs, maxUploadBytes]
+  );
   const [mentionInsert, setMentionInsert] = useAtom(mentionInsertAtom);
   const setEditMessage = useSetAtom(editMessageAtom);
   const confirmDialog = useConfirm();
@@ -197,6 +228,7 @@ export function useComposer({
   );
 
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [compressing, setCompressing] = useState(false);
   const [uploadFileInfo, setUploadFileInfo] = useState<{
     name: string;
     size: number;
@@ -273,6 +305,11 @@ export function useComposer({
         file: a.file,
         caption: a.caption.trim(),
         spoiler: a.spoiler,
+        compressTarget: qualityTarget(
+          getAttachmentQuality(a.id) ?? defaultQuality(a.file),
+          videoPrefs,
+          maxUploadBytes
+        ),
         replyTo: i === 0 ? replyToEvent : null,
       }));
       if (text && items.length === 1 && !items[0].caption) {
@@ -287,11 +324,12 @@ export function useComposer({
         };
       }
       enqueueUploadsRef.current(items);
+      attachments.forEach((a) => setAttachmentQuality(a.id, undefined));
       attachments.forEach(revokeAttachment);
       setAttachments(() => []);
       if (replyToEvent) onClearReply();
     },
-    [attachments, setAttachments, onClearReply]
+    [attachments, setAttachments, onClearReply, defaultQuality, videoPrefs, maxUploadBytes]
   );
 
   const sendMessage = useCallback(async () => {
@@ -442,7 +480,10 @@ export function useComposer({
     (files: File[]) => {
       if (files.length === 0) return;
       const items = files.map((file) => {
-        const oversized = file.size > maxUploadBytes;
+        // A video or photo the settings will shrink is not too large: it is sent smaller.
+        const shrinks = isProcessableImage(file) && imageOptions.maxSide !== null;
+        const oversized =
+          file.size > maxUploadBytes && defaultQuality(file) === 'original' && !shrinks;
         const previewUrl =
           file.type.startsWith('image/') ||
           file.type.startsWith('video/') ||
@@ -460,11 +501,20 @@ export function useComposer({
       });
       setAttachments((prev) => [...prev, ...items]);
       for (const item of items) {
-        if (!item.oversized) void startAttachmentUpload(item.id, item.file, getTimeline);
+        // The original is uploaded in the background as soon as it is attached. A video that is
+        // re-encoded on send has no use for that, and a photo that is to lose its metadata must
+        // never be uploaded as it is.
+        if (
+          !item.oversized &&
+          defaultQuality(item.file) === 'original' &&
+          !willProcessImage(item.file, imageOptions)
+        ) {
+          void startAttachmentUpload(item.id, item.file, getTimeline);
+        }
       }
       requestAnimationFrame(() => ReactEditor.focus(editor));
     },
-    [maxUploadBytes, setAttachments, editor, getTimeline]
+    [maxUploadBytes, defaultQuality, imageOptions, setAttachments, editor, getTimeline]
   );
 
   const focusRequest = useAtomValue(composerFocusRequestAtom);
@@ -483,6 +533,7 @@ export function useComposer({
   const removeAttachment = useCallback(
     (id: string) => {
       cancelAttachmentUpload(id);
+      setAttachmentQuality(id, undefined);
       setAttachments((prev) => {
         const item = prev.find((a) => a.id === id);
         if (item) revokeAttachment(item);
@@ -490,6 +541,22 @@ export function useComposer({
       });
     },
     [setAttachments]
+  );
+
+  const setVideoQuality = useCallback<ComposerState['setVideoQuality']>(
+    (id, quality) => {
+      setAttachmentQuality(id, quality);
+      const item = attachments.find((a) => a.id === id);
+      // A video over the server limit can't be sent as it is, but can once it is re-encoded.
+      const oversized = !!item && quality === 'original' && item.file.size > maxUploadBytes;
+      setAttachments((prev) => prev.map((a) => (a.id === id ? { ...a, oversized } : a)));
+      if (quality !== 'original') {
+        cancelAttachmentUpload(id);
+        return;
+      }
+      if (item && !oversized) void startAttachmentUpload(id, item.file, getTimeline);
+    },
+    [attachments, getTimeline, maxUploadBytes, setAttachments]
   );
 
   const updateAttachment = useCallback<ComposerState['updateAttachment']>(
@@ -548,8 +615,51 @@ export function useComposer({
       spoiler: boolean,
       replyToEvent: ReplyTarget | null,
       abortController?: AbortController,
-      captionExtra?: TextMessage
+      captionExtra?: TextMessage,
+      compressTarget?: CompressTarget
     ): Promise<void> => {
+      const originalFile = file;
+      if (compressTarget && originalFile.type.startsWith('video/')) {
+        // The original may already be uploading in the background; it is not what gets sent.
+        cancelAttachmentUpload(attachmentId);
+        setCompressing(true);
+        setUploadProgress(0);
+        try {
+          file = await compressVideo(originalFile, {
+            target: compressTarget,
+            onProgress: setUploadProgress,
+            signal: abortController?.signal ?? new AbortController().signal,
+          });
+        } catch (err) {
+          // A cancel aborts this send; any other failure sends the video as it was picked.
+          if (
+            abortController?.signal.aborted ||
+            (err instanceof DOMException && err.name === 'AbortError')
+          ) {
+            throw err;
+          }
+          toast.error(t('composer.compressFailed'));
+        } finally {
+          setCompressing(false);
+        }
+      }
+      if (willProcessImage(originalFile, imageOptions)) {
+        cancelAttachmentUpload(attachmentId);
+        try {
+          file = await prepareImage(originalFile, imageOptions);
+        } catch {
+          // Sending the photo as it is would defeat removing what is in it; a resize can be skipped.
+          if (imageOptions.stripMetadata) throw new Error(t('composer.photoPrepareFailed'));
+        }
+      }
+      // The status bar was started with the original's details; show what is actually uploaded.
+      if (file !== originalFile) {
+        setUploadFileInfo((info) => (info ? { ...info, name: file.name, size: file.size } : info));
+      }
+      // The original was let through only because it was going to be re-encoded.
+      if (file.size > maxUploadBytes) {
+        throw new Error(t('attachment.fileTooLarge', { limit: formatFileSize(maxUploadBytes) }));
+      }
       const isImage = file.type.startsWith('image/') && file.type !== 'image/svg+xml';
       const isVideo = file.type.startsWith('video/');
       const resultPromise = startAttachmentUpload(attachmentId, file, getTimeline);
@@ -596,7 +706,7 @@ export function useComposer({
       });
       setUploadProgress(1);
     },
-    [getTimeline, myId]
+    [getTimeline, myId, toast, t, maxUploadBytes, imageOptions]
   );
 
   const sendLeadingText = useCallback(
@@ -636,8 +746,12 @@ export function useComposer({
           const leading = item.leadingText;
           item.leadingText = undefined;
           // Wait for the whole batch, so the text and its files arrive back-to-back
-          const batch = uploadQueueRef.current.filter((q) =>
-            leading.attachmentIds.includes(q.attachmentId)
+          // (files that are re-encoded or cleaned first are prepared when their turn comes)
+          const batch = uploadQueueRef.current.filter(
+            (q) =>
+              leading.attachmentIds.includes(q.attachmentId) &&
+              !q.compressTarget &&
+              !willProcessImage(q.file, imageOptions)
           );
           await Promise.allSettled(
             batch.map((q) => startAttachmentUpload(q.attachmentId, q.file, getTimeline))
@@ -652,7 +766,8 @@ export function useComposer({
             item.spoiler,
             item.replyTo,
             controller,
-            item.captionExtra
+            item.captionExtra,
+            item.compressTarget
           );
           onSent?.();
         } catch (err) {
@@ -674,7 +789,7 @@ export function useComposer({
       setUploadFileInfo(null);
       uploadAbortRef.current = null;
     }
-  }, [uploadOne, sendLeadingText, onSent, toast, t, getTimeline]);
+  }, [uploadOne, sendLeadingText, onSent, toast, t, getTimeline, imageOptions]);
 
   const cancelUpload = useCallback(() => {
     // Cancelling drops the files, but text sent along with them still goes out
@@ -719,6 +834,7 @@ export function useComposer({
     autocomplete,
     uploadProgress,
     uploadFileInfo,
+    compressing,
     cancelUpload,
     handleEditorChange,
     handleEditorKeyDown,
@@ -736,5 +852,6 @@ export function useComposer({
     attachments,
     removeAttachment,
     updateAttachment,
+    setVideoQuality,
   };
 }

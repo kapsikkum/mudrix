@@ -698,7 +698,10 @@
     "preparing": "Подготовка",
     "gifSendFailed": "Не удалось отправить GIF.",
     "sendASpoilerMessage": "Отправить сообщение-спойлер. Используйте «причину» в кавычках, чтобы добавить предупреждение. Пример: /spoiler «фильм» дворецкий убийца",
-    "customEmoji": "Особый"
+    "customEmoji": "Особый",
+    "compressing": "Сжатие {{percent}}%",
+    "compressFailed": "Не удалось сжать видео, отправляется оригинал",
+    "photoPrepareFailed": "Не удалось удалить данные из фото, поэтому оно не отправлено"
   },
   "timeline": {
     "copyText": "Копировать текст",
@@ -946,7 +949,13 @@
     "removeOversized": "Удалите файлы, превышающие лимит загрузки {{limit}}, чтобы отправить",
     "captionPlaceholder": "Добавьте подпись... (необязательно)",
     "captionLabel": "Подпись",
-    "fileTooLarge": "Превышает лимит сервера (максимум {{limit}})"
+    "fileTooLarge": "Превышает лимит сервера (максимум {{limit}})",
+    "videoQuality": "Размер видео",
+    "qualityOriginal": "Оригинал",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Умный",
+    "qualitySmartHint": "Уменьшает видео, чтобы оно уместилось, с максимально возможным качеством",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Уменьшить",

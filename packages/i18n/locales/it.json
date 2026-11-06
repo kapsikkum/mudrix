@@ -698,7 +698,10 @@
     "preparing": "Preparazione",
     "gifSendFailed": "Impossibile inviare la GIF.",
     "sendASpoilerMessage": "Invia un messaggio spoiler. Usa \"motivo\" tra virgolette per aggiungere un avviso. Esempio: /spoiler \"film\" è stato il maggiordomo",
-    "customEmoji": "Personalizzato"
+    "customEmoji": "Personalizzato",
+    "compressing": "Compressione {{percent}}%",
+    "compressFailed": "Impossibile comprimere il video, invio l'originale",
+    "photoPrepareFailed": "Impossibile rimuovere i dettagli dalla foto, quindi non è stata inviata"
   },
   "timeline": {
     "copyText": "Copia testo",
@@ -946,7 +949,13 @@
     "removeOversized": "Rimuovi i file oltre il limite di caricamento di {{limit}} per inviare",
     "captionPlaceholder": "Aggiungi una didascalia... (facoltativa)",
     "captionLabel": "Didascalia",
-    "fileTooLarge": "Supera il limite del server (massimo {{limit}})"
+    "fileTooLarge": "Supera il limite del server (massimo {{limit}})",
+    "videoQuality": "Dimensione del video",
+    "qualityOriginal": "Originale",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Intelligente",
+    "qualitySmartHint": "Riduce il video per farlo stare, con la migliore qualità possibile",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Riduci",

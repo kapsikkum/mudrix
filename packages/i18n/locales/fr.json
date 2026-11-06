@@ -698,7 +698,10 @@
     "preparing": "Préparation",
     "gifSendFailed": "Impossible d'envoyer le GIF.",
     "sendASpoilerMessage": "Envoyer un message spoiler. Utilisez « motif » entre guillemets pour ajouter un avertissement. Exemple : /spoiler « film » c'est le majordome",
-    "customEmoji": "Personnalisé"
+    "customEmoji": "Personnalisé",
+    "compressing": "Compression {{percent}} %",
+    "compressFailed": "Impossible de compresser la vidéo, envoi de l'original",
+    "photoPrepareFailed": "Impossible de retirer les détails de la photo, elle n’a donc pas été envoyée"
   },
   "timeline": {
     "copyText": "Copier le texte",
@@ -946,7 +949,13 @@
     "removeOversized": "Retirez les fichiers dépassant la limite d'envoi de {{limit}} pour envoyer",
     "captionPlaceholder": "Ajouter une légende... (facultatif)",
     "captionLabel": "Légende",
-    "fileTooLarge": "Dépasse la limite du serveur (maximum {{limit}})"
+    "fileTooLarge": "Dépasse la limite du serveur (maximum {{limit}})",
+    "videoQuality": "Taille de la vidéo",
+    "qualityOriginal": "Original",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Intelligent",
+    "qualitySmartHint": "Réduit la vidéo pour qu’elle tienne, avec la meilleure qualité possible",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Dézoomer",

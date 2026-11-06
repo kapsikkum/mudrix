@@ -213,3 +213,13 @@ export const editBody = style({
   flexDirection: 'column',
   gap: '14px',
 });
+
+/** The size picker under a video: the whole width of the tile, a little apart from its details. */
+// Tighter than a normal select so "Original · 205.6 MB" still fits the narrow tile.
+export const qualitySelect = style({
+  width: '100%',
+  marginTop: '6px',
+  padding: '6px 8px',
+  gap: '4px',
+  fontSize: '0.8rem',
+});

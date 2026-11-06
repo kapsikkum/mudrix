@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { stripJpeg, stripPng } from '../src/util/imageStrip.ts';
+import { isAnimatedPng, stripJpeg, stripPng } from '../src/util/imageStrip.ts';
 
 const text = (s: string) => [...s].map((c) => c.charCodeAt(0));
 const be16 = (n: number) => [(n >> 8) & 0xff, n & 0xff];
@@ -91,4 +91,23 @@ test('png: drops text, exif and time chunks only', () => {
 
 test('png: not a png is rejected', () => {
   assert.equal(stripPng(new Uint8Array(30)), null);
+});
+
+test('png: animated ones are recognised and keep their animation chunks when stripped', () => {
+  const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+  const header = chunk('IHDR', [0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0, 0, 0]);
+  const animated = Uint8Array.from([
+    ...sig,
+    ...header,
+    ...chunk('acTL', [0, 0, 0, 2, 0, 0, 0, 0]),
+    ...chunk('tEXt', text('Comment-secret')),
+    ...chunk('IDAT', [9]),
+    ...chunk('IEND', []),
+  ]);
+  const still = Uint8Array.from([...sig, ...header, ...chunk('IDAT', [9]), ...chunk('IEND', [])]);
+  assert.equal(isAnimatedPng(animated), true);
+  assert.equal(isAnimatedPng(still), false);
+  const out = stripPng(animated);
+  assert.ok(out);
+  assert.equal(isAnimatedPng(out), true);
 });

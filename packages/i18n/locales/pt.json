@@ -698,7 +698,10 @@
     "preparing": "A preparar",
     "gifSendFailed": "Não foi possível enviar o GIF.",
     "sendASpoilerMessage": "Envia uma mensagem de spoiler. Use \"motivo\" entre aspas para adicionar um aviso. Exemplo: /spoiler \"filme\" o mordomo é o culpado",
-    "customEmoji": "Personalizado"
+    "customEmoji": "Personalizado",
+    "compressing": "A comprimir {{percent}}%",
+    "compressFailed": "Não foi possível comprimir o vídeo, a enviar o original",
+    "photoPrepareFailed": "Não foi possível remover os dados da foto, por isso não foi enviada"
   },
   "timeline": {
     "copyText": "Copiar texto",
@@ -946,7 +949,13 @@
     "removeOversized": "Remova os arquivos acima do limite de envio de {{limit}} para enviar",
     "captionPlaceholder": "Adicione uma legenda... (opcional)",
     "captionLabel": "Legenda",
-    "fileTooLarge": "Excede o limite do servidor (máximo {{limit}})"
+    "fileTooLarge": "Excede o limite do servidor (máximo {{limit}})",
+    "videoQuality": "Tamanho do vídeo",
+    "qualityOriginal": "Original",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Inteligente",
+    "qualitySmartHint": "Reduz o vídeo para caber, com a melhor qualidade possível",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Reduzir",

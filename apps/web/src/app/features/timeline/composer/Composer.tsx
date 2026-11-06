@@ -150,6 +150,7 @@ export function Composer({
     autocomplete,
     uploadProgress,
     uploadFileInfo,
+    compressing,
     cancelUpload,
     handleEditorChange,
     handleEditorKeyDown,
@@ -167,6 +168,7 @@ export function Composer({
     attachments,
     removeAttachment,
     updateAttachment,
+    setVideoQuality,
   } = useComposer({
     client,
     roomId,
@@ -292,7 +294,10 @@ export function Composer({
                   <span className={css.statusMeta}>
                     {uploadFileInfo.total > 1 &&
                       `${uploadFileInfo.current}/${uploadFileInfo.total} · `}
-                    {formatFileSize(uploadFileInfo.size)} · {Math.round(uploadProgress * 100)}%
+                    {formatFileSize(uploadFileInfo.size)} ·{' '}
+                    {compressing
+                      ? t('composer.compressing', { percent: Math.round(uploadProgress * 100) })
+                      : `${Math.round(uploadProgress * 100)}%`}
                   </span>
                 </span>
                 <Tooltip content={t('composer.cancelUpload')}>
@@ -325,6 +330,7 @@ export function Composer({
               attachments={attachments}
               onRemove={removeAttachment}
               onUpdate={updateAttachment}
+              onQualityChange={setVideoQuality}
             />
             <div className={css.inputRow}>
               <Tooltip content={t('composer.attach')}>

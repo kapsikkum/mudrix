@@ -91,6 +91,20 @@ export function stripJpeg(
   return null;
 }
 
+/** Whether a PNG is animated (APNG): it has an animation control chunk before its picture data. */
+export function isAnimatedPng(bytes: Uint8Array): boolean {
+  if (bytes.length < 20 || PNG_SIGNATURE.some((byte, i) => bytes[i] !== byte)) return false;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let pos = 8;
+  while (pos + 12 <= bytes.length) {
+    const type = ascii(bytes, pos + 4, 4);
+    if (type === 'acTL') return true;
+    if (type === 'IDAT' || type === 'IEND') return false;
+    pos += 12 + view.getUint32(pos);
+  }
+  return false;
+}
+
 /** Cuts the text, EXIF and timestamp chunks out of a PNG. Null if it isn't a PNG this can read. */
 export function stripPng(bytes: Uint8Array): Uint8Array<ArrayBuffer> | null {
   if (bytes.length < 20 || PNG_SIGNATURE.some((byte, i) => bytes[i] !== byte)) return null;

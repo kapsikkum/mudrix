@@ -698,7 +698,10 @@
     "preparing": "Przygotowywanie",
     "gifSendFailed": "Nie udało się wysłać GIF-a.",
     "sendASpoilerMessage": "Wyślij wiadomość spoilera. Aby dodać ostrzeżenie, użyj „powodu” w cudzysłowie. Przykład: /spoiler „film” to zrobił kamerdyner",
-    "customEmoji": "Niestandardowe"
+    "customEmoji": "Niestandardowe",
+    "compressing": "Kompresja {{percent}}%",
+    "compressFailed": "Nie udało się skompresować wideo, wysyłam oryginał",
+    "photoPrepareFailed": "Nie udało się usunąć danych ze zdjęcia, więc go nie wysłano"
   },
   "timeline": {
     "copyText": "Kopiuj tekst",
@@ -946,7 +949,13 @@
     "removeOversized": "Usuń pliki przekraczające limit przesyłania {{limit}}, aby wysłać",
     "captionPlaceholder": "Dodaj podpis... (opcjonalnie)",
     "captionLabel": "Podpis",
-    "fileTooLarge": "Przekracza limit serwera (maks. {{limit}})"
+    "fileTooLarge": "Przekracza limit serwera (maks. {{limit}})",
+    "videoQuality": "Rozmiar wideo",
+    "qualityOriginal": "Oryginał",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Inteligentny",
+    "qualitySmartHint": "Zmniejsza film, aby się zmieścił, w jak najlepszej jakości",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Pomniejsz",

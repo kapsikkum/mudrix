@@ -698,7 +698,10 @@
     "preparing": "Preparing",
     "gifSendFailed": "Couldn't send the GIF.",
     "sendASpoilerMessage": "Send a spoiler message. Use \"reason\" in quotes to add a warning. Example: /spoiler \"movie\" the butler did it",
-    "customEmoji": "Custom"
+    "customEmoji": "Custom",
+    "compressing": "Compressing {{percent}}%",
+    "compressFailed": "Could not compress the video, sending the original",
+    "photoPrepareFailed": "Could not remove the details from the photo, so it was not sent"
   },
   "timeline": {
     "copyText": "Copy text",
@@ -946,7 +949,13 @@
     "removeOversized": "Remove files over the {{limit}} upload limit to send",
     "captionPlaceholder": "Add a caption... (optional)",
     "captionLabel": "Caption",
-    "fileTooLarge": "Exceeds server limit (max {{limit}})"
+    "fileTooLarge": "Exceeds server limit (max {{limit}})",
+    "videoQuality": "Video size",
+    "qualityOriginal": "Original",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Smart",
+    "qualitySmartHint": "Shrinks the video to fit, at the best quality that works",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Zoom out",

@@ -1,4 +1,4 @@
-import { stripJpeg, stripPng } from './imageStrip';
+import { isAnimatedPng, stripJpeg, stripPng } from './imageStrip';
 
 export interface ImageUploadOptions {
   /** Remove location, camera and other embedded details. */
@@ -62,7 +62,10 @@ export async function prepareImage(file: File, options: ImageUploadOptions): Pro
   const jpeg = file.type === 'image/jpeg';
   const bytes = new Uint8Array(await file.arrayBuffer());
 
-  const scaleDown = maxSide !== null && (await longestSide(file)) > maxSide;
+  // Drawing an animated PNG again would keep only its first frame, so it is only ever cut, never redrawn.
+  const animated = !jpeg && isAnimatedPng(bytes);
+  if (animated && !stripMetadata) return file;
+  const scaleDown = !animated && maxSide !== null && (await longestSide(file)) > maxSide;
   let blob: Blob | null = null;
   if (scaleDown) {
     blob = await redraw(file, maxSide);
@@ -76,6 +79,7 @@ export async function prepareImage(file: File, options: ImageUploadOptions): Pro
       const stripped = stripPng(bytes);
       if (stripped) blob = new Blob([stripped], { type: file.type });
     }
+    if (animated && !blob) throw new Error('Could not read the animated image');
     blob ??= await redraw(file, null);
   }
   if (!blob) return file;

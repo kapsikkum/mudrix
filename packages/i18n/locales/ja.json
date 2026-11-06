@@ -698,7 +698,10 @@
     "preparing": "準備中",
     "gifSendFailed": "GIFを送信できませんでした。",
     "sendASpoilerMessage": "ネタバレメッセージを送信します。警告を付けるには引用符で「理由」を指定します。例: /spoiler 「映画」実は執事が犯人",
-    "customEmoji": "カスタム"
+    "customEmoji": "カスタム",
+    "compressing": "圧縮中 {{percent}}%",
+    "compressFailed": "動画を圧縮できなかったため、元のファイルを送信します",
+    "photoPrepareFailed": "写真から情報を削除できなかったため、送信しませんでした"
   },
   "timeline": {
     "copyText": "テキストをコピー",
@@ -946,7 +949,13 @@
     "removeOversized": "送信するには、アップロード上限{{limit}}を超えるファイルを削除してください",
     "captionPlaceholder": "キャプションを追加...（任意）",
     "captionLabel": "キャプション",
-    "fileTooLarge": "サーバーの上限を超えています（最大 {{limit}}）"
+    "fileTooLarge": "サーバーの上限を超えています（最大 {{limit}}）",
+    "videoQuality": "動画サイズ",
+    "qualityOriginal": "オリジナル",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "スマート",
+    "qualitySmartHint": "ちょうど収まるようにできるだけ高画質で縮小します",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "縮小",

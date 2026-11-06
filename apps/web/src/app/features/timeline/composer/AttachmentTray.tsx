@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import {
@@ -12,14 +12,23 @@ import {
 } from '@phosphor-icons/react';
 import { serverUploadLimitAtom, type ComposerAttachment } from '@/app/store/atoms';
 import { Tooltip } from '@/app/components/Tooltip';
+import { Select } from '@/app/components/Select';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import { Button } from '@/app/components/Button';
 import { Input, Textarea } from '@/app/components/Input';
 import { ToggleRow } from '@/app/components/Toggle';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { formatFileSize } from '@/util/format';
+import {
+  probeVideoCompression,
+  readVideoMeta,
+  type VideoMeta,
+  type VideoQuality,
+} from '@/util/videoCompress';
 import type { ComposerState } from './useComposer';
 import { useAttachmentUpload } from './attachmentUploads';
+import { useAttachmentQuality } from './attachmentQuality';
+import { useEffectiveVideoQuality, useVideoUploadPrefs, videoChoices } from './videoUpload';
 import * as css from './AttachmentTray.css';
 
 function isImage(file: File): boolean {
@@ -43,9 +52,15 @@ interface AttachmentTrayProps {
   attachments: ComposerAttachment[];
   onRemove: ComposerState['removeAttachment'];
   onUpdate: ComposerState['updateAttachment'];
+  onQualityChange: ComposerState['setVideoQuality'];
 }
 
-export function AttachmentTray({ attachments, onRemove, onUpdate }: AttachmentTrayProps) {
+export function AttachmentTray({
+  attachments,
+  onRemove,
+  onUpdate,
+  onQualityChange,
+}: AttachmentTrayProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<ComposerAttachment | null>(null);
   const editing = attachments.find((a) => a.id === editingId) ?? null;
@@ -62,6 +77,7 @@ export function AttachmentTray({ attachments, onRemove, onUpdate }: AttachmentTr
             onToggleSpoiler={() => onUpdate(attachment.id, { spoiler: !attachment.spoiler })}
             onEdit={() => setEditingId(attachment.id)}
             onRemove={() => onRemove(attachment.id)}
+            onQualityChange={(quality) => onQualityChange(attachment.id, quality)}
             onPreview={() => setLightbox(attachment)}
           />
         ))}
@@ -132,7 +148,78 @@ interface AttachmentTileProps {
   onToggleSpoiler: () => void;
   onEdit: () => void;
   onRemove: () => void;
+  onQualityChange: (quality: VideoQuality) => void;
   onPreview: () => void;
+}
+
+function useCanCompressVideo(enabled: boolean): boolean {
+  const [can, setCan] = useState(false);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let cancelled = false;
+    void probeVideoCompression().then((ok) => {
+      if (!cancelled) setCan(ok);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled]);
+  return enabled && can;
+}
+
+function useVideoMeta(file: File, enabled: boolean): VideoMeta | null {
+  const [meta, setMeta] = useState<VideoMeta | null>(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let cancelled = false;
+    void readVideoMeta(file).then((m) => {
+      if (!cancelled) setMeta(m);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [file, enabled]);
+  return meta;
+}
+
+function VideoQualityPicker({
+  choices,
+  quality,
+  onChange,
+}: {
+  choices: ReturnType<typeof videoChoices>;
+  quality: VideoQuality;
+  onChange: (quality: VideoQuality) => void;
+}) {
+  const { t } = useTranslation();
+  const label = (choice: VideoQuality) => {
+    if (choice === 'original') return t('attachment.qualityOriginal');
+    if (choice === 'smart') return t('attachment.qualitySmart');
+    return `${choice}p`;
+  };
+
+  return (
+    <Select
+      className={css.qualitySelect}
+      aria-label={t('attachment.videoQuality')}
+      value={String(quality)}
+      options={choices.map((choice) => ({
+        value: String(choice.quality),
+        label:
+          choice.size === null
+            ? label(choice.quality)
+            : `${label(choice.quality)} · ${
+                choice.quality === 'original'
+                  ? formatFileSize(choice.size)
+                  : t('attachment.qualityEstimate', { size: formatFileSize(choice.size) })
+              }`,
+      }))}
+      onChange={(value) => {
+        const picked = choices.find((choice) => String(choice.quality) === value);
+        if (picked) onChange(picked.quality);
+      }}
+    />
+  );
 }
 
 function AttachmentTile({
@@ -140,6 +227,7 @@ function AttachmentTile({
   onToggleSpoiler,
   onEdit,
   onRemove,
+  onQualityChange,
   onPreview,
 }: AttachmentTileProps) {
   const { t } = useTranslation();
@@ -148,6 +236,18 @@ function AttachmentTile({
   const upload = useAttachmentUpload(attachment.id);
   const image = isImage(file);
   const video = isVideo(file);
+  const prefs = useVideoUploadPrefs();
+  const picked = useAttachmentQuality(attachment.id);
+  // A video over the server limit can only be sent by shrinking it, so it always gets the choice.
+  const canCompress = useCanCompressVideo(
+    video && (file.size >= prefs.minBytes || file.size > maxUploadBytes)
+  );
+  const meta = useVideoMeta(file, canCompress);
+  const wanted = useEffectiveVideoQuality(picked, file.size, canCompress);
+  const choices = videoChoices(meta, file.size, prefs, maxUploadBytes);
+  // A choice that isn't offered (the video already fits, say) means it goes as it is.
+  const chosen = choices.find((c) => c.quality === wanted) ?? choices[0];
+  const quality = chosen.quality;
   const media = <AttachmentMedia file={file} previewUrl={previewUrl} spoiler={spoiler} />;
 
   const spoilerLabel = spoiler ? t('attachment.removeSpoiler') : t('attachment.markSpoiler');
@@ -181,6 +281,13 @@ function AttachmentTile({
             <WarningIcon size={12} weight="fill" className={css.detailErrorIcon} />
             {t('attachment.uploadFailedRetry')}
           </span>
+        ) : canCompress && quality !== 'original' && chosen.size !== null ? (
+          <span className={css.detail}>
+            {t('attachment.shrinkTo', {
+              from: formatFileSize(file.size),
+              to: formatFileSize(chosen.size),
+            })}
+          </span>
         ) : (
           <span className={css.detail}>{formatFileSize(file.size)}</span>
         )}
@@ -198,6 +305,9 @@ function AttachmentTile({
               style={{ width: `${Math.round(upload.progress * 100)}%` }}
             />
           </div>
+        )}
+        {canCompress && (
+          <VideoQualityPicker choices={choices} quality={quality} onChange={onQualityChange} />
         )}
         {caption && (
           <Tooltip content={caption} multiline>

@@ -698,7 +698,10 @@
     "preparing": "Hazırlanıyor",
     "gifSendFailed": "GIF gönderilemedi.",
     "sendASpoilerMessage": "Bir spoiler mesajı gönderin. Uyarı eklemek için tırnak içinde \"neden\" yazın. Örnek: /spoiler \"film\" katil uşakmış",
-    "customEmoji": "Özel"
+    "customEmoji": "Özel",
+    "compressing": "Sıkıştırılıyor %{{percent}}",
+    "compressFailed": "Video sıkıştırılamadı, orijinali gönderiliyor",
+    "photoPrepareFailed": "Fotoğraftaki bilgiler kaldırılamadı, bu yüzden gönderilmedi"
   },
   "timeline": {
     "copyText": "Metni kopyala",
@@ -946,7 +949,13 @@
     "removeOversized": "Göndermek için {{limit}} yükleme sınırını aşan dosyaları kaldırın",
     "captionPlaceholder": "Bir açıklama ekleyin... (isteğe bağlı)",
     "captionLabel": "Açıklama",
-    "fileTooLarge": "Sunucu sınırını aşıyor (en fazla {{limit}})"
+    "fileTooLarge": "Sunucu sınırını aşıyor (en fazla {{limit}})",
+    "videoQuality": "Video boyutu",
+    "qualityOriginal": "Orijinal",
+    "qualityEstimate": "~{{size}}",
+    "qualitySmart": "Akıllı",
+    "qualitySmartHint": "Videoyu sığacak şekilde, olabilecek en iyi kaliteyle küçültür",
+    "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
     "zoomOut": "Uzaklaştır",
