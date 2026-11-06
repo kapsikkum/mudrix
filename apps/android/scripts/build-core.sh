@@ -18,7 +18,8 @@ done
 
 SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
 if [[ -z "$SDK" ]]; then
-  for candidate in "$HOME/Library/Android/sdk" /opt/homebrew/share/android-commandlinetools "$HOME/Android/Sdk"; do
+  for candidate in "$HOME/Library/Android/sdk" /opt/homebrew/share/android-commandlinetools "$HOME/Android/Sdk" \
+    ${LOCALAPPDATA:+"$LOCALAPPDATA/Android/Sdk"}; do
     [[ -d "$candidate" ]] && SDK="$candidate" && break
   done
 fi
@@ -40,10 +41,15 @@ CARGO_PROFILE_DEV_DEBUG=line-tables-only cargo ndk "${ABIS[@]}" -P 26 -o "$CORE/
 "$(ls "$ANDROID_NDK_HOME"/toolchains/llvm/prebuilt/*/bin/llvm-strip | head -1)" --strip-unneeded "$CORE"/src/main/jniLibs/*/*.so
 
 # The bindings come from the library's metadata, read from a host build
+case "$(uname -s)" in
+  Darwin) HOST_LIB=libwizardchat_core_ffi.dylib ;;
+  MINGW*|MSYS*|CYGWIN*) HOST_LIB=wizardchat_core_ffi.dll ;;
+  *) HOST_LIB=libwizardchat_core_ffi.so ;;
+esac
 cargo build -p wizardchat-core-ffi --lib
 rm -rf "$CORE/build/generated/uniffi"
 cargo run -q -p wizardchat-core-ffi --features bindgen --bin uniffi-bindgen -- \
-  generate --library "$ROOT/target/debug/libwizardchat_core_ffi.dylib" --language kotlin \
+  generate --library "$ROOT/target/debug/$HOST_LIB" --language kotlin \
   --out-dir "$CORE/build/generated/uniffi" --no-format
 
 echo "WizardChat core for Android is ready ($PROFILE)"
