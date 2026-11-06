@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { MediaInfo, MediaSource, WizardClient } from '@wizardchat/core';
+import { WizardClient } from '@wizardchat/core';
+import type { DownloadProgress, MediaInfo, MediaSource } from '@wizardchat/core';
 import { useSyncState } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
@@ -15,11 +16,10 @@ import {
 import { getMediaBlobUrl, plainMediaUrl } from './media';
 import { fetchMediaBlobUrl, mediaBlobCacheKey } from '@/app/components/Avatar';
 import { entryMedia, type EventEntry } from './entry';
+import { downloadMedia, isCancelled } from './mediaDownload';
+import { isTextCardFile } from './FilePreviewModal';
 
 const DOWNLOAD_TIMEOUT_MS = 30000;
-// A video the user asked for can legitimately take minutes. The core hands the bytes over in one
-// piece (no progress, no way to tell a stalled download from a slow one), so only a long cap applies.
-const VIDEO_DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000;
 // Videos at or above this size (or of unknown size) wait for a click instead of downloading on render.
 const MANUAL_VIDEO_MIN_BYTES = 8 * 1024 * 1024;
 
@@ -29,6 +29,8 @@ export interface ManualVideoLoad {
   /** The persistent cache is still being checked, so no button is offered yet. */
   checking: boolean;
   loading: boolean;
+  /** How much of the download has arrived; null before the first report. */
+  progress: DownloadProgress | null;
   /** The user started this download, so playback may begin as soon as it is ready. */
   autoPlay: boolean;
   start: () => void;
@@ -80,6 +82,15 @@ async function resolveCached(key: string): Promise<string | null> {
   return blobUrl;
 }
 
+async function storeDecrypted(target: MediaTarget, bytes: Uint8Array): Promise<string> {
+  const type = getSafeMimeType(target.mimeType ?? '');
+  const buffer = bytes.slice().buffer as ArrayBuffer;
+  await setCachedMedia(target.key, buffer, type);
+  const blobUrl = URL.createObjectURL(new Blob([buffer], { type }));
+  setCachedBlobUrl(target.key, blobUrl, type);
+  return blobUrl;
+}
+
 async function resolveEncrypted(
   client: WizardClient,
   target: MediaTarget,
@@ -89,11 +100,42 @@ async function resolveEncrypted(
   if (cachedUrl) return cachedUrl;
 
   const bytes = await withTimeout(client.media(target.source), timeoutMs);
-  const type = getSafeMimeType(target.mimeType ?? '');
-  const buffer = bytes.slice().buffer as ArrayBuffer;
-  await setCachedMedia(target.key, buffer, type);
-  const blobUrl = URL.createObjectURL(new Blob([buffer], { type }));
-  setCachedBlobUrl(target.key, blobUrl, type);
+  return storeDecrypted(target, bytes);
+}
+
+interface ProgressOptions {
+  sizeHint?: number;
+  onProgress: (progress: DownloadProgress) => void;
+  signal: AbortSignal;
+}
+
+/** Like `resolveEncrypted` for a video the user asked for: progress, cancel, stall timeout. */
+async function resolveEncryptedWithProgress(
+  client: WizardClient,
+  target: MediaTarget,
+  options: ProgressOptions
+): Promise<string> {
+  const cachedUrl = await resolveCached(target.key);
+  if (cachedUrl) return cachedUrl;
+  return storeDecrypted(target, await downloadMedia(client, target.source, options));
+}
+
+/** The same for an unencrypted video, kept in the in-memory cache under its `mxc://` key. */
+async function resolvePlainWithProgress(
+  client: WizardClient,
+  mxcUrl: string,
+  mimeType: string | undefined,
+  options: ProgressOptions
+): Promise<string> {
+  const key = mediaBlobCacheKey(mxcUrl);
+  const cached = getCachedBlobUrl(key);
+  if (cached) return cached;
+  const bytes = await downloadMedia(client, { url: mxcUrl }, options);
+  const sniffed = await WizardClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null);
+  // Never trust a declared type: only known-safe ones reach the blob
+  const type = getSafeMimeType(sniffed ?? mimeType ?? '');
+  const blobUrl = URL.createObjectURL(new Blob([bytes as BlobPart], { type }));
+  setCachedBlobUrl(key, blobUrl, type);
   return blobUrl;
 }
 
@@ -121,6 +163,7 @@ export function useDecryptedMedia(
   const [hasFailed, setHasFailed] = useState(false);
   const [reconnectTick, setReconnectTick] = useState(0);
   const [manualRequested, setManualRequested] = useState(false);
+  const [videoProgress, setVideoProgress] = useState<DownloadProgress | null>(null);
   // The cache key a deferred video was last found missing from the persistent cache under.
   const [missedKey, setMissedKey] = useState<string | null>(null);
 
@@ -135,6 +178,15 @@ export function useDecryptedMedia(
   const isImage = type === 'image';
   const isVideo = type === 'video';
   const fullMimeType = media?.mimetype ?? undefined;
+  // A text file card reads its own first bytes (ranged) and fetches the whole file on demand
+  const textCard =
+    type === 'file' &&
+    media !== null &&
+    isTextCardFile(
+      media.filename || 'file',
+      fullMimeType,
+      typeof media.size === 'number' && media.size >= 0 ? media.size : undefined
+    );
   const fullTarget = encryptedTarget(media?.source ?? null, fullMimeType);
   const mxcUrl = plainMediaUrl(media?.source);
 
@@ -165,7 +217,7 @@ export function useDecryptedMedia(
   posterRef.current = posterTarget;
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || textCard) return;
     const target = primaryRef.current;
     if (!target) {
       if (isImage && thumbUrl) {
@@ -206,6 +258,7 @@ export function useDecryptedMedia(
     eventId,
     client,
     enabled,
+    textCard,
     primaryCacheKey,
     isImage,
     deferVideo,
@@ -244,20 +297,29 @@ export function useDecryptedMedia(
   useEffect(() => {
     if (!enabled || !deferVideo || !manualRequested || mediaSrc) return;
     let cancelled = false;
+    const controller = new AbortController();
+    const options: ProgressOptions = {
+      sizeHint: videoSize,
+      onProgress: (progress) => {
+        if (!cancelled) setVideoProgress(progress);
+      },
+      signal: controller.signal,
+    };
+    setVideoProgress(null);
     (async () => {
       try {
         let url: string | null = null;
         const target = fullTargetRef.current;
         if (target) {
-          url = await resolveEncrypted(client, target, VIDEO_DOWNLOAD_TIMEOUT_MS);
+          url = await resolveEncryptedWithProgress(client, target, options);
         } else if (mxcUrl) {
-          url = await withTimeout(fetchMediaBlobUrl(mxcUrl, client, 0), VIDEO_DOWNLOAD_TIMEOUT_MS);
+          url = await resolvePlainWithProgress(client, mxcUrl, fullMimeType, options);
         }
         if (cancelled) return;
         if (url) setMediaSrc(url);
         else setManualRequested(false);
       } catch (err) {
-        if (cancelled) return;
+        if (cancelled || isCancelled(err)) return;
         // Back to the play button so a click retries; failedRef stays untouched so it cannot block that.
         setManualRequested(false);
         toast.error(t('timeline.video.downloadFailed', { error: getErrorMessage(err) }));
@@ -265,8 +327,21 @@ export function useDecryptedMedia(
     })();
     return () => {
       cancelled = true;
+      controller.abort();
     };
-  }, [enabled, deferVideo, manualRequested, mediaSrc, client, mxcUrl, setMediaSrc, toast, t]);
+  }, [
+    enabled,
+    deferVideo,
+    manualRequested,
+    mediaSrc,
+    client,
+    mxcUrl,
+    videoSize,
+    fullMimeType,
+    setMediaSrc,
+    toast,
+    t,
+  ]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -369,6 +444,7 @@ export function useDecryptedMedia(
         needsClick: videoNeedsClick,
         checking: videoNeedsClick && !videoCacheMissed,
         loading: manualRequested,
+        progress: manualRequested ? videoProgress : null,
         autoPlay: manualRequested,
         start: startVideo,
         cancel: cancelVideo,

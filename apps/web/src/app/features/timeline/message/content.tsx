@@ -36,9 +36,9 @@ import { VideoPlaceholder } from './VideoPlaceholder';
 import { GifLinkEmbed } from './GifLinkEmbed';
 import {
   FilePreviewModal,
-  TEXT_CARD_MAX_BYTES,
   TextFileCard,
   getFilePreviewKind,
+  isTextCardFile,
 } from './FilePreviewModal';
 import type { ManualVideoLoad } from './encryption';
 import type { MediaCover } from './MediaSpoiler';
@@ -862,8 +862,15 @@ export function MessageContent({
     const { media } = content;
     const mxcUrl = plainMediaUrl(media.source);
     const filename = media.filename || 'file';
-    const src = mediaSrc ?? (mxcUrl ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
-    if (isDecrypting) {
+    const size = typeof media.size === 'number' && media.size >= 0 ? media.size : undefined;
+    const mimetype = media.mimetype ?? undefined;
+    // Text files (up to 5 MB) show their start in a card instead of a plain file row. The card
+    // reads only that start (the whole file is fetched on demand), so nothing is downloaded here.
+    const textPreview = isTextCardFile(filename, mimetype, size);
+    const src = textPreview
+      ? null
+      : (mediaSrc ?? (mxcUrl ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null));
+    if (isDecrypting && !textPreview) {
       return (
         <MediaSkeleton className={css.fileSkeleton}>
           <FileTextIcon size={20} />
@@ -871,46 +878,44 @@ export function MessageContent({
       );
     }
     const captionHtml = renderCaptionHtml(media);
-    const size = typeof media.size === 'number' && media.size >= 0 ? media.size : undefined;
-    const mimetype = media.mimetype ?? undefined;
-    // Text files (up to 5 MB) show their start in a card instead of a plain file row.
-    const textPreview =
-      !!src &&
-      getFilePreviewKind(filename, mimetype) === 'text' &&
-      (size === undefined || size <= TEXT_CARD_MAX_BYTES);
-    const mediaEl =
-      src && textPreview ? (
-        <TextFileCard src={src} filename={filename} size={size} />
-      ) : src ? (
-        <div className={css.fileCard}>
-          <span className={css.fileIcon}>
-            <FileTextIcon size={20} />
-          </span>
-          <span className={css.fileInfo}>
-            <Tooltip content={filename} multiline>
-              <span className={css.fileName}>{filename}</span>
-            </Tooltip>
-            {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
-          </span>
-          <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
-          <Tooltip content={t('mediaLightbox.download')}>
-            <a
-              href={src}
-              download={filename}
-              className={css.fileDownload}
-              aria-label={t('mediaLightbox.download')}
-            >
-              <DownloadSimpleIcon size={16} />
-            </a>
-          </Tooltip>
-        </div>
-      ) : mediaFailed ? (
-        <MediaError />
-      ) : (
-        <MediaSkeleton className={css.fileSkeleton}>
+    const mediaEl = textPreview ? (
+      <TextFileCard
+        client={client}
+        source={media.source}
+        filename={filename}
+        size={size}
+        loadFull={requestFullRes}
+      />
+    ) : src ? (
+      <div className={css.fileCard}>
+        <span className={css.fileIcon}>
           <FileTextIcon size={20} />
-        </MediaSkeleton>
-      );
+        </span>
+        <span className={css.fileInfo}>
+          <Tooltip content={filename} multiline>
+            <span className={css.fileName}>{filename}</span>
+          </Tooltip>
+          {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
+        </span>
+        <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
+        <Tooltip content={t('mediaLightbox.download')}>
+          <a
+            href={src}
+            download={filename}
+            className={css.fileDownload}
+            aria-label={t('mediaLightbox.download')}
+          >
+            <DownloadSimpleIcon size={16} />
+          </a>
+        </Tooltip>
+      </div>
+    ) : mediaFailed ? (
+      <MediaError />
+    ) : (
+      <MediaSkeleton className={css.fileSkeleton}>
+        <FileTextIcon size={20} />
+      </MediaSkeleton>
+    );
     return captionHtml ? (
       <div className={textPreview ? css.textFileWrap : css.mediaWrap}>
         {mediaEl}

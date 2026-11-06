@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOutSimpleIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
+import type { MediaSource, WizardClient } from '@wizardchat/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';
@@ -94,31 +95,72 @@ function decodeHead(bytes: Uint8Array): string {
   return new TextDecoder('utf-8').decode(bytes, { stream: true });
 }
 
+/** Whether a file is shown as a text card (a small text file) rather than as a plain file row. */
+export function isTextCardFile(filename: string, mimetype?: string, size?: number): boolean {
+  return (
+    getFilePreviewKind(filename, mimetype) === 'text' &&
+    (size === undefined || size <= TEXT_CARD_MAX_BYTES)
+  );
+}
+
 /**
  * Discord-style text file card: scrollable text, then a footer with name, size and actions.
- * `src` is the whole file as a blob URL; only its first 64 KB is read for the card.
+ * Only the first 64 KB is read for the card, with a ranged request for an unencrypted file (an
+ * encrypted one can only be decrypted whole, so it comes through `loadFull` and its cache).
+ * The whole file is fetched the first time copy, expand or download is used.
  */
 export function TextFileCard({
-  src,
+  client,
+  source,
   filename,
   size,
+  loadFull,
 }: {
-  src: string;
+  client: WizardClient;
+  source: MediaSource;
   filename: string;
   size?: number;
+  /** The whole file as a blob URL, cached by the caller; without it the core downloads it. */
+  loadFull?: () => Promise<string | null>;
 }) {
   const { t } = useTranslation();
   const [text, setText] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [fullSrc, setFullSrc] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const encrypted = 'file' in source;
+  const sourceKey = 'url' in source ? source.url : String((source.file as { url?: unknown })?.url);
+
+  const getFull = useCallback(async (): Promise<string | null> => {
+    if (fullSrc) return fullSrc;
+    let url: string | null;
+    if (loadFull) {
+      url = await loadFull();
+    } else {
+      const bytes = await client.media(source);
+      url = URL.createObjectURL(
+        new Blob([bytes as BlobPart], { type: 'application/octet-stream' })
+      );
+    }
+    if (url) setFullSrc(url);
+    return url;
+    // The source is identified by its key: the object itself changes on every timeline update.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, fullSrc, loadFull, sourceKey]);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(src)
-      .then((r) => r.blob())
-      .then((blob) => blob.slice(0, CARD_PREVIEW_BYTES).arrayBuffer())
-      .then((buf) => {
-        if (!cancelled) setText(decodeHead(new Uint8Array(buf)));
+    const readHead = async (): Promise<Uint8Array> => {
+      if (!encrypted) return client.mediaHead(source, CARD_PREVIEW_BYTES);
+      const url = await getFull();
+      if (!url) return new Uint8Array();
+      const blob = await (await fetch(url)).blob();
+      return new Uint8Array(await blob.slice(0, CARD_PREVIEW_BYTES).arrayBuffer());
+    };
+    readHead()
+      .then((bytes) => {
+        if (!cancelled) setText(decodeHead(bytes));
       })
       .catch(() => {
         if (!cancelled) setText('');
@@ -126,20 +168,38 @@ export function TextFileCard({
     return () => {
       cancelled = true;
     };
-  }, [src]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, encrypted, sourceKey]);
 
-  const handleCopy = () => {
-    if (!text) return;
-    // The card only holds the start of the file, so copy takes the full text (capped).
-    fetch(src)
-      .then((r) => r.text())
-      .then(async (value) => {
-        await navigator.clipboard.writeText(value.slice(0, MAX_CARD_CHARS));
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      })
-      .catch(() => {});
+  const withFull = async (action: (url: string) => void | Promise<void>) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const url = await getFull();
+      if (url) await action(url);
+    } catch {
+      // the card keeps showing what it has
+    } finally {
+      setBusy(false);
+    }
   };
+
+  // The card only holds the start of the file, so copy takes the full text (capped).
+  const handleCopy = () =>
+    withFull(async (url) => {
+      const value = await (await fetch(url)).text();
+      await navigator.clipboard.writeText(value.slice(0, MAX_CARD_CHARS));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+
+  const handleDownload = () =>
+    withFull((url) => {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+    });
 
   return (
     <div className={css.textFileCard}>
@@ -155,6 +215,7 @@ export function TextFileCard({
               type="button"
               className={css.textFileAction}
               onClick={handleCopy}
+              disabled={busy}
               aria-label={t('common.copy')}
             >
               <CopyIcon size={18} />
@@ -164,27 +225,29 @@ export function TextFileCard({
             <button
               type="button"
               className={css.textFileAction}
-              onClick={() => setExpanded(true)}
+              onClick={() => withFull(() => setExpanded(true))}
+              disabled={busy}
               aria-label={t('common.expand')}
             >
               <ArrowsOutSimpleIcon size={18} />
             </button>
           </Tooltip>
           <Tooltip content={t('mediaLightbox.download')}>
-            <a
-              href={src}
-              download={filename}
+            <button
+              type="button"
               className={css.textFileAction}
+              onClick={handleDownload}
+              disabled={busy}
               aria-label={t('mediaLightbox.download')}
             >
               <DownloadSimpleIcon size={18} />
-            </a>
+            </button>
           </Tooltip>
         </span>
       </div>
-      {expanded && (
+      {expanded && fullSrc && (
         <FilePreviewModal
-          src={src}
+          src={fullSrc}
           filename={filename}
           kind="text"
           onClose={() => setExpanded(false)}

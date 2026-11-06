@@ -15,6 +15,22 @@ interface VideoPlaceholderProps {
 export function VideoPlaceholder({ poster, sizeBytes, durationMs, load }: VideoPlaceholderProps) {
   const { t } = useTranslation();
 
+  const { progress } = load;
+  const total = progress?.total ?? sizeBytes;
+  // The server (or the event) can report a size smaller than what arrives; never show over 100%
+  const percent =
+    progress && total && total > 0
+      ? Math.min(100, Math.floor((progress.received / total) * 100))
+      : null;
+  const progressText =
+    percent !== null && total !== undefined
+      ? `${percent}% · ${formatFileSize(total)}`
+      : progress && progress.received > 0
+        ? formatFileSize(progress.received)
+        : sizeBytes !== undefined
+          ? formatFileSize(sizeBytes)
+          : null;
+
   const meta = [
     sizeBytes !== undefined ? formatFileSize(sizeBytes) : null,
     durationMs !== undefined && durationMs > 0 ? formatDuration(durationMs) : null,
@@ -31,12 +47,21 @@ export function VideoPlaceholder({ poster, sizeBytes, durationMs, load }: VideoP
       )}
       {load.checking ? null : load.loading ? (
         <div className={css.videoProgressPanel} role="status">
-          <div className={css.videoProgressTrack} aria-label={t('timeline.video.downloading')}>
-            <div className={css.videoProgressFill} />
+          <div
+            className={css.videoProgressTrack}
+            role="progressbar"
+            aria-label={t('timeline.video.downloading')}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={percent ?? undefined}
+          >
+            {percent !== null ? (
+              <div className={css.videoProgressFillMeasured} style={{ width: `${percent}%` }} />
+            ) : (
+              <div className={css.videoProgressFill} />
+            )}
           </div>
-          {sizeBytes !== undefined && (
-            <span className={css.videoMetaText}>{formatFileSize(sizeBytes)}</span>
-          )}
+          {progressText && <span className={css.videoMetaText}>{progressText}</span>}
           <button
             type="button"
             className={css.videoCancelBtn}

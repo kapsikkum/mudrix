@@ -466,13 +466,21 @@ export const videoProgressTrack = style({
   overflow: 'hidden',
 });
 
-// The core hands the whole file over at once, so there is no percentage to show: the bar just pulses.
+// No size to measure against (or nothing received yet): the bar just pulses.
 export const videoProgressFill = style({
   width: '100%',
   height: '100%',
   borderRadius: '999px',
   backgroundColor: vars.color.accent,
   animation: `${pulse} 1.5s ease-in-out infinite`,
+});
+
+// Width is set inline from the received bytes.
+export const videoProgressFillMeasured = style({
+  height: '100%',
+  borderRadius: '999px',
+  backgroundColor: vars.color.accent,
+  transition: `width ${fast}`,
 });
 
 export const videoMetaText = style({
