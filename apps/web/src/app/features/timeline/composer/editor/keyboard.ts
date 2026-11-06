@@ -1,11 +1,10 @@
 import type { KeyboardEvent } from 'react';
 import { Editor, Transforms, Element } from 'slate';
 import type { CustomEditor, CustomElement, HeadingLevel, ListType } from './types';
-
-const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
+import { IS_MAC } from '@/app/util/platform';
 
 export function isMod(e: KeyboardEvent): boolean {
-  return isMac ? e.metaKey : e.ctrlKey;
+  return IS_MAC ? e.metaKey : e.ctrlKey;
 }
 
 function moveByLine(editor: CustomEditor, e: KeyboardEvent, reverse: boolean): boolean {
@@ -33,12 +32,12 @@ export function handleEditorKeyDown(e: KeyboardEvent, editor: CustomEditor): boo
   }
 
   if (e.key === 'Home' || e.key === 'End') {
-    const toDocumentEdge = isMac ? isMod(e) : e.ctrlKey;
+    const toDocumentEdge = IS_MAC ? isMod(e) : e.ctrlKey;
     if (toDocumentEdge) return moveToDocumentEdge(editor, e, e.key === 'Home');
     return moveByLine(editor, e, e.key === 'Home');
   }
 
-  if (isMac && isMod(e) && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+  if (IS_MAC && isMod(e) && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     return moveByLine(editor, e, e.key === 'ArrowLeft');
   }
 
@@ -74,7 +73,7 @@ export function handleEditorKeyDown(e: KeyboardEvent, editor: CustomEditor): boo
     return true;
   }
 
-  if (isArrow && e.shiftKey && (e.altKey || (!isMac && e.ctrlKey))) {
+  if (isArrow && e.shiftKey && (e.altKey || (!IS_MAC && e.ctrlKey))) {
     e.preventDefault();
     Transforms.move(editor, {
       unit: 'word',

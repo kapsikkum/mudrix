@@ -7,6 +7,8 @@ function isMac(): boolean {
   return /Mac/.test(navigator.userAgent);
 }
 
+export const IS_MAC = isMac();
+
 export const MODIFIER_KEY = isMac() ? '⌘' : 'Ctrl';
 
 export const ALT_KEY = isMac() ? '⌥' : 'Alt';

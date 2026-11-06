@@ -1,3 +1,5 @@
+import { IS_MAC } from '@/app/util/platform';
+
 export type Modifier = 'Ctrl' | 'Alt' | 'Shift' | 'Meta';
 
 export interface KeyCombo {
@@ -83,9 +85,7 @@ export function isComboKeyUp(e: KeyboardEvent, combo: KeyCombo | null): boolean 
   return !!modifier && combo.modifiers.includes(modifier);
 }
 
-const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
-
-const MODIFIER_LABELS: Record<Modifier, string> = isMac
+const MODIFIER_LABELS: Record<Modifier, string> = IS_MAC
   ? { Ctrl: '⌃', Alt: '⌥', Shift: '⇧', Meta: '⌘' }
   : { Ctrl: 'Ctrl', Alt: 'Alt', Shift: 'Shift', Meta: 'Win' };
 
