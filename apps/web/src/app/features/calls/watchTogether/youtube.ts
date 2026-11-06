@@ -20,6 +20,8 @@ export interface YTPlayer {
   setPlaybackRate(rate: number): void;
   getPlaybackRate(): number;
   getLoadedFraction(): number | null;
+  /** An advert is playing in place of the video: its time and length are not the video's. */
+  isAdvert(): boolean;
   supportsRate(): boolean;
   destroy(): void;
 }
@@ -36,7 +38,8 @@ function bridgeUrl(): URL {
 interface PlayerOptions {
   videoId: string;
   autoplay: boolean;
-  start: number;
+  /** Asked for when the player is told what to play, which is after it has finished loading. */
+  start: () => number;
   onReady: () => void;
   onStateChange: (state: number) => void;
   onRateChange?: (rate: number) => void;
@@ -53,11 +56,12 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
   host.appendChild(iframe);
 
   const status = {
-    time: options.start,
+    time: options.start(),
     state: YT_STATE.UNSTARTED as number,
     duration: 0,
     videoId: options.videoId,
     rate: 1,
+    advert: false,
     loaded: null as number | null,
     reportsRate: false,
   };
@@ -71,11 +75,13 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
     if (data.type === 'loaded') {
       clearTimeout(bridgeTimeout);
       iframe.style.visibility = '';
+      const start = options.start();
+      status.time = start;
       send({
         type: 'init',
         videoId: options.videoId,
         autoplay: options.autoplay,
-        start: options.start,
+        start,
       });
     } else if (data.type === 'ready') {
       options.onReady();
@@ -84,6 +90,7 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
       if (typeof data.state === 'number') status.state = data.state;
       if (typeof data.duration === 'number') status.duration = data.duration;
       if (typeof data.videoId === 'string') status.videoId = data.videoId;
+      if (typeof data.advert === 'boolean') status.advert = data.advert;
       if (typeof data.rate === 'number') {
         status.rate = data.rate;
         status.reportsRate = true;
@@ -127,6 +134,7 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
     getPlaybackRate: () => status.rate,
     getLoadedFraction: () => status.loaded,
     supportsRate: () => status.reportsRate,
+    isAdvert: () => status.advert,
     destroy: () => {
       clearTimeout(bridgeTimeout);
       window.removeEventListener('message', onMessage);

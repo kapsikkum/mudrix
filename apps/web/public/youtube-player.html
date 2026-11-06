@@ -32,15 +32,52 @@
           window.parent.postMessage(message, '*');
         }
 
+        // The video the app asked for. While an advert plays, the player reports something else, and
+        // its time and length are the advert's, so none of them can be used to follow the room.
+        var wanted = null;
+
+        function playingAdvert(data) {
+          try {
+            if (typeof player.getAdState === 'function' && player.getAdState() === 1) return true;
+          } catch (e) {
+            // not offered by this player
+          }
+          if (!wanted) return false;
+          if (data && data.video_id && data.video_id !== wanted) return true;
+          var url = player.getVideoUrl ? player.getVideoUrl() : '';
+          return !!url && url.indexOf(wanted) === -1;
+        }
+
+        // Adverts are far louder than the video, so they play muted. Only a mute made here is undone
+        // here, so someone who had muted the video themselves is left as they were.
+        var mutedForAdvert = false;
+
+        function muteAdverts(advert) {
+          try {
+            if (advert && !mutedForAdvert && !player.isMuted()) {
+              player.mute();
+              mutedForAdvert = true;
+            } else if (!advert && mutedForAdvert) {
+              player.unMute();
+              mutedForAdvert = false;
+            }
+          } catch (e) {
+            // the player is not ready to be asked
+          }
+        }
+
         function status() {
           if (!ready) return;
           var data = player.getVideoData ? player.getVideoData() : {};
+          var advert = playingAdvert(data);
+          muteAdverts(advert);
           post({
             type: 'status',
             time: player.getCurrentTime(),
             state: player.getPlayerState(),
             duration: player.getDuration(),
-            videoId: data && data.video_id,
+            videoId: wanted || (data && data.video_id),
+            advert: advert,
             rate: player.getPlaybackRate ? player.getPlaybackRate() : 1,
             loaded: player.getVideoLoadedFraction ? player.getVideoLoadedFraction() : null,
           });
@@ -54,16 +91,19 @@
           if (command.type === 'play') player.playVideo();
           else if (command.type === 'pause') player.pauseVideo();
           else if (command.type === 'seek') player.seekTo(command.seconds, true);
-          else if (command.type === 'load')
-            player.loadVideoById({ videoId: command.videoId, startSeconds: command.seconds });
-          else if (command.type === 'cue')
-            player.cueVideoById({ videoId: command.videoId, startSeconds: command.seconds });
           else if (command.type === 'rate') player.setPlaybackRate(command.rate);
+          else if (command.type === 'load' || command.type === 'cue') {
+            wanted = command.videoId;
+            var args = { videoId: command.videoId, startSeconds: command.seconds };
+            if (command.type === 'load') player.loadVideoById(args);
+            else player.cueVideoById(args);
+          }
           status();
         }
 
         function create(options) {
           if (player) return;
+          wanted = options.videoId;
           window.onYouTubeIframeAPIReady = function () {
             player = new YT.Player('player', {
               host: 'https://www.youtube-nocookie.com',
