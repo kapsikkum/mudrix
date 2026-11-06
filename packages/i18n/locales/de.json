@@ -971,7 +971,10 @@
     "remove": "Entfernen",
     "download": "Herunterladen",
     "previous": "Vorheriges Bild",
-    "next": "Nächstes Bild"
+    "next": "Nächstes Bild",
+    "saveAll": "Alle speichern ({{count}})",
+    "savingAll": "Speichern…",
+    "saveAllFailed": "{{failed}} von {{total}} Bildern konnten nicht gespeichert werden"
   },
   "voiceMessagePlayer": {
     "play": "Abspielen",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24-Stunden",
       "timeFormatAuto": "Automatisch",
       "uiZoom": "Oberflächen-Zoom",
-      "uiZoomNote": "Skaliert Text und Abstände in der gesamten App."
+      "uiZoomNote": "Skaliert Text und Abstände in der gesamten App.",
+      "groupImages": "Bilder zu Galerien gruppieren",
+      "groupImagesNote": "Zusammen gesendete Bilder als eine Galerie anzeigen. Wenn deaktiviert, ist jedes Bild eine eigene Nachricht, wie in anderen Matrix-Clients."
     },
     "accessibility": {
       "title": "Barrierefreiheit",

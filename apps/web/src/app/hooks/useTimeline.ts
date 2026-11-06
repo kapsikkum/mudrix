@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAtomValue } from 'jotai';
+import { groupImagesAtom } from '@/app/store/atoms/settings';
 import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@wizardchat/core';
 import {
   useMembers,
@@ -109,9 +111,17 @@ export interface BuildContext {
   lookupMember?: MemberLookup;
   /** Undecryptable events still waiting for their keys ("decrypting...") */
   decryptingIds?: ReadonlySet<string>;
+  /** Off: every image is its own message, as other clients show them. Default on. */
+  groupImages?: boolean;
 }
 
 export type BuildItemsSeed = { prevEvent?: EventEntry | null };
+
+/** GIFs and other animated images are usually reactions sent one at a time, not part of a set. */
+function isAnimatedImage(e: EventEntry): boolean {
+  if (e.content.type !== 'image') return false;
+  return e.content.media.mimetype === 'image/gif' || e.content.media.isAnimated;
+}
 
 function isGalleryCandidate(e: EventEntry, redacted: ReadonlySet<string>): boolean {
   if (e.content.type !== 'image') return false;
@@ -140,7 +150,9 @@ export function buildItems(
   let lastTs = seedEvent?.timestamp ?? 0;
   let lastDate = seedEvent ? formatDateLabel(seedEvent.timestamp, t, locale) : '';
 
-  const GALLERY_GAP_MS = 5 * 60 * 1000;
+  // Images sent together are posted back to back; anything further apart is not one set.
+  const GALLERY_GAP_MS = 60 * 1000;
+  const groupImages = ctx.groupImages !== false;
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
@@ -187,9 +199,14 @@ export function buildItems(
     const isOptimisticallyRedacted = optimisticRedactedIds.has(eventId);
     const optimisticBody = optimisticEditBodies.get(eventId) ?? null;
 
-    // Collapse consecutive image-only uploads from the same sender into a gallery.
+    // Collapse consecutive still images from the same sender, under a minute apart, into a gallery.
     let galleryEvents: EventEntry[] | null = null;
-    if (isGalleryCandidate(event, optimisticRedactedIds)) {
+    let galleryEndIndex = i;
+    if (
+      groupImages &&
+      isGalleryCandidate(event, optimisticRedactedIds) &&
+      !isAnimatedImage(event)
+    ) {
       const group = [event];
       let prevTs = ts;
       for (let j = i + 1; j < events.length; j++) {
@@ -197,10 +214,12 @@ export function buildItems(
         if (!isTimelineRenderedEntry(next)) continue;
         if (!isGalleryCandidate(next, optimisticRedactedIds)) break;
         if (next.sender !== senderId) break;
+        if (isAnimatedImage(next)) break;
         const nextTs = next.timestamp;
         if (nextTs - prevTs >= GALLERY_GAP_MS) break;
         if (formatDateLabel(nextTs, t, locale) !== dateLabel) break;
         group.push(next);
+        galleryEndIndex = j;
         prevTs = nextTs;
       }
       if (group.length >= 2) galleryEvents = group;
@@ -238,7 +257,9 @@ export function buildItems(
     if (galleryEvents !== null) {
       const galleryLast = galleryEvents[galleryEvents.length - 1];
       if (galleryLast) {
-        i = events.indexOf(galleryLast, i);
+        // Skip to the last image itself: hidden events between the images mean it is not
+        // always the group length further on.
+        i = galleryEndIndex;
         lastSenderId = galleryLast.sender;
         lastTs = galleryLast.timestamp;
       }
@@ -339,6 +360,7 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
   const { data: settings } = useRoomSettings(roomId);
   const { data: members } = useMembers(roomId);
   const ignored = useIgnoredUsers();
+  const groupImages = useAtomValue(groupImagesAtom);
 
   const ignoredUsers = useMemo(() => new Set(ignored), [ignored]);
   const roomPerms = useMemo(
@@ -362,8 +384,9 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
       pinnedIds: pinnedIds ?? [],
       ignoredUsers,
       lookupMember,
+      groupImages,
     }),
-    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember]
+    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, groupImages]
   );
   return context;
 }

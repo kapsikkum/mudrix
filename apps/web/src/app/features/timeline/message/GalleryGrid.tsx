@@ -9,6 +9,8 @@ import { entryEventId, entryMedia, type EventEntry as MatrixEvent } from './entr
 import { MediaSpoiler } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
+import { useToast } from '@/app/hooks/useToast';
+import { galleryFileName, saveGalleryImages } from './galleryDownload';
 import * as css from '../Timeline.css';
 
 const MAX_VISIBLE = 8;
@@ -231,6 +233,32 @@ export function MessageGallery({
 
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
+  const { t } = useTranslation();
+  const toast = useToast();
+  const [savingAll, setSavingAll] = useState(false);
+  const handleSaveAll = useCallback(async () => {
+    setSavingAll(true);
+    try {
+      // Images hidden from this view (e.g. by moderation) are left out.
+      const toSave = events.flatMap((e, i) =>
+        hiddenEventIds?.has(entryEventId(e)) === true
+          ? []
+          : [
+              {
+                filename: galleryFileName(entryMedia(e), i),
+                load: srcsRef.current[i]?.requestFullRes ?? (() => Promise.resolve(null)),
+              },
+            ]
+      );
+      const { failed } = await saveGalleryImages(toSave);
+      if (failed > 0) {
+        toast.error(t('mediaLightbox.saveAllFailed', { failed, total: toSave.length }));
+      }
+    } finally {
+      setSavingAll(false);
+    }
+  }, [events, hiddenEventIds, toast, t]);
+
   const gridStyle: CSSProperties = {
     gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
   };
@@ -286,6 +314,8 @@ export function MessageGallery({
           client={client}
           onRevealItem={handleRevealTile}
           onClose={closeLightbox}
+          onSaveAll={() => void handleSaveAll()}
+          saveAllBusy={savingAll}
         />
       )}
 

@@ -971,7 +971,10 @@
     "remove": "Remove",
     "download": "Download",
     "previous": "Previous image",
-    "next": "Next image"
+    "next": "Next image",
+    "saveAll": "Save all ({{count}})",
+    "savingAll": "Saving…",
+    "saveAllFailed": "{{failed}} of {{total}} images couldn't be saved"
   },
   "voiceMessagePlayer": {
     "play": "Play",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24-hour",
       "timeFormatAuto": "Automatic",
       "uiZoom": "Interface zoom",
-      "uiZoomNote": "Scales text and spacing across the app."
+      "uiZoomNote": "Scales text and spacing across the app.",
+      "groupImages": "Group images into galleries",
+      "groupImagesNote": "Show images sent together as one gallery. When off, every image is its own message, like in other Matrix clients."
     },
     "accessibility": {
       "title": "Accessibility",

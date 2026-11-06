@@ -69,6 +69,8 @@ export interface Preferences {
   showPresenceDots: boolean;
   colorUsernames: boolean;
   autoplayGifs: boolean;
+  /** Show images sent together as one gallery instead of one message each. */
+  groupImages: boolean;
   mediaVisibility: MediaVisibility;
   videoUploadMode: VideoUploadMode;
   videoUploadHeight: VideoUploadHeight;
@@ -136,6 +138,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   showPresenceDots: true,
   colorUsernames: true,
   autoplayGifs: false,
+  groupImages: true,
   mediaVisibility: 'always',
   videoUploadMode: 'original',
   videoUploadHeight: '720',
@@ -190,6 +193,7 @@ export const showRoomAvatarsAtom = preferenceFieldAtom('showRoomAvatars');
 export const showPresenceDotsAtom = preferenceFieldAtom('showPresenceDots');
 export const colorUsernamesAtom = preferenceFieldAtom('colorUsernames');
 export const autoplayGifsAtom = preferenceFieldAtom('autoplayGifs');
+export const groupImagesAtom = preferenceFieldAtom('groupImages');
 export const mediaVisibilityAtom = preferenceFieldAtom('mediaVisibility');
 export const videoUploadModeAtom = preferenceFieldAtom('videoUploadMode');
 export const videoUploadHeightAtom = preferenceFieldAtom('videoUploadHeight');

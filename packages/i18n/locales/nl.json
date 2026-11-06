@@ -971,7 +971,10 @@
     "remove": "Verwijderen",
     "download": "Downloaden",
     "previous": "Vorige afbeelding",
-    "next": "Volgende afbeelding"
+    "next": "Volgende afbeelding",
+    "saveAll": "Alles opslaan ({{count}})",
+    "savingAll": "Opslaan…",
+    "saveAllFailed": "{{failed}} van {{total}} afbeeldingen konden niet worden opgeslagen"
   },
   "voiceMessagePlayer": {
     "play": "Afspelen",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24-uurs",
       "timeFormatAuto": "Automatisch",
       "uiZoom": "Interfacezoom",
-      "uiZoomNote": "Schaalt tekst en witruimte in de hele app."
+      "uiZoomNote": "Schaalt tekst en witruimte in de hele app.",
+      "groupImages": "Afbeeldingen groeperen in galerijen",
+      "groupImagesNote": "Afbeeldingen die samen zijn verstuurd als één galerij tonen. Uit: elke afbeelding is een eigen bericht, zoals in andere Matrix-clients."
     },
     "accessibility": {
       "title": "Toegankelijkheid",

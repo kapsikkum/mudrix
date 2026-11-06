@@ -971,7 +971,10 @@
     "remove": "削除",
     "download": "ダウンロード",
     "previous": "前の画像",
-    "next": "次の画像"
+    "next": "次の画像",
+    "saveAll": "すべて保存 ({{count}})",
+    "savingAll": "保存中…",
+    "saveAllFailed": "{{total}}枚中{{failed}}枚の画像を保存できませんでした"
   },
   "voiceMessagePlayer": {
     "play": "再生",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24時間表示",
       "timeFormatAuto": "自動",
       "uiZoom": "インターフェースの拡大率",
-      "uiZoomNote": "アプリ全体の文字と余白を拡大・縮小します。"
+      "uiZoomNote": "アプリ全体の文字と余白を拡大・縮小します。",
+      "groupImages": "画像をギャラリーにまとめる",
+      "groupImagesNote": "一緒に送信された画像を1つのギャラリーとして表示します。オフにすると、他のMatrixクライアントと同様に、画像ごとに個別のメッセージになります。"
     },
     "accessibility": {
       "title": "アクセシビリティ",

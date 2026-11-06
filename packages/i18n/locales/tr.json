@@ -971,7 +971,10 @@
     "remove": "Kaldır",
     "download": "İndir",
     "previous": "Önceki görsel",
-    "next": "Sonraki görsel"
+    "next": "Sonraki görsel",
+    "saveAll": "Tümünü kaydet ({{count}})",
+    "savingAll": "Kaydediliyor…",
+    "saveAllFailed": "{{total}} görselden {{failed}} tanesi kaydedilemedi"
   },
   "voiceMessagePlayer": {
     "play": "Oynat",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24 saatlik",
       "timeFormatAuto": "Otomatik",
       "uiZoom": "Arayüz yakınlaştırma",
-      "uiZoomNote": "Uygulama genelinde metni ve boşlukları ölçeklendirir."
+      "uiZoomNote": "Uygulama genelinde metni ve boşlukları ölçeklendirir.",
+      "groupImages": "Görselleri galerilerde grupla",
+      "groupImagesNote": "Birlikte gönderilen görselleri tek bir galeri olarak göster. Kapalıyken her görsel, diğer Matrix istemcilerinde olduğu gibi kendi mesajı olur."
     },
     "accessibility": {
       "title": "Erişilebilirlik",

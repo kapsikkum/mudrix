@@ -971,7 +971,10 @@
     "remove": "Retirer",
     "download": "Télécharger",
     "previous": "Image précédente",
-    "next": "Image suivante"
+    "next": "Image suivante",
+    "saveAll": "Tout enregistrer ({{count}})",
+    "savingAll": "Enregistrement…",
+    "saveAllFailed": "{{failed}} images sur {{total}} n'ont pas pu être enregistrées"
   },
   "voiceMessagePlayer": {
     "play": "Lire",
@@ -1224,7 +1227,9 @@
       "timeFormat24h": "24 heures",
       "timeFormatAuto": "Automatique",
       "uiZoom": "Zoom de l'interface",
-      "uiZoomNote": "Met à l'échelle le texte et les espacements dans toute l'application."
+      "uiZoomNote": "Met à l'échelle le texte et les espacements dans toute l'application.",
+      "groupImages": "Regrouper les images en galeries",
+      "groupImagesNote": "Affiche les images envoyées ensemble sous forme de galerie. Si désactivé, chaque image est un message distinct, comme dans les autres clients Matrix."
     },
     "accessibility": {
       "title": "Accessibilité",
