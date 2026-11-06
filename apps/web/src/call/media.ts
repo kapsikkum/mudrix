@@ -25,6 +25,7 @@ import type {
 } from '@wizardchat/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
+import { mudrixKey, wizardchatKey } from '@/util/namespace';
 
 export type CallPhase = 'joining' | 'joined' | 'left' | 'error';
 export type RingState = 'ringing' | 'declined' | 'unanswered';
@@ -196,7 +197,8 @@ interface InboundStats {
   concealedSamples?: number;
 }
 
-const STREAM_WATCH_TOPIC = 'org.wizardchat.stream-watch';
+const STREAM_WATCH_TOPIC = mudrixKey('stream-watch');
+const WIZARDCHAT_STREAM_WATCH_TOPIC = wizardchatKey('stream-watch');
 
 export function listDevices(kind: DeviceKind): Promise<MediaDeviceInfo[]> {
   return LivekitRoom.getLocalDevices(kind, true);
@@ -747,7 +749,7 @@ export class CallMedia {
         } catch {
           return;
         }
-        if (topic === STREAM_WATCH_TOPIC) {
+        if (topic === STREAM_WATCH_TOPIC || topic === WIZARDCHAT_STREAM_WATCH_TOPIC) {
           this.onStreamWatch(payload, from);
           return;
         }

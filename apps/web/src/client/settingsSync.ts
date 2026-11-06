@@ -1,47 +1,117 @@
-import type { MessageLayout, Preferences, ThemeName } from '@/app/store/atoms';
+import type { Keybinds, MessageLayout, Preferences, ThemeName } from '@/app/store/atoms';
+import { DEFAULT_KEYBINDS, DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { THEMES } from '@/theme/themes.css';
-import {
-  STORAGE_KEY_LANGUAGE,
-  STORAGE_KEY_MESSAGE_LAYOUT,
-  STORAGE_KEY_PREFERENCES,
-  STORAGE_KEY_THEME,
-} from '@/const/storageKeys';
+import { legacyMudrixKey, mudrixKey, wizardchatKey } from '@/util/namespace';
 
-export const SETTINGS_ACCOUNT_DATA_TYPE = 'org.wizardchat.settings';
+/**
+ * Privacy model: this is Matrix *account data*. Other users can never read it (it is not part of
+ * any room or profile), but it is not end-to-end encrypted, so the homeserver admin can. Only
+ * non-secret appearance/behaviour choices belong here. Never add tokens, keys, GIF favourites
+ * (an encrypted GIF favourite carries its decryption key) or anything that identifies private
+ * rooms. Anything other users should see goes in the extended profile instead, deliberately.
+ */
+export const SETTINGS_ACCOUNT_DATA_TYPE = mudrixKey('settings');
 
-const isBoolean = (value: unknown) => typeof value === 'boolean';
-const oneOf =
-  (...allowed: string[]) =>
-  (value: unknown) =>
-    typeof value === 'string' && allowed.includes(value);
+/**
+ * Where earlier Mudrix versions kept the settings. Every save also writes it, so a device that
+ * has not updated yet keeps following the account's settings. Because current versions always
+ * write both, the two only differ when one of those older devices changed something, which makes
+ * this copy the fresher one: it is read first.
+ */
+export const PREVIOUS_SETTINGS_ACCOUNT_DATA_TYPE = legacyMudrixKey('settings');
 
-const SYNCED_PREFERENCES = {
-  typingIndicators: isBoolean,
-  sendReadReceipts: isBoolean,
-  mediaVisibility: oneOf('always', 'private', 'never'),
-  prettifyLinks: isBoolean,
-  markdown: isBoolean,
-  showRoomAvatars: isBoolean,
-  showPresenceDots: isBoolean,
-  colorUsernames: isBoolean,
-  themedAppIcon: isBoolean,
-  chatFontSize: (value: unknown) =>
-    typeof value === 'number' && Number.isInteger(value) && value >= 8 && value <= 48,
-  chatDensity: oneOf('compact', 'default', 'spacious'),
-  uiDensity: oneOf('compact', 'default', 'spacious'),
-} satisfies Partial<Record<keyof Preferences, (value: unknown) => boolean>>;
+/** Every name a save writes. */
+export const SETTINGS_WRITE_TYPES = [
+  SETTINGS_ACCOUNT_DATA_TYPE,
+  PREVIOUS_SETTINGS_ACCOUNT_DATA_TYPE,
+] as const;
 
-export type SyncedPreferenceKey = keyof typeof SYNCED_PREFERENCES;
-export const SYNCED_PREFERENCE_KEYS = Object.keys(SYNCED_PREFERENCES) as SyncedPreferenceKey[];
-export type SyncedPreferences = Pick<Preferences, SyncedPreferenceKey>;
+/** The settings of the WizardChat base this app is built on (flat, not nested). */
+export const WIZARDCHAT_SETTINGS_ACCOUNT_DATA_TYPE = wizardchatKey('settings');
 
-export interface SyncedSettings extends SyncedPreferences {
+/** The older WizardChat web app's event. */
+export const LEGACY_SETTINGS_ACCOUNT_DATA_TYPE = 'io.gitlab.wizardchat.settings';
+
+/**
+ * Every settings event, best source first. The WizardChat ones are only a fallback until the first
+ * save writes a Mudrix event, and are never written: an account signed in to both apps must not
+ * have one overwrite the other's settings.
+ */
+export const SETTINGS_READ_TYPES = [
+  PREVIOUS_SETTINGS_ACCOUNT_DATA_TYPE,
+  SETTINGS_ACCOUNT_DATA_TYPE,
+  WIZARDCHAT_SETTINGS_ACCOUNT_DATA_TYPE,
+  LEGACY_SETTINGS_ACCOUNT_DATA_TYPE,
+] as const;
+
+/** The content of each settings event the account has, by event type. */
+export type SettingsContents = Partial<Record<string, unknown>>;
+
+/** Preferences that describe this device (screen size, ...) and so are not synced. */
+const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
+  'uiScale',
+  'reducedMotionApplied',
+  // Needs the operating system's permission, which is granted per device.
+  'notificationBanners',
+]);
+
+export interface SyncedSettings {
   theme: ThemeName;
   messageLayout: MessageLayout;
   language: string;
+  preferences: Partial<Preferences>;
+  keybinds: Keybinds;
 }
 
 const MESSAGE_LAYOUTS: MessageLayout[] = ['classic', 'modern', 'compact'];
+const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
+  mediaVisibility: ['always', 'private', 'never'],
+  reducedMotion: ['system', 'on', 'off'],
+  chatDensity: ['compact', 'default', 'spacious'],
+  uiDensity: ['compact', 'default', 'spacious'],
+};
+
+export function isSyncedPreference(key: string): key is keyof Preferences {
+  return key in DEFAULT_PREFERENCES && !DEVICE_ONLY_PREFERENCES.has(key as keyof Preferences);
+}
+
+/** Keeps only known, synced preference keys whose value has the right type and an allowed value. */
+export function sanitizePreferences(raw: unknown): Partial<Preferences> {
+  if (!raw || typeof raw !== 'object') return {};
+  const input = raw as Record<string, unknown>;
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(DEFAULT_PREFERENCES)) {
+    if (!isSyncedPreference(key) || !(key in input)) continue;
+    const value = input[key];
+    const expected = DEFAULT_PREFERENCES[key];
+    if (typeof value !== typeof expected) continue;
+    if (typeof value === 'number' && !Number.isFinite(value)) continue;
+    const allowed = ENUM_VALUES[key];
+    if (allowed && !allowed.includes(value as string)) continue;
+    out[key] = value;
+  }
+  return out as Partial<Preferences>;
+}
+
+function sanitizeKeybinds(raw: unknown): Keybinds | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const input = raw as Record<string, unknown>;
+  const out: Keybinds = { ...DEFAULT_KEYBINDS };
+  let found = false;
+  for (const key of Object.keys(out) as (keyof Keybinds)[]) {
+    const value = input[key];
+    if (typeof value === 'string' && value.length <= 64) {
+      out[key] = value;
+      found = true;
+    }
+  }
+  return found ? out : undefined;
+}
+
+/** The synced subset of the current local preferences, filled with defaults for missing keys. */
+export function syncablePreferences(prefs: Partial<Preferences>): Partial<Preferences> {
+  return sanitizePreferences({ ...DEFAULT_PREFERENCES, ...prefs });
+}
 
 export function parseSettings(raw: unknown): Partial<SyncedSettings> {
   if (!raw || typeof raw !== 'object') return {};
@@ -63,53 +133,82 @@ export function parseSettings(raw: unknown): Partial<SyncedSettings> {
     settings.language = content.language;
   }
 
-  for (const key of SYNCED_PREFERENCE_KEYS) {
-    if (SYNCED_PREFERENCES[key](content[key])) {
-      (settings as Record<string, unknown>)[key] = content[key];
-    }
-  }
+  // The WizardChat base keeps the preferences next to the theme instead of in a `preferences` object
+  const nested =
+    content.preferences && typeof content.preferences === 'object' ? content.preferences : {};
+  const preferences = sanitizePreferences({ ...content, ...nested });
+  if (Object.keys(preferences).length > 0) settings.preferences = preferences;
+
+  const keybinds = sanitizeKeybinds(content.keybinds);
+  if (keybinds) settings.keybinds = keybinds;
 
   return settings;
 }
 
-export function pickSyncedPreferences(
-  settings: Partial<SyncedSettings>
-): Partial<SyncedPreferences> {
-  const picked: Partial<SyncedPreferences> = {};
-  for (const key of SYNCED_PREFERENCE_KEYS) {
-    if (settings[key] !== undefined) (picked as Record<string, unknown>)[key] = settings[key];
-  }
-  return picked;
+/** The first settings event the account has, in the order of `SETTINGS_READ_TYPES`. */
+export function pickSettingsContent(contents: SettingsContents): unknown {
+  return SETTINGS_READ_TYPES.map((type) => contents[type]).find(
+    (content) => content && typeof content === 'object'
+  );
 }
 
-/** The settings stored in account data (from `client.accountData(SETTINGS_ACCOUNT_DATA_TYPE)`) */
-export function readSettingsFromContent(content: unknown): Partial<SyncedSettings> {
-  return content ? parseSettings(content) : {};
+/** The settings the account has saved (empty when it has none). */
+export function readSettings(contents: SettingsContents): Partial<SyncedSettings> {
+  return parseSettings(pickSettingsContent(contents));
 }
 
-export function writeSettingsToLocalStorage(settings: Partial<SyncedSettings>): void {
-  if (settings.theme) localStorage.setItem(STORAGE_KEY_THEME, settings.theme);
-  if (settings.messageLayout)
-    localStorage.setItem(STORAGE_KEY_MESSAGE_LAYOUT, settings.messageLayout);
-  if (settings.language) localStorage.setItem(STORAGE_KEY_LANGUAGE, settings.language);
+/** Whether this account has saved Mudrix settings yet (as opposed to only WizardChat's). */
+export function hasMudrixSettings(contents: SettingsContents): boolean {
+  return SETTINGS_WRITE_TYPES.some((type) => contents[type] && typeof contents[type] === 'object');
+}
 
-  const preferences = pickSyncedPreferences(settings);
-  if (Object.keys(preferences).length === 0) return;
-  let stored: Record<string, unknown> = {};
-  try {
-    stored = JSON.parse(localStorage.getItem(STORAGE_KEY_PREFERENCES) ?? '{}') ?? {};
-  } catch {
-    // Corrupt local value: the synced preferences replace it
-  }
-  localStorage.setItem(STORAGE_KEY_PREFERENCES, JSON.stringify({ ...stored, ...preferences }));
+function stable(value: unknown): string {
+  if (!value || typeof value !== 'object') return JSON.stringify(value ?? null);
+  const obj = value as Record<string, unknown>;
+  return `{${Object.keys(obj)
+    .sort()
+    .map((k) => `${JSON.stringify(k)}:${stable(obj[k])}`)
+    .join(',')}}`;
 }
 
 export function settingsEqual(a: Partial<SyncedSettings>, b: Partial<SyncedSettings>): boolean {
-  const keys: (keyof SyncedSettings)[] = [
-    'theme',
-    'messageLayout',
-    'language',
-    ...SYNCED_PREFERENCE_KEYS,
-  ];
-  return keys.every((key) => (a[key] ?? null) === (b[key] ?? null));
+  return stable(a) === stable(b);
+}
+
+/**
+ * What to write to the settings event `type`: the content already stored there with only the keys
+ * that differ from `current` replaced. Keys this version does not know (written by another app or
+ * a newer version) and values nothing here changed are kept instead of being overwritten with
+ * this device's copy. With no saved Mudrix settings yet, everything is written.
+ */
+export function mergeSettingsForWrite(
+  contents: SettingsContents,
+  type: string,
+  next: Partial<SyncedSettings>,
+  current: Partial<SyncedSettings>,
+  writeAll: boolean
+): Record<string, unknown> {
+  // A name nothing has been saved under yet starts from the other one, so it is not left partial.
+  const stored = [type, ...SETTINGS_WRITE_TYPES]
+    .map((name) => contents[name])
+    .find((content) => content && typeof content === 'object');
+  const base: Record<string, unknown> =
+    stored && typeof stored === 'object' ? { ...(stored as Record<string, unknown>) } : {};
+  const isChanged = (a: unknown, b: unknown) => writeAll || stable(a) !== stable(b);
+
+  for (const key of Object.keys(next) as (keyof SyncedSettings)[]) {
+    if (key === 'preferences') continue;
+    if (isChanged(next[key], current[key])) base[key] = next[key];
+  }
+
+  const nextPrefs = next.preferences ?? {};
+  const currentPrefs = current.preferences ?? {};
+  const storedPrefs = base.preferences;
+  const prefs: Record<string, unknown> =
+    storedPrefs && typeof storedPrefs === 'object' ? { ...(storedPrefs as object) } : {};
+  for (const key of Object.keys(nextPrefs) as (keyof Preferences)[]) {
+    if (isChanged(nextPrefs[key], currentPrefs[key])) prefs[key] = nextPrefs[key];
+  }
+  if (next.preferences) base.preferences = prefs;
+  return base;
 }

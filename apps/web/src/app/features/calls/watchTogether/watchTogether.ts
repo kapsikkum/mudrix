@@ -1,8 +1,11 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { STORAGE_KEY_YOUTUBE_CONSENT } from '@/const/storageKeys';
+import { mudrixKey, wizardchatKey } from '@/util/namespace';
 
-export const WATCH_TOPIC = 'org.wizardchat.watch';
+export const WATCH_TOPIC = mudrixKey('watch');
+/** The data topic of the WizardChat base: still understood so both apps can watch together */
+export const WIZARDCHAT_WATCH_TOPIC = wizardchatKey('watch');
 
 export interface WatchState {
   videoId: string;

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
 import type { SpaceNode, WizardClient } from '@wizardchat/core';
 import { useAccountData, useClient } from '@/app/data';
+import { mudrixKey, wizardchatKey } from '@/util/namespace';
 
 const ORDER_MIN = 0x20;
 const ORDER_MAX = 0x7e;
@@ -110,7 +111,8 @@ export async function saveSpaceChildOrders(
   }
 }
 
-export const HOME_ORDER_EVENT = 'org.wizardchat.home_order';
+export const HOME_ORDER_EVENT = mudrixKey('home_order');
+const WIZARDCHAT_HOME_ORDER_EVENT = wizardchatKey('home_order');
 
 export function getHomeOrder(content: Record<string, unknown> | null | undefined): string[] {
   const rooms = content?.rooms;
@@ -118,8 +120,9 @@ export function getHomeOrder(content: Record<string, unknown> | null | undefined
 }
 
 export function useHomeOrder(): string[] {
-  const content = useAccountData(HOME_ORDER_EVENT);
-  return useMemo(() => getHomeOrder(content), [content]);
+  const mudrix = useAccountData(HOME_ORDER_EVENT);
+  const wizardchat = useAccountData(WIZARDCHAT_HOME_ORDER_EVENT);
+  return useMemo(() => getHomeOrder(mudrix ?? wizardchat), [mudrix, wizardchat]);
 }
 
 export async function saveHomeOrder(client: WizardClient, roomIds: string[]): Promise<void> {

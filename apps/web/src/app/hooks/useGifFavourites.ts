@@ -3,9 +3,12 @@ import type { WizardClient } from '@wizardchat/core';
 import { STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
 import { accountStorageKey } from '@/const/accountStorage';
 import { useAccountData, useSyncReady } from '@/app/data';
+import { mudrixKey, wizardchatKey } from '@/util/namespace';
 
 export const GIF_FAVOURITES_CAP = 50;
-const GIF_FAVOURITES_ACCOUNT_DATA = 'org.wizardchat.gif_favourites';
+const GIF_FAVOURITES_ACCOUNT_DATA = mudrixKey('gif_favourites');
+/** Where the WizardChat base kept them, read until the first change writes the Mudrix event */
+const WIZARDCHAT_GIF_FAVOURITES = wizardchatKey('gif_favourites');
 
 function parseFavourites(content: unknown): string[] {
   if (!content || typeof content !== 'object') return [];
@@ -45,7 +48,9 @@ export function useGifFavourites(client: WizardClient | null | undefined): {
   favourites: string[];
   toggleFavourite: (url: string) => void;
 } {
-  const synced = useAccountData(GIF_FAVOURITES_ACCOUNT_DATA);
+  const mudrixSynced = useAccountData(GIF_FAVOURITES_ACCOUNT_DATA);
+  const wizardchatSynced = useAccountData(WIZARDCHAT_GIF_FAVOURITES);
+  const synced = mudrixSynced ?? wizardchatSynced;
   const syncReady = useSyncReady();
   const [favourites, setFavourites] = useState<string[]>([]);
 

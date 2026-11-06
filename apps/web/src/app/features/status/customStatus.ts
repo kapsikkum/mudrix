@@ -4,8 +4,11 @@ import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { ownCustomStatusAtom, statusMsgMapAtom, userIdAtom } from '@/app/store/atoms';
 import type { CustomStatus } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
+import { mudrixKey, wizardchatKey } from '@/util/namespace';
 
-export const PROFILE_STATUS_KEY = 'org.wizardchat.status';
+export const PROFILE_STATUS_KEY = mudrixKey('status');
+/** Where the WizardChat base keeps it: read, and cleared with the Mudrix field, never written */
+const WIZARDCHAT_STATUS_KEY = wizardchatKey('status');
 export const MAX_STATUS_LENGTH = 128;
 
 export const customStatusDialogOpenAtom = atom(false);
@@ -62,8 +65,11 @@ async function publishCustomStatus(client: MatrixClient, status: CustomStatus | 
         text: status.text,
         ...(status.expiresAt ? { expires_at: status.expiresAt } : {}),
       });
+      // A status set under the old name would otherwise keep showing after it is replaced
+      await client.deleteProfileField(WIZARDCHAT_STATUS_KEY).catch(() => {});
     } else {
       await client.deleteProfileField(PROFILE_STATUS_KEY);
+      await client.deleteProfileField(WIZARDCHAT_STATUS_KEY).catch(() => {});
     }
   } catch {
     // Not set / rejected: presence status_msg still carries the text
@@ -76,7 +82,9 @@ export async function fetchCustomStatus(
 ): Promise<CustomStatus | null | undefined> {
   if (!(await supportsProfileFields(client))) return undefined;
   try {
-    return parseCustomStatus(await client.profileField(userId, PROFILE_STATUS_KEY));
+    const current = parseCustomStatus(await client.profileField(userId, PROFILE_STATUS_KEY));
+    if (current) return current;
+    return parseCustomStatus(await client.profileField(userId, WIZARDCHAT_STATUS_KEY));
   } catch {
     return undefined;
   }

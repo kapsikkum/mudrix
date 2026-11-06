@@ -5,6 +5,7 @@ import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useCallSnapshot } from '@/app/features/calls/stage/useCallSnapshot';
 import {
   WATCH_TOPIC,
+  WIZARDCHAT_WATCH_TOPIC,
   expectedPosition,
   parseWatchMessage,
   watchActionsAtom,
@@ -68,7 +69,7 @@ export function WatchTogetherController() {
     };
 
     const off = session.onData((topic, payload, from) => {
-      if (topic !== WATCH_TOPIC) return;
+      if (topic !== WATCH_TOPIC && topic !== WIZARDCHAT_WATCH_TOPIC) return;
       const msg = parseWatchMessage(payload);
       if (!msg) return;
       if (msg.t === 'request') {

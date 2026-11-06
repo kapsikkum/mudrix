@@ -1,23 +1,9 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSetAtom, useAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
-import {
-  credentialsAtom,
-  userIdAtom,
-  serverUploadLimitAtom,
-  themeAtom,
-  messageLayoutAtom,
-  languageAtom,
-  preferencesAtom,
-} from '@/app/store/atoms';
-import i18n from '@/i18n';
-import { SUPPORTED_LANGUAGES } from '@/i18n/languages';
-import {
-  SETTINGS_ACCOUNT_DATA_TYPE,
-  parseSettings,
-  pickSyncedPreferences,
-} from '@/client/settingsSync';
+import { credentialsAtom, userIdAtom, serverUploadLimitAtom } from '@/app/store/atoms';
+import { readSettings } from '@/client/settingsSync';
+import { loadSettingsContents, useApplySettings } from '@/app/hooks/useSettingsSync';
 import { resume, loadCredentials, logout, getMatrixClientOrNull } from '@/client/initMatrix';
 import { AppLoading, FADE_OUT_MS } from '@/app/components/AppLoading';
 import { DataSync } from '@/app/data';
@@ -31,32 +17,11 @@ interface Props {
 
 type Status = 'pending' | 'syncing' | 'hiding' | 'ready' | 'unauthenticated' | 'error';
 
-/** Applies the account's synced settings as this device stored them, before the app shows */
-function useApplyStoredSettings() {
-  const setTheme = useSetAtom(themeAtom);
-  const setMessageLayout = useSetAtom(messageLayoutAtom);
-  const setLanguage = useSetAtom(languageAtom);
-  const setPreferences = useSetAtom(preferencesAtom);
-  return async (client: WizardClient) => {
-    const content = await client.cachedAccountData(SETTINGS_ACCOUNT_DATA_TYPE).catch(() => null);
-    const settings = parseSettings(content);
-    if (settings.theme) setTheme(settings.theme);
-    if (settings.messageLayout) setMessageLayout(settings.messageLayout);
-    if (settings.language && SUPPORTED_LANGUAGES.some((l) => l.code === settings.language)) {
-      setLanguage(settings.language);
-      if (i18n.language !== settings.language) void i18n.changeLanguage(settings.language);
-    }
-    const preferences = pickSyncedPreferences(settings);
-    if (Object.keys(preferences).length > 0)
-      setPreferences((prev) => ({ ...prev, ...preferences }));
-  };
-}
-
 export function RequireAuth({ children }: Props) {
   const [credentials] = useAtom(credentialsAtom);
   const setUserId = useSetAtom(userIdAtom);
   const setServerUploadLimit = useSetAtom(serverUploadLimitAtom);
-  const applyStoredSettings = useApplyStoredSettings();
+  const applySettings = useApplySettings();
 
   const [status, setStatus] = useState<Status>('pending');
   const [error, setError] = useState<string | null>(null);
@@ -82,7 +47,8 @@ export function RequireAuth({ children }: Props) {
 
         const client = await resume(creds, () => resolveFirstSync());
         if (cancelled) return;
-        await applyStoredSettings(client);
+        // Settings as this device stored them, before the app shows
+        applySettings(readSettings(await loadSettingsContents(client)));
         if (cancelled) return;
 
         setUserId(client.userId() ?? null);

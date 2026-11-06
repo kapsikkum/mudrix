@@ -378,3 +378,14 @@ Phase 5 infra: P5-1 test server (E1, Y6), P5-2 release process (E3).
 5. Are iOS/Android required for every phase-2 batch or may web/desktop go first?
 6. The base `desktop/src-tauri/src/lib.rs` tray/autostart: not seen, but only the file list and `Cargo.toml` plugin
    list were read, not every function.
+
+---
+
+## Port status
+
+Written as the rows land on `port/mudrix`. `done` = ported on web (and desktop, which reuses it); iOS/Android are mirrored in a
+later phase and read the shared packages.
+
+| Row | Status | Note                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| --- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| K1  | done   | `util/namespace.ts`: writes `io.github.kapsikkum.mudrix.*`, reads `chat.mudrix.*` and `org.wizardchat.*`. Settings sync uses Mudrix's nested event (also written as `chat.mudrix.settings`, only changed keys), reads the base's flat `org.wizardchat.settings` and `io.gitlab.wizardchat.settings` as fallbacks. GIF favourites, home order, custom status and the watch / stream-watch data topics moved to the Mudrix names and still read the `org.wizardchat.*` ones. |
