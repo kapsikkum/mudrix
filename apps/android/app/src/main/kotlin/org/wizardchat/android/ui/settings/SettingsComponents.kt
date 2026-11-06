@@ -51,6 +51,7 @@ import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardTopBar
 import org.wizardchat.android.ui.copyToClipboard
+import org.wizardchat.android.ui.sensitive
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.SheetTopBar
@@ -234,7 +235,7 @@ internal fun <T> PickerRow(
 
 /** A value with copy (and reveal, for secrets) buttons */
 @Composable
-internal fun CopyRow(label: String, value: String, secret: Boolean = false) {
+internal fun CopyRow(label: String, value: String, secret: Boolean = false, sensitive: Boolean = false) {
     var revealed by remember { mutableStateOf(false) }
     var copied by remember { mutableStateOf(false) }
     Column(
@@ -245,7 +246,7 @@ internal fun CopyRow(label: String, value: String, secret: Boolean = false) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5)) {
             Text(
                 if (secret && !revealed) "•".repeat(24) else value,
-                Modifier.weight(1f),
+                Modifier.weight(1f).then(if (sensitive) Modifier.sensitive() else Modifier),
                 style = TextStyle(fontSize = WZ.FontSize.md, fontFamily = FontFamily.Monospace),
                 color = theme.textPrimary,
                 maxLines = if (secret && revealed) Int.MAX_VALUE else 1,

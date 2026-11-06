@@ -59,6 +59,7 @@ import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.copyToClipboard
+import org.wizardchat.android.ui.sensitive
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -205,7 +206,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             title = { Text(tr("settings.setUpRecoveryKey"), style = wizardFont(WZ.FontSize.xl, FontWeight.SemiBold), color = theme.textPrimary) },
             text = {
                 SelectionContainer {
-                    Text(tr("settings.recoveryKeySaveHint", key), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                    Text(tr("settings.recoveryKeySaveHint", key), Modifier.sensitive(), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 }
             },
             confirmButton = {
@@ -336,7 +337,7 @@ private fun DeviceRow(
 private fun Detail(label: String, value: String) {
     Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
         Text(label, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
-        SelectionContainer { Text(value, style = wizardFont(WZ.FontSize.sm), color = theme.textPrimary) }
+        SelectionContainer { Text(value, Modifier.sensitive(), style = wizardFont(WZ.FontSize.sm), color = theme.textPrimary) }
     }
 }
 

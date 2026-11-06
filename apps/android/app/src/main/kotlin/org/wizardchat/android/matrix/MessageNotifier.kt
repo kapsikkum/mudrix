@@ -87,6 +87,8 @@ class MessageNotifier {
         val title = notification.roomName ?: sender
         var body = if (notification.isDirect || notification.roomName == null) notification.body else "$sender: ${notification.body}"
         if (body.isEmpty()) body = L10n.format("notifications.newMessage")
+        // Streamer mode: the notification says who, not what
+        if (prefs.streamerModeActive(CallManager.shared.screenSharing)) body = L10n.format("settings.privacy.streamer.notificationBody")
         val sound = prefs.notificationSounds && notification.sound
         val userId = roomList?.client?.userId ?: return
         val tag = "$userId|${notification.roomId}"

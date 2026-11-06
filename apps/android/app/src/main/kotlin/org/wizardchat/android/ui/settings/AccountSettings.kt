@@ -59,6 +59,7 @@ import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.SheetTopBar
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTextField
+import org.wizardchat.android.ui.sensitive
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -170,7 +171,7 @@ internal fun AccountSettings(onBack: () -> Unit) {
                 }
             }
             SettingsDivider()
-            CopyRow(tr("auth.username"), session.userId ?: "")
+            CopyRow(tr("auth.username"), session.userId ?: "", sensitive = true)
         }
 
         SettingsSection(title = tr("status.title")) {
@@ -338,7 +339,7 @@ private fun EmailSection() {
             }
             emails.forEach { email ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(email, Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
+                    Text(email, Modifier.weight(1f).sensitive(), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                     Text(
                         tr("settings.account.removeEmail"),
                         Modifier.clickable { remove(email) },
