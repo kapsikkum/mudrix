@@ -467,7 +467,6 @@ internal fun AboutSettings(onBack: () -> Unit) {
             }
             SettingsDivider()
             SettingsItem {
-                LabelButton(tr("settings.downloadWizardchatForDesktop"), "download-simple", { uriHandler.openUri("https://wizardchat.org") })
                 LabelButton(
                     tr("settings.about.viewSourceOnGitLab"),
                     "code",

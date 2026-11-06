@@ -186,9 +186,10 @@ struct RoomView: View {
         .toolbarBackground(theme.bgSecondary, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbar {
-            ToolbarItem(placement: .principal) {
+            ToolbarItem(placement: .topBarLeading) {
                 if threadRoot != nil {
                     ThreadTitle(room: room)
+                        .fixedSize()
                         .padding(.horizontal, WZ.Space.space6)
                         .padding(.vertical, WZ.Space.space2)
                         .frame(minHeight: WZ.Space.space10)
@@ -196,6 +197,7 @@ struct RoomView: View {
                 } else {
                     Button { showInfo = true } label: {
                         RoomTitle(room: room)
+                            .fixedSize()
                             .padding(.horizontal, WZ.Space.space6)
                             .padding(.vertical, WZ.Space.space2)
                             .frame(minHeight: WZ.Space.space10)
@@ -617,7 +619,7 @@ private struct ThreadTitle: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: WZ.Space.space0) {
+        VStack(alignment: .leading, spacing: WZ.Space.space0) {
             Text(String(localized: "thread.title"))
                 .font(.wizard(WZ.FontSize.lg, .semibold))
                 .foregroundStyle(theme.textPrimary)
@@ -636,7 +638,7 @@ private struct RoomTitle: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: WZ.Space.space0) {
+        VStack(alignment: .leading, spacing: WZ.Space.space0) {
             HStack(spacing: WZ.Space.space1) {
                 if !room.isDirect {
                     Image("ph-hash-straight-regular")

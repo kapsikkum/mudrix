@@ -5,6 +5,7 @@ struct SettingsView: View {
     /// Changes when the You tab is tapped again, to go back to the list
     var popToRoot = 0
     @State private var path: [Page] = []
+    @State private var search = ""
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss
@@ -12,7 +13,10 @@ struct SettingsView: View {
     enum Page: Hashable, CaseIterable {
         case account, privacy, emojis, notifications, appearance, accessibility, language, sessions, encryption, developer, about
 
-        var title: LocalizedStringKey {
+        var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
+        var name: String { NSLocalizedString(titleKey, comment: "") }
+
+        var titleKey: String {
             switch self {
             case .account: return "settings.account.title"
             case .privacy: return "settings.privacy.title"
@@ -48,6 +52,16 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if !search.trimmingCharacters(in: .whitespaces).isEmpty {
+                    let matches = Page.allCases.filter { $0.name.localizedCaseInsensitiveContains(search.trimmingCharacters(in: .whitespaces)) }
+                    Section {
+                        if matches.isEmpty {
+                            Text(String(localized: "home.noMatches")).foregroundStyle(theme.textMuted)
+                        }
+                        ForEach(matches) { pageRow($0) }
+                    }
+                    .listRowBackground(theme.groupedRow)
+                } else {
                 Section {
                     NavigationLink(value: Page.account) {
                         HStack(spacing: WZ.Space.space5) {
@@ -80,13 +94,16 @@ struct SettingsView: View {
                 Section {
                     ForEach([Page.sessions, .encryption, .developer, .about]) { pageRow($0) }
                 }
+                }
 
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .listRowBackground(theme.groupedRow)
             .background(theme.groupedBackground.ignoresSafeArea())
-            .navigationTitle(String(localized: "common.settings"))
+            .modifier(SettingsTitle(isTab: isTab))
+            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
+                        prompt: Text(String(localized: "settings.searchSettings")))
             .toolbar {
                 if !isTab {
                     ToolbarItem(placement: .confirmationAction) {
@@ -383,5 +400,17 @@ struct StatusText: View {
             .font(.wizard(WZ.FontSize.sm))
             .foregroundStyle(isError ? theme.error : theme.success)
             .listRowBackground(Color.clear)
+    }
+}
+
+private struct SettingsTitle: ViewModifier {
+    let isTab: Bool
+
+    func body(content: Content) -> some View {
+        if isTab {
+            content.tabTitle(String(localized: "common.settings"))
+        } else {
+            content.navigationTitle(String(localized: "common.settings"))
+        }
     }
 }

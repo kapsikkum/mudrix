@@ -135,6 +135,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         WizardTopBar(
             title,
             large = true,
+            titleInRow = spaceId == null,
             onBack = if (spaceId != null) navigator.pop else null,
         ) {
             Box {

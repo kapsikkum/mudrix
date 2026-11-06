@@ -1463,7 +1463,8 @@
     "checkThatTheseEmojis": "Prüfe, ob diese Emojis auf dem anderen Gerät in derselben Reihenfolge erscheinen.",
     "verificationWasCancelled": "Die Verifizierung wurde abgebrochen.",
     "openTheLinkIn": "Öffne den Link in der E-Mail und bestätige dann mit deinem Passwort.",
-    "recoveryKeySaveHint": "Bewahre diesen Schlüssel sicher auf. Du brauchst ihn, um deine verschlüsselten Nachrichten auf neuen Geräten zu lesen.\n\n{{key}}"
+    "recoveryKeySaveHint": "Bewahre diesen Schlüssel sicher auf. Du brauchst ihn, um deine verschlüsselten Nachrichten auf neuen Geräten zu lesen.\n\n{{key}}",
+    "searchSettings": "Einstellungen durchsuchen"
   },
   "titleBar": {
     "search": "Räume und Nachrichten durchsuchen...",

@@ -1463,7 +1463,8 @@
     "checkThatTheseEmojis": "Check that these emojis appear in the same order on the other device.",
     "verificationWasCancelled": "Verification was cancelled.",
     "openTheLinkIn": "Open the link in the email, then confirm with your password.",
-    "recoveryKeySaveHint": "Save this key somewhere safe. You need it to read your encrypted messages on new devices.\n\n{{key}}"
+    "recoveryKeySaveHint": "Save this key somewhere safe. You need it to read your encrypted messages on new devices.\n\n{{key}}",
+    "searchSettings": "Search settings"
   },
   "titleBar": {
     "search": "Search rooms and messages...",

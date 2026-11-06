@@ -517,8 +517,8 @@ private fun RoomTopBar(
         }
         Box(
             Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = if (inThread) WZ.Space.space11 else WZ.Space.space11 * 2)
+                .align(Alignment.CenterStart)
+                .padding(start = WZ.Space.space11 + WZ.Space.space2, end = if (inThread) WZ.Space.space0 else WZ.Space.space11 * 2)
                 .defaultMinSize(minHeight = WZ.Space.space10)
                 .shadow(2.dp, CircleShape)
                 .clip(CircleShape)
@@ -552,7 +552,7 @@ private fun RoomTopBar(
 
 @Composable
 private fun ThreadTitle(room: RoomSummary) {
-    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
         Text(tr("thread.title"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
         Text(
             room.displayName,
@@ -567,7 +567,7 @@ private fun ThreadTitle(room: RoomSummary) {
 @Composable
 private fun RoomTitle(room: RoomSummary) {
     val prefs = LocalPrefs.current
-    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
             if (!room.isDirect) PhIcon("hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
             Text(
