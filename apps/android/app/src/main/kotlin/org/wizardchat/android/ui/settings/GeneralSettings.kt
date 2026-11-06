@@ -339,11 +339,8 @@ internal fun LanguageSettings(onBack: () -> Unit) {
             PickerRow(
                 tr("settings.language.languageDisplay"),
                 prefs.language,
-                listOf(
-                    "" to tr("settings.language.languageSystem"),
-                    "en" to tr("settings.language.languageEn"),
-                    "de" to tr("settings.language.languageDe"),
-                ),
+                listOf("" to tr("settings.language.languageSystem")) +
+                    AppPreferences.LANGUAGES.map { code -> code to tr("settings.language.language${code.replaceFirstChar { it.uppercase() }}") },
                 { prefs.language = it },
             )
         }
