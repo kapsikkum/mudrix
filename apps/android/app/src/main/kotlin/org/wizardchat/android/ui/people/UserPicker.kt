@@ -43,11 +43,19 @@ import org.wizardchat.android.ui.tr
 import org.wizardchat.core.UserResult
 import org.wizardchat.tokens.WZ
 
-enum class UserPickerMode { DirectMessage, Invite }
+enum class UserPickerMode { DirectMessage, Invite, Select }
 
 /** Finds people to start a conversation with or (with `roomId`) to invite; `onDone` runs after inviting */
 @Composable
-fun UserPickerSheet(mode: UserPickerMode, onDismiss: () -> Unit, roomId: String? = null, onDone: () -> Unit = {}) {
+fun UserPickerSheet(
+    mode: UserPickerMode,
+    onDismiss: () -> Unit,
+    roomId: String? = null,
+    onDone: () -> Unit = {},
+    title: String? = null,
+    exclude: Set<String> = emptySet(),
+    onSelect: (List<UserResult>) -> Unit = {},
+) {
     val session = LocalSession.current
     val navigator = LocalNavigator.current
     val closeParents = LocalCloseParents.current
@@ -58,10 +66,10 @@ fun UserPickerSheet(mode: UserPickerMode, onDismiss: () -> Unit, roomId: String?
     var searching by remember { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
-    val isInvite = mode == UserPickerMode.Invite
+    val isInvite = mode != UserPickerMode.DirectMessage
 
     val trimmed = query.trim()
-    val typedId = if (trimmed.startsWith("@") && trimmed.contains(":") && results.none { it.userId == trimmed }) {
+    val typedId = if (trimmed.startsWith("@") && trimmed.contains(":") && results.none { it.userId == trimmed } && trimmed !in exclude) {
         UserResult(trimmed, null, null)
     } else {
         null
@@ -70,7 +78,7 @@ fun UserPickerSheet(mode: UserPickerMode, onDismiss: () -> Unit, roomId: String?
     LaunchedEffect(query) {
         delay(300)
         searching = true
-        results = session.searchUsers(query).filter { it.userId != session.userId }
+        results = session.searchUsers(query).filter { it.userId != session.userId && it.userId !in exclude }
         searching = false
     }
 
@@ -125,10 +133,14 @@ fun UserPickerSheet(mode: UserPickerMode, onDismiss: () -> Unit, roomId: String?
     WizardSheet(onDismiss) {
         SheetPage {
             SheetBar(
-                tr(if (isInvite) "room.invitePeople" else "common.newMessage"),
+                title ?: tr(if (isInvite) "room.invitePeople" else "common.newDm"),
                 leading = { BarTextButton(tr("common.cancel"), onDismiss) },
                 trailing = {
-                    if (isInvite) BarTextButton(tr("common.invite"), ::invite, enabled = selected.isNotEmpty() && !busy, bold = true)
+                    if (mode == UserPickerMode.Select) {
+                        BarTextButton(tr("common.add"), { onSelect(selected); onDismiss() }, enabled = selected.isNotEmpty(), bold = true)
+                    } else if (isInvite) {
+                        BarTextButton(tr("common.invite"), ::invite, enabled = selected.isNotEmpty() && !busy, bold = true)
+                    }
                 },
             )
             WizardTextField(

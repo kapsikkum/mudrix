@@ -59,7 +59,7 @@ struct CallStageView: View {
             calls.toggleLocalMute(participant.userId)
         } label: {
             participant.locallyMuted
-                ? Label(String(localized: "call.unmuteForMe"), image: "ph-speaker-high-fill")
+                ? Label(String(localized: "call.unmuteForMe"), image: "ph-speaker-high-regular")
                 : Label(String(localized: "call.muteForMe"), image: "ph-speaker-slash-regular")
         }
         Button { volumeFor = participant } label: { Label(String(localized: "call.volume"), image: "ph-sliders-regular") }
@@ -73,6 +73,12 @@ private struct ParticipantTile: View {
     @Environment(\.theme) private var theme
     @State private var name: String?
     @State private var avatarUrl: String?
+
+    private var label: String {
+        let name = name ?? participant.userId
+        if participant.isOwnOtherDevice { return L10n.format("call.ownOtherDevice", name) }
+        return name
+    }
 
     var body: some View {
         ZStack {
@@ -112,7 +118,7 @@ private struct ParticipantTile: View {
                         .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
                         .foregroundStyle(theme.danger)
                 }
-                Text(participant.isLocal ? L10n.format("voice.userYou", "\(name ?? participant.userId)") : name ?? participant.userId)
+                Text(label)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .lineLimit(1)
                 if !participant.connected {
@@ -196,7 +202,7 @@ private struct VolumeSheet: View {
                     Slider(value: Binding(get: { participant?.volume ?? 1 },
                                           set: { calls.setVolume($0, for: userId) }), in: 0...2)
                         .tint(theme.accent)
-                    Image("ph-speaker-high-fill").foregroundStyle(theme.textMuted)
+                    Image("ph-speaker-high-regular").foregroundStyle(theme.textMuted)
                 }
             }
             Toggle(String(localized: "call.muteForMe"), isOn: Binding(get: { participant?.locallyMuted ?? false },

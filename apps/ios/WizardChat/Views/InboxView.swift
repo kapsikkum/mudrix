@@ -19,59 +19,48 @@ struct InboxView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: WZ.Space.space0) {
-                HStack(spacing: WZ.Space.space2) {
-                    tabButton(String(localized: "inbox.tabInvites"), count: roomList.invites.count, tab: .invites)
-                    tabButton(String(localized: "inbox.tabMentions"), count: roomList.mentionRooms.count, tab: .mentions)
-                    Spacer()
+            Form {
+                Section {
+                    tabs
                 }
-                .padding(.horizontal, WZ.Space.space5)
-                .padding(.vertical, WZ.Space.space4)
-                .overlay(alignment: .bottom) {
-                    Rectangle().fill(theme.border).frame(height: WZ.Space.space0)
-                }
-
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.error)
-                        .padding(WZ.Space.space5)
+                        .listRowBackground(Color.clear)
                 }
-
-                ScrollView {
-                    LazyVStack(spacing: WZ.Space.space1) {
-                        switch tab {
-                        case .invites:
-                            if roomList.invites.isEmpty { empty(String(localized: "inbox.emptyInvites")) }
+                switch tab {
+                case .invites:
+                    if roomList.invites.isEmpty {
+                        empty(String(localized: "inbox.emptyInvites"), icon: "ph-tray-regular")
+                    } else {
+                        Section {
                             ForEach(roomList.invites) { invite in inviteRow(invite) }
-                        case .mentions:
-                            if roomList.mentionRooms.isEmpty { empty(String(localized: "inbox.emptyMentions")) }
+                        }
+                    }
+                case .mentions:
+                    if roomList.mentionRooms.isEmpty {
+                        empty(String(localized: "inbox.emptyMentions"), icon: "ph-bell-regular")
+                    } else {
+                        Section {
                             ForEach(roomList.mentionRooms) { room in mentionRow(room) }
                         }
+                        Section {
+                            Button {
+                                Task { await roomList.markAsRead(roomList.mentionRooms) }
+                            } label: {
+                                Label(String(localized: "common.markAllRead"), image: "ph-check-circle-fill")
+                                    .foregroundStyle(theme.control)
+                            }
+                        }
                     }
-                    .padding(WZ.Space.space3)
                 }
             }
-            .background(theme.bgSecondary)
+            .navigationTitle(String(localized: "inbox.title"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(theme.bgPrimary, for: .navigationBar)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Label(String(localized: "inbox.title"), image: "ph-tray-regular")
-                        .labelStyle(.titleAndIcon)
-                        .font(.wizard(WZ.FontSize.lg, .bold))
-                        .foregroundStyle(theme.textPrimary)
-                }
-                if tab == .mentions && !roomList.mentionRooms.isEmpty {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            Task { await roomList.markAsRead(roomList.mentionRooms) }
-                        } label: {
-                            Image("ph-check-circle-fill")
-                        }
-                        .accessibilityLabel(String(localized: "common.markAllRead"))
-                    }
-                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(String(localized: "common.done")) { dismiss() }
                 }
@@ -81,6 +70,16 @@ struct InboxView: View {
         .presentationDetents([.medium, .large])
     }
 
+    /// Two equal halves, the active one raised, each with its count
+    private var tabs: some View {
+        HStack(spacing: WZ.Space.space1) {
+            tabButton(String(localized: "inbox.tabInvites"), count: roomList.invites.count, tab: .invites)
+            tabButton(String(localized: "inbox.tabMentions"), count: roomList.mentionRooms.count, tab: .mentions)
+        }
+        .padding(WZ.Space.space1)
+        .background(theme.fill, in: Capsule())
+    }
+
     private func tabButton(_ title: String, count: Int, tab: Tab) -> some View {
         let isActive = self.tab == tab
         return Button {
@@ -88,70 +87,87 @@ struct InboxView: View {
         } label: {
             HStack(spacing: WZ.Space.space3) {
                 Text(title)
-                    .font(.wizard(WZ.FontSize.md, .semibold))
+                    .font(.wizard(WZ.FontSize.md, isActive ? .semibold : .regular))
                 if count > 0 {
                     Text(count > 99 ? "99+" : "\(count)")
                         .font(.wizard(WZ.FontSize.xs, .bold))
-                        .foregroundStyle(isActive ? theme.textOnAccent : theme.textMuted)
+                        .foregroundStyle(theme.textOnAccent)
                         .padding(.horizontal, WZ.Space.space3)
-                        .padding(.vertical, WZ.Space.space0)
-                        .background(isActive ? theme.accent : theme.bgTertiary, in: Capsule())
+                        .background(isActive ? theme.accent : theme.textMuted, in: Capsule())
                 }
             }
             .foregroundStyle(isActive ? theme.textPrimary : theme.textMuted)
-            .padding(.horizontal, WZ.Space.space4)
-            .frame(height: WZ.Space.space9)
-            .background(isActive ? theme.bgActive : .clear,
-                        in: RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
+            .frame(maxWidth: .infinity)
+            .frame(height: WZ.Space.space10)
+            .background(isActive ? theme.bgTertiary : .clear, in: Capsule())
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
     }
 
-    private func empty(_ text: String) -> some View {
-        Text(text)
-            .font(.wizard(WZ.FontSize.md))
-            .foregroundStyle(theme.textMuted)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, WZ.Space.space10)
+    private func empty(_ text: String, icon: String) -> some View {
+        VStack(spacing: WZ.Space.space4) {
+            Image(icon)
+                .font(.system(size: WZ.SizeIcon.xl))
+                .foregroundStyle(theme.textMuted)
+            Text(text)
+                .font(.wizard(WZ.FontSize.md))
+                .foregroundStyle(theme.textMuted)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, WZ.Space.space10)
+        .listRowBackground(Color.clear)
+    }
+
+    /// The room's avatar with the same type badge the room list shows
+    private func avatar(_ room: RoomSummary) -> some View {
+        AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.md)
+            .overlay(alignment: .bottomTrailing) {
+                if !room.isDirect {
+                    Image(room.isSpace ? "ph-stack-regular" : room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-bold")
+                        .font(.system(size: WZ.SizeIcon.xs))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(width: WZ.Space.space7, height: WZ.Space.space7)
+                        .background(theme.bgPrimary, in: Circle())
+                        .overlay(Circle().stroke(theme.border, lineWidth: WZ.BorderWidth.thin))
+                        .offset(x: WZ.Space.space2, y: WZ.Space.space2)
+                }
+            }
+    }
+
+    private func roundButton(_ icon: String, label: String, background: Color, foreground: Color,
+                             action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(icon)
+                .font(.system(size: WZ.SizeIcon.sm, weight: .bold))
+                .foregroundStyle(foreground)
+                .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                .background(background, in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
     }
 
     private func inviteRow(_ invite: RoomSummary) -> some View {
-        let inviterName = inviters[invite.id] ?? "someone"
-        return HStack(spacing: WZ.Space.space4) {
-            AvatarView(name: invite.displayName, url: invite.avatarUrl, size: WZ.SizeAvatar.sm)
+        HStack(spacing: WZ.Space.space5) {
+            avatar(invite)
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
-                HStack(spacing: WZ.Space.space2) {
-                    if invite.isDirect {
-                        Text("@").foregroundStyle(theme.textMuted)
-                    } else {
-                        Image("ph-hash-straight-regular")
-                            .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                            .foregroundStyle(theme.textMuted)
-                    }
-                    Text(invite.displayName)
-                        .foregroundStyle(theme.textPrimary)
+                Text(invite.displayName)
+                    .font(.wizard(WZ.FontSize.md, .semibold))
+                    .foregroundStyle(theme.textPrimary)
+                if let inviter = inviters[invite.id] {
+                    Text(L10n.format("inbox.invitedByName", inviter))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
                 }
-                .font(.wizard(WZ.FontSize.md, .semibold))
-                Text(L10n.format("inbox.invitedByName", "\(inviterName)"))
-                    .font(.wizard(WZ.FontSize.sm))
-                    .foregroundStyle(theme.textMuted)
             }
             .lineLimit(1)
-            Spacer(minLength: 4)
-            Button(String(localized: "common.accept")) { Task { await accept(invite) } }
-                .font(.wizard(WZ.FontSize.sm, .semibold))
-                .foregroundStyle(theme.textOnAccent)
-                .padding(.horizontal, WZ.Space.space4)
-                .frame(height: WZ.Space.space8)
-                .background(theme.accent, in: RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
-            Button(String(localized: "common.decline")) { Task { await decline(invite) } }
-                .font(.wizard(WZ.FontSize.sm, .semibold))
-                .foregroundStyle(theme.textPrimary)
-                .padding(.horizontal, WZ.Space.space4)
-                .frame(height: WZ.Space.space8)
-                .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
+            Spacer(minLength: WZ.Space.space4)
+            roundButton("ph-x-bold", label: String(localized: "common.decline"), background: theme.fill,
+                        foreground: theme.textPrimary) { Task { await decline(invite) } }
+            roundButton("ph-check-bold", label: String(localized: "common.accept"), background: theme.accent,
+                        foreground: theme.textOnAccent) { Task { await accept(invite) } }
         }
-        .buttonStyle(.plain)
         .task(id: invite.id) {
             if let info = try? await session.client?.inviteInfo(roomId: invite.id) {
                 inviters[invite.id] = info.inviterName ?? info.inviterId
@@ -159,12 +175,11 @@ struct InboxView: View {
         }
         .disabled(busyId == invite.id)
         .opacity(busyId == invite.id ? 0.5 : 1)
-        .padding(WZ.Space.space4)
     }
 
     private func mentionRow(_ room: RoomSummary) -> some View {
-        HStack(spacing: WZ.Space.space4) {
-            AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.sm)
+        HStack(spacing: WZ.Space.space5) {
+            avatar(room)
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Text(room.displayName)
                     .font(.wizard(WZ.FontSize.md, .semibold))
@@ -174,24 +189,19 @@ struct InboxView: View {
                     .foregroundStyle(theme.textMuted)
             }
             .lineLimit(1)
-            Spacer(minLength: 4)
+            Spacer(minLength: WZ.Space.space4)
             UnreadBadge(count: room.mentionCount, isMention: true)
-            Button {
-                Task { await roomList.markAsRead([room]) }
-            } label: {
-                Image("ph-check-bold")
-                    .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                    .foregroundStyle(theme.textMuted)
-                    .frame(width: WZ.Space.space8, height: WZ.Space.space8)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "common.markRead"))
         }
-        .padding(WZ.Space.space4)
         .contentShape(Rectangle())
         .onTapGesture {
             onOpenRoom(room.id)
             dismiss()
+        }
+        .swipeActions(edge: .trailing) {
+            Button { Task { await roomList.markAsRead([room]) } } label: {
+                Label(String(localized: "common.markRead"), image: "ph-envelope-open-regular")
+            }
+            .tint(theme.textMuted)
         }
     }
 

@@ -71,6 +71,30 @@ export type CallEvent =
   | { type: 'handRaised'; identity: string; raised: boolean }
   | { type: 'error'; message: string; fatal: boolean };
 
+export type CallHistoryView = {
+  outcome: CallOutcome;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  startedAt: number;
+  endedAt: number | null;
+  startedBy: string;
+  /**
+   * Everyone who joined, in the order they joined
+   */
+  participants: Array<CallParticipantView>;
+  video: boolean;
+  /**
+   * The call rang (a DM or small room)
+   */
+  rang: boolean;
+  declinedBy: Array<string>;
+  /**
+   * The call started before the loaded part of the timeline
+   */
+  partial: boolean;
+};
+
 /**
  * One device in a room's call
  */
@@ -98,6 +122,14 @@ export type CallMember = {
   /**
    * The name to show, with the user ID added when others in the room share it
    */
+  displayName: string | null;
+  avatarUrl: string | null;
+};
+
+export type CallOutcome = 'ongoing' | 'ended' | 'missed' | 'declined' | 'unanswered';
+
+export type CallParticipantView = {
+  userId: string;
   displayName: string | null;
   avatarUrl: string | null;
 };
@@ -214,9 +246,33 @@ export type EncryptionStatus = {
  * [`crate::WizardClient::media`] to get the (decrypted) bytes.
  */
 export type EntryContent =
-  | { type: 'text'; body: string; html: string | null }
-  | { type: 'notice'; body: string; html: string | null }
-  | { type: 'emote'; body: string; html: string | null }
+  | {
+      type: 'text';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'notice';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'emote';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
   | { type: 'image'; media: MediaInfo }
   | { type: 'video'; media: MediaInfo }
   | { type: 'audio'; media: MediaInfo }
@@ -250,6 +306,8 @@ export type EntryContent =
       content: JsonValue;
       prevContent: JsonValue | null;
     }
+  | { type: 'call'; call: CallHistoryView }
+  | { type: 'callPart' }
   | { type: 'other' };
 
 /**
@@ -294,19 +352,20 @@ export type IdentityProvider = {
 };
 
 /**
- * Someone calling, from a ring or notification event, or a caller's new membership in a direct chat
+ * Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+ * in the call
  */
 export type IncomingCall = {
   roomId: string;
   roomName: string | null;
   /**
-   * The ring or notification event to decline; empty when only the membership is known so far
+   * The ring or notification event to decline
    */
   eventId: string;
   sender: string;
   senderName: string | null;
   /**
-   * Ring audibly (direct chats), or just show a notification
+   * Ring audibly (DMs and rooms up to 10 members), or just show a notification
    */
   ring: boolean;
   intent: string | null;
@@ -315,6 +374,9 @@ export type IncomingCall = {
    */
   expiresAt: number;
 };
+
+export type IncomingCallEvent =
+  { type: 'ringing'; call: IncomingCall } | { type: 'ended'; call: IncomingCall; reason: RingEnd };
 
 /**
  * Who invited the user to a room
@@ -594,6 +656,55 @@ export type ReplyPreview =
 
 export type ResolvedAlias = { roomId: string; servers: Array<string> };
 
+export type RichBlock =
+  | { type: 'paragraph'; spans: Array<RichSpan> }
+  | {
+      type: 'heading';
+      /**
+       * 1 to 6
+       */
+      level: number;
+      spans: Array<RichSpan>;
+    }
+  | { type: 'quote'; blocks: Array<RichBlock> }
+  | {
+      type: 'itemList';
+      ordered: boolean;
+      /**
+       * The first number of an ordered list
+       */
+      start: number;
+      items: Array<Array<RichBlock>>;
+    }
+  | { type: 'code'; text: string }
+  | { type: 'rule' };
+
+/**
+ * A run of text with one style
+ */
+export type RichSpan = {
+  text: string;
+  bold: boolean;
+  italic: boolean;
+  strike: boolean;
+  underline: boolean;
+  /**
+   * Inline code
+   */
+  code: boolean;
+  link: string | null;
+  /**
+   * A mentioned user's ID; `text` is "@name", as the plain body shows mentions
+   */
+  mention: string | null;
+  spoiler: boolean;
+};
+
+/**
+ * Why a ring stopped
+ */
+export type RingEnd = 'answered' | 'declined' | 'callerLeft' | 'expired';
+
 export type RoomDetails = {
   id: string;
   name: string | null;
@@ -746,9 +857,17 @@ export type RoomSummary = {
    */
   notificationMode: NotificationMode | null;
   /**
-   * Users in the room's call, oldest first (a user appears once per device)
+   * Users in the room's call, oldest first, once each
    */
   callParticipants: Array<string>;
+  /**
+   * This device is in the room's call
+   */
+  inCall: boolean;
+  /**
+   * The user is in the room's call on another device, not on this one
+   */
+  inCallElsewhere: boolean;
   /**
    * Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
    * "5 min ago"
@@ -2070,6 +2189,14 @@ export class WizardClient extends Remote {
     return runtime.call('WizardClient.uploadEncryptedMedia', this, [data]) as Promise<JsonValue>;
   }
 
+  /**
+   * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+   * mentions and custom emoji to it, which plain Markdown sending can't.
+   */
+  markdownToHtml(body: string): Promise<string | null> {
+    return runtime.call('WizardClient.markdownToHtml', this, [body]) as Promise<string | null>;
+  }
+
   /** The LiveKit service the homeserver offers for calls, if any */
   rtcServiceUrl(): Promise<string | null> {
     return runtime.call('WizardClient.rtcServiceUrl', this, []) as Promise<string | null>;
@@ -2112,16 +2239,12 @@ export class WizardClient extends Remote {
     ]) as Promise<CallSession>;
   }
 
-  watchIncomingCalls(listener: (value: IncomingCall) => void): Subscription {
-    return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
-  }
-
   /**
-   * Calls `listener` with the room whenever another of this account's devices answers or
-   * declines a call there; stop ringing for it.
+   * Rings as they start and end: answered or declined on one of the user's devices, the
+   * caller left, or it expired.
    */
-  watchCallsHandledElsewhere(listener: (value: string) => void): Subscription {
-    return runtime.watch('WizardClient.watchCallsHandledElsewhere', this, [listener], Subscription);
+  watchIncomingCalls(listener: (value: IncomingCallEvent) => void): Subscription {
+    return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
   }
 
   declineCall(roomId: string, eventId: string): Promise<void> {

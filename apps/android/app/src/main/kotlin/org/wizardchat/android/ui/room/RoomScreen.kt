@@ -15,6 +15,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.Orientation
@@ -22,15 +23,19 @@ import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +51,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -81,12 +87,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.IntOffset
@@ -101,6 +111,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.Emoji
 import org.wizardchat.android.matrix.MessageLayout
+import org.wizardchat.android.matrix.MessageMention
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.PendingUpload
@@ -111,27 +122,31 @@ import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
-import org.wizardchat.android.ui.MenuItem
-import org.wizardchat.android.ui.WizardMenu
-import org.wizardchat.android.ui.home.LocalNavigator
-import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
+import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
 import org.wizardchat.android.ui.composer.MediaPicker
 import org.wizardchat.android.ui.composer.MediaPickerTab
 import org.wizardchat.android.ui.copyToClipboard
 import org.wizardchat.android.ui.home.LocalCalls
+import org.wizardchat.android.ui.home.LocalNavigator
+import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.people.RoomInfoSheet
 import org.wizardchat.android.ui.people.UserProfileSheet
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.JoinCallBar
+import org.wizardchat.core.CallHistoryView
+import org.wizardchat.core.CallOutcome
+import org.wizardchat.core.RichBlock
+import org.wizardchat.core.RichSpan
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
@@ -376,8 +391,18 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         calls.launchJoin(room, session, if (video) "video" else "audio", ring = true)
     }
 
+    val joinCall: (() -> Unit)? = if (room.inCall || calls.isInCall(room.id)) {
+        null
+    } else {
+        {
+            if (!room.isVoice) calls.showCallScreen = true
+            calls.launchJoin(room, session, intent = "audio")
+        }
+    }
+
     Column(Modifier.fillMaxSize().background(theme.bgSecondary)) {
         RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
+            inCall = room.inCall || calls.isInCall(room.id),
             inThread = threadRoot != null, onShowThreads = { showThreads = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
             LazyColumn(
@@ -397,7 +422,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                     Column(Modifier.fillMaxWidth()) {
                         if (entry.id == unreadDividerId) NewMessagesDivider()
                         Box(Modifier.background(highlight)) {
-                            TimelineRow(entry, actions, room.isDirect)
+                            TimelineRow(entry, actions, room.isDirect, joinCall)
                         }
                     }
                 }
@@ -412,7 +437,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                     }
                 }
             }
-            if (threadRoot == null && !calls.isInCall(room.id) && room.callParticipants.any { it != session.userId }) {
+            val callElsewhere = room.inCallElsewhere || room.callParticipants.any { it != session.userId }
+            if (threadRoot == null && !calls.isInCall(room.id) && !room.inCall && callElsewhere) {
                 JoinCallBar(room, Modifier.align(Alignment.TopCenter).padding(top = WZ.Space.space3))
             }
             androidx.compose.animation.AnimatedVisibility(
@@ -507,8 +533,44 @@ private fun RoomTopBar(
     onBack: () -> Unit,
     onShowInfo: () -> Unit,
     onCall: (Boolean) -> Unit,
+    inCall: Boolean,
     inThread: Boolean,
     onShowThreads: () -> Unit,
+) {
+    RoomHeader(
+        room,
+        onBack,
+        onShowInfo = if (inThread) null else onShowInfo,
+        buttons = if (inThread) 0 else 2,
+        title = { if (inThread) ThreadTitle(room) else RoomTitle(room) },
+    ) {
+        if (!inThread) {
+            BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
+            Box {
+                var callMenu by remember { mutableStateOf(false) }
+                BarButton("phone", tr("voice.startCall"), { callMenu = true }, enabled = !inCall)
+                WizardMenu(
+                    callMenu,
+                    { callMenu = false },
+                    listOf(
+                        MenuItem(tr("timeline.voiceCall"), "phone") { onCall(false) },
+                        MenuItem(tr("timeline.videoCall"), "video-camera") { onCall(true) },
+                    ),
+                )
+            }
+        }
+    }
+}
+
+/** Back, the room's title capsule (opens the room info when `onShowInfo` is set) and `buttons` bar buttons on the right */
+@Composable
+internal fun RoomHeader(
+    room: RoomSummary,
+    onBack: () -> Unit,
+    onShowInfo: (() -> Unit)?,
+    buttons: Int,
+    title: @Composable () -> Unit = { RoomTitle(room) },
+    actions: @Composable RowScope.() -> Unit,
 ) {
     val hint = tr("timeline.showsRoomInfoMembers")
     Box(Modifier.fillMaxWidth().background(theme.bgSecondary).statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
@@ -518,35 +580,19 @@ private fun RoomTopBar(
         Box(
             Modifier
                 .align(Alignment.CenterStart)
-                .padding(start = WZ.Space.space11 + WZ.Space.space2, end = if (inThread) WZ.Space.space0 else WZ.Space.space11 * 2)
+                .padding(start = WZ.Space.space11 + WZ.Space.space2, end = WZ.Space.space11 * buttons)
                 .defaultMinSize(minHeight = WZ.Space.space10)
                 .shadow(2.dp, CircleShape)
                 .clip(CircleShape)
                 .background(theme.bgTertiary)
-                .clickable(enabled = !inThread, onClick = onShowInfo)
+                .clickable(enabled = onShowInfo != null, onClick = { onShowInfo?.invoke() })
                 .semantics { contentDescription = "${room.displayName}. $hint" }
                 .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
             contentAlignment = Alignment.Center,
         ) {
-            if (inThread) ThreadTitle(room) else RoomTitle(room)
+            title()
         }
-        if (!inThread) {
-            Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically) {
-                BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
-                Box {
-                    var callMenu by remember { mutableStateOf(false) }
-                    BarButton("phone", tr("voice.startCall"), { callMenu = true }, weight = PhWeight.fill)
-                    WizardMenu(
-                        callMenu,
-                        { callMenu = false },
-                        listOf(
-                            MenuItem(tr("timeline.voiceCall"), "phone") { onCall(false) },
-                            MenuItem(tr("timeline.videoCall"), "video-camera") { onCall(true) },
-                        ),
-                    )
-                }
-            }
-        }
+        Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically, content = actions)
     }
 }
 
@@ -565,11 +611,18 @@ private fun ThreadTitle(room: RoomSummary) {
 }
 
 @Composable
-private fun RoomTitle(room: RoomSummary) {
+internal fun RoomTitle(room: RoomSummary) {
     val prefs = LocalPrefs.current
     Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            if (!room.isDirect) PhIcon("hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(if (prefs.showRoomAvatars) WZ.Space.space3 else WZ.Space.space1),
+        ) {
+            if (prefs.showRoomAvatars) {
+                Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.xs)
+            } else if (!room.isDirect) {
+                PhIcon(if (room.isVoice) "speaker-high" else "hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
+            }
             Text(
                 room.displayName,
                 style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
@@ -683,7 +736,7 @@ private fun TimelineStart(room: RoomSummary) {
 }
 
 @Composable
-private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean) {
+private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean, joinCall: (() -> Unit)?) {
     when (val kind = entry.kind) {
         is ChatEntry.Kind.DateDivider -> Text(
             when {
@@ -703,7 +756,98 @@ private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom
             color = theme.textMuted,
             textAlign = TextAlign.Center,
         )
+        is ChatEntry.Kind.Call -> CallRow(kind.call, joinCall)
         else -> MessageRow(entry, actions, isPrivateRoom)
+    }
+}
+
+private const val CALL_AVATARS_SHOWN = 3
+
+/** A call in the timeline: how it went, who was in it, and Join while it's going on */
+@Composable
+private fun CallRow(call: CallHistoryView, joinCall: (() -> Unit)?) {
+    val ongoing = call.outcome == CallOutcome.ongoing
+    val title = tr(
+        when (call.outcome) {
+            CallOutcome.ongoing -> "timeline.callOngoing"
+            CallOutcome.ended -> "timeline.callEnded"
+            CallOutcome.missed -> "timeline.callMissed"
+            CallOutcome.declined -> "timeline.callDeclined"
+            CallOutcome.unanswered -> "timeline.callUnanswered"
+        },
+    )
+    val tint = when (call.outcome) {
+        CallOutcome.ongoing -> theme.success
+        CallOutcome.missed, CallOutcome.declined, CallOutcome.unanswered -> theme.danger
+        CallOutcome.ended -> theme.textMuted
+    }
+    val icon = when {
+        ongoing -> if (call.video) "video-camera" else "phone"
+        call.video -> "video-camera-slash"
+        call.outcome == CallOutcome.ended -> "phone-disconnect"
+        else -> "phone-x"
+    }
+    val endedAt = call.endedAt
+    val duration = if (call.outcome == CallOutcome.ended && endedAt != null && !call.partial) {
+        Formats.duration((endedAt - call.startedAt).coerceAtLeast(0) / 1000.0)
+    } else {
+        null
+    }
+    val kindLabel = tr(if (call.video) "timeline.videoCall" else "timeline.voiceCall")
+    val shown = call.participants.take(CALL_AVATARS_SHOWN)
+    Row(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Row(
+            Modifier
+                .clip(CircleShape)
+                .background(theme.fill)
+                .padding(start = WZ.Space.space5, end = if (ongoing && joinCall != null) WZ.Space.space2 else WZ.Space.space5)
+                .padding(vertical = WZ.Space.space2)
+                .semantics(mergeDescendants = true) { contentDescription = listOfNotNull(kindLabel, title, duration).joinToString(", ") },
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(Modifier.size(WZ.Space.space8).clip(CircleShape).background(theme.bgTertiary), contentAlignment = Alignment.Center) {
+                PhIcon(icon, size = WZ.SizeIcon.xs, tint = tint)
+            }
+            Text(title, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
+            if (shown.isNotEmpty()) {
+                Row(horizontalArrangement = Arrangement.spacedBy(-WZ.Space.space3), verticalAlignment = Alignment.CenterVertically) {
+                    shown.forEach { person ->
+                        Avatar(
+                            person.displayName ?: person.userId,
+                            person.avatarUrl,
+                            WZ.SizeAvatar.xs,
+                            modifier = Modifier.border(WZ.BorderWidth.thick, theme.fill, CircleShape),
+                        )
+                    }
+                    if (call.participants.size > shown.size) {
+                        Text(
+                            "+${call.participants.size - shown.size}",
+                            Modifier.padding(start = WZ.Space.space4),
+                            style = wizardFont(WZ.FontSize.xs, FontWeight.Bold),
+                            color = theme.textMuted,
+                        )
+                    }
+                }
+            }
+            duration?.let { Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1) }
+            if (ongoing && joinCall != null) {
+                Text(
+                    tr("timeline.callJoin"),
+                    Modifier
+                        .clip(CircleShape)
+                        .background(theme.success)
+                        .clickable(onClick = joinCall)
+                        .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space2),
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.textOnAccent,
+                    maxLines = 1,
+                )
+            }
+        }
     }
 }
 
@@ -716,6 +860,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     val density = LocalDensity.current
     val scale = prefs.chatScale
     val spacing = prefs.chatSpacing
+    val isCompact = prefs.messageLayout == MessageLayout.compact
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var swipe by remember { mutableFloatStateOf(0f) }
@@ -723,7 +868,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     val animatedSwipe by animateFloatAsState(swipe, spring(), label = "swipe")
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
     // Only timeline rows have the menu
-    val longPress: (() -> Unit)? = if (actions != null && entry.isContent) {
+    val longPress: (() -> Unit)? = if (actions != null && entry.isContent && entry.allowsActions) {
         {
             haptics.performHapticFeedback(HapticFeedbackType.LongPress)
             showMenu = true
@@ -786,12 +931,15 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         onClick = {},
                     )
                     .padding(horizontal = WZ.Space.space6)
-                    .padding(top = (if (entry.isGrouped) 1 else 6).dp * spacing, bottom = (if (entry.isGrouped) 1 else 2).dp * spacing),
+                    .padding(
+                        top = (if (entry.isGrouped || isCompact) 1 else 6).dp * spacing,
+                        bottom = (if (entry.isGrouped || isCompact) 1 else 2).dp * spacing,
+                    ),
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
             ) {
-                if (entry.isGrouped) {
+                if (!isCompact && entry.isGrouped) {
                     Spacer(Modifier.width(WZ.SizeAvatar.md))
-                } else {
+                } else if (!isCompact) {
                     Avatar(
                         entry.senderName,
                         entry.senderAvatarUrl,
@@ -800,7 +948,21 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     )
                 }
                 Column(Modifier.weight(1f).padding(end = WZ.Space.space5)) {
-                    if (!entry.isGrouped) {
+                    if (isCompact) {
+                        if (entry.kind !is ChatEntry.Kind.Message) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                                Text(Formats.time(entry.timestamp), style = wizardFont(WZ.FontSize.xs * scale), color = theme.textMuted)
+                                Text(
+                                    entry.senderName,
+                                    Modifier.clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
+                                    style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
+                                    color = theme.accent,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                        }
+                    } else if (!entry.isGrouped) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
                             Text(
                                 entry.senderName,
@@ -852,7 +1014,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     if (loader != null && body != null) {
                         MessageText.firstPreviewURL(body)?.let { LinkPreviewCard(it, loader) }
                     }
-                    if (entry.reactions.isNotEmpty()) {
+                    if (entry.reactions.isNotEmpty() && entry.allowsActions) {
                         ReactionsBar(entry.reactions) { key -> actions?.react?.invoke(key, entry) }
                     }
                     val thread = entry.thread
@@ -927,7 +1089,52 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((St
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     var spoilersRevealed by remember { mutableStateOf(false) }
-    val style = wizardFont(WZ.FontSize.lg * scale).copy(lineHeight = (WZ.FontSize.lg.value * scale + 3 * scale + 4).sp)
+    val kindBody = (entry.kind as? ChatEntry.Kind.Message)?.takeIf { !it.isEmote }?.body
+    val size = WZ.FontSize.lg * scale * (if (kindBody != null && MessageText.isEmojiOnly(kindBody)) 2.5f else 1f)
+    val style = wizardFont(size).copy(lineHeight = (size.value + 3 * scale + 4).sp)
+    val rich = entry.rich
+    val message = entry.kind as? ChatEntry.Kind.Message
+    if (rich != null && message != null && !message.isEmote) {
+        val kind = message
+        val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
+        Column(
+            Modifier
+                .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
+                .then(if (hint != null) Modifier.semantics { contentDescription = "${kind.body} $hint" } else Modifier),
+            verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            if (prefs.messageLayout == MessageLayout.compact) {
+                Text(
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(Formats.time(entry.timestamp)) }
+                        append("  ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = theme.accent)) { append(entry.senderName) }
+                    },
+                    style = style,
+                )
+            }
+            RichBlocks(
+                rich,
+                RichStyle(
+                    text = style,
+                    color = if (kind.isNotice) theme.textMuted else theme.textPrimary,
+                    linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor,
+                    mentionColors = MentionColors(theme.mention, if (linkOnAccent) theme.textOnAccent else theme.accent),
+                    mentions = entry.mentions,
+                    revealSpoilers = spoilersRevealed || entry.spoilers.isEmpty(),
+                    prettifyLinks = prefs.prettifyLinks,
+                    scale = scale,
+                    onMention = onMention,
+                    codeBackground = theme.fill,
+                    cover = theme.textMuted,
+                ),
+            )
+            if (entry.isEdited) {
+                Text(tr("timeline.edited"), style = wizardFont(WZ.FontSize.xs * scale), color = theme.textMuted)
+            }
+        }
+        return
+    }
     when (val kind = entry.kind) {
         is ChatEntry.Kind.Message -> {
             val linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor
@@ -944,7 +1151,14 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((St
             )
             val edited = tr("timeline.edited")
             val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
+            val compact = prefs.messageLayout == MessageLayout.compact
             val full = buildAnnotatedString {
+                if (compact) {
+                    withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(Formats.time(entry.timestamp)) }
+                    append("  ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = theme.accent)) { append(entry.senderName) }
+                    append("  ")
+                }
                 withStyle(SpanStyle(fontStyle = if (kind.isEmote) FontStyle.Italic else FontStyle.Normal)) { append(text) }
                 if (entry.isEdited) {
                     append(" ")
@@ -963,6 +1177,120 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((St
         is ChatEntry.Kind.Redacted -> DeletedLabel("trash", tr("timeline.messageDeleted"), style)
         is ChatEntry.Kind.Undecryptable -> DeletedLabel("lock", tr("timeline.waitingForThisMessage"), style)
         else -> {}
+    }
+}
+
+/** What a formatted message's text needs besides its blocks */
+private data class RichStyle(
+    val text: androidx.compose.ui.text.TextStyle,
+    val color: Color,
+    val linkColor: Color,
+    val mentionColors: MentionColors,
+    val mentions: List<MessageMention>,
+    val revealSpoilers: Boolean,
+    val prettifyLinks: Boolean,
+    val scale: Float,
+    val onMention: ((String) -> Unit)?,
+    val codeBackground: Color,
+    val cover: Color,
+)
+
+/** A formatted message as the web shows it: paragraphs, headings, quotes, lists and code blocks */
+@Composable
+private fun RichBlocks(blocks: List<RichBlock>, style: RichStyle) {
+    Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+        blocks.forEach { RichBlockView(it, style) }
+    }
+}
+
+@Composable
+private fun RichBlockView(block: RichBlock, style: RichStyle) {
+    when (block) {
+        is RichBlock.Paragraph -> Text(richText(block.spans, style), style = style.text, color = style.color)
+        is RichBlock.Heading -> {
+            val size = when (block.level) {
+                1L -> WZ.FontSize.xxl
+                2L -> WZ.FontSize.xl
+                else -> WZ.FontSize.lg
+            } * style.scale
+            Text(
+                richText(block.spans, style),
+                style = style.text.copy(fontSize = size, lineHeight = size * 1.3f, fontWeight = FontWeight.Bold),
+                color = style.color,
+            )
+        }
+        is RichBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+            Box(Modifier.width(WZ.Space.space1).fillMaxHeight().clip(RoundedCornerShape(WZ.Radius.xs)).background(theme.border))
+            RichBlocks(block.blocks, style.copy(color = theme.textSecondary))
+        }
+        is RichBlock.ItemList -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+            block.items.forEachIndexed { index, item ->
+                Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    Text(if (block.ordered) "${block.start + index}." else "•", style = style.text, color = theme.textMuted)
+                    Box(Modifier.weight(1f)) { RichBlocks(item, style) }
+                }
+            }
+        }
+        is RichBlock.Code -> Box(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(WZ.Radius.md))
+                .background(theme.fill)
+                .horizontalScroll(rememberScrollState())
+                .padding(WZ.Space.space4),
+        ) {
+            Text(
+                block.text,
+                style = style.text.copy(fontFamily = FontFamily.Monospace, fontSize = WZ.FontSize.md * style.scale),
+                color = style.color,
+                softWrap = false,
+            )
+        }
+        RichBlock.Rule -> Box(Modifier.fillMaxWidth().height(WZ.BorderWidth.thin).background(theme.border))
+    }
+}
+
+/** Styled runs as one annotated string: bold, italic, strikethrough, code, links, mention pills and hidden spoilers */
+private fun richText(spans: List<RichSpan>, style: RichStyle): AnnotatedString = buildAnnotatedString {
+    for (span in spans) {
+        val decorations = listOfNotNull(
+            if (span.strike) TextDecoration.LineThrough else null,
+            if (span.underline) TextDecoration.Underline else null,
+        )
+        var spanStyle = SpanStyle(
+            fontWeight = if (span.bold) FontWeight.Bold else null,
+            fontStyle = if (span.italic) FontStyle.Italic else null,
+            textDecoration = if (decorations.isEmpty()) null else TextDecoration.combine(decorations),
+            fontFamily = if (span.code) FontFamily.Monospace else null,
+            background = if (span.code) style.codeBackground else Color.Unspecified,
+        )
+        val hidden = span.spoiler && !style.revealSpoilers
+        if (hidden) spanStyle = spanStyle.copy(color = Color.Transparent, background = style.cover)
+        val mention = span.mention
+        val link = span.link
+        when {
+            hidden -> withStyle(spanStyle) { append(span.text) }
+            mention != null -> {
+                val pill = TextLinkStyles(style.mentionColors.pill(style.mentions.any { it.userId == mention && it.isOwn }))
+                val onMention = style.onMention
+                pushLink(
+                    if (onMention != null) {
+                        LinkAnnotation.Clickable(mention, pill) { onMention(mention) }
+                    } else {
+                        LinkAnnotation.Url("https://matrix.to/#/$mention", pill)
+                    },
+                )
+                append(span.text)
+                pop()
+            }
+            link != null -> {
+                pushLink(LinkAnnotation.Url(link, TextLinkStyles(SpanStyle(color = style.linkColor))))
+                withStyle(spanStyle) { append(span.text) }
+                pop()
+            }
+            span.code -> withStyle(spanStyle) { append(span.text) }
+            else -> withStyle(spanStyle) { append(MessageText.attributed(span.text, style.prettifyLinks, style.linkColor)) }
+        }
     }
 }
 

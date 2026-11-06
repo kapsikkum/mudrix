@@ -1,4 +1,10 @@
-use std::{future::IntoFuture, sync::Arc};
+use std::{
+    collections::{HashMap, HashSet},
+    future::IntoFuture,
+    sync::Arc,
+};
+
+use eyeball_im::{Vector, VectorDiff};
 
 use futures_util::{pin_mut, StreamExt};
 use matrix_sdk::ruma::{
@@ -309,6 +315,32 @@ impl TimelineEntry {
     }
 }
 
+fn item_id(item: &TimelineItem) -> &str {
+    &item.unique_id().0
+}
+
+fn diff_values<T>(diff: &VectorDiff<T>, mut each: impl FnMut(&T)) {
+    match diff {
+        VectorDiff::Append { values } | VectorDiff::Reset { values } => {
+            values.iter().for_each(each)
+        }
+        VectorDiff::PushFront { value }
+        | VectorDiff::PushBack { value }
+        | VectorDiff::Insert { value, .. }
+        | VectorDiff::Set { value, .. } => each(value),
+        _ => {}
+    }
+}
+
+impl TimelineEntry {
+    fn with_call(mut self, tile: Option<&crate::call_history::CallHistoryView>) -> Self {
+        if let (TimelineEntry::Event { content, .. }, Some(tile)) = (&mut self, tile) {
+            *content = EntryContent::Call { call: tile.clone() };
+        }
+        self
+    }
+}
+
 /// A live timeline of one room. Keep it alive as long as the room is shown.
 pub struct RoomTimeline {
     timeline: Arc<Timeline>,
@@ -437,15 +469,18 @@ fn shown_too(event: &AnySyncTimelineEvent) -> bool {
     }
 }
 
-const RECEIPTABLE_TYPES: [&str; 5] = [
+/// Call rings notify and count as unread too, so reading the room must be able to pass them
+const RECEIPTABLE_TYPES: [&str; 7] = [
     "m.room.message",
     "m.sticker",
     "m.room.encrypted",
     "m.poll.start",
     "org.matrix.msc3381.poll.start",
+    "m.rtc.notification",
+    "org.matrix.msc4075.rtc.notification",
 ];
 
-/// The event, when read receipts may point at it: messages only, not joins or call state
+/// The event, when read receipts may point at it: messages and call rings, not joins or call state
 fn receiptable(raw: &Raw<AnySyncTimelineEvent>, in_threads: bool) -> Option<OwnedEventId> {
     let json: serde_json::Value = raw.deserialize_as_unchecked().ok()?;
     let event_type = json.get("type")?.as_str()?;
@@ -745,15 +780,24 @@ impl RoomTimeline {
     pub async fn watch(&self, mut on_update: impl FnMut(Vec<ListDiff<TimelineEntry>>)) {
         let own = self.own_user.as_ref();
         let (items, stream) = self.timeline.subscribe().await;
+        let mut shown = items.clone();
+        let mut calls = self.call_tiles(&shown).await;
         on_update(vec![ListDiff::Reset {
             values: items
                 .iter()
-                .map(|item| TimelineEntry::from_item(item, own))
+                .map(|item| TimelineEntry::from_item(item, own).with_call(calls.get(item_id(item))))
                 .collect(),
         }]);
         pin_mut!(stream);
         while let Some(diffs) = stream.next().await {
-            let mapped = diffs
+            let mut touched: HashSet<String> = HashSet::new();
+            for diff in &diffs {
+                diff_values(diff, |item| {
+                    touched.insert(item_id(item).to_owned());
+                });
+                diff.clone().apply(&mut shown);
+            }
+            let mut mapped: Vec<ListDiff<TimelineEntry>> = diffs
                 .into_iter()
                 .map(|diff| {
                     ListDiff::map(diff, |item: &Arc<TimelineItem>| {
@@ -761,8 +805,49 @@ impl RoomTimeline {
                     })
                 })
                 .collect();
+            let fresh = self.call_tiles(&shown).await;
+            if !fresh.is_empty() || !calls.is_empty() {
+                for (index, item) in shown.iter().enumerate() {
+                    let id = item_id(item);
+                    let tile = fresh.get(id);
+                    if tile != calls.get(id) || (tile.is_some() && touched.contains(id)) {
+                        mapped.push(ListDiff::Set {
+                            index,
+                            value: TimelineEntry::from_item(item, own).with_call(tile),
+                        });
+                    }
+                }
+            }
+            calls = fresh;
             on_update(mapped);
         }
+    }
+
+    /// The tile of every call in the loaded items, keyed by the item showing it
+    async fn call_tiles(
+        &self,
+        items: &Vector<Arc<TimelineItem>>,
+    ) -> HashMap<String, crate::call_history::CallHistoryView> {
+        let calls = crate::call_history::call_items(items.iter());
+        if calls.is_empty() {
+            return HashMap::new();
+        }
+        let room = self.timeline.room();
+        let client = room.client();
+        let own = (
+            client
+                .user_id()
+                .map(ToString::to_string)
+                .unwrap_or_default(),
+            client
+                .device_id()
+                .map(ToString::to_string)
+                .unwrap_or_default(),
+        );
+        let live = crate::calls::call_members_of(room, own.clone(), false)
+            .await
+            .is_ok_and(|members| !members.is_empty());
+        crate::call_history::call_tiles(&calls, live, &own.0)
     }
 
     /// Loads older events. Returns `true` once the start of the room has been reached.

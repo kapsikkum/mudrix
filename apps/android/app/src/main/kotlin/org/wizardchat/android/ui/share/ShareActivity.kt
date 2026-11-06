@@ -59,6 +59,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.MainActivity
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.MatrixSession
+import org.wizardchat.android.matrix.MediaMetadata
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.ShareSender
 import org.wizardchat.android.matrix.SharedFile
@@ -153,8 +154,9 @@ class ShareActivity : ComponentActivity() {
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeFile(file.path, bounds)
             if (bounds.outWidth > 0) {
-                width = bounds.outWidth.toLong()
-                height = bounds.outHeight.toLong()
+                val rotated = file.inputStream().use(MediaMetadata::isRotated)
+                width = (if (rotated) bounds.outHeight else bounds.outWidth).toLong()
+                height = (if (rotated) bounds.outWidth else bounds.outHeight).toLong()
             }
         }
         SharedFile(file, name, mimetype, width, height)

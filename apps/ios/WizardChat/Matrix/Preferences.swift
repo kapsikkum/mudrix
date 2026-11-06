@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import WizardChatCore
 
-enum MessageLayout: String, CaseIterable { case modern, classic }
+enum MessageLayout: String, CaseIterable { case modern, classic, compact }
 enum Density: String, CaseIterable { case compact, `default`, spacious }
 enum ReducedMotion: String, CaseIterable { case system, on, off }
 enum MediaVisibility: String, CaseIterable { case always, `private`, never }

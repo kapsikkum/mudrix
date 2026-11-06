@@ -96,7 +96,7 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                 }
                 groups.forEach { (title, list) ->
                     item(key = title) {
-                        GroupedSection(header = "${tr(title)} — ${list.size}") {
+                        GroupedSection(header = "${tr(title)}  ${list.size}") {
                             list.forEachIndexed { index, member ->
                                 if (index > 0) RowDivider()
                                 MemberRow(member) { selected = member.userId }

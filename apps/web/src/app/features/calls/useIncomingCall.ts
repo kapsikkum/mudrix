@@ -1,52 +1,52 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import { useTranslation } from 'react-i18next';
+import type { IncomingCall as CoreIncomingCall, WizardClient } from '@wizardchat/core';
 import { roomsByIdAtom } from '@/app/data';
 import { callActionsAtom, callUiAtom, type IncomingCall } from '@/app/store/atoms/call';
+import { notificationBannersAtom } from '@/app/store/atoms/settings';
+import { closeBrowserNotification, showBrowserNotification } from '@/app/hooks/useNotifications';
 import { formatUserId, isDmRoom } from '@/util/matrix';
 import { loopVoiceSound } from '@/app/features/voice/voiceSounds';
 
-const RING_TIMEOUT_MS = 45_000;
+const ringTag = (roomId: string) => `ring:${roomId}`;
 
 export function useIncomingCall(client: WizardClient | null) {
+  const { t } = useTranslation();
   const store = useStore();
   const setUi = useSetAtom(callUiAtom);
   const callActions = useAtomValue(callActionsAtom);
 
-  const uiRef = useRef({
-    roomId: null as string | null,
-    incoming: null as null | { roomId: string },
-  });
   const ui = useAtomValue(callUiAtom);
+  const uiRef = useRef(ui);
   uiRef.current = ui;
+  const tRef = useRef(t);
+  tRef.current = t;
 
-  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const eventIdRef = useRef<string | null>(null);
-
-  const clearTimer = useCallback(() => {
-    if (dismissTimerRef.current !== null) {
-      clearTimeout(dismissTimerRef.current);
-      dismissTimerRef.current = null;
-    }
-  }, []);
-
-  const ringing = !!ui.incoming;
+  const ringing = !!ui.incoming?.ring;
   useEffect(() => {
     if (!ringing) return undefined;
     return loopVoiceSound('ringtone');
   }, [ringing]);
 
+  const incomingRoomId = ui.incoming?.roomId ?? null;
+  useEffect(() => {
+    if (!incomingRoomId) return undefined;
+    return () => {
+      window.desktopAPI?.requestAttention?.(false);
+      void closeBrowserNotification(ringTag(incomingRoomId));
+    };
+  }, [incomingRoomId]);
+
   const dismiss = useCallback(() => {
-    clearTimer();
     setUi((prev) => ({ ...prev, incoming: null }));
-  }, [clearTimer, setUi]);
+  }, [setUi]);
 
   const decline = useCallback(() => {
-    const incoming = uiRef.current.incoming as IncomingCall | null;
-    const eventId = eventIdRef.current;
+    const incoming = uiRef.current.incoming;
     dismiss();
-    if (!client || !incoming || !eventId) return;
-    void client.declineCall(incoming.roomId, eventId).catch(() => {});
+    if (!client || !incoming?.ring) return;
+    void client.declineCall(incoming.roomId, incoming.eventId).catch(() => {});
   }, [client, dismiss]);
 
   const accept = useCallback(
@@ -64,58 +64,59 @@ export function useIncomingCall(client: WizardClient | null) {
   useEffect(() => {
     if (!client) return undefined;
 
-    // The core only reports rings whose caller is in the call: ring events, or a caller's
-    // fresh membership in a direct chat
-    const subscription = client.watchIncomingCalls((call) => {
-      const { roomId, sender } = call;
-      if (!call.ring || sender === client.userId()) return;
+    const notify = (call: CoreIncomingCall, title: string, tag?: string) => {
+      if (!store.get(notificationBannersAtom)) return;
+      const room = store.get(roomsByIdAtom).get(call.roomId);
+      if (room?.notificationMode === 'mute') return;
+      const body = tRef.current(
+        call.intent === 'audio' ? 'timeline.voiceCall' : 'timeline.videoCall'
+      );
+      void showBrowserNotification(
+        title,
+        body,
+        `/dm/${encodeURIComponent(call.roomId)}`,
+        undefined,
+        tag
+      );
+    };
 
-      const incoming = uiRef.current.incoming as IncomingCall | null;
-      if (incoming) {
-        if (incoming.roomId === roomId && incoming.callerId === sender && call.eventId)
-          eventIdRef.current = call.eventId;
+    const subscription = client.watchIncomingCalls((event) => {
+      const { call } = event;
+      const callerName = call.senderName ?? formatUserId(call.sender);
+
+      if (event.type === 'ended') {
+        if (uiRef.current.incoming?.roomId === call.roomId) dismiss();
+        if (call.ring && (event.reason === 'callerLeft' || event.reason === 'expired'))
+          notify(call, tRef.current('call.missedFrom', { name: callerName }));
         return;
       }
-      if (uiRef.current.roomId === roomId) return;
 
-      const room = store.get(roomsByIdAtom).get(roomId);
+      const shown = uiRef.current.incoming;
+      if (shown && shown.roomId !== call.roomId) return;
+      if (uiRef.current.roomId === call.roomId) return;
+      const room = store.get(roomsByIdAtom).get(call.roomId);
       if (!room) return;
-      if (!isDmRoom(room)) return;
 
-      eventIdRef.current = call.eventId || null;
       setUi((prev) => ({
         ...prev,
         incoming: {
-          roomId,
-          callerId: sender,
-          callerName: call.senderName ?? formatUserId(sender),
+          roomId: call.roomId,
+          eventId: call.eventId,
+          callerId: call.sender,
+          callerName,
           voiceOnly: call.intent === 'audio',
+          ring: call.ring,
+          roomName: isDmRoom(room) ? null : (call.roomName ?? room.name),
         },
       }));
-
-      clearTimer();
-      dismissTimerRef.current = setTimeout(dismiss, RING_TIMEOUT_MS);
-    });
-    const handledElsewhere = client.watchCallsHandledElsewhere((roomId) => {
-      if (uiRef.current.incoming?.roomId === roomId) dismiss();
+      if (!shown && !document.hasFocus()) {
+        window.desktopAPI?.requestAttention?.(true);
+        notify(call, tRef.current('call.isCalling', { name: callerName }), ringTag(call.roomId));
+      }
     });
 
-    return () => {
-      subscription.cancel();
-      handledElsewhere.cancel();
-    };
-  }, [client, clearTimer, dismiss, setUi, store]);
-
-  // Stop ringing once the caller is no longer in the call
-  const incomingRoom = ui.incoming?.roomId ?? null;
-  const incomingCaller = (ui.incoming as IncomingCall | null)?.callerId ?? null;
-  useEffect(() => {
-    if (!client || !incomingRoom || !incomingCaller) return undefined;
-    const subscription = client.watchCallMembers(incomingRoom, (members) => {
-      if (!members.some((m) => m.userId === incomingCaller)) dismiss();
-    });
     return () => subscription.cancel();
-  }, [client, incomingRoom, incomingCaller, dismiss]);
+  }, [client, dismiss, setUi, store]);
 
   return { accept, dismiss, decline };
 }

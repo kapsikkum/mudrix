@@ -40,7 +40,6 @@ import { makeRoomPermalink } from '@/util/matrix';
 import { roomSectionsAtom, roomTagNamesAtom, useRoom } from '@/app/data';
 import type { RoomEntry } from '@/app/features/room/useRooms';
 import type { DmEntry } from '@/app/hooks/useDms';
-import type { CallMember } from '@wizardchat/core';
 
 function notifMenuItems(
   level: NotifLevel,
@@ -79,7 +78,7 @@ interface RoomListItemProps {
   isActive: boolean;
   hasActiveCall?: boolean;
   isInCall?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
   compactVoice?: boolean;
   onSelect: (roomId: string) => void;
   onOpenChat: (roomId: string) => void;

@@ -18,7 +18,7 @@ struct PinnedMessagesView: View {
     private var messages: [ChatEntry] {
         timeline.entries.filter {
             switch $0.kind {
-            case .dateDivider, .system: return false
+            case .dateDivider, .system, .call: return false
             default: return true
             }
         }

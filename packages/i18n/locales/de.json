@@ -2,6 +2,8 @@
   "common": {
     "cancel": "Abbrechen",
     "save": "Speichern",
+    "saveToPhotos": "In Fotos speichern",
+    "savedToPhotos": "In Fotos gespeichert",
     "saveFailed": "Speichern fehlgeschlagen: {{error}}",
     "close": "Schließen",
     "confirm": "Bestätigen",
@@ -27,6 +29,7 @@
     "hide": "Ausblenden",
     "show": "Anzeigen",
     "newMessage": "Neue Nachricht",
+    "newDm": "Neue DM",
     "spoilerNotification": "[Spoiler]",
     "emoji": "Emoji",
     "members": "Mitglieder",
@@ -251,7 +254,9 @@
       "typeVoiceNote": "Live-Sprache, Video und Bildschirmfreigabe",
       "access": "Wer kann diesem Raum beitreten?",
       "accessStandard": "Space Mitglieder",
+      "accessStandardNote": "Mitglieder des Space können diesen Raum finden und betreten.",
       "accessInvite": "Privater Raum (Nur mit Einladung)",
+      "accessInviteNote": "Nur eingeladene Personen können beitreten.",
       "accessPublic": "Öffentlicher Raum",
       "e2ee": "Ende-zu-Ende-Verschlüsselung",
       "e2eeNote": "Dies kann später nicht deaktiviert werden.",
@@ -291,7 +296,8 @@
         "encryptionNote": "Einmal aktiviert, kann die Verschlüsselung nicht mehr deaktiviert werden.",
         "encryptionConfirm": "Bist du sicher? Einmal aktiviert, kann die Verschlüsselung eines Raums nicht mehr deaktiviert werden. Nachrichten in einem verschlüsselten Raum können nur von dessen Teilnehmern gelesen werden, und viele Bots und Bridges funktionieren möglicherweise nicht mehr korrekt.",
         "encryptionPublicRoomWarning": "Dies ist ein öffentlicher Raum. Jeder kann ihn finden und ihm beitreten, sodass jeder die Nachrichten darin lesen könnte — selbst mit aktivierter Verschlüsselung.",
-        "encryptionEnableFailed": "Aktivieren der Verschlüsselung fehlgeschlagen: {{error}}"
+        "encryptionEnableFailed": "Aktivieren der Verschlüsselung fehlgeschlagen: {{error}}",
+        "resetAvatar": "Avatar zurücksetzen"
       },
       "addresses": {
         "title": "Adressen",
@@ -468,7 +474,10 @@
         "roomAddressPlaceholder": "#meinspace:server.org",
         "failed": "Fehler beim Erstellen des Spaces: {{error}}",
         "aliasCreateFailed": "Space erstellt, aber Adresse konnte nicht gesetzt werden: {{error}}",
-        "titleInParent": "Unterraum in {{name}} erstellen"
+        "titleInParent": "Unterraum in {{name}} erstellen",
+        "accessInvite": "Privater Space (Nur mit Einladung)",
+        "accessPublicNote": "Alle können diesen Space finden und beitreten.",
+        "access": "Wer kann diesem Space beitreten?"
       },
       "join": {
         "title": "Space beitreten",
@@ -694,14 +703,11 @@
     "saveEdit": "Änderung speichern",
     "messageRoom": "Nachricht an {{displayName}}",
     "editMessage": "Nachricht bearbeiten",
-    "code": "Code",
-    "codeBlock": "Codeblock",
-    "list": "Liste",
-    "link": "Link",
     "preparing": "Wird vorbereitet",
     "gifSendFailed": "Das GIF konnte nicht gesendet werden.",
     "sendASpoilerMessage": "Sende eine Spoiler-Nachricht. Mit \"Grund\" in Anführungszeichen fügst du eine Warnung hinzu. Beispiel: /spoiler \"Film\" der Butler war es",
-    "customEmoji": "Eigene"
+    "customEmoji": "Eigene",
+    "camera": "Kamera"
   },
   "timeline": {
     "copyText": "Text kopieren",
@@ -937,7 +943,11 @@
     "mediaTabMedia": "Medien",
     "mediaTabDocs": "Dokumente",
     "mediaTabLinks": "Links",
-    "selectText": "Text auswählen"
+    "selectText": "Text auswählen",
+    "callMissed": "Verpasster Anruf",
+    "callDeclined": "Anruf abgelehnt",
+    "callUnanswered": "Keine Antwort",
+    "callJoin": "Beitreten"
   },
   "attachment": {
     "uploading": "Wird hochgeladen",
@@ -1008,7 +1018,6 @@
     "pasteLink": "Link einfügen",
     "notYoutubeLink": "Das ist kein YouTube-Videolink.",
     "everyoneInTheCall": "Alle im Anruf können mitmachen. YouTube sieht die IP-Adresse aller, die zuschauen.",
-    "userYou": "{{name}} (du)",
     "tapToChangeTheir": "Tippe, um die Lautstärke zu ändern",
     "userScreen": "Bildschirm von {{name}}",
     "noOneIsHere": "Noch niemand hier",
@@ -1864,7 +1873,12 @@
     "aloneLeaving": "Der Anruf wird in {{seconds}} Sekunden verlassen",
     "stay": "Bleiben",
     "leaveNow": "Jetzt verlassen",
-    "aloneTitle": "Du bist allein hier"
+    "aloneTitle": "Du bist allein hier",
+    "missedFrom": "Verpasster Anruf von {{name}}",
+    "inCallElsewhere": "Du bist auf einem anderen Gerät in diesem Anruf",
+    "joinHere": "Hier beitreten",
+    "joinTimeout": "Die Verbindung zum Anruf hat zu lange gedauert.",
+    "ownOtherDevice": "{{name}} (anderes Gerät)"
   },
   "desktopPicker": {
     "title": "Bildschirm teilen",

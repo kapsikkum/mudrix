@@ -2,6 +2,8 @@
   "common": {
     "cancel": "Cancel",
     "save": "Save",
+    "saveToPhotos": "Save to Photos",
+    "savedToPhotos": "Saved to Photos",
     "saveFailed": "Save failed: {{error}}",
     "close": "Close",
     "confirm": "Confirm",
@@ -27,6 +29,7 @@
     "hide": "Hide",
     "show": "Show",
     "newMessage": "New message",
+    "newDm": "New DM",
     "spoilerNotification": "[Spoiler]",
     "emoji": "Emoji",
     "members": "Members",
@@ -251,7 +254,9 @@
       "typeVoiceNote": "Live voice, video, and screen sharing",
       "access": "Who can join this room?",
       "accessStandard": "Space members",
+      "accessStandardNote": "Members of the space can find and join this room.",
       "accessInvite": "Private Room (Invite Only)",
+      "accessInviteNote": "Only people who are invited can join.",
       "accessPublic": "Public Room",
       "e2ee": "End-to-end encryption",
       "e2eeNote": "This can't be disabled later.",
@@ -291,7 +296,8 @@
         "encryptionNote": "Once enabled, encryption cannot be disabled.",
         "encryptionConfirm": "Are you sure? Once enabled, encryption for a room cannot be disabled. Messages sent in an encrypted room can only be read by its participants, and many bots and bridges may stop working correctly.",
         "encryptionPublicRoomWarning": "This is a public room. Anyone can find and join it, so anyone could read messages in it even with encryption enabled.",
-        "encryptionEnableFailed": "Failed to enable encryption: {{error}}"
+        "encryptionEnableFailed": "Failed to enable encryption: {{error}}",
+        "resetAvatar": "Reset avatar"
       },
       "addresses": {
         "title": "Addresses",
@@ -468,7 +474,10 @@
         "roomAddressPlaceholder": "#myspace:server.org",
         "failed": "Failed to create Space: {{error}}",
         "aliasCreateFailed": "Space created but failed to set address: {{error}}",
-        "titleInParent": "Creating sub-space in {{name}}"
+        "titleInParent": "Creating sub-space in {{name}}",
+        "accessInvite": "Private Space (Invite Only)",
+        "accessPublicNote": "Anyone can find and join this space.",
+        "access": "Who can join this space?"
       },
       "join": {
         "title": "Join Space",
@@ -694,14 +703,11 @@
     "saveEdit": "Save edit",
     "messageRoom": "Message {{displayName}}",
     "editMessage": "Edit message",
-    "code": "Code",
-    "codeBlock": "Code block",
-    "list": "List",
-    "link": "Link",
     "preparing": "Preparing",
     "gifSendFailed": "Couldn't send the GIF.",
     "sendASpoilerMessage": "Send a spoiler message. Use \"reason\" in quotes to add a warning. Example: /spoiler \"movie\" the butler did it",
-    "customEmoji": "Custom"
+    "customEmoji": "Custom",
+    "camera": "Camera"
   },
   "timeline": {
     "copyText": "Copy text",
@@ -937,7 +943,11 @@
     "mediaTabMedia": "Media",
     "mediaTabDocs": "Docs",
     "mediaTabLinks": "Links",
-    "selectText": "Select text"
+    "selectText": "Select text",
+    "callMissed": "Missed call",
+    "callDeclined": "Call declined",
+    "callUnanswered": "No answer",
+    "callJoin": "Join"
   },
   "attachment": {
     "uploading": "Uploading",
@@ -1008,7 +1018,6 @@
     "pasteLink": "Paste link",
     "notYoutubeLink": "That isn't a YouTube video link.",
     "everyoneInTheCall": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
-    "userYou": "{{name}} (you)",
     "tapToChangeTheir": "Tap to change their volume",
     "userScreen": "{{name}}'s screen",
     "noOneIsHere": "No one is here yet",
@@ -1864,7 +1873,12 @@
     "aloneLeaving": "Leaving the call in {{seconds}} seconds",
     "stay": "Stay",
     "leaveNow": "Leave now",
-    "aloneTitle": "You're the only one here"
+    "aloneTitle": "You're the only one here",
+    "missedFrom": "Missed call from {{name}}",
+    "inCallElsewhere": "You're in this call on another device",
+    "joinHere": "Join here",
+    "joinTimeout": "Connecting to the call took too long.",
+    "ownOtherDevice": "{{name}} (other device)"
   },
   "desktopPicker": {
     "title": "Share your screen",

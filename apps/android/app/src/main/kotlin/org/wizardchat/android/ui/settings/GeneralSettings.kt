@@ -113,7 +113,11 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             PickerRow(
                 tr("settings.appearance.messageLayout"),
                 prefs.messageLayout,
-                listOf(MessageLayout.modern to tr("settings.appearance.modern"), MessageLayout.classic to tr("settings.appearance.classic")),
+                listOf(
+                    MessageLayout.modern to tr("settings.appearance.modern"),
+                    MessageLayout.classic to tr("settings.appearance.classic"),
+                    MessageLayout.compact to tr("settings.appearance.compact"),
+                ),
                 { prefs.messageLayout = it },
             )
             SettingsDivider()
@@ -465,18 +469,11 @@ internal fun AboutSettings(onBack: () -> Unit) {
                 Text(tr("welcome.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 Text(version, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
-            SettingsDivider()
             SettingsItem {
                 LabelButton(
                     tr("settings.about.viewSourceOnGitLab"),
                     "code",
                     { uriHandler.openUri("https://gitlab.com/wizardchat/wizardchat") },
-                )
-                LabelButton(
-                    tr("settings.about.donate"),
-                    "heart",
-                    { uriHandler.openUri("https://liberapay.com/JPK/donate") },
-                    color = theme.danger,
                 )
             }
         }

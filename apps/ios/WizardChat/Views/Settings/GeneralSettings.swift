@@ -59,7 +59,8 @@ struct AppearanceSettings: View {
                 .padding(.vertical, WZ.Space.space4)
                 SettingsDivider()
                 PickerRow(label: "settings.appearance.messageLayout", selection: $prefs.messageLayout,
-                          options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic")])
+                          options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic"),
+                                    (.compact, "settings.appearance.compact")])
                 SettingsDivider()
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {
                     HStack {
@@ -297,17 +298,13 @@ struct AboutSettings: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, WZ.Space.space4)
+            .listRowSeparator(.hidden)
 
-            VStack(spacing: WZ.Space.space4) {
-                Link(destination: URL(string: "https://gitlab.com/wizardchat/wizardchat")!) {
-                    Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
-                }
-                .buttonStyle(SecondaryButtonStyle())
-                Link(destination: URL(string: "https://liberapay.com/JPK/donate")!) {
-                    Label(String(localized: "settings.about.donate"), image: "ph-heart-regular")
-                }
-                .buttonStyle(SecondaryButtonStyle(color: theme.danger))
+            Link(destination: URL(string: "https://gitlab.com/wizardchat/wizardchat")!) {
+                Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
             }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
 
             SettingsSection(title: "settings.about.credits") {
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {

@@ -81,6 +81,10 @@ class WizardTheme(val id: WZ.Theme) {
     val presenceAway get() = colors.presenceAway
     val presenceBusy get() = colors.presenceBusy
     val presenceOffline get() = colors.presenceOffline
+    val roleFounder get() = colors.roleFounder
+    val roleAdmin get() = colors.roleAdmin
+    val roleModerator get() = colors.roleModerator
+    val roleMember get() = colors.roleMember
     val usernameColors
         get() = listOf(
             colors.usernameC1, colors.usernameC2, colors.usernameC3, colors.usernameC4,

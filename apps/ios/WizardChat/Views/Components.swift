@@ -125,14 +125,13 @@ struct PrimaryButtonStyle: ButtonStyle {
 }
 
 struct SecondaryButtonStyle: ButtonStyle {
-    var color: Color?
     @Environment(\.theme) private var theme
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.wizard(WZ.FontSize.lg, .medium))
-            .foregroundStyle(color ?? theme.control)
+            .foregroundStyle(theme.control)
             .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
             .background(configuration.isPressed ? theme.bgActive : theme.fill, in: Capsule())
             .opacity(isEnabled ? 1 : 0.4)
@@ -322,9 +321,9 @@ struct VerificationBanner: View {
     var body: some View {
         if session.encryption?.deviceVerified == false && !dismissed {
             HStack(spacing: WZ.Space.space5) {
-                Image("ph-shield-check-regular")
+                Image("ph-shield-warning-regular")
                     .font(.system(size: WZ.SizeIcon.lg))
-                    .foregroundStyle(theme.warningColor)
+                    .foregroundStyle(theme.danger)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
                     Text(String(localized: "verifySession.title"))
                         .font(.wizard(WZ.FontSize.md, .semibold))

@@ -58,11 +58,14 @@ export function registerNotificationServiceWorker(): Promise<ServiceWorkerRegist
   return swRegistrationPromise;
 }
 
+const taggedNotifications = new Map<string, Notification>();
+
 export async function showBrowserNotification(
   title: string,
   body: string,
   roomUrl?: string,
-  icon = getThemeLogoAssets().notification
+  icon = getThemeLogoAssets().notification,
+  tag?: string
 ): Promise<void> {
   if (window.desktopAPI?.showNotification) {
     try {
@@ -87,7 +90,7 @@ export async function showBrowserNotification(
   const reg = await registerNotificationServiceWorker();
   if (reg) {
     try {
-      await reg.showNotification(title, { body, icon, silent: true, data });
+      await reg.showNotification(title, { body, icon, silent: true, data, tag });
       return;
     } catch (err) {
       console.warn('[useNotifications] SW showNotification failed, falling back', err);
@@ -95,7 +98,8 @@ export async function showBrowserNotification(
   }
 
   try {
-    const n = new Notification(title, { body, icon, silent: true, data });
+    const n = new Notification(title, { body, icon, silent: true, data, tag });
+    if (tag) taggedNotifications.set(tag, n);
     n.onclick = roomUrl
       ? () => {
           window.focus();
@@ -106,4 +110,14 @@ export async function showBrowserNotification(
   } catch {
     // ignore
   }
+}
+
+/** Closes a notification shown with `tag`; desktop notifications can't be withdrawn */
+export async function closeBrowserNotification(tag: string): Promise<void> {
+  taggedNotifications.get(tag)?.close();
+  taggedNotifications.delete(tag);
+  if (!('serviceWorker' in navigator) || !swRegistrationPromise) return;
+  const reg = await swRegistrationPromise;
+  const shown = await reg?.getNotifications({ tag }).catch(() => []);
+  for (const notification of shown ?? []) notification.close();
 }

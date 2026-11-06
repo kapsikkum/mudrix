@@ -18,7 +18,6 @@ import {
   showOwnScreenShareAtom,
   type CallPresentation,
 } from '@/app/store/atoms/call';
-import { roomsByIdAtom } from '@/app/data';
 import { currentRoomIdAtom } from '@/app/store/atoms/rooms';
 import { deafenedAtom, micMutedAtom } from '@/app/store/atoms/settings';
 import { useToast } from '@/app/hooks/useToast';
@@ -88,7 +87,10 @@ export function CallController() {
   }, [setUi, setPanel]);
 
   const start = useCallback(
-    async (roomId: string, opts: { voiceOnly?: boolean; presentation?: CallPresentation } = {}) => {
+    async (
+      roomId: string,
+      opts: { voiceOnly?: boolean; presentation?: CallPresentation; ring?: boolean } = {}
+    ) => {
       const client = getMatrixClientOrNull();
       if (!client) return;
       const runStart = async () => {
@@ -136,9 +138,6 @@ export function CallController() {
         }));
         store.set(pendingCallRoomIdAtom, null);
 
-        const room = store.get(roomsByIdAtom).get(roomId);
-        const ongoing = !!room?.callParticipants.some((userId) => userId !== client.userId());
-
         try {
           await next.join({
             video: !voiceOnly,
@@ -148,7 +147,7 @@ export function CallController() {
             inputVolume: store.get(callVolumesAtom).input,
             pushToTalk: store.get(pushToTalkModeAtom),
             outputVolume: store.get(callVolumesAtom).output,
-            ring: !ongoing,
+            ring: !!opts.ring,
           });
         } catch {
           // Reported through the session snapshot (phase 'error')
@@ -292,22 +291,33 @@ export function CallController() {
   const toggleMute = useCallback(
     () =>
       run((s, snap) => {
-        const enable = !snap.microphone;
+        // Until joined the snapshot has no microphone yet; the preferences say what join will do
+        const joined = snap.phase === 'joined';
+        const enable = joined
+          ? !snap.microphone
+          : store.get(micMutedAtom) || store.get(deafenedAtom);
         store.set(micMutedAtom, !enable);
-        if (enable && snap.deafened) store.set(deafenedAtom, false); // unmuting undeafens
+        if (enable) store.set(deafenedAtom, false); // unmuting undeafens
+        if (!joined)
+          setUi((prev) => ({ ...prev, isMuted: !enable, isDeafened: !enable && prev.isDeafened }));
         return s.setMicrophone(enable);
       }),
-    [run, store]
+    [run, store, setUi]
   );
   const toggleDeafen = useCallback(
     () =>
       run(async (s, snap) => {
-        const deafen = !snap.deafened;
+        const joined = snap.phase === 'joined';
+        const deafen = !(joined ? snap.deafened : store.get(deafenedAtom));
         store.set(deafenedAtom, deafen);
+        if (!joined) {
+          const muted = deafen || store.get(micMutedAtom);
+          setUi((prev) => ({ ...prev, isMuted: muted, isDeafened: deafen }));
+        }
         await s.setDeafened(deafen);
         if (!deafen && !store.get(micMutedAtom)) await s.setMicrophone(true);
       }),
-    [run, store]
+    [run, store, setUi]
   );
   const toggleVideo = useCallback(() => run((s, snap) => s.setCamera(!snap.camera)), [run]);
   const toggleScreenshare = useCallback(

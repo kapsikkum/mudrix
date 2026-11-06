@@ -12,6 +12,7 @@
 
 mod account;
 mod auth;
+mod call_history;
 mod calls;
 mod client;
 mod content;
@@ -23,6 +24,7 @@ mod extras;
 mod features;
 mod profile;
 mod qr_login;
+mod rich_text;
 mod room_admin;
 mod room_details;
 mod rooms;
@@ -38,8 +40,11 @@ mod widgets;
 pub use account::{RegistrationInfo, ServerFeatures, ThirdPartyId};
 pub use account::{UiaAuth, UiaOutcome};
 pub use auth::{AppInfo, IdentityProvider, PendingLogin, ServerInfo, SessionEvent};
+pub use call_history::{CallHistoryView, CallOutcome, CallParticipantView};
 pub use calls::CallTimings;
-pub use calls::{CallEvent, CallMember, CallSession, IncomingCall, SfuConfig};
+pub use calls::{
+    CallEvent, CallMember, CallSession, IncomingCall, IncomingCallEvent, RingEnd, SfuConfig,
+};
 pub use client::{sniff_mime_type, LoadState};
 pub use client::{SyncState, WizardClient};
 pub use content::{EntryContent, MediaInfo, PollAnswerView, PollView, ReplyPreview};
@@ -55,6 +60,7 @@ pub use profile::{
     CustomStatus, Presence, PresenceInfo, UserProfile, MAX_STATUS_LENGTH, STATUS_FIELD,
 };
 pub use qr_login::{QrLoginControl, QrLoginStatus};
+pub use rich_text::{RichBlock, RichSpan};
 pub use room_admin::{
     EventSource, MemberEntry, ResolvedAlias, RoomSettings, RoomTag, ServerCapabilities,
     StateChange, Tombstone,

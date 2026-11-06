@@ -74,6 +74,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -118,6 +119,7 @@ import org.wizardchat.android.ui.tr
 import org.wizardchat.core.Member
 import org.wizardchat.core.PackImage
 import org.wizardchat.core.RoomSummary
+import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
 
 /** A file waiting in the composer's tray until the message is sent */
@@ -170,6 +172,8 @@ fun ComposerView(
     var showLocation by remember { mutableStateOf(false) }
     val recorder = remember { VoiceRecorder(context.applicationContext, scope) }
     var focused by remember { mutableStateOf(false) }
+    // The formatting bar stays open, picked from the + menu (it also shows while text is selected)
+    var formatting by remember { mutableStateOf(false) }
     var preparing by remember { mutableIntStateOf(0) }
 
     val text = draft.text.toString()
@@ -216,6 +220,20 @@ fun ComposerView(
     }
     val filePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
         uris.forEach { addUri(it, keepName = true) }
+    }
+    var cameraUri by remember { mutableStateOf<Uri?>(null) }
+    val takePicture = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+        val uri = cameraUri
+        if (saved && uri != null) addUri(uri, keepName = false)
+    }
+    fun launchCamera() {
+        val file = File(context.cacheDir, "camera-${System.currentTimeMillis()}.jpg")
+        val uri = androidx.core.content.FileProvider.getUriForFile(context, "${context.packageName}.files", file)
+        cameraUri = uri
+        takePicture.launch(uri)
+    }
+    val cameraPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) launchCamera()
     }
     val micPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) recorder.start() else recorder.state = VoiceRecorder.State.denied
@@ -295,11 +313,14 @@ fun ComposerView(
         }
     }
 
-    fun prefixLines(prefix: String) {
+    /** Prefixes each selected line, `prefix` getting its 1-based number */
+    fun prefixLines(prefix: (Int) -> String) {
         val selection = draft.selection
         val lineStart = if (selection.min == 0) 0 else text.lastIndexOf('\n', selection.min - 1) + 1
         val lineEnd = text.indexOf('\n', selection.max).let { if (it < 0) text.length else it }
-        val replaced = text.substring(lineStart, lineEnd).split("\n").joinToString("\n") { prefix + it }
+        val replaced = text.substring(lineStart, lineEnd).split("\n")
+            .mapIndexed { index, line -> prefix(index + 1) + line }
+            .joinToString("\n")
         draft.edit {
             replace(lineStart, lineEnd, replaced)
             this.selection = TextRange(lineStart + replaced.length)
@@ -307,7 +328,7 @@ fun ComposerView(
     }
 
     suspend fun send(message: String, reply: String?) {
-        val html = richHtml(message, usedEmotes, mentions)
+        val html = richHtml(message, usedEmotes, mentions, timeline.client)
         usedEmotes.clear()
         mentions.clear()
         timeline.send(message, html = html, replyTo = reply)
@@ -471,9 +492,20 @@ fun ComposerView(
                                 add(MenuItem(tr("composer.photosVideos"), "images") {
                                     photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
                                 })
+                                if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+                                    add(MenuItem(tr("composer.camera"), "camera") {
+                                        val granted = androidx.core.content.ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+                                            PackageManager.PERMISSION_GRANTED
+                                        if (granted) launchCamera() else cameraPermission.launch(Manifest.permission.CAMERA)
+                                    })
+                                }
                                 add(MenuItem(tr("composer.file"), "file") { filePicker.launch(arrayOf("*/*")) })
                                 if (clipboardHasImages) add(MenuItem(tr("composer.pasteImage"), "clipboard-text") { pasteImages() })
-                                add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal", divider = true) { showPoll = true })
+                                add(MenuItem(tr("composer.formatting.toolbar"), "text-aa", divider = true) {
+                                    formatting = !formatting
+                                    if (formatting) runCatching { focusRequester.requestFocus() }
+                                })
+                                add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal") { showPoll = true })
                                 add(MenuItem(tr("composer.location.share"), "map-pin") { showLocation = true })
                                 add(MenuItem(tr("composer.voice.record"), "microphone") { startRecording() })
                             },
@@ -495,12 +527,13 @@ fun ComposerView(
                     if (attachments.isNotEmpty() || preparing > 0) {
                         AttachmentTray(attachments, preparing) { attachment -> attachments.removeAll { it.id == attachment.id } }
                     }
-                    // Formatting appears only while text is selected
-                    if (focused && hasSelection) {
+                    if (formatting || (focused && hasSelection)) {
                         FormatBar(
                             Modifier.padding(horizontal = WZ.Space.space4).padding(top = WZ.Space.space2),
+                            selectionHasLines = text.substring(draft.selection.min, draft.selection.max).contains('\n'),
                             onWrap = ::wrap,
                             onPrefix = ::prefixLines,
+                            onClose = if (formatting) ({ formatting = false }) else null,
                         )
                     }
                     InputField(
@@ -583,12 +616,16 @@ fun ComposerView(
     }
 }
 
-/** HTML only when the message has custom emoji or mentions; otherwise Markdown is used */
-internal fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Map<String, String>): String? {
+/**
+ * HTML only when the message has custom emoji or mentions (otherwise the core turns the Markdown
+ * into HTML); its Markdown is rendered first so formatting isn't lost.
+ */
+internal suspend fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Map<String, String>, client: WizardClient): String? {
     val usedEmotes = emotes.filter { text.contains(":${it.key}:") }
     val usedMentions = mentions.filter { text.contains(it.key) }
     if (usedEmotes.isEmpty() && usedMentions.isEmpty()) return null
-    var html = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    var html = runCatching { client.markdownToHtml(text) }.getOrNull()
+        ?: text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
     for ((name, userId) in usedMentions) {
         html = html.replace(name, "<a href=\"https://matrix.to/#/$userId\">$name</a>")
     }
@@ -598,7 +635,7 @@ internal fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Ma
             "<img data-mx-emoticon height=\"32\" src=\"${image.url}\" alt=\":$code:\" title=\":$code:\">",
         )
     }
-    return html.replace("\n", "<br>")
+    return html
 }
 
 private fun ByteArray.startsWith(vararg bytes: Int) = size >= bytes.size && bytes.indices.all { this[it] == bytes[it].toByte() }
@@ -655,21 +692,32 @@ private fun InputField(state: TextFieldState, placeholder: String, modifier: Mod
 }
 
 @Composable
-private fun FormatBar(modifier: Modifier, onWrap: (String, String, Boolean) -> Unit, onPrefix: (String) -> Unit) {
+private fun FormatBar(
+    modifier: Modifier,
+    selectionHasLines: Boolean,
+    onWrap: (String, String, Boolean) -> Unit,
+    onPrefix: ((Int) -> String) -> Unit,
+    onClose: (() -> Unit)?,
+) {
+    // The same options as the web's toolbar, written as the Markdown sending turns into formatting
     Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
         FormatButton("text-b", tr("composer.formatting.bold")) { onWrap("**", "**", false) }
         FormatButton("text-italic", tr("composer.formatting.italic")) { onWrap("_", "_", false) }
         FormatButton("text-strikethrough", tr("composer.formatting.strikethrough")) { onWrap("~~", "~~", false) }
-        FormatButton("code", tr("composer.code")) { onWrap("`", "`", false) }
-        FormatButton("brackets-curly", tr("composer.codeBlock")) { onWrap("```\n", "\n```", true) }
-        FormatButton("quotes", tr("composer.formatting.quote")) { onPrefix("> ") }
-        FormatButton("list-bullets", tr("composer.list")) { onPrefix("- ") }
-        FormatButton("link", tr("composer.link")) { onWrap("[", "](https://)", false) }
+        FormatButton("code", tr("composer.formatting.code")) {
+            if (selectionHasLines) onWrap("```\n", "\n```", true) else onWrap("`", "`", false)
+        }
+        FormatButton("text-h", tr("composer.formatting.heading")) { onPrefix { "# " } }
+        FormatButton("list-bullets", tr("composer.formatting.bulletList")) { onPrefix { "- " } }
+        FormatButton("list-numbers", tr("composer.formatting.numberedList")) { onPrefix { "$it. " } }
+        FormatButton("quotes", tr("composer.formatting.quote")) { onPrefix { "> " } }
+        FormatButton("link", tr("composer.formatting.link")) { onWrap("[", "](https://)", false) }
+        if (onClose != null) FormatButton("x", tr("common.close"), tint = theme.textMuted, onClick = onClose)
     }
 }
 
 @Composable
-private fun FormatButton(icon: String, label: String, onClick: () -> Unit) {
+private fun FormatButton(icon: String, label: String, tint: Color = theme.textPrimary, onClick: () -> Unit) {
     Box(
         Modifier
             .size(WZ.Space.space10, WZ.Space.space9)
@@ -678,7 +726,7 @@ private fun FormatButton(icon: String, label: String, onClick: () -> Unit) {
             .semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon(icon, size = WZ.SizeIcon.sm, tint = theme.textPrimary)
+        PhIcon(icon, size = WZ.SizeIcon.sm, tint = tint)
     }
 }
 
@@ -729,7 +777,7 @@ private fun AttachmentTray(attachments: List<PendingAttachment>, preparing: Int,
                             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
                         ) {
                             if (attachment.isVideo) {
-                                PhIcon("video-camera", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textMuted)
+                                PhIcon("video-camera", PhWeight.regular, size = WZ.SizeIcon.md, tint = theme.textMuted)
                             } else {
                                 PhIcon("file", size = WZ.SizeIcon.md, tint = theme.textMuted)
                             }

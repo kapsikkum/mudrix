@@ -73,6 +73,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.CallBar
+import org.wizardchat.android.ui.voice.CallErrorBanner
 import org.wizardchat.android.ui.voice.DMCallScreen
 import org.wizardchat.android.ui.voice.IncomingCallBanner
 import org.wizardchat.android.ui.voice.VoiceRoomScreen
@@ -177,12 +178,10 @@ fun MainScreen(roomList: RoomListModel) {
         RecentEmoji.shared.start(client)
         VerificationRequests.shared.start(client)
     }
-    // Signed out: MainScreen goes away
+    // Also runs when the activity is recreated (rotation), so calls end on sign-out instead (MatrixSession)
     DisposableEffect(Unit) {
         onDispose {
             notifier.stop()
-            calls.stopWatchingIncoming()
-            calls.leave()
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
             prefs.onSyncedSettingsChange = null
@@ -248,6 +247,7 @@ fun MainScreen(roomList: RoomListModel) {
                 ConnectionBanner(Modifier.padding(top = WZ.Space.space1))
                 CopyToastView(Modifier.padding(top = WZ.Space.space2))
                 IncomingCallBanner(Modifier.padding(top = WZ.Space.space2))
+                CallErrorBanner(Modifier.padding(top = WZ.Space.space2))
             }
         }
 

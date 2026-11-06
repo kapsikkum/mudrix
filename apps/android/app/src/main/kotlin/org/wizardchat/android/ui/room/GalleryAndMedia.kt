@@ -399,7 +399,7 @@ private fun MediaThumb(media: ChatEntry.MediaContent, isVideo: Boolean) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
             ) {
-                PhIcon("video-camera", PhWeight.fill, size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
+                PhIcon("video-camera", PhWeight.regular, size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
                 media.duration?.let {
                     Text(Formats.duration(it), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = theme.textOnAccent)
                 }

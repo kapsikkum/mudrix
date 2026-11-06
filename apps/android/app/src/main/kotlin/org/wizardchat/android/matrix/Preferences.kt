@@ -14,7 +14,7 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import org.wizardchat.android.ui.theme.ThemeSetting
 
-enum class MessageLayout { modern, classic }
+enum class MessageLayout { modern, classic, compact }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
 enum class MediaVisibility { always, private, never }

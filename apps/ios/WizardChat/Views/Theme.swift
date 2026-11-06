@@ -84,6 +84,10 @@ struct WizardTheme {
     var presenceAway: Color { colors.presenceAway }
     var presenceBusy: Color { colors.presenceBusy }
     var presenceOffline: Color { colors.presenceOffline }
+    var roleFounder: Color { colors.roleFounder }
+    var roleAdmin: Color { colors.roleAdmin }
+    var roleModerator: Color { colors.roleModerator }
+    var roleMember: Color { colors.roleMember }
 
     static let radiusSm = WZ.Radius.sm
     static let radiusMd = WZ.Radius.md

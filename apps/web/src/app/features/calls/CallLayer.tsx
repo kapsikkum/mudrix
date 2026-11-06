@@ -363,6 +363,7 @@ export function CallLayer({ client }: Props) {
           callerName={ui.incoming.callerName}
           callerId={ui.incoming.callerId}
           voiceOnly={ui.incoming.voiceOnly}
+          roomName={ui.incoming.roomName}
           client={client}
           onAccept={() => accept(ui.incoming!)}
           onDecline={decline}

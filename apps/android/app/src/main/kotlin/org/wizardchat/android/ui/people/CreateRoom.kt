@@ -1,15 +1,12 @@
 package org.wizardchat.android.ui.people
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +14,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.createRoom
+import org.wizardchat.android.matrix.foundersRoomVersion
+import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
+import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
@@ -34,11 +32,36 @@ import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.core.UserResult
 import org.wizardchat.tokens.WZ
 
-/** A new text or voice room, optionally inside a space */
+private enum class RoomAccess(
+    val label: String,
+    val icon: String,
+    val hint: String,
+    val spaceLabel: String? = null,
+    val spaceHint: String? = null,
+) {
+    SpaceMembers("room.create.accessStandard", "users", "room.create.accessStandardNote"),
+    Invite("room.create.accessInvite", "lock", "room.create.accessInviteNote", spaceLabel = "room.space.create.accessInvite"),
+    Public(
+        "room.create.accessPublic",
+        "globe-simple",
+        "room.anyoneCanFindAnd",
+        spaceLabel = "room.space.create.public",
+        spaceHint = "room.space.create.accessPublicNote",
+    ),
+}
+
+/** A new text or voice room, optionally inside a space; or, with `onSpaceCreated`, a new space */
 @Composable
-fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
+fun CreateRoomSheet(
+    spaceId: String?,
+    onDismiss: () -> Unit,
+    onSpaceCreated: ((String) -> Unit)? = null,
+    onBack: (() -> Unit)? = null,
+) {
+    val isSpace = onSpaceCreated != null
     val session = LocalSession.current
     val navigator = LocalNavigator.current
     val closeParents = LocalCloseParents.current
@@ -46,12 +69,20 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
     var name by remember { mutableStateOf("") }
     var topic by remember { mutableStateOf("") }
     var isVoice by remember { mutableStateOf(false) }
-    var isPublic by remember { mutableStateOf(false) }
+    var access by remember { mutableStateOf(if (spaceId == null) RoomAccess.Invite else RoomAccess.SpaceMembers) }
     var encrypted by remember { mutableStateOf(true) }
+    var federate by remember { mutableStateOf(true) }
     var alias by remember { mutableStateOf("") }
+    var foundersVersion by remember { mutableStateOf<String?>(null) }
+    var founders by remember { mutableStateOf(listOf<UserResult>()) }
+    var pickingFounders by remember { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     val server = (session.userId ?: "").split(":", limit = 2).last()
+    val options = if (spaceId == null) listOf(RoomAccess.Invite, RoomAccess.Public) else RoomAccess.entries
+    val isPublic = access == RoomAccess.Public
+
+    LaunchedEffect(Unit) { foundersVersion = session.foundersRoomVersion() }
 
     fun create() {
         scope.launch {
@@ -65,10 +96,19 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
                     isVoice,
                     alias.ifEmpty { null },
                     spaceId,
+                    federate = federate,
+                    spaceMembers = access == RoomAccess.SpaceMembers,
+                    founders = founders.map { it.userId },
+                    roomVersion = foundersVersion,
+                    isSpace = isSpace,
                 )
                 onDismiss()
-                closeParents()
-                navigator.openRoom(roomId)
+                if (onSpaceCreated != null) {
+                    onSpaceCreated(roomId)
+                } else {
+                    closeParents()
+                    navigator.openRoom(roomId)
+                }
             } catch (e: Exception) {
                 error = errorText(e)
             } finally {
@@ -80,8 +120,8 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
     WizardSheet(onDismiss) {
         SheetPage {
             SheetBar(
-                tr(if (spaceId == null) "rooms.newRoom" else "room.newRoomInSpace"),
-                leading = { BarTextButton(tr("common.cancel"), onDismiss) },
+                tr(if (isSpace) "room.space.create.title" else if (spaceId == null) "rooms.newRoom" else "room.newRoomInSpace"),
+                leading = { if (onBack != null) BarTextButton(tr("common.back"), onBack) else BarTextButton(tr("common.cancel"), onDismiss) },
                 trailing = {
                     if (busy) {
                         Box(Modifier.padding(horizontal = WZ.Space.space6)) { Spinner(size = WZ.SizeIcon.md) }
@@ -98,22 +138,35 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
                         FormField(topic, { topic = it }, tr("dialogs.topic"), maxLines = 3)
                     }
                 }
-                item {
-                    SegmentedPicker(
-                        listOf(
-                            Triple(tr("room.text"), "hash-straight", PhWeight.regular),
-                            Triple(tr("room.voice"), "speaker-high", PhWeight.fill),
-                        ),
-                        if (isVoice) 1 else 0,
-                        { isVoice = it == 1 },
-                        Modifier.padding(horizontal = WZ.Space.space6).padding(top = WZ.Space.space6),
-                    )
+                if (!isSpace) item {
+                    GroupedSection(header = tr("room.type")) {
+                        GroupedRow(tr("room.create.typeChat"), icon = "hash-straight", subtitle = tr("room.create.typeChatNote"), onClick = { isVoice = false }) {
+                            if (!isVoice) SelectedCheck()
+                        }
+                        RowDivider()
+                        GroupedRow(tr("room.create.typeVoice"), icon = "speaker-high", subtitle = tr("room.create.typeVoiceNote"), onClick = { isVoice = true }) {
+                            if (isVoice) SelectedCheck()
+                        }
+                    }
                 }
                 item {
-                    GroupedSection(footer = tr(if (isPublic) "room.anyoneCanFindAnd" else "room.onlyPeopleWhoAre")) {
-                        ToggleRow(tr("room.settings.security.accessPublic"), isPublic, { isPublic = it })
-                        RowDivider()
-                        if (isPublic) {
+                    GroupedSection(header = tr(if (isSpace) "room.space.create.access" else "room.create.access")) {
+                        options.forEachIndexed { index, option ->
+                            if (index > 0) RowDivider()
+                            val label = if (isSpace) option.spaceLabel ?: option.label else option.label
+                            val hint = if (isSpace) option.spaceHint ?: option.hint else option.hint
+                            GroupedRow(tr(label), icon = option.icon, subtitle = tr(hint), onClick = {
+                                access = option
+                                encrypted = option != RoomAccess.Public
+                            }) {
+                                if (option == access) SelectedCheck()
+                            }
+                        }
+                    }
+                }
+                if (isPublic) {
+                    item {
+                        GroupedSection(header = tr(if (isSpace) "room.space.create.roomAddress" else "room.create.roomAddress")) {
                             Row(
                                 Modifier.padding(start = WZ.Space.space5, end = WZ.Space.space5),
                                 verticalAlignment = Alignment.CenterVertically,
@@ -125,8 +178,36 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
                                 }
                                 Text(":$server", style = wizardFont(WZ.FontSize.lg), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
-                        } else {
-                            ToggleRow(tr("room.create.e2ee"), encrypted, { encrypted = it })
+                        }
+                    }
+                }
+                item {
+                    GroupedSection {
+                        if (!isPublic && !isSpace) {
+                            ToggleRow(tr("room.create.e2ee"), encrypted, { encrypted = it }, subtitle = tr("room.create.e2eeNote"))
+                            RowDivider()
+                        }
+                        ToggleRow(tr("room.create.federation"), federate, { federate = it }, subtitle = tr("room.create.federationNote"))
+                    }
+                }
+                if (foundersVersion != null) {
+                    item {
+                        GroupedSection(header = tr("room.create.founders"), footer = tr("room.create.foundersNote")) {
+                            PersonRow(session.displayName, session.userId ?: "", session.avatarUrl, null)
+                            founders.forEach { founder ->
+                                RowDivider()
+                                PersonRow(founder.displayName, founder.userId, founder.avatarUrl, null) {
+                                    BarButton(
+                                        "x",
+                                        tr("common.remove"),
+                                        { founders = founders.filter { it.userId != founder.userId } },
+                                        tint = theme.textMuted,
+                                        size = WZ.SizeIcon.sm,
+                                    )
+                                }
+                            }
+                            RowDivider()
+                            GroupedRow(tr("common.add"), icon = "user-plus", iconTint = theme.accent, onClick = { pickingFounders = true })
                         }
                     }
                 }
@@ -134,38 +215,19 @@ fun CreateRoomSheet(spaceId: String?, onDismiss: () -> Unit) {
             }
         }
     }
+
+    if (pickingFounders) {
+        UserPickerSheet(
+            UserPickerMode.Select,
+            { pickingFounders = false },
+            title = tr("room.create.founders"),
+            exclude = founders.map { it.userId }.toSet() + listOfNotNull(session.userId),
+            onSelect = { picked -> founders = founders + picked.filter { new -> founders.none { it.userId == new.userId } } },
+        )
+    }
 }
 
-/** A segmented control with icon labels */
 @Composable
-internal fun SegmentedPicker(
-    options: List<Triple<String, String, PhWeight>>,
-    selected: Int,
-    onSelect: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(WZ.Radius.md))
-            .background(theme.fill)
-            .padding(WZ.Space.space1),
-    ) {
-        options.forEachIndexed { index, (label, icon, weight) ->
-            val on = index == selected
-            Row(
-                Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(WZ.Radius.md - WZ.Space.space1))
-                    .background(if (on) theme.bgTertiary else theme.fill)
-                    .clickable { onSelect(index) }
-                    .padding(vertical = WZ.Space.space3),
-                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterHorizontally),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                PhIcon(icon, weight, size = WZ.SizeIcon.sm, tint = theme.textPrimary)
-                Text(label, style = wizardFont(WZ.FontSize.md, if (on) FontWeight.SemiBold else FontWeight.Normal), color = theme.textPrimary)
-            }
-        }
-    }
+private fun SelectedCheck() {
+    PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.md, tint = theme.accent)
 }

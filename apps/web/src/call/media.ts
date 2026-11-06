@@ -325,7 +325,7 @@ export class CallMedia {
       const publisher = await this.connect(session.serviceUrl(), true);
       if (this.disposed) return;
       const local = publisher.room.localParticipant;
-      if (this.micWanted) {
+      if (this.micWanted && !this.deafened) {
         await local.setMicrophoneEnabled(true);
         await this.applyInputVolume();
       }

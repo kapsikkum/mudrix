@@ -1,9 +1,11 @@
 package org.wizardchat.android.matrix
 
 import android.graphics.BitmapFactory
+import android.media.ExifInterface
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import java.io.File
+import java.io.InputStream
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,9 +21,15 @@ object MediaMetadata {
             WizardApplication.instance.contentResolver.openInputStream(uri)?.use {
                 BitmapFactory.decodeStream(it, null, options)
             }
-            if (options.outWidth > 0 && options.outHeight > 0) options.outWidth to options.outHeight else null
+            if (options.outWidth <= 0 || options.outHeight <= 0) return@runCatching null
+            val rotated = WizardApplication.instance.contentResolver.openInputStream(uri)?.use(::isRotated) ?: false
+            if (rotated) options.outHeight to options.outWidth else options.outWidth to options.outHeight
         }.getOrNull()
     }
+
+    fun isRotated(stream: InputStream): Boolean = runCatching {
+        ExifInterface(stream).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL) in 5..8
+    }.getOrDefault(false)
 
     suspend fun video(uri: Uri): Video = withContext(Dispatchers.IO) {
         retrieve(uri) { r ->

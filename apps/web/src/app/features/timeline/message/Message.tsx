@@ -17,8 +17,7 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { isThreadInfoUnread } from '@/app/hooks/useHasUnreadThreads';
-import { CallSessionDisplay } from './callEvents';
-import type { CallSessionSummary } from './callSessions';
+import { CallHistoryDisplay } from './callEvents';
 import { SystemMessageDisplay } from './systemMessages';
 import {
   buildReactionMap,
@@ -132,7 +131,6 @@ export interface MessageProps {
   sendError?: string | null;
   optimisticBody?: string | null;
   galleryEvents?: MatrixEvent[] | null;
-  callSession?: CallSessionSummary | null;
   client: MatrixClient;
   searchQuery?: string;
   receiptUsers?: ReceiptUser[];
@@ -178,7 +176,6 @@ export const Message = memo(function Message({
   isFailed = false,
   optimisticBody = null,
   galleryEvents = null,
-  callSession = null,
   client,
   searchQuery = '',
   receiptUsers = [],
@@ -708,8 +705,8 @@ export const Message = memo(function Message({
     touchFirst && !isRedacted && !isDecrypting && !isUndecryptable && !isFailed && !isSending;
   useSwipeToReply(msgRowRef, swipeContentRef, swipeIconRef, () => onReply(event), canSwipeReply);
 
-  if (callSession) {
-    return <CallSessionDisplay session={callSession} client={client} roomId={roomId} />;
+  if (event.content.type === 'call') {
+    return <CallHistoryDisplay call={event.content.call} client={client} roomId={roomId} />;
   }
 
   if (isSystemMessage) {

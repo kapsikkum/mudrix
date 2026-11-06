@@ -36,7 +36,10 @@ struct MainTabView: View {
         }
         .tint(theme.accent)
         .modifier(MinimizeTabBarOnScroll())
-        .task(id: session.avatarUrl) { profileIcon = await Self.tabIcon(session.avatarUrl, media: session.media) }
+        .task(id: "\(session.avatarUrl ?? "")|\(session.displayName ?? session.userId ?? "")") {
+            profileIcon = await Self.tabIcon(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
+                                             media: session.media, theme: theme)
+        }
         .overlay(alignment: .top) {
             CopyToastView().padding(.top, WZ.Space.space2)
         }
@@ -53,6 +56,10 @@ struct MainTabView: View {
         }
         .animation(.spring(duration: WZ.MotionDuration.slow), value: calls.incoming)
         .fullScreenCover(isPresented: $calls.showCallScreen) { DMCallScreen() }
+        .alert(calls.alert ?? "", isPresented: Binding(get: { calls.alert != nil && !calls.showCallScreen },
+                                                       set: { if !$0 { calls.alert = nil } })) {
+            Button(String(localized: "common.ok"), role: .cancel) {}
+        }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
         .onOpenURL { url in
@@ -120,12 +127,21 @@ struct MainTabView: View {
     }
 
     /// The tab bar takes only an image and tints it, so the avatar is drawn round and kept in colour
-    private static func tabIcon(_ url: String?, media: MediaLoader?) async -> UIImage? {
-        guard let url, let media else { return nil }
-        var image = media.cachedThumbnail(url)
-        if image == nil { image = await media.thumbnail(url, size: 96) }
-        guard let image else { return nil }
+    /// The avatar as a tab bar image (tab items only take images): the picture, or the same
+    /// coloured fallback avatars show everywhere else
+    @MainActor
+    private static func tabIcon(_ url: String?, name: String, media: MediaLoader?, theme: WizardTheme) async -> UIImage? {
         let side = WZ.SizeIcon.xl
+        var image: UIImage?
+        if let url, let media {
+            image = media.cachedThumbnail(url)
+            if image == nil { image = await media.thumbnail(url, size: 96) }
+        }
+        guard let image else {
+            let renderer = ImageRenderer(content: AvatarView(name: name, url: nil, size: side).environment(\.theme, theme))
+            renderer.scale = UITraitCollection.current.displayScale
+            return renderer.uiImage?.withRenderingMode(.alwaysOriginal)
+        }
         let rendered = UIGraphicsImageRenderer(size: CGSize(width: side, height: side)).image { _ in
             UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: side, height: side)).addClip()
             let scale = max(side / image.size.width, side / image.size.height)
@@ -160,7 +176,7 @@ struct MainTabView: View {
                         Group {
                             if let room = roomList.room(id: id) {
                                 if room.isVoice, case .room = route {
-                                    VoiceRoomView(room: room) { paths[item, default: []].append(.chat(id)) }
+                                    VoiceRoomView(room: room, client: roomList.client) { paths[item, default: []].append(.chat(id)) }
                                 } else {
                                     RoomView(room: room, client: roomList.client).id(room.id)
                                 }

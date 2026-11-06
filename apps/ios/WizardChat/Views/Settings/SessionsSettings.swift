@@ -91,7 +91,7 @@ struct SessionsSettings: View {
             HStack(spacing: WZ.Space.space4) {
                 Image(isVerified ? "ph-shield-check-regular" : "ph-shield-warning-regular")
                     .font(.system(size: WZ.SizeIcon.md))
-                    .foregroundStyle(isVerified ? theme.success : theme.warningColor)
+                    .foregroundStyle(isVerified ? theme.success : theme.danger)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
                     Text(isVerified ? String(localized: "settings.sessions.verified") : String(localized: "settings.sessions.unverified"))
                         .font(.wizard(WZ.FontSize.md, .semibold))
@@ -203,7 +203,7 @@ private struct DeviceRow: View {
                             .lineLimit(1)
                         if let verified {
                             Circle()
-                                .fill(verified ? theme.success : theme.warningColor)
+                                .fill(verified ? theme.success : theme.danger)
                                 .frame(width: WZ.Space.space4, height: WZ.Space.space4)
                                 .accessibilityLabel(verified ? String(localized: "settings.sessions.verified") : String(localized: "settings.sessions.unverified"))
                         }
