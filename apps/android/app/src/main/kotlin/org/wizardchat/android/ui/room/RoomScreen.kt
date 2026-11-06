@@ -389,7 +389,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                 contentPadding = PaddingValues(top = WZ.Space.space4, bottom = WZ.Space.space4),
             ) {
                 item(key = BOTTOM_ID) { Spacer(Modifier.height(0.dp)) }
-                items(timeline.uploads.asReversed(), key = { "upload${it.id}" }) { UploadingRow(it) }
+                items(timeline.uploads.asReversed(), key = { "upload${it.id}" }) { UploadingRow(it) { timeline.cancelUpload(it.id) } }
                 items(timeline.entries.asReversed(), key = { it.id }) { entry ->
                     val highlight by animateColorAsState(
                         if (highlightedId == entry.id) theme.accent.copy(alpha = 0.18f) else Color.Transparent,
@@ -985,7 +985,7 @@ private fun DeletedLabel(icon: String, text: String, style: androidx.compose.ui.
 }
 
 @Composable
-private fun UploadingRow(upload: PendingUpload) {
+private fun UploadingRow(upload: PendingUpload, onCancel: () -> Unit) {
     val preview = upload.preview
     val width = preview?.width?.toFloat() ?: 260f
     val height = preview?.height?.toFloat() ?: 72f
@@ -1009,14 +1009,26 @@ private fun UploadingRow(upload: PendingUpload) {
             if (preview != null) {
                 Image(preview.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             }
-            UploadProgressRing(upload.progress)
+            UploadProgressRing(upload.progress, upload.compressing)
+            if (upload.cancellable) {
+                Box(
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(WZ.Space.space2)
+                        .clip(CircleShape)
+                        .background(theme.overlay)
+                        .clickable(onClick = onCancel),
+                ) {
+                    PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent, contentDescription = tr("common.cancel"))
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun UploadProgressRing(progress: Float?) {
-    val label = tr("attachment.uploading")
+private fun UploadProgressRing(progress: Float?, compressing: Boolean = false) {
+    val label = if (compressing) L10n.format("composer.compressing", ((progress ?: 0f) * 100).toInt()) else tr("attachment.uploading")
     Box(
         Modifier.size(WZ.Space.space10).background(theme.overlay, CircleShape).semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
@@ -1035,6 +1047,9 @@ private fun UploadProgressRing(progress: Float?) {
                 color = theme.textOnAccent,
                 strokeWidth = WZ.BorderWidth.thick,
             )
+        }
+        if (compressing && progress != null) {
+            Text("${(progress * 100).toInt()}", style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = theme.textOnAccent)
         }
     }
 }

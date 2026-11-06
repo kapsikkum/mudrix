@@ -103,6 +103,12 @@ import org.wizardchat.android.matrix.Emoticons
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.Emoji
 import org.wizardchat.android.matrix.MediaMetadata
+import org.wizardchat.android.media.FileSize
+import org.wizardchat.android.media.ImagePrep
+import org.wizardchat.android.media.VideoCompressor
+import org.wizardchat.android.media.VideoMeta
+import org.wizardchat.android.media.VideoPlan
+import org.wizardchat.android.media.VideoQuality
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
@@ -123,7 +129,13 @@ import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
 
 /** A file waiting in the composer's tray until the message is sent */
-data class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boolean, val id: Long = nextId++) {
+class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boolean, val id: Long = nextId++) {
+    /** Length, size and bitrate of a video, once read; the size choices need them */
+    var meta by mutableStateOf<VideoMeta?>(null)
+
+    /** What the user picked for this video; null leaves it to the settings */
+    var pick by mutableStateOf<VideoQuality?>(null)
+
     private companion object {
         var nextId = 0L
     }
@@ -177,6 +189,7 @@ fun ComposerView(
 
     val text = draft.text.toString()
     val trimmed = text.trim()
+    val uploadPrefs = prefs.videoUploadPrefs()
     val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
     val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
     val hasSelection = !draft.selection.collapsed
@@ -207,7 +220,18 @@ fun ComposerView(
                 val original = if (keepName) displayName(context, uri) else null
                 val name = original ?: "${if (isVideo) "video" else if (isImage) "image" else "file"}-${System.currentTimeMillis()}.$ext"
                 val file = MediaMetadata.temporaryCopy(data, name)
-                attachments.add(PendingAttachment(file, if (isImage) thumbnail(data) else null, isVideo))
+                val attachment = PendingAttachment(file, if (isImage) thumbnail(data) else null, isVideo)
+                attachments.add(attachment)
+                if (isVideo) {
+                    scope.launch {
+                        val video = MediaMetadata.video(Uri.fromFile(file))
+                        val size = video.size
+                        val duration = video.duration
+                        if (size != null && duration != null && duration > 0) {
+                            attachment.meta = VideoMeta(duration, size.first, size.second, file.length() * 8.0 / duration)
+                        }
+                    }
+                }
             } finally {
                 preparing = maxOf(preparing - 1, 0)
             }
@@ -335,10 +359,18 @@ fun ComposerView(
             attachments.clear()
             setDraft("")
             onReplyToChange(null)
+            val limit = session.uploadLimit
+            val videoTargets = pending.mapNotNull { attachment ->
+                if (!attachment.isVideo || !VideoCompressor.isSupported) return@mapNotNull null
+                val quality = attachment.pick ?: VideoPlan.defaultQuality(uploadPrefs, attachment.file.length(), limit, true)
+                VideoPlan.qualityTarget(quality, uploadPrefs, limit)?.let { Uri.fromFile(attachment.file) to it }
+            }.toMap()
+            val image = ImagePrep.Options(prefs.photoStripMetadata, prefs.photoUploadSize.maxSide).takeIf { it.stripMetadata || it.maxSide != null }
             timeline.sendFiles(
                 pending.map { Uri.fromFile(it.file) to it.thumbnail },
                 caption = message.ifEmpty { null },
                 replyTo = reply,
+                prep = TimelineModel.SendPrep(image, videoTargets, session.knownUploadLimit),
             )
             return
         }
@@ -497,7 +529,7 @@ fun ComposerView(
                         }
                     }
                     if (attachments.isNotEmpty() || preparing > 0) {
-                        AttachmentTray(attachments, preparing) { attachment -> attachments.removeAll { it.id == attachment.id } }
+                        AttachmentTray(attachments, preparing, uploadPrefs, session.uploadLimit) { attachment -> attachments.removeAll { it.id == attachment.id } }
                     }
                     // Formatting appears only while text is selected
                     if (focused && hasSelection) {
@@ -708,7 +740,13 @@ private fun ContextBar(icon: String, title: String, text: String, onClose: () ->
 }
 
 @Composable
-private fun AttachmentTray(attachments: List<PendingAttachment>, preparing: Int, onRemove: (PendingAttachment) -> Unit) {
+private fun AttachmentTray(
+    attachments: List<PendingAttachment>,
+    preparing: Int,
+    uploadPrefs: VideoPlan.UploadPrefs,
+    uploadLimit: Long,
+    onRemove: (PendingAttachment) -> Unit,
+) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -718,39 +756,42 @@ private fun AttachmentTray(attachments: List<PendingAttachment>, preparing: Int,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
         attachments.forEach { attachment ->
-            Box {
-                Box(
-                    Modifier.size(WZ.SizeAvatar.xl).clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    val thumb = attachment.thumbnail
-                    if (thumb != null) {
-                        Image(thumb.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                    } else {
-                        Column(
-                            Modifier.padding(WZ.Space.space3),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
-                        ) {
-                            if (attachment.isVideo) {
-                                PhIcon("video-camera", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textMuted)
-                            } else {
-                                PhIcon("file", size = WZ.SizeIcon.md, tint = theme.textMuted)
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                Box {
+                    Box(
+                        Modifier.size(WZ.SizeAvatar.xl).clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        val thumb = attachment.thumbnail
+                        if (thumb != null) {
+                            Image(thumb.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        } else {
+                            Column(
+                                Modifier.padding(WZ.Space.space3),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                            ) {
+                                if (attachment.isVideo) {
+                                    PhIcon("video-camera", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textMuted)
+                                } else {
+                                    PhIcon("file", size = WZ.SizeIcon.md, tint = theme.textMuted)
+                                }
+                                Text(attachment.file.name, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 2, overflow = TextOverflow.Ellipsis)
                             }
-                            Text(attachment.file.name, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 2, overflow = TextOverflow.Ellipsis)
                         }
                     }
+                    Box(
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .offset(x = WZ.Space.space3, y = -WZ.Space.space3)
+                            .clip(CircleShape)
+                            .background(theme.overlay)
+                            .clickable { onRemove(attachment) },
+                    ) {
+                        PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent, contentDescription = tr("common.remove"))
+                    }
                 }
-                Box(
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = WZ.Space.space3, y = -WZ.Space.space3)
-                        .clip(CircleShape)
-                        .background(theme.overlay)
-                        .clickable { onRemove(attachment) },
-                ) {
-                    PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent, contentDescription = tr("common.remove"))
-                }
+                VideoQualityChip(attachment, uploadPrefs, uploadLimit)
             }
         }
         repeat(preparing) {
@@ -766,6 +807,61 @@ private fun AttachmentTray(attachments: List<PendingAttachment>, preparing: Int,
                 Spinner(color = theme.textMuted)
             }
         }
+    }
+}
+
+/**
+ * What a video will be sent as, with its expected size, and a menu to change it. Only for videos the
+ * settings or the server limit make worth shrinking, and only where the device can encode them.
+ */
+@Composable
+private fun VideoQualityChip(attachment: PendingAttachment, prefs: VideoPlan.UploadPrefs, uploadLimit: Long) {
+    val size = attachment.file.length()
+    // A video over the server limit can only be sent by shrinking it, so it always gets the choice
+    if (!attachment.isVideo || !VideoCompressor.isSupported || (size < prefs.minBytes && size <= uploadLimit)) return
+    val choices = VideoPlan.choices(attachment.meta, size, prefs, uploadLimit)
+    val wanted = attachment.pick ?: VideoPlan.defaultQuality(prefs, size, uploadLimit, true)
+    val chosen = choices.firstOrNull { it.quality == wanted } ?: choices.first()
+    var open by remember { mutableStateOf(false) }
+
+    val original = tr("attachment.qualityOriginal")
+    val smart = tr("attachment.qualitySmart")
+    fun name(quality: VideoQuality) = when (quality) {
+        VideoQuality.Original -> original
+        VideoQuality.Smart -> smart
+        is VideoQuality.Fixed -> "${quality.height}p"
+    }
+
+    val menuItems = choices.map { choice ->
+        val choiceSize = choice.size
+        val label = when {
+            choiceSize == null -> name(choice.quality)
+            choice.quality == VideoQuality.Original -> "${name(choice.quality)} · ${FileSize.format(choiceSize)}"
+            else -> "${name(choice.quality)} · ${L10n.format("attachment.qualityEstimate", FileSize.format(choiceSize))}"
+        }
+        MenuItem(label, icon = if (choice.quality == chosen.quality) "check" else null) { attachment.pick = choice.quality }
+    }
+    val chosenSize = chosen.size
+    val summary = if (chosen.quality != VideoQuality.Original && chosenSize != null) {
+        L10n.format("attachment.shrinkTo", FileSize.format(size), FileSize.format(chosenSize))
+    } else {
+        name(chosen.quality)
+    }
+    Box {
+        Row(
+            Modifier
+                .clip(RoundedCornerShape(WZ.Radius.lg))
+                .background(theme.fill)
+                .clickable { open = true }
+                .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1)
+                .semantics { contentDescription = summary },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+        ) {
+            Text(summary, style = wizardFont(WZ.FontSize.xs), color = theme.textSecondary, maxLines = 1)
+            PhIcon("caret-up-down", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+        }
+        WizardMenu(open, { open = false }, menuItems)
     }
 }
 

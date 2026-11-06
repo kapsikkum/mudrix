@@ -16,6 +16,8 @@ import kotlin.math.roundToLong
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,6 +28,12 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.media.CompressTarget
+import org.wizardchat.android.media.FileSize
+import org.wizardchat.android.media.ImagePrep
+import org.wizardchat.android.media.VideoCompressor
+import org.wizardchat.android.media.VideoMeta
+import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
 import org.wizardchat.core.UploadedFile
@@ -52,6 +60,10 @@ data class PendingUpload(
     val isVideo: Boolean,
     val filename: String,
     val progress: Float? = null,
+    /** The video is being shrunk, so [progress] is of that and not of the upload */
+    val compressing: Boolean = false,
+    /** Whether [TimelineModel.cancelUpload] can stop it */
+    val cancellable: Boolean = false,
     val id: Long = nextId++,
 ) {
     private companion object {
@@ -366,12 +378,32 @@ class TimelineModel(
     suspend fun sendFile(uri: Uri, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) =
         sendFiles(listOf(uri to null), caption, replyTo, spoiler)
 
+    /** What is done to the files of one send before they upload */
+    class SendPrep(
+        /** Photos lose their details and/or shrink; null leaves them alone */
+        val image: ImagePrep.Options? = null,
+        /** Videos to re-encode first, by their `file://` Uri */
+        val videoTargets: Map<Uri, CompressTarget> = emptyMap(),
+        /** Nothing larger than this is uploaded; null while the server limit is not known */
+        val maxUploadBytes: Long?,
+    )
+
+    /** Stops the shrinking of a video (the cancel button of its upload row); that file is not sent */
+    fun cancelUpload(id: Long) {
+        cancelHooks[id]?.invoke()
+    }
+
+    private val cancelHooks = HashMap<Long, () -> Unit>()
+
+    private class UploadCancelled : Exception()
+
     /** The caption and reply go with the first file */
     suspend fun sendFiles(
         files: List<Pair<Uri, Bitmap?>>,
         caption: String? = null,
         replyTo: String? = null,
         spoiler: Boolean = false,
+        prep: SendPrep? = null,
     ) {
         if (timeline == null) return
         val pending = files.map { (uri, preview) ->
@@ -390,52 +422,136 @@ class TimelineModel(
                 caption = if (index == 0) caption else null,
                 replyTo = if (index == 0) replyTo else null,
                 spoiler = spoiler,
+                prep = prep,
             )
             uploads = uploads.filter { it.id != item.id }
         }
     }
 
-    private suspend fun upload(uri: Uri, id: Long, caption: String?, replyTo: String?, spoiler: Boolean) {
-        val timeline = timeline ?: return
-        val context = WizardApplication.instance
-        val mimetype = mimeTypeOf(uri)
-        var file = UploadedFile(
-            source = JsonPrimitive(""),
-            size = 0,
-            filename = filenameOf(uri),
-            mimetype = mimetype,
-            caption = caption,
-            spoiler = spoiler,
-            isAnimated = mimetype == "image/gif",
-            replyTo = replyTo,
-        )
-        when {
-            mimetype.startsWith("image/") -> MediaMetadata.imageSize(uri)?.let { (w, h) ->
-                file = file.copy(width = w.toLong(), height = h.toLong())
+    private fun updateUpload(id: Long, change: (PendingUpload) -> PendingUpload) {
+        uploads = uploads.map { if (it.id == id) change(it) else it }
+    }
+
+    /** Re-encodes a video for [target]; null when it goes as it is, or could not be shrunk (the original is sent) */
+    private suspend fun shrinkVideo(uri: Uri, id: Long, target: CompressTarget, filename: String): File? {
+        val input = uri.takeIf { it.scheme == "file" }?.path?.let(::File) ?: return null
+        val video = MediaMetadata.video(uri)
+        val (width, height) = video.size ?: return null
+        val duration = video.duration?.takeIf { it > 0 } ?: return null
+        val meta = VideoMeta(duration, width, height, input.length() * 8.0 / duration)
+        var cancelled = false
+        val work = scope.async {
+            VideoCompressor.compress(WizardApplication.instance, input, meta, target, filename.substringBeforeLast('.', filename) + ".mp4") { fraction ->
+                updateUpload(id) { it.copy(progress = fraction) }
             }
-            mimetype.startsWith("video/") -> {
-                val video = MediaMetadata.video(uri)
-                file = file.copy(
-                    width = video.size?.first?.toLong(),
-                    height = video.size?.second?.toLong(),
-                    durationMs = video.duration?.let { (it * 1000).toLong() },
-                )
-            }
-            mimetype.startsWith("audio/") ->
-                file = file.copy(durationMs = MediaMetadata.duration(uri)?.let { (it * 1000).toLong() })
         }
-        report {
-            val data = withContext(Dispatchers.IO) {
-                context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-            } ?: throw IllegalStateException(L10n.format("common.somethingWentWrong"))
-            val source = timeline.uploadFile(data, mimetype) { progress ->
-                if (progress.total <= 0) return@uploadFile
-                val fraction = progress.current.toFloat() / progress.total
-                scope.launch { uploads = uploads.map { if (it.id == id) it.copy(progress = fraction) else it } }
-            }
-            timeline.sendUploaded(file.copy(source = source, size = data.size.toLong()))
+        cancelHooks[id] = {
+            cancelled = true
+            work.cancel()
+        }
+        updateUpload(id) { it.copy(compressing = true, progress = 0f, cancellable = true) }
+        try {
+            return work.await()
+        } catch (e: CancellationException) {
+            if (cancelled) throw UploadCancelled()
+            throw e
+        } catch (e: Exception) {
+            // Better to send the video as it was picked than not at all
+            CopyToast.show(L10n.format("composer.compressFailed"))
+            return null
+        } finally {
+            if (work.isActive) work.cancel()
+            cancelHooks.remove(id)
+            updateUpload(id) { it.copy(compressing = false, progress = null, cancellable = false) }
         }
     }
+
+    private suspend fun upload(uri: Uri, id: Long, caption: String?, replyTo: String?, spoiler: Boolean, prep: SendPrep?) {
+        val timeline = timeline ?: return
+        val temporary = mutableListOf<File>()
+        report {
+            try {
+                var source = uri
+                var mimetype = mimeTypeOf(uri)
+                var filename = filenameOf(uri)
+                var data: ByteArray? = null
+
+                val target = prep?.videoTargets?.get(uri)
+                if (target != null && mimetype.startsWith("video/")) {
+                    shrinkVideo(uri, id, target, filename)?.let { shrunk ->
+                        temporary += shrunk
+                        source = Uri.fromFile(shrunk)
+                        mimetype = "video/mp4"
+                        filename = shrunk.name
+                    }
+                }
+                val image = prep?.image
+                if (image != null && mimetype.startsWith("image/")) {
+                    val original = readBytes(source)
+                    val prepared = try {
+                        withContext(Dispatchers.Default) { ImagePrep.prepare(original, image) }
+                    } catch (e: Exception) {
+                        // Sending the photo as it is would defeat removing what is in it; a resize can be skipped
+                        if (image.stripMetadata) throw IllegalStateException(L10n.format("composer.photoPrepareFailed"), e)
+                        original
+                    }
+                    if (prepared !== original) {
+                        val copy = MediaMetadata.temporaryCopy(prepared, filename)
+                        temporary += copy
+                        source = Uri.fromFile(copy)
+                    }
+                    data = prepared
+                }
+                val bytes = data ?: readBytes(source)
+                val limit = prep?.maxUploadBytes
+                if (limit != null && bytes.size > limit) {
+                    throw IllegalStateException(L10n.format("attachment.fileTooLarge", FileSize.format(limit)))
+                }
+
+                var file = UploadedFile(
+                    source = JsonPrimitive(""),
+                    size = bytes.size.toLong(),
+                    filename = filename,
+                    mimetype = mimetype,
+                    caption = caption,
+                    spoiler = spoiler,
+                    isAnimated = mimetype == "image/gif",
+                    replyTo = replyTo,
+                )
+                when {
+                    mimetype.startsWith("image/") -> MediaMetadata.imageSize(source)?.let { (w, h) ->
+                        file = file.copy(width = w.toLong(), height = h.toLong())
+                    }
+                    mimetype.startsWith("video/") -> {
+                        val video = MediaMetadata.video(source)
+                        file = file.copy(
+                            width = video.size?.first?.toLong(),
+                            height = video.size?.second?.toLong(),
+                            durationMs = video.duration?.let { (it * 1000).toLong() },
+                        )
+                    }
+                    mimetype.startsWith("audio/") ->
+                        file = file.copy(durationMs = MediaMetadata.duration(source)?.let { (it * 1000).toLong() })
+                }
+                val uploaded = timeline.uploadFile(bytes, mimetype) { progress ->
+                    if (progress.total <= 0) return@uploadFile
+                    val fraction = progress.current.toFloat() / progress.total
+                    scope.launch { updateUpload(id) { it.copy(progress = fraction) } }
+                }
+                timeline.sendUploaded(file.copy(source = uploaded))
+            } catch (_: UploadCancelled) {
+                // The user stopped it: nothing to send, nothing to report
+            } finally {
+                withContext(NonCancellable) {
+                    temporary.forEach { it.parentFile?.deleteRecursively() }
+                }
+            }
+        }
+    }
+
+    private suspend fun readBytes(uri: Uri): ByteArray = withContext(Dispatchers.IO) {
+        WizardApplication.instance.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+    } ?: throw IllegalStateException(L10n.format("common.somethingWentWrong"))
 
     private fun filenameOf(uri: Uri): String =
         displayName(uri) ?: uri.lastPathSegment?.substringAfterLast('/') ?: "file"

@@ -68,7 +68,7 @@ object VideoPlan {
     /** The result is only worth sending if it is at least this much smaller than the original */
     const val MIN_SAVING = 0.15
 
-    /** JavaScript's `Math.round`: halves go up, unlike Kotlin's `roundToLong` */
+    /** JavaScript's `Math.round`: halves go up */
     private fun jsRound(value: Double): Long = floor(value + 0.5).toLong()
 
     /**
@@ -105,6 +105,16 @@ object VideoPlan {
         val rounded = jsRound(videoBitrate)
         return CompressPlan(min(stepHeight, shortSide), rounded, estimate(rounded.toDouble()))
     }
+
+    /** Even sizes, as H.264 wants; the short side becomes [shortSideTarget] and the shape stays */
+    fun scaledSize(width: Int, height: Int, shortSideTarget: Int): Pair<Int, Int> {
+        val shortSide = min(width, height)
+        if (shortSide <= shortSideTarget) return even(width.toDouble()) to even(height.toDouble())
+        val scale = shortSideTarget.toDouble() / shortSide
+        return even(width * scale) to even(height * scale)
+    }
+
+    private fun even(n: Double): Int = max(2L, jsRound(n / 2) * 2).toInt()
 
     /** Rough size the video will have after being encoded for [target]; the original size when it is sent as it is */
     fun estimateCompressedSize(meta: VideoMeta, target: CompressTarget, originalSize: Long): Long {

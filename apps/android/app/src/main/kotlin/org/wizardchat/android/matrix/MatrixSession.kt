@@ -65,6 +65,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     /** The largest upload the homeserver takes, in bytes; [DEFAULT_UPLOAD_LIMIT] until it has been asked (or when it will not say) */
     var uploadLimit by mutableLongStateOf(DEFAULT_UPLOAD_LIMIT)
         private set
+    private var uploadLimitKnown = false
+
+    /** [uploadLimit] when the server said it, so an upload is only refused for a limit that exists */
+    val knownUploadLimit: Long? get() = uploadLimit.takeIf { uploadLimitKnown }
 
     private var stored: StoredSession? = null
     private var isRestoring = false
@@ -315,6 +319,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         this.roomList = roomList
         media = MediaLoader(client)
         uploadLimit = DEFAULT_UPLOAD_LIMIT
+        uploadLimitKnown = false
         subscriptions = listOf(
             client.watchSession { sessionChanged(it) },
             client.watchEncryptionStatus { encryption = it },
@@ -334,7 +339,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             refreshProfile()
             // The core asks the authenticated media config first and the legacy one only when the server lacks it
             runCatching { client.serverCapabilities().uploadSize }.getOrNull()?.takeIf { it > 0 }?.let {
-                if (this@MatrixSession.client === client) uploadLimit = it
+                if (this@MatrixSession.client === client) {
+                    uploadLimit = it
+                    uploadLimitKnown = true
+                }
             }
         }
         state = State.LoggedIn

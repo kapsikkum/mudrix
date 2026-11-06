@@ -81,6 +81,16 @@ class VideoPlanTest {
         )
     }
 
+    @Test
+    fun scaledSizesAreEvenAndKeepTheShape() {
+        assertEquals(1280 to 720, VideoPlan.scaledSize(1920, 1080, 720))
+        assertEquals(720 to 1280, VideoPlan.scaledSize(1080, 1920, 720))
+        assertEquals(1280 to 720, VideoPlan.scaledSize(1280, 720, 1080))
+        assertEquals(854 to 480, VideoPlan.scaledSize(1920, 1080, 480))
+        assertEquals(1280 to 720, VideoPlan.scaledSize(1919, 1079, 720))
+        assertEquals(642 to 362, VideoPlan.scaledSize(641, 361, 720))
+    }
+
     private companion object {
         val CASES = listOf(
         Case(VideoMeta(60.0, 1920, 1080, 8000000.0), CompressTarget.Smart(26214400L), Expected(720, 3000000L, 23460000.0)),
