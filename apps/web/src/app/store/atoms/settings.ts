@@ -9,6 +9,7 @@ import {
   STORAGE_KEY_THEME,
   STORAGE_KEY_CUSTOM_THEMES,
   STORAGE_KEY_MESSAGE_LAYOUT,
+  STORAGE_KEY_MESSAGE_LAYOUT_MOBILE,
   STORAGE_KEY_PREFERENCES,
   STORAGE_KEY_KEYBINDS,
   STORAGE_KEY_LANGUAGE,
@@ -70,6 +71,12 @@ export const customThemesAtom = atomWithStorage<CustomTheme[]>(STORAGE_KEY_CUSTO
 export const messageLayoutAtom = atomWithStorage<MessageLayout>(
   STORAGE_KEY_MESSAGE_LAYOUT,
   'modern'
+);
+
+/** Message layout used on phones; null until chosen, when phones follow the main layout. */
+export const messageLayoutMobileAtom = atomWithStorage<MessageLayout | null>(
+  STORAGE_KEY_MESSAGE_LAYOUT_MOBILE,
+  null
 );
 
 export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, DEFAULT_KEYBINDS);

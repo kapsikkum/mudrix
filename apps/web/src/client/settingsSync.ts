@@ -60,6 +60,8 @@ export interface SyncedSettings {
   theme: ThemeName;
   customThemes: CustomTheme[];
   messageLayout: MessageLayout;
+  /** Layout for phones, synced separately so a phone never changes the desktop layout or back. */
+  messageLayoutMobile?: MessageLayout;
   language: string;
   preferences: Partial<Preferences>;
   keybinds: Keybinds;
@@ -140,6 +142,13 @@ export function parseSettings(raw: unknown): Partial<SyncedSettings> {
     (MESSAGE_LAYOUTS as string[]).includes(content.messageLayout)
   ) {
     settings.messageLayout = content.messageLayout as MessageLayout;
+  }
+
+  if (
+    typeof content.messageLayoutMobile === 'string' &&
+    (MESSAGE_LAYOUTS as string[]).includes(content.messageLayoutMobile)
+  ) {
+    settings.messageLayoutMobile = content.messageLayoutMobile as MessageLayout;
   }
 
   if (typeof content.language === 'string' && content.language.trim() !== '') {

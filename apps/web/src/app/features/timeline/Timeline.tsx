@@ -16,7 +16,6 @@ import { formatUserId, isDmRoom } from '@/util/matrix';
 import { scrollToBottom } from '@/util/dom';
 import { useRoom, useRoomSettings, useTimeline as useLiveTimeline } from '@/app/data';
 import {
-  messageLayoutAtom,
   editMessageAtom,
   emojiPickerAtom,
   threadsPanelViewAtom,
@@ -32,6 +31,7 @@ import {
   globalSearchOpenAtom,
   pendingEventJumpAtom,
 } from '@/app/store/atoms';
+import { useMessageLayout } from '@/app/hooks/useMessageLayout';
 import type { RoomMessageMatch } from '@/app/store/atoms';
 import { useRoomReceipts } from '@/app/hooks/useRoomReceipts';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
@@ -129,7 +129,7 @@ const LIVE_KIND = { type: 'main' } as const;
 
 export function Timeline({ client, roomId, hideHeader }: Props) {
   const { t, i18n } = useTranslation();
-  const layout = useAtomValue(messageLayoutAtom);
+  const layout = useMessageLayout();
   const toast = useToast();
 
   const confirmDialog = useConfirm();

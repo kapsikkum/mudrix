@@ -1179,7 +1179,9 @@
       "followSystemTheme": "Follow system light/dark",
       "followSystemThemeNote": "Switch theme automatically when your operating system changes between light and dark.",
       "systemDarkTheme": "Theme in dark mode",
-      "systemLightTheme": "Theme in light mode"
+      "systemLightTheme": "Theme in light mode",
+      "messageLayoutMobile": "Message layout on phones",
+      "messageLayoutMobileNote": "Used on phones and tablets, separately from this device."
     },
     "accessibility": {
       "title": "Accessibility",

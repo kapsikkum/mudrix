@@ -23,7 +23,6 @@ import {
   threadLastSeenAtom,
   editMessageAtom,
   emojiPickerAtom,
-  messageLayoutAtom,
   sendReadReceiptsAtom,
   reportMessageAtom,
   threadPanelWidthAtom,
@@ -32,6 +31,7 @@ import {
   THREAD_PANEL_WIDTH_MAX,
   THREAD_PANEL_WIDTH_DEFAULT,
 } from '@/app/store/atoms';
+import { useMessageLayout } from '@/app/hooks/useMessageLayout';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
@@ -119,7 +119,7 @@ export function ThreadPanel({
   const [loaded, setLoaded] = useState(false);
   const pagesRef = useRef(0);
   const { data: members } = useMembers(roomId);
-  const layout = useAtomValue(messageLayoutAtom);
+  const layout = useMessageLayout();
 
   useEffect(() => {
     setLoaded(false);

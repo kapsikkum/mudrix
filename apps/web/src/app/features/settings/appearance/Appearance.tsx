@@ -8,6 +8,7 @@ import {
   systemDarkThemeAtom,
   systemLightThemeAtom,
   messageLayoutAtom,
+  messageLayoutMobileAtom,
   prettifyLinksAtom,
   markdownAtom,
   showRoomAvatarsAtom,
@@ -24,6 +25,7 @@ import {
   type UiDensity,
   type UiScale,
 } from '@/app/store/atoms';
+import { isMobileDevice } from '@/app/util/platform';
 import { CHAT_FONT_SIZES, DEFAULT_CHAT_FONT_SIZE } from '@/app/hooks/useChatDisplaySync';
 import { BUILTIN_THEME_NAMES } from '@/theme/themeTokens';
 import { customThemeName, resolveThemeTokens } from '@/theme/customThemes';
@@ -191,7 +193,14 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
 export function Appearance() {
   const { t } = useTranslation();
   const [theme, setTheme] = useAtom(themeAtom);
-  const [layout, setLayout] = useAtom(messageLayoutAtom);
+  const [mainLayout, setMainLayout] = useAtom(messageLayoutAtom);
+  const [mobileLayoutSetting, setMobileLayout] = useAtom(messageLayoutMobileAtom);
+  // Phones have their own layout setting (until chosen they follow the main one); on a phone that is
+  // the only one shown, so changing it can never change the desktop layout or the other way round.
+  const onMobile = isMobileDevice();
+  const mobileLayout = mobileLayoutSetting ?? mainLayout;
+  const layout = onMobile ? mobileLayout : mainLayout;
+  const setLayout = onMobile ? setMobileLayout : setMainLayout;
   const [prettifyLinks, setPrettifyLinks] = useAtom(prettifyLinksAtom);
   const [markdown, setMarkdown] = useAtom(markdownAtom);
   const [showRoomAvatars, setShowRoomAvatars] = useAtom(showRoomAvatarsAtom);
@@ -335,6 +344,29 @@ export function Appearance() {
             onChange={setLayout}
           />
         </div>
+
+        {!onMobile && (
+          <div className={layoutCss.settingRow}>
+            <div className={layoutCss.settingInfo}>
+              <span className={layoutCss.settingLabel}>
+                {t('settings.appearance.messageLayoutMobile')}
+              </span>
+              <span className={layoutCss.settingNote}>
+                {t('settings.appearance.messageLayoutMobileNote')}
+              </span>
+            </div>
+            <Select<MessageLayout>
+              aria-label={t('settings.appearance.messageLayoutMobile')}
+              value={mobileLayout}
+              options={[
+                { value: 'modern', label: t('settings.appearance.modern') },
+                { value: 'classic', label: t('settings.appearance.classic') },
+                { value: 'compact', label: t('settings.appearance.compact') },
+              ]}
+              onChange={setMobileLayout}
+            />
+          </div>
+        )}
 
         <div className={layoutCss.settingRow}>
           <div className={layoutCss.settingInfo}>

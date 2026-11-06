@@ -5,6 +5,7 @@ import {
   themeAtom,
   customThemesAtom,
   messageLayoutAtom,
+  messageLayoutMobileAtom,
   languageAtom,
   preferencesAtom,
   keybindsAtom,
@@ -31,6 +32,7 @@ export function useApplySettings(): (settings: Partial<SyncedSettings>) => void 
   const setTheme = useSetAtom(themeAtom);
   const setCustomThemes = useSetAtom(customThemesAtom);
   const setMessageLayout = useSetAtom(messageLayoutAtom);
+  const setMessageLayoutMobile = useSetAtom(messageLayoutMobileAtom);
   const setLanguage = useSetAtom(languageAtom);
   const setPreferences = useSetAtom(preferencesAtom);
   const setKeybinds = useSetAtom(keybindsAtom);
@@ -39,6 +41,7 @@ export function useApplySettings(): (settings: Partial<SyncedSettings>) => void 
       if (settings.customThemes) setCustomThemes(settings.customThemes);
       if (settings.theme) setTheme(settings.theme);
       if (settings.messageLayout) setMessageLayout(settings.messageLayout);
+      if (settings.messageLayoutMobile) setMessageLayoutMobile(settings.messageLayoutMobile);
       if (settings.language && SUPPORTED_LANGUAGES.some((l) => l.code === settings.language)) {
         setLanguage(settings.language);
         if (i18n.language !== settings.language) void i18n.changeLanguage(settings.language);
@@ -47,7 +50,15 @@ export function useApplySettings(): (settings: Partial<SyncedSettings>) => void 
       if (remotePrefs) setPreferences((prev) => ({ ...prev, ...remotePrefs }));
       if (settings.keybinds) setKeybinds(settings.keybinds);
     },
-    [setTheme, setCustomThemes, setMessageLayout, setLanguage, setPreferences, setKeybinds]
+    [
+      setTheme,
+      setCustomThemes,
+      setMessageLayout,
+      setMessageLayoutMobile,
+      setLanguage,
+      setPreferences,
+      setKeybinds,
+    ]
   );
 }
 
@@ -69,6 +80,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
   const [theme] = useAtom(themeAtom);
   const [customThemes] = useAtom(customThemesAtom);
   const [messageLayout] = useAtom(messageLayoutAtom);
+  const [messageLayoutMobile] = useAtom(messageLayoutMobileAtom);
   const [language] = useAtom(languageAtom);
   const [preferences] = useAtom(preferencesAtom);
   const [keybinds] = useAtom(keybindsAtom);
@@ -113,6 +125,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
         theme,
         customThemes,
         messageLayout,
+        ...(messageLayoutMobile ? { messageLayoutMobile } : {}),
         language,
         preferences: syncablePreferences(preferences),
         keybinds,
@@ -142,6 +155,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
     theme,
     customThemes,
     messageLayout,
+    messageLayoutMobile,
     language,
     preferences,
     keybinds,

@@ -1179,7 +1179,9 @@
       "followSystemTheme": "System-Hell/Dunkel folgen",
       "followSystemThemeNote": "Das Thema automatisch wechseln, wenn dein Betriebssystem zwischen hell und dunkel wechselt.",
       "systemDarkTheme": "Thema im dunklen Modus",
-      "systemLightTheme": "Thema im hellen Modus"
+      "systemLightTheme": "Thema im hellen Modus",
+      "messageLayoutMobile": "Nachrichtenlayout auf Handys",
+      "messageLayoutMobileNote": "Gilt auf Handys und Tablets, getrennt von diesem Gerät."
     },
     "accessibility": {
       "title": "Barrierefreiheit",
