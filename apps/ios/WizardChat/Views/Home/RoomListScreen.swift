@@ -96,8 +96,7 @@ struct RoomListScreen: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background(theme.bgPrimary.ignoresSafeArea())
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.large)
+        .modifier(RootTitle(title: title, isRoot: spaceId == nil))
         // Under the title: iOS 26 would otherwise put it at the bottom, behind the tab island.
         // Typing searches everything, not just this list.
         .overlay {
@@ -452,5 +451,18 @@ struct SkeletonRow: View {
         .opacity(pulse ? 1 : 0.5)
         .animation(.easeInOut(duration: 0.8).repeatForever(), value: pulse)
         .onAppear { pulse = true }
+    }
+}
+
+private struct RootTitle: ViewModifier {
+    let title: String
+    let isRoot: Bool
+
+    func body(content: Content) -> some View {
+        if isRoot {
+            content.tabTitle(title)
+        } else {
+            content.navigationTitle(title).navigationBarTitleDisplayMode(.large)
+        }
     }
 }

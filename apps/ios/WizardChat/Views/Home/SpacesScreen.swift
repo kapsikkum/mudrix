@@ -37,8 +37,7 @@ struct SpacesScreen: View {
             .padding(.top, WZ.Space.space4)
         }
         .background(theme.bgPrimary.ignoresSafeArea())
-        .navigationTitle(String(localized: "room.settings.permissions.groups.spaces"))
-        .navigationBarTitleDisplayMode(.large)
+        .tabTitle(String(localized: "room.settings.permissions.groups.spaces"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onCreateSpace) { Image("ph-plus-regular") }

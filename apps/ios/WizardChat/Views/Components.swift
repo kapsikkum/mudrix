@@ -375,3 +375,30 @@ extension Image {
         return Image(uiImage: image.withTintColor(destructive ? .systemRed : .label, renderingMode: .alwaysOriginal))
     }
 }
+
+private struct TabTitle: ViewModifier {
+    let title: String
+    @Environment(\.theme) private var theme
+
+    func body(content: Content) -> some View {
+        content
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) { Color.clear.frame(width: 0, height: 0) }
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(title)
+                        .font(.wizard(WZ.FontSize.display, .bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                        .fixedSize()
+                        .accessibilityAddTraits(.isHeader)
+                }
+                .glassBackgroundHidden()
+            }
+    }
+}
+
+extension View {
+    func tabTitle(_ title: String) -> some View { modifier(TabTitle(title: title)) }
+}

@@ -46,6 +46,8 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTopBar
+import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.login.LoginScreen
 import org.wizardchat.android.ui.room.FullScreenDialog
 import org.wizardchat.android.ui.theme.theme
@@ -114,11 +116,27 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
 @Composable
 private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (SettingsPageId) -> Unit) {
     val session = LocalSession.current
+    var search by remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize().background(theme.groupedBackground)) {
-        WizardTopBar(tr("common.settings"), large = true) {
+        WizardTopBar(tr("common.settings"), large = true, titleInRow = isTab) {
             if (!isTab && onDismiss != null) BarTextButton(tr("common.done"), onDismiss, bold = true)
         }
+        WizardTextField(
+            search,
+            { search = it },
+            tr("settings.searchSettings"),
+            Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+        )
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) {
+            val query = search.trim()
+            if (query.isNotEmpty()) {
+                val matches = SettingsPageId.entries.filter { L10n.format(it.titleKey).contains(query, ignoreCase = true) }
+                if (matches.isEmpty()) {
+                    Text(tr("home.noMatches"), Modifier.fillMaxWidth().padding(WZ.Space.space9), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                } else {
+                    PageRows(matches, open)
+                }
+            } else {
             SettingsSection {
                 val name = session.displayName ?: session.userId ?: ""
                 Row(
@@ -150,6 +168,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
             PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
             PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
             PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
+            }
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))
         }
     }
