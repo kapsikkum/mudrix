@@ -846,6 +846,62 @@ public enum LoadState: String, Codable, Hashable, Sendable, CaseIterable {
     case synced = "synced"
 }
 
+/// Who is signing in with a password: a username (or full Matrix ID), or an email address or
+/// phone number bound to the account
+public enum LoginIdentifier: Codable, Hashable, Sendable {
+    public struct User: Codable, Hashable, Sendable {
+        public var user: String
+
+        public init(user: String) {
+            self.user = user
+        }
+    }
+    public struct Email: Codable, Hashable, Sendable {
+        public var address: String
+
+        public init(address: String) {
+            self.address = address
+        }
+    }
+    public struct Phone: Codable, Hashable, Sendable {
+        public var number: String
+
+        public init(number: String) {
+            self.number = number
+        }
+    }
+    /// `name` or `@name:server`
+    case user(User)
+    case email(Email)
+    /// With the country code, in any format (`+49 151 234567`): only the digits count
+    case phone(Phone)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: AnyKey.self)
+        switch try container.decode(String.self, forKey: AnyKey("type")) {
+        case "user": self = .user(try User(from: decoder))
+        case "email": self = .email(try Email(from: decoder))
+        case "phone": self = .phone(try Phone(from: decoder))
+        case let other: throw DecodingError.dataCorruptedError(forKey: AnyKey("type"), in: container, debugDescription: "Unknown LoginIdentifier \(other)")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: AnyKey.self)
+        switch self {
+        case .user(let value):
+            try container.encode("user", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .email(let value):
+            try container.encode("email", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .phone(let value):
+            try container.encode("phone", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        }
+    }
+}
+
 public struct MediaInfo: Codable, Hashable, Sendable {
     /// Opaque media source (`{ url }` or `{ file }` for encrypted media)
     public var source: JSONValue
@@ -1636,13 +1692,20 @@ public struct ServerInfo: Codable, Hashable, Sendable {
     public var sso: [IdentityProvider]
     /// Signing in by scanning a QR code with another device (MSC4108) works with this server
     public var qrLogin: Bool
+    /// The server name that was asked about (as typed, without scheme or path)
+    public var serverName: String?
+    /// What the server says it runs, asked over federation. Missing when it can't be asked
+    /// (a browser can only ask servers that allow cross-site requests) or hides it.
+    public var software: HomeserverSoftware?
 
-    public init(homeserverUrl: String, oauth: Bool, password: Bool, sso: [IdentityProvider], qrLogin: Bool) {
+    public init(homeserverUrl: String, oauth: Bool, password: Bool, sso: [IdentityProvider], qrLogin: Bool, serverName: String? = nil, software: HomeserverSoftware? = nil) {
         self.homeserverUrl = homeserverUrl
         self.oauth = oauth
         self.password = password
         self.sso = sso
         self.qrLogin = qrLogin
+        self.serverName = serverName
+        self.software = software
     }
 }
 
@@ -3364,9 +3427,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
         _ = try await call("WizardClient.renameDevice", [.value(deviceId), .value(name)]) as Empty
     }
 
-    /// Signs in with a password. `server` may be a server name or a homeserver URL.
-    public static func loginPassword(server: String, username: String, password: String, deviceName: String, store: StoreConfig) async throws -> WizardClient {
-        try await Runtime.shared.call("WizardClient.loginPassword", this: nil, [.value(server), .value(username), .value(password), .value(deviceName), .value(store)])
+    /// Signs in with a password. `server` may be a server name or a homeserver URL;
+    /// `identifier` is a username (or full Matrix ID), or an email address or phone number
+    /// bound to the account.
+    public static func loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig) async throws -> WizardClient {
+        try await Runtime.shared.call("WizardClient.loginPassword", this: nil, [.value(server), .value(identifier), .value(password), .value(deviceName), .value(store)])
     }
 
     /// Whether and how the server lets people register.
@@ -3398,7 +3463,8 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await Runtime.shared.call("WizardClient.loginWithQr", this: nil, [.value(server), .value(store), .value(app), .value(scanned), .value(control), .listener(QrLoginStatus.self, listener)])
     }
 
-    /// Which sign-in methods a server offers.
+    /// Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
+    /// the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
     public static func discover(server: String) async throws -> ServerInfo {
         try await Runtime.shared.call("WizardClient.discover", this: nil, [.value(server)])
     }

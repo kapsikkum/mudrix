@@ -42,7 +42,9 @@ mod widgets;
 
 pub use account::{RegistrationInfo, ServerFeatures, ThirdPartyId};
 pub use account::{UiaAuth, UiaOutcome};
-pub use auth::{AppInfo, IdentityProvider, PendingLogin, ServerInfo, SessionEvent};
+pub use auth::{
+    AppInfo, IdentityProvider, LoginIdentifier, PendingLogin, ServerInfo, SessionEvent,
+};
 pub use calls::CallTimings;
 pub use calls::{CallEvent, CallMember, CallSession, IncomingCall, SfuConfig};
 pub use client::{sniff_mime_type, LoadState};

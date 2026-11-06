@@ -105,7 +105,7 @@ final class MatrixSession: ObservableObject {
         let (folder, store) = StoredSession.newStore()
         do {
             let client = try await WizardClient.loginPassword(
-                server: server, username: username, password: password,
+                server: server, identifier: .user(.init(user: username)), password: password,
                 deviceName: Self.deviceName, store: store
             )
             await remember(client, folder: folder, store: store)

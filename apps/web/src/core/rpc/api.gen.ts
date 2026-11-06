@@ -402,6 +402,15 @@ export type ListDiff<T> =
  */
 export type LoadState = 'loading' | 'cached' | 'synced';
 
+/**
+ * Who is signing in with a password: a username (or full Matrix ID), or an email address or
+ * phone number bound to the account
+ */
+export type LoginIdentifier =
+  | { type: 'user'; user: string }
+  | { type: 'email'; address: string }
+  | { type: 'phone'; number: string };
+
 export type MediaInfo = {
   /**
    * Opaque media source (`{ url }` or `{ file }` for encrypted media)
@@ -883,6 +892,15 @@ export type ServerInfo = {
    * Signing in by scanning a QR code with another device (MSC4108) works with this server
    */
   qrLogin: boolean;
+  /**
+   * The server name that was asked about (as typed, without scheme or path)
+   */
+  serverName?: string | null;
+  /**
+   * What the server says it runs, asked over federation. Missing when it can't be asked
+   * (a browser can only ask servers that allow cross-site requests) or hides it.
+   */
+  software?: HomeserverSoftware | null;
 };
 
 /**
@@ -2471,17 +2489,21 @@ export class WizardClient extends Remote {
     return runtime.call('WizardClient.renameDevice', this, [deviceId, name]) as Promise<void>;
   }
 
-  /** Signs in with a password. `server` may be a server name or a homeserver URL. */
+  /**
+   * Signs in with a password. `server` may be a server name or a homeserver URL;
+   * `identifier` is a username (or full Matrix ID), or an email address or phone number
+   * bound to the account.
+   */
   static loginPassword(
     server: string,
-    username: string,
+    identifier: LoginIdentifier,
     password: string,
     deviceName: string,
     store: StoreConfig
   ): Promise<WizardClient> {
     return runtime.call('WizardClient.loginPassword', null, [
       server,
-      username,
+      identifier,
       password,
       deviceName,
       store,
@@ -2574,7 +2596,10 @@ export class WizardClient extends Remote {
     ]) as Promise<WizardClient>;
   }
 
-  /** Which sign-in methods a server offers. */
+  /**
+   * Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
+   * the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
+   */
   static discover(server: string): Promise<ServerInfo> {
     return runtime.call('WizardClient.discover', null, [server]) as Promise<ServerInfo>;
   }

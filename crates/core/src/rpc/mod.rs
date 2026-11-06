@@ -119,6 +119,7 @@ impl From<Error> for RpcError {
             Error::Homeserver(_) => "homeserver",
             Error::WellKnownInvalid => "wellKnownInvalid",
             Error::InvalidCredentials => "invalidCredentials",
+            Error::NotMatrix => "notMatrix",
             Error::NotSignedIn => "notSignedIn",
             Error::SyncNotStarted => "syncNotStarted",
             Error::UnknownRoom(_) => "unknownRoom",

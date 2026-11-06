@@ -531,6 +531,43 @@ enum class LoadState {
     @SerialName("synced") synced,
 }
 
+/**
+ * Who is signing in with a password: a username (or full Matrix ID), or an email address or
+ * phone number bound to the account
+ */
+@Serializable(with = LoginIdentifier.Serializer::class)
+sealed interface LoginIdentifier {
+    /** `name` or `@name:server` */
+    @Serializable
+    data class User(
+        val user: String,
+    ) : LoginIdentifier
+    @Serializable
+    data class Email(
+        val address: String,
+    ) : LoginIdentifier
+    /** With the country code, in any format (`+49 151 234567`): only the digits count */
+    @Serializable
+    data class Phone(
+        val number: String,
+    ) : LoginIdentifier
+
+    object Serializer : JsonUnionSerializer<LoginIdentifier>("LoginIdentifier") {
+        override fun read(json: JsonElement): LoginIdentifier = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "user" -> CoreJson.decodeFromJsonElement(User.serializer(), json)
+            "email" -> CoreJson.decodeFromJsonElement(Email.serializer(), json)
+            "phone" -> CoreJson.decodeFromJsonElement(Phone.serializer(), json)
+            else -> throw SerializationException("Unknown LoginIdentifier $tag")
+        }
+
+        override fun write(value: LoginIdentifier): JsonElement = when (value) {
+            is User -> tagged(CoreJson.encodeToJsonElement(User.serializer(), value), "type", "user")
+            is Email -> tagged(CoreJson.encodeToJsonElement(Email.serializer(), value), "type", "email")
+            is Phone -> tagged(CoreJson.encodeToJsonElement(Phone.serializer(), value), "type", "phone")
+        }
+    }
+}
+
 @Serializable
 data class MediaInfo(
     /** Opaque media source (`{ url }` or `{ file }` for encrypted media) */
@@ -1040,6 +1077,13 @@ data class ServerInfo(
     val sso: List<IdentityProvider>,
     /** Signing in by scanning a QR code with another device (MSC4108) works with this server */
     val qrLogin: Boolean,
+    /** The server name that was asked about (as typed, without scheme or path) */
+    val serverName: String? = null,
+    /**
+     * What the server says it runs, asked over federation. Missing when it can't be asked
+     * (a browser can only ask servers that allow cross-site requests) or hides it.
+     */
+    val software: HomeserverSoftware? = null,
 )
 
 /**
@@ -1595,9 +1639,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         suspend fun sniffMimeType(head: Bytes): String? =
             Runtime.call("WizardClient.sniffMimeType", null, listOf(Arg.bytes(head)))
 
-        /** Signs in with a password. `server` may be a server name or a homeserver URL. */
-        suspend fun loginPassword(server: String, username: String, password: String, deviceName: String, store: StoreConfig): WizardClient =
-            Runtime.call("WizardClient.loginPassword", null, listOf(Arg.value<String>(server), Arg.value<String>(username), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<StoreConfig>(store)))
+        /**
+         * Signs in with a password. `server` may be a server name or a homeserver URL;
+         * `identifier` is a username (or full Matrix ID), or an email address or phone number
+         * bound to the account.
+         */
+        suspend fun loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig): WizardClient =
+            Runtime.call("WizardClient.loginPassword", null, listOf(Arg.value<String>(server), Arg.value<LoginIdentifier>(identifier), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<StoreConfig>(store)))
 
         /** Whether and how the server lets people register. */
         suspend fun registrationInfo(server: String): RegistrationInfo =
@@ -1625,7 +1673,10 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         suspend fun loginWithQr(server: String, store: StoreConfig, app: AppInfo, scanned: Bytes?, control: QrLoginControl, listener: (QrLoginStatus) -> Unit): WizardClient =
             Runtime.call("WizardClient.loginWithQr", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<AppInfo>(app), Arg.value<Bytes?>(scanned), Arg.value<QrLoginControl>(control), Arg.listener<QrLoginStatus>(listener)))
 
-        /** Which sign-in methods a server offers. */
+        /**
+         * Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
+         * the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
+         */
         suspend fun discover(server: String): ServerInfo =
             Runtime.call("WizardClient.discover", null, listOf(Arg.value<String>(server)))
 

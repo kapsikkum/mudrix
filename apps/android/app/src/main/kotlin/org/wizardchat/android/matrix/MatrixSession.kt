@@ -16,6 +16,7 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.EncryptionStatus
 import org.wizardchat.core.IdentityProvider
+import org.wizardchat.core.LoginIdentifier
 import org.wizardchat.core.CustomStatus
 import org.wizardchat.core.Presence
 import org.wizardchat.core.PendingLogin
@@ -147,7 +148,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     suspend fun login(server: String, username: String, password: String) {
         val (folder, store) = StoredSession.newStore()
         try {
-            val client = WizardClient.loginPassword(server, username, password, DEVICE_NAME, store)
+            val client = WizardClient.loginPassword(server, LoginIdentifier.User(username), password, DEVICE_NAME, store)
             remember(client, folder, store)
         } catch (error: Exception) {
             SessionStore.removeStore(folder)

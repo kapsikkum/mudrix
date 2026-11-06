@@ -28,7 +28,7 @@ use matrix_sdk_ui::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{Error, Result, Session, StoreConfig};
+use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
 
 /// The state of the background sync, as shown to the user.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -158,10 +158,26 @@ impl WizardClient {
         device_name: &str,
         store: StoreConfig,
     ) -> Result<(Self, Session)> {
+        let identifier = LoginIdentifier::User {
+            user: username.to_owned(),
+        };
+        Self::login_with_identifier(server, &identifier, password, device_name, store).await
+    }
+
+    /// Like [`Self::login_password`], for a username, or an email address or phone number bound
+    /// to the account.
+    pub async fn login_with_identifier(
+        server: &str,
+        identifier: &LoginIdentifier,
+        password: &str,
+        device_name: &str,
+        store: StoreConfig,
+    ) -> Result<(Self, Session)> {
+        let identifier = identifier.to_user_identifier()?;
         let client = Self::build_client(server, &store).await?;
         client
             .matrix_auth()
-            .login_username(username, password)
+            .login_identifier(identifier, password)
             .initial_device_display_name(device_name)
             .request_refresh_token()
             .await

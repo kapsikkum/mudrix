@@ -37,6 +37,13 @@ pub struct ServerInfo {
     pub sso: Vec<IdentityProvider>,
     /// Signing in by scanning a QR code with another device (MSC4108) works with this server
     pub qr_login: bool,
+    /// The server name that was asked about (as typed, without scheme or path)
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    pub server_name: Option<String>,
+    /// What the server says it runs, asked over federation. Missing when it can't be asked
+    /// (a browser can only ask servers that allow cross-site requests) or hides it.
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    pub software: Option<crate::HomeserverSoftware>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -47,6 +54,59 @@ pub struct IdentityProvider {
     pub id: Option<String>,
     pub name: String,
     pub icon: Option<String>,
+}
+
+/// Who is signing in with a password: a username (or full Matrix ID), or an email address or
+/// phone number bound to the account
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(tag = "type", rename_all = "camelCase")]
+pub enum LoginIdentifier {
+    /// `name` or `@name:server`
+    User {
+        user: String,
+    },
+    Email {
+        address: String,
+    },
+    /// With the country code, in any format (`+49 151 234567`): only the digits count
+    Phone {
+        number: String,
+    },
+}
+
+impl LoginIdentifier {
+    pub(crate) fn to_user_identifier(
+        &self,
+    ) -> Result<matrix_sdk::ruma::api::client::uiaa::UserIdentifier> {
+        use matrix_sdk::ruma::api::client::uiaa::{
+            EmailUserIdentifier, MatrixUserIdentifier, MsisdnUserIdentifier, UserIdentifier,
+        };
+        let empty = |what: &str| Error::InvalidId(format!("empty {what}"));
+        Ok(match self {
+            Self::User { user } => {
+                let user = user.trim();
+                if user.is_empty() {
+                    return Err(empty("username"));
+                }
+                UserIdentifier::Matrix(MatrixUserIdentifier::new(user.to_owned()))
+            }
+            Self::Email { address } => {
+                let address = address.trim();
+                if address.is_empty() {
+                    return Err(empty("email address"));
+                }
+                UserIdentifier::Email(EmailUserIdentifier::new(address.to_owned()))
+            }
+            Self::Phone { number } => {
+                let digits: String = number.chars().filter(char::is_ascii_digit).collect();
+                if digits.is_empty() {
+                    return Err(empty("phone number"));
+                }
+                UserIdentifier::Msisdn(MsisdnUserIdentifier::new(digits))
+            }
+        })
+    }
 }
 
 /// How the app presents itself on the server's sign-in page
@@ -76,6 +136,29 @@ pub enum SessionEvent {
     Invalid { soft_logout: bool },
 }
 
+/// Whether a site that answered the .well-known request with this error status, and has no
+/// Matrix server at its root either, isn't Matrix: a client error says so, a gateway error or a
+/// busy server may be a Matrix server that is down.
+fn is_not_matrix_status(status: u16) -> bool {
+    matches!(status, 400..=499) && !matches!(status, 408 | 429)
+}
+
+/// Whether the server's /_matrix/client/versions answers like a Matrix server.
+async fn answers_versions(server: &str) -> bool {
+    let server = server.trim().trim_end_matches('/');
+    let base = if server.contains("://") {
+        server.to_owned()
+    } else {
+        format!("https://{server}")
+    };
+    crate::homeserver::fetch_json(&format!("{base}/_matrix/client/versions"))
+        .await
+        .is_some_and(|body| {
+            body.get("versions")
+                .is_some_and(serde_json::Value::is_array)
+        })
+}
+
 fn parse_url(url: &str) -> Result<Url> {
     Url::parse(url).map_err(|e| Error::InvalidId(format!("url: {e}")))
 }
@@ -93,21 +176,34 @@ enum PendingKind {
 }
 
 impl WizardClient {
-    /// Finds out which sign-in methods a server offers (without signing in). Fails with
-    /// `wellKnownInvalid` when the server's `.well-known` points nowhere usable.
+    /// Finds out which sign-in methods a server offers and what it runs (without signing in).
+    /// Fails with `wellKnownInvalid` when the server's `.well-known` points nowhere usable,
+    /// `notMatrix` when the address answers but isn't a Matrix server, and `homeserver` when
+    /// it can't be reached.
     pub async fn discover(server: &str) -> Result<ServerInfo> {
+        let server_name = crate::homeserver::server_name_of(server);
+        let software = async {
+            match &server_name {
+                Some(name) => crate::homeserver::lookup_quickly(name).await,
+                None => None,
+            }
+        };
+        let (info, software) =
+            futures_util::future::join(Self::discover_sign_in(server), software).await;
+        let mut info = info?;
+        info.server_name = server_name;
+        info.software = software;
+        Ok(info)
+    }
+
+    async fn discover_sign_in(server: &str) -> Result<ServerInfo> {
         let client = match Client::builder()
             .server_name_or_homeserver_url(server)
             .build()
             .await
         {
             Ok(client) => client,
-            Err(matrix_sdk::ClientBuildError::AutoDiscovery(error))
-                if matches!(*error, FromHttpResponseError::Deserialization(_)) =>
-            {
-                return Err(Error::WellKnownInvalid)
-            }
-            Err(error) => return Err(error.into()),
+            Err(error) => return Err(Self::discovery_failure(server, error).await),
         };
         let metadata = client.oauth().server_metadata().await.ok();
         let oauth = metadata.is_some();
@@ -173,7 +269,34 @@ impl WizardClient {
             },
             oauth,
             qr_login,
+            server_name: None,
+            software: None,
         })
+    }
+
+    /// Why building a client for the server failed: no answer at all, a site that isn't
+    /// Matrix, or a Matrix server whose .well-known is broken.
+    async fn discovery_failure(server: &str, error: matrix_sdk::ClientBuildError) -> Error {
+        use matrix_sdk::RumaApiError;
+        let verdict = match &error {
+            matrix_sdk::ClientBuildError::AutoDiscovery(failure) => match failure.as_ref() {
+                // The site answered the .well-known request with something that isn't one. A
+                // Matrix server with a broken file still answers /versions, other sites don't.
+                FromHttpResponseError::Deserialization(_) => {
+                    Some(if answers_versions(server).await {
+                        Error::WellKnownInvalid
+                    } else {
+                        Error::NotMatrix
+                    })
+                }
+                FromHttpResponseError::Server(RumaApiError::MatrixError(e)) => {
+                    is_not_matrix_status(e.status_code.as_u16()).then_some(Error::NotMatrix)
+                }
+                _ => None,
+            },
+            _ => None,
+        };
+        verdict.unwrap_or_else(|| error.into())
     }
 
     /// Whether and how the server lets people register. Fails when the server can't tell (only
@@ -502,4 +625,74 @@ pub(crate) fn registration_data(
     Ok(ClientRegistrationData::new(
         Raw::new(&metadata).map_err(|e| Error::Sdk(e.to_string()))?,
     ))
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::*;
+
+    fn wire(identifier: LoginIdentifier) -> serde_json::Value {
+        serde_json::to_value(identifier.to_user_identifier().unwrap()).unwrap()
+    }
+
+    #[test]
+    fn login_identifiers_become_matrix_identifiers() {
+        assert_eq!(
+            wire(LoginIdentifier::User {
+                user: " @ash:x.org ".into()
+            }),
+            json!({ "type": "m.id.user", "user": "@ash:x.org" })
+        );
+        assert_eq!(
+            wire(LoginIdentifier::Email {
+                address: "a@b.org".into()
+            }),
+            json!({ "type": "m.id.thirdparty", "medium": "email", "address": "a@b.org" })
+        );
+        assert_eq!(
+            wire(LoginIdentifier::Phone {
+                number: "+49 (151) 234-567".into()
+            }),
+            json!({ "type": "m.id.thirdparty", "medium": "msisdn", "address": "49151234567" })
+        );
+    }
+
+    #[test]
+    fn empty_identifiers_are_refused() {
+        for identifier in [
+            LoginIdentifier::User { user: "  ".into() },
+            LoginIdentifier::Email {
+                address: String::new(),
+            },
+            LoginIdentifier::Phone {
+                number: "+ -".into(),
+            },
+        ] {
+            assert!(identifier.to_user_identifier().is_err(), "{identifier:?}");
+        }
+    }
+
+    #[test]
+    fn only_client_errors_mean_not_matrix() {
+        for status in [400, 403, 404, 410] {
+            assert!(is_not_matrix_status(status), "{status}");
+        }
+        for status in [200, 302, 408, 429, 500, 502, 503, 521] {
+            assert!(!is_not_matrix_status(status), "{status}");
+        }
+    }
+
+    #[test]
+    fn identifiers_are_read_from_json() {
+        let id: LoginIdentifier =
+            serde_json::from_value(json!({ "type": "phone", "number": "123" })).unwrap();
+        assert_eq!(
+            id,
+            LoginIdentifier::Phone {
+                number: "123".into()
+            }
+        );
+    }
 }

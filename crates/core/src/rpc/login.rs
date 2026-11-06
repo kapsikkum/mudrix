@@ -2,22 +2,30 @@
 
 use super::{Handle, Listener, Obj, PendingLoginCell};
 use crate::{
-    AppInfo, QrLoginControl, QrLoginStatus, RegistrationInfo, ServerInfo, Session, StoreConfig,
-    WizardClient,
+    AppInfo, LoginIdentifier, QrLoginControl, QrLoginStatus, RegistrationInfo, ServerInfo, Session,
+    StoreConfig, WizardClient,
 };
 
 rpc_methods! {
     WizardClient(this: WizardClient) {
-        /// Signs in with a password. `server` may be a server name or a homeserver URL.
+        /// Signs in with a password. `server` may be a server name or a homeserver URL;
+        /// `identifier` is a username (or full Matrix ID), or an email address or phone number
+        /// bound to the account.
         bare fn loginPassword(
             server: String,
-            username: String,
+            identifier: LoginIdentifier,
             password: String,
             device_name: String,
             store: StoreConfig,
         ) -> Handle<WizardClient> {
-            let (client, _) =
-                WizardClient::login_password(&server, &username, &password, &device_name, store).await?;
+            let (client, _) = WizardClient::login_with_identifier(
+                &server,
+                &identifier,
+                &password,
+                &device_name,
+                store,
+            )
+            .await?;
             Ok(Handle::new(client))
         }
 
@@ -88,7 +96,8 @@ rpc_methods! {
             Ok(Handle::new(client))
         }
 
-        /// Which sign-in methods a server offers.
+        /// Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
+        /// the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
         bare fn discover(server: String) -> ServerInfo {
             WizardClient::discover(&server).await
         }

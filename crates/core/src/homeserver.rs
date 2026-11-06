@@ -125,7 +125,7 @@ fn parse_version_response(body: &Value) -> Option<HomeserverSoftware> {
     })
 }
 
-async fn fetch_json(url: &str) -> Option<Value> {
+pub(crate) async fn fetch_json(url: &str) -> Option<Value> {
     #[cfg(not(target_arch = "wasm32"))]
     let builder = reqwest::Client::builder().redirect(reqwest::redirect::Policy::none());
     // The browser decides about redirects and cookies for a cross-site request
@@ -141,6 +141,30 @@ async fn fetch_json(url: &str) -> Option<Value> {
         serde_json::from_slice::<Value>(&body).ok()
     };
     with_timeout(request, REQUEST_TIMEOUT).await.flatten()
+}
+
+/// How long `discover` waits for the software before it answers without it.
+const DISCOVER_SOFTWARE_TIMEOUT: Duration = Duration::from_secs(3);
+
+/// What `server_name` runs, for the sign-in screen: gives up sooner than [`lookup`].
+pub(crate) async fn lookup_quickly(server_name: &str) -> Option<HomeserverSoftware> {
+    with_timeout(lookup(server_name), DISCOVER_SOFTWARE_TIMEOUT)
+        .await
+        .flatten()
+}
+
+/// The server name in what someone typed (`matrix.org`, `https://matrix.org/`, `Matrix.org:8448`),
+/// lowercase and without scheme, path and user info; `None` when nothing is left.
+pub(crate) fn server_name_of(input: &str) -> Option<String> {
+    let input = input.trim();
+    let rest = input
+        .split_once("://")
+        .map_or(input, |(_, rest)| rest)
+        .split(['/', '?', '#'])
+        .next()
+        .unwrap_or_default();
+    let host = rest.rsplit_once('@').map_or(rest, |(_, host)| host);
+    (!host.is_empty()).then(|| host.to_ascii_lowercase())
 }
 
 /// Asks the server what it runs. Servers that refuse cross-site requests (a browser build),
@@ -184,6 +208,25 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn server_names_are_cut_out_of_what_was_typed() {
+        assert_eq!(server_name_of("matrix.org").as_deref(), Some("matrix.org"));
+        assert_eq!(
+            server_name_of(" Matrix.ORG ").as_deref(),
+            Some("matrix.org")
+        );
+        assert_eq!(
+            server_name_of("https://chat.example.org:8448/path?x=1").as_deref(),
+            Some("chat.example.org:8448")
+        );
+        assert_eq!(
+            server_name_of("http://me@localhost:8008").as_deref(),
+            Some("localhost:8008")
+        );
+        assert_eq!(server_name_of("  "), None);
+        assert_eq!(server_name_of("https://"), None);
+    }
 
     #[test]
     fn only_public_dns_names_are_contacted() {

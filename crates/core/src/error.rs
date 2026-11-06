@@ -19,6 +19,9 @@ pub enum Error {
     SyncNotStarted,
     #[error("unknown room {0}")]
     UnknownRoom(String),
+    /// The address answers, but it is not a Matrix server (an ordinary website)
+    #[error("this isn't a Matrix server")]
+    NotMatrix,
     #[error("invalid identifier: {0}")]
     InvalidId(String),
     #[error("the server needs the account password to confirm this")]
