@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Aperçu"
+    },
+    "youtube": {
+      "video": "Vidéo YouTube",
+      "play": "Lire la vidéo",
+      "consent": "Afficher les intégrations YouTube ? YouTube peut voir votre adresse IP et les détails de votre appareil lorsqu’une carte doit récupérer son titre et sa miniature auprès de YouTube, et lors de la lecture.",
+      "allow": "Autoriser",
+      "deny": "Ne pas autoriser"
     }
   },
   "attachment": {

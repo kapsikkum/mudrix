@@ -75,3 +75,116 @@ globalStyle(`${card} a`, {
 globalStyle(`${card} a:hover`, {
   textDecoration: 'none',
 });
+
+export const ytCard = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '6px',
+  marginTop: '8px',
+  padding: '10px 12px 12px',
+  maxWidth: '432px',
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.color.border}`,
+  borderLeft: '4px solid #ff0000',
+  backgroundColor: vars.color.bgSecondary,
+});
+
+export const ytPromptCard = style({
+  maxWidth: '360px',
+  gap: '8px',
+  padding: '8px 12px 10px',
+});
+
+export const ytProvider = style({
+  fontSize: '12px',
+  color: vars.color.textMuted,
+});
+
+export const ytChannel = style({
+  fontSize: '14px',
+  fontWeight: 700,
+  color: vars.color.textPrimary,
+});
+
+export const ytTitle = style({
+  fontSize: '15px',
+  fontWeight: 600,
+  lineHeight: 1.3,
+  color: vars.color.accent,
+  textDecoration: 'none',
+  overflowWrap: 'anywhere',
+  ':hover': { textDecoration: 'underline' },
+});
+
+export const ytPromptText = style({
+  fontSize: '12px',
+  lineHeight: 1.4,
+  color: vars.color.textSecondary,
+});
+
+export const ytPromptActions = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '6px',
+});
+
+export const ytPlayer = style({
+  position: 'relative',
+  width: '100%',
+  aspectRatio: '16 / 9',
+  marginTop: '4px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  overflow: 'hidden',
+});
+
+export const ytThumb = style({
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+});
+
+export const ytFrame = style({
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  border: 'none',
+});
+
+export const ytPlay = style({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '72px',
+  height: '48px',
+  borderRadius: '24px',
+  border: 'none',
+  backgroundColor: 'rgba(23,23,23,0.8)',
+  color: '#fff',
+  cursor: 'pointer',
+  transition: 'background-color 120ms',
+  ':hover': { backgroundColor: '#ff0000' },
+});
+
+export const ytBtn = style({
+  padding: '5px 12px',
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: 'transparent',
+  color: vars.color.textPrimary,
+  fontSize: '12px',
+  cursor: 'pointer',
+  ':hover': { backgroundColor: vars.color.bgHover },
+});
+
+export const ytBtnPrimary = style([
+  ytBtn,
+  { backgroundColor: vars.color.accent, borderColor: 'transparent', color: '#fff' },
+]);

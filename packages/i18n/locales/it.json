@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Anteprima"
+    },
+    "youtube": {
+      "video": "Video di YouTube",
+      "play": "Riproduci video",
+      "consent": "Mostrare i video YouTube incorporati? YouTube può vedere il tuo indirizzo IP e i dettagli del dispositivo quando una scheda deve recuperare titolo e miniatura da YouTube e quando riproduci un video.",
+      "allow": "Consenti",
+      "deny": "Non consentire"
     }
   },
   "attachment": {

@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "プレビュー"
+    },
+    "youtube": {
+      "video": "YouTube動画",
+      "play": "動画を再生",
+      "consent": "YouTube埋め込みを表示しますか？カードがYouTubeからタイトルとサムネイルを取得するときや動画を再生するときに、YouTubeにIPアドレスやデバイス情報が見えます。",
+      "allow": "許可する",
+      "deny": "許可しない"
     }
   },
   "attachment": {

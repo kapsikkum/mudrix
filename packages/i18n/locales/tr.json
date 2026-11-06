@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Önizleme"
+    },
+    "youtube": {
+      "video": "YouTube videosu",
+      "play": "Videoyu oynat",
+      "consent": "YouTube gömmeleri gösterilsin mi? Bir kart başlığını ve küçük resmini YouTube'dan alırken ve video oynatırken YouTube IP adresinizi ve cihaz bilgilerinizi görebilir.",
+      "allow": "İzin ver",
+      "deny": "İzin verme"
     }
   },
   "attachment": {

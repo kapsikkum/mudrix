@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Voorbeeld"
+    },
+    "youtube": {
+      "video": "YouTube-video",
+      "play": "Video afspelen",
+      "consent": "YouTube-insluitingen tonen? YouTube kan je IP-adres en apparaatgegevens zien wanneer een kaart titel en miniatuur bij YouTube moet ophalen en wanneer je een video afspeelt.",
+      "allow": "Toestaan",
+      "deny": "Niet toestaan"
     }
   },
   "attachment": {

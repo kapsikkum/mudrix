@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Podgląd"
+    },
+    "youtube": {
+      "video": "Film z YouTube",
+      "play": "Odtwórz film",
+      "consent": "Pokazywać osadzone filmy YouTube? YouTube widzi Twój adres IP i dane urządzenia, gdy karta musi pobrać tytuł i miniaturę z YouTube oraz podczas odtwarzania filmu.",
+      "allow": "Zezwól",
+      "deny": "Nie zezwalaj"
     }
   },
   "attachment": {

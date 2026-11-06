@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Pré-visualizar"
+    },
+    "youtube": {
+      "video": "Vídeo do YouTube",
+      "play": "Reproduzir vídeo",
+      "consent": "Mostrar vídeos incorporados do YouTube? O YouTube pode ver o seu endereço IP e dados do dispositivo quando um cartão precisa obter o título e a miniatura do YouTube e ao reproduzir um vídeo.",
+      "allow": "Permitir",
+      "deny": "Não permitir"
     }
   },
   "attachment": {

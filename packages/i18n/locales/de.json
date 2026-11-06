@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Vorschau"
+    },
+    "youtube": {
+      "video": "YouTube-Video",
+      "play": "Video abspielen",
+      "consent": "YouTube-Einbettungen anzeigen? YouTube sieht deine IP-Adresse und Geräteinformationen, wenn eine Karte Titel und Vorschaubild von YouTube laden muss und wenn du ein Video abspielst.",
+      "allow": "Einbettungen erlauben",
+      "deny": "Nicht erlauben"
     }
   },
   "attachment": {

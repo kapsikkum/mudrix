@@ -3,6 +3,8 @@ import type { WizardClient } from '@wizardchat/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
+import { parseYouTubeUrl } from '@/util/youtube';
+import { YouTubeEmbed } from './YouTubeEmbed';
 import * as css from './LinkPreview.css';
 
 interface LinkPreviewProps {
@@ -11,7 +13,7 @@ interface LinkPreviewProps {
   isEncrypted: boolean;
 }
 
-export function LinkPreview({ url, client, isEncrypted }: LinkPreviewProps) {
+function PlainLinkPreview({ url, client, isEncrypted }: LinkPreviewProps) {
   const { data } = useLinkPreview(client, url, isEncrypted);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const [imgError, setImgError] = useState(false);
@@ -81,4 +83,11 @@ export function LinkPreview({ url, client, isEncrypted }: LinkPreviewProps) {
       </div>
     </div>
   );
+}
+
+/** A YouTube link becomes a click-to-play card; any other link shows the homeserver's preview. */
+export function LinkPreview(props: LinkPreviewProps) {
+  const video = parseYouTubeUrl(props.url);
+  if (video) return <YouTubeEmbed {...props} video={video} />;
+  return <PlainLinkPreview {...props} />;
 }

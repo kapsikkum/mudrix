@@ -955,6 +955,13 @@
     },
     "filePreview": {
       "open": "Preview"
+    },
+    "youtube": {
+      "video": "YouTube video",
+      "play": "Play video",
+      "consent": "Show YouTube embeds? YouTube can see your IP address and device details when a card has to fetch its title and thumbnail from YouTube, and when you play a video.",
+      "allow": "Allow embeds",
+      "deny": "Don't allow"
     }
   },
   "attachment": {
