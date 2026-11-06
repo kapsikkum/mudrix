@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { GlobeSimpleIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon, GlobeSimpleIcon } from '@phosphor-icons/react';
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
@@ -27,15 +27,16 @@ type View = 'login' | 'register' | 'reset';
 export function WelcomePage() {
   const [searchParams] = useSearchParams();
   const addMode = searchParams.get('add') === '1';
+  const signedIn = !!loadCredentials();
 
-  if (!addMode && loadCredentials()) {
+  if (!addMode && signedIn) {
     return <Navigate to="/" replace />;
   }
 
-  return <WelcomeContent />;
+  return <WelcomeContent canGoBack={addMode && signedIn} />;
 }
 
-function WelcomeContent() {
+function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
   const { t, i18n } = useTranslation();
   const [view, setView] = useState<View>('login');
   const navigate = useNavigate();
@@ -107,12 +108,23 @@ function WelcomeContent() {
     if (failedUrlRef.current === serverUrl) void discover(serverUrl);
   }, [discover, serverUrl]);
 
+  const goBack = () => {
+    if (((window.history.state as { idx?: number } | null)?.idx ?? 0) > 0) navigate(-1);
+    else navigate('/', { replace: true });
+  };
+
   const onLoginSuccess = () => navigate('/', { replace: true });
   const onRegisterSuccess = () => navigate('/', { replace: true });
 
   return (
     <div className={css.page}>
       {isDesktop && <TitleBar fixed />}
+      {canGoBack && (
+        <button type="button" className={css.backButton} onClick={goBack}>
+          <ArrowLeftIcon size={16} />
+          {t('common.back')}
+        </button>
+      )}
       <div className={css.container}>
         <LogoHover size={72} />
         <h1 className={css.title}>{t('welcome.title')}</h1>

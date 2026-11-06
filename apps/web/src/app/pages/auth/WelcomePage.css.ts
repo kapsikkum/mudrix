@@ -212,3 +212,40 @@ export const strengthBar = style({
 export const strengthBarWeak = style([strengthBar, { backgroundColor: vars.color.error }]);
 export const strengthBarOkay = style([strengthBar, { backgroundColor: vars.color.warning }]);
 export const strengthBarStrong = style([strengthBar, { backgroundColor: vars.color.success }]);
+
+export const backButton = style({
+  position: 'absolute',
+  top: '24px',
+  left: '24px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '8px 12px',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  background: 'none',
+  color: vars.color.textMuted,
+  fontSize: '0.9rem',
+  fontWeight: 500,
+  cursor: 'pointer',
+  ':hover': {
+    color: vars.color.textPrimary,
+    backgroundColor: vars.color.bgHover,
+  },
+  ':focus-visible': {
+    outline: `2px solid ${vars.color.accent}`,
+    outlineOffset: '2px',
+  },
+  selectors: {
+    'html.desktop &': {
+      top: `${24 + TITLE_BAR_HEIGHT}px`,
+    },
+  },
+  '@media': {
+    '(max-width: 768px)': {
+      position: 'static',
+      alignSelf: 'flex-start',
+      marginLeft: '-12px',
+    },
+  },
+});
