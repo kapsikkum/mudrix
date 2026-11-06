@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "blossom",
       "name": "Blossom",
-      "scheme": "light"
+      "scheme": "light",
+      "order": 29
     }
   },
   "color": {

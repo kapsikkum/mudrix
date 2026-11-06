@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "umbra",
       "name": "Umbra",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 4
     }
   },
   "color": {

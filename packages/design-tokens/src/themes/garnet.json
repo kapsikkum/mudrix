@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "garnet",
       "name": "Garnet",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 17
     }
   },
   "color": {

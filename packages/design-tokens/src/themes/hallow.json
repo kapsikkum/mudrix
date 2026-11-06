@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "hallow",
       "name": "Hallow",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 14
     }
   },
   "color": {

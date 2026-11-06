@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "eclipse",
       "name": "Eclipse",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 5
     }
   },
   "color": {

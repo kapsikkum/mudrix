@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "pewter",
       "name": "Pewter",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 3
     }
   },
   "color": {

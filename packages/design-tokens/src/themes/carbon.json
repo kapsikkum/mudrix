@@ -5,7 +5,8 @@
       "id": "carbon",
       "name": "Carbon",
       "scheme": "dark",
-      "default": true
+      "default": true,
+      "order": 1
     }
   },
   "color": {

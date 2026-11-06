@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "parrot",
       "name": "Parrot",
-      "scheme": "dark"
+      "scheme": "dark",
+      "order": 12
     }
   },
   "color": {

@@ -4,7 +4,8 @@
     "org.wizardchat.theme": {
       "id": "ethereal",
       "name": "Ethereal",
-      "scheme": "light"
+      "scheme": "light",
+      "order": 23
     }
   },
   "color": {

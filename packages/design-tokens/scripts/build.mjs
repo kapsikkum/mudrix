@@ -35,7 +35,9 @@ const themes = readdirSync(join(src, 'themes'))
     const meta = json.$extensions?.['org.wizardchat.theme'];
     if (!meta?.id) throw new Error(`${f} needs $extensions["org.wizardchat.theme"].id`);
     return { ...meta, tokens: flatten(json) };
-  });
+  })
+  // The order apps list the themes in: by "order" (default first, dark by hue, light last), then by id
+  .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || a.id.localeCompare(b.id));
 
 // Every theme must define exactly the same tokens, or apps would silently fall back
 const key = (t) => t.path.join('.');

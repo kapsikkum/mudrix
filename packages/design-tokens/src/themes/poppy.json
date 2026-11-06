@@ -1,0 +1,189 @@
+{
+  "$description": "Poppy (from Mudrix)",
+  "$extensions": {
+    "org.wizardchat.theme": {
+      "id": "poppy",
+      "name": "Poppy",
+      "scheme": "light",
+      "order": 27
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "app": {
+        "$value": "#fff6f5",
+        "$description": "Chat and main background"
+      },
+      "surface": {
+        "$value": "#fde9e7",
+        "$description": "Room list, space rail, panels"
+      },
+      "raised": {
+        "$value": "#f8d6d3",
+        "$description": "Cards, menus, popovers"
+      },
+      "input": {
+        "$value": "#f3e0de"
+      },
+      "hover": {
+        "$value": "#06060710"
+      },
+      "active": {
+        "$value": "#d92d2d24"
+      },
+      "overlay": {
+        "$value": "#3d1f1f66",
+        "$description": "Dialog backdrop"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "#3d1f1f"
+      },
+      "secondary": {
+        "$value": "#5d3a3a"
+      },
+      "muted": {
+        "$value": "#7d5555"
+      },
+      "disabled": {
+        "$value": "#ab8d8d"
+      },
+      "onAccent": {
+        "$value": "#ffffff"
+      },
+      "link": {
+        "$value": "#1f6fd1"
+      }
+    },
+    "accent": {
+      "default": {
+        "$value": "#d92d2d"
+      },
+      "hover": {
+        "$value": "#b22525"
+      },
+      "soft": {
+        "$value": "#d92d2d1f",
+        "$description": "Tinted backgrounds, selected rows"
+      },
+      "glow1": {
+        "$value": "#d92d2d0d",
+        "$description": "Background glow behind the app"
+      },
+      "glow2": {
+        "$value": "#d92d2d08"
+      }
+    },
+    "border": {
+      "default": {
+        "$value": "#f1c5c2"
+      },
+      "strong": {
+        "$value": "#d4a9a7"
+      },
+      "focus": {
+        "$value": "#b22525"
+      }
+    },
+    "status": {
+      "danger": {
+        "$value": "#b91c1c"
+      },
+      "error": {
+        "$value": "#dc2626"
+      },
+      "success": {
+        "$value": "#16a34a"
+      },
+      "warning": {
+        "$value": "#d97706"
+      },
+      "info": {
+        "$value": "#2563eb"
+      },
+      "mention": {
+        "$value": "#f06428"
+      }
+    },
+    "presence": {
+      "online": {
+        "$value": "#22c55e"
+      },
+      "away": {
+        "$value": "#eab308"
+      },
+      "busy": {
+        "$value": "#dc2626"
+      },
+      "offline": {
+        "$value": "#9ca3af"
+      }
+    },
+    "logo": {
+      "p0": {
+        "$value": "#6a329f"
+      },
+      "p1": {
+        "$value": "#784cc8"
+      },
+      "p2": {
+        "$value": "#6a329f"
+      },
+      "p3": {
+        "$value": "#784cc8"
+      },
+      "p4": {
+        "$value": "#5e3079"
+      },
+      "p5": {
+        "$value": "#885ee7"
+      },
+      "hover": {
+        "$value": "#9b75f0"
+      },
+      "hoverGlow": {
+        "$value": "#9b75f099"
+      }
+    },
+    "message": {
+      "mine": {
+        "$value": "#fad2cf"
+      },
+      "other": {
+        "$value": "#fde9e7"
+      },
+      "highlight": {
+        "$value": "#f064281f",
+        "$description": "Messages that mention you"
+      }
+    },
+    "username": {
+      "c1": {
+        "$value": "#1f6fd1"
+      },
+      "c2": {
+        "$value": "#a3329f"
+      },
+      "c3": {
+        "$value": "#0a8f68"
+      },
+      "c4": {
+        "$value": "#d23f69"
+      },
+      "c5": {
+        "$value": "#c75a12"
+      },
+      "c6": {
+        "$value": "#14898c"
+      },
+      "c7": {
+        "$value": "#4f49e0"
+      },
+      "c8": {
+        "$value": "#4a8f12"
+      }
+    }
+  }
+}
