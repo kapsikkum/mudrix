@@ -2,9 +2,12 @@ import { atom } from 'jotai';
 import type { UiDensity, UiScale } from '@/theme/uiDensity';
 import { atomWithStorage } from 'jotai/utils';
 import { DEFAULT_THEME } from '@/theme/themes.css';
+import type { CustomTheme } from '@/theme/customThemes';
+import type { ThemeName } from '@/theme/themeTokens';
 import { MOD_MODIFIER } from '@/app/util/platform';
 import {
   STORAGE_KEY_THEME,
+  STORAGE_KEY_CUSTOM_THEMES,
   STORAGE_KEY_MESSAGE_LAYOUT,
   STORAGE_KEY_PREFERENCES,
   STORAGE_KEY_KEYBINDS,
@@ -15,16 +18,7 @@ import {
 } from '@/const/storageKeys';
 
 export type MessageLayout = 'classic' | 'modern' | 'compact';
-export type ThemeName =
-  | 'Carbon'
-  | 'Pewter'
-  | 'Umbra'
-  | 'Eclipse'
-  | 'Parrot'
-  | 'Hallow'
-  | 'Garnet'
-  | 'Ethereal'
-  | 'Blossom';
+export type { ThemeName } from '@/theme/themeTokens';
 export type MediaVisibility = 'always' | 'private' | 'never';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
@@ -63,9 +57,15 @@ export interface Preferences {
   themedAppIcon: boolean;
   excludeInsecureSessions: boolean;
   pushToTalk: boolean;
+  followSystemTheme: boolean;
+  systemDarkTheme: ThemeName;
+  systemLightTheme: ThemeName;
 }
 
-export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME as ThemeName);
+export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
+
+/** Themes the user made; the theme atom refers to one as custom:<id> */
+export const customThemesAtom = atomWithStorage<CustomTheme[]>(STORAGE_KEY_CUSTOM_THEMES, []);
 
 export const messageLayoutAtom = atomWithStorage<MessageLayout>(
   STORAGE_KEY_MESSAGE_LAYOUT,
@@ -95,6 +95,9 @@ export const DEFAULT_PREFERENCES: Preferences = {
   themedAppIcon: false,
   excludeInsecureSessions: false,
   pushToTalk: false,
+  followSystemTheme: false,
+  systemDarkTheme: 'Carbon',
+  systemLightTheme: 'Ethereal',
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -130,6 +133,33 @@ export const touchUiAtom = atom(false);
 export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
 export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
+export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
+export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
+export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');
+
+const prefersDarkQuery =
+  typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+    ? window.matchMedia('(prefers-color-scheme: dark)')
+    : null;
+
+/** Live view of the OS colour scheme (true = dark). */
+export const systemPrefersDarkAtom = (() => {
+  const base = atom<boolean>(prefersDarkQuery?.matches ?? true);
+  base.onMount = (set) => {
+    if (!prefersDarkQuery) return undefined;
+    set(prefersDarkQuery.matches);
+    const listener = (e: MediaQueryListEvent) => set(e.matches);
+    prefersDarkQuery.addEventListener('change', listener);
+    return () => prefersDarkQuery.removeEventListener('change', listener);
+  };
+  return base;
+})();
+
+/** The theme actually applied: the manual choice, or the system-mapped one when following the OS. */
+export const effectiveThemeAtom = atom<ThemeName>((get) => {
+  if (!get(followSystemThemeAtom)) return get(themeAtom);
+  return get(systemPrefersDarkAtom) ? get(systemDarkThemeAtom) : get(systemLightThemeAtom);
+});
 
 const rawStringStorage = {
   getItem: (key: string, init: string) => localStorage.getItem(key) ?? init,

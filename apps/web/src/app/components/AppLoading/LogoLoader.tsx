@@ -1,17 +1,17 @@
 import { useAtomValue } from 'jotai';
-import { themeAtom, themedAppIconAtom } from '@/app/store/atoms';
+import { effectiveThemeAtom, themedAppIconAtom } from '@/app/store/atoms';
 import * as css from './LogoLoader.css';
 
 export function LogoLoader() {
   const themedAppIcon = useAtomValue(themedAppIconAtom);
-  const theme = useAtomValue(themeAtom);
-  const logoTheme = themedAppIcon ? theme : 'Carbon';
+  const theme = useAtomValue(effectiveThemeAtom);
+  const logoTheme = themedAppIcon && theme in css.p0 ? theme : 'Carbon';
   return (
     <svg
       className={css.svg}
       viewBox="0 0 400 400"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="WizardChat Logo"
+      aria-label="Mudrix logo"
     >
       <g transform="translate(0, 40)" stroke="none">
         {/* Polygon order matches logo.svg */}

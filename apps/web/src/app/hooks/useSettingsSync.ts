@@ -3,6 +3,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import {
   themeAtom,
+  customThemesAtom,
   messageLayoutAtom,
   languageAtom,
   preferencesAtom,
@@ -28,12 +29,14 @@ const PUSH_DEBOUNCE_MS = 500;
 /** Applies settings that came from the account to the local atoms (and the display language) */
 export function useApplySettings(): (settings: Partial<SyncedSettings>) => void {
   const setTheme = useSetAtom(themeAtom);
+  const setCustomThemes = useSetAtom(customThemesAtom);
   const setMessageLayout = useSetAtom(messageLayoutAtom);
   const setLanguage = useSetAtom(languageAtom);
   const setPreferences = useSetAtom(preferencesAtom);
   const setKeybinds = useSetAtom(keybindsAtom);
   return useCallback(
     (settings) => {
+      if (settings.customThemes) setCustomThemes(settings.customThemes);
       if (settings.theme) setTheme(settings.theme);
       if (settings.messageLayout) setMessageLayout(settings.messageLayout);
       if (settings.language && SUPPORTED_LANGUAGES.some((l) => l.code === settings.language)) {
@@ -44,7 +47,7 @@ export function useApplySettings(): (settings: Partial<SyncedSettings>) => void 
       if (remotePrefs) setPreferences((prev) => ({ ...prev, ...remotePrefs }));
       if (settings.keybinds) setKeybinds(settings.keybinds);
     },
-    [setTheme, setMessageLayout, setLanguage, setPreferences, setKeybinds]
+    [setTheme, setCustomThemes, setMessageLayout, setLanguage, setPreferences, setKeybinds]
   );
 }
 
@@ -64,6 +67,7 @@ export async function loadSettingsContents(client: MatrixClient): Promise<Settin
  */
 export function useSettingsSync(client: MatrixClient | null): void {
   const [theme] = useAtom(themeAtom);
+  const [customThemes] = useAtom(customThemesAtom);
   const [messageLayout] = useAtom(messageLayoutAtom);
   const [language] = useAtom(languageAtom);
   const [preferences] = useAtom(preferencesAtom);
@@ -107,6 +111,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
       const contents = contentsRef.current;
       const next: Partial<SyncedSettings> = {
         theme,
+        customThemes,
         messageLayout,
         language,
         preferences: syncablePreferences(preferences),
@@ -130,5 +135,15 @@ export function useSettingsSync(client: MatrixClient | null): void {
       });
     }, PUSH_DEBOUNCE_MS);
     return () => clearTimeout(timer);
-  }, [client, syncReady, revision, theme, messageLayout, language, preferences, keybinds]);
+  }, [
+    client,
+    syncReady,
+    revision,
+    theme,
+    customThemes,
+    messageLayout,
+    language,
+    preferences,
+    keybinds,
+  ]);
 }

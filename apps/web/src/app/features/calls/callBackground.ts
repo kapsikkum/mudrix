@@ -1,12 +1,11 @@
-import { THEME_TOKENS } from '@/theme/themeTokens';
-import { DEFAULT_THEME, THEMES } from '@/theme/themes.css';
+import { resolveThemeTokens } from '@/theme/customThemes';
+import { DEFAULT_THEME } from '@/theme/themes.css';
 import type { ThemeName } from '@/app/store/atoms/settings';
 
 export function getThemeTokens() {
-  const themeName =
-    Object.keys(THEMES).find((name) => document.documentElement.classList.contains(THEMES[name])) ??
-    DEFAULT_THEME;
-  return THEME_TOKENS[themeName] ?? THEME_TOKENS[DEFAULT_THEME];
+  return resolveThemeTokens(
+    document.documentElement.getAttribute('data-theme-name') ?? DEFAULT_THEME
+  );
 }
 
 export function toRgbString(value: string): string | null {
@@ -31,7 +30,7 @@ export function toRgbString(value: string): string | null {
 }
 
 export function buildCallBackground(theme?: ThemeName): { base: string; glow: string } {
-  const tokens = THEME_TOKENS[theme ?? ''] ?? getThemeTokens();
+  const tokens = theme ? resolveThemeTokens(theme) : getThemeTokens();
   const accent = toRgbString(tokens.color.accent) ?? '88, 101, 242';
   const purple = toRgbString(tokens.logo.p5) ?? '136, 94, 231';
   const purpleSoft = toRgbString(tokens.logo.p1) ?? '120, 76, 200';

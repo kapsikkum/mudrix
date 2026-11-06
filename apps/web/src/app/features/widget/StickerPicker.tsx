@@ -9,7 +9,7 @@ import {
   WidgetApiFromWidgetAction,
 } from 'matrix-widget-api';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
-import { stickerPickerAtom, themeAtom, ThemeName } from '@/app/store/atoms';
+import { stickerPickerAtom, effectiveThemeAtom, ThemeName } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import {
@@ -17,7 +17,7 @@ import {
   type ReplyTarget,
 } from '@/app/features/timeline/composer/sendMessageContent';
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
-import { LIGHT_THEMES } from '@/theme/themeTokens';
+import { isLightTheme } from '@/theme/customThemes';
 import * as css from './StickerPicker.css';
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
 
 function getThemedUrl(base: string, appTheme: ThemeName): string {
   const sep = base.includes('?') ? '&' : '?';
-  const theme = LIGHT_THEMES.has(appTheme) ? 'light' : 'dark';
+  const theme = isLightTheme(appTheme) ? 'light' : 'dark';
   if (base.includes('theme=')) return base;
   return `${base}${sep}theme=${theme}`;
 }
@@ -61,7 +61,7 @@ export function StickerPicker({
   const [loading, setLoading] = useState(true);
   const toast = useToast();
   const getTimeline = useComposerTimeline(client, roomId, threadId);
-  const currentTheme = useAtomValue(themeAtom);
+  const currentTheme = useAtomValue(effectiveThemeAtom);
 
   const close = useCallback(() => setPicker(false), [setPicker]);
 

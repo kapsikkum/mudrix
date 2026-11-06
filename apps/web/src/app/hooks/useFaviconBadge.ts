@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAllRooms } from '@/app/data';
-import { themeAtom, themedAppIconAtom } from '@/app/store/atoms';
+import { effectiveThemeAtom, themedAppIconAtom } from '@/app/store/atoms';
 import { resolveLogoAssets } from '@/theme/themeLogos';
 
 import { getRoomUnreadCount } from '@/util/mentions';
@@ -17,7 +17,7 @@ function setFavicon(href: string) {
 
 export function useFaviconBadge() {
   const rooms = useAllRooms();
-  const theme = useAtomValue(themeAtom);
+  const theme = useAtomValue(effectiveThemeAtom);
   const themedAppIcon = useAtomValue(themedAppIconAtom);
 
   const hasUnread = rooms.some(

@@ -26,7 +26,7 @@ import {
   showNonVideoParticipantsAtom,
   showOwnScreenShareAtom,
 } from '@/app/store/atoms/call';
-import { themeAtom } from '@/app/store/atoms/settings';
+import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { buildCallBackground } from '@/app/features/calls/callBackground';
 import { useCallSnapshot } from './useCallSnapshot';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
@@ -480,7 +480,7 @@ export function CallStage() {
   const snapshot = useCallSnapshot();
   const [ui, setUi] = useAtom(callUiAtom);
   const view = useAtomValue(callEffectiveViewAtom);
-  const theme = useAtomValue(themeAtom);
+  const theme = useAtomValue(effectiveThemeAtom);
   const [panel, setPanel] = useAtom(callPanelAtom);
   const [focusedKey, setFocusedKey] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState<UserMenuAnchor | null>(null);

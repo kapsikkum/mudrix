@@ -6,7 +6,7 @@ import { ChatTextIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { useRoom } from '@/app/data';
 import { openRoomChatAtom } from '@/app/store/atoms';
 import { callUiAtom } from '@/app/store/atoms/call';
-import { themeAtom } from '@/app/store/atoms/settings';
+import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { RoomHeader } from '@/app/features/timeline/RoomHeader';
 import { useJoinVoiceRoom } from './useJoinVoiceRoom';
 import { useRoomReadReceipts } from '@/app/hooks/useRoomReadReceipts';
@@ -20,7 +20,7 @@ interface Props {
 
 export function VoiceRoomStage({ client, roomId }: Props) {
   const { t } = useTranslation();
-  const theme = useAtomValue(themeAtom);
+  const theme = useAtomValue(effectiveThemeAtom);
   const callUi = useAtomValue(callUiAtom);
   const openRoomChat = useSetAtom(openRoomChatAtom);
   const joinVoiceRoom = useJoinVoiceRoom(client);

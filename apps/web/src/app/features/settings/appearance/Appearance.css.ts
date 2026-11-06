@@ -43,3 +43,79 @@ export const swatch = style({
 });
 
 export const swatchActive = style([swatch, { outlineColor: vars.color.accent }]);
+
+export const customThemeCard = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px',
+  padding: '10px 12px',
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.color.bgSecondary,
+  border: `1px solid ${vars.color.border}`,
+});
+
+export const customThemeHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+export const customThemeSwatch = style({
+  width: '24px',
+  height: '24px',
+  flexShrink: 0,
+  borderRadius: '6px',
+  border: `1px solid ${vars.color.border}`,
+});
+
+export const customThemeName = style({
+  flex: 1,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  color: vars.color.textPrimary,
+});
+
+export const customThemeActive = style({
+  fontSize: '0.78rem',
+  fontWeight: 600,
+  color: vars.color.accent,
+});
+
+export const customThemeEditor = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+});
+
+export const colorGrid = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+  gap: '10px',
+});
+
+export const colorField = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+});
+
+export const colorInput = style({
+  width: '32px',
+  height: '28px',
+  padding: 0,
+  border: `1px solid ${vars.color.border}`,
+  borderRadius: '6px',
+  backgroundColor: 'transparent',
+  cursor: 'pointer',
+});
+
+export const customThemeActions = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '8px',
+});

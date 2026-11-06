@@ -1,7 +1,12 @@
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
   themeAtom,
+  effectiveThemeAtom,
+  customThemesAtom,
+  followSystemThemeAtom,
+  systemDarkThemeAtom,
+  systemLightThemeAtom,
   messageLayoutAtom,
   prettifyLinksAtom,
   markdownAtom,
@@ -20,10 +25,11 @@ import {
   type UiScale,
 } from '@/app/store/atoms';
 import { CHAT_FONT_SIZES, DEFAULT_CHAT_FONT_SIZE } from '@/app/hooks/useChatDisplaySync';
-import { THEMES, DEFAULT_THEME } from '@/theme/themes.css';
-import { THEME_TOKENS } from '@/theme/themeTokens';
+import { BUILTIN_THEME_NAMES } from '@/theme/themeTokens';
+import { customThemeName, resolveThemeTokens } from '@/theme/customThemes';
 import { hasThemedLogo } from '@/theme/themeLogos';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
+import { CustomThemesSection } from './CustomThemes';
 import { useProfile } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Avatar } from '@/app/components/Avatar';
@@ -36,18 +42,6 @@ import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
-
-const THEME_NAMES: ThemeName[] = [
-  'Carbon',
-  'Pewter',
-  'Umbra',
-  'Eclipse',
-  'Parrot',
-  'Hallow',
-  'Garnet',
-  'Ethereal',
-  'Blossom',
-];
 
 const PREVIEW_OTHER_NAME = 'Merlin';
 const PREVIEW_OTHER_ID = '@merlin:wizardchat.org';
@@ -208,14 +202,42 @@ export function Appearance() {
   const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
   const [uiDensity, setUiDensity] = useAtom(uiDensityAtom);
   const [uiScale, setUiScale] = useAtom(uiScaleAtom);
-  const themeHasIcon = hasThemedLogo(theme);
+  const [followSystem, setFollowSystem] = useAtom(followSystemThemeAtom);
+  const [darkTheme, setDarkTheme] = useAtom(systemDarkThemeAtom);
+  const [lightTheme, setLightTheme] = useAtom(systemLightThemeAtom);
+  const effectiveTheme = useAtomValue(effectiveThemeAtom);
+  const customThemes = useAtomValue(customThemesAtom);
+  const themeNames: ThemeName[] = [
+    ...BUILTIN_THEME_NAMES,
+    ...customThemes.map((c) => customThemeName(c.id)),
+  ];
+  const themeLabel = (name: ThemeName) =>
+    customThemes.find((c) => customThemeName(c.id) === name)?.name ?? name;
+  const themeOptions = themeNames.map((name) => ({ value: name, label: themeLabel(name) }));
+  const themeHasIcon = hasThemedLogo(effectiveTheme);
 
-  // Apply theme class immediately on change
-  useEffect(() => {
-    const themeClass = THEMES[theme] ?? THEMES[DEFAULT_THEME];
-    Object.values(THEMES).forEach((cls) => document.documentElement.classList.remove(cls));
-    document.documentElement.classList.add(themeClass);
-  }, [theme]);
+  const handleSwatchKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    let nextIndex = -1;
+    const currentIndex = themeNames.indexOf(theme);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % themeNames.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = currentIndex <= 0 ? themeNames.length - 1 : currentIndex - 1;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = themeNames.length - 1;
+    }
+    if (nextIndex >= 0) {
+      setTheme(themeNames[nextIndex]);
+      const buttons = e.currentTarget.querySelectorAll<HTMLButtonElement>('button[role="radio"]');
+      buttons[nextIndex]?.focus();
+    }
+  };
 
   return (
     <div>
@@ -224,36 +246,79 @@ export function Appearance() {
       <div className={layoutCss.section}>
         <ChatPreview layout={layout} prettifyLinks={prettifyLinks} />
 
-        <div className={layoutCss.settingRow}>
-          <div className={layoutCss.settingInfo}>
-            <span className={layoutCss.settingLabel}>{t('settings.appearance.theme')}</span>
+        <ToggleRow
+          label={t('settings.appearance.followSystemTheme')}
+          description={t('settings.appearance.followSystemThemeNote')}
+          checked={followSystem}
+          onChange={setFollowSystem}
+        />
+
+        {followSystem ? (
+          <>
+            <div className={layoutCss.settingRow}>
+              <div className={layoutCss.settingInfo}>
+                <span className={layoutCss.settingLabel}>
+                  {t('settings.appearance.systemDarkTheme')}
+                </span>
+              </div>
+              <Select<ThemeName>
+                aria-label={t('settings.appearance.systemDarkTheme')}
+                value={darkTheme}
+                options={themeOptions}
+                onChange={setDarkTheme}
+              />
+            </div>
+            <div className={layoutCss.settingRow}>
+              <div className={layoutCss.settingInfo}>
+                <span className={layoutCss.settingLabel}>
+                  {t('settings.appearance.systemLightTheme')}
+                </span>
+              </div>
+              <Select<ThemeName>
+                aria-label={t('settings.appearance.systemLightTheme')}
+                value={lightTheme}
+                options={themeOptions}
+                onChange={setLightTheme}
+              />
+            </div>
+          </>
+        ) : (
+          <div className={layoutCss.settingRow}>
+            <div className={layoutCss.settingInfo}>
+              <span className={layoutCss.settingLabel}>{t('settings.appearance.theme')}</span>
+            </div>
+            <div
+              className={css.swatchRow}
+              role="radiogroup"
+              aria-label={t('settings.appearance.theme')}
+              tabIndex={-1}
+              onKeyDown={handleSwatchKeyDown}
+            >
+              {themeNames.map((name, index) => {
+                const { color } = resolveThemeTokens(name);
+                const isActive = theme === name;
+                return (
+                  <Tooltip key={name} content={themeLabel(name)}>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={isActive}
+                      aria-label={themeLabel(name)}
+                      tabIndex={isActive || (themeNames.indexOf(theme) < 0 && index === 0) ? 0 : -1}
+                      onClick={() => setTheme(name)}
+                      className={isActive ? css.swatchActive : css.swatch}
+                      style={{
+                        background: `linear-gradient(135deg, ${color.bgSecondary} calc(50% - 0.5px), ${color.accent} calc(50% + 0.5px))`,
+                      }}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </div>
           </div>
-          <div
-            className={css.swatchRow}
-            role="radiogroup"
-            aria-label={t('settings.appearance.theme')}
-          >
-            {THEME_NAMES.map((name) => {
-              const { color } = THEME_TOKENS[name];
-              const isActive = theme === name;
-              return (
-                <Tooltip key={name} content={name}>
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={isActive}
-                    aria-label={name}
-                    onClick={() => setTheme(name)}
-                    className={isActive ? css.swatchActive : css.swatch}
-                    style={{
-                      background: `linear-gradient(135deg, ${color.bgSecondary} calc(50% - 0.5px), ${color.accent} calc(50% + 0.5px))`,
-                    }}
-                  />
-                </Tooltip>
-              );
-            })}
-          </div>
-        </div>
+        )}
+
+        <CustomThemesSection />
 
         <div className={layoutCss.settingRow}>
           <div className={layoutCss.settingInfo}>

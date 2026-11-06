@@ -1,6 +1,7 @@
 import type { Keybinds, MessageLayout, Preferences, ThemeName } from '@/app/store/atoms';
 import { DEFAULT_KEYBINDS, DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { THEMES } from '@/theme/themes.css';
+import { isCustomThemeId, sanitizeCustomThemes, type CustomTheme } from '@/theme/customThemes';
 import { legacyMudrixKey, mudrixKey, wizardchatKey } from '@/util/namespace';
 
 /**
@@ -57,6 +58,7 @@ const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
 
 export interface SyncedSettings {
   theme: ThemeName;
+  customThemes: CustomTheme[];
   messageLayout: MessageLayout;
   language: string;
   preferences: Partial<Preferences>;
@@ -69,6 +71,8 @@ const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   reducedMotion: ['system', 'on', 'off'],
   chatDensity: ['compact', 'default', 'spacious'],
   uiDensity: ['compact', 'default', 'spacious'],
+  systemDarkTheme: Object.keys(THEMES),
+  systemLightTheme: Object.keys(THEMES),
 };
 
 export function isSyncedPreference(key: string): key is keyof Preferences {
@@ -87,7 +91,9 @@ export function sanitizePreferences(raw: unknown): Partial<Preferences> {
     if (typeof value !== typeof expected) continue;
     if (typeof value === 'number' && !Number.isFinite(value)) continue;
     const allowed = ENUM_VALUES[key];
-    if (allowed && !allowed.includes(value as string)) continue;
+    const isCustomThemePick =
+      (key === 'systemDarkTheme' || key === 'systemLightTheme') && isCustomThemeId(value);
+    if (allowed && !isCustomThemePick && !allowed.includes(value as string)) continue;
     out[key] = value;
   }
   return out as Partial<Preferences>;
@@ -118,8 +124,15 @@ export function parseSettings(raw: unknown): Partial<SyncedSettings> {
   const content = raw as Record<string, unknown>;
   const settings: Partial<SyncedSettings> = {};
 
-  if (typeof content.theme === 'string' && content.theme in THEMES) {
+  if (
+    typeof content.theme === 'string' &&
+    (content.theme in THEMES || isCustomThemeId(content.theme))
+  ) {
     settings.theme = content.theme as ThemeName;
+  }
+
+  if (Array.isArray(content.customThemes)) {
+    settings.customThemes = sanitizeCustomThemes(content.customThemes);
   }
 
   if (

@@ -12,6 +12,7 @@ const BASE_ASSETS: ThemeLogoAssets = {
   notification: '/assets/images/logo-notification.svg',
 };
 
+// Themes without their own artwork fall back to the base logo
 export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
   Carbon: BASE_ASSETS,
   Parrot: {
@@ -49,11 +50,11 @@ export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
 };
 
 export function hasThemedLogo(theme: ThemeName): boolean {
-  return THEME_LOGO_ASSETS[theme] !== BASE_ASSETS;
+  return (THEME_LOGO_ASSETS[theme] ?? BASE_ASSETS) !== BASE_ASSETS;
 }
 
 export function resolveLogoAssets(theme: ThemeName, themedAppIcon: boolean): ThemeLogoAssets {
-  return themedAppIcon ? THEME_LOGO_ASSETS[theme] : BASE_ASSETS;
+  return themedAppIcon ? (THEME_LOGO_ASSETS[theme] ?? BASE_ASSETS) : BASE_ASSETS;
 }
 
 function readThemedAppIcon(): boolean {
@@ -66,7 +67,13 @@ function readThemedAppIcon(): boolean {
 }
 
 export function getThemeLogoAssets(): ThemeLogoAssets {
-  const stored = localStorage.getItem(STORAGE_KEY_THEME);
-  const theme = stored && stored in THEME_LOGO_ASSETS ? (stored as ThemeName) : DEFAULT_THEME;
+  let stored: string | null = null;
+  try {
+    // The theme atom stores its value as JSON
+    stored = JSON.parse(localStorage.getItem(STORAGE_KEY_THEME) ?? 'null');
+  } catch {
+    // An unreadable value falls back to the default theme
+  }
+  const theme = stored && stored in THEME_LOGO_ASSETS ? stored : DEFAULT_THEME;
   return resolveLogoAssets(theme, readThemedAppIcon());
 }
