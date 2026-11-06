@@ -658,6 +658,7 @@ export const Message = memo(function Message({
       readBy: [],
       mentions: null,
       sendError: null,
+      customContent: null,
     });
   }, [inReplyTo, replyTarget, myId]);
 

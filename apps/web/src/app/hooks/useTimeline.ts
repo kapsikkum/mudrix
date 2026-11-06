@@ -26,6 +26,7 @@ import {
   type MemberLookup,
 } from '@/app/features/timeline/message/callSessions';
 import { entryEventId, isEventEntry, type EventEntry } from '@/app/features/timeline/message/entry';
+import { getGalleryTag, isPendingEcho } from '@/app/features/timeline/message/gallery';
 import type { ItemRange } from '@/app/hooks/useVirtualPaginator';
 
 export type { EventEntry };
@@ -199,14 +200,15 @@ export function buildItems(
     const isOptimisticallyRedacted = optimisticRedactedIds.has(eventId);
     const optimisticBody = optimisticEditBodies.get(eventId) ?? null;
 
-    // Collapse consecutive still images from the same sender, under a minute apart, into a gallery.
+    // Collapse images sent together into a gallery. Images Mudrix tagged as one send group by that
+    // tag alone; untagged ones (older messages, other clients) fall back to consecutive still
+    // images from the same sender, under a minute apart. The two never mix, except that our own
+    // message still on its way (no tag at hand yet) joins the tagged group it follows.
     let galleryEvents: EventEntry[] | null = null;
     let galleryEndIndex = i;
-    if (
-      groupImages &&
-      isGalleryCandidate(event, optimisticRedactedIds) &&
-      !isAnimatedImage(event)
-    ) {
+    const isCandidate = isGalleryCandidate(event, optimisticRedactedIds);
+    const tagId = isCandidate ? getGalleryTag(event)?.id : undefined;
+    if (groupImages && isCandidate && (tagId || !isAnimatedImage(event))) {
       const group = [event];
       let prevTs = ts;
       for (let j = i + 1; j < events.length; j++) {
@@ -214,10 +216,14 @@ export function buildItems(
         if (!isTimelineRenderedEntry(next)) continue;
         if (!isGalleryCandidate(next, optimisticRedactedIds)) break;
         if (next.sender !== senderId) break;
-        if (isAnimatedImage(next)) break;
+        const nextTag = getGalleryTag(next)?.id;
+        if (nextTag !== tagId && !(tagId && !nextTag && isPendingEcho(next))) break;
         const nextTs = next.timestamp;
-        if (nextTs - prevTs >= GALLERY_GAP_MS) break;
-        if (formatDateLabel(nextTs, t, locale) !== dateLabel) break;
+        if (!tagId) {
+          if (isAnimatedImage(next)) break;
+          if (nextTs - prevTs >= GALLERY_GAP_MS) break;
+          if (formatDateLabel(nextTs, t, locale) !== dateLabel) break;
+        }
         group.push(next);
         galleryEndIndex = j;
         prevTs = nextTs;

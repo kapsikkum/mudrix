@@ -69,6 +69,7 @@ import {
 import { editStateFor, findAdjacentEditableMessage } from '../message/editNavigation';
 import { useRichEditor } from './useRichEditor';
 import { sendGif } from './sendGif';
+import { GALLERY_CONTENT_KEY, type GalleryTag } from '../message/gallery';
 import { hasGifConsent, parseGifLink, resolveGifLink } from './gifProviders';
 import type { CustomEditor, MentionElement } from './editor/types';
 
@@ -140,6 +141,13 @@ interface UploadQueueItem {
   /** Set when a video is to be re-encoded for this target before it is uploaded. */
   compressTarget?: CompressTarget;
   replyTo: ReplyTarget | null;
+  /** Set on the images of a send with two or more of them, to show them as one gallery. */
+  gallery?: GalleryTag | null;
+}
+
+/** Still pictures (and GIFs) that can be shown together as one gallery. */
+function isGalleryImage(file: File): boolean {
+  return file.type.startsWith('image/') && file.type !== 'image/svg+xml';
 }
 
 function revokeAttachment(item: ComposerAttachment): void {
@@ -303,6 +311,10 @@ export function useComposer({
   const sendAttachments = useCallback(
     (replyToEvent: ReplyTarget | null, text?: TextMessage) => {
       if (attachments.length === 0) return;
+      // Two or more pictures sent together are tagged so every client of ours shows them as one set
+      const imageCount = attachments.filter((a) => isGalleryImage(a.file)).length;
+      const galleryId = imageCount >= 2 ? crypto.randomUUID() : null;
+      let galleryIndex = 0;
       const items: UploadQueueItem[] = attachments.map((a, i) => ({
         attachmentId: a.id,
         file: a.file,
@@ -314,6 +326,10 @@ export function useComposer({
           maxUploadBytes
         ),
         replyTo: i === 0 ? replyToEvent : null,
+        gallery:
+          galleryId && isGalleryImage(a.file)
+            ? { id: galleryId, index: galleryIndex++, count: imageCount }
+            : null,
       }));
       if (text && items.length === 1 && !items[0].caption) {
         items[0].caption = text.body;
@@ -643,7 +659,8 @@ export function useComposer({
       replyToEvent: ReplyTarget | null,
       abortController?: AbortController,
       captionExtra?: TextMessage,
-      compressTarget?: CompressTarget
+      compressTarget?: CompressTarget,
+      gallery?: GalleryTag | null
     ): Promise<void> => {
       const originalFile = file;
       if (compressTarget && originalFile.type.startsWith('video/')) {
@@ -730,6 +747,7 @@ export function useComposer({
         isAnimated: isImage ? (prepared.isAnimated ?? false) : false,
         spoiler: spoiler && (isImage || isVideo),
         replyTo: replyToEvent?.eventId ?? null,
+        extraContent: gallery && isImage ? { [GALLERY_CONTENT_KEY]: gallery } : null,
       });
       setUploadProgress(1);
     },
@@ -794,7 +812,8 @@ export function useComposer({
             item.replyTo,
             controller,
             item.captionExtra,
-            item.compressTarget
+            item.compressTarget,
+            item.gallery
           );
           onSent?.();
         } catch (err) {

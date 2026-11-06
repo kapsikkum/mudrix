@@ -4,6 +4,9 @@ import { getImageDimensions } from './imageDimensions';
 import { sendRawEvent, type ReplyTarget } from './sendMessageContent';
 import { downloadGif, type GifItem } from './gifProviders';
 
+/** Event content field recording which provider GIF a sent message came from. */
+export const GIF_SOURCE_FIELD = 'xyz.mudrix.gif';
+
 export interface SendGifOptions {
   client: WizardClient;
   timeline: RoomTimeline;
@@ -40,7 +43,12 @@ export async function sendGif(
 
   await sendRawEvent(
     'm.sticker',
-    { body: item.title || 'GIF', info, ...source },
+    {
+      body: item.title || 'GIF',
+      info,
+      ...source,
+      [GIF_SOURCE_FIELD]: { provider: item.provider, id: item.id },
+    },
     { timeline, threadId, replyTo: replyTo ?? null, myId: client.userId() ?? '' }
   );
 }
