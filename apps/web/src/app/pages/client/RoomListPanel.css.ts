@@ -53,6 +53,46 @@ export const roomHeaderActions = style({
   gap: '4px',
 });
 
+const homeLinkBase = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  flexShrink: 0,
+  minHeight: '36px',
+  margin: '6px 8px 2px',
+  padding: '6px 10px',
+  border: 'none',
+  borderRadius: vars.radius.md,
+  background: 'none',
+  color: vars.color.textMuted,
+  font: 'inherit',
+  fontSize: '0.92rem',
+  fontWeight: 600,
+  textAlign: 'start',
+  cursor: 'pointer',
+  transition: `background-color ${fast}, color ${fast}`,
+  selectors: {
+    '&:hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
+    '&:focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '-2px' },
+  },
+  '@media': { '(pointer: coarse)': { minHeight: '44px' } },
+});
+
+/** The way back to the Home dashboard, above the Home room list. */
+export const homeLink = style([homeLinkBase]);
+
+export const homeLinkActive = style([
+  homeLinkBase,
+  { backgroundColor: `rgba(${vars.color.accentRgb}, 0.14)`, color: vars.color.accent },
+]);
+
+export const homeLinkLabel = style({
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
 export const roomList = style({
   flex: 1,
   overflowY: 'auto',

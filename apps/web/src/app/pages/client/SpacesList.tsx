@@ -360,12 +360,13 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
               }}
               aria-label={t('room.home')}
               onClick={() => {
-                if (sidebarView === 'home') {
-                  setDrawerOpen(false);
-                  navigate('/', { state: { sidebarView: 'home', currentSpaceId: null } });
-                } else {
-                  onSelectView('home', null);
-                }
+                // Home always lands on the dashboard; its room list sits beside it. On a phone,
+                // switching from another tab keeps the drawer open so a Home room can be picked.
+                const fromOtherView = sidebarView !== 'home';
+                if (!fromOtherView) setDrawerOpen(false);
+                navigate('/', {
+                  state: { sidebarView: 'home', currentSpaceId: null, keepDrawer: fromOtherView },
+                });
               }}
               {...homeMenuTrigger}
             >
