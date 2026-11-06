@@ -10,7 +10,7 @@ export function LogoHover({ size = 72 }: Props) {
       className={css.svg}
       viewBox="0 0 400 400"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="WizardChat Logo"
+      aria-label="Mudrix logo"
       width={size}
       height={size}
     >

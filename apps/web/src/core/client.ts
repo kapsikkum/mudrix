@@ -12,7 +12,7 @@ import { isDesktop, signInInBrowser } from '@/bridge/desktop';
 
 let ready: Promise<unknown> | null = null;
 
-export const DEVICE_NAME = isDesktop ? 'WizardChat Desktop' : 'WizardChat Web';
+export const DEVICE_NAME = isDesktop ? 'Mudrix Desktop' : 'Mudrix Web';
 export const AUTH_CALLBACK_PATH = '/auth/callback';
 const AUTH_MESSAGE = 'wizardchat-auth-callback';
 const AUTH_CHANNEL = 'wizardchat-auth';
@@ -177,7 +177,7 @@ async function signInWithBrowser(
 }
 
 export const appInfo = () => ({
-  name: 'WizardChat',
+  name: 'Mudrix',
   // Servers only accept a public https client URI, so local builds use the homepage
   clientUri:
     isDesktop || location.protocol !== 'https:' ? import.meta.env.APP_HOME_URL : location.origin,

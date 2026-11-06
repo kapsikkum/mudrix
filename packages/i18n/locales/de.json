@@ -72,7 +72,7 @@
     "signedOutElsewhereTitle": "Du wurdest abgemeldet",
     "signedOutElsewhereMessage": "Deine Sitzung wurde in einem anderen Tab beendet. Dieser Tab wird neu geladen.",
     "reloadNow": "Jetzt neu laden",
-    "title": "Bei WizardChat anmelden",
+    "title": "Bei Mudrix anmelden",
     "subtitle": "Nutze dein Matrix-Konto auf einem beliebigen Homeserver.",
     "homeserver": "Homeserver",
     "homeserverPlaceholder": "matrix.org",
@@ -100,13 +100,13 @@
     "loginFailed": "Anmeldung fehlgeschlagen: {{error}}",
     "browserReturn": {
       "signedInTitle": "Du bist angemeldet",
-      "signedInBody": "Du kannst diesen Tab schließen und zu WizardChat zurückkehren.",
+      "signedInBody": "Du kannst diesen Tab schließen und zu Mudrix zurückkehren.",
       "failedTitle": "Die Anmeldung hat nicht geklappt",
-      "failedBody": "Schließe diesen Tab und versuche es in WizardChat noch einmal."
+      "failedBody": "Schließe diesen Tab und versuche es in Mudrix noch einmal."
     }
   },
   "welcome": {
-    "title": "Willkommen bei WizardChat",
+    "title": "Willkommen bei Mudrix",
     "tagline": "Einfach, Sicher, Magisch",
     "sourceCode": "Quellcode",
     "poweredByMatrix": "Powered by [matrix]",
@@ -702,7 +702,7 @@
   },
   "timeline": {
     "copyText": "Text kopieren",
-    "welcomeTitle": "Willkommen bei WizardChat",
+    "welcomeTitle": "Willkommen bei Mudrix",
     "welcomeBody": "Starte einen privaten Chat oder erstelle einen Space, um deine Unterhaltungen zu organisieren.",
     "startDm": "Neue Direktnachricht beginnen",
     "startOfConversation": "Das ist der Anfang dieses Raums.",
@@ -1137,7 +1137,7 @@
       "modern": "Modern",
       "compact": "Kompakt",
       "theme": "Thema",
-      "previewOtherMessage": "hey {{mention}}, hier ist ein Link: https://wizardchat.org",
+      "previewOtherMessage": "hey {{mention}}, hier ist ein Link: https://example.org",
       "previewOwnMessage": "Nachricht für {{mention}} wird gezaubert",
       "themedAppIcon": "Thematisches App-Icon",
       "colorUsernames": "Namen einfärben",
@@ -1317,7 +1317,7 @@
       "editMessage": "Zwischen Nachrichten zum Bearbeiten navigieren",
       "pushToTalk": "Push-to-Talk",
       "pushToTalkBrowserHint": "Push-to-Talk funktioniert nur, solange dieser Browser-Tab im Fokus ist. Lade die Desktop-App für systemweites Push-to-Talk herunter.",
-      "pushToTalkPermission": "Systemweites Push-to-Talk braucht die Berechtigung, Tastatureingaben zu überwachen. Bis dahin funktioniert es nur, solange WizardChat im Fokus ist.",
+      "pushToTalkPermission": "Systemweites Push-to-Talk braucht die Berechtigung, Tastatureingaben zu überwachen. Bis dahin funktioniert es nur, solange Mudrix im Fokus ist.",
       "pushToTalkGrant": "Berechtigung erteilen",
       "resetDefault": "Auf Standard zurücksetzen",
       "changeShortcut": "Tastenkürzel für {{name}} ändern"
@@ -1463,12 +1463,12 @@
     "readReceiptsHint": "Andere sehen, wann du ihre Nachrichten gelesen hast.",
     "typing": "Tippbenachrichtigungen senden",
     "typingHint": "Andere sehen, wenn du tippst.",
-    "languageHint": "Die Sprache, in der WizardChat angezeigt wird.",
+    "languageHint": "Die Sprache, in der Mudrix angezeigt wird.",
     "languageSystem": "Wie der Browser",
     "openSecurity": "Wiederherstellung und Verifizierung",
     "openSessions": "Sitzungen verwalten",
     "version": "Version {{version}}",
-    "aboutText": "WizardChat ist ein Matrix-Client mit einem Rust-Kern, den alle seine Apps teilen.",
+    "aboutText": "Mudrix ist ein Matrix-Client mit einem Rust-Kern, den alle seine Apps teilen.",
     "synced": "Mit deinen anderen Geräten synchronisiert",
     "oneImage": "1 Bild",
     "images": "{{count}} Bilder",
@@ -1479,11 +1479,11 @@
     "letOtherUsersKnow": "Zeige anderen, wenn du ihre Nachrichten gelesen hast.",
     "showUserPresence": "Online-Status anzeigen",
     "displayWhenUsersAre": "Zeigt an, ob Nutzer online, offline oder nicht verfügbar sind. Dein Status ist für andere sichtbar.",
-    "closeAndReopenWizardchat": "Schließe WizardChat und öffne es erneut, um die Sprache zu wechseln.",
-    "downloadWizardchatForDesktop": "WizardChat für den Desktop herunterladen",
+    "closeAndReopenWizardchat": "Schließe Mudrix und öffne es erneut, um die Sprache zu wechseln.",
+    "downloadWizardchatForDesktop": "Mudrix für den Desktop herunterladen",
     "showABannerWhen": "Zeige ein Banner, wenn eine Nachricht eintrifft.",
-    "notificationsAreTurnedOff": "Benachrichtigungen für WizardChat sind in der iOS-Einstellungen-App ausgeschaltet.",
-    "notificationsAreTurnedOffAndroid": "Benachrichtigungen für WizardChat sind in den Android-Einstellungen ausgeschaltet.",
+    "notificationsAreTurnedOff": "Benachrichtigungen für Mudrix sind in der iOS-Einstellungen-App ausgeschaltet.",
+    "notificationsAreTurnedOffAndroid": "Benachrichtigungen für Mudrix sind in den Android-Einstellungen ausgeschaltet.",
     "disableNoNotificationAt": "Deaktivieren: gar keine Benachrichtigung.\nLautlos benachrichtigen: zeigt eine Benachrichtigung ohne Ton.\nLaut benachrichtigen: zeigt eine Benachrichtigung und spielt einen Ton.",
     "setUpRecoveryKey": "Wiederherstellungsschlüssel einrichten",
     "enterYourRecoveryKey": "Gib deinen Wiederherstellungsschlüssel ein, um deinen verschlüsselten Nachrichtenverlauf auf diesem Gerät wiederherzustellen, oder verifiziere mit einer anderen Sitzung.",
@@ -1494,7 +1494,7 @@
     "setupFailed": "Einrichtung fehlgeschlagen: {{error}}",
     "removeSessionThatDevice": "Sitzung \"{{id}}\" entfernen? Dieses Gerät wird dauerhaft abgemeldet.",
     "wrongDecryptionKeyPlease": "Falscher Entschlüsselungsschlüssel. Bitte prüfe deinen Wiederherstellungsschlüssel und versuche es erneut.",
-    "openWizardchatOrAnother": "Öffne WizardChat (oder eine andere Matrix-App) auf einem bereits verifizierten Gerät und nimm die Anfrage an.",
+    "openWizardchatOrAnother": "Öffne Mudrix (oder eine andere Matrix-App) auf einem bereits verifizierten Gerät und nimm die Anfrage an.",
     "waitingForTheOther": "Warte auf das andere Gerät…",
     "checkThatTheseEmojis": "Prüfe, ob diese Emojis auf dem anderen Gerät in derselben Reihenfolge erscheinen.",
     "verificationWasCancelled": "Die Verifizierung wurde abgebrochen.",
@@ -1663,7 +1663,7 @@
     "copyId": "Nutzer-ID kopieren"
   },
   "update": {
-    "action": "WizardChat aktualisieren"
+    "action": "Mudrix aktualisieren"
   },
   "presence": {
     "title": "Online-Status",
@@ -1717,7 +1717,7 @@
     "linkStep1": "Öffne auf dem neuen Gerät eine Matrix-App, zum Beispiel Element X.",
     "linkStep2": "Wähle die Anmeldung per QR-Code.",
     "linkStep3": "Scanne diesen Code.",
-    "signInStep1": "Öffne WizardChat auf einem Gerät, auf dem du schon angemeldet bist.",
+    "signInStep1": "Öffne Mudrix auf einem Gerät, auf dem du schon angemeldet bist.",
     "signInStep2": "Gehe zu Einstellungen -> Sitzungen und wähle „QR-Code scannen“.",
     "signInStep3": "Scanne diesen Code.",
     "enterCode": "Gib den 2-stelligen Code ein, der auf dem neuen Gerät angezeigt wird.",
@@ -1734,10 +1734,10 @@
     "failUnsupported": "Dein Homeserver unterstützt keine Anmeldung per QR-Code.",
     "failAlreadySignedIn": "Dieses Gerät ist bereits angemeldet.",
     "failGeneric": "Die Anmeldung per QR-Code ist fehlgeschlagen. Bitte versuche es erneut.",
-    "cameraDenied": "Erlaube WizardChat in den Einstellungen den Kamerazugriff, um einen QR-Code zu scannen.",
-    "scanIntroTitle": "Öffne WizardChat auf einem anderen Gerät, um den QR-Code zu erhalten",
+    "cameraDenied": "Erlaube Mudrix in den Einstellungen den Kamerazugriff, um einen QR-Code zu scannen.",
+    "scanIntroTitle": "Öffne Mudrix auf einem anderen Gerät, um den QR-Code zu erhalten",
     "scanIntroNote": "Nur verfügbar, wenn dein Kontoanbieter das unterstützt.",
-    "scanStep1": "Öffne WizardChat auf einem Gerät, auf dem du schon angemeldet bist.",
+    "scanStep1": "Öffne Mudrix auf einem Gerät, auf dem du schon angemeldet bist.",
     "scanStep2": "Gehe zu Einstellungen -> Sitzungen.",
     "scanStep3": "Wähle „Neues Gerät verbinden“.",
     "scanStep4": "Scanne den QR-Code mit diesem Gerät.",
@@ -1885,14 +1885,14 @@
     },
     "streamViewers_one": "{{count}} Person schaut zu",
     "streamViewers_other": "{{count}} Personen schauen zu",
-    "micPermission": "Für Anrufe braucht WizardChat Zugriff auf das Mikrofon. Du kannst ihn in den Einstellungen erlauben.",
+    "micPermission": "Für Anrufe braucht Mudrix Zugriff auf das Mikrofon. Du kannst ihn in den Einstellungen erlauben.",
     "disconnected": "Die Verbindung zum Anruf wurde getrennt.",
     "ringing": "Klingelt",
     "callingShort": "Ruft an…",
     "isTalking": "{{name}} spricht",
     "inCallCount": "{{count}} im Anruf",
-    "wizardchatCall": "WizardChat-Anruf",
-    "wizardchatVoiceInCall": "WizardChat Sprachkanal · {{count}} im Anruf",
+    "wizardchatCall": "Mudrix-Anruf",
+    "wizardchatVoiceInCall": "Mudrix Sprachkanal · {{count}} im Anruf",
     "toggleMicIntent": "Stummschalten oder Ton an",
     "toggleDeafenIntent": "Taub schalten oder wieder hören",
     "aloneLeaving": "Der Anruf wird in {{seconds}} Sekunden verlassen",
@@ -1948,7 +1948,7 @@
     "you": "Du"
   },
   "app": {
-    "name": "WizardChat"
+    "name": "Mudrix"
   },
   "sync": {
     "connecting": "Verbinde…",
@@ -2141,7 +2141,7 @@
   },
   "notifications": {
     "desktop": "Desktop-Benachrichtigungen",
-    "desktopHint": "Eine Benachrichtigung zeigen, wenn eine Nachricht eintrifft, während WizardChat im Hintergrund ist.",
+    "desktopHint": "Eine Benachrichtigung zeigen, wenn eine Nachricht eintrifft, während Mudrix im Hintergrund ist.",
     "sound": "Benachrichtigungston",
     "blocked": "Benachrichtigungen sind in deinen Browsereinstellungen blockiert.",
     "newMessage": "Neue Nachricht"
@@ -2174,7 +2174,7 @@
     "fileCount": "{{count}} Datei(en)",
     "addAMessage": "Nachricht hinzufügen",
     "sendTo": "Senden an",
-    "openWizardchatOnceSo": "Öffne WizardChat einmal, damit deine Räume hier erscheinen.",
+    "openWizardchatOnceSo": "Öffne Mudrix einmal, damit deine Räume hier erscheinen.",
     "searchRooms": "Räume suchen"
   }
 }

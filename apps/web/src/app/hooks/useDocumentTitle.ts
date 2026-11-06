@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useMember, useProfile, useRoom, useRoomDetails } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 
-const APP_NAME = 'WizardChat';
+const APP_NAME = 'Mudrix';
 
 export function useDocumentTitle(): void {
   const location = useLocation();

@@ -67,7 +67,7 @@ export function MobileHeader() {
       ) : (
         <>
           <span className={css.mobileHeaderTitle}>
-            <span className={css.mobileHeaderTitleText}>{listOpen ? listTitle : 'WizardChat'}</span>
+            <span className={css.mobileHeaderTitleText}>{listOpen ? listTitle : 'Mudrix'}</span>
           </span>
           <div className={css.mobileActions}>
             <button

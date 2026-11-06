@@ -37,7 +37,7 @@ export function About() {
         <LogoHover size={64} />
         <div className={heroCss.heroInfo}>
           <div className={heroCss.nameRow}>
-            <span className={heroCss.appName}>WizardChat</span>
+            <span className={heroCss.appName}>Mudrix</span>
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>

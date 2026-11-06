@@ -68,8 +68,8 @@ const DATE_FORMAT_OPTIONS: Record<DateFormatPreference, string> = {
   ymd: 'settings.appearance.dateFormatYmd',
 };
 
-const PREVIEW_OTHER_NAME = 'Merlin';
-const PREVIEW_OTHER_ID = '@merlin:wizardchat.org';
+const PREVIEW_OTHER_NAME = 'Muddy';
+const PREVIEW_OTHER_ID = '@muddy:example.org';
 
 const mentionMarkdown = (name: string, userId: string) =>
   `[${name}](https://matrix.to/#/${userId})`;
@@ -163,7 +163,7 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
     () =>
       markdownToHtml(
         t('settings.appearance.previewOtherMessage', {
-          mention: mentionMarkdown(myName || 'You', myId ?? '@you:wizardchat.org'),
+          mention: mentionMarkdown(myName || 'You', myId ?? '@you:example.org'),
         }),
         myId,
         true,
@@ -199,7 +199,7 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
       <PreviewMessage
         layout={layout}
         isOwn
-        senderId={myId ?? '@you:wizardchat.org'}
+        senderId={myId ?? '@you:example.org'}
         senderName={myName}
         senderAvatar={me?.avatarUrl}
         html={ownHtml}
