@@ -478,7 +478,9 @@
         "empty": "Aún no hay salas aquí.",
         "intro": "Ordena las salas, elige cuáles son canales de voz y muévelas entre categorías. La gente ve este orden en la lista de salas Moderna.",
         "moveTo": "Mover a...",
-        "title": "Salas"
+        "title": "Salas",
+        "createRoom": "Crear sala",
+        "matrixIntro": "Las salas de este espacio. Añade salas en las que estés, crea nuevas, márcalas como sugeridas o quítalas del espacio."
       },
       "roles": {
         "add": "Añadir rol",
@@ -557,7 +559,9 @@
         "remove": "Quitar banner",
         "title": "Banner",
         "upload": "Subir banner"
-      }
+      },
+      "removeRoomConfirmMessage": "Quienes ya están en {{name}} siguen en él. Solo deja de aparecer en este espacio.",
+      "removeRoomConfirmTitle": "¿Quitar {{name}} del espacio?"
     },
     "dm": {
       "directMessages": "Mensajes directos",

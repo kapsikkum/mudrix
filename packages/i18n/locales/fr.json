@@ -478,7 +478,9 @@
         "empty": "Aucun salon ici pour le moment.",
         "intro": "Ordonnez les salons, choisissez lesquels sont des salons vocaux et déplacez-les entre catégories. Cet ordre apparaît dans la liste des salons Moderne.",
         "moveTo": "Déplacer vers...",
-        "title": "Salons"
+        "title": "Salons",
+        "createRoom": "Créer un salon",
+        "matrixIntro": "Les salons de cet espace. Ajoutez des salons dont vous faites partie, créez-en de nouveaux, marquez-les comme suggérés ou retirez-les de l'espace."
       },
       "roles": {
         "add": "Ajouter un rôle",
@@ -557,7 +559,9 @@
         "remove": "Supprimer la bannière",
         "title": "Bannière",
         "upload": "Téléverser une bannière"
-      }
+      },
+      "removeRoomConfirmMessage": "Les personnes déjà dans {{name}} y restent. Le salon n'apparaît simplement plus dans cet espace.",
+      "removeRoomConfirmTitle": "Retirer {{name}} de l'espace ?"
     },
     "dm": {
       "directMessages": "Messages privés",

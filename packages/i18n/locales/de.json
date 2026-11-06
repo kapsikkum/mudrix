@@ -478,7 +478,9 @@
         "empty": "Hier gibt es noch keine Räume.",
         "intro": "Ordne die Räume, lege Sprachkanäle fest und verschiebe sie zwischen Kategorien. Diese Reihenfolge sehen alle in der modernen Raumliste.",
         "moveTo": "Verschieben nach...",
-        "title": "Räume"
+        "title": "Räume",
+        "createRoom": "Raum erstellen",
+        "matrixIntro": "Die Räume in diesem Space. Füge Räume hinzu, in denen du bist, erstelle neue, markiere Räume als empfohlen oder nimm Räume aus dem Space."
       },
       "roles": {
         "add": "Rolle hinzufügen",
@@ -557,7 +559,9 @@
         "remove": "Banner entfernen",
         "title": "Banner",
         "upload": "Banner hochladen"
-      }
+      },
+      "removeRoomConfirmMessage": "Wer schon in {{name}} ist, bleibt dort. Der Raum wird nur nicht mehr in diesem Space aufgeführt.",
+      "removeRoomConfirmTitle": "{{name}} aus dem Space entfernen?"
     },
     "dm": {
       "directMessages": "Direktnachrichten",

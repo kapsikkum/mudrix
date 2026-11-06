@@ -478,7 +478,9 @@
         "empty": "Nie ma tu jeszcze pokojów.",
         "intro": "Ułóż pokoje w kolejności, wybierz, które są kanałami głosowymi, i przenoś je między kategoriami. Ludzie widzą tę kolejność na nowoczesnej liście pokojów.",
         "moveTo": "Przenieś do...",
-        "title": "Pokoje"
+        "title": "Pokoje",
+        "createRoom": "Utwórz pokój",
+        "matrixIntro": "Pokoje w tej przestrzeni. Dodaj pokoje, w których jesteś, utwórz nowe, oznacz pokoje jako sugerowane lub usuń pokoje z przestrzeni."
       },
       "roles": {
         "add": "Dodaj rolę",
@@ -557,7 +559,9 @@
         "remove": "Usuń baner",
         "title": "Baner",
         "upload": "Prześlij baner"
-      }
+      },
+      "removeRoomConfirmMessage": "Osoby już w {{name}} w nim zostają. Pokój przestaje tylko być wyświetlany w tej przestrzeni.",
+      "removeRoomConfirmTitle": "Usunąć {{name}} z przestrzeni?"
     },
     "dm": {
       "directMessages": "Wiadomości bezpośrednie",

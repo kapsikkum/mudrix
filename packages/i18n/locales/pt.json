@@ -478,7 +478,9 @@
         "empty": "Nenhuma sala aqui ainda.",
         "intro": "Ordene as salas, escolha quais são canais de voz e mova-as entre categorias. As pessoas veem essa ordem na lista de salas Moderna.",
         "moveTo": "Mover para...",
-        "title": "Salas"
+        "title": "Salas",
+        "createRoom": "Criar sala",
+        "matrixIntro": "As salas deste espaço. Adicione salas em que você está, crie novas, marque salas como sugeridas ou tire salas do espaço."
       },
       "roles": {
         "add": "Adicionar função",
@@ -557,7 +559,9 @@
         "remove": "Remover banner",
         "title": "Banner",
         "upload": "Enviar banner"
-      }
+      },
+      "removeRoomConfirmMessage": "Quem já está em {{name}} continua nela. Ela só deixa de aparecer neste espaço.",
+      "removeRoomConfirmTitle": "Remover {{name}} do espaço?"
     },
     "dm": {
       "directMessages": "Mensagens diretas",

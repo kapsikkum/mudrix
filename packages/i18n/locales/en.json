@@ -478,7 +478,9 @@
         "empty": "No rooms here yet.",
         "intro": "Order the rooms, choose which are voice channels, and move them between categories. People see this order in the Modern room list.",
         "moveTo": "Move to...",
-        "title": "Rooms"
+        "title": "Rooms",
+        "createRoom": "Create room",
+        "matrixIntro": "The rooms in this space. Add rooms you are in, create new ones, mark rooms as suggested, or take rooms out of the space."
       },
       "roles": {
         "add": "Add role",
@@ -557,7 +559,9 @@
         "remove": "Remove banner",
         "title": "Banner",
         "upload": "Upload banner"
-      }
+      },
+      "removeRoomConfirmMessage": "People already in {{name}} stay in it. It just stops being listed in this space.",
+      "removeRoomConfirmTitle": "Remove {{name}} from the space?"
     },
     "dm": {
       "directMessages": "Direct Messages",

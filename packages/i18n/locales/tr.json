@@ -478,7 +478,9 @@
         "empty": "Henüz burada oda yok.",
         "intro": "Odaları sıralayın, hangilerinin sesli kanal olacağını seçin ve kategoriler arasında taşıyın. İnsanlar bu sırayı Modern oda listesinde görür.",
         "moveTo": "Şuraya taşı...",
-        "title": "Odalar"
+        "title": "Odalar",
+        "createRoom": "Oda oluştur",
+        "matrixIntro": "Bu alandaki odalar. Bulunduğunuz odaları ekleyin, yenilerini oluşturun, odaları önerilen olarak işaretleyin ya da odaları alandan çıkarın."
       },
       "roles": {
         "add": "Rol ekle",
@@ -557,7 +559,9 @@
         "remove": "Afişi kaldır",
         "title": "Afiş",
         "upload": "Afiş yükle"
-      }
+      },
+      "removeRoomConfirmMessage": "{{name}} içindekiler orada kalır. Oda yalnızca bu alanda listelenmez.",
+      "removeRoomConfirmTitle": "{{name}} alandan kaldırılsın mı?"
     },
     "dm": {
       "directMessages": "Doğrudan mesajlar",

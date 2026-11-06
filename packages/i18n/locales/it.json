@@ -478,7 +478,9 @@
         "empty": "Ancora nessuna stanza qui.",
         "intro": "Ordina le stanze, scegli quali sono canali vocali e spostale tra le categorie. Le persone vedono questo ordine nell'elenco stanze Moderno.",
         "moveTo": "Sposta in...",
-        "title": "Stanze"
+        "title": "Stanze",
+        "createRoom": "Crea stanza",
+        "matrixIntro": "Le stanze di questo spazio. Aggiungi stanze di cui fai parte, creane di nuove, segnale come suggerite o rimuovile dallo spazio."
       },
       "roles": {
         "add": "Aggiungi ruolo",
@@ -557,7 +559,9 @@
         "remove": "Rimuovi banner",
         "title": "Banner",
         "upload": "Carica banner"
-      }
+      },
+      "removeRoomConfirmMessage": "Chi è già in {{name}} ci resta. La stanza smette solo di comparire in questo spazio.",
+      "removeRoomConfirmTitle": "Rimuovere {{name}} dallo spazio?"
     },
     "dm": {
       "directMessages": "Messaggi diretti",

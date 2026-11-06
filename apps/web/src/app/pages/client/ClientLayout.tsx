@@ -70,6 +70,7 @@ import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
 import { useSavedMessagesSync } from '@/app/hooks/useSavedMessagesSync';
 import { useReminderDelivery } from '@/app/hooks/useReminderDelivery';
+import { useAutoJoinSpaceRooms } from '@/app/hooks/useAutoJoinSpaceRooms';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { SpacesList } from './SpacesList';
@@ -477,6 +478,7 @@ export function ClientLayout() {
   useCustomStatusSync(client);
   useSavedMessagesSync(client);
   useReminderDelivery(client);
+  useAutoJoinSpaceRooms(client);
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   const touchFirst = useMediaQuery(TOUCH_FIRST_QUERY);

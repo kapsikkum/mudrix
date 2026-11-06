@@ -478,7 +478,9 @@
         "empty": "Hier zijn nog geen kamers.",
         "intro": "Orden de kamers, kies welke spraakkanalen zijn en verplaats ze tussen categorieën. Mensen zien deze volgorde in de moderne kamerlijst.",
         "moveTo": "Verplaatsen naar...",
-        "title": "Kamers"
+        "title": "Kamers",
+        "createRoom": "Kamer aanmaken",
+        "matrixIntro": "De kamers in deze space. Voeg kamers toe waar je in zit, maak nieuwe, markeer kamers als voorgesteld of haal kamers uit de space."
       },
       "roles": {
         "add": "Rol toevoegen",
@@ -557,7 +559,9 @@
         "remove": "Banner verwijderen",
         "title": "Banner",
         "upload": "Banner uploaden"
-      }
+      },
+      "removeRoomConfirmMessage": "Wie al in {{name}} zit, blijft erin. De kamer wordt alleen niet meer in deze space getoond.",
+      "removeRoomConfirmTitle": "{{name}} uit de space verwijderen?"
     },
     "dm": {
       "directMessages": "Directe berichten",

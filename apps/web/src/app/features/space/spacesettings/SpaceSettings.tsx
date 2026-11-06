@@ -18,6 +18,7 @@ import { Dialog } from '@/app/components/Dialog/Dialog';
 import { GeneralPanel } from './General';
 import { ChannelsPanel } from './ChannelsPanel';
 import { RolesPanel } from './RolesPanel';
+import { MatrixRoomsPanel } from './MatrixRoomsPanel';
 import { useSpaceListStyle } from '../spaceListStyle';
 import { PermissionsPanel } from '@/app/features/room/roomsettings/Permissions';
 import { RoomPermissionsMatrix } from '@/app/features/room/roomsettings/RoomPermissionsMatrix';
@@ -58,9 +59,9 @@ export function SpaceSettings() {
   const details = useRoomDetails(spaceId);
   const space = spaceId && graph.some((s) => s.spaceId === spaceId) ? (details ?? null) : null;
 
-  // Channels, categories and roles belong to the Modern room list style.
+  // Roles belong to the Modern room list style; a Matrix style space has the plain room list.
   const modern = useSpaceListStyle(spaceId) === 'modern';
-  const nav = NAV.filter((item) => (item.tab !== 'channels' && item.tab !== 'roles') || modern);
+  const nav = NAV.filter((item) => item.tab !== 'roles' || modern);
   // A tab goes away when the style changes under it; fall back to the first one.
   const activeTab = nav.some((item) => item.tab === selectedTab) ? selectedTab : 'general';
 
@@ -83,7 +84,8 @@ export function SpaceSettings() {
   const panel = (
     <>
       {activeTab === 'general' && <GeneralPanel spaceId={spaceId!} />}
-      {activeTab === 'channels' && modern && <ChannelsPanel spaceId={spaceId!} />}
+      {activeTab === 'channels' &&
+        (modern ? <ChannelsPanel spaceId={spaceId!} /> : <MatrixRoomsPanel spaceId={spaceId!} />)}
       {activeTab === 'members' && <PermissionsPanel roomId={spaceId!} />}
       {activeTab === 'roles' && modern && <RolesPanel spaceId={spaceId!} />}
       {activeTab === 'permissions' && space && <RoomPermissionsMatrix roomId={spaceId!} />}
