@@ -432,6 +432,17 @@ data class InviteInfo(
 /** Who may join a room */
 typealias JoinRule = String
 
+/** How far restoring the room keys from the key backup has come */
+@Serializable
+data class KeyRestoreProgress(
+    /** Encrypted rooms whose keys have been fetched */
+    val roomsDone: Long,
+    /** Encrypted rooms the keys are fetched for */
+    val roomsTotal: Long,
+    /** Keys this device didn't have and now has */
+    val keysRestored: Long,
+)
+
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
@@ -2294,6 +2305,23 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun recover(recoveryKey: String) {
         Runtime.callUnit("WizardClient.recover", handle, listOf(Arg.value<String>(recoveryKey)))
     }
+
+    /**
+     * Makes the room's messages that couldn't be decrypted try again, after fetching the
+     * room's keys from the key backup when this device can read it. What decrypts shows up
+     * in the room's timelines by itself.
+     */
+    suspend fun retryDecryption(roomId: String) {
+        Runtime.callUnit("WizardClient.retryDecryption", handle, listOf(Arg.value<String>(roomId)))
+    }
+
+    /**
+     * Fetches the room keys of every encrypted room from the key backup (needs the backup's
+     * key on this device: error `noKeyBackup` otherwise, enter the recovery key first).
+     * `listener` hears the progress after each room; resolves to the final one.
+     */
+    suspend fun restoreKeyBackup(listener: (KeyRestoreProgress) -> Unit): KeyRestoreProgress =
+        Runtime.call("WizardClient.restoreKeyBackup", handle, listOf(Arg.listener<KeyRestoreProgress>(listener)))
 
     suspend fun requestSelfVerification(): VerificationFlow =
         Runtime.call("WizardClient.requestSelfVerification", handle, listOf())

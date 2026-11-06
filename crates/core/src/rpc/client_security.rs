@@ -44,6 +44,20 @@ rpc_methods! {
             this.recover(&recovery_key).await
         }
 
+        /// Makes the room's messages that couldn't be decrypted try again, after fetching the
+        /// room's keys from the key backup when this device can read it. What decrypts shows up
+        /// in the room's timelines by itself.
+        call fn retryDecryption(room_id: String) -> () {
+            this.retry_decryption(&room_id).await
+        }
+
+        /// Fetches the room keys of every encrypted room from the key backup (needs the backup's
+        /// key on this device: error `noKeyBackup` otherwise, enter the recovery key first).
+        /// `listener` hears the progress after each room; resolves to the final one.
+        call fn restoreKeyBackup(listener: Listener<crate::KeyRestoreProgress>) -> crate::KeyRestoreProgress {
+            this.restore_key_backup(|p| listener.emit(&p)).await
+        }
+
         call fn requestSelfVerification() -> Handle<VerificationFlow> {
             Ok(Handle::new(this.request_self_verification().await?))
         }

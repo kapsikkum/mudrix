@@ -362,6 +362,24 @@ export type JoinRule = 'invite' | 'public' | 'knock' | 'restricted' | 'knock_res
 export type JsonValue = any;
 
 /**
+ * How far restoring the room keys from the key backup has come
+ */
+export type KeyRestoreProgress = {
+  /**
+   * Encrypted rooms whose keys have been fetched
+   */
+  roomsDone: number;
+  /**
+   * Encrypted rooms the keys are fetched for
+   */
+  roomsTotal: number;
+  /**
+   * Keys this device didn't have and now has
+   */
+  keysRestored: number;
+};
+
+/**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
  */
@@ -2282,6 +2300,26 @@ export class WizardClient extends Remote {
   /** Unlocks (and verifies) this device with the recovery key. */
   recover(recoveryKey: string): Promise<void> {
     return runtime.call('WizardClient.recover', this, [recoveryKey]) as Promise<void>;
+  }
+
+  /**
+   * Makes the room's messages that couldn't be decrypted try again, after fetching the
+   * room's keys from the key backup when this device can read it. What decrypts shows up
+   * in the room's timelines by itself.
+   */
+  retryDecryption(roomId: string): Promise<void> {
+    return runtime.call('WizardClient.retryDecryption', this, [roomId]) as Promise<void>;
+  }
+
+  /**
+   * Fetches the room keys of every encrypted room from the key backup (needs the backup's
+   * key on this device: error `noKeyBackup` otherwise, enter the recovery key first).
+   * `listener` hears the progress after each room; resolves to the final one.
+   */
+  restoreKeyBackup(listener: (value: KeyRestoreProgress) => void): Promise<KeyRestoreProgress> {
+    return runtime.call('WizardClient.restoreKeyBackup', this, [
+      listener,
+    ]) as Promise<KeyRestoreProgress>;
   }
 
   requestSelfVerification(): Promise<VerificationFlow> {

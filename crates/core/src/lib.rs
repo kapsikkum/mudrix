@@ -22,6 +22,7 @@ mod error;
 mod extras;
 mod features;
 mod homeserver;
+mod key_recovery;
 mod media_download;
 mod net;
 mod profile;
@@ -56,6 +57,7 @@ pub use error::{Error, Result};
 pub use extras::{ThreadInfo, ThreadPage, UrlPreview};
 pub use features::{EmojiPack, Notification, PackImage, SearchHit};
 pub use homeserver::HomeserverSoftware;
+pub use key_recovery::KeyRestoreProgress;
 pub use media_download::DownloadProgress;
 pub use profile::{
     CustomStatus, Presence, PresenceInfo, UserProfile, MAX_STATUS_LENGTH, STATUS_FIELD,

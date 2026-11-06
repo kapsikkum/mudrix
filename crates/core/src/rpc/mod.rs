@@ -126,6 +126,7 @@ impl From<Error> for RpcError {
             Error::PasswordRequired => "passwordRequired",
             Error::Call(_) => "call",
             Error::Matrix { .. } => "matrix",
+            Error::NoKeyBackup => "noKeyBackup",
             Error::WrongRecoveryKey => "wrongRecoveryKey",
             Error::Cancelled => "cancelled",
             Error::Sdk(_) => "sdk",

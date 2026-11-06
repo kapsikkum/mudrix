@@ -692,6 +692,22 @@ public struct InviteInfo: Codable, Hashable, Sendable {
 /// Who may join a room
 public typealias JoinRule = String
 
+/// How far restoring the room keys from the key backup has come
+public struct KeyRestoreProgress: Codable, Hashable, Sendable {
+    /// Encrypted rooms whose keys have been fetched
+    public var roomsDone: Int
+    /// Encrypted rooms the keys are fetched for
+    public var roomsTotal: Int
+    /// Keys this device didn't have and now has
+    public var keysRestored: Int
+
+    public init(roomsDone: Int, roomsTotal: Int, keysRestored: Int) {
+        self.roomsDone = roomsDone
+        self.roomsTotal = roomsTotal
+        self.keysRestored = keysRestored
+    }
+}
+
 /// A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
 /// plain values so apps can apply it to their own list type.
 public enum ListDiff<T: Codable & Hashable & Sendable>: Codable, Hashable, Sendable {
@@ -3236,6 +3252,20 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// Unlocks (and verifies) this device with the recovery key.
     public func recover(recoveryKey: String) async throws {
         _ = try await call("WizardClient.recover", [.value(recoveryKey)]) as Empty
+    }
+
+    /// Makes the room's messages that couldn't be decrypted try again, after fetching the
+    /// room's keys from the key backup when this device can read it. What decrypts shows up
+    /// in the room's timelines by itself.
+    public func retryDecryption(roomId: String) async throws {
+        _ = try await call("WizardClient.retryDecryption", [.value(roomId)]) as Empty
+    }
+
+    /// Fetches the room keys of every encrypted room from the key backup (needs the backup's
+    /// key on this device: error `noKeyBackup` otherwise, enter the recovery key first).
+    /// `listener` hears the progress after each room; resolves to the final one.
+    public func restoreKeyBackup(listener: @escaping @Sendable (KeyRestoreProgress) -> Void) async throws -> KeyRestoreProgress {
+        try await call("WizardClient.restoreKeyBackup", [.listener(KeyRestoreProgress.self, listener)])
     }
 
     public func requestSelfVerification() async throws -> VerificationFlow {

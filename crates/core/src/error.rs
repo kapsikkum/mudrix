@@ -31,6 +31,9 @@ pub enum Error {
     /// The app cancelled the call (a media download)
     #[error("cancelled")]
     Cancelled,
+    /// The key backup can't be read on this device: there is none, or its key isn't here yet
+    #[error("this device has no key backup it can read")]
+    NoKeyBackup,
     #[error("the recovery key or passphrase is wrong")]
     WrongRecoveryKey,
     #[error("{0}")]
