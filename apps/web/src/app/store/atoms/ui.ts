@@ -250,6 +250,7 @@ export type SettingsPage =
   | 'accessibility'
   | 'privacy'
   | 'notifications'
+  | 'voice-video'
   | 'emojis-stickers'
   | 'keybinds'
   | 'language'

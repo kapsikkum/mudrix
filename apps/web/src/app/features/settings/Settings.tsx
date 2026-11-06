@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue } from 'jotai';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import {
+  ArrowSquareOutIcon,
   UserIcon,
   PaletteIcon,
   PersonSimpleCircleIcon,
   ShieldIcon,
   BellIcon,
+  HeadphonesIcon,
   SmileyStickerIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
@@ -37,6 +39,7 @@ import { Accessibility } from './accessibility';
 import { Privacy } from './privacy';
 import { Language } from './language';
 import { Notifications } from './notifications';
+import { VoiceVideo } from './voiceVideo';
 import { EmojisStickers } from './emojis';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
@@ -89,6 +92,7 @@ function AccountPage() {
             className={css.externalLink}
           >
             {t('settings.account.manageAccount')}
+            <ArrowSquareOutIcon size={14} aria-hidden />
           </a>
         </div>
       </div>
@@ -157,6 +161,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Language />;
     case 'notifications':
       return <Notifications />;
+    case 'voice-video':
+      return <VoiceVideo />;
     case 'emojis-stickers':
       return <EmojisStickers />;
     case 'keybinds':
@@ -185,11 +191,12 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
     },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
     {
-      key: 'appearance',
-      label: t('settings.appearance.title'),
-      Icon: PaletteIcon,
+      key: 'voice-video',
+      label: t('settings.voiceVideo.title'),
+      Icon: HeadphonesIcon,
       dividerBefore: true,
     },
+    { key: 'appearance', label: t('settings.appearance.title'), Icon: PaletteIcon },
     {
       key: 'accessibility',
       label: t('settings.accessibility.title'),

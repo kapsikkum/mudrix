@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { ArrowCounterClockwiseIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
 import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { Tooltip } from '@/app/components/Tooltip';
 import { KeyCaps } from '@/app/components/KeyCaps';
-import { ToggleRow } from '@/app/components/Toggle';
-import { Button } from '@/app/components/Button';
 import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
 import {
   comboKeys,
@@ -23,14 +21,7 @@ export function Keybinds() {
   const [keybinds, setKeybinds] = useAtom(keybindsAtom);
   const [listening, setListening] = useState<KeybindAction | null>(null);
   const [heldPreview, setHeldPreview] = useState<string[]>([]);
-  const [isPushToTalk, setPushToTalk] = useAtom(pushToTalkEnabledAtom);
-  const desktop = window.desktopAPI;
-  const [pttPermission, setPttPermission] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    if (!isPushToTalk) return;
-    void desktop?.getPushToTalkPermission?.().then(setPttPermission);
-  }, [isPushToTalk, desktop]);
+  const isPushToTalk = useAtomValue(pushToTalkEnabledAtom);
 
   const startListening = (action: KeybindAction) => {
     setHeldPreview([]);
@@ -94,37 +85,6 @@ export function Keybinds() {
       {SHORTCUT_GROUPS.map((group) => (
         <div key={group.id} className={css.section}>
           <h3 className={css.sectionTitle}>{t(group.labelKey)}</h3>
-          {group.id === 'voice' && (
-            <>
-              <ToggleRow
-                label={t('settings.keybinds.pushToTalk')}
-                checked={isPushToTalk}
-                onChange={setPushToTalk}
-              />
-              {isPushToTalk && !desktop?.setPushToTalkKey && (
-                <p className={css.settingNote}>{t('settings.keybinds.pushToTalkBrowserHint')}</p>
-              )}
-              {isPushToTalk && pttPermission === false && (
-                <div className={css.settingRow}>
-                  <div className={css.settingInfo}>
-                    <span className={css.settingNote}>
-                      {t('settings.keybinds.pushToTalkPermission')}
-                    </span>
-                  </div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={async () => {
-                      const granted = await desktop?.requestPushToTalkPermission?.();
-                      setPttPermission(!!granted);
-                    }}
-                  >
-                    {t('settings.keybinds.pushToTalkGrant')}
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
           {listening && group.items.some((item) => item.editable && item.id === listening) && (
             <p className={css.keybindHint}>
               <KeyCaps keys={['Esc']} size="sm" />

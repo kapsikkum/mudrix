@@ -198,8 +198,11 @@ interface InboundStats {
 
 const STREAM_WATCH_TOPIC = 'org.wizardchat.stream-watch';
 
-export function listDevices(kind: DeviceKind): Promise<MediaDeviceInfo[]> {
-  return LivekitRoom.getLocalDevices(kind, true);
+export function listDevices(
+  kind: DeviceKind,
+  requestPermissions = true
+): Promise<MediaDeviceInfo[]> {
+  return LivekitRoom.getLocalDevices(kind, requestPermissions);
 }
 
 export class CallMedia {
