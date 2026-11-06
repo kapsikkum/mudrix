@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Chiunque può trovare ed entrare in questa stanza.",
     "onlyPeopleWhoAre": "Possono entrare solo le persone invitate. La cifratura non può essere disattivata in seguito.",
     "newRoomInSpace": "Nuova stanza nello spazio",
-    "everyone": "Tutti"
+    "everyone": "Tutti",
+    "drag": {
+      "pickedUp": "Hai preso {{name}}",
+      "over": "Sopra {{name}}",
+      "dropped": "Hai rilasciato {{name}} su {{target}}",
+      "cancelled": "Spostamento di {{name}} annullato"
+    }
   },
   "notifLevel": {
     "default": "Predefinito",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Attivo",
       "reducedMotionOff": "Disattivo",
       "autoplayGifs": "Riproduzione automatica di GIF e adesivi animati",
-      "autoplayGifsNote": "Se disattivata, le GIF e gli adesivi animati vengono mostrati come immagine fissa e vengono riprodotti al passaggio del mouse."
+      "autoplayGifsNote": "Se disattivata, le GIF e gli adesivi animati vengono mostrati come immagine fissa e vengono riprodotti al passaggio del mouse.",
+      "autoplayGifsNoteTouch": "Se disattivata, le GIF e gli adesivi animati vengono mostrati come immagine fissa."
     },
     "privacy": {
       "title": "Privacy",

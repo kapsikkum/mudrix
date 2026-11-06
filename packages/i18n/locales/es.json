@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Cualquiera puede encontrar esta sala y unirse.",
     "onlyPeopleWhoAre": "Solo pueden unirse las personas invitadas. El cifrado no se puede desactivar después.",
     "newRoomInSpace": "Nueva sala en el espacio",
-    "everyone": "Todos"
+    "everyone": "Todos",
+    "drag": {
+      "pickedUp": "Has levantado {{name}}",
+      "over": "Sobre {{name}}",
+      "dropped": "Has soltado {{name}} sobre {{target}}",
+      "cancelled": "Se canceló el movimiento de {{name}}"
+    }
   },
   "notifLevel": {
     "default": "Predeterminado",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Activado",
       "reducedMotionOff": "Desactivado",
       "autoplayGifs": "Reproducir automáticamente GIF y stickers animados",
-      "autoplayGifsNote": "Si está desactivado, los GIF y los stickers animados se muestran como imagen fija y se reproducen al pasar el ratón por encima."
+      "autoplayGifsNote": "Si está desactivado, los GIF y los stickers animados se muestran como imagen fija y se reproducen al pasar el ratón por encima.",
+      "autoplayGifsNoteTouch": "Si está desactivado, los GIF y los stickers animados se muestran como imagen fija."
     },
     "privacy": {
       "title": "Privacidad",

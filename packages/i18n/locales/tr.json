@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Herkes bu odayı bulup katılabilir.",
     "onlyPeopleWhoAre": "Yalnızca davet edilenler katılabilir. Şifreleme sonradan kapatılamaz.",
     "newRoomInSpace": "Alanda yeni oda",
-    "everyone": "Herkes"
+    "everyone": "Herkes",
+    "drag": {
+      "pickedUp": "{{name}} alındı",
+      "over": "{{name}} üzerinde",
+      "dropped": "{{name}}, {{target}} üzerine bırakıldı",
+      "cancelled": "{{name}} taşıma iptal edildi"
+    }
   },
   "notifLevel": {
     "default": "Varsayılan",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Açık",
       "reducedMotionOff": "Kapalı",
       "autoplayGifs": "GIF'leri ve animasyonlu çıkartmaları otomatik oynat",
-      "autoplayGifsNote": "Kapalıyken GIF'ler ve animasyonlu çıkartmalar durağan görsel olarak gösterilir ve üzerine gelindiğinde oynar."
+      "autoplayGifsNote": "Kapalıyken GIF'ler ve animasyonlu çıkartmalar durağan görsel olarak gösterilir ve üzerine gelindiğinde oynar.",
+      "autoplayGifsNoteTouch": "Kapalıyken GIF'ler ve animasyonlu çıkartmalar durağan görsel olarak gösterilir."
     },
     "privacy": {
       "title": "Gizlilik",

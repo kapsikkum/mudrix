@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Qualquer pessoa pode encontrar e entrar nesta sala.",
     "onlyPeopleWhoAre": "Só quem for convidado pode entrar. A encriptação não pode ser desativada mais tarde.",
     "newRoomInSpace": "Nova sala no espaço",
-    "everyone": "Todos"
+    "everyone": "Todos",
+    "drag": {
+      "pickedUp": "{{name}} selecionado",
+      "over": "Sobre {{name}}",
+      "dropped": "{{name}} solto sobre {{target}}",
+      "cancelled": "Movimento de {{name}} cancelado"
+    }
   },
   "notifLevel": {
     "default": "Padrão",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Ativado",
       "reducedMotionOff": "Desativado",
       "autoplayGifs": "Reproduzir automaticamente GIFs e figurinhas animadas",
-      "autoplayGifsNote": "Quando desativado, GIFs e figurinhas animadas aparecem como imagem estática e são reproduzidos ao passar o mouse."
+      "autoplayGifsNote": "Quando desativado, GIFs e figurinhas animadas aparecem como imagem estática e são reproduzidos ao passar o mouse.",
+      "autoplayGifsNoteTouch": "Quando desativado, GIFs e figurinhas animadas aparecem como imagem estática."
     },
     "privacy": {
       "title": "Privacidade",

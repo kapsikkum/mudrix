@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Anyone can find and join this room.",
     "onlyPeopleWhoAre": "Only people who are invited can join. Encryption can't be turned off later.",
     "newRoomInSpace": "New Room in Space",
-    "everyone": "Everyone"
+    "everyone": "Everyone",
+    "drag": {
+      "pickedUp": "Picked up {{name}}",
+      "over": "Over {{name}}",
+      "dropped": "Dropped {{name}} on {{target}}",
+      "cancelled": "Moving {{name}} cancelled"
+    }
   },
   "notifLevel": {
     "default": "Default",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "On",
       "reducedMotionOff": "Off",
       "autoplayGifs": "Autoplay GIFs and animated stickers",
-      "autoplayGifsNote": "When off, GIFs and animated stickers show as a still image and play on hover."
+      "autoplayGifsNote": "When off, GIFs and animated stickers show as a still image and play on hover.",
+      "autoplayGifsNoteTouch": "When off, GIFs and animated stickers show as a still image."
     },
     "privacy": {
       "title": "Privacy",

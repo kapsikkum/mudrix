@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Iedereen kan deze kamer vinden en eraan deelnemen.",
     "onlyPeopleWhoAre": "Alleen uitgenodigde mensen kunnen deelnemen. Versleuteling kan later niet worden uitgezet.",
     "newRoomInSpace": "Nieuwe kamer in space",
-    "everyone": "Iedereen"
+    "everyone": "Iedereen",
+    "drag": {
+      "pickedUp": "{{name}} opgepakt",
+      "over": "Boven {{name}}",
+      "dropped": "{{name}} neergezet op {{target}}",
+      "cancelled": "Verplaatsen van {{name}} geannuleerd"
+    }
   },
   "notifLevel": {
     "default": "Standaard",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Aan",
       "reducedMotionOff": "Uit",
       "autoplayGifs": "GIF's en geanimeerde stickers automatisch afspelen",
-      "autoplayGifsNote": "Wanneer uit, worden GIF's en geanimeerde stickers als stilstaand beeld getoond en spelen ze af bij aanwijzen."
+      "autoplayGifsNote": "Wanneer uit, worden GIF's en geanimeerde stickers als stilstaand beeld getoond en spelen ze af bij aanwijzen.",
+      "autoplayGifsNoteTouch": "Wanneer uit, worden GIF's en geanimeerde stickers als stilstaand beeld getoond."
     },
     "privacy": {
       "title": "Privacy",

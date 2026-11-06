@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "N'importe qui peut trouver ce salon et le rejoindre.",
     "onlyPeopleWhoAre": "Seules les personnes invitées peuvent le rejoindre. Le chiffrement ne pourra pas être désactivé ensuite.",
     "newRoomInSpace": "Nouveau salon dans l'espace",
-    "everyone": "Tout le monde"
+    "everyone": "Tout le monde",
+    "drag": {
+      "pickedUp": "{{name}} saisi",
+      "over": "Au-dessus de {{name}}",
+      "dropped": "{{name}} déposé sur {{target}}",
+      "cancelled": "Déplacement de {{name}} annulé"
+    }
   },
   "notifLevel": {
     "default": "Par défaut",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Activé",
       "reducedMotionOff": "Désactivé",
       "autoplayGifs": "Lecture automatique des GIF et autocollants animés",
-      "autoplayGifsNote": "Lorsque cette option est désactivée, les GIF et autocollants animés s'affichent sous forme d'image fixe et ne se lancent qu'au survol."
+      "autoplayGifsNote": "Lorsque cette option est désactivée, les GIF et autocollants animés s'affichent sous forme d'image fixe et ne se lancent qu'au survol.",
+      "autoplayGifsNoteTouch": "Lorsque cette option est désactivée, les GIF et autocollants animés s'affichent sous forme d'image fixe."
     },
     "privacy": {
       "title": "Confidentialité",

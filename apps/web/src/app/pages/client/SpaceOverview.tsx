@@ -374,6 +374,7 @@ function SpaceSectionView({
         kind: 'room' as const,
         group: null,
         section: canReorder ? 'space' : null,
+        label: r.name,
       })),
     [shownRooms, canReorder]
   );

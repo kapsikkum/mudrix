@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Każdy może znaleźć ten pokój i do niego dołączyć.",
     "onlyPeopleWhoAre": "Dołączyć mogą tylko zaproszone osoby. Szyfrowania nie można później wyłączyć.",
     "newRoomInSpace": "Nowy pokój w przestrzeni",
-    "everyone": "Wszyscy"
+    "everyone": "Wszyscy",
+    "drag": {
+      "pickedUp": "Podniesiono {{name}}",
+      "over": "Nad {{name}}",
+      "dropped": "Upuszczono {{name}} na {{target}}",
+      "cancelled": "Anulowano przenoszenie {{name}}"
+    }
   },
   "notifLevel": {
     "default": "Domyślne",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "Włączone",
       "reducedMotionOff": "Wyłączone",
       "autoplayGifs": "Automatycznie odtwarzaj GIF-y i animowane naklejki",
-      "autoplayGifsNote": "Gdy wyłączone, GIF-y i animowane naklejki są wyświetlane jako nieruchomy obraz i odtwarzają się po najechaniu kursorem."
+      "autoplayGifsNote": "Gdy wyłączone, GIF-y i animowane naklejki są wyświetlane jako nieruchomy obraz i odtwarzają się po najechaniu kursorem.",
+      "autoplayGifsNoteTouch": "Gdy wyłączone, GIF-y i animowane naklejki są wyświetlane jako nieruchomy obraz."
     },
     "privacy": {
       "title": "Prywatność",

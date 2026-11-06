@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "Alle können diesen Raum finden und beitreten.",
     "onlyPeopleWhoAre": "Nur eingeladene Personen können beitreten. Die Verschlüsselung lässt sich später nicht abschalten.",
     "newRoomInSpace": "Neuer Raum im Space",
-    "everyone": "Alle"
+    "everyone": "Alle",
+    "drag": {
+      "pickedUp": "{{name}} aufgenommen",
+      "over": "Über {{name}}",
+      "dropped": "{{name}} auf {{target}} abgelegt",
+      "cancelled": "Verschieben von {{name}} abgebrochen"
+    }
   },
   "notifLevel": {
     "default": "Standard",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "An",
       "reducedMotionOff": "Aus",
       "autoplayGifs": "GIFs und animierte Sticker automatisch abspielen",
-      "autoplayGifsNote": "Wenn deaktiviert, werden GIFs und animierte Sticker als Standbild angezeigt und erst beim Überfahren mit der Maus abgespielt."
+      "autoplayGifsNote": "Wenn deaktiviert, werden GIFs und animierte Sticker als Standbild angezeigt und erst beim Überfahren mit der Maus abgespielt.",
+      "autoplayGifsNoteTouch": "Wenn deaktiviert, werden GIFs und animierte Sticker als Standbild angezeigt."
     },
     "privacy": {
       "title": "Datenschutz",

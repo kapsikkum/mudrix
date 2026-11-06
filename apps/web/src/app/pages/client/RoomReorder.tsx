@@ -7,13 +7,16 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   DndContext,
   DragOverlay,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
+  type Announcements,
   type DragEndEvent,
   type DragOverEvent,
   type DragStartEvent,
@@ -32,6 +35,8 @@ export interface ReorderRow {
   group: string | null;
   section: string | null;
   anchor?: string;
+  /** What a screen reader calls the row while it is dragged; the id when absent. */
+  label?: string;
 }
 
 interface InsertLine {
@@ -68,7 +73,12 @@ export function RoomReorderProvider({
   renderOverlay,
   children,
 }: RoomReorderProviderProps) {
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+  const { t } = useTranslation();
+  // A mouse drags after a few pixels; a finger needs a short hold, so a swipe still scrolls the list.
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 6 } })
+  );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [insertLine, setInsertLine] = useState<InsertLine | null>(null);
   const [dropGroup, setDropGroup] = useState<string | null>(null);
@@ -150,6 +160,20 @@ export function RoomReorderProvider({
     [byId, rows, anchors, anchorOf, anchorRow]
   );
 
+  // Screen readers get names, not the ids the rows are keyed by.
+  const announcements = useMemo<Announcements>(() => {
+    const label = (id: string | number) => byId.get(String(id))?.row.label ?? String(id);
+    return {
+      onDragStart: ({ active }) => t('room.drag.pickedUp', { name: label(active.id) }),
+      onDragOver: ({ over }) => (over ? t('room.drag.over', { name: label(over.id) }) : undefined),
+      onDragEnd: ({ active, over }) =>
+        over
+          ? t('room.drag.dropped', { name: label(active.id), target: label(over.id) })
+          : t('room.drag.cancelled', { name: label(active.id) }),
+      onDragCancel: ({ active }) => t('room.drag.cancelled', { name: label(active.id) }),
+    };
+  }, [byId, t]);
+
   const reset = () => {
     setActiveId(null);
     onActiveChange?.(null);
@@ -187,6 +211,7 @@ export function RoomReorderProvider({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       onDragCancel={reset}
+      accessibility={{ announcements }}
     >
       <SortableContext items={rows.map((r) => r.id)} strategy={verticalListSortingStrategy}>
         <ReorderContext.Provider value={{ insertLine }}>{children}</ReorderContext.Provider>

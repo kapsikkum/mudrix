@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { autoplayGifsAtom, reducedMotionAtom, type ReducedMotion } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Select } from '@/app/components/Select';
+import { isTouchDevice } from '@/util/touch';
 import * as css from '../Settings.css';
 
 const REDUCED_MOTION_OPTIONS: Record<ReducedMotion, string> = {
@@ -39,7 +40,11 @@ export function Accessibility() {
 
         <ToggleRow
           label={t('settings.accessibility.autoplayGifs')}
-          description={t('settings.accessibility.autoplayGifsNote')}
+          description={t(
+            isTouchDevice()
+              ? 'settings.accessibility.autoplayGifsNoteTouch'
+              : 'settings.accessibility.autoplayGifsNote'
+          )}
           checked={autoplayGifs}
           onChange={setAutoplayGifs}
         />

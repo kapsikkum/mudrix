@@ -1009,6 +1009,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             anchor: it.item.isRoot ? ROOMS_ANCHOR : undefined,
+            label: it.item.name,
           });
           continue;
         }
@@ -1021,11 +1022,18 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             anchor: it.section.tag,
+            label: it.section.name,
           });
           continue;
         }
         if (headerKey === SECTION_ROWS) {
-          rows.push({ id: it.item.roomId, kind: 'room', group, section: null });
+          rows.push({
+            id: it.item.roomId,
+            kind: 'room',
+            group,
+            section: null,
+            label: it.item.entry.name,
+          });
           continue;
         }
         const isFavourite = headerKey !== null && headerKey === spaceFavKey;
@@ -1036,6 +1044,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           kind: 'room',
           group,
           section: allowed ? (isFavourite ? 'fav' : `space:${it.item.parentSpaceId}`) : null,
+          label: it.item.entry.name,
         });
       }
       return rows;
@@ -1058,6 +1067,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             anchor: headerKey === HOME_ROOMS_CATEGORY ? ROOMS_ANCHOR : undefined,
+            label: it.label,
           });
           continue;
         }
@@ -1070,11 +1080,18 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             group,
             section: null,
             anchor: it.section.tag,
+            label: it.section.name,
           });
           continue;
         }
         if (headerKey === SECTION_ROWS) {
-          rows.push({ id: it.entry.roomId, kind: 'room', group, section: null });
+          rows.push({
+            id: it.entry.roomId,
+            kind: 'room',
+            group,
+            section: null,
+            label: it.entry.name,
+          });
           continue;
         }
         const closed = headerKey !== null && closedCategories.has(headerKey);
@@ -1083,6 +1100,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           kind: 'room',
           group,
           section: closed ? null : headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'home',
+          label: it.entry.name,
         });
       }
       return rows;

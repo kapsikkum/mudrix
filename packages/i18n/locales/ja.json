@@ -604,7 +604,13 @@
     "anyoneCanFindAnd": "誰でもこのルームを見つけて参加できます。",
     "onlyPeopleWhoAre": "招待されたユーザーのみ参加できます。暗号化は後から無効にできません。",
     "newRoomInSpace": "スペースに新しいルーム",
-    "everyone": "全員"
+    "everyone": "全員",
+    "drag": {
+      "pickedUp": "{{name}} を持ち上げました",
+      "over": "{{name}} の上",
+      "dropped": "{{name}} を {{target}} にドロップしました",
+      "cancelled": "{{name}} の移動をキャンセルしました"
+    }
   },
   "notifLevel": {
     "default": "デフォルト",
@@ -1381,7 +1387,8 @@
       "reducedMotionOn": "オン",
       "reducedMotionOff": "オフ",
       "autoplayGifs": "GIFとアニメーションスタンプを自動再生",
-      "autoplayGifsNote": "オフにすると、GIFとアニメーションスタンプは静止画として表示され、マウスを重ねたときに再生されます。"
+      "autoplayGifsNote": "オフにすると、GIFとアニメーションスタンプは静止画として表示され、マウスを重ねたときに再生されます。",
+      "autoplayGifsNoteTouch": "オフにすると、GIFとアニメーションスタンプは静止画として表示されます。"
     },
     "privacy": {
       "title": "プライバシー",

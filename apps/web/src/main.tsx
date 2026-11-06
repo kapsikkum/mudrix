@@ -17,6 +17,7 @@ import '@fontsource/roboto/700.css';
 
 import '@/theme/reset.css';
 import '@/theme/global.css';
+import '@/theme/touch.css';
 
 import '@/i18n';
 
