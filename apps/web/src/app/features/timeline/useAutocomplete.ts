@@ -4,7 +4,8 @@ import type { WizardClient } from '@wizardchat/core';
 import { useMembers, useRoom } from '@/app/data';
 import { Editor, Transforms, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { emojiFrequencyAtom } from '@/app/store/atoms';
+import { emojiFrequencyAtom, emojiStyleAtom } from '@/app/store/atoms';
+import { getMaxEmojiVersion } from '@/util/emojiStyle';
 import emojibaseData from 'emojibase-data/en/data.json';
 import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json';
 import { getCommandSuggestions } from './composer/commands';
@@ -14,6 +15,7 @@ interface EmojiEntry {
   id: string;
   char: string;
   searchKeys: string[];
+  version: number;
 }
 
 let EMOJI_LIST: EmojiEntry[] | null = null;
@@ -31,7 +33,9 @@ function getEmojiList(): EmojiEntry[] {
 
   const shortcodeMap = emojibaseShortcodes as Record<string, string | string[]>;
 
-  EMOJI_LIST = (emojibaseData as Array<{ hexcode: string; label: string; tags?: string[] }>)
+  EMOJI_LIST = (
+    emojibaseData as Array<{ hexcode: string; label: string; tags?: string[]; version: number }>
+  )
     .filter((e) => shortcodeMap[e.hexcode])
     .map((e) => {
       const sc = shortcodeMap[e.hexcode];
@@ -41,6 +45,7 @@ function getEmojiList(): EmojiEntry[] {
         id: allShortcodes[0],
         char: unicodeToChar(e.hexcode),
         searchKeys: [...new Set([...allShortcodes, ...tags, e.label.toLowerCase()])],
+        version: e.version,
       };
     })
     .filter((e) => e.char.length > 0 && e.id.length > 0);
@@ -112,6 +117,7 @@ export function useAutocomplete(
   membersRef.current = roomMembers;
   const [state, setState] = useState<AutocompleteState>(CLOSED);
   const freq = useAtomValue(emojiFrequencyAtom);
+  const maxEmojiVersion = getMaxEmojiVersion(useAtomValue(emojiStyleAtom));
   const setFreq = useSetAtom(emojiFrequencyAtom);
 
   const close = useCallback(() => setState(CLOSED), []);
@@ -170,6 +176,7 @@ export function useAutocomplete(
 
         const list = getEmojiList();
         const results = list
+          .filter((e) => e.version <= maxEmojiVersion)
           .filter((e) => e.id.startsWith(query) || e.searchKeys.some((k) => k.startsWith(query)))
           .map((e) => ({ ...e, freq: freq[e.char] ?? 0 }))
           .sort((a, b) => {
@@ -276,7 +283,7 @@ export function useAutocomplete(
 
       setState(CLOSED);
     },
-    [disableCommands]
+    [disableCommands, maxEmojiVersion]
   );
 
   const onArrow = useCallback(

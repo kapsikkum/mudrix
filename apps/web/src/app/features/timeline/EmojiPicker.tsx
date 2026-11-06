@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/dom';
 import {
@@ -17,7 +17,8 @@ import {
   XIcon,
 } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
-import { emojiPickerAtom } from '@/app/store/atoms';
+import { emojiPickerAtom, emojiStyleAtom } from '@/app/store/atoms';
+import { getMaxEmojiVersion } from '@/util/emojiStyle';
 import { useRecentEmoji } from '@/app/hooks/useRecentEmoji';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
@@ -28,6 +29,7 @@ import { Tooltip } from '@/app/components/Tooltip';
 import { PickerPreviewBar, type PreviewItem } from '@/app/components/PickerPreviewBar';
 import {
   getAllCategories,
+  isEmojiVersionSupported,
   searchEmoji,
   emojiToShortcode,
   type EmojiCategory,
@@ -141,10 +143,12 @@ export function EmojiPicker({
   const [activeNav, setActiveNav] = useState<string>(RECENT_ID);
   const wrapRef = useRef<HTMLDivElement>(null);
 
+  const emojiStyle = useAtomValue(emojiStyleAtom);
+  const maxEmojiVersion = getMaxEmojiVersion(emojiStyle);
   const recentEmojis = useMemo(() => {
     if (searchQuery) return [];
-    return recent;
-  }, [recent, searchQuery]);
+    return recent.filter((r) => r.url || isEmojiVersionSupported(r.emoji, maxEmojiVersion));
+  }, [recent, searchQuery, maxEmojiVersion]);
 
   const { packs: imagePacks, loading: packsLoading } = useImagePacks(
     ctx?.client ?? null,
@@ -154,8 +158,8 @@ export function EmojiPicker({
 
   const categories = useMemo(() => {
     if (!ctx) return [];
-    return getAllCategories(imagePacks);
-  }, [ctx, imagePacks]);
+    return getAllCategories(imagePacks, maxEmojiVersion);
+  }, [ctx, imagePacks, maxEmojiVersion]);
 
   const filteredCategories = useMemo(
     () => searchEmoji(searchQuery, categories),

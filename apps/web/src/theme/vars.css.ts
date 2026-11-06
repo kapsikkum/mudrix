@@ -56,6 +56,8 @@ export const vars = {
     lg: tokens.radius.xl,
   },
   font: {
-    body: tokens.font.family.body,
+    // The emoji style puts its font before the UI font (so a whole emoji sequence is shaped by one
+    // font) and a safety net after it, through these two properties (see util/emojiStyle.ts).
+    body: `var(--mudrix-emoji-font-first, "Mudrix Native"), ${tokens.font.family.body}, var(--mudrix-emoji-font-last, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji")`,
   },
 } as const;

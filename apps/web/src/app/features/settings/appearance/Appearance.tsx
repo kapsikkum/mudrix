@@ -17,10 +17,16 @@ import {
   themedAppIconAtom,
   chatFontSizeAtom,
   chatDensityAtom,
+  uiZoomAtom,
+  messageSendAnimationAtom,
+  timeFormatAtom,
+  dateFormatAtom,
   uiDensityAtom,
   uiScaleAtom,
   type ThemeName,
   type MessageLayout,
+  type TimeFormatPreference,
+  type DateFormatPreference,
   type ChatDensity,
   type UiDensity,
   type UiScale,
@@ -40,10 +46,27 @@ import { Slider } from '@/app/components/Slider';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Tooltip } from '@/app/components/Tooltip';
 import { markdownToHtml } from '@/util/markdownToHtml';
+import { formatTime } from '@/util/format';
 import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+
+const ZOOM_LEVELS = [75, 90, 100, 110, 125, 150];
+const ZOOM_OPTIONS = ZOOM_LEVELS.map((level) => ({ value: String(level), label: `${level}%` }));
+
+const TIME_FORMAT_OPTIONS: Record<TimeFormatPreference, string> = {
+  auto: 'settings.appearance.timeFormatAuto',
+  '12h': 'settings.appearance.timeFormat12h',
+  '24h': 'settings.appearance.timeFormat24h',
+};
+
+const DATE_FORMAT_OPTIONS: Record<DateFormatPreference, string> = {
+  long: 'settings.appearance.dateFormatLong',
+  dmy: 'settings.appearance.dateFormatDmy',
+  mdy: 'settings.appearance.dateFormatMdy',
+  ymd: 'settings.appearance.dateFormatYmd',
+};
 
 const PREVIEW_OTHER_NAME = 'Merlin';
 const PREVIEW_OTHER_ID = '@merlin:wizardchat.org';
@@ -161,11 +184,7 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
     [t, myId, prettifyLinks]
   );
 
-  const time = (offsetMin: number) =>
-    new Date(Date.now() - offsetMin * 60_000).toLocaleTimeString(i18n.language, {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+  const time = (offsetMin: number) => formatTime(Date.now() - offsetMin * 60_000, i18n.language);
 
   return (
     <div className={css.preview} aria-hidden="true" onClickCapture={(e) => e.preventDefault()}>
@@ -211,6 +230,10 @@ export function Appearance() {
   const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
   const [uiDensity, setUiDensity] = useAtom(uiDensityAtom);
   const [uiScale, setUiScale] = useAtom(uiScaleAtom);
+  const [uiZoom, setUiZoom] = useAtom(uiZoomAtom);
+  const [messageSendAnimation, setMessageSendAnimation] = useAtom(messageSendAnimationAtom);
+  const [timeFormat, setTimeFormat] = useAtom(timeFormatAtom);
+  const [dateFormat, setDateFormat] = useAtom(dateFormatAtom);
   const [followSystem, setFollowSystem] = useAtom(followSystemThemeAtom);
   const [darkTheme, setDarkTheme] = useAtom(systemDarkThemeAtom);
   const [lightTheme, setLightTheme] = useAtom(systemLightThemeAtom);
@@ -331,6 +354,23 @@ export function Appearance() {
 
         <div className={layoutCss.settingRow}>
           <div className={layoutCss.settingInfo}>
+            <span className={layoutCss.settingLabel}>{t('settings.appearance.uiZoom')}</span>
+            <span className={layoutCss.settingNote}>{t('settings.appearance.uiZoomNote')}</span>
+          </div>
+          <Select
+            aria-label={t('settings.appearance.uiZoom')}
+            value={String(uiZoom)}
+            options={
+              ZOOM_LEVELS.includes(uiZoom)
+                ? ZOOM_OPTIONS
+                : [...ZOOM_OPTIONS, { value: String(uiZoom), label: `${uiZoom}%` }]
+            }
+            onChange={(v) => setUiZoom(Number(v))}
+          />
+        </div>
+
+        <div className={layoutCss.settingRow}>
+          <div className={layoutCss.settingInfo}>
             <span className={layoutCss.settingLabel}>{t('settings.appearance.messageLayout')}</span>
           </div>
           <Select<MessageLayout>
@@ -398,6 +438,12 @@ export function Appearance() {
           />
         </div>
 
+        <ToggleRow
+          label={t('settings.appearance.messageSendAnimation')}
+          description={t('settings.appearance.messageSendAnimationNote')}
+          checked={messageSendAnimation}
+          onChange={setMessageSendAnimation}
+        />
         <ToggleRow
           label={t('settings.appearance.colorUsernames')}
           checked={colorUsernames}
@@ -471,6 +517,39 @@ export function Appearance() {
           checked={markdown}
           onChange={setMarkdown}
         />
+      </div>
+
+      <div className={layoutCss.divider} />
+
+      <div className={layoutCss.section}>
+        <div className={layoutCss.settingRow}>
+          <div className={layoutCss.settingInfo}>
+            <span className={layoutCss.settingLabel}>{t('settings.appearance.timeFormat')}</span>
+          </div>
+          <Select<TimeFormatPreference>
+            aria-label={t('settings.appearance.timeFormat')}
+            value={timeFormat}
+            options={(Object.keys(TIME_FORMAT_OPTIONS) as TimeFormatPreference[]).map((option) => ({
+              value: option,
+              label: t(TIME_FORMAT_OPTIONS[option]),
+            }))}
+            onChange={setTimeFormat}
+          />
+        </div>
+        <div className={layoutCss.settingRow}>
+          <div className={layoutCss.settingInfo}>
+            <span className={layoutCss.settingLabel}>{t('settings.appearance.dateFormat')}</span>
+          </div>
+          <Select<DateFormatPreference>
+            aria-label={t('settings.appearance.dateFormat')}
+            value={dateFormat}
+            options={(Object.keys(DATE_FORMAT_OPTIONS) as DateFormatPreference[]).map((option) => ({
+              value: option,
+              label: t(DATE_FORMAT_OPTIONS[option]),
+            }))}
+            onChange={setDateFormat}
+          />
+        </div>
       </div>
     </div>
   );

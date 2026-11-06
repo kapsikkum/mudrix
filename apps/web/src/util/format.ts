@@ -1,19 +1,43 @@
+export type TimeFormatSetting = 'auto' | '12h' | '24h';
+export type DateFormatSetting = 'long' | 'dmy' | 'mdy' | 'ymd';
+
+// Display preferences are kept here (set from the settings atoms in App) so the many
+// non-React formatting call sites don't each need to read them.
+let timeFormatSetting: TimeFormatSetting = 'auto';
+let dateFormatSetting: DateFormatSetting = 'long';
+
+export function setDisplayFormats(time: TimeFormatSetting, date: DateFormatSetting): void {
+  timeFormatSetting = time;
+  dateFormatSetting = date;
+}
+
+const pad2 = (n: number) => String(n).padStart(2, '0');
+
+function formatNumericDate(date: Date, format: Exclude<DateFormatSetting, 'long'>): string {
+  const d = pad2(date.getDate());
+  const m = pad2(date.getMonth() + 1);
+  const y = date.getFullYear();
+  if (format === 'dmy') return `${d}/${m}/${y}`;
+  if (format === 'mdy') return `${m}/${d}/${y}`;
+  return `${y}-${m}-${d}`;
+}
+
 export function formatTime(ts: number, locale?: string): string {
-  return new Date(ts).toLocaleTimeString(locale ? [locale] : [], {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' };
+  if (timeFormatSetting !== 'auto') options.hour12 = timeFormatSetting === '12h';
+  return new Date(ts).toLocaleTimeString(locale ? [locale] : [], options);
 }
 
 export function formatDateLabel(ts: number, t: (key: string) => string, locale?: string): string {
   const date = new Date(ts);
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const yesterday = today - 86400000;
+  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).getTime();
   const d = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
   if (d === today) return t('timeline.dateToday');
   if (d === yesterday) return t('timeline.dateYesterday');
+  if (dateFormatSetting !== 'long') return formatNumericDate(date, dateFormatSetting);
   return date.toLocaleDateString(locale ? [locale] : [], {
     weekday: 'long',
     month: 'long',
@@ -29,11 +53,12 @@ export function formatShortDateLabel(
   const date = new Date(ts);
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const yesterday = today - 86400000;
+  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).getTime();
   const d = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
   if (d === today) return t('timeline.dateToday');
   if (d === yesterday) return t('timeline.dateYesterday');
+  if (dateFormatSetting !== 'long') return formatNumericDate(date, dateFormatSetting);
   return date.toLocaleDateString(locale ? [locale] : [], {
     weekday: 'short',
     month: 'short',

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { UserPack } from './UserPack';
 import { FavoritePacks } from './FavoritePacks';
+import { EmojiStyleSection } from './EmojiStyleSection';
 import * as css from '@/app/components/Settings/Settings.css';
 
 export function EmojisStickers() {
@@ -24,6 +25,10 @@ export function EmojisStickers() {
         />
       ) : (
         <>
+          <EmojiStyleSection />
+
+          <div className={css.divider} />
+
           <div className={css.section}>
             <UserPack
               client={client}

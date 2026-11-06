@@ -1,7 +1,19 @@
 import { useEffect } from 'react';
 import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
-import { effectiveThemeAtom, customThemesAtom, themedAppIconAtom } from '@/app/store/atoms';
+import {
+  effectiveThemeAtom,
+  customThemesAtom,
+  themedAppIconAtom,
+  uiZoomAtom,
+  messageSendAnimationAtom,
+  timeFormatAtom,
+  dateFormatAtom,
+  emojiStyleAtom,
+  emojiOnlySizeAtom,
+} from '@/app/store/atoms';
+import { setDisplayFormats } from '@/util/format';
+import { applyEmojiOnlySize, applyEmojiStyle } from '@/util/emojiStyle';
 import { THEMES, DEFAULT_THEME, baseLogoClass } from '@/theme/themes.css';
 import {
   applyCustomThemeVars,
@@ -30,8 +42,15 @@ export function App() {
   const theme = useAtomValue(effectiveThemeAtom);
   const customThemes = useAtomValue(customThemesAtom);
   const themedAppIcon = useAtomValue(themedAppIconAtom);
+  const uiZoom = useAtomValue(uiZoomAtom);
+  const messageSendAnimation = useAtomValue(messageSendAnimationAtom);
+  const timeFormat = useAtomValue(timeFormatAtom);
+  const dateFormat = useAtomValue(dateFormatAtom);
+  const emojiStyle = useAtomValue(emojiStyleAtom);
+  const emojiOnlySize = useAtomValue(emojiOnlySizeAtom);
   // Synchronous on purpose: descendants resolve custom themes by name during the same render pass.
   setCustomThemeRegistry(customThemes);
+  setDisplayFormats(timeFormat, dateFormat);
   useReducedMotionSync();
   useChatDisplaySync();
   useUiDensitySync();
@@ -49,6 +68,23 @@ export function App() {
     const { color } = resolveThemeTokens(theme);
     window.desktopAPI?.setTitleBarTheme?.(color.bgPrimary, color.textPrimary);
   }, [theme, customThemes]);
+
+  useEffect(() => {
+    const zoom = Number.isFinite(uiZoom) ? Math.min(Math.max(uiZoom, 75), 150) : 100;
+    document.documentElement.style.fontSize = zoom === 100 ? '' : `${(16 * zoom) / 100}px`;
+  }, [uiZoom]);
+
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-no-send-anim', !messageSendAnimation);
+  }, [messageSendAnimation]);
+
+  useEffect(() => {
+    applyEmojiStyle(emojiStyle);
+  }, [emojiStyle]);
+
+  useEffect(() => {
+    applyEmojiOnlySize(emojiOnlySize);
+  }, [emojiOnlySize]);
 
   useEffect(() => {
     document.documentElement.classList.toggle(baseLogoClass, !themedAppIcon);

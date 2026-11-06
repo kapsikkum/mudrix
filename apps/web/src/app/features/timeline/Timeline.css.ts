@@ -1,6 +1,6 @@
 import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { chatSize, chatSpace } from './chatDisplay';
+import { CHAT_SCALE_VAR, chatSize, chatSpace } from './chatDisplay';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
 import { fast, fadeInUp, scaleIn } from '@/theme/animations.css';
 import { TYPING_INDICATOR_BAND_HEIGHT } from './composer/TypingIndicator.css';
@@ -857,7 +857,7 @@ export const locationLink = style({
 });
 
 export const emojiOnly = style({
-  fontSize: chatSize(2.5),
+  fontSize: `calc(var(--mudrix-emoji-only-size, 2.5rem) * var(${CHAT_SCALE_VAR}, 1))`,
   lineHeight: 1.2,
 });
 
@@ -1400,6 +1400,9 @@ export const msgLive = style({
   animationName: fadeInUp,
   animationDuration: '120ms',
   animationTimingFunction: 'ease-out',
+  selectors: {
+    'html[data-no-send-anim] &': { animation: 'none' },
+  },
 });
 
 export const systemMsgRow = style({

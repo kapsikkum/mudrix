@@ -1,5 +1,11 @@
 import { atom } from 'jotai';
 import type { UiDensity, UiScale } from '@/theme/uiDensity';
+import {
+  DEFAULT_EMOJI_ONLY_SIZE,
+  DEFAULT_EMOJI_STYLE,
+  type EmojiOnlySize,
+  type EmojiStyle,
+} from '@/util/emojiStyle';
 import { atomWithStorage } from 'jotai/utils';
 import { DEFAULT_THEME } from '@/theme/themes.css';
 import type { CustomTheme } from '@/theme/customThemes';
@@ -20,6 +26,8 @@ import {
 
 export type MessageLayout = 'classic' | 'modern' | 'compact';
 export type { ThemeName } from '@/theme/themeTokens';
+export type TimeFormatPreference = 'auto' | '12h' | '24h';
+export type DateFormatPreference = 'long' | 'dmy' | 'mdy' | 'ymd';
 export type MediaVisibility = 'always' | 'private' | 'never';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
@@ -58,6 +66,18 @@ export interface Preferences {
   themedAppIcon: boolean;
   excludeInsecureSessions: boolean;
   pushToTalk: boolean;
+  /** Page zoom in percent (75-150); describes this device, so it is not synced. */
+  uiZoom: number;
+  timeFormat: TimeFormatPreference;
+  dateFormat: DateFormatPreference;
+  /** Which colour emoji font draws emoji */
+  emojiStyle: EmojiStyle;
+  /** Font size of messages that are only emoji */
+  emojiOnlySize: EmojiOnlySize;
+  /** Turn plain-text emoticons like :) into emoji when sending */
+  emoticonsToEmoji: boolean;
+  /** Fade new messages in as they arrive */
+  messageSendAnimation: boolean;
   followSystemTheme: boolean;
   systemDarkTheme: ThemeName;
   systemLightTheme: ThemeName;
@@ -102,6 +122,13 @@ export const DEFAULT_PREFERENCES: Preferences = {
   themedAppIcon: false,
   excludeInsecureSessions: false,
   pushToTalk: false,
+  uiZoom: 100,
+  timeFormat: 'auto',
+  dateFormat: 'long',
+  emojiStyle: DEFAULT_EMOJI_STYLE,
+  emojiOnlySize: DEFAULT_EMOJI_ONLY_SIZE,
+  emoticonsToEmoji: true,
+  messageSendAnimation: false,
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
   systemLightTheme: 'Ethereal',
@@ -140,6 +167,13 @@ export const touchUiAtom = atom(false);
 export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
 export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
+export const uiZoomAtom = preferenceFieldAtom('uiZoom');
+export const timeFormatAtom = preferenceFieldAtom('timeFormat');
+export const dateFormatAtom = preferenceFieldAtom('dateFormat');
+export const emojiStyleAtom = preferenceFieldAtom('emojiStyle');
+export const emojiOnlySizeAtom = preferenceFieldAtom('emojiOnlySize');
+export const emoticonsToEmojiAtom = preferenceFieldAtom('emoticonsToEmoji');
+export const messageSendAnimationAtom = preferenceFieldAtom('messageSendAnimation');
 export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
 export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
 export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');

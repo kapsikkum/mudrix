@@ -20,12 +20,14 @@ import {
   mentionInsertAtom,
   commandActionsAtom,
   editMessageAtom,
+  emoticonsToEmojiAtom,
   type ComposerAttachment,
 } from '@/app/store/atoms';
 import { useAllRooms, useMembers } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
+import { replaceEmoticonsInValue } from '@/util/emoticons';
 import { formatFileSize } from '@/util/format';
 import { Editor, Transforms, type Descendant } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -175,6 +177,7 @@ export function useComposer({
     roomId,
   });
 
+  const emoticonsToEmoji = useAtomValue(emoticonsToEmojiAtom);
   const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isTypingRef = useRef(false);
 
@@ -353,8 +356,9 @@ export function useComposer({
           // Not a known command: fall through and send as literal text.
         }
 
+        const withEmoji = emoticonsToEmoji ? replaceEmoticonsInValue(editorValue) : editorValue;
         const built = buildTextContent(
-          markdownEnabled ? applyInlineMarkdown(editorValue) : editorValue,
+          markdownEnabled ? applyInlineMarkdown(withEmoji) : withEmoji,
           {
             forceFormatted: !!replyTo,
             myId,
@@ -377,6 +381,7 @@ export function useComposer({
       sendingRef.current = false;
     }
   }, [
+    emoticonsToEmoji,
     attachments,
     sendAttachments,
     maxUploadBytes,

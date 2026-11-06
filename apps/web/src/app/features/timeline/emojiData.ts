@@ -61,6 +61,8 @@ export interface EmojiItem {
   emoji: string;
   label: string;
   tags: string[];
+  /** Unicode Emoji version this emoji was introduced in. */
+  version: number;
   skins?: EmojiItem[];
 }
 
@@ -108,6 +110,7 @@ function buildEmojiData(): EmojiCategory[] {
       emoji: emoji.emoji,
       label: emoji.label,
       tags: emoji.tags ?? [],
+      version: emoji.version,
       skins: emoji.skins
         ?.filter((s) => s.emoji)
         .map((s) => ({
@@ -115,6 +118,7 @@ function buildEmojiData(): EmojiCategory[] {
           emoji: s.emoji!,
           label: s.label,
           tags: s.tags ?? [],
+          version: s.version ?? emoji.version,
         })),
     };
 
@@ -167,8 +171,48 @@ function buildCustomEmojiCategories(imagePacks: Map<string, ImagePackImage>): Cu
     }));
 }
 
-export function getAllCategories(imagePacks: Map<string, ImagePackImage>): PickerCategory[] {
-  const standard = buildEmojiData();
+let cachedVersionByEmoji: Map<string, number> | null = null;
+
+function getVersionByEmoji(): Map<string, number> {
+  if (cachedVersionByEmoji) return cachedVersionByEmoji;
+  const map = new Map<string, number>();
+  for (const emoji of rawEmojiData as unknown as RawEmoji[]) {
+    if (emoji.emoji) map.set(emoji.emoji, emoji.version);
+    for (const skin of emoji.skins ?? []) {
+      if (skin.emoji) map.set(skin.emoji, skin.version ?? emoji.version);
+    }
+  }
+  cachedVersionByEmoji = map;
+  return map;
+}
+
+/** Whether an emoji character is within the given Emoji version. Unknown characters are kept. */
+export function isEmojiVersionSupported(char: string, maxVersion: number): boolean {
+  if (!Number.isFinite(maxVersion)) return true;
+  const version = getVersionByEmoji().get(char);
+  return version === undefined || version <= maxVersion;
+}
+
+/** Hides emoji (and skin tone variants) newer than the selected emoji style can draw. */
+function filterByVersion(categories: EmojiCategory[], maxVersion: number): EmojiCategory[] {
+  if (!Number.isFinite(maxVersion)) return categories;
+  return categories
+    .map((cat) => ({
+      ...cat,
+      emojis: cat.emojis
+        .filter((e) => e.version <= maxVersion)
+        .map((e) =>
+          e.skins ? { ...e, skins: e.skins.filter((s) => s.version <= maxVersion) } : e
+        ),
+    }))
+    .filter((cat) => cat.emojis.length > 0);
+}
+
+export function getAllCategories(
+  imagePacks: Map<string, ImagePackImage>,
+  maxVersion: number = Number.POSITIVE_INFINITY
+): PickerCategory[] {
+  const standard = filterByVersion(buildEmojiData(), maxVersion);
   const customCategories = buildCustomEmojiCategories(imagePacks);
 
   if (customCategories.length === 0) return standard;

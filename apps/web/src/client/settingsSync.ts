@@ -1,6 +1,7 @@
 import type { Keybinds, MessageLayout, Preferences, ThemeName } from '@/app/store/atoms';
 import { DEFAULT_KEYBINDS, DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { THEMES } from '@/theme/themes.css';
+import { EMOJI_ONLY_SIZES, EMOJI_STYLES } from '@/util/emojiStyle';
 import { isCustomThemeId, sanitizeCustomThemes, type CustomTheme } from '@/theme/customThemes';
 import { legacyMudrixKey, mudrixKey, wizardchatKey } from '@/util/namespace';
 
@@ -51,6 +52,7 @@ export type SettingsContents = Partial<Record<string, unknown>>;
 /** Preferences that describe this device (screen size, ...) and so are not synced. */
 const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
   'uiScale',
+  'uiZoom',
   'reducedMotionApplied',
   // Needs the operating system's permission, which is granted per device.
   'notificationBanners',
@@ -73,6 +75,10 @@ const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   reducedMotion: ['system', 'on', 'off'],
   chatDensity: ['compact', 'default', 'spacious'],
   uiDensity: ['compact', 'default', 'spacious'],
+  timeFormat: ['auto', '12h', '24h'],
+  dateFormat: ['long', 'dmy', 'mdy', 'ymd'],
+  emojiStyle: EMOJI_STYLES,
+  emojiOnlySize: EMOJI_ONLY_SIZES,
   systemDarkTheme: Object.keys(THEMES),
   systemLightTheme: Object.keys(THEMES),
 };
