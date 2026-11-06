@@ -553,6 +553,13 @@
           "roomAdded": "{{room}} odasını ekledi",
           "roomRemoved": "{{room}} odasını kaldırdı"
         }
+      },
+      "spaces": {
+        "add": "Ekle",
+        "addLabel": "Bir alana ekle",
+        "choose": "Bir alan seçin…",
+        "none": "Bu oda hiçbir alanda değil.",
+        "title": "Alanlar"
       }
     },
     "space": {

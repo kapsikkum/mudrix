@@ -553,6 +553,13 @@
           "roomAdded": "hat {{room}} hinzugefügt",
           "roomRemoved": "hat {{room}} entfernt"
         }
+      },
+      "spaces": {
+        "add": "Hinzufügen",
+        "addLabel": "Zu einem Space hinzufügen",
+        "choose": "Space auswählen …",
+        "none": "Dieser Raum gehört zu keinem Space.",
+        "title": "Spaces"
       }
     },
     "space": {

@@ -553,6 +553,13 @@
           "roomAdded": "が {{room}} を追加しました",
           "roomRemoved": "が {{room}} を削除しました"
         }
+      },
+      "spaces": {
+        "add": "追加",
+        "addLabel": "スペースに追加",
+        "choose": "スペースを選択…",
+        "none": "このルームはどのスペースにも属していません。",
+        "title": "スペース"
       }
     },
     "space": {

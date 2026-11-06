@@ -553,6 +553,13 @@
           "roomAdded": "heeft {{room}} toegevoegd",
           "roomRemoved": "heeft {{room}} verwijderd"
         }
+      },
+      "spaces": {
+        "add": "Toevoegen",
+        "addLabel": "Aan een space toevoegen",
+        "choose": "Kies een space…",
+        "none": "Deze kamer zit in geen enkele space.",
+        "title": "Spaces"
       }
     },
     "space": {

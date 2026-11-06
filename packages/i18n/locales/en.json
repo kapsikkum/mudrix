@@ -553,6 +553,13 @@
           "roomAdded": "added {{room}}",
           "roomRemoved": "removed {{room}}"
         }
+      },
+      "spaces": {
+        "add": "Add",
+        "addLabel": "Add to a space",
+        "choose": "Choose a space…",
+        "none": "This room is not in any space.",
+        "title": "Spaces"
       }
     },
     "space": {

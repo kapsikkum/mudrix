@@ -553,6 +553,13 @@
           "roomAdded": "dodał(a) {{room}}",
           "roomRemoved": "usunął(-ęła) {{room}}"
         }
+      },
+      "spaces": {
+        "add": "Dodaj",
+        "addLabel": "Dodaj do przestrzeni",
+        "choose": "Wybierz przestrzeń…",
+        "none": "Ten pokój nie należy do żadnej przestrzeni.",
+        "title": "Przestrzenie"
       }
     },
     "space": {
