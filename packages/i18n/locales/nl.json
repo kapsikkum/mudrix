@@ -503,6 +503,56 @@
         "saved": "Rollen opgeslagen",
         "separate": "Apart tonen",
         "title": "Rollen"
+      },
+      "auditLog": {
+        "title": "Auditlog",
+        "note": "Wie wat heeft gewijzigd in deze kamer, nieuwste eerst.",
+        "filter": "Filteren op type",
+        "empty": "Nog niets te tonen.",
+        "loading": "Laden…",
+        "loadOlder": "Oudere wijzigingen laden",
+        "start": "Dat is alles.",
+        "category": {
+          "all": "Alles",
+          "members": "Leden",
+          "permissions": "Rechten",
+          "settings": "Instellingen",
+          "rooms": "Kamers"
+        },
+        "rule": {
+          "public": "iedereen",
+          "invite": "alleen uitgenodigde mensen",
+          "knock": "mensen die erom vragen",
+          "restricted": "leden van een space",
+          "knock_restricted": "mensen die erom vragen of in een space zitten"
+        },
+        "action": {
+          "joined": "is toegetreden",
+          "left": "is vertrokken",
+          "invited": "heeft {{target}} uitgenodigd",
+          "kicked": "heeft {{target}} verwijderd",
+          "banned": "heeft {{target}} verbannen",
+          "unbanned": "heeft de ban van {{target}} opgeheven",
+          "knocked": "vroeg om toe te treden",
+          "knockCancelled": "trok het verzoek om toe te treden in",
+          "knockDenied": "wees het verzoek van {{target}} af",
+          "inviteDeclined": "wees de uitnodiging af",
+          "inviteRevoked": "trok de uitnodiging voor {{target}} in",
+          "powerChanged": "heeft {{target}} gewijzigd van {{from}} naar {{to}}",
+          "permissionsChanged": "heeft gewijzigd wat elk niveau mag",
+          "renamed": "heeft de naam gewijzigd in {{name}}",
+          "nameRemoved": "heeft de naam verwijderd",
+          "topicChanged": "heeft het onderwerp gewijzigd",
+          "avatarChanged": "heeft de afbeelding gewijzigd",
+          "avatarRemoved": "heeft de afbeelding verwijderd",
+          "joinRulesChanged": "heeft gewijzigd wie mag toetreden: {{rule}}",
+          "historyChanged": "heeft gewijzigd wie de geschiedenis mag lezen",
+          "encryptionOn": "heeft versleuteling ingeschakeld",
+          "aliasChanged": "heeft het hoofdadres gewijzigd",
+          "upgraded": "heeft bijgewerkt naar een nieuwe versie",
+          "roomAdded": "heeft {{room}} toegevoegd",
+          "roomRemoved": "heeft {{room}} verwijderd"
+        }
       }
     },
     "space": {

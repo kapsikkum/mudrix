@@ -503,6 +503,56 @@
         "saved": "Rôles enregistrés",
         "separate": "Afficher séparément",
         "title": "Rôles"
+      },
+      "auditLog": {
+        "title": "Journal d'audit",
+        "note": "Qui a changé quoi dans ce salon, du plus récent au plus ancien.",
+        "filter": "Filtrer par type",
+        "empty": "Rien à afficher pour l'instant.",
+        "loading": "Chargement…",
+        "loadOlder": "Charger les changements précédents",
+        "start": "C'est tout.",
+        "category": {
+          "all": "Tout",
+          "members": "Membres",
+          "permissions": "Permissions",
+          "settings": "Paramètres",
+          "rooms": "Salons"
+        },
+        "rule": {
+          "public": "tout le monde",
+          "invite": "les personnes invitées uniquement",
+          "knock": "les personnes qui demandent",
+          "restricted": "les membres d'un espace",
+          "knock_restricted": "les personnes qui demandent ou sont dans un espace"
+        },
+        "action": {
+          "joined": "a rejoint",
+          "left": "est parti",
+          "invited": "a invité {{target}}",
+          "kicked": "a exclu {{target}}",
+          "banned": "a banni {{target}}",
+          "unbanned": "a levé le bannissement de {{target}}",
+          "knocked": "a demandé à rejoindre",
+          "knockCancelled": "a retiré sa demande pour rejoindre",
+          "knockDenied": "a refusé la demande de {{target}}",
+          "inviteDeclined": "a refusé l'invitation",
+          "inviteRevoked": "a retiré l'invitation de {{target}}",
+          "powerChanged": "a fait passer {{target}} de {{from}} à {{to}}",
+          "permissionsChanged": "a modifié ce que chaque niveau peut faire",
+          "renamed": "l'a renommé en {{name}}",
+          "nameRemoved": "a supprimé le nom",
+          "topicChanged": "a changé le sujet",
+          "avatarChanged": "a changé l'image",
+          "avatarRemoved": "a supprimé l'image",
+          "joinRulesChanged": "a changé qui peut rejoindre : {{rule}}",
+          "historyChanged": "a changé qui peut lire l'historique",
+          "encryptionOn": "a activé le chiffrement",
+          "aliasChanged": "a changé l'adresse principale",
+          "upgraded": "l'a mis à niveau vers une nouvelle version",
+          "roomAdded": "a ajouté {{room}}",
+          "roomRemoved": "a retiré {{room}}"
+        }
       }
     },
     "space": {

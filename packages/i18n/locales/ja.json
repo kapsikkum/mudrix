@@ -503,6 +503,56 @@
         "saved": "ロールを保存しました",
         "separate": "別に表示",
         "title": "ロール"
+      },
+      "auditLog": {
+        "title": "監査ログ",
+        "note": "このルームで誰が何を変更したか（新しい順）。",
+        "filter": "種類で絞り込む",
+        "empty": "まだ表示するものがありません。",
+        "loading": "読み込み中…",
+        "loadOlder": "以前の変更を読み込む",
+        "start": "以上です。",
+        "category": {
+          "all": "すべて",
+          "members": "メンバー",
+          "permissions": "権限",
+          "settings": "設定",
+          "rooms": "ルーム"
+        },
+        "rule": {
+          "public": "誰でも",
+          "invite": "招待された人のみ",
+          "knock": "リクエストした人",
+          "restricted": "スペースのメンバー",
+          "knock_restricted": "リクエストした人、またはスペースにいる人"
+        },
+        "action": {
+          "joined": "が参加しました",
+          "left": "が退出しました",
+          "invited": "が {{target}} を招待しました",
+          "kicked": "が {{target}} を削除しました",
+          "banned": "が {{target}} をBANしました",
+          "unbanned": "が {{target}} のBANを解除しました",
+          "knocked": "が参加をリクエストしました",
+          "knockCancelled": "が参加リクエストを取り下げました",
+          "knockDenied": "が {{target}} の参加リクエストを断りました",
+          "inviteDeclined": "が招待を辞退しました",
+          "inviteRevoked": "が {{target}} への招待を取り消しました",
+          "powerChanged": "が {{target}} を {{from}} から {{to}} に変更しました",
+          "permissionsChanged": "が各レベルの権限を変更しました",
+          "renamed": "が名前を {{name}} に変更しました",
+          "nameRemoved": "が名前を削除しました",
+          "topicChanged": "がトピックを変更しました",
+          "avatarChanged": "が画像を変更しました",
+          "avatarRemoved": "が画像を削除しました",
+          "joinRulesChanged": "が参加できる人を変更しました: {{rule}}",
+          "historyChanged": "が履歴を読める人を変更しました",
+          "encryptionOn": "が暗号化をオンにしました",
+          "aliasChanged": "がメインアドレスを変更しました",
+          "upgraded": "が新しいバージョンにアップグレードしました",
+          "roomAdded": "が {{room}} を追加しました",
+          "roomRemoved": "が {{room}} を削除しました"
+        }
       }
     },
     "space": {

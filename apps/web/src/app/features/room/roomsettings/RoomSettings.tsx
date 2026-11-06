@@ -7,23 +7,25 @@ import {
   UsersIcon,
   ShieldIcon,
   SmileyStickerIcon,
+  ClockCounterClockwiseIcon,
   XIcon,
   type Icon as PhosphorIcon,
 } from '@phosphor-icons/react';
 import { roomSettingsRoomIdAtom, roomSettingsTabAtom, developerModeAtom } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
-import { useRoom } from '@/app/data';
+import { powerLevelOf, useRoom, useRoomSettings, useUserId } from '@/app/data';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import { GeneralPanel } from './General';
 import { PermissionsPanel } from './Permissions';
 import { RoomPermissionsMatrix } from './RoomPermissionsMatrix';
 import { Widgets } from './Widgets';
 import { EmojiStickerPanel } from './EmojiStickerPanel';
+import { AuditLogPanel } from './AuditLog';
 import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Settings/NarrowSettings';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis';
+type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'audit';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
@@ -43,6 +45,11 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     labelKey: 'room.settings.emojis.title',
     Icon: SmileyStickerIcon,
   },
+  {
+    tab: 'audit',
+    labelKey: 'room.settings.auditLog.title',
+    Icon: ClockCounterClockwiseIcon,
+  },
 ];
 
 export function RoomSettings() {
@@ -58,8 +65,20 @@ export function RoomSettings() {
 
   const room = useRoom(roomId);
 
-  const navItems = developerMode ? NAV : NAV.filter((item) => item.tab !== 'widgets');
-  const shownTab = !developerMode && activeTab === 'widgets' ? 'general' : activeTab;
+  // The history is visible to every member, but reading the audit log is a moderator's job.
+  const myId = useUserId();
+  const { data: auditSettings } = useRoomSettings(roomId);
+  const canAudit =
+    !!auditSettings &&
+    powerLevelOf(auditSettings.powerLevels, myId, auditSettings.creators) >=
+      ((auditSettings.powerLevels?.kick as number | undefined) ?? 50);
+  const navItems = NAV.filter(
+    (item) => (developerMode || item.tab !== 'widgets') && (canAudit || item.tab !== 'audit')
+  );
+  const shownTab =
+    (!developerMode && activeTab === 'widgets') || (!canAudit && activeTab === 'audit')
+      ? 'general'
+      : activeTab;
 
   useLayoutEffect(() => {
     if (roomId) {
@@ -85,6 +104,7 @@ export function RoomSettings() {
       {shownTab === 'permissions' && room && <RoomPermissionsMatrix roomId={roomId!} />}
       {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
       {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+      {shownTab === 'audit' && <AuditLogPanel roomId={roomId!} />}
     </>
   );
 

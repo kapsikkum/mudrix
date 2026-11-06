@@ -503,6 +503,56 @@
         "saved": "Zapisano role",
         "separate": "Pokaż osobno",
         "title": "Role"
+      },
+      "auditLog": {
+        "title": "Dziennik zdarzeń",
+        "note": "Kto co zmienił w tym pokoju, od najnowszych.",
+        "filter": "Filtruj według typu",
+        "empty": "Na razie nic do pokazania.",
+        "loading": "Wczytywanie…",
+        "loadOlder": "Wczytaj starsze zmiany",
+        "start": "To wszystko.",
+        "category": {
+          "all": "Wszystko",
+          "members": "Członkowie",
+          "permissions": "Uprawnienia",
+          "settings": "Ustawienia",
+          "rooms": "Pokoje"
+        },
+        "rule": {
+          "public": "każdy",
+          "invite": "tylko zaproszone osoby",
+          "knock": "osoby, które poproszą",
+          "restricted": "członkowie przestrzeni",
+          "knock_restricted": "osoby, które poproszą lub są w przestrzeni"
+        },
+        "action": {
+          "joined": "dołączył(a)",
+          "left": "wyszedł(-ła)",
+          "invited": "zaprosił(a) {{target}}",
+          "kicked": "usunął(-ęła) {{target}}",
+          "banned": "zbanował(a) {{target}}",
+          "unbanned": "odbanował(a) {{target}}",
+          "knocked": "poprosił(a) o dołączenie",
+          "knockCancelled": "wycofał(a) prośbę o dołączenie",
+          "knockDenied": "odrzucił(a) prośbę użytkownika {{target}}",
+          "inviteDeclined": "odrzucił(a) zaproszenie",
+          "inviteRevoked": "wycofał(a) zaproszenie dla {{target}}",
+          "powerChanged": "zmienił(a) {{target}} z {{from}} na {{to}}",
+          "permissionsChanged": "zmienił(a), co może każdy poziom",
+          "renamed": "zmienił(a) nazwę na {{name}}",
+          "nameRemoved": "usunął(-ęła) nazwę",
+          "topicChanged": "zmienił(a) temat",
+          "avatarChanged": "zmienił(a) obraz",
+          "avatarRemoved": "usunął(-ęła) obraz",
+          "joinRulesChanged": "zmienił(a), kto może dołączyć: {{rule}}",
+          "historyChanged": "zmienił(a), kto może czytać historię",
+          "encryptionOn": "włączył(a) szyfrowanie",
+          "aliasChanged": "zmienił(a) główny adres",
+          "upgraded": "zaktualizował(a) do nowej wersji",
+          "roomAdded": "dodał(a) {{room}}",
+          "roomRemoved": "usunął(-ęła) {{room}}"
+        }
       }
     },
     "space": {

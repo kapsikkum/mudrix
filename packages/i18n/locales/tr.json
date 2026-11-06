@@ -503,6 +503,56 @@
         "saved": "Roller kaydedildi",
         "separate": "Ayrı göster",
         "title": "Roller"
+      },
+      "auditLog": {
+        "title": "Denetim günlüğü",
+        "note": "Bu odada kimin neyi değiştirdiği, en yeni en üstte.",
+        "filter": "Türe göre filtrele",
+        "empty": "Henüz gösterilecek bir şey yok.",
+        "loading": "Yükleniyor…",
+        "loadOlder": "Daha eski değişiklikleri yükle",
+        "start": "Hepsi bu kadar.",
+        "category": {
+          "all": "Tümü",
+          "members": "Üyeler",
+          "permissions": "İzinler",
+          "settings": "Ayarlar",
+          "rooms": "Odalar"
+        },
+        "rule": {
+          "public": "herkes",
+          "invite": "yalnızca davet edilenler",
+          "knock": "isteyenler",
+          "restricted": "bir alanın üyeleri",
+          "knock_restricted": "isteyenler veya bir alandakiler"
+        },
+        "action": {
+          "joined": "katıldı",
+          "left": "ayrıldı",
+          "invited": "{{target}} kişisini davet etti",
+          "kicked": "{{target}} kişisini çıkardı",
+          "banned": "{{target}} kişisini yasakladı",
+          "unbanned": "{{target}} kişisinin yasağını kaldırdı",
+          "knocked": "katılmak için istekte bulundu",
+          "knockCancelled": "katılma isteğini geri çekti",
+          "knockDenied": "{{target}} kişisinin katılma isteğini reddetti",
+          "inviteDeclined": "daveti reddetti",
+          "inviteRevoked": "{{target}} kişisinin davetini geri çekti",
+          "powerChanged": "{{target}} kişisini {{from}} düzeyinden {{to}} düzeyine değiştirdi",
+          "permissionsChanged": "her düzeyin neler yapabileceğini değiştirdi",
+          "renamed": "adını {{name}} yaptı",
+          "nameRemoved": "adı kaldırdı",
+          "topicChanged": "konuyu değiştirdi",
+          "avatarChanged": "resmi değiştirdi",
+          "avatarRemoved": "resmi kaldırdı",
+          "joinRulesChanged": "kimlerin katılabileceğini değiştirdi: {{rule}}",
+          "historyChanged": "geçmişi kimlerin okuyabileceğini değiştirdi",
+          "encryptionOn": "şifrelemeyi açtı",
+          "aliasChanged": "ana adresi değiştirdi",
+          "upgraded": "yeni bir sürüme yükseltti",
+          "roomAdded": "{{room}} odasını ekledi",
+          "roomRemoved": "{{room}} odasını kaldırdı"
+        }
       }
     },
     "space": {

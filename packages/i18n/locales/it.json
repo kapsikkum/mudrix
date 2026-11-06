@@ -503,6 +503,56 @@
         "saved": "Ruoli salvati",
         "separate": "Mostra separatamente",
         "title": "Ruoli"
+      },
+      "auditLog": {
+        "title": "Registro attività",
+        "note": "Chi ha cambiato cosa in questa stanza, dal più recente.",
+        "filter": "Filtra per tipo",
+        "empty": "Ancora niente da mostrare.",
+        "loading": "Caricamento…",
+        "loadOlder": "Carica modifiche precedenti",
+        "start": "È tutto.",
+        "category": {
+          "all": "Tutto",
+          "members": "Membri",
+          "permissions": "Permessi",
+          "settings": "Impostazioni",
+          "rooms": "Stanze"
+        },
+        "rule": {
+          "public": "chiunque",
+          "invite": "solo le persone invitate",
+          "knock": "chi lo richiede",
+          "restricted": "i membri di uno spazio",
+          "knock_restricted": "chi lo richiede o è in uno spazio"
+        },
+        "action": {
+          "joined": "è entrato",
+          "left": "è uscito",
+          "invited": "ha invitato {{target}}",
+          "kicked": "ha rimosso {{target}}",
+          "banned": "ha bandito {{target}}",
+          "unbanned": "ha revocato il ban a {{target}}",
+          "knocked": "ha chiesto di entrare",
+          "knockCancelled": "ha ritirato la richiesta di entrare",
+          "knockDenied": "ha rifiutato la richiesta di {{target}}",
+          "inviteDeclined": "ha rifiutato l'invito",
+          "inviteRevoked": "ha ritirato l'invito a {{target}}",
+          "powerChanged": "ha cambiato {{target}} da {{from}} a {{to}}",
+          "permissionsChanged": "ha cambiato cosa può fare ogni livello",
+          "renamed": "l'ha rinominata in {{name}}",
+          "nameRemoved": "ha rimosso il nome",
+          "topicChanged": "ha cambiato l'argomento",
+          "avatarChanged": "ha cambiato l'immagine",
+          "avatarRemoved": "ha rimosso l'immagine",
+          "joinRulesChanged": "ha cambiato chi può entrare in: {{rule}}",
+          "historyChanged": "ha cambiato chi può leggere la cronologia",
+          "encryptionOn": "ha attivato la crittografia",
+          "aliasChanged": "ha cambiato l'indirizzo principale",
+          "upgraded": "l'ha aggiornata a una nuova versione",
+          "roomAdded": "ha aggiunto {{room}}",
+          "roomRemoved": "ha rimosso {{room}}"
+        }
       }
     },
     "space": {

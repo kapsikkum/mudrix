@@ -503,6 +503,56 @@
         "saved": "Roles saved",
         "separate": "Show separately",
         "title": "Roles"
+      },
+      "auditLog": {
+        "title": "Audit log",
+        "note": "Who changed what in this room, newest first.",
+        "filter": "Filter by type",
+        "empty": "Nothing to show yet.",
+        "loading": "Loading…",
+        "loadOlder": "Load older changes",
+        "start": "That's everything.",
+        "category": {
+          "all": "All",
+          "members": "Members",
+          "permissions": "Permissions",
+          "settings": "Settings",
+          "rooms": "Rooms"
+        },
+        "rule": {
+          "public": "anyone",
+          "invite": "invited people only",
+          "knock": "people who ask",
+          "restricted": "members of a space",
+          "knock_restricted": "people who ask or are in a space"
+        },
+        "action": {
+          "joined": "joined",
+          "left": "left",
+          "invited": "invited {{target}}",
+          "kicked": "removed {{target}}",
+          "banned": "banned {{target}}",
+          "unbanned": "unbanned {{target}}",
+          "knocked": "asked to join",
+          "knockCancelled": "withdrew the request to join",
+          "knockDenied": "turned down {{target}}'s request to join",
+          "inviteDeclined": "declined the invitation",
+          "inviteRevoked": "withdrew the invitation for {{target}}",
+          "powerChanged": "changed {{target}} from {{from}} to {{to}}",
+          "permissionsChanged": "changed what each level may do",
+          "renamed": "renamed it to {{name}}",
+          "nameRemoved": "removed the name",
+          "topicChanged": "changed the topic",
+          "avatarChanged": "changed the picture",
+          "avatarRemoved": "removed the picture",
+          "joinRulesChanged": "changed who can join to {{rule}}",
+          "historyChanged": "changed who can read the history",
+          "encryptionOn": "turned on encryption",
+          "aliasChanged": "changed the main address",
+          "upgraded": "upgraded it to a new version",
+          "roomAdded": "added {{room}}",
+          "roomRemoved": "removed {{room}}"
+        }
       }
     },
     "space": {

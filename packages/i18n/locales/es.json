@@ -503,6 +503,56 @@
         "saved": "Roles guardados",
         "separate": "Mostrar por separado",
         "title": "Roles"
+      },
+      "auditLog": {
+        "title": "Registro de auditoría",
+        "note": "Quién cambió qué en esta sala, lo más reciente primero.",
+        "filter": "Filtrar por tipo",
+        "empty": "Todavía no hay nada que mostrar.",
+        "loading": "Cargando…",
+        "loadOlder": "Cargar cambios anteriores",
+        "start": "Eso es todo.",
+        "category": {
+          "all": "Todo",
+          "members": "Miembros",
+          "permissions": "Permisos",
+          "settings": "Ajustes",
+          "rooms": "Salas"
+        },
+        "rule": {
+          "public": "cualquiera",
+          "invite": "solo personas invitadas",
+          "knock": "quienes lo soliciten",
+          "restricted": "miembros de un espacio",
+          "knock_restricted": "quienes lo soliciten o estén en un espacio"
+        },
+        "action": {
+          "joined": "se unió",
+          "left": "salió",
+          "invited": "invitó a {{target}}",
+          "kicked": "expulsó a {{target}}",
+          "banned": "vetó a {{target}}",
+          "unbanned": "levantó el veto a {{target}}",
+          "knocked": "pidió unirse",
+          "knockCancelled": "retiró la solicitud para unirse",
+          "knockDenied": "rechazó la solicitud de {{target}}",
+          "inviteDeclined": "rechazó la invitación",
+          "inviteRevoked": "retiró la invitación de {{target}}",
+          "powerChanged": "cambió a {{target}} de {{from}} a {{to}}",
+          "permissionsChanged": "cambió lo que puede hacer cada nivel",
+          "renamed": "le puso el nombre {{name}}",
+          "nameRemoved": "quitó el nombre",
+          "topicChanged": "cambió el tema",
+          "avatarChanged": "cambió la imagen",
+          "avatarRemoved": "quitó la imagen",
+          "joinRulesChanged": "cambió quién puede unirse a: {{rule}}",
+          "historyChanged": "cambió quién puede leer el historial",
+          "encryptionOn": "activó el cifrado",
+          "aliasChanged": "cambió la dirección principal",
+          "upgraded": "la actualizó a una versión nueva",
+          "roomAdded": "añadió {{room}}",
+          "roomRemoved": "quitó {{room}}"
+        }
       }
     },
     "space": {

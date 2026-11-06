@@ -503,6 +503,56 @@
         "saved": "Rollen gespeichert",
         "separate": "Separat anzeigen",
         "title": "Rollen"
+      },
+      "auditLog": {
+        "title": "Audit-Log",
+        "note": "Wer hat was in diesem Raum geändert, neueste zuerst.",
+        "filter": "Nach Art filtern",
+        "empty": "Noch nichts zu sehen.",
+        "loading": "Wird geladen …",
+        "loadOlder": "Ältere Änderungen laden",
+        "start": "Das ist alles.",
+        "category": {
+          "all": "Alle",
+          "members": "Mitglieder",
+          "permissions": "Berechtigungen",
+          "settings": "Einstellungen",
+          "rooms": "Räume"
+        },
+        "rule": {
+          "public": "alle",
+          "invite": "nur eingeladene Personen",
+          "knock": "Personen, die anfragen",
+          "restricted": "Mitglieder eines Spaces",
+          "knock_restricted": "Personen, die anfragen oder in einem Space sind"
+        },
+        "action": {
+          "joined": "ist beigetreten",
+          "left": "hat den Raum verlassen",
+          "invited": "hat {{target}} eingeladen",
+          "kicked": "hat {{target}} entfernt",
+          "banned": "hat {{target}} gebannt",
+          "unbanned": "hat den Bann von {{target}} aufgehoben",
+          "knocked": "hat um Beitritt gebeten",
+          "knockCancelled": "hat die Beitrittsanfrage zurückgezogen",
+          "knockDenied": "hat die Beitrittsanfrage von {{target}} abgelehnt",
+          "inviteDeclined": "hat die Einladung abgelehnt",
+          "inviteRevoked": "hat die Einladung für {{target}} zurückgezogen",
+          "powerChanged": "hat {{target}} von {{from}} auf {{to}} geändert",
+          "permissionsChanged": "hat geändert, was jede Stufe darf",
+          "renamed": "hat ihn in {{name}} umbenannt",
+          "nameRemoved": "hat den Namen entfernt",
+          "topicChanged": "hat das Thema geändert",
+          "avatarChanged": "hat das Bild geändert",
+          "avatarRemoved": "hat das Bild entfernt",
+          "joinRulesChanged": "hat geändert, wer beitreten darf: {{rule}}",
+          "historyChanged": "hat geändert, wer den Verlauf lesen darf",
+          "encryptionOn": "hat die Verschlüsselung eingeschaltet",
+          "aliasChanged": "hat die Hauptadresse geändert",
+          "upgraded": "hat auf eine neue Version aktualisiert",
+          "roomAdded": "hat {{room}} hinzugefügt",
+          "roomRemoved": "hat {{room}} entfernt"
+        }
       }
     },
     "space": {
