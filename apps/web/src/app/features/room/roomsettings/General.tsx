@@ -29,6 +29,7 @@ import { joinRuleToAccess } from '@/util/matrix';
 import { Toggle } from '@/app/components/Toggle';
 import * as css from '@/app/components/Settings/Settings.css';
 import { RoomBridges } from './RoomBridges';
+import { SoundboardRoomSettings } from '@/app/features/soundboard/SoundboardRoomSettings';
 import { vars } from '@/theme/vars.css';
 import { Sensitive } from '@/app/components/Sensitive';
 
@@ -631,6 +632,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           </Button>
         </div>
       </div>
+
+      <SoundboardRoomSettings roomId={roomId} />
 
       <RoomBridges roomId={roomId} />
 

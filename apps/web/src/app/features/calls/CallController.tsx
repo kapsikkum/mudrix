@@ -21,7 +21,16 @@ import {
 } from '@/app/store/atoms/call';
 import { roomsByIdAtom } from '@/app/data';
 import { currentRoomIdAtom } from '@/app/store/atoms/rooms';
-import { deafenedAtom, micMutedAtom } from '@/app/store/atoms/settings';
+import {
+  deafenedAtom,
+  micMutedAtom,
+  noiseSuppressionAtom,
+  echoCancellationAtom,
+  autoGainControlAtom,
+  preferencesAtom,
+  DEFAULT_PREFERENCES,
+  type Preferences,
+} from '@/app/store/atoms/settings';
 import { useToast } from '@/app/hooks/useToast';
 import { playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
 import { loopSoundKind, playSoundKind } from '@/util/notificationSounds';
@@ -30,6 +39,14 @@ import { AloneNotice } from './AloneNotice';
 import { getMatrixClientOrNull, onSessionEnd } from '@/client/initMatrix';
 
 const LEAVE_CONFIRM_TIMEOUT_MS = 30_000;
+
+function audioProcessingOf(prefs: Partial<Preferences>) {
+  return {
+    noiseSuppression: prefs.noiseSuppression ?? DEFAULT_PREFERENCES.noiseSuppression,
+    echoCancellation: prefs.echoCancellation ?? DEFAULT_PREFERENCES.echoCancellation,
+    autoGainControl: prefs.autoGainControl ?? DEFAULT_PREFERENCES.autoGainControl,
+  };
+}
 
 const IDLE_UI = {
   roomId: null,
@@ -147,6 +164,7 @@ export function CallController() {
             microphone: !micMuted,
             deafened,
             devices: store.get(callDevicesAtom),
+            audioProcessing: audioProcessingOf(store.get(preferencesAtom)),
             inputVolume: store.get(callVolumesAtom).input,
             pushToTalk: store.get(pushToTalkModeAtom),
             outputVolume: store.get(callVolumesAtom).output,
@@ -331,6 +349,14 @@ export function CallController() {
   );
 
   usePushToTalk(session ? setTransmitting : null);
+
+  // A change in Settings > Voice & Audio reaches the microphone of the running call
+  const noiseSuppression = useAtomValue(noiseSuppressionAtom);
+  const echoCancellation = useAtomValue(echoCancellationAtom);
+  const autoGainControl = useAtomValue(autoGainControlAtom);
+  useEffect(() => {
+    void session?.setAudioProcessing({ noiseSuppression, echoCancellation, autoGainControl });
+  }, [session, noiseSuppression, echoCancellation, autoGainControl]);
 
   const roomId = useAtomValue(callUiAtom).roomId;
   useEffect(() => {

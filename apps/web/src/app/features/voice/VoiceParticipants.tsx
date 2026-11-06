@@ -10,6 +10,10 @@ import { userProfileAtom } from '@/app/store/atoms';
 import { callUiAtom } from '@/app/store/atoms/call';
 import { useCallLiveState, uniqueMembers } from '@/app/features/calls/useCallParticipants';
 import { Avatar } from '@/app/components/Avatar';
+import {
+  SoundboardMutedBadge,
+  SoundboardPlayingChip,
+} from '@/app/features/soundboard/SoundboardPersonUi';
 import { UserCallMenu, type UserMenuAnchor } from '@/app/features/calls/stage/UserCallMenu';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useTouchUi } from '@/app/hooks/useUiDensitySync';
@@ -83,6 +87,8 @@ function ParticipantRow({
         </div>
 
         <span className={css.name}>{p.name}</span>
+        <SoundboardMutedBadge userId={p.userId} />
+        <SoundboardPlayingChip userId={p.userId} />
 
         {showIcons && (
           <div className={css.icons}>

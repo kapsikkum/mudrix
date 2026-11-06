@@ -18,7 +18,7 @@ import {
   type SoundKind,
 } from '@/util/notificationSounds';
 import * as layoutCss from '../Settings.css';
-import * as css from './Notifications.css';
+import * as css from './VoiceAudio.css';
 
 const KIND_LABELS: Record<SoundKind, string> = {
   message: 'settings.voice.sound.message',

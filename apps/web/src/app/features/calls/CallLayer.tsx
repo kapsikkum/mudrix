@@ -14,6 +14,7 @@ import type { CallPresentation, CallView } from '@/app/store/atoms/call';
 import { useRoom } from '@/app/data';
 import { useCallContainer } from '@/app/features/calls/CallContainer';
 import { useIncomingCall } from './useIncomingCall';
+import { useSoundboardReceiver } from '@/app/features/soundboard/useSoundboardReceiver';
 import { IncomingCallOverlay } from './IncomingCallOverlay';
 import { CallControlBar } from './CallControlBar';
 import { CallStage } from './stage/CallStage';
@@ -52,6 +53,7 @@ export function CallLayer({ client }: Props) {
   const { containerRef } = useCallContainer();
 
   const { accept, decline } = useIncomingCall(client);
+  useSoundboardReceiver(client);
 
   const inCall = ui.roomId !== null;
   const view = useAtomValue(callEffectiveViewAtom);

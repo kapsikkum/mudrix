@@ -16,6 +16,7 @@ import {
 import type { CallMedia, CallParticipant, RingState, TrackHandle } from '@/call/media';
 import { useClient, useMembers } from '@/app/data';
 import { Avatar, useAvatarBlobUrl } from '@/app/components/Avatar';
+import { SoundboardTileChip } from '@/app/features/soundboard/SoundboardPersonUi';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { Tooltip } from '@/app/components/Tooltip';
 import {
@@ -23,12 +24,14 @@ import {
   callUiAtom,
   callSessionAtom,
   callPanelAtom,
+  callShowReactionsAtom,
   showNonVideoParticipantsAtom,
   showOwnScreenShareAtom,
 } from '@/app/store/atoms/call';
 import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { buildCallBackground } from '@/app/features/calls/callBackground';
 import { useCallSnapshot } from './useCallSnapshot';
+import { TileAvatar } from './TileAvatar';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
 import { useDismiss } from './useDismiss';
 import { useMemberLookup, type MemberInfo } from '../useMemberLookup';
@@ -104,7 +107,6 @@ function Tile({
   tile,
   lookup,
   focused,
-  compact,
   onSelect,
   onMenu,
   onWatch,
@@ -112,12 +114,12 @@ function Tile({
   tile: ParticipantTile;
   lookup: (userId: string) => MemberInfo;
   focused?: boolean;
-  compact?: boolean;
   onSelect?: () => void;
   onMenu?: (x: number, y: number) => void;
   onWatch?: () => void;
 }) {
   const showOwnScreen = useAtomValue(showOwnScreenShareAtom);
+  const showReactions = useAtomValue(callShowReactionsAtom);
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const client = useClient();
@@ -188,17 +190,16 @@ function Tile({
         <VideoTrack track={track} mirror={participant.isLocal && !screen} contain={screen} />
       ) : (
         !screen && (
-          <span className={css.avatar}>
-            <Avatar
-              name={name}
-              mxcUrl={mxc}
-              client={client}
-              size={compact ? 'lg' : 'xl'}
-              placeholder="logo"
-            />
-          </span>
+          <TileAvatar
+            client={client}
+            userId={participant.userId}
+            name={name}
+            mxc={mxc}
+            speaking={participant.speaking}
+          />
         )
       )}
+      {!screen && <SoundboardTileChip userId={participant.userId} />}
       {screen && (
         <span className={css.liveRow}>
           <span className={css.liveBadge}>{t('call.live')}</span>
@@ -215,12 +216,12 @@ function Tile({
           )}
         </span>
       )}
-      {!screen && participant.handRaised && (
+      {!screen && showReactions && participant.handRaised && (
         <span className={css.badge} title={t('call.handRaised')}>
           ✋
         </span>
       )}
-      {!screen && participant.reaction && (
+      {!screen && showReactions && participant.reaction && (
         <span key={participant.reaction} className={css.reaction}>
           {participant.reaction}
         </span>
@@ -299,6 +300,7 @@ function AvatarBubble({
 }) {
   const { t } = useTranslation();
   const client = useClient();
+  const showReactions = useAtomValue(callShowReactionsAtom);
   const { name, avatarUrl } = lookup(participant.userId);
   return (
     <div
@@ -317,12 +319,12 @@ function AvatarBubble({
           <MicrophoneSlashIcon size={14} weight="fill" />
         </span>
       )}
-      {participant.handRaised && (
+      {showReactions && participant.handRaised && (
         <span className={css.bubbleHand} title={t('call.handRaised')}>
           ✋
         </span>
       )}
-      {participant.reaction && (
+      {showReactions && participant.reaction && (
         <span key={participant.reaction} className={css.bubbleReaction}>
           {participant.reaction}
         </span>
@@ -597,7 +599,6 @@ export function CallStage() {
         tile={tile}
         lookup={lookup}
         focused={opts.focused}
-        compact={opts.compact}
         onSelect={opts.onSelect}
         onWatch={watchFor(tile)}
         onMenu={opts.menu === false ? undefined : openMenu(tile)}

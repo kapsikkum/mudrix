@@ -87,6 +87,7 @@ export const tile = style({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: vars.color.bgTertiary,
+  containerType: 'size',
   selectors: {
     '&::after': {
       content: '""',
@@ -124,6 +125,69 @@ export const avatar = style({
   position: 'relative',
   display: 'inline-flex',
   borderRadius: '50%',
+});
+
+export const avatarLayer = style({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+  '@container': {
+    '(max-height: 140px)': { bottom: '26px' },
+  },
+});
+
+export const avatarWrap = style({
+  position: 'relative',
+  width: 'min(40cqh, 104px)',
+  height: 'min(40cqh, 104px)',
+  '@container': {
+    '(max-height: 140px)': {
+      width: 'min(45cqh, calc(100cqh - 36px))',
+      height: 'min(45cqh, calc(100cqh - 36px))',
+    },
+  },
+});
+
+export const avatarCircle = style({
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+  borderRadius: '50%',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: `box-shadow ${fast}`,
+  boxShadow: '0 0 0 0 transparent',
+});
+
+export const avatarCircleSpeaking = style([
+  avatarCircle,
+  {
+    boxShadow: `0 0 0 3px ${DISCORD_SPEAKING}, 0 0 22px 6px color-mix(in srgb, ${DISCORD_SPEAKING} 50%, transparent)`,
+  },
+]);
+
+export const avatarImg = style({
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+});
+
+export const avatarDecoration = style({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  width: '120%',
+  height: '120%',
+  maxWidth: 'none',
+  maxHeight: 'none',
+  transform: 'translate(-50%, -50%)',
 });
 
 export const video = style({

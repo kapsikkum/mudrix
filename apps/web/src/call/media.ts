@@ -91,11 +91,25 @@ export interface CallSnapshot {
   awaitingMembership: boolean;
 }
 
+/** What the browser does to the microphone before the call hears it */
+export interface AudioProcessing {
+  noiseSuppression: boolean;
+  echoCancellation: boolean;
+  autoGainControl: boolean;
+}
+
+const DEFAULT_AUDIO_PROCESSING: AudioProcessing = {
+  noiseSuppression: true,
+  echoCancellation: true,
+  autoGainControl: true,
+};
+
 export interface JoinOptions {
   video: boolean;
   microphone: boolean;
   deafened: boolean;
   devices: PreferredDevices;
+  audioProcessing?: AudioProcessing;
   pushToTalk: boolean;
   inputVolume: number;
   outputVolume: number;
@@ -159,6 +173,7 @@ const KEY_CHECK_MS = 2000;
 
 function roomOptions(
   devices: PreferredDevices,
+  processing: AudioProcessing,
   e2ee?: { keyProvider: MatrixKeyProvider; worker: Worker }
 ): RoomOptions {
   return {
@@ -180,12 +195,7 @@ function roomOptions(
       deviceId: devices.videoinput,
     },
     audioOutput: devices.audiooutput ? { deviceId: devices.audiooutput } : undefined,
-    audioCaptureDefaults: {
-      deviceId: devices.audioinput,
-      autoGainControl: true,
-      echoCancellation: true,
-      noiseSuppression: true,
-    },
+    audioCaptureDefaults: { deviceId: devices.audioinput, ...processing },
     ...(e2ee ? { encryption: { keyProvider: e2ee.keyProvider, worker: e2ee.worker } } : {}),
   };
 }
@@ -232,6 +242,7 @@ export class CallMedia {
   private watchedScreens = new Set<string>();
   private hiddenCameras = new Set<string>();
   private devices: PreferredDevices = {};
+  private audioProcessing: AudioProcessing = DEFAULT_AUDIO_PROCESSING;
   private micWanted = false;
   private cameraWanted = false;
   private deafened = false;
@@ -288,6 +299,7 @@ export class CallMedia {
   /** Joins with the camera off: video calls only set the call's intent */
   async join(options: JoinOptions) {
     this.devices = { ...options.devices };
+    this.audioProcessing = options.audioProcessing ?? DEFAULT_AUDIO_PROCESSING;
     this.deafened = options.deafened;
     this.micWanted = options.microphone && !options.deafened;
     this.pushToTalk = options.pushToTalk;
@@ -391,6 +403,21 @@ export class CallMedia {
   async setInputVolume(volume: number) {
     this.inputVolume = Math.min(Math.max(volume, 0), 2);
     await this.applyInputVolume();
+  }
+
+  /** Changes the microphone processing for the running call */
+  async setAudioProcessing(processing: AudioProcessing) {
+    if (
+      processing.noiseSuppression === this.audioProcessing.noiseSuppression &&
+      processing.echoCancellation === this.audioProcessing.echoCancellation &&
+      processing.autoGainControl === this.audioProcessing.autoGainControl
+    )
+      return;
+    this.audioProcessing = processing;
+    const track = this.localParticipant?.getTrackPublication(Track.Source.Microphone)
+      ?.audioTrack as LocalAudioTrack | undefined;
+    await track?.restartTrack({ ...processing, deviceId: this.devices.audioinput }).catch(() => {});
+    this.applyGate();
   }
 
   setOutputVolume(volume: number) {
@@ -644,6 +671,7 @@ export class CallMedia {
     const room = new LivekitRoom(
       roomOptions(
         this.devices,
+        this.audioProcessing,
         this.keyProvider && worker ? { keyProvider: this.keyProvider, worker } : undefined
       )
     );

@@ -15,7 +15,6 @@ import { getErrorMessage } from '@/util/error';
 import { Select } from '@/app/components/Select';
 import * as layoutCss from '../Settings.css';
 import * as css from './Notifications.css';
-import { SoundsSection } from './SoundsSection';
 import {
   type ManagedRule,
   type PushRules,
@@ -165,8 +164,6 @@ export function Notifications() {
       </div>
 
       <div className={layoutCss.divider} />
-
-      <SoundsSection />
 
       <div className={layoutCss.divider} />
 

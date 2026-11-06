@@ -61,6 +61,7 @@ import { getErrorMessage } from '@/util/error';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { Avatar } from '@/app/components/Avatar';
 import { Button, CopyButton, IconButton } from '@/app/components/Button';
+import { SoundboardMuteButton } from '@/app/features/soundboard/SoundboardPersonUi';
 import { anchorFromElement, isMenuOpenKey, useContextMenu } from '@/app/hooks/useContextMenu';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
@@ -653,6 +654,8 @@ export function UserProfilePopup() {
                 copyLabel={t('common.copyLink')}
                 icon={<LinkSimpleIcon size={12} />}
               />
+
+              {!isOwn && <SoundboardMuteButton userId={profile.userId} />}
 
               {!isOwn && (
                 <Tooltip content={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}>

@@ -21,6 +21,9 @@ import { userProfileAtom } from '@/app/store/atoms/userProfile';
 import { useDismiss } from './useDismiss';
 import { useCallSnapshot } from './useCallSnapshot';
 import { VolumeSlider } from '../VolumeSlider';
+import { useSoundboardMute } from '@/app/features/soundboard/mute';
+import { soundboardEnabledAtom } from '@/app/store/atoms/settings';
+import { MusicNotesIcon } from '@phosphor-icons/react';
 import { useMemberLookup } from '../useMemberLookup';
 import * as css from './CallStage.css';
 
@@ -191,6 +194,8 @@ export function UserCallMenu({
     (p) => p.identity === anchor.participantId
   );
   const canHideVideo = !isSelf && !!participant?.cameraShared;
+  const soundboardOn = useAtomValue(soundboardEnabledAtom);
+  const soundboardMute = useSoundboardMute(anchor.userId);
 
   const name = useMemberLookup(roomId)(anchor.userId).name;
   const save = (patch: { volume?: number; muted?: boolean }) => {
@@ -248,6 +253,18 @@ export function UserCallMenu({
               onChange={(value) => save({ volume: value })}
             />
           </div>
+          {soundboardOn && (
+            <div className={css.userMenuRow}>
+              <MusicNotesIcon size={18} className={css.userMenuIcon} />
+              <span className={css.userMenuText}>{t('soundboard.person.mute')}</span>
+              <Toggle
+                size="sm"
+                checked={soundboardMute.muted}
+                onChange={soundboardMute.toggle}
+                ariaLabel={t('soundboard.person.mute')}
+              />
+            </div>
+          )}
           <div className={css.userMenuDivider} />
         </>
       )}

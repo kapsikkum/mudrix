@@ -5,6 +5,7 @@ import { roomsByIdAtom } from '@/app/data/atoms';
 import {
   STORAGE_KEY_CALL_DEVICES,
   STORAGE_KEY_CALL_VOLUMES,
+  STORAGE_KEY_CALL_SHOW_REACTIONS,
   STORAGE_KEY_SHARE_SCREEN_AUDIO,
   STORAGE_KEY_CALL_RTC_OVERRIDE,
   STORAGE_KEY_CALL_USER_AUDIO,
@@ -87,6 +88,12 @@ export const callVolumesAtom = atomWithStorage<CallVolumes>(STORAGE_KEY_CALL_VOL
   input: 1,
   output: 1,
 });
+
+/** Whether other people's reactions and raised hands show on their tiles. */
+export const callShowReactionsAtom = atomWithStorage<boolean>(
+  STORAGE_KEY_CALL_SHOW_REACTIONS,
+  true
+);
 
 export const shareScreenAudioAtom = atomWithStorage<boolean>(STORAGE_KEY_SHARE_SCREEN_AUDIO, true);
 

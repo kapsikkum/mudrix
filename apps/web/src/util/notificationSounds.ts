@@ -146,6 +146,33 @@ export function getSoundPack(id: string | undefined): SoundPack {
 
 const soundUrl = (file: string) => `/assets/sounds/${file}`;
 
+let outputDeviceId = '';
+type SinkTarget = { setSinkId?: (id: string) => Promise<void> };
+
+/** Send an audio element to the chosen speaker. Never throws. */
+export function routeToOutput(audio: HTMLAudioElement): void {
+  if (!outputDeviceId) return;
+  try {
+    (audio as unknown as SinkTarget).setSinkId?.(outputDeviceId)?.catch(() => {});
+  } catch {
+    // unsupported
+  }
+}
+
+/** Route the app's own sounds to a speaker; '' is the system default. */
+export function setSoundOutputDevice(deviceId: string): void {
+  outputDeviceId = deviceId;
+  if (loopContext) applyContextSink(loopContext);
+}
+
+function applyContextSink(ctx: AudioContext): void {
+  try {
+    (ctx as unknown as SinkTarget).setSinkId?.(outputDeviceId)?.catch(() => {});
+  } catch {
+    // unsupported
+  }
+}
+
 /** The app's own sounds, used when a pack does not replace a voice sound. */
 const BUILTIN_VOICE_SOUNDS: Partial<Record<VoiceSoundKind, string>> = {
   mute: 'mute.wav',
@@ -226,6 +253,7 @@ function playUrl(url: string, volume: number): void {
   try {
     const audio = new Audio(url);
     audio.volume = volume;
+    routeToOutput(audio);
     audio.play().catch(() => {});
   } catch {
     // ignore
@@ -251,6 +279,7 @@ export function playNotificationSoundFor(priority: boolean): void {
     current?.pause();
     const audio = new Audio(sound.url);
     audio.volume = sound.volume;
+    routeToOutput(audio);
     current = audio;
     audio.play().catch(() => {});
   } catch {
@@ -329,6 +358,7 @@ function getLoopContext(): AudioContext | null {
   } catch {
     return null;
   }
+  if (outputDeviceId) applyContextSink(loopContext);
   return loopContext;
 }
 
@@ -354,6 +384,7 @@ function startElementLoop(url: string, volume: number): () => void {
     audio = new Audio(url);
     audio.loop = true;
     audio.volume = volume;
+    routeToOutput(audio);
     audio.play().catch(() => {});
   } catch {
     audio = null;

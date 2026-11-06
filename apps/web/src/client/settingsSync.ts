@@ -59,6 +59,11 @@ const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
   'reducedMotionApplied',
   // Needs the operating system's permission, which is granted per device.
   'notificationBanners',
+  // Whether this device plays soundboard clips, how loud, and who it silences are per-device
+  // listening choices (a phone in a pocket and a desktop with speakers differ).
+  'soundboardEnabled',
+  'soundboardVolume',
+  'soundboardMutedUsers',
 ]);
 
 export interface SyncedSettings {

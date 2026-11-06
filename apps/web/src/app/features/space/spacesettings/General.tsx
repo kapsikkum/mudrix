@@ -16,6 +16,7 @@ import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { getErrorMessage } from '@/util/error';
 import { joinRuleToAccess } from '@/util/matrix';
+import { SoundboardRoomSettings } from '@/app/features/soundboard/SoundboardRoomSettings';
 import * as css from '@/app/components/Settings/Settings.css';
 import { vars } from '@/theme/vars.css';
 
@@ -446,6 +447,8 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
           </Button>
         </div>
       </div>
+
+      <SoundboardRoomSettings roomId={spaceId} />
     </div>
   );
 }

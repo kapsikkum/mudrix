@@ -11,6 +11,7 @@ import {
   BellIcon,
   SmileyStickerIcon,
   FilmStripIcon,
+  MicrophoneIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
@@ -41,6 +42,7 @@ import { Language } from './language';
 import { Notifications } from './notifications';
 import { EmojisStickers } from './emojis';
 import { Media } from './media';
+import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
@@ -169,6 +171,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <EmojisStickers />;
     case 'media':
       return <Media />;
+    case 'voice':
+      return <VoiceAudio />;
     case 'keybinds':
       return <Keybinds />;
     case 'developer':
@@ -194,6 +198,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       Icon: SmileyStickerIcon,
     },
     { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
+    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
     {
       key: 'appearance',

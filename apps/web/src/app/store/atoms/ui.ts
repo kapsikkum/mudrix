@@ -252,6 +252,7 @@ export type SettingsPage =
   | 'notifications'
   | 'emojis-stickers'
   | 'media'
+  | 'voice'
   | 'keybinds'
   | 'language'
   | 'developer'

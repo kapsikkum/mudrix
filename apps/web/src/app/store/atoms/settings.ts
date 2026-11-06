@@ -123,6 +123,16 @@ export interface Preferences {
   followSystemTheme: boolean;
   systemDarkTheme: ThemeName;
   systemLightTheme: ThemeName;
+  /** Microphone processing the browser applies before the call hears you */
+  noiseSuppression: boolean;
+  echoCancellation: boolean;
+  autoGainControl: boolean;
+  /** Soundboard: hear and play clips in calls. Device-only (see settingsSync). */
+  soundboardEnabled: boolean;
+  /** 0-100, separate from voice and notification volume. Device-only. */
+  soundboardVolume: number;
+  /** User ids whose soundboard clips are muted on this device. Device-only. */
+  soundboardMutedUsers: string[];
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
@@ -191,6 +201,12 @@ export const DEFAULT_PREFERENCES: Preferences = {
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
   systemLightTheme: 'Ethereal',
+  noiseSuppression: true,
+  echoCancellation: true,
+  autoGainControl: true,
+  soundboardEnabled: true,
+  soundboardVolume: 70,
+  soundboardMutedUsers: [],
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -253,6 +269,12 @@ export const showHomeserverSoftwareAtom = preferenceFieldAtom('showHomeserverSof
 export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
 export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
 export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');
+export const noiseSuppressionAtom = preferenceFieldAtom('noiseSuppression');
+export const echoCancellationAtom = preferenceFieldAtom('echoCancellation');
+export const autoGainControlAtom = preferenceFieldAtom('autoGainControl');
+export const soundboardEnabledAtom = preferenceFieldAtom('soundboardEnabled');
+export const soundboardVolumeAtom = preferenceFieldAtom('soundboardVolume');
+export const soundboardMutedUsersAtom = preferenceFieldAtom('soundboardMutedUsers');
 
 /**
  * Per-sound pack overrides. Reads fold in the legacy notificationMentionSoundPack as the mention

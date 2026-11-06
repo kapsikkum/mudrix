@@ -39,6 +39,7 @@ import {
 import { useReturnToCall } from './useReturnToCall';
 import { DeviceControl } from './DeviceMenu';
 import { PushToTalkDot } from './PushToTalkDot';
+import { SoundboardButton } from '@/app/features/soundboard/SoundboardButton';
 import { useCallSnapshot } from './stage/useCallSnapshot';
 import {
   watchActionsAtom,
@@ -163,6 +164,8 @@ export function CallControlBar() {
             <MonitorArrowUpIcon size={20} weight={ui.isScreenSharing ? 'fill' : 'regular'} />
           </button>
         </Tooltip>
+
+        {view !== 'tile' && <SoundboardButton />}
       </div>
 
       <span className={css.divider} />
