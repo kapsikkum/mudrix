@@ -359,6 +359,16 @@ export function CallController() {
     );
   }, [roomId, currentRoomId, setUi]);
 
+  // Coming back to the call's room docks a call that was minimised (by hand, or by following you
+  // out of the room) back in.
+  const previousRoomIdRef = useRef(currentRoomId);
+  useEffect(() => {
+    const previous = previousRoomIdRef.current;
+    previousRoomIdRef.current = currentRoomId;
+    if (roomId === null || currentRoomId !== roomId || previous === roomId) return;
+    setUi((prev) => (prev.presentation === 'tile' ? { ...prev, presentation: 'room' } : prev));
+  }, [roomId, currentRoomId, setUi]);
+
   useEffect(() => {
     setActions({
       start,

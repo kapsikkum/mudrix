@@ -38,6 +38,14 @@ export const pip = style({
   boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
   zIndex: 1000,
   paddingTop: 0,
+  '@media': {
+    // Fit the floating call window to the screen on phones.
+    '(max-width: 768px)': {
+      right: '12px',
+      width: 'min(420px, calc(100vw - 24px))',
+      height: 'min(270px, calc((100vw - 24px) * 0.64))',
+    },
+  },
 });
 
 export const fullscreen = style({
@@ -152,6 +160,8 @@ export const resizeBar = style({
   right: 0,
   height: '6px',
   cursor: 'ns-resize',
+  // The drag is a touch gesture too; keep the browser from scrolling instead.
+  touchAction: 'none',
   zIndex: 65,
   backgroundColor: vars.color.bgSecondary,
   display: 'flex',
@@ -164,5 +174,11 @@ export const resizeBar = style({
     borderRadius: '2px',
     backgroundColor: vars.color.textMuted,
     opacity: 0.4,
+  },
+  '@media': {
+    // A thicker grip so a finger can find it.
+    '(max-width: 768px)': {
+      height: '22px',
+    },
   },
 });

@@ -107,9 +107,11 @@ export const callIsVoiceRoomAtom = atom((get) => {
 export const callEffectiveViewAtom = atom<CallView>((get) => {
   const { roomId, presentation } = get(callUiAtom);
   if (roomId === null) return 'hidden';
-  if (presentation === 'hidden') return 'hidden';
   if (presentation === 'tile') return 'tile';
-  if (get(currentRoomIdAtom) !== roomId) return 'hidden';
+  // Anywhere but the call's own room the call follows you as a tile, and docks back in when you
+  // return (see CallController).
+  if (get(currentRoomIdAtom) !== roomId) return 'tile';
+  if (presentation === 'hidden') return 'hidden';
   if (presentation === 'fullscreen') return 'fullscreen';
   return get(callIsVoiceRoomAtom) ? 'fullscreen' : 'docked';
 });
