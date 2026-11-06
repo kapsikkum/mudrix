@@ -1,8 +1,10 @@
-import { Transforms } from 'slate';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import type { CustomEditor, EmoticonElement } from './types';
 
-export function insertEmoji(editor: CustomEditor, emoji: string, mxcUrl?: string) {
+/** `focus: false` inserts without raising the keyboard (a docked picker stays open beside it). */
+export function insertEmoji(editor: CustomEditor, emoji: string, mxcUrl?: string, focus = true) {
+  if (!focus && !editor.selection) Transforms.select(editor, Editor.end(editor, []));
   if (mxcUrl) {
     const shortcode = emoji.replace(/^:|:$/g, '');
     const node: EmoticonElement = {
@@ -16,5 +18,5 @@ export function insertEmoji(editor: CustomEditor, emoji: string, mxcUrl?: string
   } else {
     Transforms.insertText(editor, emoji);
   }
-  ReactEditor.focus(editor);
+  if (focus) ReactEditor.focus(editor);
 }

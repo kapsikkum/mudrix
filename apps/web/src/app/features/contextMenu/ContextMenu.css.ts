@@ -1,6 +1,7 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { fast, fadeIn, med } from '@/theme/animations.css';
+import { fast, fadeIn } from '@/theme/animations.css';
+import { SHEET_RADIUS, SHEET_SCRIM, SHEET_SHADOW } from '@/theme/sheet';
 
 export const menu = style({
   position: 'fixed',
@@ -121,7 +122,9 @@ export const menuDivider = style({
   margin: '4px 0',
 });
 
-const slideUp = keyframes({
+// Touch layout: a bottom sheet (like Element X) instead of a floating menu. It follows the finger
+// down to dismiss (useSwipeDownDismiss), so it only animates transform and opacity.
+const sheetIn = keyframes({
   from: { transform: 'translateY(100%)' },
   to: { transform: 'translateY(0)' },
 });
@@ -130,8 +133,9 @@ export const sheetBackdrop = style({
   position: 'fixed',
   inset: 0,
   zIndex: 9998,
-  backgroundColor: 'rgba(0,0,0,0.5)',
-  animation: `${fadeIn} ${med} ease`,
+  backgroundColor: SHEET_SCRIM,
+  animation: `${fadeIn} 160ms ease-out`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
 });
 
 export const sheet = style({
@@ -140,32 +144,116 @@ export const sheet = style({
   right: 0,
   bottom: 0,
   zIndex: 9999,
-  maxHeight: '75vh',
-  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  maxHeight: '78vh',
   backgroundColor: vars.color.bgTertiary,
-  borderTop: `1px solid ${vars.color.border}`,
-  borderRadius: '16px 16px 0 0',
-  padding:
-    '6px env(safe-area-inset-right) calc(8px + env(safe-area-inset-bottom)) env(safe-area-inset-left)',
+  borderTopLeftRadius: SHEET_RADIUS,
+  borderTopRightRadius: SHEET_RADIUS,
+  boxShadow: SHEET_SHADOW,
+  paddingBottom: 'max(12px, env(safe-area-inset-bottom))',
   userSelect: 'none',
+  touchAction: 'pan-y',
   outline: 'none',
-  animation: `${slideUp} ${med} ease`,
+  animation: `${sheetIn} 220ms cubic-bezier(0.2, 0.9, 0.3, 1)`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
 });
 
-export const sheetHandle = style({
-  width: '36px',
+export const sheetGrabber = style({
+  flexShrink: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '10px 0 6px',
+  touchAction: 'none',
+  cursor: 'grab',
+  outline: 'none',
+});
+
+export const sheetGrabberBar = style({
+  width: '40px',
   height: '4px',
-  margin: '4px auto 8px',
   borderRadius: '2px',
-  backgroundColor: vars.color.border,
+  backgroundColor: vars.color.textMuted,
+  opacity: 0.5,
 });
 
-globalStyle(`${sheet} [role^="menuitem"]`, {
-  gap: '14px',
-  minHeight: '48px',
-  padding: '0 20px',
+export const sheetList = style({
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+  padding: '4px 8px',
+});
+
+export const sheetBack = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  minHeight: '52px',
+  padding: '0 16px',
   fontSize: '1rem',
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+  borderBottom: `1px solid ${vars.color.border}`,
+  cursor: 'pointer',
+  flexShrink: 0,
+  outline: 'none',
 });
 
-globalStyle(`${sheet} ${menuItemIcon}`, { width: '20px', height: '20px' });
-globalStyle(`${sheet} ${menuItemIcon} svg`, { width: '20px', height: '20px' });
+// Bigger rows and icons inside the sheet, without a second set of item classes.
+globalStyle(`${sheet} [role="menuitem"]:not(${sheetBack}), ${sheet} [role="menuitemcheckbox"]`, {
+  minHeight: '52px',
+  padding: '0 16px',
+  gap: '16px',
+  fontSize: '1rem',
+  borderRadius: '12px',
+});
+
+globalStyle(`${sheet} [role="menuitem"]:active, ${sheet} [role="menuitemcheckbox"]:active`, {
+  backgroundColor: vars.color.bgHover,
+});
+
+globalStyle(`${sheet} ${menuItemIcon}`, {
+  width: '24px',
+  height: '24px',
+  opacity: 0.9,
+});
+
+globalStyle(`${sheet} ${menuItemIcon} svg`, {
+  width: '22px',
+  height: '22px',
+});
+
+globalStyle(`${sheet} ${menuItemLabel}`, {
+  whiteSpace: 'normal',
+});
+
+globalStyle(`${sheet} ${menuDivider}`, {
+  margin: '6px 8px',
+});
+
+// The one-tap reactions row at the top of a message's sheet.
+export const quickRow = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: '4px',
+  padding: '4px 16px 10px',
+  borderBottom: `1px solid ${vars.color.border}`,
+  flexShrink: 0,
+});
+
+export const quickBtn = style({
+  flex: 1,
+  minWidth: 0,
+  height: '52px',
+  border: 'none',
+  borderRadius: '14px',
+  background: 'none',
+  fontSize: '1.7rem',
+  lineHeight: 1,
+  cursor: 'pointer',
+  selectors: { '&:active': { backgroundColor: vars.color.bgHover } },
+});
+
+export const quickBtnActive = style([
+  quickBtn,
+  { backgroundColor: `rgba(${vars.color.accentRgb}, 0.2)` },
+]);

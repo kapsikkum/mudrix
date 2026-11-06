@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { XIcon } from '@phosphor-icons/react';
 import { FocusTrap } from 'focus-trap-react';
 import { IconButton } from '@/app/components/Button';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
 import * as css from './Dialog.css';
 
 export type DialogSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -60,6 +61,9 @@ export function Dialog({
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
   const panelRef = useRef<HTMLDivElement>(null);
+  const pressedOnOverlay = useRef(false);
+  // The back button or an edge swipe closes the dialog instead of leaving the page behind it.
+  useBackToClose(open && !!onClose, () => onCloseRef.current?.());
 
   const rendered = open;
 
@@ -143,8 +147,15 @@ export function Dialog({
       style={zIndex !== undefined ? { zIndex } : undefined}
       role="presentation"
       data-swipe-back={swipeBack ? 'panel' : undefined}
+      onPointerDown={(e) => {
+        pressedOnOverlay.current = e.target === e.currentTarget;
+      }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) onCloseRef.current?.();
+        // Dragging a text selection out of the dialog ends on the overlay, which counts as a click
+        // there; only a press that also began on the overlay closes it.
+        const pressed = pressedOnOverlay.current;
+        pressedOnOverlay.current = false;
+        if (pressed && e.target === e.currentTarget) onCloseRef.current?.();
       }}
     >
       <FocusTrap

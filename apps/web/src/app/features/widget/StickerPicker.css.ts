@@ -1,18 +1,8 @@
 import { style } from '@vanilla-extract/css';
+import { pickerPopover } from '@/theme/pickerShell';
 import { vars } from '@/theme/vars.css';
 
-export const popover = style({
-  width: '360px',
-  height: '440px',
-  backgroundColor: vars.color.bgSecondary,
-  border: `1px solid ${vars.color.border}`,
-  borderRadius: vars.radius.md,
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.45)',
-  display: 'flex',
-  flexDirection: 'column',
-  zIndex: 5000,
-});
+export const popover = style(pickerPopover('360px', '440px'));
 
 export const header = style({
   display: 'flex',

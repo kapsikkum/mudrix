@@ -1,26 +1,11 @@
 import { style } from '@vanilla-extract/css';
+import { pickerNaked, pickerPopover } from '@/theme/pickerShell';
 import { vars } from '@/theme/vars.css';
 import { pulse } from '@/theme/animations.css';
 
-export const popoverNaked = style({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-  minHeight: 0,
-});
+export const popoverNaked = style(pickerNaked);
 
-export const popover = style({
-  width: '352px',
-  height: '460px',
-  backgroundColor: vars.color.bgSecondary,
-  border: `1px solid ${vars.color.border}`,
-  borderRadius: vars.radius.md,
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.45)',
-  display: 'flex',
-  flexDirection: 'column',
-  zIndex: 5000,
-});
+export const popover = style(pickerPopover('352px', '460px'));
 
 export const searchWrap = style({
   display: 'flex',

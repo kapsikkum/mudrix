@@ -18,6 +18,7 @@ import {
   AlarmIcon,
 } from '@phosphor-icons/react';
 import type { useContextMenu, MenuOpenEvent } from '@/app/hooks/useContextMenu';
+import type { QuickReactions } from '@/app/features/contextMenu/contextMenuAtom';
 import { createElement } from 'react';
 import { makeEventPermalink } from '@/util/matrix';
 import { entryText, type EventEntry as MatrixEvent } from './entry';
@@ -60,6 +61,7 @@ export function openMessageContextMenu(
     devModeEnabled,
     t,
     openContextMenu,
+    quickReactions,
     callbacks,
   }: {
     roomId: string;
@@ -76,6 +78,8 @@ export function openMessageContextMenu(
     devModeEnabled: boolean;
     t: TFunction;
     openContextMenu: ContextMenuController['openContextMenu'];
+    /** One-tap reactions shown at the top of the touch sheet. */
+    quickReactions?: QuickReactions;
     callbacks: ContextMenuCallbacks;
   }
 ): void {
@@ -227,5 +231,5 @@ export function openMessageContextMenu(
     ...(deleteItems.length > 0 ? [divider, ...deleteItems] : []),
   ];
 
-  openContextMenu(e, items);
+  openContextMenu(e, items, quickReactions);
 }

@@ -28,6 +28,8 @@ import {
   type MediaTab,
 } from '@/app/features/timeline/composer/ComposerMediaPicker';
 import { Tooltip } from '@/app/components/Tooltip';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { AutocompleteDropdown } from '../AutocompleteDropdown';
 import { ReplyPreview } from './ReplyPreview';
 import { FormatToolbar } from './FormatToolbar';
@@ -93,6 +95,8 @@ export function Composer({
   const editComposerEmojiInserter = useAtomValue(editComposerEmojiInserterAtom);
   const editingInThisRoom = editState?.roomId === roomId && editComposerEmojiInserter != null;
   const [mediaPickerOpen, setMediaPickerOpen] = useState(false);
+  // On phones the picker is docked under the message box (see ComposerMediaPicker), not floating.
+  const pickerDocked = useMediaQuery(PANEL_OVERLAY_QUERY);
   const [mediaPickerTab, setMediaPickerTab] = useState<MediaTab>('emoji');
   const emojiActive = mediaPickerOpen && mediaPickerTab === 'emoji';
   const stickerActive = mediaPickerOpen && mediaPickerTab === 'sticker';
@@ -496,7 +500,10 @@ export function Composer({
           </div>
         )}
         {mediaPickerOpen && (
-          <div className={css.popoverLayerFixed} style={popoverStyle}>
+          <div
+            className={pickerDocked ? undefined : css.popoverLayerFixed}
+            style={pickerDocked ? undefined : popoverStyle}
+          >
             <ComposerMediaPicker
               client={client}
               roomId={roomId}
@@ -509,7 +516,8 @@ export function Composer({
                 if (editingInThisRoom && editComposerEmojiInserter) {
                   editComposerEmojiInserter(emoji, mxcUrl);
                 } else {
-                  insertEmoji(editor, emoji, mxcUrl);
+                  // A docked picker stays open, so the keyboard must not come back with each emoji.
+                  insertEmoji(editor, emoji, mxcUrl, !pickerDocked);
                 }
               }}
               onClose={() => setMediaPickerOpen(false)}

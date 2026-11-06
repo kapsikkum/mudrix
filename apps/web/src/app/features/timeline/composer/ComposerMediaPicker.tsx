@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon, SmileyIcon, StickerIcon, GifIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
@@ -7,6 +7,8 @@ import { EmojiPicker } from '@/app/features/timeline/EmojiPicker';
 import { GifPicker } from '@/app/features/timeline/composer/GifPicker';
 import { GifConsentGate } from '@/app/features/timeline/composer/GifConsentGate';
 import { NativeStickerPicker } from '@/app/features/widget/NativeStickerPicker';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { useOutsideDismiss, usePickerDrawer } from '@/app/hooks/usePickerShell';
 import * as css from './ComposerMediaPicker.css';
 
 export type MediaTab = 'emoji' | 'sticker' | 'gif';
@@ -39,25 +41,16 @@ export function ComposerMediaPicker({
   const { t } = useTranslation();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleMouseDown = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKey);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKey);
-    };
-  }, [onClose]);
+  // Phones get a drawer docked under the composer (in the keyboard's place) instead of a popover
+  // above it; the composer and the message being typed stay on screen.
+  const drawer = usePickerDrawer(wrapperRef, onClose);
+
+  useBackToClose(drawer, onClose);
+  useOutsideDismiss(wrapperRef, onClose, !drawer);
 
   return (
-    <div ref={wrapperRef} className={css.wrapper}>
+    <div ref={wrapperRef} className={drawer ? css.wrapperDocked : css.wrapper}>
+      {drawer && <div className={css.drawerHandle} aria-hidden="true" />}
       <div className={css.header}>
         <div className={css.tabs}>
           <button

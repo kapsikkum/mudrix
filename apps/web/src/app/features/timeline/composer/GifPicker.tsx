@@ -14,6 +14,7 @@ import { useRoom } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
+import { usePickerDrawer } from '@/app/hooks/usePickerShell';
 import { gifProviderAtom } from '@/app/store/atoms';
 import { type ReplyTarget } from './sendMessageContent';
 import { sendGif } from './sendGif';
@@ -115,6 +116,7 @@ export function GifPicker({
   const { favourites, toggleFavourite } = useGifFavourites(client);
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const wrapRef = useRef<HTMLDivElement>(null);
+  usePickerDrawer(wrapRef, onClose, !naked);
   const gridRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);

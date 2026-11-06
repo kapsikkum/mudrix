@@ -64,6 +64,9 @@ function findMxcShortcode(packs: Map<string, ImagePackImage>, mxcUrl: string): s
 
 const MAX_REACTOR_NAMES = 6;
 
+/** The one-tap reactions at the top of a message's touch sheet. */
+const QUICK_REACTION_KEYS = ['👍', '❤️', '😂', '😮', '😢', '🎉'];
+
 const MAX_HIDDEN_MEDIA_EVENTS = 500;
 
 function wrapShortcode(value: string | null | undefined): string | null {
@@ -629,6 +632,14 @@ export const Message = memo(function Message({
       devModeEnabled,
       t,
       openContextMenu,
+      quickReactions: {
+        keys: QUICK_REACTION_KEYS,
+        active: QUICK_REACTION_KEYS.filter((k) => reactionMap.get(k)?.isOwn),
+        onPick: (key) =>
+          handleReactionClick(
+            reactionMap.get(key) ?? { key, count: 0, isOwn: false, ownEventIds: [] }
+          ),
+      },
       callbacks: {
         onReply,
         onThreadClick,

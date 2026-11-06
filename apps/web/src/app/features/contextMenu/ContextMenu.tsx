@@ -3,6 +3,9 @@ import { useAtom } from 'jotai';
 import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/dom';
 import { CheckIcon, CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { contextMenuAtom, type ContextMenuItem } from './contextMenuAtom';
 import { emojiPickerAtom } from '@/app/store/atoms';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
@@ -19,7 +22,8 @@ function enabledIndexes(items: ContextMenuItem[], baseIndex = 0): number[] {
 export function ContextMenu() {
   const { t } = useTranslation();
   const [menu, setMenu] = useAtom(contextMenuAtom);
-  const asSheet = useMediaQuery('(max-width: 768px)');
+  // Phones and tablets get a bottom sheet; a touchscreen laptop keeps the floating menu.
+  const asSheet = useMediaQuery(PANEL_OVERLAY_QUERY);
   const [picker, setPicker] = useAtom(emojiPickerAtom);
   const menuRef = useRef<HTMLDivElement>(null);
   const submenuRef = useRef<HTMLDivElement>(null);
@@ -58,9 +62,16 @@ export function ContextMenu() {
   const activateItem = useCallback(
     (item: ContextMenuItem) => {
       if (!item.keepOpen) closeMenu();
+      // The sheet removes its own history entry when it closes; let that settle first so an overlay
+      // opened by the action (which pushes its own entry) is not popped by the same back step.
+      if (asSheet && !item.keepOpen) {
+        const el = menuRef.current;
+        window.setTimeout(() => item.onClick(el), 120);
+        return;
+      }
       item.onClick(menuRef.current);
     },
-    [closeMenu]
+    [closeMenu, asSheet]
   );
 
   const submenuItems = useMemo(() => {
@@ -88,9 +99,20 @@ export function ContextMenu() {
     return [...enabledIndexes(menu.items), ...enabledIndexes(submenuItems ?? [], totalMainCount)];
   }, [menu, submenuItems, totalMainCount]);
 
+  useBackToClose(!!menu && asSheet, closeMenu);
+
   // Close on outside click, Escape, or scroll
   useEffect(() => {
     if (!menu) return;
+
+    if (asSheet) {
+      // The backdrop closes the sheet; scrolling inside it must not.
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeMenu();
+      };
+      document.addEventListener('keydown', onKey);
+      return () => document.removeEventListener('keydown', onKey);
+    }
 
     const isInsidePicker = (target: EventTarget | null): boolean =>
       target instanceof Element && target.closest('[data-emoji-picker]') !== null;
@@ -123,7 +145,7 @@ export function ContextMenu() {
       window.removeEventListener('blur', handleBlur);
       window.removeEventListener('scroll', handleScroll, true);
     };
-  }, [menu, closeMenu]);
+  }, [menu, closeMenu, asSheet]);
 
   useLayoutEffect(() => {
     if (!menu || asSheet) return;
@@ -185,7 +207,9 @@ export function ContextMenu() {
       return;
     }
     menuRef.current?.focus();
-  }, [menu, setActive]);
+    // A long press can leave the pressed word selected under the sheet.
+    if (asSheet) window.getSelection()?.removeAllRanges();
+  }, [menu, setActive, asSheet]);
 
   useEffect(() => {
     if (!menu) return;
@@ -290,6 +314,8 @@ export function ContextMenu() {
     }
   };
 
+  useSwipeDownDismiss({ enabled: !!menu && asSheet, sheetRef: menuRef, onClose: closeMenu });
+
   if (!menu) return null;
 
   const openItem = openSubIndex !== null ? menu.items[openSubIndex] : undefined;
@@ -361,10 +387,12 @@ export function ContextMenu() {
     });
 
   if (asSheet) {
+    const showingSub = !!submenu && !!openItem;
     return (
       <>
         <div
           className={css.sheetBackdrop}
+          data-sheet-scrim
           role="presentation"
           onMouseDown={(e) => e.stopPropagation()}
           onClick={closeMenu}
@@ -380,26 +408,44 @@ export function ContextMenu() {
           onMouseUp={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className={css.sheetHandle} />
-          {submenu && openItem ? (
-            <>
-              <div
-                className={css.menuItem}
-                role="menuitem"
-                tabIndex={-1}
-                onClick={() => setOpenSubIndex(null)}
-              >
-                <span className={css.menuItemIcon}>
-                  <CaretLeftIcon size={14} />
-                </span>
-                <span className={css.menuItemLabel}>{openItem.label}</span>
-              </div>
-              <div className={css.menuDivider} role="separator" />
-              {renderItems(submenu, totalMainCount)}
-            </>
-          ) : (
-            renderItems(menu.items, 0)
+          <div className={css.sheetGrabber} aria-hidden="true">
+            <div className={css.sheetGrabberBar} />
+          </div>
+          {showingSub && (
+            <div
+              className={css.sheetBack}
+              role="menuitem"
+              tabIndex={-1}
+              onClick={() => setOpenSubIndex(null)}
+            >
+              <CaretLeftIcon size={20} weight="bold" />
+              {openItem.label}
+            </div>
           )}
+          {!showingSub && menu.quickReactions && (
+            <div className={css.quickRow} role="group" aria-label={t('timeline.react')}>
+              {menu.quickReactions.keys.map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={
+                    menu.quickReactions?.active?.includes(key) ? css.quickBtnActive : css.quickBtn
+                  }
+                  aria-pressed={menu.quickReactions?.active?.includes(key) || undefined}
+                  onClick={() => {
+                    const pick = menu.quickReactions?.onPick;
+                    closeMenu();
+                    pick?.(key);
+                  }}
+                >
+                  {key}
+                </button>
+              ))}
+            </div>
+          )}
+          <div className={css.sheetList}>
+            {showingSub ? renderItems(submenu, totalMainCount) : renderItems(menu.items, 0)}
+          </div>
         </div>
       </>
     );

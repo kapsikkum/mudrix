@@ -24,6 +24,8 @@ import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { useImagePacks } from '@/app/hooks/useImagePacks';
 import { useDelayedFlag } from '@/app/hooks/useDelayedFlag';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { useOutsideDismiss, usePickerDrawer } from '@/app/hooks/usePickerShell';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { Tooltip } from '@/app/components/Tooltip';
 import { PickerPreviewBar, type PreviewItem } from '@/app/components/PickerPreviewBar';
@@ -142,6 +144,8 @@ export function EmojiPicker({
   const sectionRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const [activeNav, setActiveNav] = useState<string>(RECENT_ID);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const drawer = usePickerDrawer(wrapRef, close, !embedded && !naked && !!picker);
+  useOutsideDismiss(wrapRef, close, !!ctx && !naked);
 
   const emojiStyle = useAtomValue(emojiStyleAtom);
   const maxEmojiVersion = getMaxEmojiVersion(emojiStyle);
@@ -209,26 +213,6 @@ export function EmojiPicker({
   }, [ctx, coarse]);
 
   useEffect(() => {
-    if (!ctx || naked) return;
-    const handleMouseDown = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        close();
-      }
-    };
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        close();
-      }
-    };
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKey);
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKey);
-    };
-  }, [ctx, close, naked]);
-
-  useEffect(() => {
     if (!bodyRef.current || searchQuery) return;
     const catIds = [...sectionRefs.current.keys()];
     if (catIds.length === 0) return;
@@ -265,34 +249,38 @@ export function EmojiPicker({
     }
   }, []);
 
+  // The composer's picker on a phone is docked under the message box and stays open so several
+  // emoji can go in; it is closed with its X, a drag down, the emoji button or Back.
+  const stayOpen = !!embedded && drawer;
+
   const handleEmojiClick = useCallback(
-    (item: EmojiItem) => {
+    (item: EmojiItem, keepOpen = false) => {
       if (!ctx) return;
       saveRecentEmoji(item.emoji, item.label);
       ctx.onPick(item.emoji);
-      close();
+      if (!keepOpen && !stayOpen) close();
     },
-    [ctx, close, saveRecentEmoji]
+    [ctx, close, saveRecentEmoji, stayOpen]
   );
 
   const handleCustomPick = useCallback(
-    (emoji: CustomEmojiItem) => {
+    (emoji: CustomEmojiItem, keepOpen = false) => {
       if (!ctx) return;
       saveRecentEmoji(`:${emoji.shortcode}:`, emoji.shortcode, emoji.url);
       ctx.onPick(`:${emoji.shortcode}:`, emoji.url);
-      close();
+      if (!keepOpen && !stayOpen) close();
     },
-    [ctx, close, saveRecentEmoji]
+    [ctx, close, saveRecentEmoji, stayOpen]
   );
 
   const handleRecentPick = useCallback(
-    (entry: RecentEntry) => {
+    (entry: RecentEntry, keepOpen = false) => {
       if (!ctx) return;
       saveRecentEmoji(entry.emoji, entry.label, entry.url);
       ctx.onPick(entry.emoji, entry.url);
-      close();
+      if (!keepOpen && !stayOpen) close();
     },
-    [ctx, close, saveRecentEmoji]
+    [ctx, close, saveRecentEmoji, stayOpen]
   );
 
   const sectionRefCb = useCallback(
@@ -351,6 +339,8 @@ export function EmojiPicker({
     });
   }, [embedded, naked, picker]);
 
+  useBackToClose(!embedded && !naked && !!picker && drawer, close);
+
   if (!ctx) return null;
 
   const emojiContent = (
@@ -365,7 +355,7 @@ export function EmojiPicker({
                 type="button"
                 className={css.emojiItem}
                 onMouseEnter={() => previewRecent(entry)}
-                onClick={() => handleRecentPick(entry)}
+                onClick={(e) => handleRecentPick(entry, e.shiftKey)}
               >
                 {entry.url ? (
                   <AuthMediaImg
@@ -416,7 +406,7 @@ export function EmojiPicker({
                     type="button"
                     className={css.emojiItem}
                     onMouseEnter={() => previewCustom(emo)}
-                    onClick={() => handleCustomPick(emo)}
+                    onClick={(e) => handleCustomPick(emo, e.shiftKey)}
                   >
                     <AuthMediaImg
                       client={ctx.client}
@@ -442,7 +432,7 @@ export function EmojiPicker({
                   type="button"
                   className={css.emojiItem}
                   onMouseEnter={() => previewEmoji(emoji)}
-                  onClick={() => handleEmojiClick(emoji)}
+                  onClick={(e) => handleEmojiClick(emoji, e.shiftKey)}
                 >
                   {emoji.emoji}
                 </button>
@@ -511,6 +501,9 @@ export function EmojiPicker({
 
   return (
     <>
+      {!embedded && !naked && (
+        <div className={css.sheetBackdrop} onClick={() => close()} aria-hidden="true" />
+      )}
       <div ref={wrapRef} data-emoji-picker className={naked ? css.pickerWrapNaked : css.pickerWrap}>
         {naked ? (
           <div className={css.body}>
@@ -541,10 +534,12 @@ export function EmojiPicker({
                 <div ref={bodyRef} className={css.emojiBody}>
                   {emojiContent}
                 </div>
-                <PickerPreviewBar
-                  client={ctx.client}
-                  item={hasResults ? (preview ?? firstPreview) : null}
-                />
+                {!drawer && (
+                  <PickerPreviewBar
+                    client={ctx.client}
+                    item={hasResults ? (preview ?? firstPreview) : null}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -587,10 +582,12 @@ export function EmojiPicker({
                 <div ref={bodyRef} className={css.emojiBody}>
                   {emojiContent}
                 </div>
-                <PickerPreviewBar
-                  client={ctx.client}
-                  item={hasResults ? (preview ?? firstPreview) : null}
-                />
+                {!drawer && (
+                  <PickerPreviewBar
+                    client={ctx.client}
+                    item={hasResults ? (preview ?? firstPreview) : null}
+                  />
+                )}
               </div>
             </div>
           </>

@@ -9,6 +9,10 @@ import {
   size,
   type Placement,
 } from '@floating-ui/dom';
+import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import * as css from './Popover.css';
 
 interface PopoverProps {
@@ -48,9 +52,14 @@ export function Popover({
 }: PopoverProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const surfaceRef = externalRef ?? innerRef;
+  // Same breakpoint as the context menu: phones and touch tablets get bottom sheets.
+  const sheet = useMediaQuery(PANEL_OVERLAY_QUERY);
+
+  useBackToClose(open && sheet, onClose);
+  useSwipeDownDismiss({ enabled: open && sheet, sheetRef: surfaceRef, onClose });
 
   useEffect(() => {
-    if (!open || !anchorRef.current || !surfaceRef.current) return;
+    if (!open || sheet || !anchorRef.current || !surfaceRef.current) return;
     const cleanup = autoUpdate(anchorRef.current, surfaceRef.current, () => {
       if (!anchorRef.current?.isConnected || !surfaceRef.current) return;
       const surface = surfaceRef.current;
@@ -74,10 +83,10 @@ export function Popover({
       });
     });
     return cleanup;
-  }, [open, placement, anchorRef, surfaceRef, matchAnchorWidth, shiftCrossAxis, maxHeight]);
+  }, [open, sheet, placement, anchorRef, surfaceRef, matchAnchorWidth, shiftCrossAxis, maxHeight]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || sheet) return;
     const handleMouseDown = (e: MouseEvent) => {
       const el = e.target as Node;
       if (anchorRef.current?.contains(el)) return;
@@ -93,29 +102,46 @@ export function Popover({
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, onClose, anchorRef, surfaceRef]);
+  }, [open, sheet, onClose, anchorRef, surfaceRef]);
+
+  // A sheet has no outside-press handler: its backdrop closes it, and Escape still does.
+  useEffect(() => {
+    if (!open || !sheet) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [open, sheet, onClose]);
 
   if (!open) return null;
 
   return createPortal(
-    <div
-      ref={surfaceRef}
-      id={id}
-      role={role}
-      data-popover
-      aria-labelledby={labelledBy}
-      className={[
-        css.popover,
-        dense ? css.popoverDense : undefined,
-        matchAnchorWidth ? css.popoverMatchWidth : undefined,
-        contentWidth ? css.popoverContentWidth : undefined,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      {children}
-    </div>,
+    <>
+      {sheet && (
+        <div className={css.sheetBackdrop} data-sheet-scrim onClick={onClose} aria-hidden="true" />
+      )}
+      <div
+        ref={surfaceRef}
+        id={id}
+        role={role}
+        data-popover
+        aria-labelledby={labelledBy}
+        className={[
+          css.popover,
+          sheet ? css.popoverSheet : undefined,
+          dense ? css.popoverDense : undefined,
+          matchAnchorWidth ? css.popoverMatchWidth : undefined,
+          contentWidth ? css.popoverContentWidth : undefined,
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {sheet && <div className={css.sheetHandle} aria-hidden="true" />}
+        {children}
+      </div>
+    </>,
     document.body
   );
 }

@@ -1,7 +1,11 @@
 import { useSetAtom } from 'jotai';
 import { useCallback } from 'react';
 import { contextMenuAtom } from '../features/contextMenu/contextMenuAtom';
-import type { ContextMenuAnchor, ContextMenuItem } from '../features/contextMenu/contextMenuAtom';
+import type {
+  ContextMenuAnchor,
+  ContextMenuItem,
+  QuickReactions,
+} from '../features/contextMenu/contextMenuAtom';
 
 export type MenuOpenEvent = React.MouseEvent & { anchor?: ContextMenuAnchor };
 
@@ -56,11 +60,16 @@ export function useContextMenu() {
   const setMenu = useSetAtom(contextMenuAtom);
 
   const openContextMenu = useCallback(
-    (e: MenuOpenEvent, items: ContextMenuItem[]) => {
+    (e: MenuOpenEvent, items: ContextMenuItem[], quickReactions?: QuickReactions) => {
       e.preventDefault();
       e.stopPropagation();
       if (items.length === 0) return;
-      setMenu({ items, anchor: anchorFromMouseEvent(e), opener: currentTargetEl(e) });
+      setMenu({
+        items,
+        anchor: anchorFromMouseEvent(e),
+        opener: currentTargetEl(e),
+        quickReactions,
+      });
     },
     [setMenu]
   );

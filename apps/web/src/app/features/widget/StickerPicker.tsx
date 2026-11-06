@@ -18,6 +18,7 @@ import {
 } from '@/app/features/timeline/composer/sendMessageContent';
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import { isLightTheme } from '@/theme/customThemes';
+import { usePickerDrawer } from '@/app/hooks/usePickerShell';
 import * as css from './StickerPicker.css';
 
 interface Props {
@@ -64,6 +65,7 @@ export function StickerPicker({
   const currentTheme = useAtomValue(effectiveThemeAtom);
 
   const close = useCallback(() => setPicker(false), [setPicker]);
+  usePickerDrawer(wrapRef, close, !!picker);
 
   const setupWidgetApi = useCallback(() => {
     const iframe = iframeRef.current;

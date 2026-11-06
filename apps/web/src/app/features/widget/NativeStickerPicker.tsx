@@ -4,6 +4,7 @@ import { StickerIcon, XIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { useToast } from '@/app/hooks/useToast';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
+import { usePickerDrawer } from '@/app/hooks/usePickerShell';
 import { getErrorMessage } from '@/util/error';
 import { useAtom } from 'jotai';
 import { roomSettingsRoomIdAtom, roomSettingsTabAtom } from '@/app/store/atoms';
@@ -106,6 +107,7 @@ export function NativeStickerPicker({
   const getTimeline = useComposerTimeline(client, roomId, threadId);
   const coarse = useCoarsePointer();
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  usePickerDrawer(wrapRef, onClose, !naked);
   const [, setRoomSettingsId] = useAtom(roomSettingsRoomIdAtom);
   const [, setRoomSettingsTab] = useAtom(roomSettingsTabAtom);
   const [searchQuery, setSearchQuery] = useState('');

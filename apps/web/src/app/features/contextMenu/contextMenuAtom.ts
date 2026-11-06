@@ -23,10 +23,19 @@ export interface ContextMenuAnchor {
   placement: Placement;
 }
 
+/** A row of one-tap emoji reactions shown above the items in the touch (bottom sheet) layout. */
+export interface QuickReactions {
+  keys: string[];
+  /** Keys the user has already reacted with; shown highlighted. */
+  active?: string[];
+  onPick: (key: string) => void;
+}
+
 export interface ContextMenuState {
   anchor: ContextMenuAnchor;
   items: ContextMenuItem[];
   opener?: HTMLElement | null;
+  quickReactions?: QuickReactions;
 }
 
 export const contextMenuAtom = atom<ContextMenuState | null>(null);

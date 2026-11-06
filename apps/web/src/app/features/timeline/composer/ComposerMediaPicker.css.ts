@@ -12,6 +12,31 @@ export const wrapper = style({
   flexDirection: 'column',
 });
 
+// Phones: sits in the flow below the message box, where the keyboard was, so the composer stays
+// visible. Spans the composer's side and bottom padding.
+export const wrapperDocked = style({
+  margin: '0 -8px -9px',
+  // About the height of the on-screen keyboard.
+  height: 'clamp(300px, 40dvh, 440px)',
+  backgroundColor: vars.color.bgSecondary,
+  borderTop: `1px solid ${vars.color.border}`,
+  borderRadius: '20px 20px 0 0',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  flexShrink: 0,
+});
+
+export const drawerHandle = style({
+  width: '40px',
+  height: '4px',
+  borderRadius: '2px',
+  backgroundColor: vars.color.border,
+  alignSelf: 'center',
+  flexShrink: 0,
+  margin: '8px 0 2px',
+});
+
 export const header = style({
   display: 'flex',
   alignItems: 'center',
