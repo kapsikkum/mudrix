@@ -9,6 +9,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import org.wizardchat.core.LoadState
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
 
@@ -99,6 +100,8 @@ class SettingsSyncer(
     private val contents = HashMap<String, JsonElement?>()
     private var subscriptions: List<Subscription> = emptyList()
     private var pushJob: Job? = null
+
+    /** Whether the account's data has loaded; nothing is written before, or an empty account would be taken for a new one */
     private var ready = false
 
     fun start() {
@@ -110,16 +113,20 @@ class SettingsSyncer(
                     if (ready) schedulePush()
                 }
             }
+        } + client.watchLoadState { state ->
+            if (state != LoadState.loading) scope.launch { becomeReady() }
         }
-        scope.launch {
-            for (type in SettingsSync.READ_TYPES) {
-                if (type !in contents) contents[type] = runCatching { client.cachedAccountData(type) }.getOrNull()
-            }
-            ready = true
-            applyRemote()
-            schedulePush()
+        prefs.onSyncedSettingsChange = { if (ready) schedulePush() }
+    }
+
+    private suspend fun becomeReady() {
+        if (ready) return
+        for (type in SettingsSync.READ_TYPES) {
+            if (type !in contents) contents[type] = runCatching { client.cachedAccountData(type) }.getOrNull()
         }
-        prefs.onSyncedSettingsChange = { schedulePush() }
+        ready = true
+        applyRemote()
+        schedulePush()
     }
 
     fun stop() {
