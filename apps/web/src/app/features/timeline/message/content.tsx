@@ -621,6 +621,7 @@ export function MessageContent({
     return (
       <UndecryptableNote
         client={client}
+        roomId={roomId ?? ''}
         reason={reason}
         text={t(decryptionFailureKey(reason, sessionVerified))}
       />

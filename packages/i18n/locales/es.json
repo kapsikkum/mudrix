@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Este dispositivo todavía no puede leer los mensajes anteriores",
       "historyPausedReason": "Los mensajes antiguos de esta sala no se pueden descifrar en esta sesión, así que ya no se cargan automáticamente. Aun así, puedes cargar más manualmente.",
-      "loadOlder": "Cargar mensajes anteriores"
+      "loadOlder": "Cargar mensajes anteriores",
+      "retry": "Reintentar",
+      "restoreBackup": "Restaurar desde la copia de claves",
+      "restoreProgress": "Restaurando claves de la copia: sala {{done}} de {{total}}",
+      "restored": "Claves restauradas de la copia: {{keys}}",
+      "restoreNeedsKey": "Este dispositivo aún no puede leer la copia de claves. Introduce primero tu clave de recuperación o verifica esta sesión.",
+      "restoreFailed": "No se pudo restaurar desde la copia de claves: {{error}}",
+      "retryFailed": "No se pudo reintentar: {{error}}"
     }
   },
   "attachment": {

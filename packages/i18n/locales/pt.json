@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Este dispositivo ainda não consegue ler as mensagens anteriores",
       "historyPausedReason": "As mensagens antigas desta sala não podem ser descriptografadas nesta sessão, por isso não são mais carregadas automaticamente. Você ainda pode carregar mais manualmente.",
-      "loadOlder": "Carregar mensagens anteriores"
+      "loadOlder": "Carregar mensagens anteriores",
+      "retry": "Tentar novamente",
+      "restoreBackup": "Restaurar do backup de chaves",
+      "restoreProgress": "Restaurando chaves do backup: sala {{done}} de {{total}}",
+      "restored": "Chaves restauradas do backup: {{keys}}",
+      "restoreNeedsKey": "O backup de chaves ainda não pode ser lido neste dispositivo. Digite primeiro sua chave de recuperação ou verifique esta sessão.",
+      "restoreFailed": "Não foi possível restaurar do backup de chaves: {{error}}",
+      "retryFailed": "Não foi possível tentar novamente: {{error}}"
     }
   },
   "attachment": {

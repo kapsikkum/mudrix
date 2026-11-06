@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Dieses Gerät kann frühere Nachrichten noch nicht lesen",
       "historyPausedReason": "Ältere Nachrichten in diesem Raum können in dieser Sitzung nicht entschlüsselt werden, deshalb werden sie nicht mehr automatisch geladen. Du kannst trotzdem selbst weitere laden.",
-      "loadOlder": "Ältere Nachrichten laden"
+      "loadOlder": "Ältere Nachrichten laden",
+      "retry": "Erneut versuchen",
+      "restoreBackup": "Aus Schlüssel-Backup wiederherstellen",
+      "restoreProgress": "Schlüssel werden aus dem Backup wiederhergestellt: Raum {{done}} von {{total}}",
+      "restored": "Aus dem Backup wiederhergestellte Schlüssel: {{keys}}",
+      "restoreNeedsKey": "Das Schlüssel-Backup kann auf diesem Gerät noch nicht gelesen werden. Gib zuerst deinen Wiederherstellungsschlüssel ein oder verifiziere diese Sitzung.",
+      "restoreFailed": "Wiederherstellung aus dem Schlüssel-Backup fehlgeschlagen: {{error}}",
+      "retryFailed": "Erneuter Versuch fehlgeschlagen: {{error}}"
     }
   },
   "attachment": {

@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Dit apparaat kan eerdere berichten nog niet lezen",
       "historyPausedReason": "Oudere berichten in deze ruimte kunnen in deze sessie niet worden ontsleuteld, dus ze worden niet meer automatisch geladen. Je kunt zelf nog wel meer laden.",
-      "loadOlder": "Oudere berichten laden"
+      "loadOlder": "Oudere berichten laden",
+      "retry": "Opnieuw proberen",
+      "restoreBackup": "Herstellen uit sleutelback-up",
+      "restoreProgress": "Sleutels herstellen uit de back-up: kamer {{done}} van {{total}}",
+      "restored": "Uit de back-up hersteld: {{keys}} sleutels",
+      "restoreNeedsKey": "De sleutelback-up kan op dit apparaat nog niet worden gelezen. Voer eerst je herstelsleutel in of verifieer deze sessie.",
+      "restoreFailed": "Herstellen uit de sleutelback-up is mislukt: {{error}}",
+      "retryFailed": "Opnieuw proberen is mislukt: {{error}}"
     }
   },
   "attachment": {

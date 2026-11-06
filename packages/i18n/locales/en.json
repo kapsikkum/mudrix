@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "This device can't read earlier messages yet",
       "historyPausedReason": "Older messages in this room can't be decrypted on this session, so they are no longer loaded automatically. You can still load more yourself.",
-      "loadOlder": "Load older messages"
+      "loadOlder": "Load older messages",
+      "retry": "Try again",
+      "restoreBackup": "Restore from key backup",
+      "restoreProgress": "Restoring keys from the backup: room {{done}} of {{total}}",
+      "restored": "Keys restored from the backup: {{keys}}",
+      "restoreNeedsKey": "The key backup can't be read on this device yet. Enter your recovery key or verify this session first.",
+      "restoreFailed": "Couldn't restore from the key backup: {{error}}",
+      "retryFailed": "Couldn't try again: {{error}}"
     }
   },
   "attachment": {

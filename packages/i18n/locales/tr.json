@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Bu cihaz önceki mesajları henüz okuyamıyor",
       "historyPausedReason": "Bu odadaki eski mesajların şifresi bu oturumda çözülemiyor, bu yüzden artık otomatik olarak yüklenmiyor. Yine de daha fazlasını kendiniz yükleyebilirsiniz.",
-      "loadOlder": "Eski mesajları yükle"
+      "loadOlder": "Eski mesajları yükle",
+      "retry": "Tekrar dene",
+      "restoreBackup": "Anahtar yedeğinden geri yükle",
+      "restoreProgress": "Anahtarlar yedekten geri yükleniyor: oda {{done}} / {{total}}",
+      "restored": "Yedekten geri yüklenen anahtarlar: {{keys}}",
+      "restoreNeedsKey": "Anahtar yedeği bu cihazda henüz okunamıyor. Önce kurtarma anahtarını gir veya bu oturumu doğrula.",
+      "restoreFailed": "Anahtar yedeğinden geri yüklenemedi: {{error}}",
+      "retryFailed": "Tekrar denenemedi: {{error}}"
     }
   },
   "attachment": {

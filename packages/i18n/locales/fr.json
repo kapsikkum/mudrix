@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Cet appareil ne peut pas encore lire les messages précédents",
       "historyPausedReason": "Les anciens messages de ce salon ne peuvent pas être déchiffrés dans cette session, ils ne sont donc plus chargés automatiquement. Vous pouvez toujours en charger davantage vous-même.",
-      "loadOlder": "Charger les messages précédents"
+      "loadOlder": "Charger les messages précédents",
+      "retry": "Réessayer",
+      "restoreBackup": "Restaurer depuis la sauvegarde des clés",
+      "restoreProgress": "Restauration des clés depuis la sauvegarde : salon {{done}} sur {{total}}",
+      "restored": "Clés restaurées depuis la sauvegarde : {{keys}}",
+      "restoreNeedsKey": "La sauvegarde des clés n'est pas encore lisible sur cet appareil. Saisissez d'abord votre clé de récupération ou vérifiez cette session.",
+      "restoreFailed": "Impossible de restaurer depuis la sauvegarde des clés : {{error}}",
+      "retryFailed": "Impossible de réessayer : {{error}}"
     }
   },
   "attachment": {

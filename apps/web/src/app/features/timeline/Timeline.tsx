@@ -1183,6 +1183,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                 {showHistoryNotice && (
                   <UndecryptableHistoryNotice
                     client={client}
+                    roomId={roomId}
                     reason={historyNoticeReason}
                     loading={isPaginating}
                     onLoadOlder={loadOlderManually}

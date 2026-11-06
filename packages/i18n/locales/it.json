@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "Questo dispositivo non può ancora leggere i messaggi precedenti",
       "historyPausedReason": "I messaggi più vecchi di questa stanza non possono essere decifrati in questa sessione, quindi non vengono più caricati automaticamente. Puoi comunque caricarne altri manualmente.",
-      "loadOlder": "Carica messaggi precedenti"
+      "loadOlder": "Carica messaggi precedenti",
+      "retry": "Riprova",
+      "restoreBackup": "Ripristina dal backup delle chiavi",
+      "restoreProgress": "Ripristino delle chiavi dal backup: stanza {{done}} di {{total}}",
+      "restored": "Chiavi ripristinate dal backup: {{keys}}",
+      "restoreNeedsKey": "Il backup delle chiavi non è ancora leggibile su questo dispositivo. Inserisci prima la chiave di recupero o verifica questa sessione.",
+      "restoreFailed": "Impossibile ripristinare dal backup delle chiavi: {{error}}",
+      "retryFailed": "Impossibile riprovare: {{error}}"
     }
   },
   "attachment": {

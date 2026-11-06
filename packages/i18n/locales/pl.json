@@ -1054,7 +1054,14 @@
       },
       "historyPaused": "To urządzenie nie może jeszcze odczytać wcześniejszych wiadomości",
       "historyPausedReason": "Starszych wiadomości w tym pokoju nie można odszyfrować w tej sesji, więc nie są już wczytywane automatycznie. Nadal możesz wczytać więcej ręcznie.",
-      "loadOlder": "Wczytaj starsze wiadomości"
+      "loadOlder": "Wczytaj starsze wiadomości",
+      "retry": "Spróbuj ponownie",
+      "restoreBackup": "Przywróć z kopii zapasowej kluczy",
+      "restoreProgress": "Przywracanie kluczy z kopii zapasowej: pokój {{done}} z {{total}}",
+      "restored": "Klucze przywrócone z kopii zapasowej: {{keys}}",
+      "restoreNeedsKey": "Kopia zapasowa kluczy nie jest jeszcze czytelna na tym urządzeniu. Najpierw podaj klucz odzyskiwania lub zweryfikuj tę sesję.",
+      "restoreFailed": "Nie udało się przywrócić z kopii zapasowej kluczy: {{error}}",
+      "retryFailed": "Nie udało się spróbować ponownie: {{error}}"
     }
   },
   "attachment": {
