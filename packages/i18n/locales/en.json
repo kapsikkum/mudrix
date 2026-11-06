@@ -605,6 +605,9 @@
       "italic": "Italic",
       "strikethrough": "Strikethrough",
       "code": "Inline code",
+      "heading": "Heading",
+      "bulletList": "Bulleted list",
+      "numberedList": "Numbered list",
       "quote": "Quote",
       "link": "Insert link"
     },

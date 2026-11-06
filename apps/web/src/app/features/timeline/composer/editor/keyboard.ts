@@ -1,6 +1,6 @@
 import type { KeyboardEvent } from 'react';
 import { Editor, Transforms, Element } from 'slate';
-import type { CustomEditor } from './types';
+import type { CustomEditor, CustomElement, HeadingLevel, ListType } from './types';
 
 const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
 
@@ -135,11 +135,39 @@ export function isBlockActive(editor: CustomEditor, blockType: BlockType): boole
   return !!match;
 }
 
+const isBlockNode = (editor: CustomEditor) => (n: unknown) =>
+  Element.isElement(n) && Editor.isBlock(editor, n);
+
+function setBlock(editor: CustomEditor, props: Partial<CustomElement>): void {
+  Transforms.unsetNodes(editor, ['level', 'listType'], { match: isBlockNode(editor) });
+  Transforms.setNodes<CustomElement>(editor, props, { match: isBlockNode(editor) });
+}
+
 export function toggleBlock(editor: CustomEditor, blockType: BlockType): void {
-  const isActive = isBlockActive(editor, blockType);
-  Transforms.setNodes(
+  setBlock(editor, { type: isBlockActive(editor, blockType) ? 'paragraph' : blockType });
+}
+
+export function isListActive(editor: CustomEditor, listType: ListType): boolean {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => Element.isElement(n) && n.type === 'list-item' && n.listType === listType,
+  });
+  return !!match;
+}
+
+export function toggleList(editor: CustomEditor, listType: ListType): void {
+  setBlock(
     editor,
-    { type: isActive ? 'paragraph' : blockType },
-    { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) }
+    isListActive(editor, listType) ? { type: 'paragraph' } : { type: 'list-item', listType }
   );
+}
+
+export function isHeadingActive(editor: CustomEditor): boolean {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => Element.isElement(n) && n.type === 'heading',
+  });
+  return !!match;
+}
+
+export function toggleHeading(editor: CustomEditor, level: HeadingLevel = 1): void {
+  setBlock(editor, isHeadingActive(editor) ? { type: 'paragraph' } : { type: 'heading', level });
 }

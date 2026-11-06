@@ -605,6 +605,9 @@
       "italic": "Kursiv",
       "strikethrough": "Durchgestrichen",
       "code": "Code",
+      "heading": "Überschrift",
+      "bulletList": "Aufzählung",
+      "numberedList": "Nummerierte Liste",
       "quote": "Zitat",
       "link": "Link einfügen"
     },

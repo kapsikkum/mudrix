@@ -3,6 +3,9 @@ import type {
   ParagraphElement,
   BlockQuoteElement,
   CodeBlockElement,
+  HeadingElement,
+  HeadingLevel,
+  ListItemElement,
   LinkElement,
   MentionElement,
   RoomMentionElement,
@@ -30,6 +33,34 @@ const ROOM_MENTION_TOKENS: RoomMentionToken[] = [
   { token: '@everyone', label: '@everyone' },
   { token: '@all', label: '@all' },
 ];
+
+export const HEADING_RE = /^(#{1,3}) /;
+export const BULLET_RE = /^[-*+] /;
+export const NUMBERED_RE = /^\d+[.)] /;
+
+function lineBlock(
+  line: string,
+  resolver: MentionResolver | undefined,
+  formatting: boolean
+): HeadingElement | ListItemElement | null {
+  const heading = HEADING_RE.exec(line);
+  if (heading) {
+    return {
+      type: 'heading',
+      level: heading[1].length as HeadingLevel,
+      children: parseInline(line.slice(heading[0].length), resolver, formatting),
+    };
+  }
+  const list = BULLET_RE.exec(line) ?? NUMBERED_RE.exec(line);
+  if (list) {
+    return {
+      type: 'list-item',
+      listType: BULLET_RE.test(line) ? 'bulleted' : 'numbered',
+      children: parseInline(line.slice(list[0].length), resolver, formatting),
+    };
+  }
+  return null;
+}
 
 export function fromMarkdown(
   markdown: string,
@@ -73,10 +104,13 @@ export function fromMarkdown(
       continue;
     }
 
-    blocks.push({
-      type: 'paragraph',
-      children: parseInline(line, resolver, formatting),
-    } as ParagraphElement);
+    blocks.push(
+      (formatting && lineBlock(line, resolver, formatting)) ||
+        ({
+          type: 'paragraph',
+          children: parseInline(line, resolver, formatting),
+        } as ParagraphElement)
+    );
     i++;
   }
 

@@ -5,6 +5,8 @@ import type {
   ParagraphElement,
   BlockQuoteElement,
   CodeBlockElement,
+  HeadingElement,
+  ListItemElement,
   LinkElement,
   MentionElement,
   RoomMentionElement,
@@ -78,10 +80,23 @@ function collectSegments(nodes: Descendant[]): Segment[] {
   return segments;
 }
 
+function numberedItem(node: Descendant): ListItemElement | null {
+  if (isText(node)) return null;
+  const el = node as CustomElement;
+  return el.type === 'list-item' && el.listType === 'numbered' ? el : null;
+}
+
 export function toMarkdown(nodes: Descendant[]): { markdown: string } {
   const lines: string[] = [];
+  let number = 0;
 
   for (const seg of collectSegments(nodes)) {
+    const item = seg.kind === 'node' ? numberedItem(seg.node) : null;
+    number = item ? number + 1 : 0;
+    if (item) {
+      lines.push(`${number}. ${serializeInlineChildren(item.children)}`);
+      continue;
+    }
     if (seg.kind === 'code') {
       lines.push(`\`\`\`${seg.lang}`);
       seg.lines.forEach((l) => lines.push(l));
@@ -115,6 +130,17 @@ function serializeBlock(el: CustomElement): string {
     case 'code-block': {
       const inner = serializeInlineChildren((el as CodeBlockElement).children);
       return `\`\`\`\n${inner}\n\`\`\``;
+    }
+
+    case 'heading': {
+      const heading = el as HeadingElement;
+      return `${'#'.repeat(heading.level)} ${serializeInlineChildren(heading.children)}`;
+    }
+
+    case 'list-item': {
+      const item = el as ListItemElement;
+      const marker = item.listType === 'numbered' ? '1.' : '-';
+      return `${marker} ${serializeInlineChildren(item.children)}`;
     }
 
     case 'link': {
@@ -216,29 +242,52 @@ export function toHtml(nodes: Descendant[]): {
   hasCustomContent: boolean;
 } {
   let hasCustomContent = false;
-  const parts: string[] = [];
+  const parts: { html: string; block: boolean }[] = [];
+  let list = null as { tag: 'ul' | 'ol'; items: string[] } | null;
 
-  const pushSerialized = (el: CustomElement) => {
-    const { html, custom } = serializeBlockHtml(el);
-    if (custom) hasCustomContent = true;
-    parts.push(html);
+  const flushList = () => {
+    if (!list) return;
+    parts.push({
+      html: `<${list.tag}>${list.items.map((item) => `<li>${item}</li>`).join('')}</${list.tag}>`,
+      block: true,
+    });
+    list = null;
   };
 
   for (const seg of collectSegments(nodes)) {
+    const el = seg.kind === 'node' && !isText(seg.node) ? (seg.node as CustomElement) : null;
+    if (el?.type === 'list-item') {
+      const tag = el.listType === 'numbered' ? 'ol' : 'ul';
+      if (list?.tag !== tag) flushList();
+      const { html, custom } = serializeInlineChildrenHtml(el.children);
+      if (custom) hasCustomContent = true;
+      list ??= { tag, items: [] };
+      list.items.push(html);
+      continue;
+    }
+    flushList();
     if (seg.kind === 'code') {
       const codeClass = seg.lang ? ` class="language-${seg.lang}"` : '';
-      parts.push(`<pre><code${codeClass}>${escapeHtml(seg.lines.join('\n'))}</code></pre>`);
+      parts.push({
+        html: `<pre><code${codeClass}>${escapeHtml(seg.lines.join('\n'))}</code></pre>`,
+        block: false,
+      });
       continue;
     }
-    const node = seg.node;
-    if (isText(node)) {
-      parts.push(serializeLeafHtml(node as CustomText));
+    if (!el) {
+      parts.push({ html: serializeLeafHtml(seg.node as CustomText), block: false });
       continue;
     }
-    pushSerialized(node as CustomElement);
+    const { html, custom } = serializeBlockHtml(el);
+    if (custom) hasCustomContent = true;
+    parts.push({ html, block: el.type === 'heading' });
   }
+  flushList();
 
-  return { html: parts.join('<br>'), hasCustomContent };
+  const html = parts
+    .map((part, i) => (i > 0 && !part.block && !parts[i - 1].block ? '<br>' : '') + part.html)
+    .join('');
+  return { html, hasCustomContent };
 }
 
 function serializeBlockHtml(el: CustomElement): { html: string; custom: boolean } {
@@ -256,6 +305,17 @@ function serializeBlockHtml(el: CustomElement): { html: string; custom: boolean 
     case 'code-block': {
       const { html: inner } = serializeInlineChildrenHtml((el as CodeBlockElement).children);
       return { html: `<pre><code>${inner}</code></pre>`, custom: false };
+    }
+
+    case 'heading': {
+      const heading = el as HeadingElement;
+      const { html: inner, custom } = serializeInlineChildrenHtml(heading.children);
+      return { html: `<h${heading.level}>${inner}</h${heading.level}>`, custom };
+    }
+
+    case 'list-item': {
+      const { html: inner, custom } = serializeInlineChildrenHtml((el as ListItemElement).children);
+      return { html: `<ul><li>${inner}</li></ul>`, custom };
     }
 
     case 'link': {
@@ -373,7 +433,13 @@ function codeParagraphText(el: ParagraphElement): string {
 }
 
 function rawElementText(el: CustomElement): string {
-  if (el.type === 'paragraph' || el.type === 'block-quote' || el.type === 'code-block') {
+  if (
+    el.type === 'paragraph' ||
+    el.type === 'block-quote' ||
+    el.type === 'code-block' ||
+    el.type === 'heading' ||
+    el.type === 'list-item'
+  ) {
     return (el as { children: Descendant[] }).children
       .map((c) => (isText(c) ? (c as Text).text : ''))
       .join('');

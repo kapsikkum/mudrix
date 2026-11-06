@@ -1,7 +1,7 @@
 import type { BaseEditor, Descendant } from 'slate';
 import type { ReactEditor } from 'slate-react';
 import type { HistoryEditor } from 'slate-history';
-import { Element } from 'slate';
+import { Editor, Element, Range, Transforms } from 'slate';
 
 export interface ParagraphElement {
   type: 'paragraph';
@@ -17,6 +17,22 @@ export interface CodeBlockElement {
   type: 'code-block';
   children: Descendant[];
 }
+
+export interface HeadingElement {
+  type: 'heading';
+  level: HeadingLevel;
+  children: Descendant[];
+}
+
+export type HeadingLevel = 1 | 2 | 3;
+
+export interface ListItemElement {
+  type: 'list-item';
+  listType: ListType;
+  children: Descendant[];
+}
+
+export type ListType = 'bulleted' | 'numbered';
 
 export interface LinkElement {
   type: 'link';
@@ -56,6 +72,8 @@ export type CustomElement =
   | ParagraphElement
   | BlockQuoteElement
   | CodeBlockElement
+  | HeadingElement
+  | ListItemElement
   | LinkElement
   | MentionElement
   | RoomMentionElement
@@ -92,6 +110,63 @@ export function withMentions(editor: CustomEditor): CustomEditor {
     (el.type === 'mention' || el.type === 'room-mention' || el.type === 'emoticon')
       ? true
       : markableVoid(el);
+
+  return editor;
+}
+
+function currentBlock(editor: CustomEditor) {
+  return Editor.above(editor, {
+    match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+  });
+}
+
+function resetToParagraph(editor: CustomEditor) {
+  Transforms.unsetNodes(editor, ['level', 'listType'], {
+    match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+  });
+  Transforms.setNodes(
+    editor,
+    { type: 'paragraph' },
+    { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) }
+  );
+}
+
+export function withBlocks(editor: CustomEditor): CustomEditor {
+  const { insertBreak, deleteBackward } = editor;
+
+  editor.insertBreak = () => {
+    const block = editor.selection && Range.isCollapsed(editor.selection) && currentBlock(editor);
+    if (block) {
+      const [node, path] = block;
+      const type = (node as CustomElement).type;
+      if (type === 'list-item' && Editor.string(editor, path) === '') {
+        resetToParagraph(editor);
+        return;
+      }
+      if (type === 'heading') {
+        insertBreak();
+        resetToParagraph(editor);
+        return;
+      }
+    }
+    insertBreak();
+  };
+
+  editor.deleteBackward = (unit) => {
+    const block = editor.selection && Range.isCollapsed(editor.selection) && currentBlock(editor);
+    if (block) {
+      const [node, path] = block;
+      const type = (node as CustomElement).type;
+      if (
+        (type === 'list-item' || type === 'heading') &&
+        Editor.isStart(editor, editor.selection!.anchor, path)
+      ) {
+        resetToParagraph(editor);
+        return;
+      }
+    }
+    deleteBackward(unit);
+  };
 
   return editor;
 }

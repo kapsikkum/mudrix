@@ -15,6 +15,22 @@ export function Element({ attributes, children, element }: RenderElementProps) {
     case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
 
+    case 'heading': {
+      const Tag = `h${el.level}` as const;
+      return (
+        <Tag {...attributes} className={css.heading[el.level]}>
+          {children}
+        </Tag>
+      );
+    }
+
+    case 'list-item':
+      return (
+        <div {...attributes} className={css.listItem} data-list-item={el.listType}>
+          {children}
+        </div>
+      );
+
     case 'code-block':
       return (
         <pre {...attributes}>

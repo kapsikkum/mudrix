@@ -6,7 +6,7 @@ import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { useAutocomplete } from '../useAutocomplete';
 import type { Suggestion } from '../useAutocomplete';
 import { useFormatToolbar } from './useFormatToolbar';
-import { emptyDocument, withMentions } from './editor/types';
+import { emptyDocument, withBlocks, withMentions } from './editor/types';
 import type { CustomEditor } from './editor/types';
 
 interface UseRichEditorOptions {
@@ -18,7 +18,7 @@ interface UseRichEditorOptions {
 
 export function useRichEditor({ client, roomId, onEscape, disableCommands }: UseRichEditorOptions) {
   const editor = useRef<CustomEditor>(
-    withMentions(withHistory(withReact(createEditor() as CustomEditor)))
+    withBlocks(withMentions(withHistory(withReact(createEditor() as CustomEditor))))
   ).current;
 
   const [value, setValue] = useState<Descendant[]>(() => emptyDocument());
