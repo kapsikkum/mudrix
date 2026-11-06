@@ -13,6 +13,7 @@ import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import * as css from './RecoveryKeyModal.css';
 import { downloadBlob } from '@/util/nativeApp';
+import { Sensitive } from '@/app/components/Sensitive';
 
 export function RecoveryKeyModal() {
   const [state, setState] = useAtom(recoveryKeyModalAtom);
@@ -79,7 +80,9 @@ export function RecoveryKeyModal() {
 
       {/* Key display + copy + download */}
       <div className={css.keyBox}>
-        <span className={css.keyText}>{state.recoveryKey}</span>
+        <span className={css.keyText}>
+          <Sensitive>{state.recoveryKey}</Sensitive>
+        </span>
         <div className={css.keyActions}>
           <button type="button" className={css.copyBtn} onClick={handleCopy}>
             {copied ? (

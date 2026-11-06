@@ -1238,7 +1238,19 @@
       "other": "Other",
       "blockInvites": "Block all invites",
       "blockInvitesNote": "Nobody can invite you to rooms or start DMs with you. Your homeserver rejects the invites.",
-      "blockInvitesFailed": "Failed to update invite blocking: {{error}}"
+      "blockInvitesFailed": "Failed to update invite blocking: {{error}}",
+      "showPresence": "Show user presence",
+      "showPresenceNote": "Display when users are online, offline, or unavailable. Your presence will be visible to others.",
+      "streamer": {
+        "auto": "While sharing my screen",
+        "indicator": "Streamer mode is on. Click to change it.",
+        "mode": "Streamer mode",
+        "note": "Blurs private details (your email, user ID, room IDs, session IPs and recovery keys) and hides message text in desktop notifications, so they don't end up on a stream or screen share.",
+        "notificationBody": "New message",
+        "off": "Off",
+        "on": "Always on",
+        "title": "Streamer mode"
+      }
     },
     "language": {
       "title": "Language",

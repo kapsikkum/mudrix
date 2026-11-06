@@ -30,6 +30,7 @@ import type { CallPresentation, SidebarView } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
+import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useVerification } from '@/app/hooks/useVerification';
 import { useSessionVerification } from '@/app/hooks/useSessionVerification';
 import { isEditableTarget, isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
@@ -471,6 +472,7 @@ export function ClientLayout() {
   useUpdateCheck();
 
   usePresenceSender(client);
+  useStreamerMode();
   useBindFavouriteRooms();
   usePresenceListener(client);
   useConnectionStatusWatcher();

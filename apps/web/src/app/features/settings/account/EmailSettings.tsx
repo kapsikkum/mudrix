@@ -21,6 +21,7 @@ import {
 import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
 import * as css from '../Settings.css';
+import { Sensitive } from '@/app/components/Sensitive';
 
 export function EmailSettings() {
   const { t } = useTranslation();
@@ -181,7 +182,9 @@ export function EmailSettings() {
               {emails.map((tp) => (
                 <div key={tp.address} className={css.settingRow}>
                   <div className={css.settingInfo}>
-                    <span className={css.settingLabel}>{tp.address}</span>
+                    <span className={css.settingLabel}>
+                      <Sensitive>{tp.address}</Sensitive>
+                    </span>
                   </div>
                   <button
                     type="button"

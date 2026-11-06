@@ -1,7 +1,7 @@
 import { useCallback, memo } from 'react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { useAtomValue } from 'jotai';
-import { showPresenceDotsAtom } from '@/app/store/atoms/settings';
+import { showPresenceAtom, showPresenceDotsAtom } from '@/app/store/atoms/settings';
 import type { PresenceState } from '@/app/store/atoms';
 import { useAvatarBlobUrl } from './useAvatarBlobUrl';
 import { getInitialAndHue } from './avatarHue';
@@ -85,7 +85,10 @@ export const Avatar = memo(function Avatar({
       }
     : { className: wrapClass };
 
-  const showDots = useAtomValue(showPresenceDotsAtom);
+  // Presence is only shown to people who share theirs
+  const dotsEnabled = useAtomValue(showPresenceDotsAtom);
+  const sharesPresence = useAtomValue(showPresenceAtom);
+  const showDots = dotsEnabled && sharesPresence;
   const dot =
     presence && showDots ? (
       onPresenceDotClick ? (

@@ -30,6 +30,7 @@ import { Toggle } from '@/app/components/Toggle';
 import * as css from '@/app/components/Settings/Settings.css';
 import { RoomBridges } from './RoomBridges';
 import { vars } from '@/theme/vars.css';
+import { Sensitive } from '@/app/components/Sensitive';
 
 type AccessOption = 'invite' | 'restricted' | 'public' | 'knock';
 
@@ -505,7 +506,9 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           <div className={css.section}>
             <h3 className={css.sectionTitle}>{t('room.settings.general.id')}</h3>
             <div className={css.tokenRow}>
-              <code className={css.tokenField}>{roomId}</code>
+              <code className={css.tokenField}>
+                <Sensitive>{roomId}</Sensitive>
+              </code>
               <CopyButton text={roomId} />
             </div>
           </div>

@@ -5,7 +5,10 @@ import {
   typingIndicatorsAtom,
   sendReadReceiptsAtom,
   mediaVisibilityAtom,
+  showPresenceAtom,
+  streamerModeAtom,
   type MediaVisibility,
+  type StreamerMode,
 } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Select } from '@/app/components/Select';
@@ -27,11 +30,19 @@ const MEDIA_VISIBILITY_OPTIONS: Record<MediaVisibility, string> = {
   never: 'settings.privacy.mediaVisibilityNever',
 };
 
+const STREAMER_OPTIONS: Record<StreamerMode, string> = {
+  off: 'settings.privacy.streamer.off',
+  auto: 'settings.privacy.streamer.auto',
+  on: 'settings.privacy.streamer.on',
+};
+
 export function Privacy() {
   const { t } = useTranslation();
   const [typingIndicators, setTypingIndicators] = useAtom(typingIndicatorsAtom);
   const [sendReadReceipts, setSendReadReceipts] = useAtom(sendReadReceiptsAtom);
   const [mediaVisibility, setMediaVisibility] = useAtom(mediaVisibilityAtom);
+  const [showPresence, setShowPresence] = useAtom(showPresenceAtom);
+  const [streamerMode, setStreamerMode] = useAtom(streamerModeAtom);
 
   return (
     <div>
@@ -80,7 +91,34 @@ export function Privacy() {
       <div className={css.section}>
         <h3 className={css.sectionTitle}>{t('settings.privacy.other')}</h3>
 
+        <ToggleRow
+          label={t('settings.privacy.showPresence')}
+          description={t('settings.privacy.showPresenceNote')}
+          checked={showPresence}
+          onChange={setShowPresence}
+        />
         <BlockInvitesToggle />
+      </div>
+
+      <div className={css.divider} />
+
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('settings.privacy.streamer.title')}</h3>
+        <div className={css.settingRow}>
+          <div className={css.settingInfo}>
+            <span className={css.settingLabel}>{t('settings.privacy.streamer.mode')}</span>
+            <span className={css.settingNote}>{t('settings.privacy.streamer.note')}</span>
+          </div>
+          <Select
+            aria-label={t('settings.privacy.streamer.mode')}
+            value={streamerMode}
+            options={Object.entries(STREAMER_OPTIONS).map(([option, labelKey]) => ({
+              value: option,
+              label: t(labelKey),
+            }))}
+            onChange={(v) => setStreamerMode(v as StreamerMode)}
+          />
+        </div>
       </div>
 
       <div className={css.divider} />

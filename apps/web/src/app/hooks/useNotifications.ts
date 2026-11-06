@@ -1,5 +1,7 @@
 import { playVoiceSound } from '@/app/features/voice/voiceSounds';
 import { getThemeLogoAssets } from '@/theme/themeLogos';
+import i18n from '@/i18n';
+import { isStreamerModeActive } from '@/util/streamerMode';
 
 export type NotifLevel = 'default' | 'all' | 'mentions' | 'mute';
 
@@ -64,6 +66,8 @@ export async function showBrowserNotification(
   roomUrl?: string,
   icon = getThemeLogoAssets().notification
 ): Promise<void> {
+  // Streamer mode: the banner says who, not what.
+  if (isStreamerModeActive()) body = i18n.t('settings.privacy.streamer.notificationBody');
   if (window.desktopAPI?.showNotification) {
     try {
       const shown = await window.desktopAPI.showNotification({

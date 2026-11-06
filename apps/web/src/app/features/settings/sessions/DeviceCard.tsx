@@ -15,6 +15,7 @@ import { formatDateLabel, formatTime } from '@/util/format';
 import { useContextMenu } from '@/app/hooks/useContextMenu';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import * as css from './Sessions.css';
+import { Sensitive } from '@/app/components/Sensitive';
 
 export interface DeviceEntry {
   deviceId: string;
@@ -233,7 +234,9 @@ export function DeviceCard({
           </div>
           <div className={css.detailRow}>
             <span className={css.detailLabel}>{t('settings.sessions.ipAddress')}</span>
-            <span className={css.detailValue}>{d.lastSeenIp ?? '—'}</span>
+            <span className={css.detailValue}>
+              <Sensitive>{d.lastSeenIp ?? '—'}</Sensitive>
+            </span>
           </div>
         </div>
       )}

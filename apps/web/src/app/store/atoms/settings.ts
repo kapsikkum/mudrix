@@ -28,6 +28,8 @@ export type MessageLayout = 'classic' | 'modern' | 'compact';
 export type { ThemeName } from '@/theme/themeTokens';
 export type TimeFormatPreference = 'auto' | '12h' | '24h';
 export type DateFormatPreference = 'long' | 'dmy' | 'mdy' | 'ymd';
+/** Streamer mode: hide private details always, or only while this device shares its screen. */
+export type StreamerMode = 'off' | 'on' | 'auto';
 export type MediaVisibility = 'always' | 'private' | 'never';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
@@ -78,6 +80,9 @@ export interface Preferences {
   emoticonsToEmoji: boolean;
   /** Fade new messages in as they arrive */
   messageSendAnimation: boolean;
+  streamerMode: StreamerMode;
+  /** Share whether you are online (off: you appear offline and nobody's presence is shown) */
+  showPresence: boolean;
   followSystemTheme: boolean;
   systemDarkTheme: ThemeName;
   systemLightTheme: ThemeName;
@@ -129,6 +134,8 @@ export const DEFAULT_PREFERENCES: Preferences = {
   emojiOnlySize: DEFAULT_EMOJI_ONLY_SIZE,
   emoticonsToEmoji: true,
   messageSendAnimation: false,
+  streamerMode: 'auto',
+  showPresence: false,
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
   systemLightTheme: 'Ethereal',
@@ -174,6 +181,8 @@ export const emojiStyleAtom = preferenceFieldAtom('emojiStyle');
 export const emojiOnlySizeAtom = preferenceFieldAtom('emojiOnlySize');
 export const emoticonsToEmojiAtom = preferenceFieldAtom('emoticonsToEmoji');
 export const messageSendAnimationAtom = preferenceFieldAtom('messageSendAnimation');
+export const streamerModeAtom = preferenceFieldAtom('streamerMode');
+export const showPresenceAtom = preferenceFieldAtom('showPresence');
 export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
 export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
 export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');

@@ -1238,7 +1238,19 @@
       "other": "Andere",
       "blockInvites": "Alle Einladungen blockieren",
       "blockInvitesNote": "Niemand kann dich in Räume einladen oder DMs mit dir starten. Dein Homeserver lehnt die Einladungen ab.",
-      "blockInvitesFailed": "Einladungsblockierung konnte nicht geändert werden: {{error}}"
+      "blockInvitesFailed": "Einladungsblockierung konnte nicht geändert werden: {{error}}",
+      "showPresence": "Benutzerpräsenz anzeigen",
+      "showPresenceNote": "Zeigt an, wenn Benutzer online, offline oder nicht verfügbar sind. Deine Präsenz ist für andere sichtbar.",
+      "streamer": {
+        "auto": "Während ich meinen Bildschirm teile",
+        "indicator": "Der Streamer-Modus ist an. Klicke, um ihn zu ändern.",
+        "mode": "Streamer-Modus",
+        "note": "Verwischt private Angaben (E-Mail, Nutzer-ID, Raum-IDs, Sitzungs-IPs und Wiederherstellungsschlüssel) und blendet den Nachrichtentext in Desktop-Benachrichtigungen aus, damit sie nicht in einem Stream oder bei der Bildschirmfreigabe landen.",
+        "notificationBody": "Neue Nachricht",
+        "off": "Aus",
+        "on": "Immer an",
+        "title": "Streamer-Modus"
+      }
     },
     "language": {
       "title": "Sprache",

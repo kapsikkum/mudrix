@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react';
 import {
   ChatCircleDotsIcon,
+  EyeSlashIcon,
   GearIcon,
   WarningCircleIcon,
   HeadphonesIcon,
@@ -13,6 +14,7 @@ import { Avatar } from '@/app/components/Avatar';
 import { IconButton } from '@/app/components/Button';
 import {
   settingsOpenAtom,
+  settingsPageAtom,
   userIdAtom,
   presenceSupportAtom,
   ownPresenceAtom,
@@ -22,6 +24,7 @@ import {
 import type { PresenceState, PresenceOverride } from '@/app/store/atoms';
 import { useContextMenu } from '@/app/hooks/useContextMenu';
 import { useConfirm } from '@/app/hooks/useConfirm';
+import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useSyncReady } from '@/app/hooks/useSync';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { useGlobalVoiceState } from '@/app/features/voice/useGlobalVoice';
@@ -44,6 +47,8 @@ export function UserPanel() {
   const client = getMatrixClientOrNull();
   const userId = useAtomValue(userIdAtom);
   const [, setSettingsOpen] = useAtom(settingsOpenAtom);
+  const setSettingsPage = useSetAtom(settingsPageAtom);
+  const streamer = useStreamerMode();
   const ownPresence = useAtomValue(ownPresenceAtom);
   const [presenceOverride, setPresenceOverride] = useAtom(presenceOverrideAtom);
   const setProfile = useSetAtom(userProfileAtom);
@@ -203,6 +208,19 @@ export function UserPanel() {
         </span>
       </div>
       <div className={css.voiceControls}>
+        {streamer && (
+          <IconButton
+            size="sm"
+            tooltip={t('settings.privacy.streamer.indicator')}
+            aria-label={t('settings.privacy.streamer.indicator')}
+            onClick={() => {
+              setSettingsPage('privacy');
+              setSettingsOpen(true);
+            }}
+          >
+            <EyeSlashIcon size={16} />
+          </IconButton>
+        )}
         <DeviceControl kinds={['audioinput']} label={t('call.inputSettings')} variant="panel">
           <IconButton
             size="sm"

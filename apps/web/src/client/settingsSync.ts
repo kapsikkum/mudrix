@@ -53,6 +53,8 @@ export type SettingsContents = Partial<Record<string, unknown>>;
 const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
   'uiScale',
   'uiZoom',
+  // Whether this computer is being streamed is a fact about this computer.
+  'streamerMode',
   'reducedMotionApplied',
   // Needs the operating system's permission, which is granted per device.
   'notificationBanners',
@@ -75,6 +77,7 @@ const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   reducedMotion: ['system', 'on', 'off'],
   chatDensity: ['compact', 'default', 'spacious'],
   uiDensity: ['compact', 'default', 'spacious'],
+  streamerMode: ['off', 'on', 'auto'],
   timeFormat: ['auto', '12h', '24h'],
   dateFormat: ['long', 'dmy', 'mdy', 'ymd'],
   emojiStyle: EMOJI_STYLES,

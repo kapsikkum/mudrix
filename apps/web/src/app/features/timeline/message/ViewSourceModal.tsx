@@ -6,6 +6,7 @@ import { Modal } from '@/app/components/Modal';
 import { CopyButton } from '@/app/components/Button';
 import type { EventEntry } from './entry';
 import * as css from './ViewSourceModal.css';
+import { Sensitive } from '@/app/components/Sensitive';
 
 interface ViewSourceModalProps {
   event: EventEntry | null;
@@ -61,7 +62,9 @@ export function ViewSourceModal({ event, roomId, client, onClose }: ViewSourceMo
     >
       <div className={css.metaRow}>
         <span className={css.metaLabel}>{t('timeline.roomId')}:</span>
-        <code className={css.metaValue}>{roomId}</code>
+        <code className={css.metaValue}>
+          <Sensitive>{roomId}</Sensitive>
+        </code>
         <CopyButton text={roomId ?? ''} />
       </div>
       <div className={css.metaRow}>

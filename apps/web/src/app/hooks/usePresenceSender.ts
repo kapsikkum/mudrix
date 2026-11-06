@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import type { WizardClient } from '@wizardchat/core';
-import { presenceOverrideAtom, presenceMapAtom, ownCustomStatusAtom } from '@/app/store/atoms';
+import {
+  showPresenceAtom,
+  presenceOverrideAtom,
+  presenceMapAtom,
+  ownCustomStatusAtom,
+} from '@/app/store/atoms';
 import { useSyncReady } from './useSync';
 
 const IDLE_TIMEOUT_MS = 5 * 60 * 1000; // 5min
@@ -14,13 +19,16 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
   const statusText = customStatus?.text ?? '';
   const statusTextRef = useRef(statusText);
   statusTextRef.current = statusText;
+  const showPresence = useAtomValue(showPresenceAtom);
   const override = useAtomValue(presenceOverrideAtom);
   const setPresenceMap = useSetAtom(presenceMapAtom);
 
   const syncReady = useSyncReady();
 
+  const showPresenceRef = useRef(showPresence);
   const overrideRef = useRef(override);
   useEffect(() => {
+    showPresenceRef.current = showPresence;
     overrideRef.current = override;
   });
 
@@ -59,7 +67,7 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
     const scheduleIdle = () => {
       clearIdleTimer();
       idleTimerRef.current = setTimeout(() => {
-        if (!isIdleRef.current && overrideRef.current === 'auto') {
+        if (!isIdleRef.current && showPresenceRef.current && overrideRef.current === 'auto') {
           isIdleRef.current = true;
           applyOwn(client, 'unavailable');
         }
@@ -67,7 +75,7 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
     };
 
     const onActivity = () => {
-      if (overrideRef.current !== 'auto') return;
+      if (!showPresenceRef.current || overrideRef.current !== 'auto') return;
       clearIdleTimer();
       if (isIdleRef.current) {
         isIdleRef.current = false;
@@ -94,7 +102,12 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
   useEffect(() => {
     if (!client || !syncReady) return;
 
-    if (override !== 'auto') {
+    if (!showPresence) {
+      clearTimeout(idleTimerRef.current ?? undefined);
+      idleTimerRef.current = null;
+      isIdleRef.current = false;
+      applyOwn(client, 'offline');
+    } else if (override !== 'auto') {
       clearTimeout(idleTimerRef.current ?? undefined);
       idleTimerRef.current = null;
       isIdleRef.current = false;
@@ -103,5 +116,5 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
       applyOwn(client, isIdleRef.current ? 'unavailable' : 'online');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, syncReady, override, statusText]);
+  }, [client, syncReady, showPresence, override, statusText]);
 }
