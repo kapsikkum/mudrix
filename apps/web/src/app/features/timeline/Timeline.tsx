@@ -42,6 +42,8 @@ import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useVirtualPaginator } from '@/app/hooks/useVirtualPaginator';
+import { MessageSkeletonList } from './MessageSkeleton';
+import { ROW_KEY_ATTR, useTimelineScrollAnchor } from './useTimelineScrollAnchor';
 import {
   UndecryptableCollapse,
   UndecryptableFold,
@@ -79,6 +81,9 @@ interface Props {
 
 const EMPTY_RECEIPTS: ReceiptUser[] = [];
 const PAGINATION_LIMIT = 80;
+const INITIAL_SKELETON_ROWS = 14;
+const BACK_SKELETON_ROWS = 4;
+const FRONT_SKELETON_ROWS = 4;
 /** Least time between two pages of unreadable history loaded by scrolling up at the top. */
 const MANUAL_BACKFILL_INTERVAL_MS = 1500;
 const STICK_TO_BOTTOM_PX = 4;
@@ -120,18 +125,6 @@ function UnreadDivider({ onDismiss, label }: { onDismiss: () => void; label: str
         >
           <XIcon size={12} weight="bold" />
         </button>
-      </div>
-    </div>
-  );
-}
-
-function SkeletonRow({ width1 = '60%', width2 = '40%' }: { width1?: string; width2?: string }) {
-  return (
-    <div className={css.skeletonRow}>
-      <div className={css.skeletonAvatar} />
-      <div className={css.skeletonLines}>
-        <div className={css.skeletonLine} style={{ width: width1 }} />
-        <div className={css.skeletonLine} style={{ width: width2 }} />
       </div>
     </div>
   );
@@ -326,6 +319,16 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   atBottomRef.current = atBottom;
   const atLiveEndRef = useRef(liveTimelineLinked && rangeAtEnd);
   atLiveEndRef.current = liveTimelineLinked && rangeAtEnd;
+
+  // Keeps the view steady while row heights settle after first paint (images and previews
+  // loading, replies fetched, decryption finishing): stays at the bottom at the live end, and
+  // otherwise moves the scroll by the growth of rows above the viewport so what is being read stays
+  // put. The container turns native scroll anchoring off, so this does it.
+  const { registerRow, markPinned } = useTimelineScrollAnchor(
+    scrollRef,
+    useCallback(() => atLiveEndRef.current, []),
+    !isInvite
+  );
   const showScrollBtn = !atBottom && !isSearching;
 
   const scrollToBottomRef = useRef({
@@ -591,8 +594,9 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       }
     }
     stickToBottomRef.current = true;
+    markPinned();
     scrollToBottom(scrollEl, 'instant');
-  }, [epoch, eventsLength, readUpToEventId, scrollToItem, getEventIndex]);
+  }, [epoch, eventsLength, readUpToEventId, scrollToItem, getEventIndex, markPinned]);
 
   const scrollToBottomCount = scrollToBottomRef.current.count;
   const forceScrollToBottom = forceScrollToBottomRef.current.count > 0;
@@ -602,6 +606,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       forceScrollToBottomRef.current.count = 0;
       const scrollEl = scrollRef.current;
       if (scrollEl) {
+        markPinned(forceSmooth);
         scrollToBottom(scrollEl, forceSmooth ? 'smooth' : 'instant');
       }
       return;
@@ -610,10 +615,11 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       if (!atBottomRef.current || !atLiveEndRef.current) return;
       const scrollEl = scrollRef.current;
       if (scrollEl) {
+        markPinned(scrollToBottomRef.current.smooth);
         scrollToBottom(scrollEl, scrollToBottomRef.current.smooth ? 'smooth' : 'instant');
       }
     }
-  }, [forceScrollToBottom, scrollToBottomCount, items]);
+  }, [forceScrollToBottom, scrollToBottomCount, items, markPinned]);
 
   useEffect(() => {
     const scrollEl = scrollRef.current;
@@ -855,6 +861,9 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
   // Older history stopped loading by itself because it was all messages this device cannot read:
   // say so once at the top instead of a skeleton that keeps fetching.
+  // First load of a room: nothing to show yet, so reserve a realistic conversation instead of a
+  // blank list.
+  const showInitialSkeleton = !isSearching && eventsLength === 0 && isPaginating;
   const showHistoryNotice = !isSearching && backfillPaused && canPaginateBack && rangeAtStart;
   const historyNoticeReason = useMemo(() => {
     const first = events.find((e) => e.content.type === 'unableToDecrypt');
@@ -996,6 +1005,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return (
       <div
         key={timelineItem.event.id}
+        ref={registerRow}
+        {...{ [ROW_KEY_ATTR]: timelineItem.event.id }}
         data-event-id={eventId}
         {...(typeof opts.index === 'number' ? { 'data-message-item': String(opts.index) } : {})}
         className={itemClass}
@@ -1180,9 +1191,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
                 {!isSearching && !showHistoryNotice && (canPaginateBack || !rangeAtStart) && (
                   <div ref={observeBackAnchor} className={css.timelinePlaceholder}>
-                    <SkeletonRow width1="55%" width2="35%" />
-                    <SkeletonRow width1="70%" width2="50%" />
-                    <SkeletonRow width1="45%" width2="60%" />
+                    {showInitialSkeleton ? (
+                      <MessageSkeletonList
+                        count={INITIAL_SKELETON_ROWS}
+                        label={t('common.loading')}
+                        initial
+                      />
+                    ) : (
+                      <MessageSkeletonList count={BACK_SKELETON_ROWS} startGroup={3} />
+                    )}
                   </div>
                 )}
 
@@ -1192,9 +1209,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
                 {!isSearching && (!liveTimelineLinked || !rangeAtEnd) && (
                   <div ref={observeFrontAnchor} className={css.timelinePlaceholder}>
-                    <SkeletonRow width1="55%" width2="35%" />
-                    <SkeletonRow width1="70%" width2="50%" />
-                    <SkeletonRow width1="45%" width2="60%" />
+                    <MessageSkeletonList count={FRONT_SKELETON_ROWS} />
                   </div>
                 )}
 

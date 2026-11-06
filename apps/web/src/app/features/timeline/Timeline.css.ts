@@ -35,56 +35,12 @@ export const timelinePlaceholder = style({
   flexShrink: 0,
 });
 
-const shimmer = keyframes({
-  '0%': { backgroundPosition: '-400px 0' },
-  '100%': { backgroundPosition: '400px 0' },
-});
-
 const pulse = keyframes({
   '0%': { opacity: 0.6 },
   '50%': { opacity: 1 },
   '100%': { opacity: 0.6 },
 });
 
-export const skeletonRow = style({
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '12px',
-  padding: '8px 16px',
-  flexShrink: 0,
-});
-
-export const skeletonAvatar = style({
-  width: '36px',
-  height: '36px',
-  borderRadius: '50%',
-  flexShrink: 0,
-  backgroundImage: `linear-gradient(90deg, ${vars.color.bgTertiary} 25%, ${vars.color.bgHover} 50%, ${vars.color.bgTertiary} 75%)`,
-  backgroundSize: '800px 100%',
-  animationName: shimmer,
-  animationDuration: '1.4s',
-  animationTimingFunction: 'linear',
-  animationIterationCount: 'infinite',
-});
-
-export const skeletonLines = style({
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '6px',
-  paddingTop: '4px',
-});
-
-export const skeletonLine = style({
-  height: '12px',
-  borderRadius: '6px',
-  backgroundImage: `linear-gradient(90deg, ${vars.color.bgTertiary} 25%, ${vars.color.bgHover} 50%, ${vars.color.bgTertiary} 75%)`,
-  backgroundSize: '800px 100%',
-  animationName: shimmer,
-  animationDuration: '1.4s',
-  animationTimingFunction: 'linear',
-  animationIterationCount: 'infinite',
-});
 export const predecessorNotice = style({
   display: 'flex',
   alignItems: 'center',
@@ -365,6 +321,29 @@ export const msgContentClassicGroupedOwn = style([
   msgContentClassicGrouped,
   { backgroundColor: vars.color.msgMineBg },
 ]);
+
+// Stands in for a picture that is still decoding: a pulse, which runs on the compositor.
+export const imageSkeleton = style({
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.4s ease-in-out infinite`,
+  pointerEvents: 'none',
+});
+
+// A picture that could not be loaded (a broken link, a server error).
+export const imageErrorFallback = style({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: vars.color.bgTertiary,
+  color: vars.color.textMuted,
+  width: '100%',
+});
 
 export const mediaBox = style({
   position: 'relative',
