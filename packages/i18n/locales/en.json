@@ -1250,7 +1250,12 @@
         "off": "Off",
         "on": "Always on",
         "title": "Streamer mode"
-      }
+      },
+      "youtubeEmbeds": "YouTube embeds",
+      "youtubeEmbedsAsk": "Ask",
+      "youtubeEmbedsOn": "Show",
+      "youtubeEmbedsOff": "Hide",
+      "youtubeEmbedsNote": "Show YouTube links as playable cards. Playing loads the video from YouTube."
     },
     "language": {
       "title": "Language",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Check that these emojis appear in the same order on the other device.",
     "verificationWasCancelled": "Verification was cancelled.",
     "openTheLinkIn": "Open the link in the email, then confirm with your password.",
-    "recoveryKeySaveHint": "Save this key somewhere safe. You need it to read your encrypted messages on new devices.\n\n{{key}}"
+    "recoveryKeySaveHint": "Save this key somewhere safe. You need it to read your encrypted messages on new devices.\n\n{{key}}",
+    "media": {
+      "title": "Media",
+      "videoUpload": {
+        "title": "Video uploads",
+        "mode": "Big videos",
+        "modeNote": "Smaller videos download faster for everyone. You can still change it for each video before sending.",
+        "modeOriginal": "Send the original",
+        "modeSmart": "Smart: fit a size (recommended)",
+        "modeFixed": "Always shrink to a resolution",
+        "minSize": "Only videos larger than",
+        "target": "Shrink to fit",
+        "targetNote": "Picks the sharpest resolution that fits, so shorter videos stay crisp.",
+        "targetServer": "Server limit ({{limit}})",
+        "height": "Resolution",
+        "examples": "What that does to a phone video",
+        "exampleShrunk": "{{minutes}} min: {{from}} → {{height}}p, ~{{to}}",
+        "exampleSame": "{{minutes}} min: {{from}}, sent as it is",
+        "unsupported": "This device cannot shrink videos, so they are sent as they are."
+      },
+      "viewing": "Viewing",
+      "photoUpload": {
+        "title": "Photo uploads",
+        "strip": "Remove location and camera details",
+        "stripNote": "Cuts the GPS position, camera model and other hidden info out of JPEG and PNG photos before they are sent. The picture itself is not changed.",
+        "size": "Shrink big photos",
+        "sizeNote": "Photos longer than this on their longest side are scaled down. Smaller photos are left alone.",
+        "sizeOriginal": "Original size",
+        "sizeLarge": "Large ({{px}} px)",
+        "sizeMedium": "Medium ({{px}} px)",
+        "sizeSmall": "Small ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Search rooms and messages...",

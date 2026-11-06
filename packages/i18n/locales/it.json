@@ -1250,7 +1250,12 @@
         "off": "Disattivata",
         "on": "Sempre attiva",
         "title": "Modalità streamer"
-      }
+      },
+      "youtubeEmbeds": "Video YouTube",
+      "youtubeEmbedsAsk": "Chiedi",
+      "youtubeEmbedsOn": "Mostra",
+      "youtubeEmbedsOff": "Nascondi",
+      "youtubeEmbedsNote": "Mostra i link YouTube come schede riproducibili. La riproduzione carica il video da YouTube."
     },
     "language": {
       "title": "Lingua",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Controlla che queste emoji appaiano nello stesso ordine sull'altro dispositivo.",
     "verificationWasCancelled": "La verifica è stata annullata.",
     "openTheLinkIn": "Apri il link nell'email, poi conferma con la tua password.",
-    "recoveryKeySaveHint": "Salva questa chiave in un posto sicuro. Ti serve per leggere i tuoi messaggi cifrati sui nuovi dispositivi.\n\n{{key}}"
+    "recoveryKeySaveHint": "Salva questa chiave in un posto sicuro. Ti serve per leggere i tuoi messaggi cifrati sui nuovi dispositivi.\n\n{{key}}",
+    "media": {
+      "title": "Media",
+      "videoUpload": {
+        "title": "Caricamento video",
+        "mode": "Video grandi",
+        "modeNote": "I video più piccoli si scaricano più in fretta per tutti. Puoi comunque cambiarlo per ogni video prima di inviare.",
+        "modeOriginal": "Invia l’originale",
+        "modeSmart": "Intelligente: adatta a una dimensione (consigliato)",
+        "modeFixed": "Riduci sempre a una risoluzione",
+        "minSize": "Solo video più grandi di",
+        "target": "Riduci per stare in",
+        "targetNote": "Sceglie la risoluzione più nitida che ci sta, così i video brevi restano nitidi.",
+        "targetServer": "Limite del server ({{limit}})",
+        "height": "Risoluzione",
+        "examples": "Cosa succede a un video del telefono",
+        "exampleShrunk": "{{minutes}} min: {{from}} → {{height}}p, ~{{to}}",
+        "exampleSame": "{{minutes}} min: {{from}}, inviato così com’è",
+        "unsupported": "Questo dispositivo non può ridurre i video, quindi vengono inviati così come sono."
+      },
+      "viewing": "Visualizzazione",
+      "photoUpload": {
+        "title": "Caricamento foto",
+        "strip": "Rimuovi posizione e dettagli della fotocamera",
+        "stripNote": "Toglie la posizione GPS, il modello della fotocamera e altre informazioni nascoste dalle foto JPEG e PNG prima dell’invio. L’immagine non cambia.",
+        "size": "Riduci le foto grandi",
+        "sizeNote": "Le foto con il lato più lungo oltre questo valore vengono ridotte. Quelle più piccole restano invariate.",
+        "sizeOriginal": "Dimensione originale",
+        "sizeLarge": "Grande ({{px}} px)",
+        "sizeMedium": "Media ({{px}} px)",
+        "sizeSmall": "Piccola ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Cerca stanze e messaggi...",

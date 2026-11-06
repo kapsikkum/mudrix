@@ -31,6 +31,17 @@ export type DateFormatPreference = 'long' | 'dmy' | 'mdy' | 'ymd';
 /** Streamer mode: hide private details always, or only while this device shares its screen. */
 export type StreamerMode = 'off' | 'on' | 'auto';
 export type MediaVisibility = 'always' | 'private' | 'never';
+/** Videos sent as they are, shrunk to fit a size (smart), or shrunk to one fixed resolution. */
+export type VideoUploadMode = 'original' | 'smart' | 'fixed';
+export type VideoUploadHeight = '1080' | '720' | '480';
+/** Size a smart upload aims for, in MB, or whatever the server allows. */
+export type VideoUploadTarget = '25' | '50' | '100' | 'server';
+/** Videos smaller than this many MB are never re-encoded. */
+export type VideoUploadMinSize = '10' | '25' | '50' | '100';
+/** Longest side, in pixels, bigger photos are scaled down to before sending; 'original' keeps them. */
+export type PhotoUploadSize = 'original' | '2560' | '1920' | '1280';
+/** YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all). */
+export type YouTubeEmbeds = 'ask' | 'on' | 'off';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
 export type { UiDensity, UiScale } from '@/theme/uiDensity';
@@ -59,6 +70,14 @@ export interface Preferences {
   colorUsernames: boolean;
   autoplayGifs: boolean;
   mediaVisibility: MediaVisibility;
+  videoUploadMode: VideoUploadMode;
+  videoUploadHeight: VideoUploadHeight;
+  videoUploadTarget: VideoUploadTarget;
+  videoUploadMinSize: VideoUploadMinSize;
+  /** Remove location, camera and other embedded details from photos before sending. */
+  photoStripMetadata: boolean;
+  photoUploadSize: PhotoUploadSize;
+  youtubeEmbeds: YouTubeEmbeds;
   reducedMotion: ReducedMotion;
   chatFontSize: number;
   chatDensity: ChatDensity;
@@ -118,6 +137,13 @@ export const DEFAULT_PREFERENCES: Preferences = {
   colorUsernames: true,
   autoplayGifs: false,
   mediaVisibility: 'always',
+  videoUploadMode: 'original',
+  videoUploadHeight: '720',
+  videoUploadTarget: '50',
+  videoUploadMinSize: '25',
+  photoStripMetadata: false,
+  photoUploadSize: 'original',
+  youtubeEmbeds: 'ask',
   reducedMotion: 'system',
   chatFontSize: 15,
   chatDensity: 'default',
@@ -165,6 +191,13 @@ export const showPresenceDotsAtom = preferenceFieldAtom('showPresenceDots');
 export const colorUsernamesAtom = preferenceFieldAtom('colorUsernames');
 export const autoplayGifsAtom = preferenceFieldAtom('autoplayGifs');
 export const mediaVisibilityAtom = preferenceFieldAtom('mediaVisibility');
+export const videoUploadModeAtom = preferenceFieldAtom('videoUploadMode');
+export const videoUploadHeightAtom = preferenceFieldAtom('videoUploadHeight');
+export const videoUploadTargetAtom = preferenceFieldAtom('videoUploadTarget');
+export const videoUploadMinSizeAtom = preferenceFieldAtom('videoUploadMinSize');
+export const photoStripMetadataAtom = preferenceFieldAtom('photoStripMetadata');
+export const photoUploadSizeAtom = preferenceFieldAtom('photoUploadSize');
+export const youtubeEmbedsAtom = preferenceFieldAtom('youtubeEmbeds');
 export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');
 export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');
 export const chatDensityAtom = preferenceFieldAtom('chatDensity');

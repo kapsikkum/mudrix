@@ -1250,7 +1250,12 @@
         "off": "Kapalı",
         "on": "Her zaman açık",
         "title": "Yayıncı modu"
-      }
+      },
+      "youtubeEmbeds": "YouTube gömmeleri",
+      "youtubeEmbedsAsk": "Sor",
+      "youtubeEmbedsOn": "Göster",
+      "youtubeEmbedsOff": "Gizle",
+      "youtubeEmbedsNote": "YouTube bağlantılarını oynatılabilir kartlar olarak göster. Oynatmak videoyu YouTube'dan yükler."
     },
     "language": {
       "title": "Dil",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Bu emojilerin diğer cihazda aynı sırayla göründüğünü kontrol et.",
     "verificationWasCancelled": "Doğrulama iptal edildi.",
     "openTheLinkIn": "E-postadaki bağlantıyı aç, sonra parolanla onayla.",
-    "recoveryKeySaveHint": "Bu anahtarı güvenli bir yere kaydet. Yeni cihazlarda şifreli mesajlarını okumak için ona ihtiyacın var.\n\n{{key}}"
+    "recoveryKeySaveHint": "Bu anahtarı güvenli bir yere kaydet. Yeni cihazlarda şifreli mesajlarını okumak için ona ihtiyacın var.\n\n{{key}}",
+    "media": {
+      "title": "Medya",
+      "videoUpload": {
+        "title": "Video yüklemeleri",
+        "mode": "Büyük videolar",
+        "modeNote": "Küçük videolar herkes için daha hızlı iner. Göndermeden önce yine de her video için değiştirebilirsin.",
+        "modeOriginal": "Orijinali gönder",
+        "modeSmart": "Akıllı: bir boyuta sığdır (önerilen)",
+        "modeFixed": "Her zaman bir çözünürlüğe küçült",
+        "minSize": "Yalnızca şundan büyük videolar",
+        "target": "Şuna sığacak şekilde küçült",
+        "targetNote": "Sığan en net çözünürlüğü seçer, böylece kısa videolar net kalır.",
+        "targetServer": "Sunucu sınırı ({{limit}})",
+        "height": "Çözünürlük",
+        "examples": "Bunun bir telefon videosuna etkisi",
+        "exampleShrunk": "{{minutes}} dk: {{from}} → {{height}}p, ~{{to}}",
+        "exampleSame": "{{minutes}} dk: {{from}}, olduğu gibi gönderilir",
+        "unsupported": "Bu cihaz videoları küçültemiyor, bu yüzden olduğu gibi gönderilir."
+      },
+      "viewing": "Görüntüleme",
+      "photoUpload": {
+        "title": "Fotoğraf yüklemeleri",
+        "strip": "Konum ve kamera bilgilerini kaldır",
+        "stripNote": "JPEG ve PNG fotoğraflardan GPS konumunu, kamera modelini ve diğer gizli bilgileri gönderilmeden önce çıkarır. Görüntünün kendisi değişmez.",
+        "size": "Büyük fotoğrafları küçült",
+        "sizeNote": "En uzun kenarı bundan büyük olan fotoğraflar küçültülür. Daha küçükler olduğu gibi kalır.",
+        "sizeOriginal": "Orijinal boyut",
+        "sizeLarge": "Büyük ({{px}} px)",
+        "sizeMedium": "Orta ({{px}} px)",
+        "sizeSmall": "Küçük ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Odalarda ve mesajlarda ara...",

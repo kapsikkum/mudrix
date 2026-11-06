@@ -74,6 +74,12 @@ export interface SyncedSettings {
 const MESSAGE_LAYOUTS: MessageLayout[] = ['classic', 'modern', 'compact'];
 const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   mediaVisibility: ['always', 'private', 'never'],
+  videoUploadMode: ['original', 'smart', 'fixed'],
+  videoUploadHeight: ['1080', '720', '480'],
+  videoUploadTarget: ['25', '50', '100', 'server'],
+  videoUploadMinSize: ['10', '25', '50', '100'],
+  photoUploadSize: ['original', '2560', '1920', '1280'],
+  youtubeEmbeds: ['ask', 'on', 'off'],
   reducedMotion: ['system', 'on', 'off'],
   chatDensity: ['compact', 'default', 'spacious'],
   uiDensity: ['compact', 'default', 'spacious'],

@@ -1250,7 +1250,12 @@
         "off": "Aus",
         "on": "Immer an",
         "title": "Streamer-Modus"
-      }
+      },
+      "youtubeEmbeds": "YouTube-Einbettungen",
+      "youtubeEmbedsAsk": "Fragen",
+      "youtubeEmbedsOn": "Anzeigen",
+      "youtubeEmbedsOff": "Ausblenden",
+      "youtubeEmbedsNote": "YouTube-Links als abspielbare Karten zeigen. Beim Abspielen wird das Video von YouTube geladen."
     },
     "language": {
       "title": "Sprache",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Prüfe, ob diese Emojis auf dem anderen Gerät in derselben Reihenfolge erscheinen.",
     "verificationWasCancelled": "Die Verifizierung wurde abgebrochen.",
     "openTheLinkIn": "Öffne den Link in der E-Mail und bestätige dann mit deinem Passwort.",
-    "recoveryKeySaveHint": "Bewahre diesen Schlüssel sicher auf. Du brauchst ihn, um deine verschlüsselten Nachrichten auf neuen Geräten zu lesen.\n\n{{key}}"
+    "recoveryKeySaveHint": "Bewahre diesen Schlüssel sicher auf. Du brauchst ihn, um deine verschlüsselten Nachrichten auf neuen Geräten zu lesen.\n\n{{key}}",
+    "media": {
+      "title": "Medien",
+      "videoUpload": {
+        "title": "Video-Uploads",
+        "mode": "Große Videos",
+        "modeNote": "Kleinere Videos laden für alle schneller. Du kannst es vor dem Senden für jedes Video ändern.",
+        "modeOriginal": "Original senden",
+        "modeSmart": "Smart: auf eine Größe anpassen (empfohlen)",
+        "modeFixed": "Immer auf eine Auflösung verkleinern",
+        "minSize": "Nur Videos größer als",
+        "target": "Verkleinern auf",
+        "targetNote": "Wählt die schärfste Auflösung, die passt, damit kürzere Videos scharf bleiben.",
+        "targetServer": "Serverlimit ({{limit}})",
+        "height": "Auflösung",
+        "examples": "Was das mit einem Handyvideo macht",
+        "exampleShrunk": "{{minutes}} Min.: {{from}} → {{height}}p, ca. {{to}}",
+        "exampleSame": "{{minutes}} Min.: {{from}}, wird unverändert gesendet",
+        "unsupported": "Dieses Gerät kann Videos nicht verkleinern, sie werden unverändert gesendet."
+      },
+      "viewing": "Anzeige",
+      "photoUpload": {
+        "title": "Foto-Uploads",
+        "strip": "Standort und Kameradetails entfernen",
+        "stripNote": "Entfernt GPS-Position, Kameramodell und andere versteckte Infos aus JPEG- und PNG-Fotos, bevor sie gesendet werden. Das Bild selbst bleibt unverändert.",
+        "size": "Große Fotos verkleinern",
+        "sizeNote": "Fotos, deren längste Seite größer ist, werden verkleinert. Kleinere Fotos bleiben unberührt.",
+        "sizeOriginal": "Originalgröße",
+        "sizeLarge": "Groß ({{px}} px)",
+        "sizeMedium": "Mittel ({{px}} px)",
+        "sizeSmall": "Klein ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Räume und Nachrichten durchsuchen...",

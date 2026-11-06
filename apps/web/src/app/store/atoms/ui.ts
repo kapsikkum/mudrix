@@ -251,6 +251,7 @@ export type SettingsPage =
   | 'privacy'
   | 'notifications'
   | 'emojis-stickers'
+  | 'media'
   | 'keybinds'
   | 'language'
   | 'developer'

@@ -1250,7 +1250,12 @@
         "off": "Desactivado",
         "on": "Siempre activado",
         "title": "Modo streamer"
-      }
+      },
+      "youtubeEmbeds": "Vídeos de YouTube",
+      "youtubeEmbedsAsk": "Preguntar",
+      "youtubeEmbedsOn": "Mostrar",
+      "youtubeEmbedsOff": "Ocultar",
+      "youtubeEmbedsNote": "Mostrar los enlaces de YouTube como tarjetas reproducibles. Al reproducir se carga el vídeo desde YouTube."
     },
     "language": {
       "title": "Idioma",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Comprueba que estos emojis aparecen en el mismo orden en el otro dispositivo.",
     "verificationWasCancelled": "Se canceló la verificación.",
     "openTheLinkIn": "Abre el enlace del correo y luego confirma con tu contraseña.",
-    "recoveryKeySaveHint": "Guarda esta clave en un lugar seguro. La necesitas para leer tus mensajes cifrados en dispositivos nuevos.\n\n{{key}}"
+    "recoveryKeySaveHint": "Guarda esta clave en un lugar seguro. La necesitas para leer tus mensajes cifrados en dispositivos nuevos.\n\n{{key}}",
+    "media": {
+      "title": "Multimedia",
+      "videoUpload": {
+        "title": "Subida de vídeos",
+        "mode": "Vídeos grandes",
+        "modeNote": "Los vídeos más pequeños se descargan más rápido para todos. Aún puedes cambiarlo para cada vídeo antes de enviar.",
+        "modeOriginal": "Enviar el original",
+        "modeSmart": "Inteligente: ajustar a un tamaño (recomendado)",
+        "modeFixed": "Reducir siempre a una resolución",
+        "minSize": "Solo vídeos de más de",
+        "target": "Reducir hasta",
+        "targetNote": "Elige la resolución más nítida que quepa, así los vídeos cortos se ven bien.",
+        "targetServer": "Límite del servidor ({{limit}})",
+        "height": "Resolución",
+        "examples": "Qué hace esto con un vídeo del móvil",
+        "exampleShrunk": "{{minutes}} min: {{from}} → {{height}}p, ~{{to}}",
+        "exampleSame": "{{minutes}} min: {{from}}, se envía tal cual",
+        "unsupported": "Este dispositivo no puede reducir vídeos, así que se envían tal cual."
+      },
+      "viewing": "Visualización",
+      "photoUpload": {
+        "title": "Subida de fotos",
+        "strip": "Quitar ubicación y datos de la cámara",
+        "stripNote": "Elimina la posición GPS, el modelo de cámara y otra información oculta de las fotos JPEG y PNG antes de enviarlas. La imagen no cambia.",
+        "size": "Reducir fotos grandes",
+        "sizeNote": "Las fotos cuyo lado más largo supere esto se reducen. Las más pequeñas no se tocan.",
+        "sizeOriginal": "Tamaño original",
+        "sizeLarge": "Grande ({{px}} px)",
+        "sizeMedium": "Mediana ({{px}} px)",
+        "sizeSmall": "Pequeña ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Buscar salas y mensajes...",

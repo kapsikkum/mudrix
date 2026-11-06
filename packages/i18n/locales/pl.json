@@ -1250,7 +1250,12 @@
         "off": "Wyłączony",
         "on": "Zawsze włączony",
         "title": "Tryb streamera"
-      }
+      },
+      "youtubeEmbeds": "Osadzone filmy YouTube",
+      "youtubeEmbedsAsk": "Pytaj",
+      "youtubeEmbedsOn": "Pokazuj",
+      "youtubeEmbedsOff": "Ukryj",
+      "youtubeEmbedsNote": "Pokazuj linki YouTube jako karty z odtwarzaniem. Odtworzenie wczytuje film z YouTube."
     },
     "language": {
       "title": "Język",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Sprawdź, czy te emoji pojawiają się w tej samej kolejności na drugim urządzeniu.",
     "verificationWasCancelled": "Weryfikacja została anulowana.",
     "openTheLinkIn": "Otwórz link z e-maila, a potem potwierdź hasłem.",
-    "recoveryKeySaveHint": "Zapisz ten klucz w bezpiecznym miejscu. Będzie potrzebny, aby czytać zaszyfrowane wiadomości na nowych urządzeniach.\n\n{{key}}"
+    "recoveryKeySaveHint": "Zapisz ten klucz w bezpiecznym miejscu. Będzie potrzebny, aby czytać zaszyfrowane wiadomości na nowych urządzeniach.\n\n{{key}}",
+    "media": {
+      "title": "Media",
+      "videoUpload": {
+        "title": "Wysyłanie filmów",
+        "mode": "Duże filmy",
+        "modeNote": "Mniejsze filmy pobierają się szybciej u wszystkich. Przed wysłaniem możesz to nadal zmienić dla każdego filmu.",
+        "modeOriginal": "Wyślij oryginał",
+        "modeSmart": "Inteligentny: dopasuj do rozmiaru (zalecane)",
+        "modeFixed": "Zawsze zmniejszaj do rozdzielczości",
+        "minSize": "Tylko filmy większe niż",
+        "target": "Zmniejsz do",
+        "targetNote": "Wybiera najostrzejszą rozdzielczość, która się zmieści, więc krótsze filmy pozostają wyraźne.",
+        "targetServer": "Limit serwera ({{limit}})",
+        "height": "Rozdzielczość",
+        "examples": "Co to robi z filmem z telefonu",
+        "exampleShrunk": "{{minutes}} min: {{from}} → {{height}}p, ok. {{to}}",
+        "exampleSame": "{{minutes}} min: {{from}}, wysyłany bez zmian",
+        "unsupported": "To urządzenie nie potrafi zmniejszać filmów, więc są wysyłane bez zmian."
+      },
+      "viewing": "Wyświetlanie",
+      "photoUpload": {
+        "title": "Wysyłanie zdjęć",
+        "strip": "Usuń lokalizację i dane aparatu",
+        "stripNote": "Usuwa pozycję GPS, model aparatu i inne ukryte informacje ze zdjęć JPEG i PNG przed wysłaniem. Sam obraz się nie zmienia.",
+        "size": "Zmniejszaj duże zdjęcia",
+        "sizeNote": "Zdjęcia, których dłuższy bok jest większy, są zmniejszane. Mniejsze pozostają bez zmian.",
+        "sizeOriginal": "Oryginalny rozmiar",
+        "sizeLarge": "Duże ({{px}} px)",
+        "sizeMedium": "Średnie ({{px}} px)",
+        "sizeSmall": "Małe ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Szukaj pokoi i wiadomości...",

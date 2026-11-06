@@ -1250,7 +1250,12 @@
         "off": "Uit",
         "on": "Altijd aan",
         "title": "Streamermodus"
-      }
+      },
+      "youtubeEmbeds": "YouTube-insluitingen",
+      "youtubeEmbedsAsk": "Vragen",
+      "youtubeEmbedsOn": "Tonen",
+      "youtubeEmbedsOff": "Verbergen",
+      "youtubeEmbedsNote": "Toon YouTube-links als afspeelbare kaarten. Afspelen laadt de video van YouTube."
     },
     "language": {
       "title": "Taal",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "Controleer of deze emoji's in dezelfde volgorde op het andere apparaat staan.",
     "verificationWasCancelled": "Verificatie is geannuleerd.",
     "openTheLinkIn": "Open de link in de e-mail en bevestig daarna met je wachtwoord.",
-    "recoveryKeySaveHint": "Bewaar deze sleutel op een veilige plek. Je hebt hem nodig om je versleutelde berichten op nieuwe apparaten te lezen.\n\n{{key}}"
+    "recoveryKeySaveHint": "Bewaar deze sleutel op een veilige plek. Je hebt hem nodig om je versleutelde berichten op nieuwe apparaten te lezen.\n\n{{key}}",
+    "media": {
+      "title": "Media",
+      "videoUpload": {
+        "title": "Video’s uploaden",
+        "mode": "Grote video’s",
+        "modeNote": "Kleinere video’s downloaden sneller voor iedereen. Je kunt het voor het verzenden nog per video aanpassen.",
+        "modeOriginal": "Origineel verzenden",
+        "modeSmart": "Slim: passend maken (aanbevolen)",
+        "modeFixed": "Altijd verkleinen naar een resolutie",
+        "minSize": "Alleen video’s groter dan",
+        "target": "Verkleinen tot",
+        "targetNote": "Kiest de scherpste resolutie die past, zodat kortere video’s scherp blijven.",
+        "targetServer": "Serverlimiet ({{limit}})",
+        "height": "Resolutie",
+        "examples": "Wat dat doet met een telefoonvideo",
+        "exampleShrunk": "{{minutes}} min: {{from}} → {{height}}p, ~{{to}}",
+        "exampleSame": "{{minutes}} min: {{from}}, ongewijzigd verzonden",
+        "unsupported": "Dit apparaat kan video’s niet verkleinen, dus ze worden ongewijzigd verzonden."
+      },
+      "viewing": "Weergave",
+      "photoUpload": {
+        "title": "Foto’s uploaden",
+        "strip": "Locatie en cameragegevens verwijderen",
+        "stripNote": "Haalt de gps-positie, het cameramodel en andere verborgen info uit jpeg- en png-foto’s voordat ze worden verzonden. De afbeelding zelf verandert niet.",
+        "size": "Grote foto’s verkleinen",
+        "sizeNote": "Foto’s waarvan de langste zijde groter is, worden verkleind. Kleinere foto’s blijven ongemoeid.",
+        "sizeOriginal": "Oorspronkelijk formaat",
+        "sizeLarge": "Groot ({{px}} px)",
+        "sizeMedium": "Middel ({{px}} px)",
+        "sizeSmall": "Klein ({{px}} px)"
+      }
+    }
   },
   "titleBar": {
     "search": "Zoeken in kamers en berichten...",

@@ -4,10 +4,8 @@ import { useTranslation } from 'react-i18next';
 import {
   typingIndicatorsAtom,
   sendReadReceiptsAtom,
-  mediaVisibilityAtom,
   showPresenceAtom,
   streamerModeAtom,
-  type MediaVisibility,
   type StreamerMode,
 } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
@@ -24,12 +22,6 @@ import { useProfile } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 import * as css from '../Settings.css';
 
-const MEDIA_VISIBILITY_OPTIONS: Record<MediaVisibility, string> = {
-  always: 'settings.privacy.mediaVisibilityAlways',
-  private: 'settings.privacy.mediaVisibilityPrivate',
-  never: 'settings.privacy.mediaVisibilityNever',
-};
-
 const STREAMER_OPTIONS: Record<StreamerMode, string> = {
   off: 'settings.privacy.streamer.off',
   auto: 'settings.privacy.streamer.auto',
@@ -40,7 +32,6 @@ export function Privacy() {
   const { t } = useTranslation();
   const [typingIndicators, setTypingIndicators] = useAtom(typingIndicatorsAtom);
   const [sendReadReceipts, setSendReadReceipts] = useAtom(sendReadReceiptsAtom);
-  const [mediaVisibility, setMediaVisibility] = useAtom(mediaVisibilityAtom);
   const [showPresence, setShowPresence] = useAtom(showPresenceAtom);
   const [streamerMode, setStreamerMode] = useAtom(streamerModeAtom);
 
@@ -63,27 +54,6 @@ export function Privacy() {
           checked={sendReadReceipts}
           onChange={setSendReadReceipts}
         />
-      </div>
-
-      <div className={css.divider} />
-
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('settings.privacy.media')}</h3>
-
-        <div className={css.settingRow}>
-          <div className={css.settingInfo}>
-            <span className={css.settingLabel}>{t('settings.privacy.mediaVisibility')}</span>
-          </div>
-          <Select
-            aria-label={t('settings.privacy.mediaVisibility')}
-            value={mediaVisibility}
-            options={Object.entries(MEDIA_VISIBILITY_OPTIONS).map(([option, labelKey]) => ({
-              value: option,
-              label: t(labelKey),
-            }))}
-            onChange={(v) => setMediaVisibility(v as MediaVisibility)}
-          />
-        </div>
       </div>
 
       <div className={css.divider} />

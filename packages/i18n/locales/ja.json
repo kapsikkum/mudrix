@@ -1250,7 +1250,12 @@
         "off": "オフ",
         "on": "常にオン",
         "title": "配信者モード"
-      }
+      },
+      "youtubeEmbeds": "YouTube埋め込み",
+      "youtubeEmbedsAsk": "確認する",
+      "youtubeEmbedsOn": "表示",
+      "youtubeEmbedsOff": "非表示",
+      "youtubeEmbedsNote": "YouTubeのリンクを再生できるカードとして表示します。再生するとYouTubeから動画を読み込みます。"
     },
     "language": {
       "title": "言語",
@@ -1508,7 +1513,39 @@
     "checkThatTheseEmojis": "これらの絵文字が、もう一方のデバイスと同じ順序で表示されているか確認してください。",
     "verificationWasCancelled": "検証がキャンセルされました。",
     "openTheLinkIn": "メール内のリンクを開き、パスワードで確認してください。",
-    "recoveryKeySaveHint": "このキーは安全な場所に保管してください。新しいデバイスで暗号化メッセージを読むために必要です。\n\n{{key}}"
+    "recoveryKeySaveHint": "このキーは安全な場所に保管してください。新しいデバイスで暗号化メッセージを読むために必要です。\n\n{{key}}",
+    "media": {
+      "title": "メディア",
+      "videoUpload": {
+        "title": "動画のアップロード",
+        "mode": "大きな動画",
+        "modeNote": "小さい動画は誰にとってもダウンロードが速くなります。送信前に動画ごとに変更することもできます。",
+        "modeOriginal": "オリジナルを送信",
+        "modeSmart": "スマート：サイズに合わせる（おすすめ）",
+        "modeFixed": "常に指定の解像度に縮小",
+        "minSize": "次より大きい動画のみ",
+        "target": "このサイズに収める",
+        "targetNote": "収まる中で最も鮮明な解像度を選ぶので、短い動画は鮮明なままです。",
+        "targetServer": "サーバーの上限（{{limit}}）",
+        "height": "解像度",
+        "examples": "スマホの動画ではこうなります",
+        "exampleShrunk": "{{minutes}}分: {{from}} → {{height}}p、約{{to}}",
+        "exampleSame": "{{minutes}}分: {{from}}、そのまま送信",
+        "unsupported": "この端末では動画を縮小できないため、そのまま送信されます。"
+      },
+      "viewing": "表示",
+      "photoUpload": {
+        "title": "写真のアップロード",
+        "strip": "位置情報とカメラ情報を削除",
+        "stripNote": "送信前に、JPEGとPNGの写真からGPS位置、カメラの機種などの隠れた情報を取り除きます。画像そのものは変わりません。",
+        "size": "大きな写真を縮小",
+        "sizeNote": "長辺がこの値を超える写真は縮小されます。それより小さい写真はそのままです。",
+        "sizeOriginal": "元のサイズ",
+        "sizeLarge": "大（{{px}} px）",
+        "sizeMedium": "中（{{px}} px）",
+        "sizeSmall": "小（{{px}} px）"
+      }
+    }
   },
   "titleBar": {
     "search": "ルームとメッセージを検索...",

@@ -10,6 +10,7 @@ import {
   ShieldIcon,
   BellIcon,
   SmileyStickerIcon,
+  FilmStripIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
@@ -38,6 +39,7 @@ import { Privacy } from './privacy';
 import { Language } from './language';
 import { Notifications } from './notifications';
 import { EmojisStickers } from './emojis';
+import { Media } from './media';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
@@ -159,6 +161,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Notifications />;
     case 'emojis-stickers':
       return <EmojisStickers />;
+    case 'media':
+      return <Media />;
     case 'keybinds':
       return <Keybinds />;
     case 'developer':
@@ -183,6 +187,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       label: t('settings.emojisStickers.title'),
       Icon: SmileyStickerIcon,
     },
+    { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
     {
       key: 'appearance',
