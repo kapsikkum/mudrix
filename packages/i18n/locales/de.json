@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Schlüsselwort hinzufügen ...",
       "addKeyword": "Hinzufügen",
       "noKeywords": "Noch keine Schlüsselwörter.",
-      "keywordExists": "Dieses Schlüsselwort ist bereits gesetzt."
+      "keywordExists": "Dieses Schlüsselwort ist bereits gesetzt.",
+      "soundsWhenFocused": "Töne bei aktiver App",
+      "soundsWhenFocusedNote": "Nachrichtentöne auch abspielen, wenn Mudrix das Fenster ist, das du gerade ansiehst."
     },
     "keybinds": {
       "title": "Tastenkürzel",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Groß ({{px}} px)",
         "sizeMedium": "Mittel ({{px}} px)",
         "sizeSmall": "Klein ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Soundeffekte",
+      "soundPack": "Klangpaket",
+      "soundVolume": "Lautstärke",
+      "soundPreview": "Abspielen",
+      "soundsNote": "Wähle für jedes Ereignis einen anderen Ton oder schalte ihn aus. Ereignisse ohne eigene Auswahl folgen dem oben gewählten Klangpaket.",
+      "soundSame": "Wie Paket ({{pack}})",
+      "soundOff": "Aus",
+      "playSound": "{{sound}}-Ton abspielen",
+      "resetSounds": "Alle auf Paket zurücksetzen",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Andere Clients"
+      },
+      "sound": {
+        "message": "Nachricht",
+        "mention": "Erwähnung",
+        "ring": "Eingehender Anruf",
+        "ringback": "Ausgehender Anruf",
+        "callend": "Anruf beendet",
+        "mute": "Stummschalten",
+        "unmute": "Stummschaltung aufheben",
+        "cameraOn": "Kamera an",
+        "cameraOff": "Kamera aus",
+        "join": "Sprachkanal betreten",
+        "leave": "Sprachkanal verlassen",
+        "moved": "In anderen Kanal verschoben",
+        "watchTogetherStart": "Gemeinsames Schauen startet"
       }
     }
   },

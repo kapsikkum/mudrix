@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Bir anahtar kelime ekleyin...",
       "addKeyword": "Ekle",
       "noKeywords": "Henüz anahtar kelime yok.",
-      "keywordExists": "Bu anahtar kelime zaten ekli."
+      "keywordExists": "Bu anahtar kelime zaten ekli.",
+      "soundsWhenFocused": "Uygulama odaktayken sesler",
+      "soundsWhenFocusedNote": "Mudrix baktığınız pencereyken de mesaj seslerini çal."
     },
     "emojisStickers": {
       "title": "Emoji ve çıkartmalar",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Büyük ({{px}} px)",
         "sizeMedium": "Orta ({{px}} px)",
         "sizeSmall": "Küçük ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Ses efektleri",
+      "soundPack": "Ses paketi",
+      "soundVolume": "Ses düzeyi",
+      "soundPreview": "Çal",
+      "soundsNote": "Her olay için farklı bir ses seçin veya kapatın. Pakette bırakılan olaylar yukarıdaki ses paketini izler.",
+      "soundSame": "Paketle aynı ({{pack}})",
+      "soundOff": "Kapalı",
+      "playSound": "{{sound}} sesini çal",
+      "resetSounds": "Tümünü pakete sıfırla",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Diğer istemciler"
+      },
+      "sound": {
+        "message": "Mesaj",
+        "mention": "Bahsetme",
+        "ring": "Gelen arama",
+        "ringback": "Giden arama",
+        "callend": "Arama sona erdi",
+        "mute": "Sessize al",
+        "unmute": "Sesi aç",
+        "cameraOn": "Kamera açık",
+        "cameraOff": "Kamera kapalı",
+        "join": "Sesli kanala katıldı",
+        "leave": "Sesli kanaldan ayrıldı",
+        "moved": "Başka kanala taşındı",
+        "watchTogetherStart": "Birlikte izleme başlıyor"
       }
     }
   },

@@ -5,12 +5,17 @@ import { useAtom } from 'jotai';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Tooltip } from '@/app/components/Tooltip';
-import { notificationSoundsAtom, notificationBannersAtom } from '@/app/store/atoms';
+import {
+  notificationSoundsAtom,
+  notificationSoundsWhenFocusedAtom,
+  notificationBannersAtom,
+} from '@/app/store/atoms';
 import { requestNotificationPermission } from '@/app/hooks/useNotifications';
 import { getErrorMessage } from '@/util/error';
 import { Select } from '@/app/components/Select';
 import * as layoutCss from '../Settings.css';
 import * as css from './Notifications.css';
+import { SoundsSection } from './SoundsSection';
 import {
   type ManagedRule,
   type PushRules,
@@ -33,6 +38,7 @@ export function Notifications() {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
   const [notificationSounds, setNotificationSounds] = useAtom(notificationSoundsAtom);
+  const [soundsWhenFocused, setSoundsWhenFocused] = useAtom(notificationSoundsWhenFocusedAtom);
   const [notificationBanners, setNotificationBanners] = useAtom(notificationBannersAtom);
   const [rules, setRules] = useState<PushRules | undefined>(undefined);
   const [busy, setBusy] = useState(false);
@@ -137,6 +143,12 @@ export function Notifications() {
           onChange={setNotificationSounds}
         />
         <ToggleRow
+          label={t('settings.notifications.soundsWhenFocused')}
+          description={t('settings.notifications.soundsWhenFocusedNote')}
+          checked={soundsWhenFocused}
+          onChange={setSoundsWhenFocused}
+        />
+        <ToggleRow
           label={t('settings.notifications.notificationBanners')}
           description={t('settings.notifications.notificationBannersNote')}
           checked={notificationBanners}
@@ -151,6 +163,10 @@ export function Notifications() {
           }}
         />
       </div>
+
+      <div className={layoutCss.divider} />
+
+      <SoundsSection />
 
       <div className={layoutCss.divider} />
 

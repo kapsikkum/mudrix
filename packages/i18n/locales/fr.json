@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Ajouter un mot-clé...",
       "addKeyword": "Ajouter",
       "noKeywords": "Aucun mot-clé pour le moment.",
-      "keywordExists": "Ce mot-clé est déjà défini."
+      "keywordExists": "Ce mot-clé est déjà défini.",
+      "soundsWhenFocused": "Sons quand l'app est active",
+      "soundsWhenFocusedNote": "Joue aussi les sons de messages quand Mudrix est la fenêtre que vous regardez."
     },
     "emojisStickers": {
       "title": "Émojis et autocollants",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Grande ({{px}} px)",
         "sizeMedium": "Moyenne ({{px}} px)",
         "sizeSmall": "Petite ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Effets sonores",
+      "soundPack": "Pack de sons",
+      "soundVolume": "Volume",
+      "soundPreview": "Lire",
+      "soundsNote": "Choisissez un son différent pour chaque événement, ou désactivez-le. Les événements laissés sur le pack suivent le pack de sons ci-dessus.",
+      "soundSame": "Identique au pack ({{pack}})",
+      "soundOff": "Désactivé",
+      "playSound": "Lire le son {{sound}}",
+      "resetSounds": "Tout remettre sur le pack",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Autres clients"
+      },
+      "sound": {
+        "message": "Message",
+        "mention": "Mention",
+        "ring": "Appel entrant",
+        "ringback": "Appel sortant",
+        "callend": "Appel terminé",
+        "mute": "Couper le micro",
+        "unmute": "Réactiver le micro",
+        "cameraOn": "Caméra activée",
+        "cameraOff": "Caméra désactivée",
+        "join": "Salon vocal rejoint",
+        "leave": "Salon vocal quitté",
+        "moved": "Déplacé vers un autre salon",
+        "watchTogetherStart": "Début du visionnage partagé"
       }
     }
   },

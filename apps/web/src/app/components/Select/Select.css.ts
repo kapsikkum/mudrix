@@ -87,6 +87,16 @@ export const option = style({
   cursor: 'pointer',
 });
 
+export const groupLabel = style({
+  padding: '8px 8px 4px',
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  letterSpacing: '0.02em',
+  textTransform: 'uppercase',
+  color: vars.color.textMuted,
+  cursor: 'default',
+});
+
 export const optionHighlight = style([
   {
     backgroundColor: vars.color.bgHover,

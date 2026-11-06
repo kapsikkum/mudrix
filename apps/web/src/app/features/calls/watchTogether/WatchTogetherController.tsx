@@ -18,7 +18,7 @@ import {
   type WatchState,
 } from './watchTogether';
 import { WatchTogetherDialog } from './WatchTogetherDialog';
-import { playVoiceSound } from '@/app/features/voice/voiceSounds';
+import { playSoundKind } from '@/util/notificationSounds';
 
 const LATE_JOIN_REQUEST_DELAY_MS = 1500;
 const HEARTBEAT_MS = 10_000;
@@ -161,7 +161,7 @@ export function WatchTogetherController() {
       videoId !== lastVideoRef.current &&
       expectedPosition(state) < START_SOUND_WINDOW_S
     ) {
-      playVoiceSound('watch-together-start');
+      playSoundKind('watch-together-start');
     }
     lastVideoRef.current = videoId;
   }, [state]);

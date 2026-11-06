@@ -8,6 +8,7 @@ import {
   callVolumesAtom,
   callUserAudioAtom,
   callActionsAtom,
+  callIsVoiceRoomAtom,
   callUiAtom,
   callSessionAtom,
   callPanelAtom,
@@ -22,7 +23,8 @@ import { roomsByIdAtom } from '@/app/data';
 import { currentRoomIdAtom } from '@/app/store/atoms/rooms';
 import { deafenedAtom, micMutedAtom } from '@/app/store/atoms/settings';
 import { useToast } from '@/app/hooks/useToast';
-import { loopVoiceSound, playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
+import { playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
+import { loopSoundKind, playSoundKind } from '@/util/notificationSounds';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
 import { AloneNotice } from './AloneNotice';
 import { getMatrixClientOrNull, onSessionEnd } from '@/client/initMatrix';
@@ -50,8 +52,8 @@ function playParticipantSounds(previous: CallSnapshot, snap: CallSnapshot): void
     new Set(s.participants.filter((p) => !p.isLocal).map((p) => p.userId));
   const before = others(previous);
   const after = others(snap);
-  if ([...after].some((userId) => !before.has(userId))) playVoiceSound('call-join');
-  else if ([...before].some((userId) => !after.has(userId))) playVoiceSound('call-leave');
+  if ([...after].some((userId) => !before.has(userId))) playSoundKind('join');
+  else if ([...before].some((userId) => !after.has(userId))) playSoundKind('leave');
 
   const old = new Map(previous.participants.map((p) => [p.identity, p]));
   let sound: VoiceSound | null = null;
@@ -92,7 +94,7 @@ export function CallController() {
       const client = getMatrixClientOrNull();
       if (!client) return;
       const runStart = async () => {
-        playVoiceSound('call-join');
+        playSoundKind('join');
         store.set(pendingCallRoomIdAtom, roomId);
         const presentation = opts.presentation ?? 'room';
         const previous = sessionRef.current;
@@ -189,7 +191,7 @@ export function CallController() {
     const sync = () => {
       const snap = session.getSnapshot();
       if (snap.ring === 'ringing' && snap.phase !== 'left' && snap.phase !== 'error') {
-        stopRingback ??= loopVoiceSound('ringback');
+        stopRingback ??= loopSoundKind('ringback');
       } else if (stopRingback) {
         stopRingback();
         stopRingback = null;
@@ -222,10 +224,10 @@ export function CallController() {
         if (previous.deafened !== snap.deafened) {
           playVoiceSound(snap.deafened ? 'deafen' : 'undeafen');
         } else if (previous.microphone !== snap.microphone) {
-          playVoiceSound(snap.microphone ? 'unmute' : 'mute');
+          playSoundKind(snap.microphone ? 'unmute' : 'mute');
         }
         if (previous.camera !== snap.camera) {
-          playVoiceSound(snap.camera ? 'camera-on' : 'camera-off');
+          playSoundKind(snap.camera ? 'camera-on' : 'camera-off');
         }
       }
       previous = snap;
@@ -254,7 +256,8 @@ export function CallController() {
 
   const hangup = useCallback(() => {
     const current = sessionRef.current;
-    if (current) playVoiceSound('call-leave');
+    // A voice channel says you left it; a call between people says it ended
+    if (current) playSoundKind(store.get(callIsVoiceRoomAtom) ? 'leave' : 'callend');
     store.set(leavingCallRoomIdAtom, current ? store.get(callUiAtom).roomId : null);
     setSession(null);
     resetUi();

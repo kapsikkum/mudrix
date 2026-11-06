@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Voeg een trefwoord toe...",
       "addKeyword": "Toevoegen",
       "noKeywords": "Nog geen trefwoorden.",
-      "keywordExists": "Dit trefwoord is al ingesteld."
+      "keywordExists": "Dit trefwoord is al ingesteld.",
+      "soundsWhenFocused": "Geluiden als de app actief is",
+      "soundsWhenFocusedNote": "Speel berichtgeluiden ook af als Mudrix het venster is waar je naar kijkt."
     },
     "emojisStickers": {
       "title": "Emoji's en stickers",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Groot ({{px}} px)",
         "sizeMedium": "Middel ({{px}} px)",
         "sizeSmall": "Klein ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Geluidseffecten",
+      "soundPack": "Geluidspakket",
+      "soundVolume": "Volume",
+      "soundPreview": "Afspelen",
+      "soundsNote": "Kies per gebeurtenis een ander geluid of zet het uit. Gebeurtenissen die op het pakket staan, volgen het geluidspakket hierboven.",
+      "soundSame": "Zelfde als pakket ({{pack}})",
+      "soundOff": "Uit",
+      "playSound": "{{sound}}-geluid afspelen",
+      "resetSounds": "Alles terugzetten naar pakket",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Andere clients"
+      },
+      "sound": {
+        "message": "Bericht",
+        "mention": "Vermelding",
+        "ring": "Inkomend gesprek",
+        "ringback": "Uitgaand gesprek",
+        "callend": "Gesprek beëindigd",
+        "mute": "Dempen",
+        "unmute": "Dempen opheffen",
+        "cameraOn": "Camera aan",
+        "cameraOff": "Camera uit",
+        "join": "Spraakkanaal betreden",
+        "leave": "Spraakkanaal verlaten",
+        "moved": "Naar ander kanaal verplaatst",
+        "watchTogetherStart": "Samen kijken begint"
       }
     }
   },

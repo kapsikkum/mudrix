@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { currentRoomIdAtom } from '@/app/store/atoms';
-import { notificationSoundsAtom, notificationBannersAtom } from '@/app/store/atoms/settings';
+import {
+  notificationSoundsWhenFocusedAtom,
+  notificationBannersAtom,
+} from '@/app/store/atoms/settings';
+import { useSoundSettings } from '@/app/hooks/useSoundSettings';
 import { showBrowserNotification, playNotificationSound } from '@/app/hooks/useNotifications';
 import type { Notification as CoreNotification } from '@wizardchat/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
@@ -15,7 +19,7 @@ export function useClientNotifications() {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
   const navigate = useNavigate();
-  const notificationSounds = useAtomValue(notificationSoundsAtom);
+  useSoundSettings();
   const [notificationBanners, setNotificationBanners] = useAtom(notificationBannersAtom);
   const syncReady = useSyncReady();
 
@@ -26,8 +30,9 @@ export function useClientNotifications() {
   const [currentRoomId] = useAtom(currentRoomIdAtom);
   currentRoomIdRef.current = currentRoomId;
 
-  const notificationSoundsRef = useRef(notificationSounds);
-  notificationSoundsRef.current = notificationSounds;
+  const soundsWhenFocused = useAtomValue(notificationSoundsWhenFocusedAtom);
+  const soundsWhenFocusedRef = useRef(soundsWhenFocused);
+  soundsWhenFocusedRef.current = soundsWhenFocused;
 
   const notificationBannersRef = useRef(notificationBanners);
   notificationBannersRef.current = notificationBanners;
@@ -62,7 +67,11 @@ export function useClientNotifications() {
         roomUrl
       );
     }
-    playNotificationSound(notificationSoundsRef.current);
+    // The window being looked at is quiet unless the person asked for sounds there too.
+    const isWindowActive = isWindowVisible && document.hasFocus();
+    if (!isWindowActive || soundsWhenFocusedRef.current) {
+      playNotificationSound(notification.isDirect || notification.highlight);
+    }
   });
 
   useEffect(() => {
@@ -134,7 +143,7 @@ export function useClientNotifications() {
           if (document.visibilityState !== 'visible' && notificationBannersRef.current) {
             showBrowserNotification(t('invite.newInvite'), msg);
           }
-          playNotificationSound(notificationSoundsRef.current);
+          playNotificationSound(true);
         });
     }
   }, [client, rooms, syncReady, t]);

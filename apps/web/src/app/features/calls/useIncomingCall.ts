@@ -4,7 +4,7 @@ import type { WizardClient } from '@wizardchat/core';
 import { roomsByIdAtom } from '@/app/data';
 import { callActionsAtom, callUiAtom, type IncomingCall } from '@/app/store/atoms/call';
 import { formatUserId, isDmRoom } from '@/util/matrix';
-import { loopVoiceSound } from '@/app/features/voice/voiceSounds';
+import { loopSoundKind } from '@/util/notificationSounds';
 
 const RING_TIMEOUT_MS = 45_000;
 
@@ -33,7 +33,7 @@ export function useIncomingCall(client: WizardClient | null) {
   const ringing = !!ui.incoming;
   useEffect(() => {
     if (!ringing) return undefined;
-    return loopVoiceSound('ringtone');
+    return loopSoundKind('ring') ?? undefined;
   }, [ringing]);
 
   const dismiss = useCallback(() => {

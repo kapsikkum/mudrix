@@ -1,4 +1,4 @@
-import { playVoiceSound } from '@/app/features/voice/voiceSounds';
+import { playNotificationSoundFor } from '@/util/notificationSounds';
 import { getThemeLogoAssets } from '@/theme/themeLogos';
 import i18n from '@/i18n';
 import { isStreamerModeActive } from '@/util/streamerMode';
@@ -17,9 +17,9 @@ export async function requestNotificationPermission(): Promise<NotificationPermi
   }
 }
 
-export function playNotificationSound(soundEnabled: boolean): void {
-  if (!soundEnabled) return;
-  playVoiceSound('alert');
+/** Plays the chosen message sound, or the mention one for a mention, DM or invite (`priority`). */
+export function playNotificationSound(priority = false): void {
+  playNotificationSoundFor(priority);
 }
 
 let swRegistrationPromise: Promise<ServiceWorkerRegistration | null> | null = null;

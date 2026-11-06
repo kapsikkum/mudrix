@@ -9,6 +9,7 @@ import {
 import { atomWithStorage } from 'jotai/utils';
 import { DEFAULT_THEME } from '@/theme/themes.css';
 import type { CustomTheme } from '@/theme/customThemes';
+import { DEFAULT_SOUND_PACK, type SoundKind } from '@/util/notificationSounds';
 import type { ThemeName } from '@/theme/themeTokens';
 import { MOD_MODIFIER } from '@/app/util/platform';
 import {
@@ -63,6 +64,16 @@ export const DEFAULT_KEYBINDS: Keybinds = {
 export interface Preferences {
   typingIndicators: boolean;
   notificationSounds: boolean;
+  /** Whether message sounds also play while the app is the window being looked at. */
+  notificationSoundsWhenFocused: boolean;
+  /** Sound pack for everything without an override of its own. */
+  notificationSoundPack: string;
+  /** Legacy mention pack; read as soundOverrides.mention (see soundOverridesAtom). */
+  notificationMentionSoundPack: string;
+  /** 0-100, for message, mention and call sounds. */
+  notificationSoundVolume: number;
+  /** Per sound: a pack id, or 'off'. A missing key follows notificationSoundPack. */
+  soundOverrides: Partial<Record<SoundKind, string>>;
   notificationBanners: boolean;
   sendReadReceipts: boolean;
   prettifyLinks: boolean;
@@ -133,6 +144,11 @@ export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, DEFA
 export const DEFAULT_PREFERENCES: Preferences = {
   typingIndicators: true,
   notificationSounds: true,
+  notificationSoundsWhenFocused: false,
+  notificationSoundPack: DEFAULT_SOUND_PACK,
+  notificationMentionSoundPack: '',
+  notificationSoundVolume: 70,
+  soundOverrides: {},
   notificationBanners: false,
   sendReadReceipts: true,
   prettifyLinks: false,
@@ -189,6 +205,11 @@ function preferenceFieldAtom<K extends keyof Preferences>(key: K) {
 
 export const typingIndicatorsAtom = preferenceFieldAtom('typingIndicators');
 export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');
+export const notificationSoundsWhenFocusedAtom = preferenceFieldAtom(
+  'notificationSoundsWhenFocused'
+);
+export const notificationSoundPackAtom = preferenceFieldAtom('notificationSoundPack');
+export const notificationSoundVolumeAtom = preferenceFieldAtom('notificationSoundVolume');
 export const notificationBannersAtom = preferenceFieldAtom('notificationBanners');
 export const sendReadReceiptsAtom = preferenceFieldAtom('sendReadReceipts');
 export const prettifyLinksAtom = preferenceFieldAtom('prettifyLinks');
@@ -228,6 +249,25 @@ export const showPresenceAtom = preferenceFieldAtom('showPresence');
 export const followSystemThemeAtom = preferenceFieldAtom('followSystemTheme');
 export const systemDarkThemeAtom = preferenceFieldAtom('systemDarkTheme');
 export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');
+
+/**
+ * Per-sound pack overrides. Reads fold in the legacy notificationMentionSoundPack as the mention
+ * override; writes clear it so removing the override sticks.
+ */
+export const soundOverridesAtom = atom(
+  (get) => {
+    const prefs = get(preferencesAtom);
+    const overrides = prefs.soundOverrides ?? DEFAULT_PREFERENCES.soundOverrides;
+    const legacy = prefs.notificationMentionSoundPack;
+    return legacy && !overrides.mention ? { ...overrides, mention: legacy } : overrides;
+  },
+  (_get, set, value: Preferences['soundOverrides']) =>
+    set(preferencesAtom, (prev) => ({
+      ...prev,
+      soundOverrides: value,
+      notificationMentionSoundPack: '',
+    }))
+);
 
 const prefersDarkQuery =
   typeof window !== 'undefined' && typeof window.matchMedia === 'function'

@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "キーワードを追加...",
       "addKeyword": "追加",
       "noKeywords": "キーワードはまだありません。",
-      "keywordExists": "このキーワードはすでに設定されています。"
+      "keywordExists": "このキーワードはすでに設定されています。",
+      "soundsWhenFocused": "アプリ表示中も音を鳴らす",
+      "soundsWhenFocusedNote": "Mudrixを見ているときもメッセージ音を鳴らします。"
     },
     "emojisStickers": {
       "title": "絵文字とスタンプ",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "大（{{px}} px）",
         "sizeMedium": "中（{{px}} px）",
         "sizeSmall": "小（{{px}} px）"
+      }
+    },
+    "voice": {
+      "soundsTitle": "効果音",
+      "soundPack": "サウンドパック",
+      "soundVolume": "音量",
+      "soundPreview": "再生",
+      "soundsNote": "イベントごとに別の音を選ぶか、オフにできます。パックのままにしたイベントは、上のサウンドパックに従います。",
+      "soundSame": "パックと同じ（{{pack}}）",
+      "soundOff": "オフ",
+      "playSound": "{{sound}}の音を再生",
+      "resetSounds": "すべてパックに戻す",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "他のクライアント"
+      },
+      "sound": {
+        "message": "メッセージ",
+        "mention": "メンション",
+        "ring": "着信",
+        "ringback": "発信",
+        "callend": "通話終了",
+        "mute": "ミュート",
+        "unmute": "ミュート解除",
+        "cameraOn": "カメラオン",
+        "cameraOff": "カメラオフ",
+        "join": "ボイスチャンネルに参加",
+        "leave": "ボイスチャンネルから退出",
+        "moved": "別のチャンネルに移動",
+        "watchTogetherStart": "一緒に視聴を開始"
       }
     }
   },

@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Add a keyword...",
       "addKeyword": "Add",
       "noKeywords": "No keywords yet.",
-      "keywordExists": "This keyword is already set."
+      "keywordExists": "This keyword is already set.",
+      "soundsWhenFocused": "Sounds while the app is in focus",
+      "soundsWhenFocusedNote": "Also play message sounds when Mudrix is the window you are looking at."
     },
     "emojisStickers": {
       "title": "Emojis & Stickers",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Large ({{px}} px)",
         "sizeMedium": "Medium ({{px}} px)",
         "sizeSmall": "Small ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Sound effects",
+      "soundPack": "Sound pack",
+      "soundVolume": "Volume",
+      "soundPreview": "Play",
+      "soundsNote": "Pick a different sound for each event, or turn it off. Events left on the pack follow the sound pack above.",
+      "soundSame": "Same as pack ({{pack}})",
+      "soundOff": "Off",
+      "playSound": "Play {{sound}} sound",
+      "resetSounds": "Reset all to pack",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Other clients"
+      },
+      "sound": {
+        "message": "Message",
+        "mention": "Mention",
+        "ring": "Incoming call",
+        "ringback": "Outgoing call",
+        "callend": "Call ended",
+        "mute": "Mute",
+        "unmute": "Unmute",
+        "cameraOn": "Camera on",
+        "cameraOff": "Camera off",
+        "join": "Joined voice channel",
+        "leave": "Left voice channel",
+        "moved": "Moved to another channel",
+        "watchTogetherStart": "Watch together starts"
       }
     }
   },

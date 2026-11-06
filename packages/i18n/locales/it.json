@@ -1337,7 +1337,9 @@
       "keywordPlaceholder": "Aggiungi una parola chiave...",
       "addKeyword": "Aggiungi",
       "noKeywords": "Nessuna parola chiave per ora.",
-      "keywordExists": "Questa parola chiave è già impostata."
+      "keywordExists": "Questa parola chiave è già impostata.",
+      "soundsWhenFocused": "Suoni con l'app in primo piano",
+      "soundsWhenFocusedNote": "Riproduci i suoni dei messaggi anche quando Mudrix è la finestra che stai guardando."
     },
     "emojisStickers": {
       "title": "Emoji e adesivi",
@@ -1585,6 +1587,36 @@
         "sizeLarge": "Grande ({{px}} px)",
         "sizeMedium": "Media ({{px}} px)",
         "sizeSmall": "Piccola ({{px}} px)"
+      }
+    },
+    "voice": {
+      "soundsTitle": "Effetti sonori",
+      "soundPack": "Pacchetto suoni",
+      "soundVolume": "Volume",
+      "soundPreview": "Riproduci",
+      "soundsNote": "Scegli un suono diverso per ogni evento, oppure disattivalo. Gli eventi lasciati sul pacchetto seguono il pacchetto suoni indicato sopra.",
+      "soundSame": "Come il pacchetto ({{pack}})",
+      "soundOff": "Disattivato",
+      "playSound": "Riproduci suono {{sound}}",
+      "resetSounds": "Ripristina tutto sul pacchetto",
+      "packGroup": {
+        "mudrix": "Mudrix",
+        "clients": "Altri client"
+      },
+      "sound": {
+        "message": "Messaggio",
+        "mention": "Menzione",
+        "ring": "Chiamata in arrivo",
+        "ringback": "Chiamata in uscita",
+        "callend": "Chiamata terminata",
+        "mute": "Disattiva audio",
+        "unmute": "Riattiva audio",
+        "cameraOn": "Fotocamera accesa",
+        "cameraOff": "Fotocamera spenta",
+        "join": "Ingresso nel canale vocale",
+        "leave": "Uscita dal canale vocale",
+        "moved": "Spostato in un altro canale",
+        "watchTogetherStart": "Inizio visione condivisa"
       }
     }
   },

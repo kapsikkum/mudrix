@@ -3,6 +3,7 @@ import { DEFAULT_KEYBINDS, DEFAULT_PREFERENCES } from '@/app/store/atoms/setting
 import { THEMES } from '@/theme/themes.css';
 import { EMOJI_ONLY_SIZES, EMOJI_STYLES } from '@/util/emojiStyle';
 import { isCustomThemeId, sanitizeCustomThemes, type CustomTheme } from '@/theme/customThemes';
+import { SOUND_KINDS } from '@/util/notificationSounds';
 import { legacyMudrixKey, mudrixKey, wizardchatKey } from '@/util/namespace';
 
 /**
@@ -93,6 +94,20 @@ const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   systemLightTheme: Object.keys(THEMES),
 };
 
+const PACK_ID = /^[a-z0-9_-]{0,40}$/;
+
+/** Keeps the sounds this version knows, each with a pack id or 'off'. */
+function sanitizeSoundOverrides(raw: unknown): Preferences['soundOverrides'] | undefined {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return undefined;
+  const input = raw as Record<string, unknown>;
+  const out: Preferences['soundOverrides'] = {};
+  for (const kind of SOUND_KINDS) {
+    const value = input[kind];
+    if (typeof value === 'string' && value !== '' && PACK_ID.test(value)) out[kind] = value;
+  }
+  return out;
+}
+
 export function isSyncedPreference(key: string): key is keyof Preferences {
   return key in DEFAULT_PREFERENCES && !DEVICE_ONLY_PREFERENCES.has(key as keyof Preferences);
 }
@@ -108,6 +123,18 @@ export function sanitizePreferences(raw: unknown): Partial<Preferences> {
     const expected = DEFAULT_PREFERENCES[key];
     if (typeof value !== typeof expected) continue;
     if (typeof value === 'number' && !Number.isFinite(value)) continue;
+    if (key === 'soundOverrides') {
+      const overrides = sanitizeSoundOverrides(value);
+      if (overrides) out[key] = overrides;
+      continue;
+    }
+    if (
+      (key === 'notificationSoundPack' || key === 'notificationMentionSoundPack') &&
+      !PACK_ID.test(value as string)
+    )
+      continue;
+    if (key === 'notificationSoundVolume' && ((value as number) < 0 || (value as number) > 100))
+      continue;
     const allowed = ENUM_VALUES[key];
     const isCustomThemePick =
       (key === 'systemDarkTheme' || key === 'systemLightTheme') && isCustomThemeId(value);
