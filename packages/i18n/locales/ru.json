@@ -943,6 +943,9 @@
       "downloading": "Загрузка видео",
       "cancelDownload": "Отменить загрузку",
       "downloadFailed": "Не удалось скачать видео: {{error}}"
+    },
+    "filePreview": {
+      "open": "Просмотр"
     }
   },
   "attachment": {

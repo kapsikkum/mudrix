@@ -943,6 +943,9 @@
       "downloading": "Pobieranie wideo",
       "cancelDownload": "Anuluj pobieranie",
       "downloadFailed": "Nie udało się pobrać wideo: {{error}}"
+    },
+    "filePreview": {
+      "open": "Podgląd"
     }
   },
   "attachment": {

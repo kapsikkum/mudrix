@@ -498,6 +498,99 @@ export const videoCancelBtn = style({
   ':focus-visible': { outline: `2px solid ${vars.color.accent}` },
 });
 
+export const filePreviewFrame = style({
+  width: '100%',
+  height: '70vh',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgPrimary,
+});
+
+export const filePreviewText = style({
+  margin: 0,
+  maxHeight: '70vh',
+  overflow: 'auto',
+  whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
+  fontFamily: 'monospace',
+  fontSize: '0.85rem',
+  color: vars.color.textPrimary,
+});
+
+/** Wrapper for a text file card plus caption: spans the whole chat column. */
+export const textFileWrap = style({ display: 'block', width: '100%' });
+
+export const textFileCard = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgSecondary,
+  overflow: 'hidden',
+});
+
+export const textFileBody = style({
+  margin: 0,
+  padding: '10px 14px',
+  maxHeight: '190px',
+  overflow: 'auto',
+  fontFamily: 'monospace',
+  fontSize: '0.8rem',
+  lineHeight: 1.45,
+  whiteSpace: 'pre-wrap',
+  overflowWrap: 'anywhere',
+  color: vars.color.textPrimary,
+  backgroundColor: vars.color.bgPrimary,
+});
+
+export const textFileFooter = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '12px',
+  padding: '10px 14px',
+  borderTop: `1px solid ${vars.color.border}`,
+});
+
+export const textFileInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  minWidth: 0,
+});
+
+export const textFileName = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  fontSize: '0.9rem',
+  fontWeight: 500,
+  color: vars.color.textPrimary,
+});
+
+export const textFileSize = style({ fontSize: '0.75rem', color: vars.color.textMuted });
+
+export const textFileActions = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '2px',
+  flexShrink: 0,
+});
+
+export const textFileAction = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '30px',
+  height: '30px',
+  border: 'none',
+  background: 'none',
+  borderRadius: vars.radius.sm,
+  cursor: 'pointer',
+  color: vars.color.textMuted,
+  ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
+});
+
 export const msgAudioSkeleton = style({
   width: '280px',
   height: '56px',

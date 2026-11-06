@@ -943,6 +943,9 @@
       "downloading": "Video indiriliyor",
       "cancelDownload": "İndirmeyi iptal et",
       "downloadFailed": "Video indirilemedi: {{error}}"
+    },
+    "filePreview": {
+      "open": "Önizleme"
     }
   },
   "attachment": {

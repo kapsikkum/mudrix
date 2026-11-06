@@ -943,6 +943,9 @@
       "downloading": "Video downloaden",
       "cancelDownload": "Download annuleren",
       "downloadFailed": "De video kon niet worden gedownload: {{error}}"
+    },
+    "filePreview": {
+      "open": "Voorbeeld"
     }
   },
   "attachment": {

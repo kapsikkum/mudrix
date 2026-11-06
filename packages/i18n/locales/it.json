@@ -943,6 +943,9 @@
       "downloading": "Download del video in corso",
       "cancelDownload": "Annulla download",
       "downloadFailed": "Impossibile scaricare il video: {{error}}"
+    },
+    "filePreview": {
+      "open": "Anteprima"
     }
   },
   "attachment": {

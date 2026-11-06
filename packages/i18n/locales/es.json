@@ -943,6 +943,9 @@
       "downloading": "Descargando vídeo",
       "cancelDownload": "Cancelar descarga",
       "downloadFailed": "No se pudo descargar el vídeo: {{error}}"
+    },
+    "filePreview": {
+      "open": "Vista previa"
     }
   },
   "attachment": {

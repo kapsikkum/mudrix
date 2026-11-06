@@ -943,6 +943,9 @@
       "downloading": "Video wird heruntergeladen",
       "cancelDownload": "Download abbrechen",
       "downloadFailed": "Das Video konnte nicht heruntergeladen werden: {{error}}"
+    },
+    "filePreview": {
+      "open": "Vorschau"
     }
   },
   "attachment": {

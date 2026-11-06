@@ -17,6 +17,7 @@ import {
   MapPinIcon,
   ArrowsOutSimpleIcon,
   StickerIcon,
+  EyeIcon,
 } from '@phosphor-icons/react';
 import { CopyButton } from '@/app/components/Button';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -32,6 +33,12 @@ import {
 import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import { VideoPlaceholder } from './VideoPlaceholder';
+import {
+  FilePreviewModal,
+  TEXT_CARD_MAX_BYTES,
+  TextFileCard,
+  getFilePreviewKind,
+} from './FilePreviewModal';
 import type { ManualVideoLoad } from './encryption';
 import type { MediaCover } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
@@ -483,6 +490,44 @@ interface MessageContentProps {
   videoLoad?: ManualVideoLoad | null;
 }
 
+/** "Preview" button for PDF and text attachments, with its modal. */
+function FilePreviewButton({
+  src,
+  filename,
+  mimetype,
+}: {
+  src: string;
+  filename: string;
+  mimetype?: string;
+}) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const kind = getFilePreviewKind(filename, mimetype);
+  if (!kind) return null;
+  return (
+    <>
+      <Tooltip content={t('timeline.filePreview.open')}>
+        <button
+          type="button"
+          className={css.fileDownload}
+          aria-label={t('timeline.filePreview.open')}
+          onClick={() => setOpen(true)}
+        >
+          <EyeIcon size={16} />
+        </button>
+      </Tooltip>
+      {open && (
+        <FilePreviewModal
+          src={src}
+          filename={filename}
+          kind={kind}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
 export function MessageContent({
   event,
   client,
@@ -826,37 +871,47 @@ export function MessageContent({
     }
     const captionHtml = renderCaptionHtml(media);
     const size = typeof media.size === 'number' && media.size >= 0 ? media.size : undefined;
-    const mediaEl = src ? (
-      <div className={css.fileCard}>
-        <span className={css.fileIcon}>
-          <FileTextIcon size={20} />
-        </span>
-        <span className={css.fileInfo}>
-          <Tooltip content={filename} multiline>
-            <span className={css.fileName}>{filename}</span>
+    const mimetype = media.mimetype ?? undefined;
+    // Text files (up to 5 MB) show their start in a card instead of a plain file row.
+    const textPreview =
+      !!src &&
+      getFilePreviewKind(filename, mimetype) === 'text' &&
+      (size === undefined || size <= TEXT_CARD_MAX_BYTES);
+    const mediaEl =
+      src && textPreview ? (
+        <TextFileCard src={src} filename={filename} size={size} />
+      ) : src ? (
+        <div className={css.fileCard}>
+          <span className={css.fileIcon}>
+            <FileTextIcon size={20} />
+          </span>
+          <span className={css.fileInfo}>
+            <Tooltip content={filename} multiline>
+              <span className={css.fileName}>{filename}</span>
+            </Tooltip>
+            {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
+          </span>
+          <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
+          <Tooltip content={t('mediaLightbox.download')}>
+            <a
+              href={src}
+              download={filename}
+              className={css.fileDownload}
+              aria-label={t('mediaLightbox.download')}
+            >
+              <DownloadSimpleIcon size={16} />
+            </a>
           </Tooltip>
-          {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
-        </span>
-        <Tooltip content={t('mediaLightbox.download')}>
-          <a
-            href={src}
-            download={filename}
-            className={css.fileDownload}
-            aria-label={t('mediaLightbox.download')}
-          >
-            <DownloadSimpleIcon size={16} />
-          </a>
-        </Tooltip>
-      </div>
-    ) : mediaFailed ? (
-      <MediaError />
-    ) : (
-      <MediaSkeleton className={css.fileSkeleton}>
-        <FileTextIcon size={20} />
-      </MediaSkeleton>
-    );
+        </div>
+      ) : mediaFailed ? (
+        <MediaError />
+      ) : (
+        <MediaSkeleton className={css.fileSkeleton}>
+          <FileTextIcon size={20} />
+        </MediaSkeleton>
+      );
     return captionHtml ? (
-      <div className={css.mediaWrap}>
+      <div className={textPreview ? css.textFileWrap : css.mediaWrap}>
         {mediaEl}
         <RichHtml
           html={captionHtml}

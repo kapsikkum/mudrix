@@ -943,6 +943,9 @@
       "downloading": "A transferir vídeo",
       "cancelDownload": "Cancelar transferência",
       "downloadFailed": "Não foi possível transferir o vídeo: {{error}}"
+    },
+    "filePreview": {
+      "open": "Pré-visualizar"
     }
   },
   "attachment": {

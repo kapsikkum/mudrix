@@ -943,6 +943,9 @@
       "downloading": "動画をダウンロード中",
       "cancelDownload": "ダウンロードをキャンセル",
       "downloadFailed": "動画をダウンロードできませんでした: {{error}}"
+    },
+    "filePreview": {
+      "open": "プレビュー"
     }
   },
   "attachment": {
