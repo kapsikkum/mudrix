@@ -9,11 +9,35 @@ const limiter = new SoundboardLimiter(RECEIVE_LIMITS);
 /** The same press can arrive twice (the call's data channel and the room event). */
 const DUPLICATE_WINDOW_MS = 1500;
 const recent = new Map<string, number>();
+/**
+ * Presses that arrived as a room event. The call's data channel is faster than sync, so a room
+ * event of a press the channel already delivered (a Mudrix sender sends both) can come seconds
+ * later; it is dropped when the channel played the same press within this long.
+ */
+const ROOM_AFTER_CALL_WINDOW_MS = 10_000;
+const recentRoom = new Map<string, number>();
+
+/** Where a press came from: the call's data channel, or an event in the room. */
+export type SoundboardSource = 'call' | 'room';
 
 /** Forget the senders' history (a new call). */
 export function resetSoundboardReceiver(): void {
   limiter.reset();
   recent.clear();
+  recentRoom.clear();
+}
+
+function isDuplicate(source: SoundboardSource, key: string, now: number): boolean {
+  const own = source === 'call' ? recent : recentRoom;
+  const seenAt = own.get(key);
+  if (seenAt !== undefined && now - seenAt < DUPLICATE_WINDOW_MS) return true;
+  if (source === 'room') {
+    const calledAt = recent.get(key);
+    if (calledAt !== undefined && now - calledAt < ROOM_AFTER_CALL_WINDOW_MS) return true;
+  }
+  own.set(key, now);
+  if (own.size > 100) own.delete(own.keys().next().value as string);
+  return false;
 }
 
 /**
@@ -27,7 +51,8 @@ export async function receiveSoundboardPlay(
   roomId: string,
   sender: string,
   content: unknown,
-  inCall: (userId: string) => boolean
+  inCall: (userId: string) => boolean,
+  source: SoundboardSource = 'call'
 ): Promise<void> {
   try {
     const { client } = soundboardRuntime;
@@ -40,11 +65,7 @@ export async function receiveSoundboardPlay(
     if (!sound || typeof sound !== 'object' || typeof sound.id !== 'string') return;
 
     const now = Date.now();
-    const duplicateKey = `${sender}:${sound.id}`;
-    const seenAt = recent.get(duplicateKey);
-    if (seenAt !== undefined && now - seenAt < DUPLICATE_WINDOW_MS) return;
-    recent.set(duplicateKey, now);
-    if (recent.size > 100) recent.delete(recent.keys().next().value as string);
+    if (isDuplicate(source, `${sender}:${sound.id}`, now)) return;
 
     if (
       (await evaluateSoundboardAccess(client, soundboardRuntime.spaceGraph, roomId, sender)) !==
