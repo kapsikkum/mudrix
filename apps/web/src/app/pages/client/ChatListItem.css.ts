@@ -249,3 +249,11 @@ globalStyle(`${TOUCH_UI} ${roomBadge}`, {
   minWidth: '22px',
   borderRadius: '12px',
 });
+
+export const callTimer = style({
+  color: vars.color.success,
+  fontSize: '0.75rem',
+  fontVariantNumeric: 'tabular-nums',
+  marginRight: '4px',
+  flexShrink: 0,
+});

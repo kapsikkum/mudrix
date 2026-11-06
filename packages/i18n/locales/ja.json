@@ -1073,7 +1073,10 @@
       "sendingAudio": "音声送信",
       "sendingVideo": "映像送信",
       "receiving": "受信"
-    }
+    },
+    "inCall": "通話中",
+    "noOneInCall": "まだ誰も通話にいません",
+    "joinVoice": "ボイスに参加"
   },
   "time": {
     "justNow": "たった今",

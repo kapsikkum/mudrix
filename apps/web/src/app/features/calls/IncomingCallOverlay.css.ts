@@ -28,6 +28,9 @@ export const overlay = style({
   borderRadius: vars.radius.md,
   boxShadow: '0 8px 28px rgba(0,0,0,0.35)',
   animation: `${slideIn} 180ms ease-out`,
+  touchAction: 'none',
+  userSelect: 'none',
+  cursor: 'grab',
 });
 
 export const avatarRing = style({

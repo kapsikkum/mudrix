@@ -1073,7 +1073,10 @@
       "sendingAudio": "Enviando audio",
       "sendingVideo": "Enviando vídeo",
       "receiving": "Recibiendo"
-    }
+    },
+    "inCall": "En la llamada",
+    "noOneInCall": "Todavía no hay nadie en la llamada",
+    "joinVoice": "Unirse a la voz"
   },
   "time": {
     "justNow": "ahora mismo",

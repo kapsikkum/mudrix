@@ -17,6 +17,25 @@ import type { CallMember } from '@wizardchat/core';
 import * as css from './ChatListItem.css';
 import { vars } from '@/theme/vars.css';
 
+function formatElapsed(ms: number): string {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const sec = String(total % 60).padStart(2, '0');
+  return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${sec}` : `${m}:${sec}`;
+}
+
+/** Time since the first person joined the call. */
+function CallTimer({ members }: { members: CallMember[] }) {
+  const since = Math.min(...members.map((m) => m.joinedAt));
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  return <span className={css.callTimer}>{formatElapsed(now - since)}</span>;
+}
+
 interface ChatListItemProps {
   name: string;
   roomId: string;
@@ -174,6 +193,9 @@ export function ChatListItem({
         <span className={css.chatTextContent}>{name}</span>
 
         <span className={css.itemBadges}>
+          {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
+            <CallTimer members={voiceMembers} />
+          )}
           {hasActiveCall && (
             <span className={css.callBadge} title={t('voice.joinCall')}>
               <PhoneIcon size={14} weight="fill" />

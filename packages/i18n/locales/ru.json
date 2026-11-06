@@ -1073,7 +1073,10 @@
       "sendingAudio": "Отправка звука",
       "sendingVideo": "Отправка видео",
       "receiving": "Приём"
-    }
+    },
+    "inCall": "В звонке",
+    "noOneInCall": "В звонке пока никого нет",
+    "joinVoice": "Войти в голосовой чат"
   },
   "time": {
     "justNow": "только что",

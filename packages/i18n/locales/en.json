@@ -1073,7 +1073,10 @@
       "sendingAudio": "Sending audio",
       "sendingVideo": "Sending video",
       "receiving": "Receiving"
-    }
+    },
+    "inCall": "In the call",
+    "noOneInCall": "No one is in the call yet",
+    "joinVoice": "Join voice"
   },
   "time": {
     "justNow": "just now",

@@ -42,6 +42,7 @@ import type {
   HierarchySpaceItem,
 } from '@/app/features/room/useSpaceHierarchy';
 import { CallBar } from '@/app/features/calls/CallBar';
+import { VoiceJoinSheet } from '@/app/features/calls/VoiceJoinSheet';
 import {
   callActionsAtom,
   callUiAtom,
@@ -326,6 +327,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const { spaces } = useSpaces();
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  // Phones: a tap on a voice room shows who is in it, and a second tap joins
+  const [voicePreviewId, setVoicePreviewId] = useState<string | null>(null);
 
   const handleNewSectionRef = useRef<() => Promise<void>>(async () => {});
   const currentSpaceEntry = useMemo(
@@ -1341,7 +1344,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           callActions?.setPresentation('room');
           return;
         }
-        onVoiceJoin(roomId);
+        if (isMobile) setVoicePreviewId(roomId);
+        else onVoiceJoin(roomId);
         return;
       }
       navigateToRoom();
@@ -1356,6 +1360,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       callActions,
       onVoiceJoin,
       setDrawerOpen,
+      isMobile,
     ]
   );
 
@@ -1723,6 +1728,17 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         <CallBar />
         {!isMobile && <UserPanel />}
       </div>
+      {voicePreviewId && client && (
+        <VoiceJoinSheet
+          client={client}
+          roomId={voicePreviewId}
+          onClose={() => setVoicePreviewId(null)}
+          onJoin={() => {
+            onVoiceJoin(voicePreviewId);
+            setVoicePreviewId(null);
+          }}
+        />
+      )}
     </div>
   );
 }

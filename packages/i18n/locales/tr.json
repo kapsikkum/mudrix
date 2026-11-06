@@ -1073,7 +1073,10 @@
       "sendingAudio": "Ses gönderiliyor",
       "sendingVideo": "Video gönderiliyor",
       "receiving": "Alınan"
-    }
+    },
+    "inCall": "Aramada",
+    "noOneInCall": "Aramada henüz kimse yok",
+    "joinVoice": "Sese katıl"
   },
   "time": {
     "justNow": "az önce",

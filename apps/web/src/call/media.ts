@@ -686,6 +686,8 @@ export class CallMedia {
     const sfu = await session.sfuConfig(serviceUrl, publisher).catch((error: unknown) => {
       throw new CallError('auth', messageOf(error));
     });
+    // Hung up while the server was being asked: nothing is left to tear this connection down
+    if (this.disposed) throw new CallError('unknown', 'The call ended');
     // Another service can lead to the SFU room we publish to
     const own = this.publisher;
     if (
@@ -720,6 +722,10 @@ export class CallMedia {
     } catch (error) {
       if (this.connections.get(serviceUrl) === connection) this.close(connection);
       throw error;
+    }
+    if (this.disposed) {
+      this.close(connection);
+      throw new CallError('unknown', 'The call ended');
     }
     for (const participant of room.remoteParticipants.values())
       for (const publication of participant.trackPublications.values())

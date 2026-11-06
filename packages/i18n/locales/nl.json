@@ -1073,7 +1073,10 @@
       "sendingAudio": "Audio verzenden",
       "sendingVideo": "Video verzenden",
       "receiving": "Ontvangen"
-    }
+    },
+    "inCall": "In het gesprek",
+    "noOneInCall": "Nog niemand in het gesprek",
+    "joinVoice": "Deelnemen aan spraak"
   },
   "time": {
     "justNow": "zojuist",

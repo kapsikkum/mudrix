@@ -51,6 +51,7 @@ export const STORAGE_KEY_CALL_USER_AUDIO = 'wz_call_user_audio';
 
 // Chosen microphone / speaker / camera
 export const STORAGE_KEY_CALL_DEVICES = 'wz_call_devices';
+export const STORAGE_KEY_CALL_INCOMING_POSITION = 'wz_call_incoming_position';
 export const STORAGE_KEY_CALL_VOLUMES = 'wz_call_volumes';
 export const STORAGE_KEY_CALL_SHOW_REACTIONS = 'wz_call_show_reactions';
 export const STORAGE_KEY_SHARE_SCREEN_AUDIO = 'wz_share_screen_audio';
