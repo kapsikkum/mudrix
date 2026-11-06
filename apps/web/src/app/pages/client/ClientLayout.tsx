@@ -36,6 +36,7 @@ import { useSessionVerification } from '@/app/hooks/useSessionVerification';
 import { isEditableTarget, isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { useVoiceKeybinds } from '@/app/hooks/useKeybinds';
 import { getMatrixClientOrNull, logout, onSessionInvalid } from '@/client/initMatrix';
+import { useEnsureMudrixUserFlag } from '@/app/hooks/useExtendedProfile';
 import { roomsByIdAtom, useRoom, useSpaceGraph } from '@/app/data';
 import { isChildOfSpace, findParentSpaceId, isVoiceRoom } from '@/util/matrix';
 import { Timeline } from '@/app/features/timeline';
@@ -463,6 +464,7 @@ export function ClientLayout() {
   });
 
   useClientNotifications();
+  useEnsureMudrixUserFlag(client);
 
   useEffect(() => {
     registerNotificationServiceWorker();

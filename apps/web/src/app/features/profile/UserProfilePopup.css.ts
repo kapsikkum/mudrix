@@ -13,15 +13,38 @@ export const popup = style({
   zIndex: 7501,
   width: '280px',
   backgroundColor: vars.color.bgSecondary,
+  // The banner's colour (or the accent the person picked) washes down from the top into the card.
+  backgroundImage: `radial-gradient(130% 55% at 50% 0%, color-mix(in srgb, var(--card-accent, ${vars.color.accent}) 26%, transparent), transparent 75%)`,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
-  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
   animation: `${scaleIn} ${fast} ease`,
   display: 'flex',
   flexDirection: 'column',
-  padding: '20px',
-  gap: '14px',
+  padding: 0,
   maxHeight: 'calc(100vh - 32px)',
+  '@media': {
+    // Bottom sheet on phones: full width, pinned to the bottom edge, scrolls if tall.
+    '(max-width: 768px)': {
+      left: '16px !important',
+      right: '16px !important',
+      top: 'auto !important',
+      bottom: 'calc(16px + env(safe-area-inset-bottom, 0px)) !important',
+      transform: 'none !important',
+      width: 'auto',
+      maxHeight: 'calc(100dvh - 120px)',
+    },
+  },
+});
+
+/** The scrolling part of the card, inside the popup so a profile frame can hang over its edges. */
+export const popupScroll = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '14px',
+  padding: '20px',
+  minHeight: 0,
+  borderRadius: 'inherit',
   overflowY: 'auto',
   overflowX: 'hidden',
 });
@@ -106,6 +129,8 @@ export const avatarWrap = style({
 });
 
 export const nameSection = style({
+  position: 'relative',
+  paddingRight: 'var(--badge-room, 0px)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',

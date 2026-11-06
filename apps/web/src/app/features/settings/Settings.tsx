@@ -28,6 +28,7 @@ import {
   DisplayName,
   ChangePassword,
   EmailSettings,
+  ExtendedProfile,
   DeactivateAccount,
 } from './account';
 import { useAccountManagement } from '@/app/hooks/useAccountManagement';
@@ -63,6 +64,11 @@ function AccountPage() {
       <div className={css.section}>
         <h3 className={css.sectionTitle}>{t('status.title')}</h3>
         <StatusSettings />
+      </div>
+      <div className={css.divider} />
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('settings.account.aboutTitle')}</h3>
+        <ExtendedProfile />
       </div>
     </>
   );

@@ -23,6 +23,7 @@ import {
   LinkSimpleIcon,
   DotsThreeVerticalIcon,
   ShieldCheckIcon,
+  ClockIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Select } from '@/app/components/Select';
@@ -46,6 +47,10 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { useUserBanner, useUserBannerBlob } from '@/app/hooks/useUserBanner';
 import { useProfile } from '@/app/hooks/useProfile';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
+import { useImageEdgeColor } from '@/app/hooks/useImageEdgeColor';
+import { useExtendedProfile, useLiveActivities } from '@/app/hooks/useExtendedProfile';
+import { accentGradient } from '@/util/profileCosmetics';
+import { formatPronouns } from '@/util/profileFields';
 import { useToast } from '@/app/hooks/useToast';
 import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
 import { startDm } from '@/app/hooks/useDms';
@@ -59,7 +64,14 @@ import { Button, CopyButton, IconButton } from '@/app/components/Button';
 import { anchorFromElement, isMenuOpenKey, useContextMenu } from '@/app/hooks/useContextMenu';
 import { contextMenuAtom } from '@/app/features/contextMenu/contextMenuAtom';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
+import { vars } from '@/theme/vars.css';
 import * as css from './UserProfilePopup.css';
+import * as extrasCss from './ProfileExtras.css';
+import * as cardCss from './ProfileCard.css';
+import { DecoratedAvatar, NameplateWrapper, ProfileBadges } from './ProfileCosmetics';
+import { ExpandableBio, LocalTime, NotesSection } from './ProfileExtras';
+import { ActivityCards } from './ActivityCards';
+import { ProfileFrame } from './ProfileFrame';
 
 import { makeUserPermalink } from '@/util/matrix';
 import { powerLevelOf, queryKeys, useAllRooms, useMembersIn, useRoomSettings } from '@/app/data';
@@ -96,6 +108,9 @@ export function UserProfilePopup() {
 
   const { banner, saveBanner, removeBanner } = useUserBanner(client, profileState?.userId ?? null);
   const { data: bannerSrc } = useUserBannerBlob(client, banner?.mxc);
+  const bannerColor = useImageEdgeColor(bannerSrc);
+  const { data: extFields } = useExtendedProfile(client, profileState?.userId ?? null);
+  const liveActivities = useLiveActivities(extFields?.activities);
   const { data: avatarBlob } = useAvatarBlobUrl(profile?.avatarMxc, client);
   const bannerGradient = useBannerGradient(avatarBlob, profile?.displayName ?? '');
   const fileRef = useRef<HTMLInputElement>(null);
@@ -462,6 +477,20 @@ export function UserProfilePopup() {
 
   const bannerClickable = isOwn || !!banner?.mxc;
 
+  const accent = extFields?.accent ?? null;
+  // The wash that runs down the card takes the prominent colour from the bottom of the banner, where
+  // the banner fades into it; without a banner (or a colourful bottom edge) it is the accent.
+  const washColor = bannerColor ?? accent;
+  const popupStyle = {
+    visibility: 'hidden',
+    ...(washColor
+      ? {
+          '--card-accent': washColor,
+          borderColor: `color-mix(in srgb, var(--card-accent) 70%, ${vars.color.border})`,
+        }
+      : {}),
+  } as React.CSSProperties;
+
   const hasModActions = canRedactAny || canKick || canBan;
 
   const openModMenu = () => {
@@ -528,248 +557,289 @@ export function UserProfilePopup() {
       <div
         ref={popupRef}
         className={css.popup}
-        style={{ visibility: 'hidden' }}
+        style={popupStyle}
         onClick={(e) => e.stopPropagation()}
       >
-        <div
-          className={css.coverWrap}
-          onClick={handleBannerClick}
-          style={bannerClickable ? { cursor: 'pointer' } : undefined}
-        >
-          {banner?.mxc && bannerSrc ? (
-            <img src={bannerSrc} alt="" className={css.cover} />
-          ) : banner?.mxc ? (
-            <div className={css.coverNeutral} />
-          ) : (
-            <div className={css.coverFallback} style={{ background: bannerGradient }} />
-          )}
-          {banner?.canModify && (
-            <div className={css.coverEdit}>
-              <CameraIcon size={14} />
-            </div>
-          )}
-        </div>
-
-        <div className={css.topRow}>
-          <div className={css.avatarRow}>
-            {ownAvatarMxc ? (
-              <Tooltip content={t('profile.viewFullScreen')}>
-                <div className={css.avatarWrap} onClick={handleAvatarClick}>
-                  <Avatar
-                    name={profile.displayName}
-                    mxcUrl={ownAvatarMxc}
-                    client={client ?? undefined}
-                    size="lg"
-                    placeholder="logo"
-                    presence={presence}
-                  />
-                </div>
-              </Tooltip>
+        {extFields?.profileFrame && <ProfileFrame frame={extFields.profileFrame} client={client} />}
+        <div className={css.popupScroll}>
+          <div
+            className={css.coverWrap}
+            onClick={handleBannerClick}
+            style={bannerClickable ? { cursor: 'pointer' } : undefined}
+          >
+            {banner?.mxc && bannerSrc ? (
+              <img src={bannerSrc} alt="" className={css.cover} />
+            ) : banner?.mxc ? (
+              <div className={css.coverNeutral} />
             ) : (
               <div
-                className={`${css.avatarWrap}${isOwn ? ` ${css.avatarWrapEditable}` : ''}`}
-                onClick={handleAvatarClick}
-              >
-                <Avatar
-                  name={profile.displayName}
-                  mxcUrl={ownAvatarMxc}
-                  client={client ?? undefined}
-                  size="lg"
-                  placeholder="logo"
-                  presence={presence}
-                />
-                {isOwn && (
-                  <div className={css.avatarEdit}>
-                    <CameraIcon size={16} />
-                  </div>
-                )}
-              </div>
+                className={css.coverFallback}
+                style={{ background: accent ? accentGradient(accent) : bannerGradient }}
+              />
             )}
-
-            {statusText ? (
-              <div className={css.statusSlot}>
-                <Tooltip content={statusText}>
-                  <span className={css.status}>
-                    <span className={css.statusText}>{statusText}</span>
-                  </span>
-                </Tooltip>
+            {accent && <div className={cardCss.coverTint} />}
+            {banner?.canModify && (
+              <div className={css.coverEdit}>
+                <CameraIcon size={14} />
               </div>
-            ) : (
-              <div style={{ flex: 1 }} />
-            )}
-
-            <CopyButton
-              text={makeUserPermalink(profile.userId)}
-              size="xs"
-              copyLabel={t('common.copyLink')}
-              icon={<LinkSimpleIcon size={12} />}
-            />
-
-            {!isOwn && (
-              <Tooltip content={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}>
-                <IconButton
-                  size="xs"
-                  danger={!isIgnored}
-                  onClick={handleIgnore}
-                  aria-label={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}
-                >
-                  <ProhibitInsetIcon size={14} />
-                </IconButton>
-              </Tooltip>
             )}
           </div>
 
-          <div className={css.nameSection}>
-            <span className={css.displayNameRow}>
-              <span className={css.displayName}>{profile.displayName}</span>
-              {userVerification.verified && (
-                <Tooltip content={t('profile.verified')}>
-                  <ShieldCheckIcon
-                    size={18}
-                    weight="fill"
-                    className={css.verifiedBadge}
-                    aria-label={t('profile.verified')}
-                  />
+          <div className={css.topRow}>
+            <div className={css.avatarRow}>
+              {ownAvatarMxc ? (
+                <Tooltip content={t('profile.viewFullScreen')}>
+                  <div className={css.avatarWrap} onClick={handleAvatarClick}>
+                    <DecoratedAvatar
+                      decoration={extFields?.avatarDecoration ?? null}
+                      client={client}
+                    >
+                      <Avatar
+                        name={profile.displayName}
+                        mxcUrl={ownAvatarMxc}
+                        client={client ?? undefined}
+                        size="lg"
+                        placeholder="logo"
+                        presence={presence}
+                      />
+                    </DecoratedAvatar>
+                  </div>
+                </Tooltip>
+              ) : (
+                <div
+                  className={`${css.avatarWrap}${isOwn ? ` ${css.avatarWrapEditable}` : ''}`}
+                  onClick={handleAvatarClick}
+                >
+                  <DecoratedAvatar decoration={extFields?.avatarDecoration ?? null} client={client}>
+                    <Avatar
+                      name={profile.displayName}
+                      mxcUrl={ownAvatarMxc}
+                      client={client ?? undefined}
+                      size="lg"
+                      placeholder="logo"
+                      presence={presence}
+                    />
+                  </DecoratedAvatar>
+                  {isOwn && (
+                    <div className={css.avatarEdit}>
+                      <CameraIcon size={16} />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {statusText ? (
+                <div className={css.statusSlot}>
+                  <Tooltip content={statusText}>
+                    <span className={css.status}>
+                      <span className={css.statusText}>{statusText}</span>
+                    </span>
+                  </Tooltip>
+                </div>
+              ) : (
+                <div style={{ flex: 1 }} />
+              )}
+
+              <CopyButton
+                text={makeUserPermalink(profile.userId)}
+                size="xs"
+                copyLabel={t('common.copyLink')}
+                icon={<LinkSimpleIcon size={12} />}
+              />
+
+              {!isOwn && (
+                <Tooltip content={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}>
+                  <IconButton
+                    size="xs"
+                    danger={!isIgnored}
+                    onClick={handleIgnore}
+                    aria-label={isIgnored ? t('profile.unignoreUser') : t('profile.ignoreUser')}
+                  >
+                    <ProhibitInsetIcon size={14} />
+                  </IconButton>
                 </Tooltip>
               )}
-            </span>
+            </div>
 
-            <div className={css.userIdRow}>
-              <span className={css.userId}>{profile.userId.split(':')[0]}</span>
-              <CopyButton text={profile.userId} size="xs" />
+            <div
+              className={css.nameSection}
+              style={
+                { '--badge-room': extFields?.isMudrixUser ? '36px' : '0px' } as React.CSSProperties
+              }
+            >
+              <span className={css.displayNameRow}>
+                <NameplateWrapper nameplate={extFields?.nameplate} client={client}>
+                  <span className={css.displayName}>{profile.displayName}</span>
+                </NameplateWrapper>
+                {userVerification.verified && (
+                  <Tooltip content={t('profile.verified')}>
+                    <ShieldCheckIcon
+                      size={18}
+                      weight="fill"
+                      className={css.verifiedBadge}
+                      aria-label={t('profile.verified')}
+                    />
+                  </Tooltip>
+                )}
+              </span>
+
+              <div className={css.userIdRow}>
+                <span className={css.userId}>{profile.userId.split(':')[0]}</span>
+                <CopyButton text={profile.userId} size="xs" />
+              </div>
+              {extFields && extFields.pronouns.length > 0 && (
+                <span className={extrasCss.pronouns}>{formatPronouns(extFields.pronouns)}</span>
+              )}
+              <ProfileBadges showMudrix={!!extFields?.isMudrixUser} floating />
             </div>
           </div>
-        </div>
 
-        <div className={css.infoRow}>
-          <span className={css.infoIcon}>
-            <HardDrivesIcon size={14} />
-          </span>
-          <Tooltip content={profile.homeserver}>
-            <span className={css.infoValue}>{profile.homeserver}</span>
-          </Tooltip>
-          {profileState.roomId && !isOwn && profile.canModify && roleKey !== 'founder' ? (
-            <Select
-              surface="pill"
-              icon={<span className={roleDotClass} />}
-              value={String(localPowerLevel)}
-              options={rolePowerOptions}
-              aria-label={t('room.members.role')}
-              onChange={async (next) => {
-                if (!client || !profileState.roomId || !profile) return;
-                const newLevel = Number(next);
-                const newLabel = rolePowerOptions.find((o) => o.value === next)?.label ?? roleLabel;
-                const prevLevel = localPowerLevel;
-                setLocalPowerLevel(newLevel);
-                try {
-                  await client.setPowerLevel(profileState.roomId, profile.userId, newLevel);
-                  void queryClient.invalidateQueries({
-                    queryKey: queryKeys.members(profileState.roomId),
-                  });
-                  void queryClient.invalidateQueries({
-                    queryKey: queryKeys.roomSettings(profileState.roomId),
-                  });
-                  toast.success(
-                    t('room.settings.members.permissionsApplySuccess', {
-                      name: profile.displayName,
-                      level: newLabel,
-                    })
-                  );
-                } catch (err) {
-                  toast.error(
-                    t('room.settings.members.permissionsApplyFailed', {
-                      error: getErrorMessage(err),
-                    })
-                  );
-                  setLocalPowerLevel(prevLevel);
-                }
-              }}
-            />
-          ) : (
-            profileState.roomId && (
-              <span className={roleClass}>
-                <span className={roleDotClass} />
-                {roleLabel}
+          <ActivityCards activities={liveActivities} />
+          {extFields?.bio && (
+            <ExpandableBio text={extFields.bio} displayName={profile.displayName} />
+          )}
+          {extFields?.timezone && (
+            <div className={extrasCss.detailRow}>
+              <span className={extrasCss.detailIcon}>
+                <ClockIcon size={14} />
               </span>
-            )
+              <LocalTime timeZone={extFields.timezone} />
+            </div>
+          )}
+
+          <div className={css.infoRow}>
+            <span className={css.infoIcon}>
+              <HardDrivesIcon size={14} />
+            </span>
+            <Tooltip content={profile.homeserver}>
+              <span className={css.infoValue}>{profile.homeserver}</span>
+            </Tooltip>
+            {profileState.roomId && !isOwn && profile.canModify && roleKey !== 'founder' ? (
+              <Select
+                surface="pill"
+                icon={<span className={roleDotClass} />}
+                value={String(localPowerLevel)}
+                options={rolePowerOptions}
+                aria-label={t('room.members.role')}
+                onChange={async (next) => {
+                  if (!client || !profileState.roomId || !profile) return;
+                  const newLevel = Number(next);
+                  const newLabel =
+                    rolePowerOptions.find((o) => o.value === next)?.label ?? roleLabel;
+                  const prevLevel = localPowerLevel;
+                  setLocalPowerLevel(newLevel);
+                  try {
+                    await client.setPowerLevel(profileState.roomId, profile.userId, newLevel);
+                    void queryClient.invalidateQueries({
+                      queryKey: queryKeys.members(profileState.roomId),
+                    });
+                    void queryClient.invalidateQueries({
+                      queryKey: queryKeys.roomSettings(profileState.roomId),
+                    });
+                    toast.success(
+                      t('room.settings.members.permissionsApplySuccess', {
+                        name: profile.displayName,
+                        level: newLabel,
+                      })
+                    );
+                  } catch (err) {
+                    toast.error(
+                      t('room.settings.members.permissionsApplyFailed', {
+                        error: getErrorMessage(err),
+                      })
+                    );
+                    setLocalPowerLevel(prevLevel);
+                  }
+                }}
+              />
+            ) : (
+              profileState.roomId && (
+                <span className={roleClass}>
+                  <span className={roleDotClass} />
+                  {roleLabel}
+                </span>
+              )
+            )}
+          </div>
+
+          {isOwn && profileState.source === 'userpanel' && (
+            <div className={css.accountSwitcherSlot}>
+              <AccountSwitcher
+                onAddAccount={() => {
+                  handleClose();
+                  navigate('/welcome?add=1');
+                }}
+              />
+            </div>
+          )}
+          {isKnock && canModerate && (
+            <div className={css.modActions}>
+              <Button
+                variant="secondary"
+                className={css.modActionBtn}
+                loading={rejecting}
+                onClick={handleReject}
+              >
+                <XIcon size={16} />
+                {t('room.members.reject')}
+              </Button>
+              <Button
+                variant="primary"
+                className={css.modActionBtn}
+                loading={approving}
+                onClick={handleApprove}
+              >
+                <CheckIcon size={16} />
+                {t('room.members.approve')}
+              </Button>
+            </div>
+          )}
+
+          {!isOwn && <NotesSection client={client} userId={profile.userId} />}
+
+          {!isOwn && profileState.roomId && (
+            <div className={css.primaryRow}>
+              <Button
+                variant="primary"
+                className={css.primaryBtn}
+                loading={startingDm}
+                onClick={handleStartDm}
+              >
+                <ChatCircleIcon size={16} />
+                {t('profile.message')}
+              </Button>
+              {userVerification.canVerify && !userVerification.verified && (
+                <IconButton
+                  size="md"
+                  tooltip={t('profile.verifyUser')}
+                  aria-label={t('profile.verifyUser')}
+                  disabled={startingVerification}
+                  onClick={handleVerifyUser}
+                >
+                  <ShieldCheckIcon size={18} />
+                </IconButton>
+              )}
+              {hasModActions && (
+                <IconButton
+                  ref={modMenuBtnRef}
+                  size="md"
+                  aria-label={t('common.more')}
+                  aria-haspopup="menu"
+                  aria-expanded={modMenuOpen}
+                  onClick={openModMenu}
+                  onKeyDown={(e) => {
+                    if (!isMenuOpenKey(e)) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openModMenu();
+                  }}
+                >
+                  <DotsThreeVerticalIcon size={18} />
+                </IconButton>
+              )}
+            </div>
           )}
         </div>
-
-        {isOwn && profileState.source === 'userpanel' && (
-          <div className={css.accountSwitcherSlot}>
-            <AccountSwitcher
-              onAddAccount={() => {
-                handleClose();
-                navigate('/welcome?add=1');
-              }}
-            />
-          </div>
-        )}
-        {isKnock && canModerate && (
-          <div className={css.modActions}>
-            <Button
-              variant="secondary"
-              className={css.modActionBtn}
-              loading={rejecting}
-              onClick={handleReject}
-            >
-              <XIcon size={16} />
-              {t('room.members.reject')}
-            </Button>
-            <Button
-              variant="primary"
-              className={css.modActionBtn}
-              loading={approving}
-              onClick={handleApprove}
-            >
-              <CheckIcon size={16} />
-              {t('room.members.approve')}
-            </Button>
-          </div>
-        )}
-
-        {!isOwn && profileState.roomId && (
-          <div className={css.primaryRow}>
-            <Button
-              variant="primary"
-              className={css.primaryBtn}
-              loading={startingDm}
-              onClick={handleStartDm}
-            >
-              <ChatCircleIcon size={16} />
-              {t('profile.message')}
-            </Button>
-            {userVerification.canVerify && !userVerification.verified && (
-              <IconButton
-                size="md"
-                tooltip={t('profile.verifyUser')}
-                aria-label={t('profile.verifyUser')}
-                disabled={startingVerification}
-                onClick={handleVerifyUser}
-              >
-                <ShieldCheckIcon size={18} />
-              </IconButton>
-            )}
-            {hasModActions && (
-              <IconButton
-                ref={modMenuBtnRef}
-                size="md"
-                aria-label={t('common.more')}
-                aria-haspopup="menu"
-                aria-expanded={modMenuOpen}
-                onClick={openModMenu}
-                onKeyDown={(e) => {
-                  if (!isMenuOpenKey(e)) return;
-                  e.preventDefault();
-                  e.stopPropagation();
-                  openModMenu();
-                }}
-              >
-                <DotsThreeVerticalIcon size={18} />
-              </IconButton>
-            )}
-          </div>
-        )}
       </div>
 
       {avatarLightboxOpen && (

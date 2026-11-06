@@ -1,0 +1,52 @@
+[
+  {
+    "id": "claude-terminal",
+    "name": "Claude Terminal",
+    "palette": "crimson",
+    "file": "assets/nameplates/claude-terminal.svg"
+  },
+  { "id": "sunset", "name": "Sunset", "palette": "berry", "file": "assets/nameplates/sunset.svg" },
+  { "id": "aurora", "name": "Aurora", "palette": "teal", "file": "assets/nameplates/aurora.svg" },
+  {
+    "id": "ocean-waves",
+    "name": "Ocean Waves",
+    "palette": "sky",
+    "file": "assets/nameplates/ocean-waves.svg"
+  },
+  {
+    "id": "starry-night",
+    "name": "Starry Night",
+    "palette": "black",
+    "file": "assets/nameplates/starry-night.svg"
+  },
+  {
+    "id": "mud-puddle",
+    "name": "Mud Puddle",
+    "palette": "forest",
+    "file": "assets/nameplates/mud-puddle.svg"
+  },
+  {
+    "id": "haunted-glass",
+    "name": "Haunted Glass",
+    "palette": "black",
+    "file": "assets/nameplates/haunted-glass.svg"
+  },
+  {
+    "id": "dead-channel",
+    "name": "Dead Channel",
+    "palette": "crimson",
+    "file": "assets/nameplates/dead-channel.svg"
+  },
+  {
+    "id": "local-broadcast",
+    "name": "Local Broadcast",
+    "palette": "black",
+    "file": "assets/nameplates/local-broadcast.svg"
+  },
+  {
+    "id": "eevee-meadow",
+    "name": "Eevee Meadow",
+    "palette": "forest",
+    "file": "assets/nameplates/eevee-meadow.svg"
+  }
+]

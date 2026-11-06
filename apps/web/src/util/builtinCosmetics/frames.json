@@ -1,0 +1,191 @@
+[
+  {
+    "id": "claude-cozy",
+    "name": "Claude Cozy",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/claude-cozy/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/claude-cozy/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/claude-cozy/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "vines",
+    "name": "Vines",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/vines/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/vines/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/vines/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "pixel-arcade",
+    "name": "Pixel Arcade",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/pixel-arcade/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/pixel-arcade/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/pixel-arcade/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "ice-crystal",
+    "name": "Ice Crystal",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/ice-crystal/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/ice-crystal/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/ice-crystal/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "gold-filigree",
+    "name": "Gold Filigree",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/gold-filigree/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/gold-filigree/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/gold-filigree/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "mucky",
+    "name": "Mucky",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/mucky/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/mucky/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/mucky/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "escaping-hands",
+    "name": "Escaping Hands",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/escaping-hands/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/escaping-hands/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/escaping-hands/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "analog-terror",
+    "name": "Analog Terror",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/analog-terror/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/analog-terror/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/analog-terror/center-back.svg"
+      }
+    ]
+  },
+  {
+    "id": "vhs-intruder",
+    "name": "VHS Intruder",
+    "pieces": [
+      {
+        "pos": "top",
+        "layer": "front",
+        "file": "assets/frames/vhs-intruder/top-front.svg"
+      },
+      {
+        "pos": "bottom",
+        "layer": "front",
+        "file": "assets/frames/vhs-intruder/bottom-front.svg"
+      },
+      {
+        "pos": "center",
+        "layer": "back",
+        "file": "assets/frames/vhs-intruder/center-back.svg"
+      }
+    ]
+  }
+]
