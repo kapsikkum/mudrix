@@ -1076,9 +1076,6 @@
     "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
-    "zoomOut": "Pomniejsz",
-    "zoomIn": "Powiększ",
-    "fit": "Dopasuj",
     "replace": "Zamień",
     "remove": "Usuń",
     "download": "Pobierz",

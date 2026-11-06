@@ -1076,9 +1076,6 @@
     "shrinkTo": "{{from}} → ~{{to}}"
   },
   "mediaLightbox": {
-    "zoomOut": "縮小",
-    "zoomIn": "拡大",
-    "fit": "画面に合わせる",
     "replace": "置き換え",
     "remove": "削除",
     "download": "ダウンロード",
