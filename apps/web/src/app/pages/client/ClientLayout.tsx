@@ -65,6 +65,8 @@ import { useBindFavouriteRooms } from '@/app/hooks/useBindFavouriteRooms';
 import { usePresenceListener } from '@/app/hooks/usePresenceListener';
 import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
+import { useSavedMessagesSync } from '@/app/hooks/useSavedMessagesSync';
+import { useReminderDelivery } from '@/app/hooks/useReminderDelivery';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { SpacesList } from './SpacesList';
@@ -479,6 +481,8 @@ export function ClientLayout() {
   usePresenceListener(client);
   useConnectionStatusWatcher();
   useCustomStatusSync(client);
+  useSavedMessagesSync(client);
+  useReminderDelivery(client);
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   const touchFirst = useMediaQuery(TOUCH_FIRST_QUERY);

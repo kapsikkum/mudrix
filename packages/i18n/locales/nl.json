@@ -962,6 +962,20 @@
       "consent": "YouTube-insluitingen tonen? YouTube kan je IP-adres en apparaatgegevens zien wanneer een kaart titel en miniatuur bij YouTube moet ophalen en wanneer je een video afspeelt.",
       "allow": "Toestaan",
       "deny": "Niet toestaan"
+    },
+    "saveMessage": "Bericht opslaan",
+    "unsaveMessage": "Verwijderen uit opgeslagen",
+    "messageSaved": "Bericht opgeslagen",
+    "messageUnsaved": "Uit opgeslagen verwijderd",
+    "saveFailed": "Opslaan mislukt: {{error}}",
+    "remind": {
+      "title": "Herinner mij",
+      "in20m": "Over 20 minuten",
+      "in1h": "Over 1 uur",
+      "in3h": "Over 3 uur",
+      "tomorrow": "Morgenochtend",
+      "set": "Herinnering ingesteld voor {{time}}",
+      "failed": "De herinnering kon niet worden ingesteld: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Je bent vermeld",
     "youWereMentionedTimes": "Je bent {{count}} keer vermeld",
     "failedToAcceptInvite": "Uitnodiging accepteren mislukt: {{error}}",
-    "failedToDeclineInvite": "Uitnodiging weigeren mislukt: {{error}}"
+    "failedToDeclineInvite": "Uitnodiging weigeren mislukt: {{error}}",
+    "tabSaved": "Opgeslagen",
+    "emptySaved": "Nog niets opgeslagen. Gebruik “Bericht opslaan” in het menu van een bericht.",
+    "savedUnavailable": "Bericht niet beschikbaar",
+    "tabThreads": "Threads",
+    "emptyThreads": "Nog geen threads. Threads waaraan je deelneemt verschijnen hier."
   },
   "invite": {
     "inviteTo": "Uitnodigen voor {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Weigeren mislukt: {{error}}",
     "memberCount_one": "{{count}} lid",
     "memberCount_other": "{{count}} leden",
-    "joinRequired": "Word lid van deze kamer om deze functie te gebruiken."
+    "joinRequired": "Word lid van deze kamer om deze functie te gebruiken.",
+    "declineAndBlock": "Weigeren en blokkeren",
+    "declineAndBlockTitle": "{{name}} weigeren en blokkeren?",
+    "declineAndBlockBody": "Hiermee wijs je de uitnodiging af en negeer je {{id}}. Je ziet hun berichten niet en ontvangt geen verdere uitnodigingen van hen. Je kunt dit ongedaan maken via hun profiel.",
+    "declineAndBlockFailed": "Blokkeren mislukt: {{error}}"
   },
   "settings": {
     "userSettings": "Gebruikersinstellingen",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Nog geen trefwoorden.",
       "keywordExists": "Dit trefwoord is al ingesteld.",
       "soundsWhenFocused": "Geluiden als de app actief is",
-      "soundsWhenFocusedNote": "Speel berichtgeluiden ook af als Mudrix het venster is waar je naar kijkt."
+      "soundsWhenFocusedNote": "Speel berichtgeluiden ook af als Mudrix het venster is waar je naar kijkt.",
+      "reminders": {
+        "title": "Herinneringen",
+        "empty": "Geen herinneringen. Gebruik \"Herinner mij\" bij een bericht om er een in te stellen.",
+        "entry": "{{room}} om {{time}}",
+        "cancel": "Herinnering annuleren"
+      },
+      "chooseSounds": "Kies geluiden in Spraak & audio",
+      "notificationBannersNoteTouch": "Meldingen op dit apparaat tonen."
     },
     "emojisStickers": {
       "title": "Emoji's en stickers",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard gedempt",
       "playing": "Speelt {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Herinnering",
+    "open": "Openen"
   }
 }

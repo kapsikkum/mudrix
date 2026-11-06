@@ -2,25 +2,40 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { TrayIcon, HashStraightIcon, StackIcon, ChecksIcon } from '@phosphor-icons/react';
+import {
+  TrayIcon,
+  HashStraightIcon,
+  StackIcon,
+  ChecksIcon,
+  ProhibitIcon,
+} from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Avatar } from '@/app/components/Avatar';
 import { Popover } from '@/app/components/Popover/Popover';
-import { inboxOpenAtom, mobileDrawerOpenAtom } from '@/app/store/atoms';
+import {
+  inboxOpenAtom,
+  mobileDrawerOpenAtom,
+  pendingEventJumpAtom,
+  threadsPanelViewAtom,
+} from '@/app/store/atoms';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useToast } from '@/app/hooks/useToast';
+import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import { formatRelativeTime } from '@/util/format';
 import { markRoomsAsRead } from '@/app/pages/client/spaceContextMenu';
 import { roomHasUnreadMention } from '@/util/mentions';
 import { useAllRooms } from '@/app/data';
+import { savedMessagesAtom, toggleSavedMessage } from '@/util/savedMessages';
 import { useInvites, type Invite } from './useInvites';
 import { useMentions, useHasUnreadMentions } from './useMentions';
+import { SavedRow, ThreadRow, type RowKind } from './InboxRows';
+import { useThreadsInbox, type InboxThread } from './useThreadsInbox';
 import * as css from './Inbox.css';
 import { vars } from '@/theme/vars.css';
 
-type Tab = 'invites' | 'mentions';
+type Tab = 'invites' | 'mentions' | 'threads' | 'saved';
 
 const ROUTE_PREFIX: Record<Invite['kind'], string> = {
   room: '/r/',
@@ -32,6 +47,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const toast = useToast();
+  const confirmDialog = useConfirm();
   const client = getMatrixClientOrNull();
   const setOpen = useSetAtom(inboxOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
@@ -43,8 +59,19 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
   const invites = useInvites();
   const { mentions, refresh: refreshMentions } = useMentions(true);
   const hasUnreadMentions = useHasUnreadMentions();
+  const saved = useAtomValue(savedMessagesAtom);
+  const setPendingJump = useSetAtom(pendingEventJumpAtom);
+  const setThreadsPanelView = useSetAtom(threadsPanelViewAtom);
+  const { threads: inboxThreads, unreadCount: unreadThreads } = useThreadsInbox(tab === 'threads');
 
-  const activeCount = tab === 'invites' ? invites.length : mentions.length;
+  const activeCount =
+    tab === 'invites'
+      ? invites.length
+      : tab === 'mentions'
+        ? mentions.length
+        : tab === 'threads'
+          ? inboxThreads.length
+          : saved.length;
 
   const openRoom = (kind: Invite['kind'], roomId: string) => {
     setOpen(false);
@@ -67,6 +94,34 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
     refreshMentions();
   };
 
+  const closeForRoom = () => {
+    setOpen(false);
+    if (mobile) setDrawerOpen(false);
+  };
+
+  const handleOpenSaved = (entry: { roomId: string; eventId: string }, kind: RowKind) => {
+    closeForRoom();
+    setPendingJump({ roomId: entry.roomId, eventId: entry.eventId });
+    navigate(ROUTE_PREFIX[kind] + encodeURIComponent(entry.roomId));
+  };
+
+  const handleOpenThread = (item: InboxThread, kind: RowKind) => {
+    closeForRoom();
+    navigate(ROUTE_PREFIX[kind] + encodeURIComponent(item.room.id));
+    // After the route change, so opening the room does not close the panel again.
+    setTimeout(
+      () => setThreadsPanelView({ type: 'thread', rootEventId: item.info.rootEventId }),
+      50
+    );
+  };
+
+  const handleRemoveSaved = (entry: { roomId: string; eventId: string }) => {
+    if (!client) return;
+    toggleSavedMessage(client, entry.roomId, entry.eventId).catch((err) =>
+      toast.error(t('timeline.saveFailed', { error: getErrorMessage(err) }))
+    );
+  };
+
   const handleAccept = async (invite: Invite) => {
     if (!client || busyId) return;
     setBusyId(invite.roomId);
@@ -87,6 +142,27 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
       await client.declineInvite(invite.roomId);
     } catch (err) {
       toast.error(t('invite.declineFailed', { error: getErrorMessage(err) }));
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  const handleDeclineAndBlock = async (invite: Invite) => {
+    if (!client || !invite.inviterUserId) return;
+    const inviterName = invite.inviterDisplayName ?? invite.inviterUserId;
+    const ok = await confirmDialog({
+      title: t('invite.declineAndBlockTitle', { name: inviterName }),
+      message: t('invite.declineAndBlockBody', { name: inviterName, id: invite.inviterUserId }),
+      confirmLabel: t('invite.declineAndBlock'),
+      danger: true,
+    });
+    if (!ok) return;
+    setBusyId(invite.roomId);
+    try {
+      await client.declineInvite(invite.roomId);
+      await client.ignoreUser(invite.inviterUserId);
+    } catch (err) {
+      toast.error(t('invite.declineAndBlockFailed', { error: getErrorMessage(err) }));
     } finally {
       setBusyId(null);
     }
@@ -146,13 +222,47 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
             </span>
           )}
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'threads'}
+          className={tab === 'threads' ? css.tabActive : css.tab}
+          onClick={() => setTab('threads')}
+        >
+          {t('inbox.tabThreads')}
+          {unreadThreads > 0 && (
+            <span className={tab === 'threads' ? css.tabCountAccent : css.tabCount}>
+              {unreadThreads > 99 ? '99+' : unreadThreads}
+            </span>
+          )}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === 'saved'}
+          className={tab === 'saved' ? css.tabActive : css.tab}
+          onClick={() => setTab('saved')}
+        >
+          {t('inbox.tabSaved')}
+          {saved.length > 0 && (
+            <span className={tab === 'saved' ? css.tabCountAccent : css.tabCount}>
+              {saved.length > 99 ? '99+' : saved.length}
+            </span>
+          )}
+        </button>
         {mobile && markAllButton}
       </div>
 
       <div className={css.content}>
         {activeCount === 0 ? (
           <div className={css.empty}>
-            {tab === 'invites' ? t('inbox.emptyInvites') : t('inbox.emptyMentions')}
+            {tab === 'invites'
+              ? t('inbox.emptyInvites')
+              : tab === 'mentions'
+                ? t('inbox.emptyMentions')
+                : tab === 'threads'
+                  ? t('inbox.emptyThreads')
+                  : t('inbox.emptySaved')}
           </div>
         ) : tab === 'invites' ? (
           invites.map((invite) => {
@@ -202,10 +312,49 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
                   >
                     {t('invite.decline')}
                   </button>
+                  {invite.inviterUserId && (
+                    <Tooltip content={t('invite.declineAndBlock')}>
+                      <button
+                        type="button"
+                        className={css.blockButton}
+                        aria-label={t('invite.declineAndBlock')}
+                        disabled={busyId === invite.roomId}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          void handleDeclineAndBlock(invite);
+                        }}
+                      >
+                        <ProhibitIcon size={14} />
+                      </button>
+                    </Tooltip>
+                  )}
                 </div>
               </div>
             );
           })
+        ) : tab === 'threads' ? (
+          inboxThreads.map((item) =>
+            client ? (
+              <ThreadRow
+                key={`${item.room.id}:${item.info.rootEventId}`}
+                client={client}
+                item={item}
+                onOpen={handleOpenThread}
+              />
+            ) : null
+          )
+        ) : tab === 'saved' ? (
+          saved.map((entry) =>
+            client ? (
+              <SavedRow
+                key={entry.eventId}
+                client={client}
+                saved={entry}
+                onOpen={handleOpenSaved}
+                onRemove={handleRemoveSaved}
+              />
+            ) : null
+          )
         ) : (
           mentions.map((mention) => (
             <div

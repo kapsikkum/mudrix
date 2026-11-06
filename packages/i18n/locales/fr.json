@@ -962,6 +962,20 @@
       "consent": "Afficher les intégrations YouTube ? YouTube peut voir votre adresse IP et les détails de votre appareil lorsqu’une carte doit récupérer son titre et sa miniature auprès de YouTube, et lors de la lecture.",
       "allow": "Autoriser",
       "deny": "Ne pas autoriser"
+    },
+    "saveMessage": "Enregistrer le message",
+    "unsaveMessage": "Retirer des enregistrés",
+    "messageSaved": "Message enregistré",
+    "messageUnsaved": "Retiré des enregistrés",
+    "saveFailed": "Échec de l’enregistrement : {{error}}",
+    "remind": {
+      "title": "Me le rappeler",
+      "in20m": "Dans 20 minutes",
+      "in1h": "Dans 1 heure",
+      "in3h": "Dans 3 heures",
+      "tomorrow": "Demain matin",
+      "set": "Rappel programmé pour {{time}}",
+      "failed": "Impossible de créer le rappel : {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Tu as été mentionné",
     "youWereMentionedTimes": "Tu as été mentionné {{count}} fois",
     "failedToAcceptInvite": "Impossible d'accepter l'invitation : {{error}}",
-    "failedToDeclineInvite": "Impossible de refuser l'invitation : {{error}}"
+    "failedToDeclineInvite": "Impossible de refuser l'invitation : {{error}}",
+    "tabSaved": "Enregistrés",
+    "emptySaved": "Rien d’enregistré. Utilisez « Enregistrer le message » dans le menu d’un message.",
+    "savedUnavailable": "Message indisponible",
+    "tabThreads": "Fils",
+    "emptyThreads": "Aucun fil pour l’instant. Les fils auxquels vous participez apparaissent ici."
   },
   "invite": {
     "inviteTo": "Inviter dans {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Échec du refus : {{error}}",
     "memberCount_one": "{{count}} membre",
     "memberCount_other": "{{count}} membres",
-    "joinRequired": "Rejoignez ce salon pour utiliser cette fonctionnalité."
+    "joinRequired": "Rejoignez ce salon pour utiliser cette fonctionnalité.",
+    "declineAndBlock": "Refuser et bloquer",
+    "declineAndBlockTitle": "Refuser et bloquer {{name}} ?",
+    "declineAndBlockBody": "Cela refuse l'invitation et ignore {{id}}. Vous ne verrez plus ses messages et ne recevrez plus d'invitations de sa part. Vous pouvez annuler cette action depuis son profil.",
+    "declineAndBlockFailed": "Échec du blocage : {{error}}"
   },
   "settings": {
     "userSettings": "Paramètres utilisateur",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Aucun mot-clé pour le moment.",
       "keywordExists": "Ce mot-clé est déjà défini.",
       "soundsWhenFocused": "Sons quand l'app est active",
-      "soundsWhenFocusedNote": "Joue aussi les sons de messages quand Mudrix est la fenêtre que vous regardez."
+      "soundsWhenFocusedNote": "Joue aussi les sons de messages quand Mudrix est la fenêtre que vous regardez.",
+      "reminders": {
+        "title": "Rappels",
+        "empty": "Aucun rappel. Utilisez « Me le rappeler » sur un message pour en créer un.",
+        "entry": "{{room}} à {{time}}",
+        "cancel": "Annuler le rappel"
+      },
+      "chooseSounds": "Choisir les sons dans Voix et audio",
+      "notificationBannersNoteTouch": "Afficher les notifications sur cet appareil."
     },
     "emojisStickers": {
       "title": "Émojis et autocollants",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard coupé",
       "playing": "Joue {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Rappel",
+    "open": "Ouvrir"
   }
 }

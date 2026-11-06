@@ -962,6 +962,20 @@
       "consent": "Mostrar vídeos incorporados do YouTube? O YouTube pode ver o seu endereço IP e dados do dispositivo quando um cartão precisa obter o título e a miniatura do YouTube e ao reproduzir um vídeo.",
       "allow": "Permitir",
       "deny": "Não permitir"
+    },
+    "saveMessage": "Guardar mensagem",
+    "unsaveMessage": "Remover dos guardados",
+    "messageSaved": "Mensagem guardada",
+    "messageUnsaved": "Removida dos guardados",
+    "saveFailed": "Não foi possível guardar: {{error}}",
+    "remind": {
+      "title": "Lembrar-me",
+      "in20m": "Em 20 minutos",
+      "in1h": "Em 1 hora",
+      "in3h": "Em 3 horas",
+      "tomorrow": "Amanhã de manhã",
+      "set": "Lembrete definido para {{time}}",
+      "failed": "Não foi possível definir o lembrete: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Foste mencionado",
     "youWereMentionedTimes": "Foste mencionado {{count}} vezes",
     "failedToAcceptInvite": "Falha ao aceitar o convite: {{error}}",
-    "failedToDeclineInvite": "Falha ao recusar o convite: {{error}}"
+    "failedToDeclineInvite": "Falha ao recusar o convite: {{error}}",
+    "tabSaved": "Guardadas",
+    "emptySaved": "Ainda nada guardado. Use «Guardar mensagem» no menu de uma mensagem.",
+    "savedUnavailable": "Mensagem indisponível",
+    "tabThreads": "Tópicos",
+    "emptyThreads": "Ainda sem tópicos. Os tópicos em que participa aparecem aqui."
   },
   "invite": {
     "inviteTo": "Convidar para {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Falha ao recusar: {{error}}",
     "memberCount_one": "{{count}} membro",
     "memberCount_other": "{{count}} membros",
-    "joinRequired": "Entre nesta sala para usar este recurso."
+    "joinRequired": "Entre nesta sala para usar este recurso.",
+    "declineAndBlock": "Recusar e bloquear",
+    "declineAndBlockTitle": "Recusar e bloquear {{name}}?",
+    "declineAndBlockBody": "Isto recusa o convite e ignora {{id}}. Você não verá as mensagens dele nem receberá novos convites. Você pode desfazer isso no perfil dele.",
+    "declineAndBlockFailed": "Falha ao bloquear: {{error}}"
   },
   "settings": {
     "userSettings": "Configurações do usuário",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Nenhuma palavra-chave ainda.",
       "keywordExists": "Esta palavra-chave já está definida.",
       "soundsWhenFocused": "Sons com a app em primeiro plano",
-      "soundsWhenFocusedNote": "Também toca os sons de mensagens quando o Mudrix é a janela que estás a ver."
+      "soundsWhenFocusedNote": "Também toca os sons de mensagens quando o Mudrix é a janela que estás a ver.",
+      "reminders": {
+        "title": "Lembretes",
+        "empty": "Nenhum lembrete. Use \"Lembrar-me\" em uma mensagem para criar um.",
+        "entry": "{{room}} às {{time}}",
+        "cancel": "Cancelar lembrete"
+      },
+      "chooseSounds": "Escolha sons em Voz e áudio",
+      "notificationBannersNoteTouch": "Mostra notificações neste dispositivo."
     },
     "emojisStickers": {
       "title": "Emojis e figurinhas",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard silenciado",
       "playing": "A reproduzir {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Lembrete",
+    "open": "Abrir"
   }
 }

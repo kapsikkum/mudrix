@@ -14,11 +14,14 @@ import {
   LinkSimpleIcon,
   ArrowBendUpRightIcon,
   CopyIcon,
+  BookmarkSimpleIcon,
+  AlarmIcon,
 } from '@phosphor-icons/react';
 import type { useContextMenu, MenuOpenEvent } from '@/app/hooks/useContextMenu';
 import { createElement } from 'react';
 import { makeEventPermalink } from '@/util/matrix';
 import { entryText, type EventEntry as MatrixEvent } from './entry';
+import { REMINDER_PRESETS, reminderTime, type ReminderPreset } from '@/util/reminders';
 
 type ContextMenuController = ReturnType<typeof useContextMenu>;
 
@@ -31,6 +34,9 @@ export interface ContextMenuCallbacks {
   onEndPoll?: (event: MatrixEvent) => void;
   onReact: (event: MatrixEvent, anchorEl?: HTMLElement) => void;
   onPin: () => void;
+  onSave: () => void;
+  /** Remind me about this message at the given time (epoch ms). */
+  onRemind: (at: number) => void;
   onHideMedia: () => void;
   onViewSource: (event: MatrixEvent) => void;
   onForward?: (event: MatrixEvent) => void;
@@ -50,6 +56,7 @@ export function openMessageContextMenu(
     isUndecryptable,
     isRedacted,
     isPinned,
+    isSaved,
     devModeEnabled,
     t,
     openContextMenu,
@@ -65,6 +72,7 @@ export function openMessageContextMenu(
     isUndecryptable: boolean;
     isRedacted: boolean;
     isPinned: boolean;
+    isSaved: boolean;
     devModeEnabled: boolean;
     t: TFunction;
     openContextMenu: ContextMenuController['openContextMenu'];
@@ -105,6 +113,20 @@ export function openMessageContextMenu(
           },
         ]
       : []),
+    {
+      label: isSaved ? t('timeline.unsaveMessage') : t('timeline.saveMessage'),
+      icon: createElement(BookmarkSimpleIcon, { size: 14, weight: isSaved ? 'fill' : 'regular' }),
+      onClick: callbacks.onSave,
+    },
+    {
+      label: t('timeline.remind.title'),
+      icon: createElement(AlarmIcon, { size: 14 }),
+      submenu: REMINDER_PRESETS.map((preset: ReminderPreset) => ({
+        label: t(`timeline.remind.${preset}`),
+        onClick: () => callbacks.onRemind(reminderTime(preset)),
+      })),
+      onClick: () => {},
+    },
     ...(canEdit && !isRedacted
       ? [
           {

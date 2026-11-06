@@ -962,6 +962,20 @@
       "consent": "¿Mostrar vídeos incrustados de YouTube? YouTube puede ver tu dirección IP y datos del dispositivo cuando una tarjeta debe obtener el título y la miniatura de YouTube, y al reproducir un vídeo.",
       "allow": "Permitir",
       "deny": "No permitir"
+    },
+    "saveMessage": "Guardar mensaje",
+    "unsaveMessage": "Quitar de guardados",
+    "messageSaved": "Mensaje guardado",
+    "messageUnsaved": "Quitado de guardados",
+    "saveFailed": "No se pudo guardar: {{error}}",
+    "remind": {
+      "title": "Recordármelo",
+      "in20m": "En 20 minutos",
+      "in1h": "En 1 hora",
+      "in3h": "En 3 horas",
+      "tomorrow": "Mañana por la mañana",
+      "set": "Recordatorio programado para {{time}}",
+      "failed": "No se pudo crear el recordatorio: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Te mencionaron",
     "youWereMentionedTimes": "Te mencionaron {{count}} veces",
     "failedToAcceptInvite": "No se pudo aceptar la invitación: {{error}}",
-    "failedToDeclineInvite": "No se pudo rechazar la invitación: {{error}}"
+    "failedToDeclineInvite": "No se pudo rechazar la invitación: {{error}}",
+    "tabSaved": "Guardados",
+    "emptySaved": "Aún no hay nada guardado. Usa «Guardar mensaje» en el menú de un mensaje.",
+    "savedUnavailable": "Mensaje no disponible",
+    "tabThreads": "Hilos",
+    "emptyThreads": "Aún no hay hilos. Los hilos en los que participes aparecerán aquí."
   },
   "invite": {
     "inviteTo": "Invitar a {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "No se pudo rechazar: {{error}}",
     "memberCount_one": "{{count}} miembro",
     "memberCount_other": "{{count}} miembros",
-    "joinRequired": "Únete a esta sala para usar esta función."
+    "joinRequired": "Únete a esta sala para usar esta función.",
+    "declineAndBlock": "Rechazar y bloquear",
+    "declineAndBlockTitle": "¿Rechazar y bloquear a {{name}}?",
+    "declineAndBlockBody": "Esto rechaza la invitación e ignora a {{id}}. No verás sus mensajes ni recibirás más invitaciones de esa persona. Puedes deshacerlo desde su perfil.",
+    "declineAndBlockFailed": "No se pudo bloquear: {{error}}"
   },
   "settings": {
     "userSettings": "Ajustes de usuario",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Todavía no hay palabras clave.",
       "keywordExists": "Esta palabra clave ya está configurada.",
       "soundsWhenFocused": "Sonidos con la app en primer plano",
-      "soundsWhenFocusedNote": "Reproduce también los sonidos de mensajes cuando Mudrix es la ventana que estás mirando."
+      "soundsWhenFocusedNote": "Reproduce también los sonidos de mensajes cuando Mudrix es la ventana que estás mirando.",
+      "reminders": {
+        "title": "Recordatorios",
+        "empty": "No hay recordatorios. Usa «Recordármelo» en un mensaje para crear uno.",
+        "entry": "{{room}} a las {{time}}",
+        "cancel": "Cancelar recordatorio"
+      },
+      "chooseSounds": "Elige sonidos en Voz y audio",
+      "notificationBannersNoteTouch": "Muestra notificaciones en este dispositivo."
     },
     "emojisStickers": {
       "title": "Emojis y stickers",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Tablero de sonidos silenciado",
       "playing": "Reproduciendo {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Recordatorio",
+    "open": "Abrir"
   }
 }

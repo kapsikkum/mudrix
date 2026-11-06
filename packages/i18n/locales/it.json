@@ -962,6 +962,20 @@
       "consent": "Mostrare i video YouTube incorporati? YouTube può vedere il tuo indirizzo IP e i dettagli del dispositivo quando una scheda deve recuperare titolo e miniatura da YouTube e quando riproduci un video.",
       "allow": "Consenti",
       "deny": "Non consentire"
+    },
+    "saveMessage": "Salva messaggio",
+    "unsaveMessage": "Rimuovi dai salvati",
+    "messageSaved": "Messaggio salvato",
+    "messageUnsaved": "Rimosso dai salvati",
+    "saveFailed": "Impossibile salvare: {{error}}",
+    "remind": {
+      "title": "Ricordamelo",
+      "in20m": "Tra 20 minuti",
+      "in1h": "Tra 1 ora",
+      "in3h": "Tra 3 ore",
+      "tomorrow": "Domani mattina",
+      "set": "Promemoria impostato per {{time}}",
+      "failed": "Impossibile impostare il promemoria: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Sei stato menzionato",
     "youWereMentionedTimes": "Sei stato menzionato {{count}} volte",
     "failedToAcceptInvite": "Impossibile accettare l'invito: {{error}}",
-    "failedToDeclineInvite": "Impossibile rifiutare l'invito: {{error}}"
+    "failedToDeclineInvite": "Impossibile rifiutare l'invito: {{error}}",
+    "tabSaved": "Salvati",
+    "emptySaved": "Ancora nulla di salvato. Usa «Salva messaggio» nel menu di un messaggio.",
+    "savedUnavailable": "Messaggio non disponibile",
+    "tabThreads": "Thread",
+    "emptyThreads": "Ancora nessun thread. I thread a cui partecipi compaiono qui."
   },
   "invite": {
     "inviteTo": "Invita in {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Impossibile rifiutare: {{error}}",
     "memberCount_one": "{{count}} membro",
     "memberCount_other": "{{count}} membri",
-    "joinRequired": "Unisciti a questa stanza per usare questa funzione."
+    "joinRequired": "Unisciti a questa stanza per usare questa funzione.",
+    "declineAndBlock": "Rifiuta e blocca",
+    "declineAndBlockTitle": "Rifiutare e bloccare {{name}}?",
+    "declineAndBlockBody": "Questo rifiuta l'invito e ignora {{id}}. Non vedrai i suoi messaggi né riceverai altri inviti da lui. Puoi annullare l'operazione dal suo profilo.",
+    "declineAndBlockFailed": "Blocco non riuscito: {{error}}"
   },
   "settings": {
     "userSettings": "Impostazioni utente",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Nessuna parola chiave per ora.",
       "keywordExists": "Questa parola chiave è già impostata.",
       "soundsWhenFocused": "Suoni con l'app in primo piano",
-      "soundsWhenFocusedNote": "Riproduci i suoni dei messaggi anche quando Mudrix è la finestra che stai guardando."
+      "soundsWhenFocusedNote": "Riproduci i suoni dei messaggi anche quando Mudrix è la finestra che stai guardando.",
+      "reminders": {
+        "title": "Promemoria",
+        "empty": "Nessun promemoria. Usa «Ricordamelo» su un messaggio per crearne uno.",
+        "entry": "{{room}} alle {{time}}",
+        "cancel": "Annulla promemoria"
+      },
+      "chooseSounds": "Scegli i suoni in Voce e audio",
+      "notificationBannersNoteTouch": "Mostra le notifiche su questo dispositivo."
     },
     "emojisStickers": {
       "title": "Emoji e adesivi",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard silenziata",
       "playing": "Riproduce {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Promemoria",
+    "open": "Apri"
   }
 }

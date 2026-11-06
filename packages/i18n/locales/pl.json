@@ -962,6 +962,20 @@
       "consent": "Pokazywać osadzone filmy YouTube? YouTube widzi Twój adres IP i dane urządzenia, gdy karta musi pobrać tytuł i miniaturę z YouTube oraz podczas odtwarzania filmu.",
       "allow": "Zezwól",
       "deny": "Nie zezwalaj"
+    },
+    "saveMessage": "Zapisz wiadomość",
+    "unsaveMessage": "Usuń z zapisanych",
+    "messageSaved": "Zapisano wiadomość",
+    "messageUnsaved": "Usunięto z zapisanych",
+    "saveFailed": "Nie udało się zapisać: {{error}}",
+    "remind": {
+      "title": "Przypomnij mi",
+      "in20m": "Za 20 minut",
+      "in1h": "Za godzinę",
+      "in3h": "Za 3 godziny",
+      "tomorrow": "Jutro rano",
+      "set": "Przypomnienie ustawione na {{time}}",
+      "failed": "Nie udało się ustawić przypomnienia: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Wspomniano o Tobie",
     "youWereMentionedTimes": "Wspomniano o Tobie razy: {{count}}",
     "failedToAcceptInvite": "Nie udało się przyjąć zaproszenia: {{error}}",
-    "failedToDeclineInvite": "Nie udało się odrzucić zaproszenia: {{error}}"
+    "failedToDeclineInvite": "Nie udało się odrzucić zaproszenia: {{error}}",
+    "tabSaved": "Zapisane",
+    "emptySaved": "Nic jeszcze nie zapisano. Użyj „Zapisz wiadomość” w menu wiadomości.",
+    "savedUnavailable": "Wiadomość niedostępna",
+    "tabThreads": "Wątki",
+    "emptyThreads": "Brak wątków. Wątki, w których uczestniczysz, pojawią się tutaj."
   },
   "invite": {
     "inviteTo": "Zaproś do: {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Nie udało się odrzucić: {{error}}",
     "memberCount_one": "{{count}} członek",
     "memberCount_other": "{{count}} członka",
-    "joinRequired": "Dołącz do tego pokoju, aby korzystać z tej funkcji."
+    "joinRequired": "Dołącz do tego pokoju, aby korzystać z tej funkcji.",
+    "declineAndBlock": "Odrzuć i zablokuj",
+    "declineAndBlockTitle": "Odrzucić i zablokować {{name}}?",
+    "declineAndBlockBody": "To odrzuca zaproszenie i ignoruje {{id}}. Nie zobaczysz jego wiadomości ani nie będziesz otrzymywać od niego kolejnych zaproszeń. Możesz to cofnąć w jego profilu.",
+    "declineAndBlockFailed": "Nie udało się zablokować: {{error}}"
   },
   "settings": {
     "userSettings": "Ustawienia użytkownika",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Brak słów kluczowych.",
       "keywordExists": "To słowo kluczowe jest już ustawione.",
       "soundsWhenFocused": "Dźwięki, gdy aplikacja jest aktywna",
-      "soundsWhenFocusedNote": "Odtwarzaj dźwięki wiadomości także wtedy, gdy Mudrix jest oknem, na które patrzysz."
+      "soundsWhenFocusedNote": "Odtwarzaj dźwięki wiadomości także wtedy, gdy Mudrix jest oknem, na które patrzysz.",
+      "reminders": {
+        "title": "Przypomnienia",
+        "empty": "Brak przypomnień. Użyj „Przypomnij mi” przy wiadomości, aby je ustawić.",
+        "entry": "{{room}} o {{time}}",
+        "cancel": "Anuluj przypomnienie"
+      },
+      "chooseSounds": "Wybierz dźwięki w Głos i dźwięk",
+      "notificationBannersNoteTouch": "Pokazuj powiadomienia na tym urządzeniu."
     },
     "emojisStickers": {
       "title": "Emoji i naklejki",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard wyciszony",
       "playing": "Odtwarza: {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Przypomnienie",
+    "open": "Otwórz"
   }
 }

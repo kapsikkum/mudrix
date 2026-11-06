@@ -962,6 +962,20 @@
       "consent": "YouTube埋め込みを表示しますか？カードがYouTubeからタイトルとサムネイルを取得するときや動画を再生するときに、YouTubeにIPアドレスやデバイス情報が見えます。",
       "allow": "許可する",
       "deny": "許可しない"
+    },
+    "saveMessage": "メッセージを保存",
+    "unsaveMessage": "保存から削除",
+    "messageSaved": "メッセージを保存しました",
+    "messageUnsaved": "保存から削除しました",
+    "saveFailed": "保存できませんでした: {{error}}",
+    "remind": {
+      "title": "リマインドする",
+      "in20m": "20分後",
+      "in1h": "1時間後",
+      "in3h": "3時間後",
+      "tomorrow": "明日の朝",
+      "set": "{{time}} にリマインドを設定しました",
+      "failed": "リマインドを設定できませんでした: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "メンションされました",
     "youWereMentionedTimes": "{{count}} 回メンションされました",
     "failedToAcceptInvite": "招待を承諾できませんでした: {{error}}",
-    "failedToDeclineInvite": "招待を辞退できませんでした: {{error}}"
+    "failedToDeclineInvite": "招待を辞退できませんでした: {{error}}",
+    "tabSaved": "保存済み",
+    "emptySaved": "まだ何も保存されていません。メッセージのメニューから「メッセージを保存」を使ってください。",
+    "savedUnavailable": "メッセージを表示できません",
+    "tabThreads": "スレッド",
+    "emptyThreads": "スレッドはまだありません。参加しているスレッドがここに表示されます。"
   },
   "invite": {
     "inviteTo": "{{name}} に招待",
@@ -1129,7 +1148,11 @@
     "declineFailed": "辞退に失敗しました: {{error}}",
     "memberCount_one": "{{count}} 人のメンバー",
     "memberCount_other": "{{count}} 人のメンバー",
-    "joinRequired": "この機能を使うには、このルームに参加してください。"
+    "joinRequired": "この機能を使うには、このルームに参加してください。",
+    "declineAndBlock": "辞退してブロック",
+    "declineAndBlockTitle": "{{name}} を辞退してブロックしますか？",
+    "declineAndBlockBody": "この招待を辞退し、{{id}} を無視します。そのユーザーのメッセージは表示されず、今後の招待も届きません。ユーザーのプロフィールからいつでも取り消せます。",
+    "declineAndBlockFailed": "ブロックに失敗しました: {{error}}"
   },
   "settings": {
     "userSettings": "ユーザー設定",
@@ -1374,7 +1397,15 @@
       "noKeywords": "キーワードはまだありません。",
       "keywordExists": "このキーワードはすでに設定されています。",
       "soundsWhenFocused": "アプリ表示中も音を鳴らす",
-      "soundsWhenFocusedNote": "Mudrixを見ているときもメッセージ音を鳴らします。"
+      "soundsWhenFocusedNote": "Mudrixを見ているときもメッセージ音を鳴らします。",
+      "reminders": {
+        "title": "リマインダー",
+        "empty": "リマインダーはありません。メッセージの「リマインドする」から設定できます。",
+        "entry": "{{room}} ・ {{time}}",
+        "cancel": "リマインダーを取り消す"
+      },
+      "chooseSounds": "音声とオーディオで音を選択",
+      "notificationBannersNoteTouch": "このデバイスに通知を表示します。"
     },
     "emojisStickers": {
       "title": "絵文字とスタンプ",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "サウンドボードをミュート中",
       "playing": "{{name}} を再生中"
     }
+  },
+  "reminders": {
+    "title": "リマインダー",
+    "open": "開く"
   }
 }

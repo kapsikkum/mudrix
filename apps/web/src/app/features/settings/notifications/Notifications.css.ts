@@ -108,3 +108,16 @@ export const errorText = style({
   fontSize: '0.85rem',
   marginTop: '8px',
 });
+
+export const linkButton = style({
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  fontSize: 'inherit',
+  color: vars.color.accent,
+  cursor: 'pointer',
+  ':hover': {
+    color: vars.color.accentHover,
+    textDecoration: 'underline',
+  },
+});

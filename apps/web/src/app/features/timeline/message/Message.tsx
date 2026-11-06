@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo, useState, useRef, useEffect } from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import type { RoomTimeline, WizardClient as MatrixClient } from '@wizardchat/core';
 import { SmileyIcon, WarningIcon, ChatDotsIcon, ArrowBendUpLeftIcon } from '@phosphor-icons/react';
@@ -30,6 +30,8 @@ import {
 import { useImagePacksContext } from '@/app/hooks/useImagePacks';
 import { emojiToShortcode } from '@/app/features/timeline/emojiData';
 import { togglePin } from './pinning';
+import { addReminder, formatReminderTime } from '@/util/reminders';
+import { savedEventIdsAtom, toggleSavedMessage } from '@/util/savedMessages';
 import { openMessageContextMenu } from './contextMenu';
 import { useSwipeToReply } from '@/app/hooks/useTouchGestures';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
@@ -552,6 +554,36 @@ export const Message = memo(function Message({
     });
   }, [timeline, event.eventId, isPinned, toast, t]);
 
+  // Saved messages
+  const savedAtom = useMemo(
+    () => atom((get) => get(savedEventIdsAtom).has(event.eventId ?? '')),
+    [event.eventId]
+  );
+  const isSaved = useAtomValue(savedAtom);
+  const handleSave = useCallback(() => {
+    const eventId = event.eventId;
+    if (!eventId) return;
+    toggleSavedMessage(client, roomId, eventId)
+      .then((saved) =>
+        toast.success(t(saved ? 'timeline.messageSaved' : 'timeline.messageUnsaved'))
+      )
+      .catch((err) => toast.error(t('timeline.saveFailed', { error: getErrorMessage(err) })));
+  }, [client, roomId, event.eventId, toast, t]);
+
+  // Remind me
+  const handleRemind = useCallback(
+    (at: number) => {
+      const eventId = event.eventId;
+      if (!eventId) return;
+      addReminder(client, roomId, eventId, at)
+        .then(() =>
+          toast.success(t('timeline.remind.set', { time: formatReminderTime(at, i18n.language) }))
+        )
+        .catch((err) => toast.error(t('timeline.remind.failed', { error: getErrorMessage(err) })));
+    },
+    [client, roomId, event.eventId, toast, t, i18n.language]
+  );
+
   // View Source
   const handleViewSource = useCallback((ev: MatrixEvent) => {
     setViewSourceEvent(ev);
@@ -593,6 +625,7 @@ export const Message = memo(function Message({
       isUndecryptable,
       isRedacted,
       isPinned,
+      isSaved,
       devModeEnabled,
       t,
       openContextMenu,
@@ -605,6 +638,8 @@ export const Message = memo(function Message({
         onEndPoll: handleEndPoll,
         onReact: (ev, anchorEl) => onReact(ev, anchorEl),
         onPin: handlePin,
+        onSave: handleSave,
+        onRemind: handleRemind,
         onHideMedia: handleHideMedia,
         onViewSource: handleViewSource,
         onForward: isPollEvent ? undefined : handleForward,

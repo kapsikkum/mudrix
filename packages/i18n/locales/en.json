@@ -962,6 +962,20 @@
       "consent": "Show YouTube embeds? YouTube can see your IP address and device details when a card has to fetch its title and thumbnail from YouTube, and when you play a video.",
       "allow": "Allow embeds",
       "deny": "Don't allow"
+    },
+    "saveMessage": "Save message",
+    "unsaveMessage": "Remove from saved",
+    "messageSaved": "Message saved",
+    "messageUnsaved": "Removed from saved",
+    "saveFailed": "Could not save: {{error}}",
+    "remind": {
+      "title": "Remind me",
+      "in20m": "In 20 minutes",
+      "in1h": "In 1 hour",
+      "in3h": "In 3 hours",
+      "tomorrow": "Tomorrow morning",
+      "set": "Reminder set for {{time}}",
+      "failed": "Couldn't set the reminder: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "You were mentioned",
     "youWereMentionedTimes": "You were mentioned {{count}} times",
     "failedToAcceptInvite": "Failed to accept invite: {{error}}",
-    "failedToDeclineInvite": "Failed to decline invite: {{error}}"
+    "failedToDeclineInvite": "Failed to decline invite: {{error}}",
+    "tabSaved": "Saved",
+    "emptySaved": "Nothing saved yet. Use “Save message” in a message’s menu.",
+    "savedUnavailable": "Message unavailable",
+    "tabThreads": "Threads",
+    "emptyThreads": "No threads yet. Threads you take part in show up here."
   },
   "invite": {
     "inviteTo": "Invite to {{name}}",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Failed to decline: {{error}}",
     "memberCount_one": "{{count}} member",
     "memberCount_other": "{{count}} members",
-    "joinRequired": "Join this room to use this feature."
+    "joinRequired": "Join this room to use this feature.",
+    "declineAndBlock": "Decline and block",
+    "declineAndBlockTitle": "Decline and block {{name}}?",
+    "declineAndBlockBody": "This declines the invite and ignores {{id}}. You won't see their messages or receive further invites from them. You can undo this from their profile.",
+    "declineAndBlockFailed": "Failed to block: {{error}}"
   },
   "settings": {
     "userSettings": "User Settings",
@@ -1374,7 +1397,15 @@
       "noKeywords": "No keywords yet.",
       "keywordExists": "This keyword is already set.",
       "soundsWhenFocused": "Sounds while the app is in focus",
-      "soundsWhenFocusedNote": "Also play message sounds when Mudrix is the window you are looking at."
+      "soundsWhenFocusedNote": "Also play message sounds when Mudrix is the window you are looking at.",
+      "reminders": {
+        "title": "Reminders",
+        "empty": "No reminders. Use \"Remind me\" on a message to set one.",
+        "entry": "{{room}} at {{time}}",
+        "cancel": "Cancel reminder"
+      },
+      "chooseSounds": "Choose sounds in Voice & Audio",
+      "notificationBannersNoteTouch": "Show notifications on this device."
     },
     "emojisStickers": {
       "title": "Emojis & Stickers",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Soundboard muted",
       "playing": "Playing {{name}}"
     }
+  },
+  "reminders": {
+    "title": "Reminder",
+    "open": "Open"
   }
 }

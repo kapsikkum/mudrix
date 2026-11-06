@@ -308,6 +308,26 @@ export const acceptButton = style({
   },
 });
 
+export const blockButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  color: vars.color.textMuted,
+  padding: '5px 7px',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.border,
+    color: vars.color.danger,
+  },
+  ':disabled': {
+    opacity: 0.5,
+    cursor: 'default',
+  },
+});
+
 export const declineButton = style({
   border: 'none',
   borderRadius: vars.radius.sm,

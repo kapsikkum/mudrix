@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PlusIcon, XIcon, InfoIcon } from '@phosphor-icons/react';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -9,10 +9,13 @@ import {
   notificationSoundsAtom,
   notificationSoundsWhenFocusedAtom,
   notificationBannersAtom,
+  settingsPageAtom,
 } from '@/app/store/atoms';
 import { requestNotificationPermission } from '@/app/hooks/useNotifications';
 import { getErrorMessage } from '@/util/error';
 import { Select } from '@/app/components/Select';
+import { isTouchDevice } from '@/util/touch';
+import { RemindersList } from './RemindersList';
 import * as layoutCss from '../Settings.css';
 import * as css from './Notifications.css';
 import {
@@ -39,6 +42,7 @@ export function Notifications() {
   const [notificationSounds, setNotificationSounds] = useAtom(notificationSoundsAtom);
   const [soundsWhenFocused, setSoundsWhenFocused] = useAtom(notificationSoundsWhenFocusedAtom);
   const [notificationBanners, setNotificationBanners] = useAtom(notificationBannersAtom);
+  const setSettingsPage = useSetAtom(settingsPageAtom);
   const [rules, setRules] = useState<PushRules | undefined>(undefined);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -147,9 +151,18 @@ export function Notifications() {
           checked={soundsWhenFocused}
           onChange={setSoundsWhenFocused}
         />
+        <p className={layoutCss.settingNote}>
+          <button type="button" className={css.linkButton} onClick={() => setSettingsPage('voice')}>
+            {t('settings.notifications.chooseSounds')}
+          </button>
+        </p>
         <ToggleRow
           label={t('settings.notifications.notificationBanners')}
-          description={t('settings.notifications.notificationBannersNote')}
+          description={t(
+            isTouchDevice()
+              ? 'settings.notifications.notificationBannersNoteTouch'
+              : 'settings.notifications.notificationBannersNote'
+          )}
           checked={notificationBanners}
           disabled={!('Notification' in window)}
           onChange={async (v) => {
@@ -255,6 +268,8 @@ export function Notifications() {
       </div>
 
       {error && <p className={css.errorText}>{error}</p>}
+
+      <RemindersList />
     </div>
   );
 }

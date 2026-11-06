@@ -962,6 +962,20 @@
       "consent": "YouTube gömmeleri gösterilsin mi? Bir kart başlığını ve küçük resmini YouTube'dan alırken ve video oynatırken YouTube IP adresinizi ve cihaz bilgilerinizi görebilir.",
       "allow": "İzin ver",
       "deny": "İzin verme"
+    },
+    "saveMessage": "Mesajı kaydet",
+    "unsaveMessage": "Kaydedilenlerden kaldır",
+    "messageSaved": "Mesaj kaydedildi",
+    "messageUnsaved": "Kaydedilenlerden kaldırıldı",
+    "saveFailed": "Kaydedilemedi: {{error}}",
+    "remind": {
+      "title": "Bana hatırlat",
+      "in20m": "20 dakika sonra",
+      "in1h": "1 saat sonra",
+      "in3h": "3 saat sonra",
+      "tomorrow": "Yarın sabah",
+      "set": "Hatırlatma {{time}} için ayarlandı",
+      "failed": "Hatırlatma ayarlanamadı: {{error}}"
     }
   },
   "attachment": {
@@ -1104,7 +1118,12 @@
     "youWereMentioned": "Senden bahsedildi",
     "youWereMentionedTimes": "Senden {{count}} kez bahsedildi",
     "failedToAcceptInvite": "Davet kabul edilemedi: {{error}}",
-    "failedToDeclineInvite": "Davet reddedilemedi: {{error}}"
+    "failedToDeclineInvite": "Davet reddedilemedi: {{error}}",
+    "tabSaved": "Kaydedilenler",
+    "emptySaved": "Henüz bir şey kaydedilmedi. Mesaj menüsünden “Mesajı kaydet” seçeneğini kullanın.",
+    "savedUnavailable": "Mesaj kullanılamıyor",
+    "tabThreads": "Konular",
+    "emptyThreads": "Henüz konu yok. Katıldığınız konular burada görünür."
   },
   "invite": {
     "inviteTo": "{{name}} odasına davet et",
@@ -1129,7 +1148,11 @@
     "declineFailed": "Reddedilemedi: {{error}}",
     "memberCount_one": "{{count}} üye",
     "memberCount_other": "{{count}} üye",
-    "joinRequired": "Bu özelliği kullanmak için bu odaya katılın."
+    "joinRequired": "Bu özelliği kullanmak için bu odaya katılın.",
+    "declineAndBlock": "Reddet ve engelle",
+    "declineAndBlockTitle": "{{name}} reddedilsin ve engellensin mi?",
+    "declineAndBlockBody": "Bu, daveti reddeder ve {{id}} kullanıcısını yok sayar. Bu kişinin mesajlarını görmez ve bu kişiden yeni davet almazsınız. Bunu profilinden geri alabilirsiniz.",
+    "declineAndBlockFailed": "Engellenemedi: {{error}}"
   },
   "settings": {
     "userSettings": "Kullanıcı ayarları",
@@ -1374,7 +1397,15 @@
       "noKeywords": "Henüz anahtar kelime yok.",
       "keywordExists": "Bu anahtar kelime zaten ekli.",
       "soundsWhenFocused": "Uygulama odaktayken sesler",
-      "soundsWhenFocusedNote": "Mudrix baktığınız pencereyken de mesaj seslerini çal."
+      "soundsWhenFocusedNote": "Mudrix baktığınız pencereyken de mesaj seslerini çal.",
+      "reminders": {
+        "title": "Hatırlatmalar",
+        "empty": "Hatırlatma yok. Eklemek için bir mesajda \"Bana hatırlat\" seçeneğini kullanın.",
+        "entry": "{{room}} - {{time}}",
+        "cancel": "Hatırlatmayı iptal et"
+      },
+      "chooseSounds": "Sesleri Ses ve Ses Ayarları bölümünde seçin",
+      "notificationBannersNoteTouch": "Bu cihazda bildirimleri göster."
     },
     "emojisStickers": {
       "title": "Emoji ve çıkartmalar",
@@ -2514,5 +2545,9 @@
       "mutedBadge": "Ses tahtası sessizde",
       "playing": "{{name}} çalıyor"
     }
+  },
+  "reminders": {
+    "title": "Hatırlatma",
+    "open": "Aç"
   }
 }
