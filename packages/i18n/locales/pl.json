@@ -937,7 +937,13 @@
     "mediaTabMedia": "Multimedia",
     "mediaTabDocs": "Dokumenty",
     "mediaTabLinks": "Linki",
-    "selectText": "Zaznacz tekst"
+    "selectText": "Zaznacz tekst",
+    "video": {
+      "play": "Pobierz i odtwórz wideo",
+      "downloading": "Pobieranie wideo",
+      "cancelDownload": "Anuluj pobieranie",
+      "downloadFailed": "Nie udało się pobrać wideo: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "Przesyłanie",

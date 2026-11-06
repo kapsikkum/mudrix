@@ -391,6 +391,113 @@ export const videoExpandBtn = style({
   },
 });
 
+// A large video that waits for a click: poster (or the pulse) behind a play button and size/duration chips.
+export const videoPlayOverlay = style({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  height: '100%',
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  zIndex: 1,
+  ':focus-visible': {
+    outline: `2px solid ${vars.color.accent}`,
+    outlineOffset: '-2px',
+  },
+});
+
+export const videoPlayCircle = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '52px',
+  height: '52px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(0,0,0,0.6)',
+  color: '#fff',
+  transition: `background-color ${fast}, transform ${fast}`,
+  selectors: {
+    [`${videoPlayOverlay}:hover &`]: {
+      backgroundColor: vars.color.accent,
+      transform: 'scale(1.06)',
+    },
+  },
+});
+
+export const videoMetaChip = style({
+  position: 'absolute',
+  left: '8px',
+  bottom: '8px',
+  padding: '2px 8px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(0,0,0,0.6)',
+  color: '#fff',
+  fontSize: chatSize(0.8),
+  lineHeight: '1.5',
+  pointerEvents: 'none',
+});
+
+export const videoProgressPanel = style({
+  position: 'absolute',
+  left: '8px',
+  right: '8px',
+  bottom: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  padding: '6px 8px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: 'rgba(0,0,0,0.6)',
+  color: '#fff',
+  fontSize: chatSize(0.8),
+  zIndex: 1,
+});
+
+export const videoProgressTrack = style({
+  flex: 1,
+  height: '4px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(255,255,255,0.25)',
+  overflow: 'hidden',
+});
+
+// The core hands the whole file over at once, so there is no percentage to show: the bar just pulses.
+export const videoProgressFill = style({
+  width: '100%',
+  height: '100%',
+  borderRadius: '999px',
+  backgroundColor: vars.color.accent,
+  animation: `${pulse} 1.5s ease-in-out infinite`,
+});
+
+export const videoMetaText = style({
+  flexShrink: 0,
+  fontVariantNumeric: 'tabular-nums',
+});
+
+export const videoCancelBtn = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '22px',
+  height: '22px',
+  padding: 0,
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: 'transparent',
+  color: 'inherit',
+  cursor: 'pointer',
+  transition: `background-color ${fast}`,
+  ':hover': { backgroundColor: 'rgba(255,255,255,0.2)' },
+  ':focus-visible': { outline: `2px solid ${vars.color.accent}` },
+});
+
 export const msgAudioSkeleton = style({
   width: '280px',
   height: '56px',

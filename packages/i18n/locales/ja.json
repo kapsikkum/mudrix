@@ -937,7 +937,13 @@
     "mediaTabMedia": "メディア",
     "mediaTabDocs": "ドキュメント",
     "mediaTabLinks": "リンク",
-    "selectText": "テキストを選択"
+    "selectText": "テキストを選択",
+    "video": {
+      "play": "動画をダウンロードして再生",
+      "downloading": "動画をダウンロード中",
+      "cancelDownload": "ダウンロードをキャンセル",
+      "downloadFailed": "動画をダウンロードできませんでした: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "アップロード中",

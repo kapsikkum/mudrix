@@ -937,7 +937,13 @@
     "mediaTabMedia": "Medya",
     "mediaTabDocs": "Belgeler",
     "mediaTabLinks": "Bağlantılar",
-    "selectText": "Metni seç"
+    "selectText": "Metni seç",
+    "video": {
+      "play": "Videoyu indir ve oynat",
+      "downloading": "Video indiriliyor",
+      "cancelDownload": "İndirmeyi iptal et",
+      "downloadFailed": "Video indirilemedi: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "Yükleniyor",

@@ -937,7 +937,13 @@
     "mediaTabMedia": "Media",
     "mediaTabDocs": "Docs",
     "mediaTabLinks": "Links",
-    "selectText": "Select text"
+    "selectText": "Select text",
+    "video": {
+      "play": "Download and play video",
+      "downloading": "Downloading video",
+      "cancelDownload": "Cancel download",
+      "downloadFailed": "Could not download the video: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "Uploading",

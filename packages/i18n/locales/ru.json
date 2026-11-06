@@ -937,7 +937,13 @@
     "mediaTabMedia": "Медиа",
     "mediaTabDocs": "Документы",
     "mediaTabLinks": "Ссылки",
-    "selectText": "Выделить текст"
+    "selectText": "Выделить текст",
+    "video": {
+      "play": "Скачать и воспроизвести видео",
+      "downloading": "Загрузка видео",
+      "cancelDownload": "Отменить загрузку",
+      "downloadFailed": "Не удалось скачать видео: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "Загрузка",

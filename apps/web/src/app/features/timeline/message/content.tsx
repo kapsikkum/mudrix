@@ -31,6 +31,8 @@ import {
 } from './textContent';
 import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
+import { VideoPlaceholder } from './VideoPlaceholder';
+import type { ManualVideoLoad } from './encryption';
 import type { MediaCover } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
 import { prettifyLinksAtom, sessionVerificationAtom } from '@/app/store/atoms';
@@ -478,6 +480,7 @@ interface MessageContentProps {
   requestFullRes?: () => Promise<string | null>;
   mediaCover?: MediaCover | null;
   onRevealMedia?: () => void;
+  videoLoad?: ManualVideoLoad | null;
 }
 
 export function MessageContent({
@@ -503,6 +506,7 @@ export function MessageContent({
   requestFullRes,
   mediaCover = null,
   onRevealMedia,
+  videoLoad = null,
 }: MessageContentProps) {
   const { t } = useTranslation();
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
@@ -727,8 +731,11 @@ export function MessageContent({
     const mxcUrl = plainMediaUrl(media.source);
     const body = media.caption ?? media.filename;
     const isCovered = mediaCover != null;
+    // A large video that has not been fetched waits for a click, so do not start the download here.
+    const awaitsClick = videoLoad?.needsClick === true;
     const src =
-      mediaSrc ?? (!isCovered && mxcUrl ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
+      mediaSrc ??
+      (!isCovered && !awaitsClick && mxcUrl ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
     const vidW = media.width;
     const vidH = media.height;
     const hasDimensions =
@@ -743,6 +750,15 @@ export function MessageContent({
           onReveal={() => onRevealMedia?.()}
         />
       </div>
+    ) : awaitsClick && videoLoad ? (
+      <div className={css.mediaBox} style={boxStyle}>
+        <VideoPlaceholder
+          poster={thumbnailSrc}
+          sizeBytes={typeof media.size === 'number' && media.size >= 0 ? media.size : undefined}
+          durationMs={media.durationMs ?? undefined}
+          load={videoLoad}
+        />
+      </div>
     ) : src || thumbnailSrc ? (
       <div className={css.mediaBox} style={boxStyle}>
         <video
@@ -751,6 +767,7 @@ export function MessageContent({
           poster={thumbnailSrc ?? undefined}
           controls
           playsInline
+          autoPlay={videoLoad?.autoPlay}
           className={css.mediaFill}
         />
         {src && (

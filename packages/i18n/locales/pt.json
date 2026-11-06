@@ -937,7 +937,13 @@
     "mediaTabMedia": "Mídia",
     "mediaTabDocs": "Docs",
     "mediaTabLinks": "Ligações",
-    "selectText": "Selecionar texto"
+    "selectText": "Selecionar texto",
+    "video": {
+      "play": "Transferir e reproduzir vídeo",
+      "downloading": "A transferir vídeo",
+      "cancelDownload": "Cancelar transferência",
+      "downloadFailed": "Não foi possível transferir o vídeo: {{error}}"
+    }
   },
   "attachment": {
     "uploading": "Enviando",
