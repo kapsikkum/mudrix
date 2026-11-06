@@ -106,6 +106,8 @@ import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.PendingUpload
+import org.wizardchat.android.matrix.YouTubeEmbeds
+import org.wizardchat.android.media.YouTubeLink
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
@@ -851,8 +853,13 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     val loader = actions?.linkPreviews
                     val body = (entry.kind as? ChatEntry.Kind.Message)?.body
-                    if (loader != null && body != null) {
-                        MessageText.firstPreviewURL(body)?.let { LinkPreviewCard(it, loader) }
+                    val previewUrl = body?.let { MessageText.firstPreviewURL(it) }
+                    val youtube = previewUrl?.let { YouTubeLink.parse(it) }
+                    if (previewUrl != null && youtube != null && LocalPrefs.current.youtubeEmbeds != YouTubeEmbeds.off) {
+                        // Also in encrypted rooms, where the card is made without the homeserver's preview
+                        YouTubeCard(previewUrl, youtube, loader)
+                    } else if (loader != null && previewUrl != null) {
+                        LinkPreviewCard(previewUrl, loader)
                     }
                     if (entry.reactions.isNotEmpty()) {
                         ReactionsBar(entry.reactions) { key -> actions?.react?.invoke(key, entry) }
