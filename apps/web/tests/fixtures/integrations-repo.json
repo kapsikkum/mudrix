@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "key": "BBCkDWX+I1E0LatjaZwEUWCdjQG+roO4/udFi4AhyvM=",
+  "serial": 1,
+  "name": "Mudrix integrations (sample)",
+  "integrations": [
+    {
+      "id": "altersend",
+      "name": "AlterSend",
+      "description": "Sample integration for local testing. Placeholder host altersend.example; nothing here contacts a real service.",
+      "version": "1.0.0",
+      "permissions": {
+        "linkCards": [
+          {
+            "hosts": ["altersend.example"],
+            "pathPrefix": "/pay",
+            "title": "AlterSend payment link",
+            "subtitle": "Opens in your browser",
+            "buttonLabel": "Open"
+          }
+        ],
+        "composerActions": [
+          {
+            "id": "send",
+            "label": "Send",
+            "icon": "send",
+            "insert": "https://altersend.example/send?room={room}"
+          },
+          {
+            "id": "request",
+            "label": "Request",
+            "icon": "download",
+            "insert": "https://altersend.example/request?room={room}"
+          }
+        ]
+      }
+    }
+  ]
+}

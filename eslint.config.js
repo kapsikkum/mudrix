@@ -107,6 +107,33 @@ export default [
       ],
     },
   },
+  // Integrations reach third-party hosts through util/integrationFetch.ts only: it holds the
+  // allow-list, https, size, timeout, content-type and redirect rules (see docs/PORT.md section 9).
+  {
+    files: [
+      'apps/web/src/app/features/integrations/**/*.{ts,tsx}',
+      'apps/web/src/app/features/settings/integrations/**/*.{ts,tsx}',
+    ],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'fetch',
+          message:
+            'Use fetchIntegration from @/util/integrationFetch: it enforces the host allow-list.',
+        },
+        { name: 'XMLHttpRequest', message: 'Use fetchIntegration from @/util/integrationFetch.' },
+        { name: 'WebSocket', message: 'Use fetchIntegration from @/util/integrationFetch.' },
+        { name: 'EventSource', message: 'Use fetchIntegration from @/util/integrationFetch.' },
+      ],
+      'no-restricted-properties': [
+        'error',
+        { object: 'window', property: 'fetch', message: 'Use fetchIntegration.' },
+        { object: 'globalThis', property: 'fetch', message: 'Use fetchIntegration.' },
+        { object: 'navigator', property: 'sendBeacon', message: 'Use fetchIntegration.' },
+      ],
+    },
+  },
   {
     files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
