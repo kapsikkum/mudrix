@@ -87,9 +87,13 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import java.io.File
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
@@ -367,6 +371,9 @@ internal fun ZoomableBox(modifier: Modifier = Modifier, content: @Composable Box
     )
 }
 
+/** A started download is given up after this long; the core returns the whole file at once, so there is no progress to watch */
+private const val DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000L
+
 @Composable
 fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
     val loader = LocalMedia.current
@@ -375,6 +382,7 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
     var thumbnail by remember(media.source) { mutableStateOf<Bitmap?>(null) }
     var loading by remember { mutableStateOf(false) }
     var playing by remember { mutableStateOf<File?>(null) }
+    var download by remember { mutableStateOf<Job?>(null) }
     val width = 260f
     val ratio = (media.height ?: 9f) / maxOf(media.width ?: 16f, 1f)
     LaunchedEffect(media.thumbnail, loader) {
@@ -391,10 +399,21 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
                 if (spoiler != null && !revealed) {
                     revealed = true
                 } else if (!loading && loader != null) {
-                    scope.launch {
+                    // Nothing is downloaded until now; the video plays as soon as it is ready
+                    download = scope.launch {
                         loading = true
-                        playing = runCatching { loader.file(media.source, media.filename) }.getOrNull()
-                        loading = false
+                        try {
+                            // The core hands over the whole file at once, so there is no percentage, and a stalled download needs a cap
+                            playing = withTimeout(DOWNLOAD_TIMEOUT_MS) { loader.file(media.source, media.filename) }
+                        } catch (e: TimeoutCancellationException) {
+                            CopyToast.show(L10n.format("timeline.video.downloadFailed", e.message ?: ""))
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            CopyToast.show(L10n.format("timeline.video.downloadFailed", e.message ?: ""))
+                        } finally {
+                            loading = false
+                        }
                     }
                 }
             }
@@ -410,17 +429,39 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
                 MaterialCover()
                 SpoilerCover(spoiler ?: "")
             }
-            loading -> Spinner(color = theme.textOnAccent)
-            else -> Box(
-                Modifier.size(WZ.Space.space11).background(theme.overlay, CircleShape),
-                contentAlignment = Alignment.Center,
-            ) {
-                PhIcon("play", PhWeight.fill, size = WZ.SizeIcon.lg, tint = theme.textOnAccent)
+            loading -> {
+                Spinner(color = theme.textOnAccent)
+                val cancel = tr("timeline.video.cancelDownload")
+                Box(
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(WZ.Space.space3)
+                        .clip(CircleShape)
+                        .background(theme.overlay)
+                        .clickable { download?.cancel() }
+                        .semantics { contentDescription = cancel },
+                ) {
+                    PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent)
+                }
+            }
+            else -> {
+                val play = tr("timeline.video.play")
+                Box(
+                    Modifier.size(WZ.Space.space11).background(theme.overlay, CircleShape).semantics { contentDescription = play },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PhIcon("play", PhWeight.fill, size = WZ.SizeIcon.lg, tint = theme.textOnAccent)
+                }
             }
         }
-        media.duration?.let { duration ->
+        // Size and length, so a big video is known before it is downloaded
+        val details = listOfNotNull(
+            media.size?.let { Formats.fileSize(it) },
+            media.duration?.takeIf { it > 0 }?.let { Formats.duration(it) },
+        ).joinToString(" · ")
+        if (details.isNotEmpty()) {
             Text(
-                Formats.duration(duration),
+                details,
                 Modifier.align(Alignment.BottomEnd).padding(WZ.Space.space4)
                     .background(theme.overlay, CircleShape)
                     .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
