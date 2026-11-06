@@ -23,7 +23,7 @@ import {
   emoticonsToEmojiAtom,
   type ComposerAttachment,
 } from '@/app/store/atoms';
-import { useAllRooms, useMembers } from '@/app/data';
+import { useAllRooms, useMembers, useRoom } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
@@ -68,6 +68,8 @@ import {
 } from './sendMessageContent';
 import { editStateFor, findAdjacentEditableMessage } from '../message/editNavigation';
 import { useRichEditor } from './useRichEditor';
+import { sendGif } from './sendGif';
+import { hasGifConsent, parseGifLink, resolveGifLink } from './gifProviders';
 import type { CustomEditor, MentionElement } from './editor/types';
 
 const EMPTY_ATTACHMENTS: ComposerAttachment[] = [];
@@ -182,6 +184,7 @@ export function useComposer({
   const callUi = useAtomValue(callUiAtom);
   const { data: members } = useMembers(roomId);
   const rooms = useAllRooms();
+  const isEncrypted = useRoom(roomId)?.isEncrypted ?? false;
   const myId = client.userId() ?? '';
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -394,6 +397,29 @@ export function useComposer({
           // Not a known command: fall through and send as literal text.
         }
 
+        // A message that is just a GIPHY / KLIPY link goes out as the GIF itself (once the user
+        // has agreed to contact the GIF services); if it can't be fetched it is sent as the link.
+        const gifLink = attachments.length === 0 ? parseGifLink(text) : null;
+        if (gifLink && hasGifConsent(gifLink.provider)) {
+          try {
+            const gif = await resolveGifLink(gifLink);
+            if (gif) {
+              await sendGif(gif, {
+                client,
+                timeline: await getTimeline(),
+                isEncrypted,
+                threadId,
+                replyTo,
+              });
+              if (replyTo) onClearReply();
+              onSent?.();
+              return;
+            }
+          } catch {
+            // Couldn't fetch it: send the link as ordinary text below.
+          }
+        }
+
         const withEmoji = emoticonsToEmoji ? replaceEmoticonsInValue(editorValue) : editorValue;
         const built = buildTextContent(
           markdownEnabled ? applyInlineMarkdown(withEmoji) : withEmoji,
@@ -445,6 +471,7 @@ export function useComposer({
     commandActions,
     callUi,
     navigate,
+    isEncrypted,
   ]);
 
   const handleEditorKeyDown = useCallback(

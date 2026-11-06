@@ -625,7 +625,7 @@
     "cancelUpload": "Upload annuleren",
     "gif": "GIF",
     "gifConsentTitle": "Voordat je GIF's zoekt",
-    "gifConsentBody": "Het zoeken naar GIF's wordt geleverd door Giphy. Als je dit tabblad opent, zoekt en resultaten laadt, worden je zoektekst en verbindingsgegevens naar de servers van Giphy gestuurd.",
+    "gifConsentBody": "GIF-zoeken wordt aangeboden door GIPHY en KLIPY. Als je dit tabblad opent, zoekt en resultaten laadt, worden verzoeken rechtstreeks vanaf je apparaat naar GIPHY en KLIPY gestuurd. Zij kunnen je IP-adres, browsergegevens en je zoektekst zien ({{giphyHosts}}; {{klipyHosts}}). Er wordt niets via de server van deze app verstuurd.",
     "gifConsentEnable": "GIF-zoeken inschakelen",
     "moreOptions": "Meer opties",
     "send": "Bericht verzenden",
@@ -701,7 +701,16 @@
     "customEmoji": "Aangepast",
     "compressing": "Comprimeren {{percent}}%",
     "compressFailed": "De video kon niet worden gecomprimeerd, het origineel wordt verzonden",
-    "photoPrepareFailed": "De gegevens konden niet uit de foto worden verwijderd, dus is hij niet verzonden"
+    "photoPrepareFailed": "De gegevens konden niet uit de foto worden verwijderd, dus is hij niet verzonden",
+    "poweredBy": "Mogelijk gemaakt door {{provider}}",
+    "loadMore": "Meer laden",
+    "gifRateLimited": "Limiet bereikt. Wacht even en probeer het opnieuw.",
+    "gifLoadFailed": "GIF's konden niet worden geladen. Probeer het opnieuw.",
+    "searchGiphy": "GIPHY doorzoeken",
+    "searchKlipy": "KLIPY doorzoeken",
+    "gifTabsLabel": "GIF-bronnen",
+    "gifNotConfiguredTooltip": "In deze build is geen API-sleutel ingesteld",
+    "gifSourceTag": "Via {{provider}}"
   },
   "timeline": {
     "copyText": "Tekst kopiëren",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Opslaan mislukt: {{error}}",
       "noPacksFound": "Geen pakketten gevonden.",
       "imageCount_one": "{{count}} afbeelding",
-      "imageCount_other": "{{count}} afbeeldingen"
+      "imageCount_other": "{{count}} afbeeldingen",
+      "gifs": "GIF's",
+      "gifProvider": "Voorkeur GIF-aanbieder"
     },
     "keybinds": {
       "title": "Sneltoetsen",

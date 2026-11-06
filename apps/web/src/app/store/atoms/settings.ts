@@ -42,6 +42,8 @@ export type VideoUploadMinSize = '10' | '25' | '50' | '100';
 export type PhotoUploadSize = 'original' | '2560' | '1920' | '1280';
 /** YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all). */
 export type YouTubeEmbeds = 'ask' | 'on' | 'off';
+/** Which service the GIF picker opens on. */
+export type GifProviderPreference = 'giphy' | 'klipy';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
 export type { UiDensity, UiScale } from '@/theme/uiDensity';
@@ -80,6 +82,7 @@ export interface Preferences {
   photoStripMetadata: boolean;
   photoUploadSize: PhotoUploadSize;
   youtubeEmbeds: YouTubeEmbeds;
+  gifProvider: GifProviderPreference;
   reducedMotion: ReducedMotion;
   chatFontSize: number;
   chatDensity: ChatDensity;
@@ -147,6 +150,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   photoStripMetadata: false,
   photoUploadSize: 'original',
   youtubeEmbeds: 'ask',
+  gifProvider: 'giphy',
   reducedMotion: 'system',
   chatFontSize: 15,
   chatDensity: 'default',
@@ -202,6 +206,7 @@ export const videoUploadMinSizeAtom = preferenceFieldAtom('videoUploadMinSize');
 export const photoStripMetadataAtom = preferenceFieldAtom('photoStripMetadata');
 export const photoUploadSizeAtom = preferenceFieldAtom('photoUploadSize');
 export const youtubeEmbedsAtom = preferenceFieldAtom('youtubeEmbeds');
+export const gifProviderAtom = preferenceFieldAtom('gifProvider');
 export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');
 export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');
 export const chatDensityAtom = preferenceFieldAtom('chatDensity');

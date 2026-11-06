@@ -625,7 +625,7 @@
     "cancelUpload": "Annulla caricamento",
     "gif": "GIF",
     "gifConsentTitle": "Prima di cercare GIF",
-    "gifConsentBody": "La ricerca di GIF è fornita da Giphy. Aprire questa scheda, cercare e caricare i risultati invia il testo della ricerca e i dettagli della tua connessione ai server di Giphy.",
+    "gifConsentBody": "La ricerca di GIF è fornita da GIPHY e KLIPY. Aprire questa scheda, cercare e caricare i risultati invia richieste direttamente dal tuo dispositivo a GIPHY e KLIPY, che possono vedere il tuo indirizzo IP, i dettagli del browser e il testo della tua ricerca ({{giphyHosts}}; {{klipyHosts}}). Nulla viene inviato tramite il server di questa app.",
     "gifConsentEnable": "Attiva ricerca GIF",
     "moreOptions": "Altre opzioni",
     "send": "Invia messaggio",
@@ -701,7 +701,16 @@
     "customEmoji": "Personalizzato",
     "compressing": "Compressione {{percent}}%",
     "compressFailed": "Impossibile comprimere il video, invio l'originale",
-    "photoPrepareFailed": "Impossibile rimuovere i dettagli dalla foto, quindi non è stata inviata"
+    "photoPrepareFailed": "Impossibile rimuovere i dettagli dalla foto, quindi non è stata inviata",
+    "poweredBy": "Offerto da {{provider}}",
+    "loadMore": "Carica altri",
+    "gifRateLimited": "Limite di richieste raggiunto. Attendi un momento e riprova.",
+    "gifLoadFailed": "Impossibile caricare le GIF. Riprova.",
+    "searchGiphy": "Cerca su GIPHY",
+    "searchKlipy": "Cerca su KLIPY",
+    "gifTabsLabel": "Fonti GIF",
+    "gifNotConfiguredTooltip": "Nessuna chiave API configurata in questa build",
+    "gifSourceTag": "Da {{provider}}"
   },
   "timeline": {
     "copyText": "Copia testo",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Salvataggio non riuscito: {{error}}",
       "noPacksFound": "Nessun pacchetto trovato.",
       "imageCount_one": "{{count}} immagine",
-      "imageCount_other": "{{count}} immagini"
+      "imageCount_other": "{{count}} immagini",
+      "gifs": "GIF",
+      "gifProvider": "Fornitore GIF preferito"
     },
     "keybinds": {
       "title": "Scorciatoie da tastiera",

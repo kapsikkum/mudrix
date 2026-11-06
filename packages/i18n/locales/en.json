@@ -625,7 +625,7 @@
     "cancelUpload": "Cancel upload",
     "gif": "GIF",
     "gifConsentTitle": "Before you search GIFs",
-    "gifConsentBody": "GIF search is provided by Giphy. Opening this tab, searching, and loading results sends your search text and connection details to Giphy's servers.",
+    "gifConsentBody": "GIF search is provided by GIPHY and KLIPY. Opening this tab, searching and loading results sends requests directly from your device to GIPHY and KLIPY, which can see your IP address, browser details and your search text ({{giphyHosts}}; {{klipyHosts}}). Nothing is sent through this app's server.",
     "gifConsentEnable": "Enable GIF search",
     "moreOptions": "More options",
     "send": "Send message",
@@ -701,7 +701,16 @@
     "customEmoji": "Custom",
     "compressing": "Compressing {{percent}}%",
     "compressFailed": "Could not compress the video, sending the original",
-    "photoPrepareFailed": "Could not remove the details from the photo, so it was not sent"
+    "photoPrepareFailed": "Could not remove the details from the photo, so it was not sent",
+    "poweredBy": "Powered by {{provider}}",
+    "loadMore": "Load more",
+    "gifRateLimited": "Rate limited. Please wait a moment and try again.",
+    "gifLoadFailed": "Could not load GIFs. Please try again.",
+    "searchGiphy": "Search GIPHY",
+    "searchKlipy": "Search KLIPY",
+    "gifTabsLabel": "GIF sources",
+    "gifNotConfiguredTooltip": "No API key configured in this build",
+    "gifSourceTag": "From {{provider}}"
   },
   "timeline": {
     "copyText": "Copy text",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Failed to save: {{error}}",
       "noPacksFound": "No packs found.",
       "imageCount_one": "{{count}} image",
-      "imageCount_other": "{{count}} images"
+      "imageCount_other": "{{count}} images",
+      "gifs": "GIFs",
+      "gifProvider": "Preferred GIF provider"
     },
     "keybinds": {
       "title": "Keybinds",

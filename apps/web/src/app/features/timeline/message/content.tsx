@@ -33,6 +33,7 @@ import {
 import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import { VideoPlaceholder } from './VideoPlaceholder';
+import { GifLinkEmbed } from './GifLinkEmbed';
 import {
   FilePreviewModal,
   TEXT_CARD_MAX_BYTES,
@@ -1015,16 +1016,18 @@ export function MessageContent({
 
   return (
     <div style={{ display: 'block' }}>
-      <RichHtml
-        html={html}
-        client={client}
-        className={emojiOnlyMsg ? css.emojiOnly : undefined}
-        onClick={handleContentClick}
-        onKeyDown={handleContentKeyDown}
-        revealedSpoilers={revealedSpoilers}
-        onRevealSpoiler={handleRevealSpoiler}
-      />
-      {firstUrl && <LinkPreview url={firstUrl} client={client} isEncrypted={isEncrypted} />}
+      <GifLinkEmbed body={body}>
+        <RichHtml
+          html={html}
+          client={client}
+          className={emojiOnlyMsg ? css.emojiOnly : undefined}
+          onClick={handleContentClick}
+          onKeyDown={handleContentKeyDown}
+          revealedSpoilers={revealedSpoilers}
+          onRevealSpoiler={handleRevealSpoiler}
+        />
+        {firstUrl && <LinkPreview url={firstUrl} client={client} isEncrypted={isEncrypted} />}
+      </GifLinkEmbed>
     </div>
   );
 }

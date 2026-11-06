@@ -625,7 +625,7 @@
     "cancelUpload": "Upload abbrechen",
     "gif": "GIF",
     "gifConsentTitle": "Bevor du GIFs durchsuchst",
-    "gifConsentBody": "Die GIF-Suche wird von Giphy bereitgestellt. Beim Öffnen dieses Tabs, Suchen und Laden von Ergebnissen werden dein Suchtext und Verbindungsdaten an die Server von Giphy übertragen.",
+    "gifConsentBody": "Die GIF-Suche wird von GIPHY und KLIPY bereitgestellt. Beim Öffnen dieses Tabs, Suchen und Laden von Ergebnissen werden Anfragen direkt von deinem Gerät an GIPHY und KLIPY gesendet, die deine IP-Adresse, Browserdaten und deinen Suchtext sehen können ({{giphyHosts}}; {{klipyHosts}}). Es läuft nichts über den Server dieser App.",
     "gifConsentEnable": "GIF-Suche aktivieren",
     "moreOptions": "Mehr Optionen",
     "send": "Nachricht senden",
@@ -701,7 +701,16 @@
     "customEmoji": "Eigene",
     "compressing": "Komprimiere {{percent}} %",
     "compressFailed": "Das Video konnte nicht komprimiert werden, das Original wird gesendet",
-    "photoPrepareFailed": "Die Details konnten nicht aus dem Foto entfernt werden, deshalb wurde es nicht gesendet"
+    "photoPrepareFailed": "Die Details konnten nicht aus dem Foto entfernt werden, deshalb wurde es nicht gesendet",
+    "poweredBy": "Bereitgestellt von {{provider}}",
+    "loadMore": "Mehr laden",
+    "gifRateLimited": "Zu viele Anfragen. Bitte warte einen Moment und versuche es erneut.",
+    "gifLoadFailed": "GIFs konnten nicht geladen werden. Bitte versuche es erneut.",
+    "searchGiphy": "GIPHY durchsuchen",
+    "searchKlipy": "KLIPY durchsuchen",
+    "gifTabsLabel": "GIF-Quellen",
+    "gifNotConfiguredTooltip": "Kein API-Schlüssel in diesem Build konfiguriert",
+    "gifSourceTag": "Von {{provider}}"
   },
   "timeline": {
     "copyText": "Text kopieren",
@@ -1465,7 +1474,9 @@
       "saveFailed": "Speichern fehlgeschlagen: {{error}}",
       "noPacksFound": "Keine Packs gefunden.",
       "imageCount_one": "{{count}} Bild",
-      "imageCount_other": "{{count}} Bilder"
+      "imageCount_other": "{{count}} Bilder",
+      "gifs": "GIFs",
+      "gifProvider": "Bevorzugter GIF-Anbieter"
     },
     "encryption": {
       "title": "Verschlüsselung",

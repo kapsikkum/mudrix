@@ -625,7 +625,7 @@
     "cancelUpload": "アップロードをキャンセル",
     "gif": "GIF",
     "gifConsentTitle": "GIFを検索する前に",
-    "gifConsentBody": "GIF検索はGiphyが提供しています。このタブを開く、検索する、結果を読み込むと、検索テキストと接続情報がGiphyのサーバーに送信されます。",
+    "gifConsentBody": "GIF検索はGIPHYとKLIPYが提供しています。このタブを開いて検索し、結果を読み込むと、お使いのデバイスから直接GIPHYとKLIPYにリクエストが送信されます。これらのサービスは、IPアドレス、ブラウザの情報、検索テキストを確認できる可能性があります（{{giphyHosts}}; {{klipyHosts}}）。このアプリのサーバーを経由して送信されるものはありません。",
     "gifConsentEnable": "GIF検索を有効にする",
     "moreOptions": "その他のオプション",
     "send": "メッセージを送信",
@@ -701,7 +701,16 @@
     "customEmoji": "カスタム",
     "compressing": "圧縮中 {{percent}}%",
     "compressFailed": "動画を圧縮できなかったため、元のファイルを送信します",
-    "photoPrepareFailed": "写真から情報を削除できなかったため、送信しませんでした"
+    "photoPrepareFailed": "写真から情報を削除できなかったため、送信しませんでした",
+    "poweredBy": "提供: {{provider}}",
+    "loadMore": "さらに読み込む",
+    "gifRateLimited": "リクエスト数の上限に達しました。しばらく待ってから再度お試しください。",
+    "gifLoadFailed": "GIFを読み込めませんでした。もう一度お試しください。",
+    "searchGiphy": "GIPHYを検索",
+    "searchKlipy": "KLIPYを検索",
+    "gifTabsLabel": "GIFのソース",
+    "gifNotConfiguredTooltip": "このビルドにはAPIキーが設定されていません",
+    "gifSourceTag": "{{provider}} から"
   },
   "timeline": {
     "copyText": "テキストをコピー",
@@ -1335,7 +1344,9 @@
       "saveFailed": "保存に失敗しました: {{error}}",
       "noPacksFound": "パックが見つかりません。",
       "imageCount_one": "画像 {{count}} 件",
-      "imageCount_other": "画像 {{count}} 件"
+      "imageCount_other": "画像 {{count}} 件",
+      "gifs": "GIF",
+      "gifProvider": "優先するGIFプロバイダー"
     },
     "keybinds": {
       "title": "キーバインド",

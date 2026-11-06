@@ -625,7 +625,7 @@
     "cancelUpload": "Anuluj przesyłanie",
     "gif": "GIF",
     "gifConsentTitle": "Zanim wyszukasz GIF-y",
-    "gifConsentBody": "Wyszukiwanie GIF-ów zapewnia Giphy. Otwarcie tej karty, wyszukiwanie i wczytywanie wyników wysyła tekst wyszukiwania i dane połączenia na serwery Giphy.",
+    "gifConsentBody": "Wyszukiwanie GIF-ów zapewniają GIPHY i KLIPY. Otwarcie tej karty, wyszukiwanie i wczytywanie wyników wysyła żądania bezpośrednio z Twojego urządzenia do GIPHY i KLIPY, które mogą zobaczyć Twój adres IP, dane przeglądarki i wpisany tekst wyszukiwania ({{giphyHosts}}; {{klipyHosts}}). Nic nie jest wysyłane przez serwer tej aplikacji.",
     "gifConsentEnable": "Włącz wyszukiwanie GIF-ów",
     "moreOptions": "Więcej opcji",
     "send": "Wyślij wiadomość",
@@ -701,7 +701,16 @@
     "customEmoji": "Niestandardowe",
     "compressing": "Kompresja {{percent}}%",
     "compressFailed": "Nie udało się skompresować wideo, wysyłam oryginał",
-    "photoPrepareFailed": "Nie udało się usunąć danych ze zdjęcia, więc go nie wysłano"
+    "photoPrepareFailed": "Nie udało się usunąć danych ze zdjęcia, więc go nie wysłano",
+    "poweredBy": "Zasilane przez {{provider}}",
+    "loadMore": "Wczytaj więcej",
+    "gifRateLimited": "Osiągnięto limit żądań. Odczekaj chwilę i spróbuj ponownie.",
+    "gifLoadFailed": "Nie udało się wczytać GIF-ów. Spróbuj ponownie.",
+    "searchGiphy": "Szukaj w GIPHY",
+    "searchKlipy": "Szukaj w KLIPY",
+    "gifTabsLabel": "Źródła GIF-ów",
+    "gifNotConfiguredTooltip": "W tej wersji nie skonfigurowano klucza API",
+    "gifSourceTag": "Z: {{provider}}"
   },
   "timeline": {
     "copyText": "Kopiuj tekst",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Zapisywanie nie powiodło się: {{error}}",
       "noPacksFound": "Nie znaleziono pakietów.",
       "imageCount_one": "{{count}} obraz",
-      "imageCount_other": "Obrazy: {{count}}"
+      "imageCount_other": "Obrazy: {{count}}",
+      "gifs": "GIF-y",
+      "gifProvider": "Preferowany dostawca GIF-ów"
     },
     "keybinds": {
       "title": "Skróty klawiszowe",

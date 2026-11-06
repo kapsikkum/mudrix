@@ -625,7 +625,7 @@
     "cancelUpload": "Yüklemeyi iptal et",
     "gif": "GIF",
     "gifConsentTitle": "GIF aramadan önce",
-    "gifConsentBody": "GIF araması Giphy tarafından sağlanır. Bu sekmeyi açmak, arama yapmak ve sonuçları yüklemek, arama metnini ve bağlantı bilgilerini Giphy sunucularına gönderir.",
+    "gifConsentBody": "GIF araması GIPHY ve KLIPY tarafından sağlanır. Bu sekmeyi açmak, arama yapmak ve sonuçları yüklemek, istekleri doğrudan cihazınızdan GIPHY ve KLIPY'ye gönderir. Bu hizmetler IP adresinizi, tarayıcı bilgilerinizi ve arama metninizi görebilir ({{giphyHosts}}; {{klipyHosts}}). Bu uygulamanın sunucusu üzerinden hiçbir şey gönderilmez.",
     "gifConsentEnable": "GIF aramayı etkinleştir",
     "moreOptions": "Diğer seçenekler",
     "send": "Mesaj gönder",
@@ -701,7 +701,16 @@
     "customEmoji": "Özel",
     "compressing": "Sıkıştırılıyor %{{percent}}",
     "compressFailed": "Video sıkıştırılamadı, orijinali gönderiliyor",
-    "photoPrepareFailed": "Fotoğraftaki bilgiler kaldırılamadı, bu yüzden gönderilmedi"
+    "photoPrepareFailed": "Fotoğraftaki bilgiler kaldırılamadı, bu yüzden gönderilmedi",
+    "poweredBy": "{{provider}} tarafından desteklenir",
+    "loadMore": "Daha fazla yükle",
+    "gifRateLimited": "İstek sınırına ulaşıldı. Lütfen biraz bekleyip yeniden deneyin.",
+    "gifLoadFailed": "GIF'ler yüklenemedi. Lütfen yeniden deneyin.",
+    "searchGiphy": "GIPHY'de ara",
+    "searchKlipy": "KLIPY'de ara",
+    "gifTabsLabel": "GIF kaynakları",
+    "gifNotConfiguredTooltip": "Bu derlemede API anahtarı yapılandırılmamış",
+    "gifSourceTag": "{{provider}} kaynağından"
   },
   "timeline": {
     "copyText": "Metni kopyala",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Kaydedilemedi: {{error}}",
       "noPacksFound": "Paket bulunamadı.",
       "imageCount_one": "{{count}} görsel",
-      "imageCount_other": "{{count}} görsel"
+      "imageCount_other": "{{count}} görsel",
+      "gifs": "GIF'ler",
+      "gifProvider": "Tercih edilen GIF sağlayıcısı"
     },
     "keybinds": {
       "title": "Tuş atamaları",

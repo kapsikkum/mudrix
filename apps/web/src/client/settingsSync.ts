@@ -80,6 +80,7 @@ const ENUM_VALUES: Partial<Record<keyof Preferences, readonly string[]>> = {
   videoUploadMinSize: ['10', '25', '50', '100'],
   photoUploadSize: ['original', '2560', '1920', '1280'],
   youtubeEmbeds: ['ask', 'on', 'off'],
+  gifProvider: ['giphy', 'klipy'],
   reducedMotion: ['system', 'on', 'off'],
   chatDensity: ['compact', 'default', 'spacious'],
   uiDensity: ['compact', 'default', 'spacious'],

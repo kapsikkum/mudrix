@@ -625,7 +625,7 @@
     "cancelUpload": "Annuler l'envoi",
     "gif": "GIF",
     "gifConsentTitle": "Avant de rechercher des GIF",
-    "gifConsentBody": "La recherche de GIF est fournie par Giphy. Ouvrir cet onglet, rechercher et charger des résultats envoie ton texte de recherche et les détails de ta connexion aux serveurs de Giphy.",
+    "gifConsentBody": "La recherche de GIF est fournie par GIPHY et KLIPY. L'ouverture de cet onglet, la recherche et le chargement des résultats envoient des requêtes directement depuis votre appareil vers GIPHY et KLIPY, qui peuvent voir votre adresse IP, les détails de votre navigateur et le texte de votre recherche ({{giphyHosts}} ; {{klipyHosts}}). Rien n'est envoyé via le serveur de cette application.",
     "gifConsentEnable": "Activer la recherche de GIF",
     "moreOptions": "Plus d'options",
     "send": "Envoyer le message",
@@ -701,7 +701,16 @@
     "customEmoji": "Personnalisé",
     "compressing": "Compression {{percent}} %",
     "compressFailed": "Impossible de compresser la vidéo, envoi de l'original",
-    "photoPrepareFailed": "Impossible de retirer les détails de la photo, elle n’a donc pas été envoyée"
+    "photoPrepareFailed": "Impossible de retirer les détails de la photo, elle n’a donc pas été envoyée",
+    "poweredBy": "Propulsé par {{provider}}",
+    "loadMore": "Charger plus",
+    "gifRateLimited": "Limite de requêtes atteinte. Veuillez patienter un instant et réessayer.",
+    "gifLoadFailed": "Impossible de charger les GIF. Veuillez réessayer.",
+    "searchGiphy": "Rechercher sur GIPHY",
+    "searchKlipy": "Rechercher sur KLIPY",
+    "gifTabsLabel": "Sources de GIF",
+    "gifNotConfiguredTooltip": "Aucune clé d'API configurée dans cette version",
+    "gifSourceTag": "Depuis {{provider}}"
   },
   "timeline": {
     "copyText": "Copier le texte",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Échec de l'enregistrement : {{error}}",
       "noPacksFound": "Aucun pack trouvé.",
       "imageCount_one": "{{count}} image",
-      "imageCount_other": "{{count}} images"
+      "imageCount_other": "{{count}} images",
+      "gifs": "GIF",
+      "gifProvider": "Fournisseur de GIF préféré"
     },
     "keybinds": {
       "title": "Raccourcis clavier",

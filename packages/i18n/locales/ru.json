@@ -625,7 +625,7 @@
     "cancelUpload": "Отменить загрузку",
     "gif": "GIF",
     "gifConsentTitle": "Прежде чем искать GIF",
-    "gifConsentBody": "Поиск GIF предоставляет Giphy. Когда ты открываешь эту вкладку, ищешь и загружаешь результаты, текст запроса и данные о соединении отправляются на серверы Giphy.",
+    "gifConsentBody": "Поиск GIF предоставляют GIPHY и KLIPY. При открытии этой вкладки, поиске и загрузке результатов запросы напрямую с вашего устройства уходят в GIPHY и KLIPY. Они могут видеть ваш IP-адрес, данные браузера и текст вашего запроса ({{giphyHosts}}; {{klipyHosts}}). Через сервер этого приложения ничего не отправляется.",
     "gifConsentEnable": "Включить поиск GIF",
     "moreOptions": "Дополнительные параметры",
     "send": "Отправить сообщение",
@@ -701,7 +701,16 @@
     "customEmoji": "Особый",
     "compressing": "Сжатие {{percent}}%",
     "compressFailed": "Не удалось сжать видео, отправляется оригинал",
-    "photoPrepareFailed": "Не удалось удалить данные из фото, поэтому оно не отправлено"
+    "photoPrepareFailed": "Не удалось удалить данные из фото, поэтому оно не отправлено",
+    "poweredBy": "Предоставлено: {{provider}}",
+    "loadMore": "Загрузить ещё",
+    "gifRateLimited": "Превышен лимит запросов. Подождите немного и попробуйте снова.",
+    "gifLoadFailed": "Не удалось загрузить GIF. Попробуйте снова.",
+    "searchGiphy": "Поиск в GIPHY",
+    "searchKlipy": "Поиск в KLIPY",
+    "gifTabsLabel": "Источники GIF",
+    "gifNotConfiguredTooltip": "В этой сборке не настроен API-ключ",
+    "gifSourceTag": "Из {{provider}}"
   },
   "timeline": {
     "copyText": "Копировать текст",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Не удалось сохранить: {{error}}",
       "noPacksFound": "Наборы не найдены.",
       "imageCount_one": "{{count}} изображение",
-      "imageCount_other": "{{count}} изображений"
+      "imageCount_other": "{{count}} изображений",
+      "gifs": "GIF",
+      "gifProvider": "Предпочитаемый источник GIF"
     },
     "keybinds": {
       "title": "Горячие клавиши",

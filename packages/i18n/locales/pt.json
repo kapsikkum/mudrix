@@ -625,7 +625,7 @@
     "cancelUpload": "Cancelar envio",
     "gif": "GIF",
     "gifConsentTitle": "Antes de pesquisar GIFs",
-    "gifConsentBody": "A pesquisa de GIFs é fornecida pelo Giphy. Abrir este separador, pesquisar e carregar resultados envia o texto da pesquisa e os dados da ligação para os servidores do Giphy.",
+    "gifConsentBody": "A pesquisa de GIFs é fornecida pelo GIPHY e pelo KLIPY. Ao abrir esta aba, pesquisar e carregar resultados, solicitações são enviadas diretamente do seu dispositivo para o GIPHY e o KLIPY, que podem ver seu endereço IP, detalhes do navegador e o texto da sua pesquisa ({{giphyHosts}}; {{klipyHosts}}). Nada é enviado pelo servidor deste aplicativo.",
     "gifConsentEnable": "Ativar pesquisa de GIFs",
     "moreOptions": "Mais opções",
     "send": "Enviar mensagem",
@@ -701,7 +701,16 @@
     "customEmoji": "Personalizado",
     "compressing": "A comprimir {{percent}}%",
     "compressFailed": "Não foi possível comprimir o vídeo, a enviar o original",
-    "photoPrepareFailed": "Não foi possível remover os dados da foto, por isso não foi enviada"
+    "photoPrepareFailed": "Não foi possível remover os dados da foto, por isso não foi enviada",
+    "poweredBy": "Oferecido por {{provider}}",
+    "loadMore": "Carregar mais",
+    "gifRateLimited": "Limite de uso atingido. Aguarde um pouco e tente novamente.",
+    "gifLoadFailed": "Não foi possível carregar os GIFs. Tente novamente.",
+    "searchGiphy": "Pesquisar no GIPHY",
+    "searchKlipy": "Pesquisar no KLIPY",
+    "gifTabsLabel": "Fontes de GIFs",
+    "gifNotConfiguredTooltip": "Nenhuma chave de API configurada nesta versão",
+    "gifSourceTag": "De {{provider}}"
   },
   "timeline": {
     "copyText": "Copiar texto",
@@ -1335,7 +1344,9 @@
       "saveFailed": "Falha ao salvar: {{error}}",
       "noPacksFound": "Nenhum pacote encontrado.",
       "imageCount_one": "{{count}} imagem",
-      "imageCount_other": "{{count}} imagens"
+      "imageCount_other": "{{count}} imagens",
+      "gifs": "GIFs",
+      "gifProvider": "Provedor de GIFs preferido"
     },
     "keybinds": {
       "title": "Atalhos de teclado",

@@ -233,3 +233,53 @@ export const consentBtn = style({
     outlineOffset: 1,
   },
 });
+
+export const loadMoreWrap = style({
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '10px 0 2px',
+});
+
+export const footer = style({
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '12px',
+  padding: '4px 8px',
+  flexShrink: 0,
+  fontSize: '0.72rem',
+  color: vars.color.textMuted,
+  borderTop: `1px solid ${vars.color.border}`,
+});
+
+export const tabsDivider = style({
+  width: '1px',
+  alignSelf: 'stretch',
+  margin: '2px 4px',
+  backgroundColor: vars.color.border,
+  flexShrink: 0,
+});
+
+export const tabSubDisabled = style({
+  opacity: 0.45,
+  cursor: 'not-allowed',
+  ':hover': { backgroundColor: 'transparent', color: vars.color.textMuted },
+});
+
+export const sourceTag = style({
+  position: 'absolute',
+  left: '4px',
+  bottom: '4px',
+  padding: '1px 5px',
+  borderRadius: vars.radius.sm,
+  fontSize: '0.62rem',
+  fontWeight: 600,
+  letterSpacing: '0.03em',
+  color: '#fff',
+  backgroundColor: 'rgba(0,0,0,0.55)',
+  pointerEvents: 'none',
+});
+
+export const scrollSentinel = style({
+  height: '1px',
+  width: '100%',
+});
