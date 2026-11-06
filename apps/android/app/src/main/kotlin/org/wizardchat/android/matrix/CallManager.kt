@@ -621,7 +621,7 @@ class CallManager {
             is RoomEvent.Reconnecting -> if (livekit === publisher) reconnecting = true
             is RoomEvent.Reconnected -> if (livekit === publisher) reconnecting = false
             is RoomEvent.DataReceived ->
-                if (event.topic == WatchTogether.TOPIC) watch?.receive(event.data, event.participant?.identity?.value ?: "")
+                if (event.topic in WatchTogether.TOPICS) watch?.receive(event.data, event.participant?.identity?.value ?: "")
             is RoomEvent.Disconnected -> {
                 if (livekit !== publisher || state != State.Joined) return
                 val call = session

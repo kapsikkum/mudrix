@@ -11,8 +11,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.EncryptionStatus
@@ -227,15 +225,6 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     suspend fun logout() {
         runCatching { client?.logout() }
         stored?.let { forget(it) }
-    }
-
-    suspend fun loadSyncedSettings(): Map<String, JsonElement>? =
-        runCatching { client?.accountData(AppPreferences.SYNCED_ACCOUNT_DATA_TYPE) as? JsonObject }.getOrNull()
-
-    suspend fun saveSyncedSettings(settings: Map<String, JsonElement>) {
-        val client = client ?: return
-        val content = (loadSyncedSettings() ?: emptyMap()) + settings
-        runCatching { client.setAccountData(AppPreferences.SYNCED_ACCOUNT_DATA_TYPE, JsonObject(content)) }
     }
 
     suspend fun applyPresence(visible: Boolean) {

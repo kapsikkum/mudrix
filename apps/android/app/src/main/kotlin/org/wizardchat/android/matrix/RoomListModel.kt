@@ -58,15 +58,22 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     private var subscriptions = listOf<Subscription>()
     private var graphJob: Job? = null
 
+    // The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
+    private var mudrixHomeOrder: List<String>? = null
+    private var wizardchatHomeOrder: List<String>? = null
+
     fun start() {
         subscriptions = listOf(
             client.watchRooms(5000) { diffs -> apply(diffs) },
             client.watchRoomSections { sections = it },
             client.watchRoomAccountData("m.tag") { pairs -> applyTags(pairs) },
             client.watchAccountData(HOME_ORDER_EVENT) { content ->
-                homeOrder = ((content as? JsonObject)?.get("rooms") as? JsonArray)
-                    ?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content }
-                    .orEmpty()
+                mudrixHomeOrder = roomIdsOf(content)
+                homeOrder = mudrixHomeOrder ?: wizardchatHomeOrder.orEmpty()
+            },
+            client.watchAccountData(WIZARDCHAT_HOME_ORDER_EVENT) { content ->
+                wizardchatHomeOrder = roomIdsOf(content)
+                homeOrder = mudrixHomeOrder ?: wizardchatHomeOrder.orEmpty()
             },
             client.watchSpaces { diffs ->
                 diffs.forEach { it.applyTo(spaceList) }
@@ -187,6 +194,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     }
 
     suspend fun saveHomeOrder(roomIds: List<String>) {
+        mudrixHomeOrder = roomIds
         homeOrder = roomIds
         runCatching { client.setAccountData(HOME_ORDER_EVENT, JsonObject(mapOf("rooms" to JsonArray(roomIds.map { JsonPrimitive(it) })))) }
     }
@@ -247,4 +255,11 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
 
 const val ROOMS_ANCHOR = "chats"
 const val HOME_SPACE = "home-space"
-private const val HOME_ORDER_EVENT = "org.wizardchat.home_order"
+private val HOME_ORDER_EVENT = Namespace.mudrixKey("home_order")
+private val WIZARDCHAT_HOME_ORDER_EVENT = Namespace.wizardchatKey("home_order")
+
+/** The room ids of a home order event; null when there is no such event */
+private fun roomIdsOf(content: JsonElement?): List<String>? =
+    (content as? JsonObject)?.let { event ->
+        (event["rooms"] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content }.orEmpty()
+    }

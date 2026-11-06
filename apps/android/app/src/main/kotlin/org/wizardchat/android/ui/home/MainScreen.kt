@@ -54,6 +54,7 @@ import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.RoomListModel
+import org.wizardchat.android.matrix.SettingsSyncer
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.UnreadState
 import org.wizardchat.android.matrix.unreadCount
@@ -121,6 +122,7 @@ fun MainScreen(roomList: RoomListModel) {
     LaunchedEffect(roomList.isLoaded) {
         if (roomList.isLoaded && whatsNew == null) whatsNew = org.wizardchat.android.ui.settings.WhatsNew.unseen(context)
     }
+    var syncer by remember { mutableStateOf<SettingsSyncer?>(null) }
     val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
     fun show(roomId: String) {
@@ -169,13 +171,15 @@ fun MainScreen(roomList: RoomListModel) {
 
     LaunchedEffect(session.client) {
         val client = session.client ?: return@LaunchedEffect
-        session.loadSyncedSettings()?.let(prefs::applySynced)
-        prefs.onSyncedSettingsChange = { settings -> launch { session.saveSyncedSettings(settings) } }
-        session.applyPresence(prefs.showPresence)
+        syncer = SettingsSyncer(client, prefs, this).also { it.start() }
         notifier.start(roomList, prefs)
         calls.watchIncoming(client)
         RecentEmoji.shared.start(client)
         VerificationRequests.shared.start(client)
+    }
+    // Also when another device changes the setting
+    LaunchedEffect(session.client, prefs.showPresence) {
+        if (session.client != null) session.applyPresence(prefs.showPresence)
     }
     // Signed out: MainScreen goes away
     DisposableEffect(Unit) {
@@ -185,7 +189,7 @@ fun MainScreen(roomList: RoomListModel) {
             calls.leave()
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
-            prefs.onSyncedSettingsChange = null
+            syncer?.stop()
         }
     }
     LaunchedEffect(notifier.roomToOpen, notifier.accountToOpen, roomList.isLoaded) {

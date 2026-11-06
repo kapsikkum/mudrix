@@ -23,6 +23,7 @@ import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.matrix.Namespace
 
 /** What everyone in the call is watching, and where in the video they are */
 data class WatchState(
@@ -163,7 +164,11 @@ class WatchTogether(
     }
 
     companion object {
-        const val TOPIC = "org.wizardchat.watch"
+        /** The data topic watch-together messages are sent on */
+        val TOPIC = Namespace.mudrixKey("watch")
+
+        /** Every topic understood: the WizardChat base's apps send on its own name */
+        val TOPICS = setOf(TOPIC, Namespace.wizardchatKey("watch"))
         private const val HEARTBEAT_SECONDS = 10.0
         private const val LATE_JOIN_REQUEST_DELAY = 1.5
         private const val OFFSET_SAMPLES = 10

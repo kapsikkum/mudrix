@@ -301,12 +301,6 @@ internal fun AccessibilitySettings(onBack: () -> Unit) {
 @Composable
 internal fun PrivacySettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
-    val session = LocalSession.current
-    var presenceChanged by remember { mutableStateOf(false) }
-    LaunchedEffect(prefs.showPresence) {
-        if (presenceChanged) session.applyPresence(prefs.showPresence)
-        presenceChanged = true
-    }
     SettingsPage(tr("settings.privacy.title"), onBack) {
         SettingsSection(tr("settings.privacy.chat")) {
             ToggleRow(
@@ -331,7 +325,7 @@ internal fun PrivacySettings(onBack: () -> Unit) {
             )
         }
         SettingsSection(tr("settings.privacy.other")) {
-            ToggleRow(tr("settings.showUserPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.displayWhenUsersAre"))
+            ToggleRow(tr("settings.privacy.showPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.showPresenceNote"))
         }
     }
 }
