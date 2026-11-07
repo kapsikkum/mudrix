@@ -35,6 +35,9 @@ struct ComposerView: View {
     @StateObject private var recorder = VoiceRecorder()
     @State private var sent = 0
     @State private var focused = false
+    /// Installed integrations: composer actions, slash commands and API actions (device-only, see `IntegrationStore`)
+    @ObservedObject private var integrations = IntegrationStore.shared
+    @State private var apiRequest: PendingApiRequest?
 
     private var trimmed: String { draft.trimmingCharacters(in: .whitespacesAndNewlines) }
     private var canSend: Bool { (!trimmed.isEmpty || !attachments.isEmpty) && preparing == 0 }
@@ -131,6 +134,9 @@ struct ComposerView: View {
         .fileImporter(isPresented: $showFiles, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
             if case .success(let urls) = result { addFiles(urls) }
         }
+        .sheet(item: $apiRequest) { request in
+            ApiConfirmSheet(request: request) { link in insertAtCursor(link) }
+        }
         .sheet(isPresented: $showPoll) {
             PollCreatorSheet { question, answers, disclosed in
                 await timeline.createPoll(question: question, answers: answers, disclosed: disclosed)
@@ -183,6 +189,7 @@ struct ComposerView: View {
             Button { showPoll = true } label: { Label(menu: String(localized: "composer.poll.create"), icon: "ph-chart-bar-horizontal-regular") }
             Button { showLocation = true } label: { Label(menu: String(localized: "composer.location.share"), icon: "ph-map-pin-regular") }
             Button { Task { await recorder.start() } } label: { Label(menu: String(localized: "composer.voice.record"), icon: "ph-microphone-regular") }
+            integrationMenuItems
         } label: {
             Image("ph-plus-regular")
                 .font(.system(size: WZ.SizeIcon.md, weight: .medium))
@@ -191,6 +198,84 @@ struct ComposerView: View {
                 .floatingGlass(in: Circle())
         }
         .accessibilityLabel(String(localized: "composer.attach"))
+    }
+
+    /// Buttons of installed integrations: composer actions put text in the box, API actions ask first
+    @ViewBuilder
+    private var integrationMenuItems: some View {
+        let actions = IntegrationMatching.composerActions(integrations.installed, integrations.grants, stored: integrations.settings)
+        let apis = IntegrationMatching.apiActions(integrations.installed, integrations.grants, stored: integrations.settings)
+        if !actions.isEmpty || !apis.isEmpty {
+            Divider()
+            ForEach(Array(actions.enumerated()), id: \.offset) { _, active in
+                Button {
+                    insertAtCursor(IntegrationMatching.renderInsert(active.action.insert, roomId: room.id, settings: active.settings))
+                } label: {
+                    Label(menu: L10n.format("integrations.composer.actionLabel", active.action.label, active.integrationName),
+                          icon: Self.integrationIcon(active.action.icon))
+                }
+            }
+            ForEach(Array(apis.enumerated()), id: \.offset) { _, active in
+                Button { askApi(active, text: draft, args: "") } label: {
+                    Label(menu: L10n.format("integrations.composer.actionLabel", active.action.label, active.integrationName),
+                          icon: "ph-link-simple-regular")
+                }
+            }
+        }
+    }
+
+    private static func integrationIcon(_ name: String?) -> String {
+        switch name {
+        case "send": return "ph-paper-plane-right-fill"
+        case "download": return "ph-download-simple-regular"
+        case "plus": return "ph-plus-regular"
+        default: return "ph-link-simple-regular"
+        }
+    }
+
+    /// Puts text into the message box at the cursor (never sends it)
+    private func insertAtCursor(_ text: String) {
+        let ns = draft as NSString
+        let at = min(max(selection.location, 0), ns.length)
+        draft = ns.replacingCharacters(in: NSRange(location: at, length: 0), with: text)
+    }
+
+    private func askApi(_ active: IntegrationMatching.ActiveApiAction, text: String, args: String) {
+        guard let installed = integrations.installed.first(where: { $0.id == active.integrationId }) else { return }
+        apiRequest = PendingApiRequest(
+            integrationId: active.integrationId, integrationName: active.integrationName, action: active.action,
+            permissions: installed.permissions,
+            context: IntegrationApi.Context(roomId: room.id, text: text, args: args, settings: active.settings))
+    }
+
+    /// Names the built-in commands answer to, so an integration can never shadow one
+    private static var reservedCommands: Set<String> {
+        Set(SlashCommand.all.map(\.name)).union(["shrug", "tableflip", "unflip", "lenny", "rainbow", "plain", "html", "me", "np"])
+    }
+
+    private var integrationCommands: [IntegrationMatching.ActiveCommand] {
+        IntegrationMatching.commands(integrations.installed, integrations.grants, reserved: Self.reservedCommands, stored: integrations.settings)
+    }
+
+    /// `/name args` of an installed integration: an insert command fills the box, an API command asks first.
+    /// Returns false when no integration owns the name.
+    private func runIntegrationCommand(_ text: String) -> Bool {
+        let body = text.dropFirst()
+        let name = body.prefix { !$0.isWhitespace }.lowercased()
+        let args = body.dropFirst(name.count).trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty, let command = integrationCommands.first(where: { $0.name.lowercased() == name }) else { return false }
+        if let insert = command.insert {
+            draft = IntegrationMatching.renderInsert(insert, roomId: room.id, args: args, settings: command.settings)
+            return true
+        }
+        if let target = command.api,
+           let active = IntegrationMatching.apiActions(integrations.installed, integrations.grants, stored: integrations.settings)
+            .first(where: { $0.integrationId == command.integrationId && $0.action.id == target }) {
+            draft = ""
+            askApi(active, text: args, args: args)
+            return true
+        }
+        return false
     }
 
     private var sendBubble: some View {
@@ -524,6 +609,7 @@ struct ComposerView: View {
         case emoji(Emoji)
         case custom(PackImage)
         case command(String, String)
+        case integration(IntegrationMatching.ActiveCommand)
 
         var id: String {
             switch self {
@@ -531,6 +617,7 @@ struct ComposerView: View {
             case .emoji(let emoji): return "e\(emoji.u)"
             case .custom(let image): return "c\(image.id)"
             case .command(let name, _): return "/\(name)"
+            case .integration(let command): return "i/\(command.integrationId)/\(command.name)"
             }
         }
     }
@@ -544,7 +631,9 @@ struct ComposerView: View {
     private var suggestions: [Suggestion] {
         if draft.hasPrefix("/"), !draft.contains(" ") {
             let query = draft.dropFirst().lowercased()
-            return SlashCommand.all.filter { $0.name.hasPrefix(query) }.map { .command($0.name, $0.description) }
+            let builtIn: [Suggestion] = SlashCommand.all.filter { $0.name.hasPrefix(query) }.map { .command($0.name, $0.description) }
+            let extra: [Suggestion] = integrationCommands.filter { $0.name.lowercased().hasPrefix(query) }.map { .integration($0) }
+            return builtIn + extra
         }
         guard let token = currentToken else { return [] }
         if token.hasPrefix("@"), token.count >= 2 {
@@ -584,6 +673,10 @@ struct ComposerView: View {
                         case .command(let name, let description):
                             Text("/\(name)").font(.wizard(WZ.FontSize.md, .semibold)).frame(minWidth: WZ.SizeAvatar.xl, alignment: .leading)
                             Text(LocalizedStringKey(description)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                        case .integration(let command):
+                            Text("/\(command.name)").font(.wizard(WZ.FontSize.md, .semibold)).frame(minWidth: WZ.SizeAvatar.xl, alignment: .leading)
+                            Text(verbatim: L10n.format("integrations.command.description", command.description, command.integrationName))
+                                .font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
                         }
                         Spacer(minLength: 0)
                     }
@@ -605,6 +698,9 @@ struct ComposerView: View {
         case .command(let name, _):
             draft = "/\(name) "
             return
+        case .integration(let command):
+            draft = "/\(command.name) "
+            return
         default: break
         }
         guard let token = currentToken else { return }
@@ -620,7 +716,7 @@ struct ComposerView: View {
         case .custom(let image):
             usedEmotes[image.shortcode] = image
             draft += ":\(image.shortcode): "
-        case .command: break
+        case .command, .integration: break
         }
     }
 
@@ -658,6 +754,7 @@ struct ComposerView: View {
             return
         }
 
+        if text.hasPrefix("/"), !text.hasPrefix("//"), runIntegrationCommand(text) { return }
         draft = ""
         replyTo = nil
         if text.hasPrefix("/"), !text.hasPrefix("//"),
