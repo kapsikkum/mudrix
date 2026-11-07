@@ -176,6 +176,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                     }
                 }
                 if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded) {
+                    item(key = "welcome") { HomeWelcome(roomList, onOpenInbox) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
                 }
                 if (!roomList.isLoaded) {
