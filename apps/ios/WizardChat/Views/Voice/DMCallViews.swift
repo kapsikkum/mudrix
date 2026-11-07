@@ -81,10 +81,17 @@ struct DMCallScreen: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(String(localized: "voice.minimizeCall"))
                 Spacer()
-                Text(calls.room?.name ?? "")
-                    .font(.wizard(WZ.FontSize.lg, .semibold))
-                    .foregroundStyle(theme.textPrimary)
-                    .lineLimit(1)
+                VStack(spacing: WZ.Space.space0) {
+                    Text(calls.room?.name ?? "")
+                        .font(.wizard(WZ.FontSize.lg, .semibold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                    if calls.state == .joined, !waitingForOther, let started = calls.callStartedAt {
+                        CallTimerText(startedAt: started)
+                            .font(.wizard(WZ.FontSize.sm))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                }
                 Spacer()
                 Color.clear.frame(width: WZ.Space.space10, height: WZ.Space.space10)
             }

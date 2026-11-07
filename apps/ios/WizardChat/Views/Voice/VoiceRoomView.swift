@@ -31,6 +31,11 @@ struct VoiceRoomView: View {
                         .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
                         .foregroundStyle(theme.success)
                     Text(room.displayName).font(.wizard(WZ.FontSize.lg, .semibold)).foregroundStyle(theme.textPrimary)
+                    if inThisCall, calls.state == .joined, let started = calls.callStartedAt {
+                        CallTimerText(startedAt: started)
+                            .font(.wizard(WZ.FontSize.sm))
+                            .foregroundStyle(theme.textMuted)
+                    }
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -96,6 +101,7 @@ struct VoiceRoomView: View {
 struct CallControls: View {
     var onOpenChat: (() -> Void)?
     @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
@@ -133,6 +139,11 @@ struct CallControls: View {
                         }
                     }
                 }
+                if prefs.soundboardEnabled {
+                    Button { showSoundboard = true } label: {
+                        Label(menu: String(localized: "soundboard.panel.open"), icon: "ph-waveform-regular")
+                    }
+                }
                 if let onOpenChat {
                     Divider()
                     Button(action: onOpenChat) { Label(menu: String(localized: "room.openChat"), icon: "ph-chat-text-regular") }
@@ -168,9 +179,14 @@ struct CallControls: View {
         .sheet(isPresented: $showWatchSheet) {
             if let watch = calls.watch { WatchTogetherStartSheet(watch: watch) }
         }
+        .sheet(isPresented: $showSoundboard) {
+            SoundboardSheet(soundboard: calls.soundboard)
+                .presentationDetents([.medium, .large])
+        }
     }
 
     @State private var showWatchSheet = false
+    @State private var showSoundboard = false
 
     private var moreHighlighted: Bool { calls.handRaised || calls.screenSharing }
 
@@ -205,9 +221,15 @@ struct CallBar: View {
                             .background(theme.success, in: Circle())
                         VStack(alignment: .leading, spacing: WZ.Space.space0) {
                             Text(room.displayName).font(.wizard(WZ.FontSize.md, .semibold)).foregroundStyle(theme.textPrimary)
-                            Text(calls.state == .joined ? String(localized: "voice.statusConnected") : String(localized: "voice.statusConnecting"))
-                                .font(.wizard(WZ.FontSize.sm))
-                                .foregroundStyle(calls.state == .joined ? theme.success : theme.textMuted)
+                            HStack(spacing: WZ.Space.space2) {
+                                Text(calls.state == .joined ? String(localized: "voice.statusConnected") : String(localized: "voice.statusConnecting"))
+                                if calls.state == .joined, let started = calls.callStartedAt {
+                                    Text("\u{00B7}")
+                                    CallTimerText(startedAt: started)
+                                }
+                            }
+                            .font(.wizard(WZ.FontSize.sm))
+                            .foregroundStyle(calls.state == .joined ? theme.success : theme.textMuted)
                         }
                         .lineLimit(1)
                         Spacer(minLength: 0)

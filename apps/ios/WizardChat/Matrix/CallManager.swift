@@ -40,6 +40,10 @@ final class CallManager: NSObject, ObservableObject {
     @Published private(set) var handRaised = false
     @Published private(set) var reconnecting = false
     @Published private(set) var watch: WatchTogether?
+    /// The soundboard of the call you are in; listening starts when you join
+    let soundboard = Soundboard()
+    /// When the longest-standing member joined (milliseconds since 1970): the call timer counts from it
+    @Published private(set) var callStartedAt: Int64?
 
     enum RingState: Equatable { case ringing, declined, unanswered }
     @Published private(set) var ring: RingState?
@@ -114,6 +118,13 @@ final class CallManager: NSObject, ObservableObject {
                 participants: { [weak self] in
                     (self?.participants ?? []).filter(\.connected).map { ($0.identity, $0.userId, $0.isLocal) }
                 })
+            soundboard.start(
+                client: client, roomId: room.id, ownUserId: client.userId ?? "",
+                isDeafened: { [weak self] in self?.deafened ?? true },
+                userId: { [weak self] identity in self?.members.first { $0.identity == identity }?.userId },
+                send: { [weak self] content in
+                    self?.sendData(content.object?.mapValues(\.any) ?? [:], topic: SoundboardFormat.playType)
+                })
             _ = try? await publisher.localParticipant.setMicrophone(enabled: !micMuted && !deafened)
             Sounds.play(.join)
             liveActivity.start(roomName: room.displayName, isDirect: room.isDirect, state: activityState)
@@ -152,6 +163,8 @@ final class CallManager: NSObject, ObservableObject {
         knownOthers = []
         watch?.close()
         watch = nil
+        soundboard.stop()
+        callStartedAt = nil
         refreshTimer?.invalidate()
         refreshTimer = nil
         run?.cancel()
@@ -197,6 +210,8 @@ final class CallManager: NSObject, ObservableObject {
 
     private func membersChanged(_ members: [CallMember]) {
         self.members = members
+        let started = members.map(\.joinedAt).filter { $0 > 0 }.min().map { Int64($0) }
+        if started != callStartedAt { callStartedAt = started }
         guard let client else { return }
         for userId in Set(members.map(\.userId)) where displayNames[userId] == nil {
             displayNames[userId] = TimelineModel.localpart(userId)
@@ -302,6 +317,7 @@ final class CallManager: NSObject, ObservableObject {
             mutedBeforeDeafen = micMuted
             deafened = true
             micMuted = true
+            soundboard.stopAll()
         }
         applyMic()
     }
@@ -552,6 +568,7 @@ extension CallManager: RoomDelegate {
         let from = participant?.identity?.stringValue ?? ""
         Task { @MainActor in
             if WatchTogether.topics.contains(topic) { self.watch?.receive(data, from: from) }
+            if SoundboardFormat.playTypes.contains(topic) { self.soundboard.receive(data: data, identity: from) }
         }
     }
 
