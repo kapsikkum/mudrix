@@ -2,56 +2,65 @@ import CoreText
 import SwiftUI
 import UIKit
 
-enum ThemeSetting: Hashable, Identifiable {
-    case system
-    case fixed(WZ.Theme)
+/// Themes by the name the synced settings use: a built-in theme's name (`Carbon`), or `custom:<id>`
+/// for one the user made. The built-in ones come from the shared design tokens, already in the
+/// order every app lists them in (the default first, dark by hue, light last).
+enum Themes {
+    static let all: [WZ.Theme] = WZ.Theme.allCases
 
-    static let allCases: [ThemeSetting] = [.system] + [
-        WZ.Theme.carbon, .pewter, .umbra, .eclipse, .parrot, .hallow, .garnet, .ethereal, .blossom,
-    ].map(ThemeSetting.fixed)
+    static var defaultName: String { WZ.Theme.default.name }
+    static var defaultLightName: String { WZ.Theme.ethereal.name }
 
-    init?(rawValue: String) {
-        if rawValue == "system" {
-            self = .system
-        } else if let theme = WZ.Theme(rawValue: rawValue) {
-            self = .fixed(theme)
-        } else {
-            return nil
-        }
+    static func builtin(named name: String) -> WZ.Theme? {
+        WZ.Theme.allCases.first { $0.name == name }
     }
 
-    var rawValue: String {
-        switch self {
-        case .system: return "system"
-        case .fixed(let theme): return theme.rawValue
-        }
+    /// Whether `name` is a built-in theme or has the shape of a custom theme's name (it may not exist yet)
+    static func isValidName(_ name: String) -> Bool {
+        builtin(named: name) != nil || CustomThemes.isCustomThemeName(name)
     }
 
-    var id: String { rawValue }
-
-    var label: String {
-        switch self {
-        case .system: return String(localized: "settings.themeSystem")
-        case .fixed(let theme): return theme.name
-        }
+    /// Whether `name` can be used right now
+    static func exists(_ name: String, customs: [CustomTheme]) -> Bool {
+        builtin(named: name) != nil || CustomThemes.find(name, in: customs) != nil
     }
 
-    func resolved(_ scheme: ColorScheme) -> WZ.Theme {
-        switch self {
-        case .fixed(let theme): return theme
-        case .system:
-            return scheme == .light ? .ethereal : .carbon
+    /// The theme `name` refers to; a name that does not exist falls back to the default
+    static func resolve(_ name: String, customs: [CustomTheme]) -> WizardTheme {
+        if let theme = builtin(named: name) { return WizardTheme(theme) }
+        if let custom = CustomThemes.find(name, in: customs) {
+            return WizardTheme(colors: ThemeDerive.build(custom.colors),
+                               isLight: ThemeDerive.isLightColor(custom.colors.bgPrimary))
         }
+        return WizardTheme.default
+    }
+
+    static func label(_ name: String, customs: [CustomTheme]) -> String {
+        CustomThemes.find(name, in: customs)?.name ?? name
+    }
+
+    /// Whether the logo artwork of this theme exists as an alternate app icon
+    static func hasThemedLogo(_ name: String) -> Bool {
+        name == WZ.Theme.parrot.name || name == WZ.Theme.hallow.name
     }
 }
 
 struct WizardTheme {
+    /// The built-in theme in use, or for a custom theme the default one of its light or dark kind
     let id: WZ.Theme
+    let colorScheme: ColorScheme
     private let colors: WZ.ThemeColors
 
     init(_ theme: WZ.Theme) {
         id = theme
+        colorScheme = theme.colorScheme
         colors = theme.colors
+    }
+
+    init(colors: WZ.ThemeColors, isLight: Bool) {
+        id = isLight ? WZ.Theme.ethereal : WZ.Theme.default
+        colorScheme = isLight ? ColorScheme.light : ColorScheme.dark
+        self.colors = colors
     }
 
     var bgPrimary: Color { colors.bgApp }
@@ -79,7 +88,6 @@ struct WizardTheme {
     var linkColor: Color { colors.textLink }
     var logo: [Color] { [colors.logoP0, colors.logoP1, colors.logoP2, colors.logoP3, colors.logoP4, colors.logoP5] }
     static var baseLogo: [Color] { WizardTheme(.default).logo }
-    var colorScheme: ColorScheme { id.colorScheme }
     var presenceOnline: Color { colors.presenceOnline }
     var presenceAway: Color { colors.presenceAway }
     var presenceBusy: Color { colors.presenceBusy }

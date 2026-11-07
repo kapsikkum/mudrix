@@ -18,7 +18,9 @@ struct WatchState: Equatable {
 
 @MainActor
 final class WatchTogether: ObservableObject {
-    static let topic = "org.wizardchat.watch"
+    static let topic = Namespace.mudrixKey("watch")
+    /// Both names are listened for, only the current one is sent
+    static let topics: Set<String> = [topic, Namespace.wizardchatKey("watch")]
     private static let heartbeatSeconds = 10.0
     private static let lateJoinRequestDelay = 1.5
     private static let offsetSamples = 10

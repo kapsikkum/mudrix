@@ -56,7 +56,11 @@ final class RoomListModel: ObservableObject {
 
     static let roomsAnchor = "chats"
     static let homeSpace = "home-space"
-    private static let homeOrderEvent = "org.wizardchat.home_order"
+    private static let homeOrderEvent = Namespace.mudrixKey("home_order")
+    /// The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
+    private static let wizardchatHomeOrderEvent = Namespace.wizardchatKey("home_order")
+    private var mudrixHomeOrder: [String]?
+    private var wizardchatHomeOrder: [String]?
 
     let client: WizardClient
     private var rooms: [RoomSummary] = []
@@ -82,11 +86,14 @@ final class RoomListModel: ObservableObject {
             },
             client.watchAccountData(eventType: Self.homeOrderEvent) { [weak self] content in
                 MainActor.assumeIsolated {
-                    guard case .object(let fields)? = content, case .array(let rooms)? = fields["rooms"] else {
-                        self?.homeOrder = []
-                        return
-                    }
-                    self?.homeOrder = rooms.compactMap { if case .string(let id) = $0 { id } else { nil } }
+                    self?.mudrixHomeOrder = Self.roomIds(in: content)
+                    self?.updateHomeOrder()
+                }
+            },
+            client.watchAccountData(eventType: Self.wizardchatHomeOrderEvent) { [weak self] content in
+                MainActor.assumeIsolated {
+                    self?.wizardchatHomeOrder = Self.roomIds(in: content)
+                    self?.updateHomeOrder()
                 }
             },
             client.watchSpaces { [weak self] diffs in
@@ -237,7 +244,20 @@ final class RoomListModel: ObservableObject {
         }
     }
 
+    private static func roomIds(in content: JSONValue?) -> [String]? {
+        guard case .object(let fields)? = content, case .array(let rooms)? = fields["rooms"] else { return nil }
+        return rooms.compactMap { item in
+            if case .string(let id) = item { return id }
+            return nil
+        }
+    }
+
+    private func updateHomeOrder() {
+        homeOrder = mudrixHomeOrder ?? wizardchatHomeOrder ?? []
+    }
+
     func saveHomeOrder(_ roomIds: [String]) async {
+        mudrixHomeOrder = roomIds
         homeOrder = roomIds
         try? await client.setAccountData(eventType: Self.homeOrderEvent,
                                          content: .object(["rooms": .array(roomIds.map { .string($0) })]))

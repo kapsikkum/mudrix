@@ -7,22 +7,17 @@ struct AppearanceSettings: View {
     @Environment(\.theme) private var theme
     @State private var iconError: String?
 
-    private var themeHasIcon: Bool { prefs.theme == .fixed(.parrot) || prefs.theme == .fixed(.hallow) }
+    private var themeHasIcon: Bool { !prefs.followSystemTheme && Themes.hasThemedLogo(prefs.theme) }
 
-    private static func swatch(for setting: ThemeSetting) -> LinearGradient {
-        let first: Color
-        let second: Color
-        switch setting {
-        case .system:
-            first = WizardTheme(setting.resolved(.light)).bgSecondary
-            second = WizardTheme(setting.resolved(.dark)).bgSecondary
-        case .fixed(let fixed):
-            let theme = WizardTheme(fixed)
-            first = theme.bgSecondary
-            second = theme.accent
-        }
-        return LinearGradient(stops: [.init(color: first, location: 0.5), .init(color: second, location: 0.5)],
-                              startPoint: .topLeading, endPoint: .bottomTrailing)
+    private func swatch(for name: String) -> LinearGradient {
+        let resolved = Themes.resolve(name, customs: prefs.customThemes)
+        return LinearGradient(
+            stops: [.init(color: resolved.bgSecondary, location: 0.5), .init(color: resolved.accent, location: 0.5)],
+            startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    private var themeNames: [String] {
+        Themes.all.map(\.name) + prefs.customThemes.map(\.themeName)
     }
 
     var body: some View {
@@ -31,32 +26,47 @@ struct AppearanceSettings: View {
                 .settingsCard()
 
             SettingsSection {
-                // Ten themes don't fit beside the label, so it sits above them
-                VStack(alignment: .leading, spacing: WZ.Space.space4) {
-                    Text(String(localized: "settings.appearance.theme"))
-                        .font(.wizard(WZ.FontSize.md))
-                        .foregroundStyle(theme.textPrimary)
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: WZ.Space.space4) {
-                            ForEach(ThemeSetting.allCases) { name in
-                                Button {
-                                    prefs.theme = name
-                                } label: {
-                                    Circle()
-                                        .fill(Self.swatch(for: name))
-                                        .frame(width: WZ.Space.space9, height: WZ.Space.space9)
-                                        .overlay(Circle().stroke(prefs.theme == name ? theme.accent : theme.border,
-                                                                 lineWidth: prefs.theme == name ? 2.5 : 1))
-                                        .padding(WZ.Space.space1)
+                ToggleRow(label: "settings.appearance.followSystemTheme",
+                          note: "settings.appearance.followSystemThemeNote",
+                          isOn: $prefs.followSystemTheme)
+                if prefs.followSystemTheme {
+                    ThemeMenuRow(label: "settings.appearance.systemDarkTheme", selection: $prefs.systemDarkTheme)
+                    ThemeMenuRow(label: "settings.appearance.systemLightTheme", selection: $prefs.systemLightTheme)
+                } else {
+                    // Thirty themes don't fit beside the label, so it sits above them
+                    VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                        Text(String(localized: "settings.appearance.theme"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: WZ.Space.space4) {
+                                ForEach(themeNames, id: \.self) { name in
+                                    Button {
+                                        prefs.theme = name
+                                    } label: {
+                                        Circle()
+                                            .fill(swatch(for: name))
+                                            .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                                            .overlay(Circle().stroke(prefs.theme == name ? theme.accent : theme.border,
+                                                                     lineWidth: prefs.theme == name ? 2.5 : 1))
+                                            .padding(WZ.Space.space1)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel(Themes.label(name, customs: prefs.customThemes))
+                                    .accessibilityAddTraits(prefs.theme == name ? .isSelected : [])
                                 }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel(name.label)
-                                .accessibilityAddTraits(prefs.theme == name ? .isSelected : [])
                             }
                         }
                     }
+                    .padding(.vertical, WZ.Space.space4)
                 }
-                .padding(.vertical, WZ.Space.space4)
+                NavigationLink {
+                    CustomThemesSettings()
+                } label: {
+                    Text("settings.appearance.customTheme.title")
+                        .font(.wizard(WZ.FontSize.lg))
+                        .foregroundStyle(theme.textPrimary)
+                }
                 SettingsDivider()
                 PickerRow(label: "settings.appearance.messageLayout", selection: $prefs.messageLayout,
                           options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic")])
@@ -106,7 +116,49 @@ struct AppearanceSettings: View {
                 SettingsDivider()
                 ToggleRow(label: "settings.appearance.showRoomAvatars", isOn: $prefs.showRoomAvatars)
             }
+
+            SettingsSection {
+                PickerRow(label: "settings.appearance.timeFormat", selection: $prefs.timeFormat,
+                          options: [(.auto, "settings.appearance.timeFormatAuto"), (.h12, "settings.appearance.timeFormat12h"), (.h24, "settings.appearance.timeFormat24h")])
+                PickerRow(label: "settings.appearance.dateFormat", selection: $prefs.dateFormat,
+                          options: [(.long, "settings.appearance.dateFormatLong"), (.dmy, "settings.appearance.dateFormatDmy"), (.mdy, "settings.appearance.dateFormatMdy"), (.ymd, "settings.appearance.dateFormatYmd")])
+                PickerRow(label: "settings.appearance.emojiOnlySize", note: "settings.appearance.emojiOnlySizeNote",
+                          selection: $prefs.emojiOnlySize,
+                          options: [(.normal, "settings.appearance.emojiOnlySizeNormal"), (.large, "settings.appearance.emojiOnlySizeLarge"), (.jumbo, "settings.appearance.emojiOnlySizeJumbo")])
+                ToggleRow(label: "settings.appearance.emoticonsToEmoji",
+                          note: "settings.appearance.emoticonsToEmojiNote",
+                          isOn: $prefs.emoticonsToEmoji)
+                ToggleRow(label: "settings.appearance.groupImages",
+                          note: "settings.appearance.groupImagesNote",
+                          isOn: $prefs.groupImages)
+            }
         }
+    }
+}
+
+/// A theme picked from a menu: the built-in ones, then the user's own
+struct ThemeMenuRow: View {
+    let label: LocalizedStringKey
+    @Binding var selection: String
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+
+    private var names: [String] {
+        Themes.all.map(\.name) + prefs.customThemes.map(\.themeName)
+    }
+
+    var body: some View {
+        Picker(selection: $selection) {
+            ForEach(names, id: \.self) { name in
+                Text(verbatim: Themes.label(name, customs: prefs.customThemes)).tag(name)
+            }
+        } label: {
+            Text(label)
+                .font(.wizard(WZ.FontSize.lg))
+                .foregroundStyle(theme.textPrimary)
+        }
+        .pickerStyle(.menu)
+        .tint(theme.textMuted)
     }
 }
 
@@ -168,14 +220,18 @@ struct PrivacySettings: View {
                 PickerRow(label: "settings.privacy.mediaVisibility", selection: $prefs.mediaVisibility,
                           options: [(.always, "settings.privacy.mediaVisibilityAlways"), (.private, "settings.privacy.mediaVisibilityPrivate"), (.never, "settings.privacy.mediaVisibilityNever")])
             }
-            SettingsSection(title: "settings.privacy.other") {
-                ToggleRow(label: "settings.showUserPresence",
-                          note: "settings.displayWhenUsersAre",
-                          isOn: $prefs.showPresence)
+            SettingsSection(title: "settings.privacy.streamer.title", note: "settings.privacy.streamer.note") {
+                PickerRow(label: "settings.privacy.streamer.mode", selection: $prefs.streamerMode,
+                          options: [(.off, "settings.privacy.streamer.off"), (.auto, "settings.privacy.streamer.auto"), (.on, "settings.privacy.streamer.on")])
             }
-        }
-        .onChange(of: prefs.showPresence) { _, visible in
-            Task { await session.applyPresence(visible) }
+            SettingsSection(title: "settings.privacy.other") {
+                ToggleRow(label: "settings.privacy.showPresence",
+                          note: "settings.privacy.showPresenceNote",
+                          isOn: $prefs.showPresence)
+                ToggleRow(label: "settings.privacy.showHomeserverSoftware",
+                          note: "settings.privacy.showHomeserverSoftwareNote",
+                          isOn: $prefs.showHomeserverSoftware)
+            }
         }
     }
 }
@@ -185,11 +241,27 @@ struct LanguageSettings: View {
     @Environment(\.theme) private var theme
     @State private var changed = false
 
+    /// The languages in `AppPreferences.languages` order, each under its own name
+    private static let options: [(String, LocalizedStringKey)] = [
+        ("", "settings.language.languageSystem"),
+        ("en", "settings.language.languageEn"),
+        ("de", "settings.language.languageDe"),
+        ("es", "settings.language.languageEs"),
+        ("fr", "settings.language.languageFr"),
+        ("it", "settings.language.languageIt"),
+        ("pt", "settings.language.languagePt"),
+        ("ru", "settings.language.languageRu"),
+        ("ja", "settings.language.languageJa"),
+        ("tr", "settings.language.languageTr"),
+        ("nl", "settings.language.languageNl"),
+        ("pl", "settings.language.languagePl"),
+    ]
+
     var body: some View {
         SettingsPage(title: "settings.language.title") {
             SettingsSection {
                 PickerRow(label: "settings.language.languageDisplay", selection: $prefs.language,
-                          options: [("", "settings.language.languageSystem"), ("en", "settings.language.languageEn"), ("de", "settings.language.languageDe")])
+                          options: Self.options)
             }
             if changed {
                 StatusText(text: String(localized: "settings.closeAndReopenWizardchat"), isError: false)

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UIKit
 import WizardChatCore
 
 enum MessageLayout: String, CaseIterable { case modern, classic }
@@ -7,58 +8,215 @@ enum Density: String, CaseIterable { case compact, `default`, spacious }
 enum ReducedMotion: String, CaseIterable { case system, on, off }
 enum MediaVisibility: String, CaseIterable { case always, `private`, never }
 
+/// The raw values are what the synced settings hold (`12h` cannot be a Swift name)
+enum TimeFormat: String, CaseIterable { case auto, h12 = "12h", h24 = "24h" }
+enum DateFormatStyle: String, CaseIterable { case long, dmy, mdy, ymd }
+enum EmojiOnlySize: String, CaseIterable { case normal, large, jumbo }
+
+/// Videos sent as they are, shrunk to fit a size (smart), or shrunk to one fixed resolution
+enum VideoUploadMode: String, CaseIterable { case original, smart, fixed }
+
+/// Short side, in pixels, a fixed-resolution upload is scaled to
+enum VideoUploadHeight: String, CaseIterable {
+    case p1080 = "1080", p720 = "720", p480 = "480"
+
+    var pixels: Int { Int(rawValue) ?? 720 }
+}
+
+/// Size a smart upload aims for, in MB, or whatever the server allows
+enum VideoUploadTarget: String, CaseIterable {
+    case mb25 = "25", mb50 = "50", mb100 = "100", server
+
+    var megabytes: Int? { Int(rawValue) }
+}
+
+/// Videos smaller than this many MB are never re-encoded
+enum VideoUploadMinSize: String, CaseIterable {
+    case mb10 = "10", mb25 = "25", mb50 = "50", mb100 = "100"
+
+    var megabytes: Int { Int(rawValue) ?? 25 }
+}
+
+/// Longest side, in pixels, bigger photos are scaled down to before sending; nil keeps them
+enum PhotoUploadSize: String, CaseIterable {
+    case original, px2560 = "2560", px1920 = "1920", px1280 = "1280"
+
+    var maxSide: Int? { Int(rawValue) }
+}
+
+/// YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all)
+enum YouTubeEmbeds: String, CaseIterable { case ask, on, off }
+
+/// Streamer mode: hide private details always, or only while this device is being recorded or mirrored
+enum StreamerMode: String, CaseIterable { case off, on, auto }
+
+/// Settings on this device. Most of them sync with the other Mudrix apps through account data
+/// (`SettingsSyncer`): a setting registered in `registerSynced` is part of the synced event under that key.
 @MainActor
 final class AppPreferences: ObservableObject {
     static let chatFontSizes: [Double] = [12, 14, 15, 16, 18, 20, 24]
     static let defaultChatFontSize: Double = 15
-    static let syncedAccountDataType = "org.wizardchat.settings"
+
+    /// The display languages, in the order of the picker (`packages/i18n/locales`)
+    static let languages = ["en", "de", "es", "fr", "it", "pt", "ru", "ja", "tr", "nl", "pl"]
+
+    private static let layouts: Set<String> = ["classic", "modern", "compact"]
+
+    /// Names an earlier version of the base used, by the key they are now under
+    private static let legacyKeys = ["sendTyping": "typingIndicators", "notificationSound": "notificationSounds"]
 
     private let defaults = UserDefaults.standard
 
-    // Per device like the system's light and dark mode, so not synced with the web; a new key
-    // because the old one held whatever the web had synced
-    @Published var theme: ThemeSetting { didSet { save("theme.device", theme.rawValue) } }
-    @Published var messageLayout: MessageLayout { didSet { save("messageLayout", messageLayout.rawValue) } }
-    @Published var chatFontSize: Double { didSet { save("chatFontSize", chatFontSize) } }
-    @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue) } }
-    @Published var uiDensity: Density { didSet { save("uiDensity", uiDensity.rawValue) } }
-    @Published var prettifyLinks: Bool { didSet { save("prettifyLinks", prettifyLinks) } }
-    @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon) } }
-    @Published var showRoomAvatars: Bool { didSet { save("showRoomAvatars", showRoomAvatars) } }
-    @Published var reducedMotion: ReducedMotion { didSet { save("reducedMotion", reducedMotion.rawValue) } }
-    @Published var autoplayGifs: Bool { didSet { save("autoplayGifs", autoplayGifs) } }
+    /// The chosen theme: a built-in theme's name (`Carbon`) or `custom:<id>`
+    @Published var theme: String { didSet { save("theme", theme); syncIfNeeded() } }
+    /// Themes the user made; chosen as `custom:<id>`
+    @Published var customThemes: [CustomTheme] {
+        didSet {
+            let text = String(decoding: (try? JSONEncoder().encode(CustomThemes.toJson(customThemes))) ?? Data(), as: UTF8.self)
+            save("customThemes", text)
+            syncIfNeeded()
+        }
+    }
+    /// Switch between the two themes below when the system changes between light and dark (the default until a theme is picked)
+    @Published var followSystemTheme: Bool { didSet { save("followSystemTheme", followSystemTheme); syncIfNeeded() } }
+    @Published var systemDarkTheme: String { didSet { save("systemDarkTheme", systemDarkTheme); syncIfNeeded() } }
+    @Published var systemLightTheme: String { didSet { save("systemLightTheme", systemLightTheme); syncIfNeeded() } }
+
+    // The main layout comes from the account (the web's desktop layout); this device is a phone, so its own
+    // choice is the phone layout, and until one is made it follows the main one
+    @Published private(set) var mainMessageLayout: String
+    @Published private(set) var phoneMessageLayout: String?
+
+    @Published var chatFontSize: Double { didSet { save("chatFontSize", chatFontSize); syncIfNeeded() } }
+    @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue); syncIfNeeded() } }
+    @Published var uiDensity: Density { didSet { save("uiDensity", uiDensity.rawValue); syncIfNeeded() } }
+    @Published var prettifyLinks: Bool { didSet { save("prettifyLinks", prettifyLinks); syncIfNeeded() } }
+    /// Show images sent together as one gallery; off shows every image as its own message
+    @Published var groupImages: Bool { didSet { save("groupImages", groupImages); syncIfNeeded() } }
+    @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon); syncIfNeeded() } }
+    @Published var showRoomAvatars: Bool { didSet { save("showRoomAvatars", showRoomAvatars); syncIfNeeded() } }
+    @Published var reducedMotion: ReducedMotion { didSet { save("reducedMotion", reducedMotion.rawValue); syncIfNeeded() } }
+    @Published var autoplayGifs: Bool { didSet { save("autoplayGifs", autoplayGifs); syncIfNeeded() } }
     @Published var typingIndicators: Bool { didSet { save("typingIndicators", typingIndicators); syncIfNeeded() } }
     @Published var sendReadReceipts: Bool { didSet { save("sendReadReceipts", sendReadReceipts); syncIfNeeded() } }
-    @Published var mediaVisibility: MediaVisibility { didSet { save("mediaVisibility", mediaVisibility.rawValue) } }
-    @Published var showPresence: Bool { didSet { save("showPresence", showPresence) } }
+    @Published var mediaVisibility: MediaVisibility { didSet { save("mediaVisibility", mediaVisibility.rawValue); syncIfNeeded() } }
+
+    @Published var videoUploadMode: VideoUploadMode { didSet { save("videoUploadMode", videoUploadMode.rawValue); syncIfNeeded() } }
+    @Published var videoUploadHeight: VideoUploadHeight { didSet { save("videoUploadHeight", videoUploadHeight.rawValue); syncIfNeeded() } }
+    @Published var videoUploadTarget: VideoUploadTarget { didSet { save("videoUploadTarget", videoUploadTarget.rawValue); syncIfNeeded() } }
+    @Published var videoUploadMinSize: VideoUploadMinSize { didSet { save("videoUploadMinSize", videoUploadMinSize.rawValue); syncIfNeeded() } }
+    @Published var photoStripMetadata: Bool { didSet { save("photoStripMetadata", photoStripMetadata); syncIfNeeded() } }
+    @Published var photoUploadSize: PhotoUploadSize { didSet { save("photoUploadSize", photoUploadSize.rawValue); syncIfNeeded() } }
+    @Published var youtubeEmbeds: YouTubeEmbeds { didSet { save("youtubeEmbeds", youtubeEmbeds.rawValue); syncIfNeeded() } }
+
+    @Published var timeFormat: TimeFormat { didSet { save("timeFormat", timeFormat.rawValue); syncIfNeeded() } }
+    @Published var dateFormat: DateFormatStyle { didSet { save("dateFormat", dateFormat.rawValue); syncIfNeeded() } }
+    @Published var emojiOnlySize: EmojiOnlySize { didSet { save("emojiOnlySize", emojiOnlySize.rawValue); syncIfNeeded() } }
+    @Published var emoticonsToEmoji: Bool { didSet { save("emoticonsToEmoji", emoticonsToEmoji); syncIfNeeded() } }
+
+    // Whether this device is being streamed is a fact about this device, so it is not synced
+    @Published var streamerMode: StreamerMode { didSet { save("streamerMode", streamerMode.rawValue) } }
+    /// Whether the screen is being recorded or mirrored right now
+    @Published private(set) var screenCaptured = false
+
+    @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
+    @Published var showHomeserverSoftware: Bool { didSet { save("showHomeserverSoftware", showHomeserverSoftware); syncIfNeeded() } }
     @Published var notificationSounds: Bool { didSet { save("notificationSounds", notificationSounds); syncIfNeeded() } }
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
 
-    var onSyncedSettingsChange: (([String: JSONValue]) -> Void)?
+    /// Called after a synced setting changed on this device
+    var onSyncedSettingsChange: (() -> Void)?
     private var isApplyingRemote = false
+
+    /// How one synced setting is read from and written to the settings event
+    private struct Synced {
+        let key: String
+        let topLevel: Bool
+        let read: () -> JSONValue?
+        let normalise: (JSONValue) -> JSONValue?
+        let apply: (JSONValue) -> Void
+    }
+
+    private var synced: [Synced] = []
+    private var captureObserver: NSObjectProtocol?
 
     init() {
         let d = UserDefaults.standard
-        theme = ThemeSetting(rawValue: d.string(forKey: "theme.device") ?? "") ?? .system
-        messageLayout = MessageLayout(rawValue: d.string(forKey: "messageLayout") ?? "") ?? .modern
+        // "theme.device" is where this app kept the theme before it followed the web's settings: "system" or a theme id
+        let earlierTheme = d.string(forKey: "theme.device")
+        let earlierName = WZ.Theme.allCases.first { $0.rawValue == earlierTheme }?.name
+        theme = d.string(forKey: "theme") ?? earlierName ?? Themes.defaultName
+        let storedThemes = d.string(forKey: "customThemes").flatMap { text in
+            try? JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+        }
+        customThemes = CustomThemes.sanitize(storedThemes)
+        followSystemTheme = d.object(forKey: "followSystemTheme") as? Bool ?? (earlierTheme == nil || earlierTheme == "system")
+        systemDarkTheme = d.string(forKey: "systemDarkTheme") ?? Themes.defaultName
+        systemLightTheme = d.string(forKey: "systemLightTheme") ?? Themes.defaultLightName
+
+        mainMessageLayout = d.string(forKey: "messageLayout.main") ?? "modern"
+        // "messageLayout" is where this device's own choice was kept before the phone layout existed
+        let phone = d.string(forKey: "messageLayoutMobile") ?? d.string(forKey: "messageLayout")
+        phoneMessageLayout = Self.layouts.contains(phone ?? "") ? phone : nil
+
         chatFontSize = d.object(forKey: "chatFontSize") as? Double ?? Self.defaultChatFontSize
-        chatDensity = Density(rawValue: d.string(forKey: "chatDensity") ?? "") ?? .default
-        uiDensity = Density(rawValue: d.string(forKey: "uiDensity") ?? "") ?? .default
+        chatDensity = Self.stored(d, "chatDensity", .default)
+        uiDensity = Self.stored(d, "uiDensity", .default)
         prettifyLinks = d.object(forKey: "prettifyLinks") as? Bool ?? true
+        groupImages = d.object(forKey: "groupImages") as? Bool ?? true
         themedAppIcon = d.bool(forKey: "themedAppIcon")
         showRoomAvatars = d.object(forKey: "showRoomAvatars") as? Bool ?? true
-        reducedMotion = ReducedMotion(rawValue: d.string(forKey: "reducedMotion") ?? "") ?? .system
+        reducedMotion = Self.stored(d, "reducedMotion", .system)
         autoplayGifs = d.object(forKey: "autoplayGifs") as? Bool ?? true
         typingIndicators = d.object(forKey: "typingIndicators") as? Bool ?? true
         sendReadReceipts = d.object(forKey: "sendReadReceipts") as? Bool ?? true
-        mediaVisibility = MediaVisibility(rawValue: d.string(forKey: "mediaVisibility") ?? "") ?? .always
-        showPresence = d.object(forKey: "showPresence") as? Bool ?? true
+        mediaVisibility = Self.stored(d, "mediaVisibility", .always)
+
+        videoUploadMode = Self.stored(d, "videoUploadMode", .original)
+        videoUploadHeight = Self.stored(d, "videoUploadHeight", .p720)
+        videoUploadTarget = Self.stored(d, "videoUploadTarget", .mb50)
+        videoUploadMinSize = Self.stored(d, "videoUploadMinSize", .mb25)
+        photoStripMetadata = d.bool(forKey: "photoStripMetadata")
+        photoUploadSize = Self.stored(d, "photoUploadSize", .original)
+        youtubeEmbeds = Self.stored(d, "youtubeEmbeds", .ask)
+
+        timeFormat = Self.stored(d, "timeFormat", .auto)
+        dateFormat = Self.stored(d, "dateFormat", .long)
+        emojiOnlySize = Self.stored(d, "emojiOnlySize", .large)
+        emoticonsToEmoji = d.object(forKey: "emoticonsToEmoji") as? Bool ?? true
+
+        streamerMode = Self.stored(d, "streamerMode", .auto)
+        // Off until chosen, like Mudrix: you appear offline and nobody sees your status
+        showPresence = d.object(forKey: "showPresence") as? Bool ?? false
+        showHomeserverSoftware = d.object(forKey: "showHomeserverSoftware") as? Bool ?? true
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
         developerMode = d.bool(forKey: "developerMode")
+
+        registerSynced()
+        screenCaptured = UIScreen.main.isCaptured
+        captureObserver = NotificationCenter.default.addObserver(
+            forName: UIScreen.capturedDidChangeNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.screenCaptured = UIScreen.main.isCaptured }
+        }
+    }
+
+    private static func stored<E: RawRepresentable>(_ d: UserDefaults, _ key: String, _ fallback: E) -> E
+    where E.RawValue == String {
+        E(rawValue: d.string(forKey: key) ?? "") ?? fallback
+    }
+
+    /// The layout in use on this device: its own phone choice, else the account's main one
+    var messageLayout: MessageLayout {
+        get { (phoneMessageLayout ?? mainMessageLayout) == "classic" ? .classic : .modern }
+        set {
+            setPhoneLayout(newValue.rawValue)
+            syncIfNeeded()
+        }
     }
 
     var chatScale: CGFloat { CGFloat(chatFontSize / Self.defaultChatFontSize) }
@@ -83,32 +241,231 @@ final class AppPreferences: ObservableObject {
         }
     }
 
-    var syncedSettings: [String: JSONValue] {
-        [
-            "language": .string(language.isEmpty ? "system" : language),
-            "sendReadReceipts": .bool(sendReadReceipts),
-            "sendTyping": .bool(typingIndicators),
-            "notificationSound": .bool(notificationSounds),
+    /// The theme in use: the chosen one, or the one for the system's light or dark mode when following it
+    func effectiveThemeName(systemDark: Bool) -> String {
+        if !followSystemTheme { return theme }
+        return systemDark ? systemDarkTheme : systemLightTheme
+    }
+
+    /// Whether streamer mode hides private details now: always when chosen, or "auto" while the
+    /// screen is being recorded or mirrored
+    var streamerModeActive: Bool {
+        streamerMode == .on || (streamerMode == .auto && screenCaptured)
+    }
+
+    // MARK: Sync
+
+    private func registerSynced() {
+        synced = [
+            stringKey("theme", \.theme, topLevel: true, allowed: { Themes.isValidName($0) }),
+            customThemesKey(),
+            boolKey("followSystemTheme", \.followSystemTheme),
+            stringKey("systemDarkTheme", \.systemDarkTheme, topLevel: false, allowed: { Themes.isValidName($0) }),
+            stringKey("systemLightTheme", \.systemLightTheme, topLevel: false, allowed: { Themes.isValidName($0) }),
+            layoutKey("messageLayout", mobile: false),
+            layoutKey("messageLayoutMobile", mobile: true),
+            languageKey(),
+            numberKey("chatFontSize", \.chatFontSize, range: 8...40),
+            enumKey("chatDensity", \.chatDensity),
+            enumKey("uiDensity", \.uiDensity),
+            boolKey("prettifyLinks", \.prettifyLinks),
+            boolKey("groupImages", \.groupImages),
+            boolKey("themedAppIcon", \.themedAppIcon),
+            boolKey("showRoomAvatars", \.showRoomAvatars),
+            enumKey("reducedMotion", \.reducedMotion),
+            boolKey("autoplayGifs", \.autoplayGifs),
+            boolKey("typingIndicators", \.typingIndicators),
+            boolKey("sendReadReceipts", \.sendReadReceipts),
+            enumKey("mediaVisibility", \.mediaVisibility),
+            enumKey("videoUploadMode", \.videoUploadMode),
+            enumKey("videoUploadHeight", \.videoUploadHeight),
+            enumKey("videoUploadTarget", \.videoUploadTarget),
+            enumKey("videoUploadMinSize", \.videoUploadMinSize),
+            boolKey("photoStripMetadata", \.photoStripMetadata),
+            enumKey("photoUploadSize", \.photoUploadSize),
+            enumKey("youtubeEmbeds", \.youtubeEmbeds),
+            enumKey("timeFormat", \.timeFormat),
+            enumKey("dateFormat", \.dateFormat),
+            enumKey("emojiOnlySize", \.emojiOnlySize),
+            boolKey("emoticonsToEmoji", \.emoticonsToEmoji),
+            boolKey("showPresence", \.showPresence),
+            boolKey("showHomeserverSoftware", \.showHomeserverSoftware),
+            boolKey("notificationSounds", \.notificationSounds),
         ]
     }
 
-    func applySynced(_ json: [String: JSONValue]) {
+    private func boolKey(_ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, Bool>) -> Synced {
+        Synced(
+            key: key, topLevel: false,
+            read: { [unowned self] in .bool(self[keyPath: path]) },
+            normalise: { value in
+                if case .bool = value { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                if case .bool(let flag) = value, self[keyPath: path] != flag { self[keyPath: path] = flag }
+            })
+    }
+
+    private func enumKey<E: RawRepresentable & Equatable>(
+        _ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, E>
+    ) -> Synced where E.RawValue == String {
+        Synced(
+            key: key, topLevel: false,
+            read: { [unowned self] in .string(self[keyPath: path].rawValue) },
+            normalise: { value in
+                if case .string(let text) = value, E(rawValue: text) != nil { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                if case .string(let text) = value, let item = E(rawValue: text), self[keyPath: path] != item {
+                    self[keyPath: path] = item
+                }
+            })
+    }
+
+    private func numberKey(_ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, Double>,
+                           range: ClosedRange<Double>) -> Synced {
+        Synced(
+            key: key, topLevel: false,
+            read: { [unowned self] in .number(self[keyPath: path]) },
+            normalise: { value in
+                if case .number(let number) = value, range.contains(number) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                if case .number(let number) = value, range.contains(number), self[keyPath: path] != number {
+                    self[keyPath: path] = number
+                }
+            })
+    }
+
+    private func stringKey(_ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, String>,
+                           topLevel: Bool, allowed: @escaping (String) -> Bool) -> Synced {
+        Synced(
+            key: key, topLevel: topLevel,
+            read: { [unowned self] in .string(self[keyPath: path]) },
+            normalise: { value in
+                if case .string(let text) = value, allowed(text) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                if case .string(let text) = value, allowed(text), self[keyPath: path] != text {
+                    self[keyPath: path] = text
+                }
+            })
+    }
+
+    private func customThemesKey() -> Synced {
+        Synced(
+            key: "customThemes", topLevel: true,
+            read: { [unowned self] in CustomThemes.toJson(self.customThemes) },
+            normalise: { value in
+                if case .array = value { return CustomThemes.toJson(CustomThemes.sanitize(value)) }
+                return nil
+            },
+            apply: { [unowned self] value in
+                let list = CustomThemes.sanitize(value)
+                if list != self.customThemes { self.customThemes = list }
+            })
+    }
+
+    /// The account's main layout (`messageLayout`) or the one for phones (`messageLayoutMobile`)
+    private func layoutKey(_ key: String, mobile: Bool) -> Synced {
+        Synced(
+            key: key, topLevel: true,
+            read: { [unowned self] in
+                if mobile { return self.phoneMessageLayout.map { JSONValue.string($0) } }
+                return JSONValue.string(self.mainMessageLayout)
+            },
+            normalise: { value in
+                if case .string(let text) = value, Self.layouts.contains(text) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                guard case .string(let text) = value, Self.layouts.contains(text) else { return }
+                if mobile {
+                    if self.phoneMessageLayout != text { self.setPhoneLayout(text) }
+                } else if self.mainMessageLayout != text {
+                    self.setMainLayout(text)
+                }
+            })
+    }
+
+    private func setMainLayout(_ value: String) {
+        mainMessageLayout = value
+        save("messageLayout.main", value)
+    }
+
+    private func setPhoneLayout(_ value: String) {
+        phoneMessageLayout = value
+        save("messageLayoutMobile", value)
+    }
+
+    private func languageKey() -> Synced {
+        Synced(
+            key: "language", topLevel: true,
+            read: { [unowned self] in .string(self.language.isEmpty ? "system" : self.language) },
+            normalise: { value in
+                if case .string(let text) = value, text == "system" || Self.languages.contains(text) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                guard case .string(let text) = value, text == "system" || Self.languages.contains(text) else { return }
+                let code = text == "system" ? "" : text
+                if code != self.language { self.language = code }
+            })
+    }
+
+    /// The settings event as this device would save it
+    func settingsSnapshot() -> [String: JSONValue] {
+        var top: [String: JSONValue] = [:]
+        var preferences: [String: JSONValue] = [:]
+        for item in synced {
+            guard let value = item.read() else { continue }
+            if item.topLevel { top[item.key] = value } else { preferences[item.key] = value }
+        }
+        top["preferences"] = .object(preferences)
+        return top
+    }
+
+    /// Keeps what this version understands of a settings event, in the form `settingsSnapshot`
+    /// has: known keys only, with a value of the right type and an allowed value.
+    func sanitizeSettings(_ raw: [String: JSONValue]) -> [String: JSONValue] {
+        var top: [String: JSONValue] = [:]
+        for item in synced where item.topLevel {
+            if let value = raw[item.key], let normal = item.normalise(value) { top[item.key] = normal }
+        }
+        // The WizardChat base keeps the preferences next to the theme instead of in a `preferences` object
+        var flat = raw
+        for (old, current) in Self.legacyKeys where flat[current] == nil {
+            if let value = raw[old] { flat[current] = value }
+        }
+        if let nested = SettingsSync.object(raw["preferences"]) {
+            for (key, value) in nested { flat[key] = value }
+        }
+        var preferences: [String: JSONValue] = [:]
+        for item in synced where !item.topLevel {
+            if let value = flat[item.key], let normal = item.normalise(value) { preferences[item.key] = normal }
+        }
+        top["preferences"] = .object(preferences)
+        return top
+    }
+
+    /// Applies a sanitized settings event (`sanitizeSettings`) to this device
+    func applySettings(_ settings: [String: JSONValue]) {
         isApplyingRemote = true
         defer { isApplyingRemote = false }
-        if let value = json["language"]?.string {
-            let language = value == "system" ? "" : value
-            if language != self.language, language.isEmpty || ["en", "de"].contains(language) {
-                self.language = language
-            }
+        let preferences = SettingsSync.object(settings["preferences"]) ?? [:]
+        for item in synced {
+            let value = item.topLevel ? settings[item.key] : preferences[item.key]
+            if let value { item.apply(value) }
         }
-        if case .bool(let value) = json["sendReadReceipts"], value != sendReadReceipts { sendReadReceipts = value }
-        if case .bool(let value) = json["sendTyping"], value != typingIndicators { typingIndicators = value }
-        if case .bool(let value) = json["notificationSound"], value != notificationSounds { notificationSounds = value }
     }
 
     private func syncIfNeeded() {
         guard !isApplyingRemote else { return }
-        onSyncedSettingsChange?(syncedSettings)
+        onSyncedSettingsChange?()
     }
 
     private func save(_ key: String, _ value: Any) {

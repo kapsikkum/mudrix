@@ -10,6 +10,7 @@ struct WizardChatApp: App {
     @StateObject private var calls = CallManager()
     @StateObject private var recentEmoji = RecentEmoji()
     @StateObject private var verificationRequests = VerificationRequests()
+    @State private var syncer: SettingsSyncer?
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
@@ -22,7 +23,7 @@ struct WizardChatApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ThemedRoot(setting: prefs.theme) { theme in
+            ThemedRoot(prefs: prefs) { theme in
             Group {
                 switch session.state {
                 case .restoring:
@@ -79,7 +80,11 @@ struct WizardChatApp: App {
             .task(id: session.state == .loggedIn ? session.userId : nil) { await onLoginChanged() }
             .onChange(of: notifier.accountToOpen) { _, _ in openNotificationAccount() }
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
+            .onChange(of: prefs.followSystemTheme) { _, _ in applyAppIcon() }
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
+            .onChange(of: prefs.showPresence) { _, visible in
+                Task { await session.applyPresence(visible) }
+            }
         }
         .onChange(of: scenePhase) { _, phase in
             switch phase {
@@ -121,14 +126,14 @@ struct WizardChatApp: App {
         recentEmoji.stop()
         verificationRequests.stop()
         MemberDirectory.shared.reset()
-        prefs.onSyncedSettingsChange = nil
+        syncer?.stop()
+        syncer = nil
         guard session.state == .loggedIn, session.client != nil else { return }
         if openNotificationAccount() { return }
-        if let synced = await session.loadSyncedSettings() {
-            prefs.applySynced(synced)
-        }
-        prefs.onSyncedSettingsChange = { [weak session] settings in
-            Task { await session?.saveSyncedSettings(settings) }
+        if let client = session.client {
+            let next = SettingsSyncer(client: client, prefs: prefs)
+            syncer = next
+            next.start()
         }
         await session.applyPresence(prefs.showPresence)
         if let roomList = session.roomList {
@@ -157,11 +162,10 @@ struct WizardChatApp: App {
     }
 
     private func applyAppIcon() {
-        let name: String?
-        switch (prefs.themedAppIcon, prefs.theme) {
-        case (true, .fixed(.parrot)): name = "AppIcon-Parrot"
-        case (true, .fixed(.hallow)): name = "AppIcon-Hallow"
-        default: name = nil
+        var name: String?
+        if prefs.themedAppIcon && !prefs.followSystemTheme {
+            if prefs.theme == WZ.Theme.parrot.name { name = "AppIcon-Parrot" }
+            if prefs.theme == WZ.Theme.hallow.name { name = "AppIcon-Hallow" }
         }
         guard UIApplication.shared.supportsAlternateIcons,
               UIApplication.shared.alternateIconName != name else { return }
@@ -170,17 +174,18 @@ struct WizardChatApp: App {
 }
 
 private struct ThemedRoot<Content: View>: View {
-    let setting: ThemeSetting
+    @ObservedObject var prefs: AppPreferences
     @ViewBuilder let content: (WizardTheme) -> Content
     @Environment(\.colorScheme) private var systemScheme
 
     var body: some View {
-        let theme = WizardTheme(setting.resolved(systemScheme))
+        let name = prefs.effectiveThemeName(systemDark: systemScheme == .dark)
+        let theme = Themes.resolve(name, customs: prefs.customThemes)
         content(theme)
             .environment(\.theme, theme)
             .tint(theme.control)
             .toggleStyle(SwitchToggleStyle(tint: theme.accent))
-            .preferredColorScheme(setting == .system ? nil : theme.colorScheme)
+            .preferredColorScheme(prefs.followSystemTheme ? nil : theme.colorScheme)
             .background(theme.bgPrimary.ignoresSafeArea())
             .onChange(of: theme.id, initial: true) { _, id in ShareInbox.saveTheme(id.rawValue) }
     }

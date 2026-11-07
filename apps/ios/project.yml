@@ -64,12 +64,15 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
-        CFBundleLocalizations: [en, de]
+        CFBundleLocalizations: [en, de, es, fr, it, pt, ru, ja, tr, nl, pl]
     dependencies:
       - package: WizardChatCore
       - package: LiveKit
       - target: WizardChatWidgets
       - target: WizardChatShare
+    scheme:
+      testTargets:
+        - WizardChatTests
     postBuildScripts:
       - name: Version from package.json
         script: ./scripts/set-version.sh
@@ -157,3 +160,17 @@ targets:
         CODE_SIGN_ENTITLEMENTS: WizardChatShare/WizardChatShare.entitlements
         SKIP_INSTALL: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+  # Unit tests of the pure parts (theme derivation, settings sync, video plan, image strip), run inside the app
+  WizardChatTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - WizardChatTests
+    dependencies:
+      - target: WizardChat
+      - package: WizardChatCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).ios.tests

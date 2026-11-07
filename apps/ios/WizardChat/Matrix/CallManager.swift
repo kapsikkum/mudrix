@@ -547,7 +547,7 @@ extension CallManager: RoomDelegate {
                           forTopic topic: String, encryptionType: EncryptionType) {
         let from = participant?.identity?.stringValue ?? ""
         Task { @MainActor in
-            if topic == WatchTogether.topic { self.watch?.receive(data, from: from) }
+            if WatchTogether.topics.contains(topic) { self.watch?.receive(data, from: from) }
         }
     }
 
