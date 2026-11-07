@@ -20,6 +20,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Debug builds install next to a release or an older Mudrix instead of replacing it.
+            applicationIdSuffix = ".test"
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
