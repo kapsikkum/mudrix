@@ -878,7 +878,7 @@ struct MessageRow: View {
                     }
                 }
                 if !entry.reactions.isEmpty {
-                    ReactionsBar(reactions: entry.reactions) { key in actions?.react(key, entry) }
+                    ReactionsBar(reactions: entry.reactions, roomId: actions?.roomId) { key in actions?.react(key, entry) }
                 }
                 if let thread = entry.thread, thread.replies > 0, let actions, let openThread = actions.openThread {
                     ThreadSummaryBadge(thread: thread, roomId: actions.roomId) { openThread(entry) }

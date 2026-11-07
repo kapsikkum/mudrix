@@ -39,13 +39,6 @@ struct RoomListScreen: View {
         return nil
     }
 
-    private var rooms: [RoomSummary] {
-        guard roomList.isLoaded else { return [] }
-        let rooms = roomList.rooms(for: selection)
-        guard !search.isEmpty else { return rooms }
-        return rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }
-    }
-
     private var groups: [RoomGroup] {
         guard roomList.isLoaded else { return [] }
         let groups = roomList.groups(for: selection)
@@ -54,7 +47,9 @@ struct RoomListScreen: View {
     }
 
     var body: some View {
-        List {
+        // Built once per evaluation: the groups also tell whether the list is empty
+        let groups = self.groups
+        return List {
             if onOpenInbox != nil {
                 VerificationBanner()
                     .listRowBackground(Color.clear)
@@ -71,7 +66,7 @@ struct RoomListScreen: View {
                 ForEach(0..<8, id: \.self) { _ in
                     SkeletonRow().listRowBackground(Color.clear).listRowSeparator(.hidden)
                 }
-            } else if rooms.isEmpty {
+            } else if groups.allSatisfy({ $0.rooms.isEmpty }) {
                 Text(search.isEmpty ? emptyText : "home.noMatches")
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
@@ -80,7 +75,6 @@ struct RoomListScreen: View {
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
-            let groups = groups
             if selection == .dms, groups.count == 1, case .rooms = groups[0].kind {
                 ForEach(groups[0].rooms) { roomRow($0) }
                     .onMove(perform: selection == .home && reordering ? { moveRooms(groups[0], from: $0, to: $1) } : nil)

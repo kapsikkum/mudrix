@@ -43,11 +43,11 @@ struct UnreadState {
 
 @MainActor
 final class RoomListModel: ObservableObject {
-    @Published private(set) var joinedRooms: [RoomSummary] = []
+    @Published private(set) var joinedRooms: [RoomSummary] = [] { didSet { roomsCache = [:] } }
     @Published private(set) var invites: [RoomSummary] = []
     @Published private(set) var mentionRooms: [RoomSummary] = []
     @Published private(set) var spaces: [SpaceSummary] = []
-    @Published private(set) var spaceRooms: [String: Set<String>] = [:]
+    @Published private(set) var spaceRooms: [String: Set<String>] = [:] { didSet { roomsCache = [:] } }
     @Published private(set) var isLoaded = false
     @Published private(set) var sections: [RoomSection] = []
     @Published private(set) var roomTags: [String: Set<String>] = [:]
@@ -64,6 +64,9 @@ final class RoomListModel: ObservableObject {
 
     let client: WizardClient
     private var rooms: [RoomSummary] = []
+    /// rooms(for:) runs for every space in the sidebar and again for the open list on each evaluation;
+    /// it only changes with the rooms or the space graph
+    private var roomsCache: [SidebarSelection: [RoomSummary]] = [:]
     private var subscriptions: [Subscription] = []
     private var graphTask: Task<Void, Never>?
     private var roomsReceived = false
@@ -162,6 +165,13 @@ final class RoomListModel: ObservableObject {
     }
 
     func rooms(for selection: SidebarSelection) -> [RoomSummary] {
+        if let cached = roomsCache[selection] { return cached }
+        let result = computeRooms(for: selection)
+        roomsCache[selection] = result
+        return result
+    }
+
+    private func computeRooms(for selection: SidebarSelection) -> [RoomSummary] {
         switch selection {
         case .home:
             let inSpaces = spaceRooms.values.reduce(into: Set<String>()) { $0.formUnion($1) }

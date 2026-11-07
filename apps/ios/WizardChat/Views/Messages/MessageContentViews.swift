@@ -543,16 +543,15 @@ struct ReplyQuoteView: View {
 
 struct ReactionsBar: View {
     let reactions: [ChatEntry.ReactionGroup]
+    var roomId: String?
     let onToggle: (String) -> Void
     @Environment(\.theme) private var theme
+    @State private var reactors: ChatEntry.ReactionGroup?
 
     var body: some View {
         WrapLayout(spacing: WZ.Space.space3) {
             ForEach(reactions) { reaction in
-                Button {
-                    onToggle(reaction.key)
-                } label: {
-                    HStack(spacing: WZ.Space.space2) {
+                HStack(spacing: WZ.Space.space2) {
                         if reaction.key.hasPrefix("mxc://") {
                             PackThumb(url: reaction.key).frame(width: WZ.Space.space6, height: WZ.Space.space6)
                         } else {
@@ -566,12 +565,46 @@ struct ReactionsBar: View {
                     .frame(height: WZ.Space.space8)
                     .background(reaction.reactedByMe ? theme.accent.opacity(0.18) : theme.fill, in: Capsule())
                     .overlay(Capsule().stroke(reaction.reactedByMe ? theme.accent : .clear, lineWidth: WZ.BorderWidth.thin))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("\(reaction.key) \(reaction.count)")
+                    // Whole chip is the hit area; a long press lists who reacted instead of toggling
+                    .contentShape(Capsule())
+                    .onTapGesture { onToggle(reaction.key) }
+                    .onLongPressGesture(minimumDuration: 0.4) {
+                        guard roomId != nil, !reaction.senders.isEmpty else { return }
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        reactors = reaction
+                    }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel("\(reaction.key) \(reaction.count)")
             }
         }
         .padding(.top, WZ.Space.space2)
+        .sheet(item: $reactors) { reaction in
+            if let roomId { ReactorsSheet(roomId: roomId, reaction: reaction) }
+        }
+    }
+}
+
+/// Who reacted with one emoji (long press on a reaction chip)
+struct ReactorsSheet: View {
+    let roomId: String
+    let reaction: ChatEntry.ReactionGroup
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            List(reaction.senders, id: \.self) { userId in
+                HStack(spacing: WZ.Space.space5) {
+                    ReceiptAvatar(roomId: roomId, userId: userId, size: 32)
+                    ReceiptName(roomId: roomId, userId: userId)
+                    Spacer()
+                }
+                .frame(minHeight: WZ.Size.touchTarget)
+            }
+            .navigationTitle(reaction.key.hasPrefix("mxc://") ? "" : "\(reaction.key) \(reaction.count)")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .presentationDetents([.medium, .large])
     }
 }
 
