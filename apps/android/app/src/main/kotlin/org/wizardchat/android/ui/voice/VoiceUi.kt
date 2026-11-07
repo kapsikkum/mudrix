@@ -57,6 +57,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.runtime.produceState
+import kotlinx.coroutines.delay
+import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.matrix.rtc.CallTimer
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.CallReaction
@@ -182,6 +186,8 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
     val haptics = LocalHapticFeedback.current
     var showMenu by remember { mutableStateOf(false) }
     var showWatchSheet by remember { mutableStateOf(false) }
+    var showSoundboard by remember { mutableStateOf(false) }
+    val prefs = LocalPrefs.current
     val moreHighlighted = calls.handRaised || calls.screenSharing
 
     fun light() = haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -257,6 +263,12 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                     showMenu = false
                     calls.toggleScreenShare()
                 }
+                if (prefs.soundboardEnabled && calls.room != null) {
+                    MenuRow(tr("soundboard.panel.open"), "waveform") {
+                        showMenu = false
+                        showSoundboard = true
+                    }
+                }
                 val watch = calls.watch
                 if (watch != null) {
                     if (watch.state != null) {
@@ -284,6 +296,9 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
     }
     if (showWatchSheet) {
         calls.watch?.let { WatchTogetherStartSheet(it, onDismiss = { showWatchSheet = false }) }
+    }
+    if (showSoundboard) {
+        calls.room?.let { SoundboardSheet(it.id) { showSoundboard = false } }
     }
 }
 
@@ -323,6 +338,13 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
     if (!calls.isInCall) return
     val joined = calls.state == CallManager.State.Joined
     val returnLabel = tr("voice.returnToCall")
+    val started = calls.callStartedAt()
+    val elapsed by produceState(0L, started, joined) {
+        while (joined && started != null) {
+            value = System.currentTimeMillis() - started
+            delay(1000)
+        }
+    }
     Row(
         modifier
             .fillMaxWidth()
@@ -352,7 +374,8 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    tr(if (joined) "voice.statusConnected" else "voice.statusConnecting"),
+                    tr(if (joined) "voice.statusConnected" else "voice.statusConnecting") +
+                        if (joined && started != null) " \u00b7 ${CallTimer.format(elapsed)}" else "",
                     style = wizardFont(WZ.FontSize.sm),
                     color = if (joined) theme.success else theme.textMuted,
                     maxLines = 1,

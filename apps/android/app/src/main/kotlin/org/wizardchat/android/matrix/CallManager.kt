@@ -48,6 +48,7 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.rtc.CallActivityState
 import org.wizardchat.android.matrix.rtc.CallNotificationController
 import org.wizardchat.android.matrix.rtc.CallSounds
+import org.wizardchat.android.matrix.rtc.Soundboard
 import org.wizardchat.android.matrix.rtc.Sounds
 import org.wizardchat.android.matrix.rtc.WatchParticipant
 import org.wizardchat.android.matrix.rtc.WatchTogether
@@ -177,7 +178,7 @@ class CallManager {
     private var run: Subscription? = null
     private var incomingWatch: Subscription? = null
     private var handledElsewhereWatch: Subscription? = null
-    private var members = listOf<CallMember>()
+    private var members by mutableStateOf(listOf<CallMember>())
     private var mutedBeforeDeafen = false
     private var client: WizardClient? = null
     private var keyProvider: BaseKeyProvider? = null
@@ -239,6 +240,7 @@ class CallManager {
                 },
             )
             runCatching { publisher.localParticipant.setMicrophoneEnabled(!micMuted && !deafened) }
+            startSoundboard(client, room.id)
             Sounds.play(SoundKind.Join)
             notification.start(room.displayName, room.isDirect, activityState)
             if (intent == "video") toggleCamera()
@@ -271,7 +273,45 @@ class CallManager {
         room = null
     }
 
+    private var soundboardEvents: Subscription? = null
+
+    /** The soundboard hears the call's data channel and, for clients that cannot send there, room events */
+    private fun startSoundboard(client: WizardClient, roomId: String) {
+        val userId = client.userId ?: return
+        Soundboard.reset()
+        Soundboard.link = Soundboard.CallLink(
+            client,
+            roomId,
+            userId,
+            inCall = { id -> participants.any { it.connected && it.userId == id } },
+            deafened = { deafened },
+            send = { content ->
+                sendData(content, Soundboard.PLAY_TYPE)
+                scope.launch { runCatching { client.sendEvent(roomId, Soundboard.PLAY_TYPE, content) } }
+            },
+        )
+        val startedAt = System.currentTimeMillis()
+        soundboardEvents?.cancel()
+        soundboardEvents = client.watchRoomEvents(Soundboard.PLAY_TYPES) { event ->
+            // Sync replays recent history: only presses made while we are in the call
+            if (event.roomId == roomId && event.originServerTs >= startedAt - SOUNDBOARD_CLOCK_SKEW_MS) {
+                scope.launch { Soundboard.receive(roomId, event.sender, event.content, fromRoom = true) }
+            }
+        }
+    }
+
+    private fun receiveSoundboard(identity: String, data: ByteArray) {
+        val roomId = room?.id ?: return
+        val sender = participants.firstOrNull { it.identity == identity }?.userId ?: return
+        val content = runCatching { kotlinx.serialization.json.Json.parseToJsonElement(data.decodeToString()) }.getOrNull()
+        Soundboard.receive(roomId, sender, content, fromRoom = false)
+    }
+
     private fun tearDown() {
+        soundboardEvents?.cancel()
+        soundboardEvents = null
+        Soundboard.link = null
+        Soundboard.stopAll()
         notification.end()
         displayNames.clear()
         stopRinging()
@@ -431,6 +471,11 @@ class CallManager {
         }
     }
 
+    private val SOUNDBOARD_CLOCK_SKEW_MS = 5_000L
+
+    /** When the first person joined the call, for the call timer */
+    fun callStartedAt(): Long? = members.minOfOrNull { it.joinedAt }
+
     private val publisher: LiveKitRoom? get() = session?.let { connections[it.serviceUrl] }
 
     private fun sendData(message: JsonObject, topic: String) {
@@ -462,6 +507,7 @@ class CallManager {
             mutedBeforeDeafen = micMuted
             deafened = true
             micMuted = true
+            Soundboard.stopAll()
         }
         applyMic()
     }
@@ -629,8 +675,11 @@ class CallManager {
         when (event) {
             is RoomEvent.Reconnecting -> if (livekit === publisher) reconnecting = true
             is RoomEvent.Reconnected -> if (livekit === publisher) reconnecting = false
-            is RoomEvent.DataReceived ->
-                if (event.topic in WatchTogether.TOPICS) watch?.receive(event.data, event.participant?.identity?.value ?: "")
+            is RoomEvent.DataReceived -> {
+                val identity = event.participant?.identity?.value ?: ""
+                if (event.topic in WatchTogether.TOPICS) watch?.receive(event.data, identity)
+                if (event.topic == Soundboard.PLAY_TYPE) receiveSoundboard(identity, event.data)
+            }
             is RoomEvent.Disconnected -> {
                 if (livekit !== publisher || state != State.Joined) return
                 val call = session
