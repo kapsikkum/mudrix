@@ -4,6 +4,8 @@ import { useAtomValue } from 'jotai';
 import { showPresenceDotsAtom } from '@/app/store/atoms/settings';
 import type { PresenceState } from '@/app/store/atoms';
 import { useAvatarBlobUrl } from './useAvatarBlobUrl';
+import { mediaBlobCacheKey } from './fetchMediaBlobUrl';
+import { getCachedBlobUrl } from '@/app/features/timeline/message/mediaCache';
 import { getInitialAndHue } from './avatarHue';
 import { WizardMark } from './WizardMark';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -18,6 +20,15 @@ const SIZE_CLASS: Record<AvatarSize, string> = {
   lg: css.avatarLg,
   xl: css.avatarXl,
   fill: css.avatarFill,
+};
+
+const THUMBNAIL_PIXELS: Record<AvatarSize, number> = {
+  xs: 64,
+  sm: 64,
+  md: 64,
+  lg: 128,
+  xl: 192,
+  fill: 512,
 };
 
 const PRESENCE_DOT_CLASS: Record<AvatarSize, string> = {
@@ -61,7 +72,13 @@ export const Avatar = memo(function Avatar({
   placeholder = 'initial',
 }: Props) {
   const { initial, hue } = getInitialAndHue(name);
-  const { data: imgSrc, refetch } = useAvatarBlobUrl(mxcUrl, client);
+  const pixels = THUMBNAIL_PIXELS[size];
+  const { data: sharpSrc, refetch } = useAvatarBlobUrl(mxcUrl, client, pixels);
+  const imgSrc =
+    sharpSrc ??
+    (pixels > 64 && mxcUrl?.startsWith('mxc://')
+      ? (getCachedBlobUrl(mediaBlobCacheKey(mxcUrl, 64, 64, 'crop')) ?? undefined)
+      : undefined);
 
   const handleImgError = useCallback(() => {
     refetch();
