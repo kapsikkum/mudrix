@@ -3163,6 +3163,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.stateEventsOfTypes", [.value(roomId), .value(eventTypes)])
     }
 
+    /// Every current state event of the room in full, for exploring it.
+    public func roomState(roomId: String) async throws -> [JSONValue] {
+        try await call("WizardClient.roomState", [.value(roomId)])
+    }
+
     public func setStateEvent(roomId: String, eventType: String, stateKey: String, content: JSONValue) async throws {
         _ = try await call("WizardClient.setStateEvent", [.value(roomId), .value(eventType), .value(stateKey), .value(content)]) as Empty
     }

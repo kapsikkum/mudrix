@@ -444,6 +444,26 @@
           "modify_widgets": "Modify widgets",
           "space_child": "Add / remove spaces"
         }
+      },
+      "developer": {
+        "title": "Developer",
+        "roomState": "Room state",
+        "filter": "Filter by event type",
+        "typeCount_one": "{{count}} event type",
+        "typeCount_other": "{{count}} event types",
+        "empty": "No state events match.",
+        "emptyKey": "(empty state key)",
+        "stateEvent": "State event",
+        "stateEventNote": "Replaces the current state for this event type and state key.",
+        "timelineEventNote": "Sends a message-like event into the room's timeline.",
+        "sendEvent": "Send custom event",
+        "eventType": "Event type",
+        "stateKey": "State key",
+        "content": "Content (JSON)",
+        "notObject": "Content must be a JSON object.",
+        "sent": "Event sent.",
+        "sendFailed": "Couldn't send the event: {{error}}",
+        "loadFailed": "Couldn't load the room state: {{error}}"
       }
     },
     "space": {

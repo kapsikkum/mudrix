@@ -2005,6 +2005,11 @@ export class WizardClient extends Remote {
     >;
   }
 
+  /** Every current state event of the room in full, for exploring it. */
+  roomState(roomId: string): Promise<Array<JsonValue>> {
+    return runtime.call('WizardClient.roomState', this, [roomId]) as Promise<Array<JsonValue>>;
+  }
+
   setStateEvent(
     roomId: string,
     eventType: string,

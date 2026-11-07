@@ -7,6 +7,7 @@ import {
   UsersIcon,
   ShieldIcon,
   SmileyStickerIcon,
+  WrenchIcon,
   XIcon,
   type Icon as PhosphorIcon,
 } from '@phosphor-icons/react';
@@ -19,11 +20,12 @@ import { PermissionsPanel } from './Permissions';
 import { RoomPermissionsMatrix } from './RoomPermissionsMatrix';
 import { Widgets } from './Widgets';
 import { EmojiStickerPanel } from './EmojiStickerPanel';
+import { DeveloperPanel } from './Developer';
 import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Settings/NarrowSettings';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis';
+type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'developer';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
@@ -43,7 +45,10 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     labelKey: 'room.settings.emojis.title',
     Icon: SmileyStickerIcon,
   },
+  { tab: 'developer', labelKey: 'room.settings.developer.title', Icon: WrenchIcon },
 ];
+
+const DEV_TABS: Tab[] = ['widgets', 'developer'];
 
 export function RoomSettings() {
   const { t } = useTranslation();
@@ -58,8 +63,8 @@ export function RoomSettings() {
 
   const room = useRoom(roomId);
 
-  const navItems = developerMode ? NAV : NAV.filter((item) => item.tab !== 'widgets');
-  const shownTab = !developerMode && activeTab === 'widgets' ? 'general' : activeTab;
+  const navItems = developerMode ? NAV : NAV.filter((item) => !DEV_TABS.includes(item.tab));
+  const shownTab = !developerMode && DEV_TABS.includes(activeTab) ? 'general' : activeTab;
 
   useLayoutEffect(() => {
     if (roomId) {
@@ -85,6 +90,7 @@ export function RoomSettings() {
       {shownTab === 'permissions' && room && <RoomPermissionsMatrix roomId={roomId!} />}
       {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
       {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+      {shownTab === 'developer' && <DeveloperPanel roomId={roomId!} client={client!} />}
     </>
   );
 

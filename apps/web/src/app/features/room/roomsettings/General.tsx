@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { HistoryVisibility, JoinRule } from '@wizardchat/core';
-import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CameraIcon, ArrowUpIcon, TrashIcon } from '@phosphor-icons/react';
-import { developerModeAtom } from '@/app/store/atoms';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import {
   parentSpacesOf,
@@ -19,7 +17,7 @@ import {
   useUserId,
 } from '@/app/data';
 import { Avatar, fetchMediaBlobUrl } from '@/app/components/Avatar';
-import { Button, CopyButton, IconButton } from '@/app/components/Button';
+import { Button, IconButton } from '@/app/components/Button';
 import { Input, Textarea } from '@/app/components/Input';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { Select } from '@/app/components/Select';
@@ -49,7 +47,6 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   const queryClient = useQueryClient();
   const myUserId = useUserId();
   const confirmDialog = useConfirm();
-  const [devModeEnabled] = useAtom(developerModeAtom);
   const toast = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -516,20 +513,6 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           </div>
         )}
       </div>
-
-      {devModeEnabled && (
-        <>
-          <div className={css.divider} />
-
-          <div className={css.section}>
-            <h3 className={css.sectionTitle}>{t('room.settings.general.id')}</h3>
-            <div className={css.tokenRow}>
-              <code className={css.tokenField}>{roomId}</code>
-              <CopyButton text={roomId} />
-            </div>
-          </div>
-        </>
-      )}
 
       <div className={css.divider} />
 

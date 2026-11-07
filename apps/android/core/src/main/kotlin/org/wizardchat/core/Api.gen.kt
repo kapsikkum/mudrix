@@ -2177,6 +2177,10 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun stateEventsOfTypes(roomId: String, eventTypes: List<String>): List<List<JsonElement>> =
         Runtime.call("WizardClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
 
+    /** Every current state event of the room in full, for exploring it. */
+    suspend fun roomState(roomId: String): List<JsonElement> =
+        Runtime.call("WizardClient.roomState", handle, listOf(Arg.value<String>(roomId)))
+
     suspend fun setStateEvent(roomId: String, eventType: String, stateKey: String, content: JsonElement) {
         Runtime.callUnit("WizardClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
     }

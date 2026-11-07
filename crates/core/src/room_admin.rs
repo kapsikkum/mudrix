@@ -681,6 +681,19 @@ impl WizardClient {
             .collect())
     }
 
+    /// The room's whole current state from the server, as full events
+    pub async fn room_state(&self, room_id: &str) -> Result<Vec<Value>> {
+        let request = get_state_events::v3::Request::new(parse_room_id(room_id)?.to_owned());
+        Ok(self
+            .sdk()
+            .send(request)
+            .await?
+            .room_state
+            .iter()
+            .filter_map(|raw| serde_json::from_str::<Value>(raw.json().get()).ok())
+            .collect())
+    }
+
     pub async fn set_state_event(
         &self,
         room_id: &str,

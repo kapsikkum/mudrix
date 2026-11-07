@@ -444,6 +444,26 @@
           "modify_widgets": "Widgets ändern",
           "space_child": "Spaces hinzufügen / entfernen"
         }
+      },
+      "developer": {
+        "title": "Entwickler",
+        "roomState": "Raumstatus",
+        "filter": "Nach Ereignistyp filtern",
+        "typeCount_one": "{{count}} Ereignistyp",
+        "typeCount_other": "{{count}} Ereignistypen",
+        "empty": "Keine passenden Statusereignisse.",
+        "emptyKey": "(leerer State-Key)",
+        "stateEvent": "Statusereignis",
+        "stateEventNote": "Ersetzt den aktuellen Status für diesen Ereignistyp und State-Key.",
+        "timelineEventNote": "Sendet ein nachrichtenartiges Ereignis in den Verlauf des Raums.",
+        "sendEvent": "Eigenes Ereignis senden",
+        "eventType": "Ereignistyp",
+        "stateKey": "State-Key",
+        "content": "Inhalt (JSON)",
+        "notObject": "Der Inhalt muss ein JSON-Objekt sein.",
+        "sent": "Ereignis gesendet.",
+        "sendFailed": "Ereignis konnte nicht gesendet werden: {{error}}",
+        "loadFailed": "Raumstatus konnte nicht geladen werden: {{error}}"
       }
     },
     "space": {

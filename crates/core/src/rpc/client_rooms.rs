@@ -168,6 +168,11 @@ rpc_methods! {
             this.state_events_of_types(&room_id, &event_types).await
         }
 
+        /// Every current state event of the room in full, for exploring it.
+        call fn roomState(room_id: String) -> Vec<Value> {
+            this.room_state(&room_id).await
+        }
+
         call fn setStateEvent(room_id: String, event_type: String, state_key: String, content: Value) -> () {
             this.set_state_event(&room_id, &event_type, &state_key, content).await
         }

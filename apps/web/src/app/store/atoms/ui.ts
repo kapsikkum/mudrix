@@ -99,7 +99,7 @@ export interface InviteModalState {
 export const inviteModalRoomIdAtom = atom<InviteModalState | null>(null);
 export const roomSettingsRoomIdAtom = atom<string | null>(null);
 export const roomSettingsTabAtom = atom<
-  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | null
+  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'developer' | null
 >(null);
 export const spaceSettingsRoomIdAtom = atom<string | null>(null);
 
