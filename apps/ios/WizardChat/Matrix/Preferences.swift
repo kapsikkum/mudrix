@@ -122,6 +122,37 @@ final class AppPreferences: ObservableObject {
     @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
     @Published var showHomeserverSoftware: Bool { didSet { save("showHomeserverSoftware", showHomeserverSoftware); syncIfNeeded() } }
     @Published var notificationSounds: Bool { didSet { save("notificationSounds", notificationSounds); syncIfNeeded() } }
+    /// Message sounds also play while the app is open on screen
+    @Published var notificationSoundsWhenFocused: Bool {
+        didSet { save("notificationSoundsWhenFocused", notificationSoundsWhenFocused); syncIfNeeded() }
+    }
+    /// The sound pack for every sound without an override of its own
+    @Published var notificationSoundPack: String { didSet { save("notificationSoundPack", notificationSoundPack); syncIfNeeded() } }
+    /// The mention pack of earlier versions; read as the mention override
+    @Published var notificationMentionSoundPack: String {
+        didSet { save("notificationMentionSoundPack", notificationMentionSoundPack); syncIfNeeded() }
+    }
+    /// 0-100, for message, mention and call sounds
+    @Published var notificationSoundVolume: Double { didSet { save("notificationSoundVolume", notificationSoundVolume); syncIfNeeded() } }
+    /// Per sound (by its id): a pack id or "off"; a sound left out follows `notificationSoundPack`
+    @Published var soundOverrides: [String: String] {
+        didSet {
+            let text = String(decoding: (try? JSONEncoder().encode(SoundPacks.overridesJson(soundOverrides))) ?? Data(), as: UTF8.self)
+            save("soundOverrides", text)
+            syncIfNeeded()
+        }
+    }
+    /// Microphone processing applied when a call is joined
+    @Published var noiseSuppression: Bool { didSet { save("noiseSuppression", noiseSuppression); syncIfNeeded() } }
+    @Published var echoCancellation: Bool { didSet { save("echoCancellation", echoCancellation); syncIfNeeded() } }
+    @Published var autoGainControl: Bool { didSet { save("autoGainControl", autoGainControl); syncIfNeeded() } }
+
+    // Soundboard listening choices are per device (a phone in a pocket and a desktop with speakers differ), so they are not synced
+    @Published var soundboardEnabled: Bool { didSet { save("soundboardEnabled", soundboardEnabled) } }
+    /// 0-100, separate from voice and notification volume
+    @Published var soundboardVolume: Double { didSet { save("soundboardVolume", soundboardVolume) } }
+    /// People whose soundboard clips are muted on this device
+    @Published var soundboardMutedUsers: [String] { didSet { save("soundboardMutedUsers", soundboardMutedUsers) } }
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
@@ -192,11 +223,30 @@ final class AppPreferences: ObservableObject {
         showPresence = d.object(forKey: "showPresence") as? Bool ?? false
         showHomeserverSoftware = d.object(forKey: "showHomeserverSoftware") as? Bool ?? true
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
+        notificationSoundsWhenFocused = d.object(forKey: "notificationSoundsWhenFocused") as? Bool ?? false
+        let storedPack = d.string(forKey: "notificationSoundPack")
+        notificationSoundPack = SoundPacks.isPackId(storedPack) ? (storedPack ?? SoundPacks.defaultId) : SoundPacks.defaultId
+        let storedMentionPack = d.string(forKey: "notificationMentionSoundPack")
+        notificationMentionSoundPack = SoundPacks.isPackId(storedMentionPack) ? (storedMentionPack ?? "") : ""
+        let storedVolume = d.object(forKey: "notificationSoundVolume") as? Double ?? 70
+        notificationSoundVolume = min(max(storedVolume, 0), 100)
+        let storedOverrides = d.string(forKey: "soundOverrides").flatMap { text in
+            try? JSONDecoder().decode(JSONValue.self, from: Data(text.utf8))
+        }
+        soundOverrides = SoundPacks.sanitizeOverrides(storedOverrides) ?? [:]
+        noiseSuppression = d.object(forKey: "noiseSuppression") as? Bool ?? true
+        echoCancellation = d.object(forKey: "echoCancellation") as? Bool ?? true
+        autoGainControl = d.object(forKey: "autoGainControl") as? Bool ?? true
+        soundboardEnabled = d.object(forKey: "soundboardEnabled") as? Bool ?? true
+        let storedBoardVolume = d.object(forKey: "soundboardVolume") as? Double ?? 70
+        soundboardVolume = min(max(storedBoardVolume, 0), 100)
+        soundboardMutedUsers = d.stringArray(forKey: "soundboardMutedUsers") ?? []
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
         developerMode = d.bool(forKey: "developerMode")
 
         registerSynced()
+        Sounds.prefs = self
         screenCaptured = UIScreen.main.isCaptured
         captureObserver = NotificationCenter.default.addObserver(
             forName: UIScreen.capturedDidChangeNotification, object: nil, queue: .main
@@ -291,7 +341,41 @@ final class AppPreferences: ObservableObject {
             boolKey("showPresence", \.showPresence),
             boolKey("showHomeserverSoftware", \.showHomeserverSoftware),
             boolKey("notificationSounds", \.notificationSounds),
+            boolKey("notificationSoundsWhenFocused", \.notificationSoundsWhenFocused),
+            packKey("notificationSoundPack", \.notificationSoundPack),
+            packKey("notificationMentionSoundPack", \.notificationMentionSoundPack),
+            numberKey("notificationSoundVolume", \.notificationSoundVolume, range: 0...100),
+            soundOverridesKey(),
+            boolKey("noiseSuppression", \.noiseSuppression),
+            boolKey("echoCancellation", \.echoCancellation),
+            boolKey("autoGainControl", \.autoGainControl),
         ]
+    }
+
+    private func packKey(_ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, String>) -> Synced {
+        stringKey(key, path, topLevel: false, allowed: { SoundPacks.isPackId($0) })
+    }
+
+    private func soundOverridesKey() -> Synced {
+        Synced(
+            key: "soundOverrides", topLevel: false,
+            read: { [unowned self] in SoundPacks.overridesJson(self.soundOverrides) },
+            normalise: { value in
+                guard let overrides = SoundPacks.sanitizeOverrides(value) else { return nil }
+                return SoundPacks.overridesJson(overrides)
+            },
+            apply: { [unowned self] value in
+                guard let overrides = SoundPacks.sanitizeOverrides(value), overrides != self.soundOverrides else { return }
+                self.soundOverrides = overrides
+            })
+    }
+
+    /// The overrides with the older mention pack read as the mention override
+    func effectiveSoundOverrides() -> [String: String] {
+        guard soundOverrides[SoundKind.mention.id] == nil, !notificationMentionSoundPack.isEmpty else { return soundOverrides }
+        var merged = soundOverrides
+        merged[SoundKind.mention.id] = notificationMentionSoundPack
+        return merged
     }
 
     private func boolKey(_ key: String, _ path: ReferenceWritableKeyPath<AppPreferences, Bool>) -> Synced {

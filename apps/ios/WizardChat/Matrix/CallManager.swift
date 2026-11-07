@@ -115,7 +115,7 @@ final class CallManager: NSObject, ObservableObject {
                     (self?.participants ?? []).filter(\.connected).map { ($0.identity, $0.userId, $0.isLocal) }
                 })
             _ = try? await publisher.localParticipant.setMicrophone(enabled: !micMuted && !deafened)
-            CallSounds.play("call_join")
+            Sounds.play(.join)
             liveActivity.start(roomName: room.displayName, isDirect: room.isDirect, state: activityState)
             if intent == "video" { toggleCamera() }
             if ring && room.isDirect && !members.contains(where: { $0.userId != client.userId }) {
@@ -135,7 +135,7 @@ final class CallManager: NSObject, ObservableObject {
     }
 
     private func leaveAndWait() async {
-        if state == .joined { CallSounds.play("call_leave") }
+        if state == .joined { Sounds.play(room?.isVoice == true ? .leave : .callEnd) }
         let session = session
         await tearDown()
         try? await session?.leave()
@@ -206,8 +206,8 @@ final class CallManager: NSObject, ObservableObject {
         }
         let others = Set(members.filter { $0.userId != client.userId }.map(\.userId))
         if state == .joined {
-            if !others.subtracting(knownOthers).isEmpty { CallSounds.play("call_join") }
-            else if !knownOthers.subtracting(others).isEmpty { CallSounds.play("call_leave") }
+            if !others.subtracting(knownOthers).isEmpty { Sounds.play(.join) }
+            else if !knownOthers.subtracting(others).isEmpty { Sounds.play(.leave) }
         }
         knownOthers = others
         if !others.isEmpty, ring == .ringing {
@@ -226,8 +226,10 @@ final class CallManager: NSObject, ObservableObject {
         let options = RoomOptions(
             defaultCameraCaptureOptions: CameraCaptureOptions(position: .front, dimensions: .h720_169, fps: 30),
             defaultScreenShareCaptureOptions: ScreenShareCaptureOptions(dimensions: .h1080_169, fps: 30),
-            defaultAudioCaptureOptions: AudioCaptureOptions(echoCancellation: true, autoGainControl: true,
-                                                            noiseSuppression: true),
+            // Microphone processing as chosen in Settings > Voice & Audio, from this call on
+            defaultAudioCaptureOptions: AudioCaptureOptions(echoCancellation: Sounds.prefs?.echoCancellation ?? true,
+                                                            autoGainControl: Sounds.prefs?.autoGainControl ?? true,
+                                                            noiseSuppression: Sounds.prefs?.noiseSuppression ?? true),
             // VP8 is encoded in software on iPhone, so keep the resolution and give it enough
             // bitrate instead of letting WebRTC scale it down under load
             defaultVideoPublishOptions: VideoPublishOptions(encoding: VideoEncoding(maxBitrate: 2_500_000, maxFps: 30),
@@ -306,6 +308,7 @@ final class CallManager: NSObject, ObservableObject {
 
     private func applyMic() {
         let enabled = !micMuted
+        if state == .joined { Sounds.play(enabled ? .unmute : .mute) }
         Task { _ = try? await publisher?.localParticipant.setMicrophone(enabled: enabled) }
         refresh()
     }
@@ -317,6 +320,7 @@ final class CallManager: NSObject, ObservableObject {
             do {
                 _ = try await publisher?.localParticipant.setCamera(enabled: enabled)
                 cameraOn = enabled
+                if state == .joined { Sounds.play(enabled ? .cameraOn : .cameraOff) }
             } catch {
                 NSLog("WZCALL camera: %@", String(describing: error))
             }
@@ -455,7 +459,7 @@ extension CallManager {
 
     fileprivate func startRinging() {
         ring = .ringing
-        ringback = CallSounds.loop("ringback")
+        ringback = Sounds.loop(.ringback)
     }
 
     func ringAgain() {
@@ -504,7 +508,7 @@ extension CallManager {
         guard remaining > 0 else { return }
         incoming = RingingCall(roomId: call.roomId, eventId: call.eventId, callerId: call.sender,
                                callerName: call.senderName, voiceOnly: call.intent == "audio")
-        if call.ring { ringtone = CallSounds.loop("ringtone") }
+        if call.ring { ringtone = Sounds.loop(.ring) }
         incomingTimer?.cancel()
         incomingTimer = Task { [weak self] in
             try? await Task.sleep(for: .seconds(remaining))

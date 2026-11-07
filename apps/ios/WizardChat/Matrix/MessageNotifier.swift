@@ -63,10 +63,12 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         if prefs.streamerModeActive { content.body = String(localized: "settings.privacy.streamer.notificationBody") }
         content.threadIdentifier = notification.roomId
         content.categoryIdentifier = Self.messageCategory
-        var info = ["roomId": notification.roomId, "eventId": notification.eventId]
+        // A mention, direct message or invite plays the mention sound, other messages the message sound
+        let priority = notification.highlight || notification.isDirect
+        var info = ["roomId": notification.roomId, "eventId": notification.eventId, "priority": priority ? "1" : "0"]
         if let userId = roomList?.client.userId { info["userId"] = userId }
         content.userInfo = info
-        if prefs.notificationSounds && notification.sound { content.sound = .default }
+        if prefs.notificationSounds && notification.sound { content.sound = Sounds.notificationSound(priority: priority) }
         if notification.highlight { content.interruptionLevel = .timeSensitive }
         let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|\(notification.eventId)",
                                             content: content, trigger: nil)
@@ -133,10 +135,14 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
                                             willPresent notification: UNNotification,
                                             withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let done = Unchecked(value: completionHandler)
+        let hasSound = notification.request.content.sound != nil
+        let priority = notification.request.content.userInfo["priority"] as? String == "1"
         Task { @MainActor in
             var options: UNNotificationPresentationOptions = []
             if prefs?.notificationBanners == true { options.formUnion([.banner, .list]) }
-            if prefs?.notificationSounds == true { options.insert(.sound) }
+            // The app is on screen, so the chosen pack's sound is played here, at the volume setting
+            // (and not at all while focused, unless the setting says so)
+            if hasSound, prefs?.notificationSounds == true { Sounds.playMessage(priority: priority) }
             done.value(options)
         }
     }

@@ -18,6 +18,13 @@ struct NotificationSettingsPage: View {
                 ToggleRow(label: "settings.notifications.notificationSounds", note: "settings.notifications.notificationSoundsNote",
                           isOn: $prefs.notificationSounds)
                 SettingsDivider()
+                ToggleRow(label: "settings.notifications.soundsWhenFocused", note: "settings.notifications.soundsWhenFocusedNote",
+                          isOn: $prefs.notificationSoundsWhenFocused)
+                SettingsDivider()
+                NavigationLink(value: SettingsView.Page.voice) {
+                    Text(String(localized: "settings.notifications.chooseSounds"))
+                }
+                SettingsDivider()
                 ToggleRow(label: "settings.notifications.notificationBanners", note: "settings.showABannerWhen",
                           isOn: $prefs.notificationBanners)
             }
