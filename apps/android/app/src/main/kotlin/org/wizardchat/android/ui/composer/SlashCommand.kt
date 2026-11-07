@@ -25,6 +25,9 @@ data class SlashCommand(val name: String, val description: String) {
                 SlashCommand("nick", L10n.format("timeline.commands.nick.description")),
             )
 
+        /** The names of the built-in commands: an integration can never shadow one */
+        val builtinNames: Set<String> get() = all.map { it.name }.toSet()
+
         /** Runs `text` as a command; null if it isn't one, `unknown` if no command has that name */
         suspend fun run(text: String, timeline: TimelineModel, session: MatrixSession, replyTo: String?): Result? {
             val body = text.drop(1)

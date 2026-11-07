@@ -2049,6 +2049,11 @@
         "safety": "Depodan hiçbir şey çalıştırılmaz ve hiçbir yere hiçbir şey gönderilmez. Düğmeler yalnızca mesaj kutusuna metin yerleştirir; gönderip göndermeyeceğinizi siz seçersiniz. İstediğiniz zaman herhangi bir izni kapatabilir veya entegrasyonu kaldırabilirsiniz.",
         "safetyApi": "Depodan hiçbir şey çalıştırılmaz. Bu işlemlerden birini kullanıp tam olarak neyin gönderildiğini gösteren isteği onaylayana kadar hiçbir şey gönderilmez. İstediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz.",
         "safetyDetails": "Depodan hiçbir şey çalıştırılmaz. Cihazınız yalnızca yukarıda adı geçen hizmetlerle iletişim kurar: eşleşen bağlantıların ayrıntılarını aramak için (yalnızca listelenen alanlar gösterilir) ve herhangi bir eylem için ancak siz onayladıktan sonra. Dilediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz."
+      },
+      "hosts": {
+        "title": "Bağlanabileceği sunucular",
+        "none": "Hiçbir sunucuya bağlanmaz.",
+        "note": "Diğer tüm adresler reddedilir. Çerez veya hesap bilgisi gönderilmez."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "{{name}} aracılığıyla",
       "viaDetails": "{{name}} aracılığıyla · ayrıntılar {{host}} üzerinden",
       "loadDetails": "{{host}} ayrıntılarını göster",
-      "noDetails": "Şu anda {{host}} için ayrıntı yok."
+      "noDetails": "Şu anda {{host}} için ayrıntı yok.",
+      "paused": "Yayıncı modu açıkken {{host}} sorgulanmaz."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

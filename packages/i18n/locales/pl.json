@@ -2049,6 +2049,11 @@
         "safety": "Nic z repozytorium nie jest uruchamiane ani nigdzie wysyłane. Przyciski jedynie wstawiają tekst do pola wiadomości; Ty decydujesz, czy go wysłać. Możesz w każdej chwili wyłączyć dowolne uprawnienie lub odinstalować integrację.",
         "safetyApi": "Nic z repozytorium nie jest uruchamiane. Nic nie zostanie wysłane, dopóki nie użyjesz jednej z tych akcji i nie potwierdzisz żądania, które dokładnie pokazuje treść. Możesz w każdej chwili wyłączyć dowolne uprawnienie lub odinstalować.",
         "safetyDetails": "Nic z repozytorium nie jest uruchamiane. Urządzenie łączy się tylko z usługami wymienionymi powyżej: aby pobrać szczegóły pasujących linków (pokazywane są tylko wymienione pola) oraz przy każdej akcji dopiero po jej potwierdzeniu. W każdej chwili możesz wyłączyć dowolne uprawnienie lub odinstalować integrację."
+      },
+      "hosts": {
+        "title": "Serwery, z którymi może się łączyć",
+        "none": "Nie łączy się z żadnym serwerem.",
+        "note": "Każdy inny adres jest odrzucany. Nie są wysyłane pliki cookie ani dane konta."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "przez {{name}}",
       "viaDetails": "przez {{name}} · szczegóły z {{host}}",
       "loadDetails": "Pokaż szczegóły z {{host}}",
-      "noDetails": "Brak szczegółów z {{host}} w tej chwili."
+      "noDetails": "Brak szczegółów z {{host}} w tej chwili.",
+      "paused": "Nie pytamy {{host}}, dopóki włączony jest tryb streamera."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

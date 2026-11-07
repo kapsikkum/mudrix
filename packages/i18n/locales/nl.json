@@ -2049,6 +2049,11 @@
         "safety": "Er wordt niets uitgevoerd vanuit de opslagplaats en er wordt niets ergens naartoe gestuurd. Knoppen plaatsen alleen tekst in het invoerveld; jij kiest of je het verzendt. Je kunt elke machtiging op elk gewenst moment uitschakelen of de integratie verwijderen.",
         "safetyApi": "Er wordt niets uitgevoerd vanuit de opslagplaats. Er wordt niets verzonden totdat je een van deze acties gebruikt en het verzoek bevestigt, waarin precies staat wat er wordt verstuurd. Je kunt elke machtiging op elk gewenst moment uitschakelen of verwijderen.",
         "safetyDetails": "Er wordt niets uitgevoerd vanuit de opslagplaats. Je apparaat neemt alleen contact op met de hierboven genoemde diensten: om passende links op te zoeken (alleen de genoemde velden worden getoond) en, bij een actie, pas nadat je die hebt bevestigd. Je kunt elke machtiging op elk moment uitschakelen of de integratie verwijderen."
+      },
+      "hosts": {
+        "title": "Servers die het mag benaderen",
+        "none": "Het benadert geen enkele server.",
+        "note": "Elk ander adres wordt geweigerd. Er worden geen cookies of accountgegevens verstuurd."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · details van {{host}}",
       "loadDetails": "Details van {{host}} tonen",
-      "noDetails": "Op dit moment geen details van {{host}}."
+      "noDetails": "Op dit moment geen details van {{host}}.",
+      "paused": "{{host}} wordt niet gevraagd zolang de streamermodus aan staat."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

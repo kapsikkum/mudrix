@@ -2049,6 +2049,11 @@
         "safety": "Nothing runs from the repository and nothing is sent anywhere. Buttons only put text in the message box; you choose whether to send it. You can switch off any permission or uninstall at any time.",
         "safetyApi": "Nothing runs from the repository. Nothing is sent until you use one of these actions and confirm the request, which shows exactly what is sent. You can switch off any permission or uninstall at any time.",
         "safetyDetails": "Nothing runs from the repository. Your device contacts only the services named above: to look up matching links (showing only the fields listed), and for any action only after you confirm it. You can switch off any permission or uninstall at any time."
+      },
+      "hosts": {
+        "title": "Servers it may contact",
+        "none": "It never contacts any server.",
+        "note": "Every other address is refused, and no cookies or account details are sent."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · details from {{host}}",
       "loadDetails": "Show details from {{host}}",
-      "noDetails": "No details from {{host}} right now."
+      "noDetails": "No details from {{host}} right now.",
+      "paused": "Not asking {{host}} while streamer mode is on."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

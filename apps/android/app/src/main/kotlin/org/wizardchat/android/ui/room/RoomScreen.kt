@@ -172,6 +172,8 @@ class MessageActions(
     val openThread: ((ChatEntry) -> Unit)? = null,
     /** Set only in unencrypted rooms */
     val linkPreviews: LinkPreviewLoader? = null,
+    /** Decides whether an integration card looks its link up on its own (never in an encrypted room) */
+    val isEncrypted: Boolean = true,
     val retry: () -> Unit = {},
 )
 
@@ -367,7 +369,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
 
     // One instance while nothing it reads changes, so rows that did not change are skipped when this screen recomposes
     val pinnedIds = timeline.pinnedIds
-    val actions = remember(timeline, room.id, threadRoot, pinnedIds, canPin, canRedactOthers, linkPreviews, navigator) {
+    val actions = remember(timeline, room.id, threadRoot, pinnedIds, canPin, canRedactOthers, linkPreviews, room.isEncrypted, navigator) {
         MessageActions(
         reply = {
             replyTo = it
@@ -392,6 +394,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
         linkPreviews = linkPreviews,
+        isEncrypted = room.isEncrypted,
         retry = { timeline.retrySending() },
         )
     }
@@ -918,6 +921,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     } else if (loader != null && previewUrl != null) {
                         LinkPreviewCard(previewUrl, loader)
                     }
+                    IntegrationCards(body, actions?.isEncrypted ?: true)
                     if (entry.reactions.isNotEmpty()) {
                         ReactionsBar(entry.reactions, actions?.roomId) { key -> actions?.react?.invoke(key, entry) }
                     }

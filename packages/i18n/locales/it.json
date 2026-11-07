@@ -2049,6 +2049,11 @@
         "safety": "Nulla viene eseguito dal repository e nulla viene inviato da nessuna parte. I pulsanti inseriscono solo testo nella casella del messaggio; tu scegli se inviarlo. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento.",
         "safetyApi": "Nulla viene eseguito dal repository. Nulla viene inviato finché non usi una di queste azioni e confermi la richiesta, che mostra esattamente cosa viene inviato. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento.",
         "safetyDetails": "Niente viene eseguito dal repository. Il tuo dispositivo contatta solo i servizi indicati sopra: per cercare i link corrispondenti (mostrando solo i campi elencati) e, per qualsiasi azione, solo dopo che l’hai confermata. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento."
+      },
+      "hosts": {
+        "title": "Server che può contattare",
+        "none": "Non contatta nessun server.",
+        "note": "Ogni altro indirizzo viene rifiutato. Non vengono inviati cookie né dati dell'account."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "tramite {{name}}",
       "viaDetails": "tramite {{name}} · dettagli da {{host}}",
       "loadDetails": "Mostra i dettagli da {{host}}",
-      "noDetails": "Nessun dettaglio da {{host}} al momento."
+      "noDetails": "Nessun dettaglio da {{host}} al momento.",
+      "paused": "{{host}} non viene interpellato finché la modalità streamer è attiva."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

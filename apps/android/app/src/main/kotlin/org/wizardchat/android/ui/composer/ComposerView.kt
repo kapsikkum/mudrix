@@ -115,6 +115,8 @@ import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.text
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.integrations.IntegrationMatching
+import org.wizardchat.android.integrations.IntegrationStore
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
@@ -189,6 +191,18 @@ fun ComposerView(
 
     val text = draft.text.toString()
     val trimmed = text.trim()
+    // Installed integrations: commands, "+" menu entries and API actions (nothing is sent without a confirmation)
+    val integrations = IntegrationStore.get(context)
+    val integrationCommands = remember(integrations.installed, integrations.grants, integrations.settings) {
+        IntegrationMatching.commands(integrations.installed, integrations.grants, SlashCommand.builtinNames, integrations.settings)
+    }
+    val integrationInserts = remember(integrations.installed, integrations.grants, integrations.settings) {
+        IntegrationMatching.composerActions(integrations.installed, integrations.grants, integrations.settings)
+    }
+    val integrationApis = remember(integrations.installed, integrations.grants, integrations.settings) {
+        IntegrationMatching.apiActions(integrations.installed, integrations.grants, integrations.settings)
+    }
+    var apiRequest by remember { mutableStateOf<ApiRequest?>(null) }
     val uploadPrefs = prefs.videoUploadPrefs()
     val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
     val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
@@ -267,7 +281,9 @@ fun ComposerView(
     val suggestions: List<Suggestion> = when {
         text.startsWith("/") && !text.contains(" ") -> {
             val query = text.drop(1).lowercase()
-            SlashCommand.all.filter { it.name.startsWith(query) }.map { Suggestion.Command(it.name, it.description) }
+            SlashCommand.all.filter { it.name.startsWith(query) }.map { Suggestion.Command(it.name, it.description) } +
+                integrationCommands.filter { it.name.lowercase().startsWith(query) }
+                    .map { Suggestion.Command(it.name, L10n.format("integrations.command.description", it.description, it.integrationName)) }
         }
         currentToken == null -> emptyList()
         currentToken.startsWith("@") && currentToken.length >= 2 -> {
@@ -319,6 +335,15 @@ fun ComposerView(
         draft.edit {
             replace(0, length, result)
             this.selection = TextRange(cursor)
+        }
+    }
+
+    /** Puts plain text at the cursor (an integration's insert); it is never sent on its own */
+    fun insertAtCursor(insert: String) {
+        val selection = draft.selection
+        draft.edit {
+            replace(selection.min, selection.max, insert)
+            this.selection = TextRange(selection.min + insert.length)
         }
     }
 
@@ -378,6 +403,18 @@ fun ComposerView(
         setDraft("")
         onReplyToChange(null)
         if (message.startsWith("/") && !message.startsWith("//")) {
+            val typed = message.drop(1).takeWhile { !it.isWhitespace() }.lowercase()
+            val args = message.drop(1 + typed.length).trim(' ', '\t')
+            val custom = integrationCommands.firstOrNull { it.name.lowercase() == typed }
+            if (custom != null) {
+                if (custom.api != null) {
+                    apiRequest = ApiRequest(custom.integrationId, custom.api, room.id, args, args)
+                } else {
+                    // Replaces the draft; the person decides whether to send it
+                    setDraft(IntegrationMatching.renderInsert(custom.insert.orEmpty(), room.id, args, custom.settings))
+                }
+                return
+            }
             val result = SlashCommand.run(message, timeline, session, reply)
             if (result != null) {
                 if (result == SlashCommand.Result.unknown) send(message, reply)
@@ -512,6 +549,17 @@ fun ComposerView(
                                 add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal", divider = true) { showPoll = true })
                                 add(MenuItem(tr("composer.location.share"), "map-pin") { showLocation = true })
                                 add(MenuItem(tr("composer.voice.record"), "microphone") { startRecording() })
+                                integrationInserts.forEachIndexed { index, entry ->
+                                    val icon = when (entry.action.icon) { "send" -> "paper-plane-right"; "download" -> "download-simple"; "link" -> "link"; else -> "plus" }
+                                    add(MenuItem(tr("integrations.composer.actionLabel", entry.action.label, entry.integrationName), icon, divider = index == 0) {
+                                        insertAtCursor(IntegrationMatching.renderInsert(entry.action.insert, room.id, "", entry.settings))
+                                    })
+                                }
+                                integrationApis.forEachIndexed { index, entry ->
+                                    add(MenuItem(tr("integrations.composer.actionLabel", entry.action.label, entry.integrationName), "paper-plane-right", divider = index == 0 && integrationInserts.isEmpty()) {
+                                        apiRequest = ApiRequest(entry.integrationId, entry.action.id, room.id, text, "")
+                                    })
+                                }
                             },
                         )
                     }
@@ -601,6 +649,9 @@ fun ComposerView(
             onGif = { gif -> sendGif(gif) },
             onDismiss = { pickerTab = null },
         )
+    }
+    apiRequest?.let { request ->
+        ApiConfirmSheet(request, onDismiss = { apiRequest = null }, onInsertLink = { insertAtCursor(it) })
     }
     if (showPoll) {
         PollCreatorSheet(

@@ -2049,6 +2049,11 @@
         "safety": "Nichts wird aus dem Repository ausgeführt und nichts irgendwohin gesendet. Schaltflächen fügen lediglich Text in das Eingabefeld ein; Sie entscheiden, ob Sie ihn absenden. Sie können jede Berechtigung jederzeit deaktivieren oder die Integration deinstallieren.",
         "safetyApi": "Nichts wird aus dem Repository ausgeführt. Nichts wird gesendet, bis Sie eine dieser Aktionen ausführen und die Anfrage bestätigen, in der genau angezeigt wird, was gesendet wird. Sie können jede Berechtigung jederzeit deaktivieren oder deinstallieren.",
         "safetyDetails": "Aus dem Repository wird nichts ausgeführt. Dein Gerät kontaktiert nur die oben genannten Dienste: um Details zu passenden Links abzurufen (es werden nur die aufgeführten Felder angezeigt) und bei einer Aktion erst, nachdem du sie bestätigt hast. Du kannst jede Berechtigung jederzeit ausschalten oder die Integration deinstallieren."
+      },
+      "hosts": {
+        "title": "Server, die sie kontaktieren darf",
+        "none": "Sie kontaktiert keinen Server.",
+        "note": "Alle anderen Adressen werden abgelehnt. Es werden keine Cookies oder Kontodaten gesendet."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "über {{name}}",
       "viaDetails": "über {{name}} · Details von {{host}}",
       "loadDetails": "Details von {{host}} anzeigen",
-      "noDetails": "Gerade keine Details von {{host}}."
+      "noDetails": "Gerade keine Details von {{host}}.",
+      "paused": "{{host}} wird nicht gefragt, solange der Streamer-Modus an ist."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

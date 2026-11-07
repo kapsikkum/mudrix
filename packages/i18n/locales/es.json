@@ -2049,6 +2049,11 @@
         "safety": "No se ejecuta nada desde el repositorio y no se envía nada a ninguna parte. Los botones solo colocan texto en el campo de mensaje; tú eliges si enviarlo. Puedes desactivar cualquier permiso o desinstalar en cualquier momento.",
         "safetyApi": "No se ejecuta nada desde el repositorio. No se envía nada hasta que uses una de estas acciones y confirmes la solicitud, que muestra exactamente lo que se envía. Puedes desactivar cualquier permiso o desinstalar en cualquier momento.",
         "safetyDetails": "No se ejecuta nada desde el repositorio. Tu dispositivo solo contacta con los servicios indicados arriba: para consultar los enlaces que coinciden (mostrando solo los campos indicados) y, en cualquier acción, solo después de que la confirmes. Puedes desactivar cualquier permiso o desinstalar en cualquier momento."
+      },
+      "hosts": {
+        "title": "Servidores con los que puede conectarse",
+        "none": "No se conecta con ningún servidor.",
+        "note": "Cualquier otra dirección se rechaza. No se envían cookies ni datos de cuenta."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "vía {{name}}",
       "viaDetails": "mediante {{name}} · detalles de {{host}}",
       "loadDetails": "Mostrar detalles de {{host}}",
-      "noDetails": "No hay detalles de {{host}} por ahora."
+      "noDetails": "No hay detalles de {{host}} por ahora.",
+      "paused": "No se consulta {{host}} mientras el modo streamer está activo."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"

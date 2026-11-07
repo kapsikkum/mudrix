@@ -2049,6 +2049,11 @@
         "safety": "Rien ne s'exécute depuis le dépôt et rien n'est envoyé nulle part. Les boutons insèrent uniquement du texte dans la zone de message ; vous choisissez de l'envoyer ou non. Vous pouvez désactiver toute permission ou désinstaller l'intégration à tout moment.",
         "safetyApi": "Rien ne s'exécute depuis le dépôt. Rien n'est envoyé tant que vous n'utilisez pas l'une de ces actions et confirmez la requête, qui détaille exactement ce qui est transmis. Vous pouvez désactiver toute permission ou désinstaller à tout moment.",
         "safetyDetails": "Rien ne s’exécute depuis le dépôt. Votre appareil ne contacte que les services indiqués ci-dessus : pour rechercher les liens correspondants (en n’affichant que les champs listés) et, pour toute action, seulement après votre confirmation. Vous pouvez désactiver toute permission ou désinstaller à tout moment."
+      },
+      "hosts": {
+        "title": "Serveurs qu'elle peut contacter",
+        "none": "Elle ne contacte aucun serveur.",
+        "note": "Toute autre adresse est refusée. Aucun cookie ni détail de compte n'est envoyé."
       }
     }
   },
@@ -2877,7 +2882,8 @@
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · détails de {{host}}",
       "loadDetails": "Afficher les détails de {{host}}",
-      "noDetails": "Aucun détail de {{host}} pour le moment."
+      "noDetails": "Aucun détail de {{host}} pour le moment.",
+      "paused": "{{host}} n'est pas interrogé tant que le mode streamer est activé."
     },
     "composer": {
       "actionLabel": "{{label}} ({{name}})"
