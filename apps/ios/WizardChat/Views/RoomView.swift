@@ -945,10 +945,18 @@ struct MessageRow: View {
             Label(String(localized: "timeline.messageDeleted"), image: "ph-trash-regular")
                 .foregroundStyle(theme.textMuted)
                 .italic()
-        case .undecryptable:
-            Label(String(localized: "timeline.waitingForThisMessage"), image: "ph-lock-regular")
-                .foregroundStyle(theme.textMuted)
-                .italic()
+        case .undecryptable(let reason):
+            VStack(alignment: .leading, spacing: WZ.Space.space3) {
+                Label(String(localized: "timeline.waitingForThisMessage"), image: "ph-lock-regular")
+                    .foregroundStyle(theme.textMuted)
+                    .italic()
+                Text(TimelineModel.decryptionMessage(reason))
+                    .font(.wizard(WZ.FontSize.sm * scale))
+                    .foregroundStyle(theme.textMuted)
+                if let roomId = actions?.roomId {
+                    UndecryptableActions(roomId: roomId, reason: reason)
+                }
+            }
         default:
             EmptyView()
         }

@@ -31,7 +31,8 @@ struct ChatEntry: Identifiable {
         case location(body: String, geoUri: String, description: String?)
         case poll(PollContent)
         case redacted
-        case undecryptable(String)
+        /// The core's reason, for the explanation and for whether trying again can help
+        case undecryptable(reason: String)
         case system(String)
         case dateDivider(Date)
     }
@@ -699,7 +700,7 @@ final class TimelineModel: ObservableObject {
         case .redacted:
             kind = .redacted
         case .unableToDecrypt(let utd):
-            kind = .undecryptable(Self.decryptionMessage(utd.reason))
+            kind = .undecryptable(reason: utd.reason)
         case .membership(let membership):
             guard let text = describe(membership, sender: event.senderName ?? event.sender) else { return nil }
             kind = .system(text)
@@ -845,7 +846,7 @@ final class TimelineModel: ObservableObject {
         }
     }
 
-    private static func decryptionMessage(_ reason: UtdReason) -> String {
+    static func decryptionMessage(_ reason: UtdReason) -> String {
         switch reason {
         case "sentBeforeWeJoined": return String(localized: "timeline.decryptBeforeJoined")
         case "verificationViolation": return String(localized: "timeline.decryptSenderIdentityReset")

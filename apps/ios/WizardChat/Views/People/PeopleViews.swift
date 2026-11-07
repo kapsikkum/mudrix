@@ -138,11 +138,14 @@ struct UserProfileSheet: View {
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
     @State private var name: String?
     @State private var avatarUrl: String?
     @State private var statusText: String?
+    @State private var extended = ExtendedProfile()
+    @State private var software: HomeserverSoftware?
     @State private var rights = RoleRights(ownLevel: 0, canEditLevels: false)
     @State private var level: Int64 = 0
     @State private var isMember = false
@@ -162,7 +165,7 @@ struct UserProfileSheet: View {
             List {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
-                        AvatarView(name: name ?? userId, url: avatarUrl, size: WZ.SizeAvatar.xl)
+                        AccentAvatar(name: name ?? userId, url: avatarUrl, accent: extended.accent)
                         Text(name ?? userId)
                             .font(.wizard(WZ.FontSize.xxl, .bold))
                             .foregroundStyle(theme.textPrimary)
@@ -178,10 +181,13 @@ struct UserProfileSheet: View {
                                 .multilineTextAlignment(.center)
                         }
                         if isMember, let badge = RoleBadge(level: level) { badge }
+                        ProfileBadges(isMudrixUser: extended.isMudrixUser, software: software)
+                        ProfileAboutView(profile: extended)
                     }
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
                 }
+                if !isMe { ProfileNoteSection(userId: userId) }
                 if let roomId, isMember, rights.canChange(targetLevel: level, isSelf: isMe) {
                     Section {
                         RoleMenu(roomId: roomId, userId: userId, currentLevel: level, rights: rights) {
@@ -239,6 +245,14 @@ struct UserProfileSheet: View {
         }
         .presentationDetents([.medium, .large])
         .task { await load() }
+        .task(id: "\(userId)|\(prefs.showHomeserverSoftware)") { await loadSoftware() }
+    }
+
+    private func loadSoftware() async {
+        software = nil
+        let server = ProfileFields.serverName(of: userId)
+        guard prefs.showHomeserverSoftware, !server.isEmpty, let client = session.client else { return }
+        software = (try? await client.homeserverSoftware(serverName: server)) ?? nil
     }
 
     private var alertTitle: String {
@@ -271,6 +285,10 @@ struct UserProfileSheet: View {
                 canKick = permissions.kick && level < rights.ownLevel
                 canBan = permissions.ban && level < rights.ownLevel
             }
+        }
+        // The whole profile in one request; a server without extended profiles just has nothing extra
+        if let client = session.client, let fields = try? await client.profileFields(userId: userId) {
+            extended = ProfileFields.parse(fields)
         }
         if let profile = await session.profile(of: userId) {
             name = name ?? profile.displayName
