@@ -314,6 +314,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         }
     }
     LaunchedEffect(timeline) { timeline.start() }
+    // Looking at a thread marks its replies as seen (the unread dot in the inbox)
+    if (threadRoot != null) LaunchedEffect(threadRoot, timeline.entries.size) { org.wizardchat.android.matrix.ThreadLastSeen.markSeen(threadRoot) }
     LaunchedEffect(timeline) {
         val details = runCatching { client.roomDetails(room.id) }.getOrNull()
         if (details?.isEncrypted == false) linkPreviews = LinkPreviewLoader(client)

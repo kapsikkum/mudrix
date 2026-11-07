@@ -3,7 +3,17 @@ package org.wizardchat.android.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.WizardSheet
+import org.wizardchat.android.ui.settings.AccountSettings
+import org.wizardchat.android.ui.settings.SessionsSheet
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,27 +55,47 @@ fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
     val invites = roomList.invites
     val mentions = roomList.mentionRooms
     val recent = recentRooms(roomList.joinedRooms)
+    var sheet by remember { mutableStateOf<SetupSheet?>(null) }
+    when (sheet) {
+        SetupSheet.sessions -> SessionsSheet { sheet = null }
+        SetupSheet.account -> WizardSheet({ sheet = null }) {
+            Box(Modifier.fillMaxWidth().fillMaxHeight(0.92f)) { AccountSettings { sheet = null } }
+        }
+        null -> Unit
+    }
     Column(
         Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Text(tr("home.greeting", name), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, maxLines = 2)
+        Text(tr("timeline.home.greeting", name), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, maxLines = 2)
+        // Finish setting up: a profile picture, and a session that is not verified yet (nothing shows while it is still loading)
+        val needsPicture = session.avatarUrl == null
+        val needsVerification = session.encryption?.let { !it.deviceVerified } == true
+        if (needsPicture || needsVerification) {
+            Heading(tr("timeline.home.setupHeading"), null, null)
+            if (needsPicture) {
+                CardRow(tr("timeline.home.profileTitle"), null, tr("timeline.home.profileDesc"), 0, false, icon = "camera") { sheet = SetupSheet.account }
+            }
+            if (needsVerification) {
+                CardRow(tr("verifySession.title"), null, tr("timeline.home.encryptionDesc"), 0, false, icon = "shield-warning", warning = true) { sheet = SetupSheet.sessions }
+            }
+        }
         if ((invites.isNotEmpty() || mentions.isNotEmpty()) && onOpenInbox != null) {
-            Heading(tr("home.catchUpHeading"), tr("home.inboxLink"), onOpenInbox)
+            Heading(tr("timeline.home.catchUpHeading"), tr("timeline.home.inboxLink"), onOpenInbox)
             invites.take(3).forEach { invite ->
-                CardRow(invite.displayName, invite.avatarUrl, tr("home.invitation"), 0, false) { onOpenInbox() }
+                CardRow(invite.displayName, invite.avatarUrl, tr("timeline.home.invitation"), 0, false) { onOpenInbox() }
             }
             mentions.take(3).forEach { room ->
                 CardRow(room.displayName, room.avatarUrl, tr("inbox.youWereMentioned"), room.mentionCount, true) { navigator.openRoom(room.id) }
             }
         }
         if (recent.isNotEmpty()) {
-            Heading(tr("home.recentHeading"), null, null)
+            Heading(tr("timeline.home.recentHeading"), null, null)
             recent.forEach { room ->
                 val label = when {
-                    room.isDirect -> tr("home.dmLabel")
-                    room.isVoice -> tr("home.voiceLabel")
-                    else -> tr("home.roomLabel")
+                    room.isDirect -> tr("timeline.home.dmLabel")
+                    room.isVoice -> tr("timeline.home.voiceLabel")
+                    else -> tr("timeline.home.roomLabel")
                 }
                 val unread = if (room.mentionCount > 0) room.mentionCount else room.unreadCount
                 CardRow(room.displayName, room.avatarUrl, label, unread, room.mentionCount > 0) { navigator.openRoom(room.id) }
@@ -73,6 +103,8 @@ fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
         }
     }
 }
+
+private enum class SetupSheet { account, sessions }
 
 @Composable
 private fun Heading(title: String, action: String?, onAction: (() -> Unit)?) {
@@ -85,7 +117,7 @@ private fun Heading(title: String, action: String?, onAction: (() -> Unit)?) {
 }
 
 @Composable
-private fun CardRow(title: String, avatarUrl: String?, subtitle: String, unread: Int, mention: Boolean, onClick: () -> Unit) {
+private fun CardRow(title: String, avatarUrl: String?, subtitle: String, unread: Int, mention: Boolean, icon: String? = null, warning: Boolean = false, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -96,11 +128,15 @@ private fun CardRow(title: String, avatarUrl: String?, subtitle: String, unread:
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Avatar(title, avatarUrl, WZ.SizeAvatar.sm)
+        if (icon != null) {
+            PhIcon(icon, size = WZ.SizeIcon.lg, tint = if (warning) theme.warningColor else theme.accent)
+        } else {
+            Avatar(title, avatarUrl, WZ.SizeAvatar.sm)
+        }
         Column(Modifier.weight(1f)) {
             Text(title, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
-                if (unread > 0 && !mention) "$subtitle · ${trPlural("home.unreadBadge", unread, unread)}" else subtitle,
+                if (unread > 0 && !mention) "$subtitle · ${trPlural("timeline.home.unreadBadge", unread, unread)}" else subtitle,
                 style = wizardFont(WZ.FontSize.sm),
                 color = theme.textMuted,
                 maxLines = 1,

@@ -30,7 +30,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.rtc.PlayResult
+import org.wizardchat.android.matrix.rtc.RoomSoundboards
 import org.wizardchat.android.matrix.rtc.Soundboard
+import org.wizardchat.android.ui.space.LocalSpaceGraph
 import org.wizardchat.android.matrix.rtc.SoundboardClip
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.CopyToast
@@ -48,12 +50,30 @@ import org.wizardchat.tokens.WZ
 fun SoundboardSheet(roomId: String, onDismiss: () -> Unit) {
     val session = LocalSession.current
     var personal by remember { mutableStateOf<List<SoundboardClip>>(emptyList()) }
+    val graph = LocalSpaceGraph.current
+    var roomClips by remember { mutableStateOf<List<RoomSoundboards.RoomClip>>(emptyList()) }
+    var origins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var access by remember { mutableStateOf(RoomSoundboards.Access.ok) }
     LaunchedEffect(session.client) {
         val client = session.client ?: return@LaunchedEffect
         personal = Soundboard.personalBoard(client).map(Soundboard::toClip)
     }
+    // The boards of this room and of the spaces above it (read only), and whether this person may play here
+    LaunchedEffect(session.client, roomId, graph) {
+        val client = session.client ?: return@LaunchedEffect
+        roomClips = RoomSoundboards.clips(client, graph, roomId)
+        origins = roomClips.map { it.originRoomId }.distinct().filter { it != roomId }.associateWith { id ->
+            runCatching { client.roomDetails(id).name }.getOrNull().orEmpty()
+        }
+        session.userId?.let { access = RoomSoundboards.access(client, graph, roomId, it) }
+    }
 
     fun press(clip: SoundboardClip) {
+        when (access) {
+            RoomSoundboards.Access.roomDisabled -> return CopyToast.show(L10n.format("soundboard.play.roomDisabled"))
+            RoomSoundboards.Access.forbidden -> return CopyToast.show(L10n.format("soundboard.play.forbidden"))
+            RoomSoundboards.Access.ok -> Unit
+        }
         val message = when (Soundboard.press(roomId, clip)) {
             PlayResult.Ok -> null
             PlayResult.Disabled -> "soundboard.play.disabled"
@@ -79,6 +99,20 @@ fun SoundboardSheet(roomId: String, onDismiss: () -> Unit) {
                 Section(tr("soundboard.panel.yourSounds"))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
                     personal.forEach { ClipButton(it) { press(it) } }
+                }
+            }
+            // The room's own clips first, then each space's
+            val groups = roomClips.groupBy { it.originRoomId }
+            groups[roomId]?.let { own ->
+                Section(tr("soundboard.panel.roomSounds"))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    own.forEach { ClipButton(it.clip) { press(it.clip) } }
+                }
+            }
+            groups.filterKeys { it != roomId }.forEach { (origin, list) ->
+                Section(tr("soundboard.panel.fromSpace", origins[origin].orEmpty().ifEmpty { origin }))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    list.forEach { ClipButton(it.clip) { press(it.clip) } }
                 }
             }
             Section(tr("soundboard.panel.defaultSounds"))

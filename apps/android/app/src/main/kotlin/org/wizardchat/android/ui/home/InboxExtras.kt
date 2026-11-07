@@ -1,6 +1,7 @@
 package org.wizardchat.android.ui.home
 
 import android.text.format.DateUtils
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +45,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.trPlural
+import org.wizardchat.android.matrix.ThreadLastSeen
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.ThreadInfo
 import org.wizardchat.tokens.WZ
@@ -58,7 +61,8 @@ private data class InboxThread(val room: RoomSummary, val thread: ThreadInfo) {
 /** Threads you took part in across the busiest rooms, from the core's `threads(roomId, mine)` */
 @Composable
 internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
-    val client = LocalSession.current.client
+    val session = LocalSession.current
+    val client = session.client
     val navigator = LocalNavigator.current
     var threads by remember { mutableStateOf<List<InboxThread>?>(null) }
     // Asked again when a room has new activity, not on every recomposition
@@ -88,6 +92,7 @@ internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
                     Modifier
                         .fillMaxWidth()
                         .clickable {
+                            ThreadLastSeen.markSeen(item.thread.rootEventId, item.time)
                             navigator.push(Route.Thread(item.room.id, item.thread.rootEventId))
                             onDismiss()
                         }
@@ -95,6 +100,8 @@ internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                 ) {
+                    val unread = ThreadLastSeen.isUnread(item.thread, session.userId)
+                    Box(Modifier.size(WZ.Space.space3).background(if (unread) theme.accent else Color.Transparent, CircleShape))
                     Avatar(item.room.displayName, item.room.avatarUrl, WZ.SizeAvatar.sm)
                     Column(Modifier.weight(1f)) {
                         Text(
