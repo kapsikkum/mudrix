@@ -26,7 +26,7 @@ struct SpaceSettingsView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
                         PhotosPicker(selection: $photo, matching: .images) {
@@ -203,16 +203,18 @@ private struct AddRoomsToSpaceSheet: View {
 
     var body: some View {
         NavigationStack {
-            List(candidates) { room in
-                Button {
-                    if selected.contains(room.id) { selected.remove(room.id) } else { selected.insert(room.id) }
-                } label: {
-                    HStack(spacing: WZ.Space.space5) {
-                        AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.sm)
-                        Text(room.displayName).foregroundStyle(theme.textPrimary).lineLimit(1)
-                        Spacer()
-                        Image(selected.contains(room.id) ? "ph-check-circle-fill" : "ph-circle-regular")
-                            .foregroundStyle(theme.accent)
+            ThemedList {
+                ForEach(candidates) { room in
+                    Button {
+                        if selected.contains(room.id) { selected.remove(room.id) } else { selected.insert(room.id) }
+                    } label: {
+                        HStack(spacing: WZ.Space.space5) {
+                            AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.sm)
+                            Text(room.displayName).foregroundStyle(theme.textPrimary).lineLimit(1)
+                            Spacer()
+                            Image(selected.contains(room.id) ? "ph-check-circle-fill" : "ph-circle-regular")
+                                .foregroundStyle(theme.accent)
+                        }
                     }
                 }
             }
@@ -255,7 +257,7 @@ struct RoomPacksView: View {
     @State private var loaded = false
 
     var body: some View {
-        List {
+        ThemedList {
             Section {
                 ForEach(packs, id: \.key) { pack in
                     NavigationLink {
@@ -348,7 +350,7 @@ private struct PackEditorView: View {
     }
 
     var body: some View {
-        Form {
+        ThemedForm {
             if canEdit {
                 Section(String(localized: "room.pack")) {
                     TextField(String(localized: "dialogs.name"), text: Binding(

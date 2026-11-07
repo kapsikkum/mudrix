@@ -183,6 +183,28 @@ extension WizardTheme {
     var groupedRow: Color { colorScheme == .dark ? bgSecondary : bgPrimary }
 }
 
+struct ThemedForm<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Form { content().listRowBackground(theme.groupedRow) }
+            .scrollContentBackground(.hidden)
+            .background(theme.groupedBackground.ignoresSafeArea())
+    }
+}
+
+struct ThemedList<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        List { content().listRowBackground(theme.groupedRow) }
+            .scrollContentBackground(.hidden)
+            .background(theme.groupedBackground.ignoresSafeArea())
+    }
+}
+
 struct LineDivider: View {
     let text: String
     @Environment(\.theme) private var theme

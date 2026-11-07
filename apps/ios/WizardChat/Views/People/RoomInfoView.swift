@@ -36,7 +36,7 @@ struct RoomInfoView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
                         avatar
@@ -321,7 +321,7 @@ struct CreateRoomView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     TextField(String(localized: "dialogs.name"), text: $name)
                     TextField(String(localized: "dialogs.topic"), text: $topic, axis: .vertical).lineLimit(1...3)

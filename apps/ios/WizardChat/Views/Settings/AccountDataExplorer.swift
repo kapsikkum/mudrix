@@ -60,7 +60,7 @@ private struct AccountDataEditor: View {
     @State private var saving = false
 
     var body: some View {
-        Form {
+        ThemedForm {
             if type == nil {
                 Section(String(localized: "settings.developer.accountDataType")) {
                     TextField("m.example", text: $newType)

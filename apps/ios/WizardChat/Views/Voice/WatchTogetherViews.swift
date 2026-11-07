@@ -327,7 +327,7 @@ struct WatchTogetherStartSheet: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     TextField("https://www.youtube.com/watch?v=…", text: $link)
                         .keyboardType(.URL)

@@ -19,7 +19,7 @@ struct CreateSpaceView: View {
             CreateRoomView(onSpaceCreated: onDone) { mode = .choose }
         } else {
             NavigationStack {
-                Form {
+                ThemedForm {
                     switch mode {
                     case .join: joinForm
                     default: chooser

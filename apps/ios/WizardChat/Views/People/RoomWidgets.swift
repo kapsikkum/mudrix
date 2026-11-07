@@ -17,7 +17,7 @@ struct RoomWidgetsView: View {
     @State private var error: String?
 
     var body: some View {
-        List {
+        ThemedList {
             Section {
                 if loaded && widgets.isEmpty {
                     Text(String(localized: "widgets.empty")).foregroundStyle(theme.textMuted)
@@ -121,7 +121,7 @@ private struct AddWidgetSheet: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     TextField(String(localized: "widgets.name"), text: $name)
                     TextField(String(localized: "widgets.url"), text: $url)
@@ -229,7 +229,7 @@ struct RoomBridgesView: View {
     @State private var profileUserId: String?
 
     var body: some View {
-        List {
+        ThemedList {
             ForEach(bridges) { bridge in
                 Section {
                     HStack(spacing: WZ.Space.space5) {

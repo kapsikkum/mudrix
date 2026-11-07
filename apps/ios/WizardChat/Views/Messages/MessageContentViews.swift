@@ -601,17 +601,19 @@ struct ReadReceiptsView: View {
         .accessibilityLabel(L10n.format("timeline.seenBy", userIds.count))
         .sheet(isPresented: $showList) {
             NavigationStack {
-                List(userIds, id: \.self) { userId in
-                    HStack(spacing: WZ.Space.space5) {
-                        ReceiptAvatar(roomId: roomId, userId: userId, size: 32)
-                        ReceiptName(roomId: roomId, userId: userId)
-                        Spacer()
-                        if let date = readAt[userId] {
-                            Text(Calendar.current.isDateInToday(date)
-                                 ? date.formatted(date: .omitted, time: .shortened)
-                                 : date.formatted(date: .abbreviated, time: .shortened))
-                                .font(.wizard(WZ.FontSize.sm))
-                                .foregroundStyle(theme.textMuted)
+                ThemedList {
+                    ForEach(userIds, id: \.self) { userId in
+                        HStack(spacing: WZ.Space.space5) {
+                            ReceiptAvatar(roomId: roomId, userId: userId, size: 32)
+                            ReceiptName(roomId: roomId, userId: userId)
+                            Spacer()
+                            if let date = readAt[userId] {
+                                Text(Calendar.current.isDateInToday(date)
+                                     ? date.formatted(date: .omitted, time: .shortened)
+                                     : date.formatted(date: .abbreviated, time: .shortened))
+                                    .font(.wizard(WZ.FontSize.sm))
+                                    .foregroundStyle(theme.textMuted)
+                            }
                         }
                     }
                 }

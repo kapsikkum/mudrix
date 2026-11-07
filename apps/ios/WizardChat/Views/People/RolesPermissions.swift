@@ -155,7 +155,7 @@ struct RolesPermissionsView: View {
     ]
 
     var body: some View {
-        Form {
+        ThemedForm {
             Section {
                 if staff.isEmpty {
                     Text(String(localized: "room.noAdminsOrModerators")).foregroundStyle(theme.textMuted)

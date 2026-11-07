@@ -19,7 +19,7 @@ struct InboxView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     tabs
                 }

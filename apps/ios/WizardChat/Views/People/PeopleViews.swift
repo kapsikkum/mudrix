@@ -44,7 +44,7 @@ struct MembersView: View {
     }
 
     var body: some View {
-        List {
+        ThemedList {
             if canInvite {
                 Button { showInvite = true } label: {
                     Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular").foregroundStyle(theme.control)
@@ -160,7 +160,7 @@ struct UserProfileSheet: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            ThemedList {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
                         AvatarView(name: name ?? userId, url: avatarUrl, size: WZ.SizeAvatar.xl)
@@ -360,7 +360,7 @@ struct UserPickerView: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            ThemedList {
                 if !selected.isEmpty {
                     Section {
                         ScrollView(.horizontal, showsIndicators: false) {
