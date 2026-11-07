@@ -400,6 +400,13 @@ internal fun PrivacySettings(onBack: () -> Unit) {
         }
         SettingsSection(tr("settings.privacy.other")) {
             ToggleRow(tr("settings.privacy.showPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.showPresenceNote"))
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.privacy.showHomeserverSoftware"),
+                prefs.showHomeserverSoftware,
+                { prefs.showHomeserverSoftware = it },
+                note = tr("settings.privacy.showHomeserverSoftwareNote"),
+            )
         }
     }
 }

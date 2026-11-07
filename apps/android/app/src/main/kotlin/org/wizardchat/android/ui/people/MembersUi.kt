@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.launch
+import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.ExtendedProfile
+import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.ignore
 import org.wizardchat.android.matrix.profile
 import org.wizardchat.android.matrix.startDirectMessage
@@ -39,6 +42,7 @@ import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.core.HomeserverSoftware
 import org.wizardchat.core.Member
 import org.wizardchat.tokens.WZ
 
@@ -130,9 +134,12 @@ private enum class ProfileAction { Kick, Ban, Ignore }
 @Composable
 fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onChanged: () -> Unit = {}) {
     val session = LocalSession.current
+    val prefs = LocalPrefs.current
     val navigator = LocalNavigator.current
     val closeParents = LocalCloseParents.current
     val scope = rememberCoroutineScope()
+    var extended by remember { mutableStateOf(ExtendedProfile()) }
+    var software by remember { mutableStateOf<HomeserverSoftware?>(null) }
     var name by remember { mutableStateOf<String?>(null) }
     var avatarUrl by remember { mutableStateOf<String?>(null) }
     var statusText by remember { mutableStateOf<String?>(null) }
@@ -168,6 +175,8 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                 }
             }
         }
+        // The whole profile in one request; a server without extended profiles just has nothing extra
+        client?.let { c -> runCatching { c.profileFields(userId) }.getOrNull() }?.let { extended = ProfileFields.parse(it) }
         run {
             session.profile(userId)?.let { profile ->
                 name = name ?: profile.displayName
@@ -175,6 +184,13 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                 statusText = profile.customStatus?.takeIf { (it.expiresAt ?: Long.MAX_VALUE) > System.currentTimeMillis() }?.text
             }
         }
+    }
+
+    LaunchedEffect(userId, prefs.showHomeserverSoftware) {
+        software = null
+        if (!prefs.showHomeserverSoftware) return@LaunchedEffect
+        val server = ProfileFields.serverNameOf(userId).ifEmpty { return@LaunchedEffect }
+        software = session.client?.let { c -> runCatching { c.homeserverSoftware(server) }.getOrNull() }
     }
 
     fun message() {
@@ -220,7 +236,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                 ) {
-                    Avatar(name ?: userId, avatarUrl, WZ.SizeAvatar.xl)
+                    AccentAvatar(name ?: userId, avatarUrl, extended.accent)
                     Text(
                         name ?: userId,
                         style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
@@ -234,8 +250,11 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                         Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary, textAlign = TextAlign.Center)
                     }
                     if (isMember) RoleBadge(level)
+                    ProfileBadges(extended.isMudrixUser, software)
+                    ProfileAbout(extended, name ?: userId)
                 }
             }
+            if (!isMe) item { ProfileNote(userId) }
             if (roomId != null && isMember && rights.canChange(level, isMe)) {
                 item {
                     GroupedSection {

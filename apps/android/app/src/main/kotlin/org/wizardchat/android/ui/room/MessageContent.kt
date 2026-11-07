@@ -47,6 +47,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -371,7 +372,7 @@ internal fun ZoomableBox(modifier: Modifier = Modifier, content: @Composable Box
     )
 }
 
-/** A started download is given up after this long; the core returns the whole file at once, so there is no progress to watch */
+/** A started download is given up after this long */
 private const val DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000L
 
 @Composable
@@ -383,6 +384,7 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
     var loading by remember { mutableStateOf(false) }
     var playing by remember { mutableStateOf<File?>(null) }
     var download by remember { mutableStateOf<Job?>(null) }
+    var progress by remember { mutableStateOf<Float?>(null) }
     val width = 260f
     val ratio = (media.height ?: 9f) / maxOf(media.width ?: 16f, 1f)
     LaunchedEffect(media.thumbnail, loader) {
@@ -402,9 +404,15 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
                     // Nothing is downloaded until now; the video plays as soon as it is ready
                     download = scope.launch {
                         loading = true
+                        progress = null
                         try {
-                            // The core hands over the whole file at once, so there is no percentage, and a stalled download needs a cap
-                            playing = withTimeout(DOWNLOAD_TIMEOUT_MS) { loader.file(media.source, media.filename) }
+                            // The core reports how much has arrived; a stalled download needs a cap
+                            playing = withTimeout(DOWNLOAD_TIMEOUT_MS) {
+                                loader.file(media.source, media.filename, media.size) { p ->
+                                    val total = p.total ?: media.size
+                                    progress = if (total != null && total > 0) (p.received.toFloat() / total).coerceIn(0f, 1f) else null
+                                }
+                            }
                         } catch (e: TimeoutCancellationException) {
                             CopyToast.show(L10n.format("timeline.video.downloadFailed", e.message ?: ""))
                         } catch (e: CancellationException) {
@@ -430,7 +438,23 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
                 SpoilerCover(spoiler ?: "")
             }
             loading -> {
-                Spinner(color = theme.textOnAccent)
+                val shown = progress
+                if (shown == null) {
+                    Spinner(color = theme.textOnAccent)
+                } else {
+                    CircularProgressIndicator(
+                        progress = { shown },
+                        color = theme.textOnAccent,
+                        trackColor = theme.overlay,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.size(WZ.Space.space11),
+                    )
+                    Text(
+                        "${(shown * 100).toInt()}%",
+                        style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                        color = theme.textOnAccent,
+                    )
+                }
                 val cancel = tr("timeline.video.cancelDownload")
                 Box(
                     Modifier

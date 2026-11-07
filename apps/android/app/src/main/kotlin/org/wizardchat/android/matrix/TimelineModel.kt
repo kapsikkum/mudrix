@@ -107,7 +107,7 @@ data class ChatEntry(
         data class Location(val body: String, val geoUri: String, val description: String?) : Kind
         data class Poll(val poll: PollContent) : Kind
         data object Redacted : Kind
-        data class Undecryptable(val text: String) : Kind
+        data class Undecryptable(val text: String, val reason: String) : Kind
         data class System(val text: String) : Kind
         data class DateDivider(val date: Instant) : Kind
     }
@@ -787,7 +787,7 @@ class TimelineModel(
                     )
                 }
                 is EntryContent.Redacted -> ChatEntry.Kind.Redacted
-                is EntryContent.UnableToDecrypt -> ChatEntry.Kind.Undecryptable(decryptionMessage(content.reason))
+                is EntryContent.UnableToDecrypt -> ChatEntry.Kind.Undecryptable(decryptionMessage(content.reason), content.reason)
                 is EntryContent.Membership -> {
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)

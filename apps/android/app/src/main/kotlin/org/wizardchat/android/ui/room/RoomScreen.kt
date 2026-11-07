@@ -899,7 +899,7 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
                 Modifier
             },
         ) {
-            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark)
+            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark, roomId = actions?.roomId)
         }
         return
     }
@@ -932,7 +932,7 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
 }
 
 @Composable
-private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
+private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String? = null) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     var spoilersRevealed by remember { mutableStateOf(false) }
@@ -978,7 +978,9 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean) {
             )
         }
         is ChatEntry.Kind.Redacted -> DeletedLabel("trash", tr("timeline.messageDeleted"), style)
-        is ChatEntry.Kind.Undecryptable -> DeletedLabel("lock", tr("timeline.waitingForThisMessage"), style)
+        is ChatEntry.Kind.Undecryptable -> UndecryptableContent(roomId, kind.reason) {
+            DeletedLabel("lock", tr("timeline.waitingForThisMessage"), style)
+        }
         else -> {}
     }
 }

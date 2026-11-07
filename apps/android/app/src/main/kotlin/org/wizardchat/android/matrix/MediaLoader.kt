@@ -10,12 +10,16 @@ import android.util.LruCache
 import java.io.File
 import java.net.URLEncoder
 import java.nio.ByteBuffer
+import java.util.UUID
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.core.DownloadProgress
 import org.wizardchat.core.MediaSource
 import org.wizardchat.core.WizardClient
 
@@ -57,11 +61,22 @@ class MediaLoader(val client: WizardClient) {
     }
 
     /** The decrypted file on disk, e.g. to share or open in another app */
-    suspend fun file(source: MediaSource, filename: String): File {
+    suspend fun file(source: MediaSource, filename: String, sizeHint: Long? = null, onProgress: ((DownloadProgress) -> Unit)? = null): File {
         val folder = File(files, URLEncoder.encode(key(source), "UTF-8"))
         val file = File(folder, filename.replace('/', '-').trim().ifEmpty { "file" })
         if (file.exists()) return file
-        val data = client.media(source)
+        val data = if (onProgress == null) {
+            client.media(source)
+        } else {
+            // Cancelling the coroutine also stops the core's download, which would otherwise run on
+            val token = UUID.randomUUID().toString()
+            try {
+                client.mediaDownload(source, sizeHint, token, onProgress)
+            } catch (e: CancellationException) {
+                withContext(NonCancellable) { runCatching { client.cancelMediaDownload(token) } }
+                throw e
+            }
+        }
         withContext(Dispatchers.IO) {
             folder.mkdirs()
             file.writeBytes(data)
