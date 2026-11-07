@@ -145,6 +145,8 @@ final class AppPreferences: ObservableObject {
     /// Microphone processing applied when a call is joined
     @Published var noiseSuppression: Bool { didSet { save("noiseSuppression", noiseSuppression); syncIfNeeded() } }
     @Published var echoCancellation: Bool { didSet { save("echoCancellation", echoCancellation); syncIfNeeded() } }
+    /// Let people who manage a space move you between its voice channels (`voice_move` requests)
+    @Published var allowVoiceMoves: Bool { didSet { save("allowVoiceMoves", allowVoiceMoves); syncIfNeeded() } }
     @Published var autoGainControl: Bool { didSet { save("autoGainControl", autoGainControl); syncIfNeeded() } }
 
     // Soundboard listening choices are per device (a phone in a pocket and a desktop with speakers differ), so they are not synced
@@ -237,6 +239,7 @@ final class AppPreferences: ObservableObject {
         noiseSuppression = d.object(forKey: "noiseSuppression") as? Bool ?? true
         echoCancellation = d.object(forKey: "echoCancellation") as? Bool ?? true
         autoGainControl = d.object(forKey: "autoGainControl") as? Bool ?? true
+        allowVoiceMoves = d.object(forKey: "allowVoiceMoves") as? Bool ?? true
         soundboardEnabled = d.object(forKey: "soundboardEnabled") as? Bool ?? true
         let storedBoardVolume = d.object(forKey: "soundboardVolume") as? Double ?? 70
         soundboardVolume = min(max(storedBoardVolume, 0), 100)
@@ -349,6 +352,7 @@ final class AppPreferences: ObservableObject {
             boolKey("noiseSuppression", \.noiseSuppression),
             boolKey("echoCancellation", \.echoCancellation),
             boolKey("autoGainControl", \.autoGainControl),
+            boolKey("allowVoiceMoves", \.allowVoiceMoves),
         ]
     }
 

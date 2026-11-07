@@ -13,6 +13,7 @@ struct RoomListScreen: View {
     var onOpenInbox: (() -> Void)?
 
     @EnvironmentObject private var prefs: AppPreferences
+    @ObservedObject private var mudrix = MudrixRoomStates.shared
     @Environment(\.theme) private var theme
     @State private var search = ""
     @State private var leaving: RoomSummary?
@@ -37,6 +38,21 @@ struct RoomListScreen: View {
     private var spaceId: String? {
         if case .space(let id) = selection { return id }
         return nil
+    }
+
+    /// The space whose style decides this list: the top space of the open one
+    private var styleSpaceId: String? {
+        guard let spaceId else { return nil }
+        return SpaceModern.rootSpace(of: spaceId, in: roomList.graph)
+    }
+
+    private var isModern: Bool {
+        guard let styleSpaceId else { return false }
+        return SpaceModern.style(of: mudrix.state(styleSpaceId)) == .modern
+    }
+
+    private func isVoice(_ room: RoomSummary) -> Bool {
+        room.isVoice || SpaceModern.isVoiceChannelFlagged(mudrix.state(room.id))
     }
 
     private var groups: [RoomGroup] {
@@ -75,7 +91,9 @@ struct RoomListScreen: View {
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
             }
-            if selection == .dms, groups.count == 1, case .rooms = groups[0].kind {
+            if let spaceId, isModern, roomList.isLoaded {
+                modernRows(spaceId)
+            } else if selection == .dms, groups.count == 1, case .rooms = groups[0].kind {
                 ForEach(groups[0].rooms) { roomRow($0) }
                     .onMove(perform: selection == .home && reordering ? { moveRooms(groups[0], from: $0, to: $1) } : nil)
             } else {
@@ -135,6 +153,13 @@ struct RoomListScreen: View {
                 }
             }
         }
+        .onChange(of: styleSpaceId, initial: true) { _, id in
+            if let id { mudrix.ensure(id) }
+        }
+        .onChange(of: isModern, initial: true) { _, modern in
+            // Only Modern spaces and their rooms are read (one request per room, kept for a minute)
+            if modern, let spaceId { mudrix.ensureAll(roomList.rooms(for: .space(spaceId)).map(\.id)) }
+        }
         .sheet(isPresented: $showNewMessage) { UserPickerView(mode: .directMessage) }
         .sheet(isPresented: $showNewRoom) { CreateRoomView(spaceId: spaceId) }
         .sheet(isPresented: $showSpaceSettings) {
@@ -173,9 +198,31 @@ struct RoomListScreen: View {
         }
     }
 
-    private func roomRow(_ room: RoomSummary) -> some View {
+    @ViewBuilder
+    private func modernRows(_ spaceId: String) -> some View {
+        if let banner = SpaceModern.banner(of: mudrix.state(styleSpaceId)), search.isEmpty {
+            SpaceBannerView(banner: banner, name: roomList.space(id: spaceId)?.name ?? "")
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 8, trailing: 16))
+        }
+        ForEach(roomList.modernCategories(of: spaceId, search: search, isVoice: { isVoice($0) })) { category in
+            Section {
+                ForEach(category.rooms) { roomRow($0, modern: true) }
+            } header: {
+                if let title = category.title {
+                    Text(title.uppercased())
+                        .font(.wizard(WZ.FontSize.xs, .semibold))
+                        .foregroundStyle(theme.textMuted)
+                }
+            }
+        }
+    }
+
+    private func roomRow(_ room: RoomSummary, modern: Bool = false) -> some View {
         NavigationLink(value: Route.room(room.id)) {
-            RoomRow(room: room, showsHashIcon: !prefs.showRoomAvatars && !room.isDirect)
+            RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
+                    isVoice: modern ? isVoice(room) : nil)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
         .listRowBackground(theme.bgPrimary)
@@ -385,14 +432,17 @@ private struct InboxButton: View {
 struct RoomRow: View {
     let room: RoomSummary
     let showsHashIcon: Bool
+    /// Overrides `room.isVoice` (Modern spaces also treat rooms flagged as voice channels in their state as voice)
+    var isVoice: Bool?
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     private var avatarSize: CGFloat { prefs.roomAvatarSize }
-    private var inCall: Bool { room.isVoice && !room.callParticipants.isEmpty }
+    private var voice: Bool { isVoice ?? room.isVoice }
+    private var inCall: Bool { voice && !room.callParticipants.isEmpty }
 
     private func typeIcon(size: CGFloat) -> some View {
-        Icon(room.isVoice ? "speaker-high" : "hash-straight", room.isVoice ? .fill : .bold, size: size)
+        Icon(voice ? "speaker-high" : "hash-straight", voice ? .fill : .bold, size: size)
             .foregroundStyle(inCall ? theme.success : theme.textMuted)
     }
     private var hasUnread: Bool { room.unreadCount > 0 || room.mentionCount > 0 }
@@ -420,7 +470,7 @@ struct RoomRow: View {
                     .font(.wizard(WZ.FontSize.lg, hasUnread ? .semibold : .regular))
                     .foregroundStyle(hasUnread ? theme.textPrimary : theme.textPrimary.opacity(0.85))
                     .lineLimit(1)
-                if room.isVoice && !room.callParticipants.isEmpty {
+                if inCall {
                     ParticipantStack(roomId: room.id, userIds: room.callParticipants)
                 }
             }

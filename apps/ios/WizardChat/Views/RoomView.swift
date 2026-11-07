@@ -797,6 +797,7 @@ struct MessageRow: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @Environment(\.mediaLoader) private var mediaLoader
+    @Environment(\.roomRoles) private var roomRoles
     @State private var spoilersRevealed = false
     @State private var showFailed = false
     @State private var swipe: CGFloat = 0
@@ -829,7 +830,7 @@ struct MessageRow: View {
                     HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space4) {
                         Text(entry.senderName)
                             .font(.wizard(WZ.FontSize.md * scale, .semibold))
-                            .foregroundStyle(theme.accent)
+                            .foregroundStyle(roomRoles.color(of: entry.sender) ?? theme.accent)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
                         Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))

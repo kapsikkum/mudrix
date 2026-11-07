@@ -16,6 +16,9 @@ struct VoiceSettings: View {
                 ToggleRow(label: "settings.voice.autoGainControl", note: "settings.voice.autoGainControlNote",
                           isOn: $prefs.autoGainControl)
             }
+            SettingsSection {
+                ToggleRow(label: "settings.voice.allowMoves", note: "settings.voice.allowMovesNote", isOn: $prefs.allowVoiceMoves)
+            }
             soundboard
         }
     }

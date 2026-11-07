@@ -126,6 +126,8 @@ struct WizardChatApp: App {
         calls.stopWatchingIncoming()
         calls.leave()
         recentEmoji.stop()
+        MudrixRoomStates.shared.stop()
+        VoiceMoves.stop()
         verificationRequests.stop()
         MemberDirectory.shared.reset()
         syncer?.stop()
@@ -147,6 +149,10 @@ struct WizardChatApp: App {
             SavedMessages.shared.start(client: client)
             Reminders.shared.start(client: client) { session.roomList?.room(id: $0)?.displayName }
             recentEmoji.start(client: client)
+            MudrixRoomStates.shared.start(client: client)
+            if let roomList = session.roomList {
+                VoiceMoves.start(client: client, calls: calls, session: session, roomList: roomList, prefs: prefs)
+            }
             verificationRequests.start(client: client)
         }
     }

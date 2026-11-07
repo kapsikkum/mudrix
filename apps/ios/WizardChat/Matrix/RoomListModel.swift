@@ -47,6 +47,8 @@ final class RoomListModel: ObservableObject {
     @Published private(set) var invites: [RoomSummary] = []
     @Published private(set) var mentionRooms: [RoomSummary] = []
     @Published private(set) var spaces: [SpaceSummary] = []
+    /// The space tree (children with their `order`), for the Modern list and the roles chain
+    @Published private(set) var graph: [SpaceNode] = []
     @Published private(set) var spaceRooms: [String: Set<String>] = [:] { didSet { roomsCache = [:] } }
     @Published private(set) var isLoaded = false
     @Published private(set) var sections: [RoomSection] = []
@@ -312,6 +314,7 @@ final class RoomListModel: ObservableObject {
                     descendants(of: child, seen: &seen)
                 }
             }
+            self.graph = graph
             self.spaceRooms = Dictionary(uniqueKeysWithValues: self.spaces.map { space in
                 var seen = Set<String>()
                 descendants(of: space.id, seen: &seen)

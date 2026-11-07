@@ -163,7 +163,7 @@ struct MainTabView: View {
                                 if room.isVoice, case .room = route {
                                     VoiceRoomView(room: room) { paths[item, default: []].append(.chat(id)) }
                                 } else {
-                                    RoomView(room: room, client: roomList.client).id(room.id)
+                                    RoomView(room: room, client: roomList.client).roomRoles(for: room.id).id(room.id)
                                 }
                             } else {
                                 ProgressView().tint(theme.accent)

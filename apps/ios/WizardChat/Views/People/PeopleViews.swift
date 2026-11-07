@@ -65,6 +65,7 @@ struct MembersView: View {
         .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always), prompt: String(localized: "room.settings.members.searchMembers"))
         .navigationTitle(String(localized: "common.members"))
         .navigationBarTitleDisplayMode(.inline)
+        .roomRoles(for: roomId)
         .task { await load() }
         .sheet(item: Binding(get: { selected.map(IdentifiedString.init) }, set: { selected = $0?.id })) { item in
             UserProfileSheet(userId: item.id, roomId: roomId) { Task { await load() } }
@@ -88,6 +89,7 @@ struct IdentifiedString: Identifiable, Hashable { let id: String }
 private struct MemberRow: View {
     let member: Member
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
@@ -95,7 +97,7 @@ private struct MemberRow: View {
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Text(member.displayName ?? member.userId)
                     .font(.wizard(WZ.FontSize.lg, .medium))
-                    .foregroundStyle(theme.textPrimary)
+                    .foregroundStyle(roomRoles.color(of: member.userId) ?? theme.textPrimary)
                 if member.displayName != nil {
                     Text(member.userId).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
                 }
