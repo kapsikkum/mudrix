@@ -5,14 +5,14 @@
   <key>CFBundleIconName</key>
   <string>Icon</string>
   <key>NSMicrophoneUsageDescription</key>
-  <string>WizardChat uses the microphone for calls and voice messages.</string>
+  <string>Mudrix uses the microphone for calls and voice messages.</string>
   <key>NSCameraUsageDescription</key>
-  <string>WizardChat uses the camera for video calls.</string>
+  <string>Mudrix uses the camera for video calls.</string>
   <key>NSScreenCaptureUsageDescription</key>
-  <string>WizardChat uses screen recording to share your screen in calls.</string>
+  <string>Mudrix uses screen recording to share your screen in calls.</string>
   <key>NSAudioCaptureUsageDescription</key>
-  <string>WizardChat uses system audio to share sound along with your screen.</string>
+  <string>Mudrix uses system audio to share sound along with your screen.</string>
   <key>NSLocationWhenInUseUsageDescription</key>
-  <string>WizardChat uses your location when you share it in a message.</string>
+  <string>Mudrix uses your location when you share it in a message.</string>
 </dict>
 </plist>

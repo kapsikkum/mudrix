@@ -65,9 +65,9 @@ const installers = [
 
 const platforms = {};
 for (const [platform, file] of Object.entries(updates)) {
-  // Both Macs' bundles are called WizardChat.app.tar.gz
+  // Both Macs' bundles are called Mudrix.app.tar.gz
   const name = platform.startsWith('darwin-')
-    ? `WizardChat_${version}_${platform.slice('darwin-'.length)}.app.tar.gz`
+    ? `Mudrix_${version}_${platform.slice('darwin-'.length)}.app.tar.gz`
     : basename(file);
   platforms[platform] = {
     url: await upload(file, tag, name),

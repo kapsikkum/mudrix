@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "WizardChat",
+  "productName": "Mudrix",
   "version": "../../../package.json",
-  "identifier": "org.wizardchat.desktop",
+  "identifier": "chat.mudrix.desktop",
   "build": {
     "beforeDevCommand": "npm run dev:desktop --workspace @wizardchat/web",
     "devUrl": "http://localhost:5190",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "WizardChat",
+        "title": "Mudrix",
         "width": 1280,
         "height": 820,
         "minWidth": 800,
@@ -36,10 +36,10 @@
   "bundle": {
     "active": true,
     "targets": ["app", "dmg", "nsis", "appimage", "deb", "rpm"],
-    "publisher": "WizardChat",
-    "homepage": "https://wizardchat.org",
+    "publisher": "kapsikkum",
+    "homepage": "https://github.com/kapsikkum/mudrix",
     "category": "SocialNetworking",
-    "shortDescription": "Simple, Secure, Magical",
+    "shortDescription": "Mudrix: a Matrix client",
     "createUpdaterArtifacts": false,
     "icon": [
       "icons/32x32.png",
@@ -61,7 +61,7 @@
       "nsis": {
         "installMode": "currentUser",
         "installerIcon": "icons/icon.ico",
-        "startMenuFolder": "WizardChat"
+        "startMenuFolder": "Mudrix"
       }
     },
     "linux": {
@@ -73,7 +73,7 @@
   "plugins": {
     "deep-link": {
       "desktop": {
-        "schemes": ["org.wizardchat.desktop"]
+        "schemes": ["chat.mudrix.desktop"]
       }
     },
     "updater": {

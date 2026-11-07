@@ -57,7 +57,7 @@ struct MainTabView: View {
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
         .onOpenURL { url in
-            guard url.scheme == "wizardchat" else { return }
+            guard url.scheme == "mudrix" else { return }
             sendShared()
         }
         .onChange(of: scenePhase) { _, phase in

@@ -2,4 +2,4 @@
 // Your team ID is in Xcode -> Settings -> Accounts, or at developer.apple.com -> Membership.
 WZ_TEAM = ABCDE12345
 // A prefix only you use, e.g. a reversed domain: the app becomes <prefix>.ios
-WZ_BUNDLE_PREFIX = com.example.wizardchat
+WZ_BUNDLE_PREFIX = com.example.mudrix

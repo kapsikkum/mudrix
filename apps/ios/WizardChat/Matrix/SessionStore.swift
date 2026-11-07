@@ -31,7 +31,7 @@ private struct StoredAccounts: Codable {
 }
 
 enum SessionStore {
-    private static let service = "org.wizardchat.ios.session"
+    private static let service = "chat.mudrix.mobile.session"
     private static let accountsKey = "accounts"
     private static let legacyKey = "core"
 

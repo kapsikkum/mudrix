@@ -1,4 +1,4 @@
-//! What brings the user to a place in the app from outside: `org.wizardchat.desktop://` links and
+//! What brings the user to a place in the app from outside: `chat.mudrix.desktop://` links and
 //! clicks on notifications. The target waits here until the web app takes it, so it isn't lost
 //! while the app is still loading.
 
@@ -8,7 +8,7 @@ use tauri::{AppHandle, Emitter, Manager, Runtime, State, Url};
 use tauri_plugin_deep_link::DeepLinkExt;
 use tauri_plugin_notification::NotificationExt;
 
-const SCHEME: &str = "org.wizardchat.desktop";
+const SCHEME: &str = "chat.mudrix.desktop";
 
 #[derive(Default)]
 pub struct Pending {
@@ -16,7 +16,7 @@ pub struct Pending {
     link: Mutex<Option<String>>,
 }
 
-/// The app path of a link: `org.wizardchat.desktop://app/r/...` and `org.wizardchat.desktop:/r/...` open `/r/...`
+/// The app path of a link: `chat.mudrix.desktop://app/r/...` and `chat.mudrix.desktop:/r/...` open `/r/...`
 fn app_path(url: &Url) -> Option<String> {
     if url.scheme() != SCHEME {
         return None;

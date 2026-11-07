@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
 
-        <!-- "Share to WizardChat" from other apps -->
+        <!-- "Share to Mudrix" from other apps -->
         <activity
             android:name=".ui.share.ShareActivity"
             android:exported="true"

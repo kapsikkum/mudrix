@@ -193,7 +193,7 @@ pub fn run() {
             screen_share::stop_screen_capture,
         ])
         .build(tauri::generate_context!())
-        .expect("error while running WizardChat");
+        .expect("error while running Mudrix");
     app.run(|_app, _event| {
         // The Dock icon brings the hidden window back
         #[cfg(target_os = "macos")]

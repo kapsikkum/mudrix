@@ -64,7 +64,7 @@ impl Page {
             .unwrap_or_default();
         format!(
             "<!doctype html><meta charset=utf-8><meta name=viewport content=\"width=device-width\">\
-<title>WizardChat</title><style>body{{margin:0;min-height:100vh;display:flex;flex-direction:column;\
+<title>Mudrix</title><style>body{{margin:0;min-height:100vh;display:flex;flex-direction:column;\
 align-items:center;justify-content:center;text-align:center;padding:0 24px;box-sizing:border-box;\
 background:{};color:{};font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}}\
 h1{{font-size:22px;margin:0 0 8px}}p{{margin:0;opacity:.8}}.d{{margin-top:12px;font-size:13px;opacity:.6}}</style>\

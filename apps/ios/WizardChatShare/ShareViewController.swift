@@ -65,7 +65,7 @@ final class ShareViewController: UIViewController {
             extensionContext?.cancelRequest(withError: error)
             return
         }
-        if let url = URL(string: "wizardchat://share?room=\(room.id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
+        if let url = URL(string: "mudrix://share?room=\(room.id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
             openApp(url)
         }
         extensionContext?.completeRequest(returningItems: nil)

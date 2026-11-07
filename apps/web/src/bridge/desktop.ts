@@ -55,7 +55,7 @@ function isExternal(url: string): boolean {
   }
 }
 
-/** Opens an `org.wizardchat.desktop://` link the app was opened with */
+/** Opens an `chat.mudrix.desktop://` link the app was opened with */
 function openDeepLink() {
   void invoke<string | null>('take_deep_link').then((path) => {
     if (!path || path === location.pathname + location.search + location.hash) return;

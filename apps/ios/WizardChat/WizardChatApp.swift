@@ -15,7 +15,7 @@ struct WizardChatApp: App {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
 
-    static let refreshTask = "org.wizardchat.ios.refresh"
+    static let refreshTask = "chat.mudrix.mobile.refresh"
 
     init() {
         FontRegistry.registerFonts()

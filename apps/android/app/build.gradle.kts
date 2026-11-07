@@ -12,7 +12,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "org.wizardchat.android"
+        applicationId = "chat.mudrix.mobile"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

@@ -1,7 +1,7 @@
 {
   "name": "@wizardchat/desktop",
   "license": "AGPL-3.0",
-  "description": "WizardChat Desktop: simple, secure, magical [matrix] client",
+  "description": "Mudrix Desktop: a Matrix client",
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",

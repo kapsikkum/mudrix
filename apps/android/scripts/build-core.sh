@@ -52,4 +52,4 @@ cargo run -q -p wizardchat-core-ffi --features bindgen --bin uniffi-bindgen -- \
   generate --library "$ROOT/target/debug/$HOST_LIB" --language kotlin \
   --out-dir "$CORE/build/generated/uniffi" --no-format
 
-echo "WizardChat core for Android is ready ($PROFILE)"
+echo "Mudrix core for Android is ready ($PROFILE)"

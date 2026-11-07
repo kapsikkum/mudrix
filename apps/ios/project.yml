@@ -55,10 +55,10 @@ targets:
         UIBackgroundModes: [audio, voip, fetch]
         # Opened by the share extension to send what you shared
         CFBundleURLTypes:
-          - CFBundleURLName: org.wizardchat.ios
-            CFBundleURLSchemes: [wizardchat]
+          - CFBundleURLName: chat.mudrix.mobile
+            CFBundleURLSchemes: [mudrix]
         # Background checks for new messages (until there's push)
-        BGTaskSchedulerPermittedIdentifiers: [org.wizardchat.ios.refresh]
+        BGTaskSchedulerPermittedIdentifiers: [chat.mudrix.mobile.refresh]
         # Calls show in the Dynamic Island and on the lock screen
         NSSupportsLiveActivities: true
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -79,17 +79,17 @@ targets:
         basedOnDependencyAnalysis: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).ios
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile
         CODE_SIGN_ENTITLEMENTS: WizardChat/WizardChat.entitlements
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: WizardChat
+        INFOPLIST_KEY_CFBundleDisplayName: Mudrix
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         # Usage descriptions are iOS-only text, so they live here rather than in packages/i18n
-        INFOPLIST_KEY_NSMicrophoneUsageDescription: 'WizardChat uses your microphone for calls, voice rooms and voice messages.'
-        INFOPLIST_KEY_NSCameraUsageDescription: 'WizardChat uses your camera for video calls and to scan QR codes when you sign in.'
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'WizardChat uses your location only when you share it in a chat.'
-        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: 'WizardChat saves the photos you choose from a chat to your photo library.'
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: 'Mudrix uses your microphone for calls, voice rooms and voice messages.'
+        INFOPLIST_KEY_NSCameraUsageDescription: 'Mudrix uses your camera for video calls and to scan QR codes when you sign in.'
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'Mudrix uses your location only when you share it in a chat.'
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: 'Mudrix saves the photos you choose from a chat to your photo library.'
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: 'AppIcon-Parrot AppIcon-Hallow'
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
@@ -108,7 +108,7 @@ targets:
     info:
       path: WizardChatWidgets/Info.plist
       properties:
-        CFBundleDisplayName: WizardChat
+        CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
@@ -120,11 +120,11 @@ targets:
         basedOnDependencyAnalysis: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).ios.widgets
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.widgets
         SKIP_INSTALL: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
-  # "Share -> WizardChat" from Photos, Safari and other apps
+  # "Share -> Mudrix" from Photos, Safari and other apps
   WizardChatShare:
     type: app-extension
     platform: iOS
@@ -137,7 +137,7 @@ targets:
     info:
       path: WizardChatShare/Info.plist
       properties:
-        CFBundleDisplayName: WizardChat
+        CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
@@ -157,7 +157,7 @@ targets:
         basedOnDependencyAnalysis: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).ios.share
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.share
         CODE_SIGN_ENTITLEMENTS: WizardChatShare/WizardChatShare.entitlements
         SKIP_INSTALL: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
@@ -174,4 +174,4 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
-        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).ios.tests
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.tests

@@ -12,7 +12,7 @@ pub fn name(app: &AppHandle) -> String {
         .config()
         .product_name
         .clone()
-        .unwrap_or_else(|| "WizardChat".into());
+        .unwrap_or_else(|| "Mudrix".into());
     if IS_DEV {
         format!("{name} Dev")
     } else {

@@ -8,7 +8,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "WizardChat"
+            "value" : "Mudrix"
           }
         }
       }
@@ -20,7 +20,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "WizardChat"
+            "value" : "Mudrix"
           }
         }
       }
@@ -31,13 +31,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat nutzt deine Kamera für Videoanrufe und zum Scannen von QR-Codes bei der Anmeldung."
+            "value" : "Mudrix nutzt deine Kamera für Videoanrufe und zum Scannen von QR-Codes bei der Anmeldung."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat uses your camera for video calls and to scan QR codes when you sign in."
+            "value" : "Mudrix uses your camera for video calls and to scan QR codes when you sign in."
           }
         }
       }
@@ -48,13 +48,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat nutzt deinen Standort nur, wenn du ihn in einem Chat teilst."
+            "value" : "Mudrix nutzt deinen Standort nur, wenn du ihn in einem Chat teilst."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat uses your location only when you share it in a chat."
+            "value" : "Mudrix uses your location only when you share it in a chat."
           }
         }
       }
@@ -65,13 +65,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat nutzt dein Mikrofon für Anrufe, Sprachräume und Sprachnachrichten."
+            "value" : "Mudrix nutzt dein Mikrofon für Anrufe, Sprachräume und Sprachnachrichten."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "WizardChat uses your microphone for calls, voice rooms and voice messages."
+            "value" : "Mudrix uses your microphone for calls, voice rooms and voice messages."
           }
         }
       }

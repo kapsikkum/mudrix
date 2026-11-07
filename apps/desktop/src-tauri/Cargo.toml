@@ -1,6 +1,6 @@
 [package]
 name = "wizardchat-desktop"
-description = "WizardChat Desktop: simple, secure, magical [matrix] client"
+description = "Mudrix Desktop: a Matrix client"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
