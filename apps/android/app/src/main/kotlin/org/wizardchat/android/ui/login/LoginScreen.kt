@@ -38,6 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.BrowserLogin
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.SignInIdentifier
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LineDivider
 import org.wizardchat.android.ui.Note
@@ -81,6 +82,7 @@ fun LoginScreen() {
     var registration by remember { mutableStateOf<RegistrationInfo?>(null) }
     var registrationRateLimited by remember { mutableStateOf(false) }
     var unreachable by remember { mutableStateOf(false) }
+    var notMatrix by remember { mutableStateOf(false) }
     var checking by remember { mutableStateOf(false) }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -91,7 +93,16 @@ fun LoginScreen() {
     val server = if (serverChoice == CUSTOM) customServer.trim() else serverChoice
     val serverName = runCatching { android.net.Uri.parse(if ("://" in server) server else "https://$server").host }.getOrNull().orEmpty()
 
+    val identifier = SignInIdentifier.interpret(username, serverName)
+    val byEmail = identifier?.isEmailOrPhone == true
+
     fun message(error: Throwable): String = when {
+        error is WizardError && error.code == "notMatrix" -> L10n.format("welcome.errNotAServer")
+        mode == Mode.Login && byEmail && error is WizardError && error.code == "invalidCredentials" ->
+            L10n.format("welcome.errWrongEmail", serverName)
+        mode == Mode.Login && byEmail && error is WizardError &&
+            error.errcode in setOf("M_INVALID_USERNAME", "M_INVALID_PARAM", "M_UNKNOWN", "M_UNRECOGNIZED") ->
+            L10n.format("welcome.errNoEmailLogin")
         error is WizardError && error.code == "invalidCredentials" -> L10n.format("auth.errors.credentials")
         error is WizardError && error.code == "homeserver" -> L10n.format("auth.errors.homeserver", server)
         error is WizardError -> L10n.format("auth.errors.generic", error.message)
@@ -114,14 +125,18 @@ fun LoginScreen() {
     }
 
     fun logInWithPassword() = scope.launch {
-        if (username.isEmpty() || password.isEmpty()) {
+        if (identifier == null || password.isEmpty()) {
             errorMessage = L10n.format("welcome.fillAllFields")
+            return@launch
+        }
+        if (notMatrix) {
+            errorMessage = L10n.format("welcome.errNotAServer")
             return@launch
         }
         busy = true
         errorMessage = null
         try {
-            session.login(server, username, password)
+            session.login(server, identifier.toCore(), password)
         } catch (error: Exception) {
             errorMessage = message(error)
         } finally {
@@ -165,6 +180,7 @@ fun LoginScreen() {
         registration = null
         registrationRateLimited = false
         unreachable = false
+        notMatrix = false
         errorMessage = null
         if (serverName.isEmpty()) return@LaunchedEffect
         checking = true
@@ -180,6 +196,8 @@ fun LoginScreen() {
             info = discovered
         } catch (error: kotlinx.coroutines.CancellationException) {
             throw error
+        } catch (error: WizardError) {
+            if (error.code == "notMatrix") notMatrix = true else unreachable = true
         } catch (_: Exception) {
             unreachable = true
         } finally {
@@ -257,18 +275,36 @@ fun LoginScreen() {
                         Spinner(size = WZ.SizeIcon.md)
                         Text(tr("welcome.checkingServer"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                     }
+                    notMatrix -> Note(tr("welcome.serverNotFound"))
                     unreachable -> Note(tr("welcome.serverUnreachable"))
                     discovered != null && mode == Mode.Login -> {
+                        val software = discovered.software
+                            ?.let { listOf(it.name, it.version).filter(String::isNotEmpty).joinToString(" ") }
+                            .orEmpty()
+                        Text(
+                            if (software.isNotEmpty()) tr("welcome.serverDetected", software) else tr("welcome.serverDetectedPlain"),
+                            Modifier.fillMaxWidth(),
+                            style = wizardFont(WZ.FontSize.sm),
+                            color = theme.textMuted,
+                            textAlign = TextAlign.Center,
+                        )
                         if (discovered.oauth) {
                             PrimaryButton(tr(if (busy) "welcome.redirecting" else "welcome.oidcLogin"), { signInWithBrowser() }, enabled = !busy)
                         }
                         if (discovered.password) {
-                            WizardTextField(username, { username = it }, tr("welcome.username"))
+                            WizardTextField(username, { username = it }, tr("welcome.username"), keyboardType = KeyboardType.Email)
+                            if (identifier is SignInIdentifier.Email || identifier is SignInIdentifier.Phone) {
+                                Text(
+                                    tr(if (identifier is SignInIdentifier.Email) "welcome.idEmail" else "welcome.idPhone"),
+                                    style = wizardFont(WZ.FontSize.sm),
+                                    color = theme.textMuted,
+                                )
+                            }
                             WizardTextField(password, { password = it }, tr("welcome.password"), password = true, onSubmit = { logInWithPassword() })
                             PrimaryButton(
                                 tr(if (busy) "welcome.loggingIn" else "welcome.login"),
                                 { logInWithPassword() },
-                                enabled = !busy && username.isNotEmpty() && password.isNotEmpty(),
+                                enabled = !busy && identifier != null && password.isNotEmpty(),
                             )
                         }
                         SsoButtons(discovered, afterPassword = discovered.password, busy) { signInWithBrowser(sso = it) }

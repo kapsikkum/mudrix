@@ -145,10 +145,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
     suspend fun discover(server: String): ServerInfo = WizardClient.discover(server)
 
-    suspend fun login(server: String, username: String, password: String) {
+    suspend fun login(server: String, identifier: LoginIdentifier, password: String) {
         val (folder, store) = StoredSession.newStore()
         try {
-            val client = WizardClient.loginPassword(server, LoginIdentifier.User(username), password, DEVICE_NAME, store)
+            val client = WizardClient.loginPassword(server, identifier, password, DEVICE_NAME, store)
             remember(client, folder, store)
         } catch (error: Exception) {
             SessionStore.removeStore(folder)
