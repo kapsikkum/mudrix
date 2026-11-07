@@ -195,6 +195,7 @@ internal fun NotificationSettingsPage(onBack: () -> Unit, openVoice: () -> Unit 
             }
         }
 
+        RemindersSection()
         val current = rules
         if (current != null) {
             SettingsSection(tr("room.settings.permissions.groups.messages"), tr("settings.disableNoNotificationAt")) {

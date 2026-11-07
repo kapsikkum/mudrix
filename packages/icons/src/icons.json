@@ -1,5 +1,6 @@
 [
   ["airplane", "regular"],
+  ["alarm", "regular"],
   ["arrow-bend-up-left", "regular"],
   ["arrow-circle-right", "regular"],
   ["arrow-circle-up", "fill"],
@@ -8,6 +9,8 @@
   ["arrow-right", "bold"],
   ["arrow-square-out", "regular"],
   ["bell", "regular"],
+  ["bookmark-simple", "fill"],
+  ["bookmark-simple", "regular"],
   ["brackets-curly", "regular"],
   ["camera", "regular"],
   ["caret-down", "regular"],

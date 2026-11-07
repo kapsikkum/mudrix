@@ -53,6 +53,8 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
+import org.wizardchat.android.matrix.Reminders
+import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.ensureMudrixUserFlag
 import org.wizardchat.android.matrix.SettingsSyncer
@@ -177,6 +179,8 @@ fun MainScreen(roomList: RoomListModel) {
         calls.watchIncoming(client)
         RecentEmoji.shared.start(client)
         VerificationRequests.shared.start(client)
+        SavedMessages.shared.start(client)
+        Reminders.shared.start(client)
     }
     LaunchedEffect(session.client) {
         if (session.client != null) session.ensureMudrixUserFlag()
@@ -193,6 +197,8 @@ fun MainScreen(roomList: RoomListModel) {
             calls.leave()
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
+            SavedMessages.shared.stop()
+            Reminders.shared.stop()
             syncer?.stop()
         }
     }

@@ -109,6 +109,9 @@ import org.wizardchat.android.matrix.PendingUpload
 import org.wizardchat.android.matrix.YouTubeEmbeds
 import org.wizardchat.android.media.YouTubeLink
 import org.wizardchat.android.matrix.RecentEmoji
+import org.wizardchat.android.matrix.ReminderPreset
+import org.wizardchat.android.matrix.Reminders
+import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
@@ -722,6 +725,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     val spacing = prefs.chatSpacing
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
+    var showRemind by remember { mutableStateOf(false) }
     var swipe by remember { mutableFloatStateOf(0f) }
     val replyThreshold = 64f
     val animatedSwipe by animateFloatAsState(swipe, spring(), label = "swipe")
@@ -878,7 +882,10 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                 }
             }
             if (showMenu) {
-                MessageMenu(entry, actions, onDismiss = { showMenu = false })
+                MessageMenu(entry, actions, onDismiss = { showMenu = false }, onRemind = { showRemind = true })
+            }
+            if (showRemind && actions != null && entry.eventId != null) {
+                RemindDialog(actions.roomId, entry.eventId) { showRemind = false }
             }
         }
     }
@@ -1065,8 +1072,10 @@ private fun UploadProgressRing(progress: Float?, compressing: Boolean = false) {
 
 /** The long-press menu of a message, with quick reactions on top */
 @Composable
-private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: () -> Unit) {
+private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: () -> Unit, onRemind: () -> Unit) {
     val eventId = entry.eventId
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
     DropdownMenu(expanded = true, onDismissRequest = onDismiss, containerColor = theme.bgTertiary) {
         fun run(action: () -> Unit) {
             onDismiss()
@@ -1124,12 +1133,52 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                     actions.togglePin(entry)
                 }
             }
+            val isSaved = eventId in SavedMessages.shared.ids
+            item(if (isSaved) tr("timeline.unsaveMessage") else tr("timeline.saveMessage"), "bookmark-simple") {
+                val client = session.client ?: return@item
+                scope.launch {
+                    try {
+                        val nowSaved = SavedMessages.shared.toggle(client, actions.roomId, eventId)
+                        CopyToast.show(L10n.format(if (nowSaved) "timeline.messageSaved" else "timeline.messageUnsaved"))
+                    } catch (e: Exception) {
+                        CopyToast.show(L10n.format("timeline.saveFailed", e.message ?: ""))
+                    }
+                }
+            }
+            item(tr("timeline.remind.title"), "alarm", action = onRemind)
             item(tr("timeline.viewSource"), "code") { actions.viewSource(entry) }
             HorizontalDivider(color = theme.border)
             if (!entry.isOwn) item(tr("timeline.reportShort"), "flag", destructive = true) { actions.report(entry) }
             if (entry.isOwn || actions.canRedactOthers) item(tr("common.delete"), "trash", destructive = true) { actions.delete(entry) }
         }
     }
+}
+
+/** "Remind me": in 20 minutes, 1 hour, 3 hours or tomorrow morning */
+@Composable
+private fun RemindDialog(roomId: String, eventId: String, onDismiss: () -> Unit) {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    MenuDialog(
+        tr("timeline.remind.title"),
+        onDismiss,
+        ReminderPreset.entries.map { preset ->
+            L10n.format(preset.labelKey) to {
+                val client = session.client
+                if (client != null) {
+                    scope.launch {
+                        val at = Reminders.time(preset)
+                        try {
+                            Reminders.shared.add(client, roomId, eventId, at)
+                            CopyToast.show(L10n.format("timeline.remind.set", java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(at)))
+                        } catch (e: Exception) {
+                            CopyToast.show(L10n.format("timeline.remind.failed", e.message ?: ""))
+                        }
+                    }
+                }
+            }
+        },
+    )
 }
 
 /** A titled list of choices */

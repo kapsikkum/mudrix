@@ -146,8 +146,40 @@ class MessageNotifier {
         )
     }
 
+    /** A reminder that fell due while the app is in the background; tapping it opens the message */
+    fun notifyReminder(roomId: String, eventId: String, title: String, text: String) {
+        if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) || !canPost()) return
+        val userId = WizardApplication.instance.session.userId ?: return
+        createChannels()
+        val open = PendingIntent.getActivity(
+            context,
+            "reminder|$eventId".hashCode(),
+            Intent(context, NotifierActivity::class.java)
+                .putExtra(EXTRA_ROOM, roomId)
+                .putExtra(EXTRA_USER, userId)
+                .putExtra(EXTRA_EVENT, eventId),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val notification = NotificationCompat.Builder(context, CHANNEL_REMINDERS)
+            .setSmallIcon(smallIcon())
+            .setContentTitle(title)
+            .setContentText(text)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setAutoCancel(true)
+            .setContentIntent(open)
+            .build()
+        try {
+            manager.notify("reminder|$eventId", eventId.hashCode(), notification)
+        } catch (_: SecurityException) {
+        }
+    }
+
     private fun createChannels() {
         val system = context.getSystemService(NotificationManager::class.java) ?: return
+        system.createNotificationChannel(
+            NotificationChannel(CHANNEL_REMINDERS, L10n.format("settings.notifications.reminders.title"), NotificationManager.IMPORTANCE_HIGH),
+        )
         system.createNotificationChannel(
             NotificationChannel(CHANNEL_MESSAGES, L10n.format("settings.notifications.messagesLabel"), NotificationManager.IMPORTANCE_HIGH),
         )
@@ -236,12 +268,14 @@ class MessageNotifier {
 
         private const val CHANNEL_MESSAGES = "messages"
         private const val CHANNEL_SILENT = "messages_silent"
+        private const val CHANNEL_REMINDERS = "reminders"
         private const val KEY_REPLY = "reply"
         private const val ACTION_REPLY = "org.wizardchat.android.REPLY"
         private const val ACTION_MARK_READ = "org.wizardchat.android.MARK_READ"
         internal const val EXTRA_ROOM = "roomId"
         internal const val EXTRA_ID = "notificationId"
         internal const val EXTRA_USER = "userId"
+        internal const val EXTRA_EVENT = "eventId"
         internal const val EXTRA_TAG = "tag"
         internal const val EXTRA_PERMISSION = "requestPermission"
     }
@@ -274,7 +308,10 @@ class NotifierActivity : Activity() {
         intent.getStringExtra(MessageNotifier.EXTRA_USER)?.let { userId ->
             if (userId != WizardApplication.instance.session.userId) notifier.accountToOpen = userId
         }
-        intent.getStringExtra(MessageNotifier.EXTRA_ROOM)?.let { notifier.roomToOpen = it }
+        val room = intent.getStringExtra(MessageNotifier.EXTRA_ROOM)
+        room?.let { notifier.roomToOpen = it }
+        val event = intent.getStringExtra(MessageNotifier.EXTRA_EVENT)
+        if (room != null && event != null) notifier.eventToFocus = room to event
         startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP))
         finish()
     }

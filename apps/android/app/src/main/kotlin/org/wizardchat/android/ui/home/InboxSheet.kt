@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.RoomListModel
+import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.ui.Avatar
@@ -56,7 +57,7 @@ import org.wizardchat.android.ui.tr
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
 
-private enum class InboxTab { invites, mentions }
+private enum class InboxTab { invites, mentions, threads, saved }
 
 /** Invites and rooms that mention you */
 @Composable
@@ -123,6 +124,8 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
             ) {
                 TabButton(tr("inbox.tabInvites"), roomList.invites.size, tab == InboxTab.invites) { tab = InboxTab.invites }
                 TabButton(tr("inbox.tabMentions"), roomList.mentionRooms.size, tab == InboxTab.mentions) { tab = InboxTab.mentions }
+                TabButton(tr("inbox.tabThreads"), 0, tab == InboxTab.threads) { tab = InboxTab.threads }
+                TabButton(tr("inbox.tabSaved"), SavedMessages.shared.items.size, tab == InboxTab.saved) { tab = InboxTab.saved }
             }
             errorMessage?.let {
                 Text(it, Modifier.padding(WZ.Space.space5), style = wizardFont(WZ.FontSize.sm), color = theme.error)
@@ -156,6 +159,8 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
                             )
                         }
                     }
+                    InboxTab.threads -> item(key = "threads") { InboxThreads(roomList, onDismiss) }
+                    InboxTab.saved -> item(key = "saved") { InboxSaved(roomList, onOpenRoom, onDismiss) }
                 }
             }
             Spacer(Modifier.navigationBarsPadding())
