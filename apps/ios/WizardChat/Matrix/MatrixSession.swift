@@ -107,11 +107,11 @@ final class MatrixSession: ObservableObject {
         try await WizardClient.discover(server: server)
     }
 
-    func login(server: String, username: String, password: String) async throws {
+    func login(server: String, identifier: LoginIdentifier, password: String) async throws {
         let (folder, store) = StoredSession.newStore()
         do {
             let client = try await WizardClient.loginPassword(
-                server: server, identifier: .user(.init(user: username)), password: password,
+                server: server, identifier: identifier, password: password,
                 deviceName: Self.deviceName, store: store
             )
             await remember(client, folder: folder, store: store)

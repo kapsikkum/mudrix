@@ -24,6 +24,7 @@ struct LoginView: View {
     @State private var registration: RegistrationInfo?
     @State private var registrationRateLimited = false
     @State private var unreachable = false
+    @State private var notMatrix = false
     @State private var checking = false
     @State private var username = ""
     @State private var password = ""
@@ -40,6 +41,13 @@ struct LoginView: View {
         let url = server.contains("://") ? server : "https://\(server)"
         return URL(string: url)?.host ?? ""
     }
+
+    /// What the box holds: a username, `@name:server`, an email address or a phone number
+    private var identifier: SignInIdentifier? {
+        SignInIdentifier.interpret(username, serverName: serverName)
+    }
+
+    private var byEmail: Bool { identifier?.isEmailOrPhone == true }
 
     var body: some View {
         ScrollView {
@@ -71,6 +79,8 @@ struct LoginView: View {
                                 .foregroundStyle(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
+                    } else if notMatrix {
+                        note(String(localized: "welcome.serverNotFound"))
                     } else if unreachable {
                         note(String(localized: "welcome.serverUnreachable"))
                     } else if let info {
@@ -133,8 +143,19 @@ struct LoginView: View {
         }
     }
 
+    private func softwareLine(_ info: ServerInfo) -> String {
+        let software = [info.software?.name ?? "", info.software?.version ?? ""]
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+        return software.isEmpty
+            ? String(localized: "welcome.serverDetectedPlain")
+            : L10n.format("welcome.serverDetected", software)
+    }
+
     @ViewBuilder
     private func loginOptions(_ info: ServerInfo) -> some View {
+        note(softwareLine(info))
+
         if info.oauth {
             Button(busy ? String(localized: "welcome.redirecting") : String(localized: "welcome.oidcLogin")) {
                 Task { await signInWithBrowser() }
@@ -153,12 +174,20 @@ struct LoginView: View {
 
         if info.password {
             usernameField
+            switch identifier {
+            case .email?:
+                note(String(localized: "welcome.idEmail"))
+            case .phone?:
+                note(String(localized: "welcome.idPhone"))
+            default:
+                EmptyView()
+            }
             passwordField(submit: { Task { await logInWithPassword() } })
             Button(busy ? String(localized: "welcome.loggingIn") : String(localized: "welcome.login")) {
                 Task { await logInWithPassword() }
             }
             .buttonStyle(PrimaryButtonStyle())
-            .disabled(busy || username.isEmpty || password.isEmpty)
+            .disabled(busy || identifier == nil || password.isEmpty)
         }
 
         ssoButtons(info, afterPassword: info.password)
@@ -234,6 +263,7 @@ struct LoginView: View {
     private var usernameField: some View {
         TextField("", text: $username, prompt: Text(String(localized: "welcome.username")).foregroundColor(theme.textMuted))
             .textContentType(.username)
+            .keyboardType(.emailAddress)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .wizardField()
@@ -330,6 +360,7 @@ struct LoginView: View {
         registration = nil
         registrationRateLimited = false
         unreachable = false
+        notMatrix = false
         errorMessage = nil
         guard !serverName.isEmpty else { return }
         checking = true
@@ -347,6 +378,9 @@ struct LoginView: View {
             } catch {}
             guard !Task.isCancelled else { return }
             info = discovered
+        } catch let error as WizardError {
+            guard !Task.isCancelled else { return }
+            if error.code == "notMatrix" { notMatrix = true } else { unreachable = true }
         } catch {
             if !Task.isCancelled { unreachable = true }
         }
@@ -373,15 +407,19 @@ struct LoginView: View {
     }
 
     private func logInWithPassword() async {
-        guard !username.isEmpty, !password.isEmpty else {
+        guard let identifier, !password.isEmpty else {
             errorMessage = String(localized: "welcome.fillAllFields")
+            return
+        }
+        if notMatrix {
+            errorMessage = String(localized: "welcome.errNotAServer")
             return
         }
         busy = true
         errorMessage = nil
         defer { busy = false }
         do {
-            try await session.login(server: server, username: username, password: password)
+            try await session.login(server: server, identifier: identifier.toCore(), password: password)
         } catch {
             errorMessage = message(for: error)
         }
@@ -417,6 +455,15 @@ struct LoginView: View {
 
     private func message(for error: Error) -> String {
         if let error = error as? WizardError {
+            if error.code == "notMatrix" { return String(localized: "welcome.errNotAServer") }
+            if mode == .login, byEmail {
+                if error.code == "invalidCredentials" {
+                    return L10n.format("welcome.errWrongEmail", serverName)
+                }
+                if ["M_INVALID_USERNAME", "M_INVALID_PARAM", "M_UNKNOWN", "M_UNRECOGNIZED"].contains(error.errcode ?? "") {
+                    return String(localized: "welcome.errNoEmailLogin")
+                }
+            }
             switch error.code {
             case "invalidCredentials": return String(localized: "auth.errors.credentials")
             case "homeserver": return L10n.format("auth.errors.homeserver", server)
