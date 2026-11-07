@@ -9,13 +9,15 @@ struct InboxView: View {
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss
 
-    private enum Tab { case invites, mentions }
+    private enum Tab { case invites, mentions, threads, saved }
 
     @State private var tab = Tab.invites
     @State private var busyId: String?
     @State private var errorMessage: String?
     @State private var inviters: [String: String] = [:]
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var notifier: MessageNotifier
+    @ObservedObject private var saved = SavedMessages.shared
 
     var body: some View {
         NavigationStack {
@@ -23,6 +25,8 @@ struct InboxView: View {
                 HStack(spacing: WZ.Space.space2) {
                     tabButton(String(localized: "inbox.tabInvites"), count: roomList.invites.count, tab: .invites)
                     tabButton(String(localized: "inbox.tabMentions"), count: roomList.mentionRooms.count, tab: .mentions)
+                    tabButton(String(localized: "inbox.tabThreads"), count: 0, tab: .threads)
+                    tabButton(String(localized: "inbox.tabSaved"), count: saved.items.count, tab: .saved)
                     Spacer()
                 }
                 .padding(.horizontal, WZ.Space.space5)
@@ -47,6 +51,18 @@ struct InboxView: View {
                         case .mentions:
                             if roomList.mentionRooms.isEmpty { empty(String(localized: "inbox.emptyMentions")) }
                             ForEach(roomList.mentionRooms) { room in mentionRow(room) }
+                        case .threads:
+                            InboxThreadsList(roomList: roomList) { roomId, rootId in
+                                notifier.threadToOpen = (roomId, rootId)
+                                onOpenRoom(roomId)
+                                dismiss()
+                            }
+                        case .saved:
+                            InboxSavedList(roomList: roomList) { roomId, eventId in
+                                notifier.eventToFocus = (roomId, eventId)
+                                onOpenRoom(roomId)
+                                dismiss()
+                            }
                         }
                     }
                     .padding(WZ.Space.space3)

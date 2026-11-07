@@ -32,6 +32,8 @@ struct NotificationSettingsPage: View {
                 StatusText(text: String(localized: "settings.notificationsAreTurnedOff"))
             }
 
+            RemindersSection()
+
             if let rules {
                 SettingsSection(title: "room.settings.permissions.groups.messages", note: "settings.disableNoNotificationAt") {
                     levelRow("room.dm.directMessages", PushRuleSets.dms, rules)

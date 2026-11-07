@@ -61,6 +61,9 @@ struct RoomListScreen: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             }
+            if selection == .home, search.isEmpty, roomList.isLoaded, let onOpenInbox {
+                HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox)
+            }
             if selection == .home, search.isEmpty, roomList.isLoaded {
                 ActiveNowSection(roomList: roomList)
             }

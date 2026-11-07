@@ -121,6 +121,8 @@ struct WizardChatApp: App {
 
     private func onLoginChanged() async {
         notifier.stop()
+        SavedMessages.shared.stop()
+        Reminders.shared.stop()
         calls.stopWatchingIncoming()
         calls.leave()
         recentEmoji.stop()
@@ -142,6 +144,8 @@ struct WizardChatApp: App {
         }
         if let client = session.client {
             calls.watchIncoming(client)
+            SavedMessages.shared.start(client: client)
+            Reminders.shared.start(client: client) { session.roomList?.room(id: $0)?.displayName }
             recentEmoji.start(client: client)
             verificationRequests.start(client: client)
         }

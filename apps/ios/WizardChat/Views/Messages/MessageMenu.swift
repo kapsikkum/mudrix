@@ -24,6 +24,8 @@ struct MessageMenuOverlay: View {
     let onDismiss: (_ then: (() -> Void)?) -> Void
 
     @EnvironmentObject private var recentEmoji: RecentEmoji
+    @EnvironmentObject private var session: MatrixSession
+    @ObservedObject private var saved = SavedMessages.shared
     @Environment(\.theme) private var theme
     @State private var shown = false
     @State private var capsuleHeight: CGFloat = 0
@@ -161,6 +163,10 @@ struct MessageMenuOverlay: View {
                 main.append(.init(title: pinned ? String(localized: "timeline.unpin") : String(localized: "timeline.pin"),
                                   icon: pinned ? "ph-push-pin-slash-regular" : "ph-push-pin-regular") { actions.togglePin(entry) })
             }
+            let isSaved = saved.ids.contains(eventId)
+            main.append(.init(title: isSaved ? String(localized: "timeline.unsaveMessage") : String(localized: "timeline.saveMessage"),
+                              icon: isSaved ? "ph-bookmark-simple-fill" : "ph-bookmark-simple-regular") { toggleSaved(eventId) })
+            main.append(.init(title: String(localized: "timeline.remind.title"), icon: "ph-alarm-regular") { actions.remind(entry) })
             main.append(.init(title: String(localized: "timeline.viewSource"), icon: "ph-code-regular") { actions.viewSource(entry) })
             if !entry.isOwn {
                 danger.append(.init(title: String(localized: "timeline.reportShort"), icon: "ph-flag-regular", destructive: true) { actions.report(entry) })
@@ -170,6 +176,19 @@ struct MessageMenuOverlay: View {
             }
         }
         return [main, danger].filter { !$0.isEmpty }
+    }
+
+    private func toggleSaved(_ eventId: String) {
+        guard let client = session.client else { return }
+        let roomId = actions.roomId
+        Task {
+            do {
+                let nowSaved = try await SavedMessages.shared.toggle(client: client, roomId: roomId, eventId: eventId)
+                CopyToast.shared.show(String(localized: nowSaved ? "timeline.messageSaved" : "timeline.messageUnsaved"))
+            } catch {
+                CopyToast.shared.show(L10n.format("timeline.saveFailed", error.localizedDescription))
+            }
+        }
     }
 
     private var preview: ChatEntry {

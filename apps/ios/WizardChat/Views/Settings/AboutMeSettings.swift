@@ -66,7 +66,7 @@ struct AboutMeSection: View {
                           prompt: Text(String(localized: "settings.account.pronounsPlaceholder")).foregroundColor(theme.textMuted))
                     .textInputAutocapitalization(.never)
                     .wizardField()
-                hint(L10n.format("settings.account.pronounsHint", "\(ProfileFields.maxPronounEntries)", "\(ProfileFields.maxPronounChars)"))
+                hint(L10n.format("settings.account.pronounsHint", ProfileFields.maxPronounEntries, "\(ProfileFields.maxPronounChars)"))
             }
             .disabled(!supported)
 

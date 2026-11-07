@@ -7,6 +7,8 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
     var activeRoomId: String?
     @Published var roomToOpen: String?
     @Published var eventToFocus: (roomId: String, eventId: String)?
+    /// A thread to open once its room is on screen (from the inbox)
+    @Published var threadToOpen: (roomId: String, rootId: String)?
     @Published var accountToOpen: String?
     private weak var prefs: AppPreferences?
     private weak var roomList: RoomListModel?

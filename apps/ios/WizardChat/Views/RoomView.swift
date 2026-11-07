@@ -56,6 +56,7 @@ struct RoomView: View {
     @State private var editing: ChatEntry?
     @State private var reactingTo: ChatEntry?
     @State private var menuTarget: MessageMenuTarget?
+    @State private var remindTarget: ChatEntry?
     @State private var afterMenu: (() -> Void)?
     @StateObject private var reactionPacks = PacksStore()
     @State private var showInfo = false
@@ -128,6 +129,11 @@ struct RoomView: View {
                         keyboardMoving = false
                         guard stickToBottomForKeyboard else { return }
                         withAnimation(.easeOut(duration: WZ.MotionDuration.normal)) { scrollToNewest(proxy) }
+                    }
+                    .onChange(of: notifier.threadToOpen?.rootId, initial: true) { _, _ in
+                        guard threadRoot == nil, let target = notifier.threadToOpen, target.roomId == room.id else { return }
+                        notifier.threadToOpen = nil
+                        openThread = IdentifiedString(id: target.rootId)
                     }
                     .onChange(of: notifier.eventToFocus?.eventId, initial: true) { _, _ in
                         guard threadRoot == nil, let focus = notifier.eventToFocus, focus.roomId == room.id else { return }
@@ -248,6 +254,14 @@ struct RoomView: View {
                 notifier.eventToFocus = (room.id, eventId)
             }
         }
+        .confirmationDialog(String(localized: "timeline.remind.title"),
+                            isPresented: Binding(get: { remindTarget != nil }, set: { if !$0 { remindTarget = nil } }),
+                            titleVisibility: .visible) {
+            ForEach(ReminderPreset.allCases, id: \.self) { preset in
+                Button(L10n.format(preset.labelKey)) { remind(at: preset) }
+            }
+            Button(String(localized: "common.cancel"), role: .cancel) {}
+        }
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
         .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
@@ -299,10 +313,28 @@ struct RoomView: View {
             }, onSticker: { _ in }, onGif: { _ in }, emojiOnly: true)
             .task { await reactionPacks.load(session: session, roomId: room.id) }
         }
-        .onAppear { if threadRoot == nil { notifier.activeRoomId = room.id } }
+        .onAppear {
+            if threadRoot == nil { notifier.activeRoomId = room.id }
+            // Opening a thread, from the inbox or anywhere, marks it seen
+            if let threadRoot { ThreadLastSeen.shared.markSeen(threadRoot) }
+        }
         .onDisappear {
             if threadRoot == nil, notifier.activeRoomId == room.id { notifier.activeRoomId = nil }
             timeline.setTyping(false)
+        }
+    }
+
+    private func remind(at preset: ReminderPreset) {
+        guard let eventId = remindTarget?.eventId else { return }
+        let at = Reminders.time(preset)
+        Task {
+            do {
+                try await Reminders.shared.add(client: timeline.client, roomId: room.id, eventId: eventId, at: at)
+                let time = Date(timeIntervalSince1970: Double(at) / 1000).formatted(date: .omitted, time: .shortened)
+                CopyToast.shared.show(L10n.format("timeline.remind.set", time))
+            } catch {
+                CopyToast.shared.show(L10n.format("timeline.remind.failed", error.localizedDescription))
+            }
         }
     }
 
@@ -328,6 +360,7 @@ struct RoomView: View {
             canRedactOthers: canRedactOthers,
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
+            remind: { remindTarget = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
             selectText: { selectingText = IdentifiedString(id: $0.summary) },
             openThread: threadRoot != nil ? nil : { entry in openThread = entry.eventId.map(IdentifiedString.init) },
@@ -1089,6 +1122,7 @@ struct MessageActions {
     /// Set only in unencrypted rooms (see `LinkPreviewLoader`).
     var linkPreviews: LinkPreviewLoader?
     var retry: () -> Void = {}
+    var remind: (ChatEntry) -> Void = { _ in }
     var openMenu: (ChatEntry, CGRect) -> Void = { _, _ in }
 }
 
