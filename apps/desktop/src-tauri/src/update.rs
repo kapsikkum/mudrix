@@ -1,4 +1,4 @@
-//! Updates from the release channel of the running version (`-next` builds follow next): checked
+//! Updates from Mudrix' GitHub releases: checked
 //! every 10 minutes, downloaded in the background, installed when the user clicks the update button.
 //! The Linux tarball and Arch package can't install updates, so there the button opens the release.
 
@@ -8,10 +8,11 @@ use tauri::{utils::config::BundleType, AppHandle, Emitter, Manager, State, Url};
 use tauri_plugin_opener::OpenerExt;
 use tauri_plugin_updater::{Update, UpdaterExt};
 
-/// Written by CI on every release tag (see docs/BUILDING.md)
-const FEEDS: &str =
-    "https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop";
-const RELEASES: &str = "https://gitlab.com/wizardchat/wizardchat/-/releases";
+/// The feed Mudrix publishes with every release (`latest.json`, signed with the minisign key whose
+/// public half is `plugins.updater.pubkey`). GitHub's "latest" is the newest release that is not a
+/// pre-release, so `-next` builds follow it too until pre-releases get a feed of their own.
+const FEED: &str = "https://github.com/kapsikkum/mudrix/releases/latest/download/latest.json";
+const RELEASES: &str = "https://github.com/kapsikkum/mudrix/releases";
 const INTERVAL: Duration = Duration::from_secs(10 * 60);
 
 pub enum Pending {
@@ -59,7 +60,7 @@ async fn check(app: &AppHandle, feed: &Url, install: bool) -> tauri_plugin_updat
         let bytes = update.download(|_, _| {}, || {}).await?;
         Pending::Install(Box::new(update), bytes)
     } else {
-        Pending::Download(format!("{RELEASES}/v{}", update.version))
+        Pending::Download(format!("{RELEASES}/tag/v{}", update.version))
     };
     *app.state::<PendingUpdate>().0.lock().unwrap() = Some(pending);
     let _ = app.emit("update-downloaded", ());
@@ -70,9 +71,7 @@ pub fn start(app: AppHandle) {
     if cfg!(debug_assertions) || !has_pubkey(&app) {
         return;
     }
-    let next = app.package_info().version.pre.as_str().starts_with("next");
-    let channel = if next { "next" } else { "stable" };
-    let Ok(feed) = Url::parse(&format!("{FEEDS}/{channel}/latest.json")) else {
+    let Ok(feed) = Url::parse(FEED) else {
         return;
     };
     let install = can_install();
