@@ -362,7 +362,7 @@ export function ThreadPanel({
         <h2 className={css.threadPanelLabel}>{t('timeline.threadPanel')}</h2>
         <span className={css.threadPanelDivider} />
         <span className={css.threadPanelTitle}>
-          {t('timeline.threadPanelCount', { count: items.length })}
+          {t('timeline.threadReplies', { count: items.length })}
         </span>
         {isDesktop && (
           <Tooltip content={expanded ? t('common.collapse') : t('common.expand')}>

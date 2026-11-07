@@ -86,10 +86,10 @@ export function CallControlBar() {
 
   if (!actions) return null;
 
-  const micTitle = ui.isMuted ? t('voice.unmute') : t('voice.mute');
-  const cameraTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
-  const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
-  const viewTitle = ui.isSpotlight ? t('voice.switchToGrid') : t('voice.switchToSpotlight');
+  const micTitle = ui.isMuted ? t('call.unmute') : t('call.mute');
+  const cameraTitle = ui.isVideoMuted ? t('call.cameraOff') : t('call.cameraOn');
+  const shareTitle = ui.isScreenSharing ? t('call.stopShare') : t('call.shareScreen');
+  const viewTitle = ui.isSpotlight ? t('call.switchToGrid') : t('call.switchToSpotlight');
   const closeMenu = () => setMenuOpen(false);
 
   const chatRoomId = ui.roomId;
@@ -102,7 +102,7 @@ export function CallControlBar() {
   };
 
   return (
-    <div className={css.bar} role="group" aria-label={t('voice.controls')}>
+    <div className={css.bar} role="group" aria-label={t('call.controls')}>
       {(reconnecting || awaitingMembership) && (
         <div className={css.reconnecting} role="status" aria-live="polite">
           <span className={css.reconnectingSpinner} aria-hidden="true" />
@@ -197,12 +197,12 @@ export function CallControlBar() {
         )}
 
         <span ref={menuBtnRef} className={css.menuAnchor}>
-          <Tooltip content={t('voice.moreOptions')}>
+          <Tooltip content={t('common.moreOptions')}>
             <button
               type="button"
               className={menuOpen ? css.ctrlAccent : css.ctrl}
               onClick={() => setMenuOpen((open) => !open)}
-              aria-label={t('voice.moreOptions')}
+              aria-label={t('common.moreOptions')}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
             >
@@ -211,12 +211,12 @@ export function CallControlBar() {
           </Tooltip>
         </span>
 
-        <Tooltip content={t('voice.hangup')}>
+        <Tooltip content={t('call.hangup')}>
           <button
             type="button"
             className={css.ctrlDanger}
             onClick={() => actions.hangup()}
-            aria-label={t('voice.hangup')}
+            aria-label={t('call.hangup')}
           >
             <PhoneXIcon size={20} />
           </button>
@@ -243,7 +243,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowSquareOutIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.popOut')}</span>
+              <span className={css.menuItemLabel}>{t('call.popOut')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -259,7 +259,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowsOutIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.fullscreen')}</span>
+              <span className={css.menuItemLabel}>{t('common.fullscreen')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -275,7 +275,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowsInIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.exitFullscreen')}</span>
+              <span className={css.menuItemLabel}>{t('common.exitFullscreen')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -291,7 +291,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowSquareInIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.returnToCall')}</span>
+              <span className={css.menuItemLabel}>{t('call.returnToCall')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -344,7 +344,7 @@ export function CallControlBar() {
             }}
           >
             <SmileyIcon size={16} />
-            <span className={css.menuItemLabel}>{t('voice.reactions')}</span>
+            <span className={css.menuItemLabel}>{t('call.reactions')}</span>
             <span className={css.menuItemSpacer} />
           </button>
         </div>

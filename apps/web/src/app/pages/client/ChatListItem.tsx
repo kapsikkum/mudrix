@@ -174,13 +174,13 @@ export function ChatListItem({
 
         <span className={css.itemBadges}>
           {hasActiveCall && (
-            <span className={css.callBadge} title={t('voice.joinCall')}>
+            <span className={css.callBadge} title={t('call.joinCall')}>
               <PhoneIcon size={14} weight="fill" />
             </span>
           )}
 
           {isMuted && (
-            <span className={css.mutedBadge} title={t('notifLevel.mute')}>
+            <span className={css.mutedBadge} title={t('room.notifications.mute')}>
               <BellSlashIcon size={13} />
             </span>
           )}

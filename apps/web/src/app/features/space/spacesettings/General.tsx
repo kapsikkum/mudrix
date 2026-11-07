@@ -200,8 +200,8 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
         <div className={css.avatarRow}>
           <div className={css.profileFields}>
             <Input
-              label={t('room.space.name')}
-              placeholder={t('room.space.namePlaceholder')}
+              label={t('space.name')}
+              placeholder={t('space.namePlaceholder')}
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={!canSetName}
@@ -321,7 +321,7 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
           <div className={css.divider} />
 
           <div className={css.section}>
-            <h3 className={css.sectionTitle}>{t('room.space.settings.general.spaceId')}</h3>
+            <h3 className={css.sectionTitle}>{t('space.settings.general.spaceId')}</h3>
             <div className={css.tokenRow}>
               <code className={css.tokenField}>{spaceId}</code>
               <CopyButton text={spaceId} />
@@ -419,7 +419,7 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
             <IconButton
               size="sm"
               onClick={() => handleRemoveAlias(alias)}
-              aria-label={t('room.settings.addresses.removeAddress')}
+              aria-label={t('common.remove')}
               disabled={!canSetCanonical}
             >
               <TrashIcon size={14} />

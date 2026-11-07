@@ -68,7 +68,7 @@ struct AppearanceSettings: View {
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                         Spacer()
-                        Text(L10n.format("settings.textSizePx", "\(Int(prefs.chatFontSize))"))
+                        Text(L10n.format("settings.appearance.textSizePx", "\(Int(prefs.chatFontSize))"))
                             .font(.wizard(WZ.FontSize.sm, .medium))
                             .foregroundStyle(theme.textMuted)
                     }
@@ -181,8 +181,8 @@ struct PrivacySettings: View {
                           note: "settings.privacy.typingIndicatorsNote",
                           isOn: $prefs.typingIndicators)
                 SettingsDivider()
-                ToggleRow(label: "settings.readReceipts",
-                          note: "settings.letOtherUsersKnow",
+                ToggleRow(label: "settings.privacy.readReceipts",
+                          note: "settings.privacy.readReceiptsNote",
                           isOn: $prefs.sendReadReceipts)
             }
             SettingsSection(title: "settings.privacy.media") {
@@ -190,8 +190,8 @@ struct PrivacySettings: View {
                           options: [(.always, "settings.privacy.mediaVisibilityAlways"), (.private, "settings.privacy.mediaVisibilityPrivate"), (.never, "settings.privacy.mediaVisibilityNever")])
             }
             SettingsSection(title: "settings.privacy.other") {
-                ToggleRow(label: "settings.showUserPresence",
-                          note: "settings.displayWhenUsersAre",
+                ToggleRow(label: "settings.privacy.presence",
+                          note: "settings.privacy.presenceNote",
                           isOn: $prefs.showPresence)
             }
         }
@@ -213,7 +213,7 @@ struct LanguageSettings: View {
                           options: [("", "settings.language.languageSystem"), ("en", "settings.language.languageEn"), ("de", "settings.language.languageDe")])
             }
             if changed {
-                StatusText(text: String(localized: "settings.closeAndReopenWizardchat"), isError: false)
+                StatusText(text: String(localized: "settings.language.restartHint"), isError: false)
             }
         }
         .onChange(of: prefs.language) { _, _ in changed = true }
@@ -227,30 +227,30 @@ struct DeveloperSettings: View {
     @State private var tokenExpanded = false
 
     var body: some View {
-        SettingsPage(title: "settings.developer.title") {
+        SettingsPage(title: "developer.title") {
             SettingsSection {
-                ToggleRow(label: "settings.developer.enable",
-                          note: "settings.developer.enableDescription",
+                ToggleRow(label: "developer.enable",
+                          note: "developer.enableDescription",
                           isOn: $prefs.developerMode)
             }
             if prefs.developerMode {
                 SettingsSection {
                     DisclosureGroup(isExpanded: $tokenExpanded) {
                         VStack(alignment: .leading, spacing: WZ.Space.space4) {
-                            Label(String(localized: "settings.developer.accessTokenWarning"),
+                            Label(String(localized: "developer.accessTokenWarning"),
                                   image: "ph-warning-regular")
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.warningColor)
-                            CopyRow(label: "settings.developer.accessToken", value: session.client?.session.accessToken ?? "", secret: true)
+                            CopyRow(label: "developer.accessToken", value: session.client?.session.accessToken ?? "", secret: true)
                         }
                         .padding(.top, WZ.Space.space4)
                     } label: {
-                        Text(String(localized: "settings.developer.accessToken"))
+                        Text(String(localized: "developer.accessToken"))
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                     }
                     SettingsDivider()
-                    CopyRow(label: "settings.developer.homeserverUrl", value: session.client?.session.homeserverUrl ?? "")
+                    CopyRow(label: "developer.homeserverUrl", value: session.client?.session.homeserverUrl ?? "")
                     if let deviceId = session.deviceId {
                         SettingsDivider()
                         CopyRow(label: "settings.sessions.deviceId", value: deviceId)
@@ -260,7 +260,7 @@ struct DeveloperSettings: View {
                     NavigationLink {
                         AccountDataExplorer()
                     } label: {
-                        Text(String(localized: "settings.developer.accountData"))
+                        Text(String(localized: "developer.accountData.title"))
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                     }
@@ -289,7 +289,7 @@ struct AboutSettings: View {
                 Text(String(localized: "app.name"))
                     .font(.wizard(WZ.FontSize.xxl, .bold))
                     .foregroundStyle(theme.textPrimary)
-                Text(String(localized: "welcome.tagline"))
+                Text(String(localized: "auth.tagline"))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
                 Text(version)

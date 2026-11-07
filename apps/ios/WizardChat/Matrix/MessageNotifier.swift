@@ -58,7 +58,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         content.title = notification.roomName ?? sender
         content.body = notification.isDirect || notification.roomName == nil
             ? notification.body : "\(sender): \(notification.body)"
-        if content.body.isEmpty { content.body = String(localized: "notifications.newMessage") }
+        if content.body.isEmpty { content.body = String(localized: "common.newMessage") }
         content.threadIdentifier = notification.roomId
         content.categoryIdentifier = Self.messageCategory
         var info = ["roomId": notification.roomId, "eventId": notification.eventId]

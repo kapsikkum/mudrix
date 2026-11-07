@@ -1002,7 +1002,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                     onClick={handleJoinReplacement}
                     disabled={joiningReplacement}
                   >
-                    {joiningReplacement ? t('explore.joining') : t('explore.join')}
+                    {joiningReplacement ? t('explore.joining') : t('common.join')}
                   </button>
                 )}
               </div>

@@ -127,8 +127,8 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
       )}
       <div className={css.container}>
         <LogoHover size={72} />
-        <h1 className={css.title}>{t('welcome.title')}</h1>
-        <p className={css.tagline}>{t('welcome.tagline')}</p>
+        <h1 className={css.title}>{t('auth.title')}</h1>
+        <p className={css.tagline}>{t('auth.tagline')}</p>
 
         {view === 'login' ? (
           <LoginForm
@@ -184,7 +184,7 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
       </div>
       <footer className={css.footer}>
         <a href={GITLAB_URL} target="_blank" rel="noopener noreferrer" className={css.footerLink}>
-          {t('welcome.sourceCode')}
+          {t('auth.sourceCode')}
         </a>
         <a
           href={PRIVACY_POLICY_URL}
@@ -208,7 +208,7 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
           rel="noopener noreferrer"
           className={css.footerLink}
         >
-          {t('welcome.poweredByMatrix')}
+          {t('auth.poweredByMatrix')}
         </a>
       </footer>
     </div>

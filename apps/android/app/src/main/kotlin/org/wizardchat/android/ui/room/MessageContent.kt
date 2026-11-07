@@ -939,7 +939,7 @@ fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> 
         thread.latestUndecryptable -> tr("timeline.couldNotDecrypt")
         else -> null
     }
-    val hint = tr("thread.openThread")
+    val hint = tr("timeline.openThread")
     Row(
         Modifier
             .widthIn(max = WZ.Size.panel)

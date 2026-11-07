@@ -103,7 +103,7 @@ function HomePage() {
           </Button>
           <Button variant="secondary" onClick={() => setCreateSpaceOpen({ open: true })}>
             <StackIcon size={16} className={css.iconBefore} />
-            {t('room.space.chooseCreateJoin')}
+            {t('space.chooseCreateJoin')}
           </Button>
         </div>
       </div>
@@ -507,7 +507,7 @@ export function ClientLayout() {
           )}
           <div className={css.appShell}>
             {/* Sidebar: spaces column + room list panel */}
-            <nav aria-label={t('room.navigation')} className={sidebarClass} data-swipe-back-reveal>
+            <nav aria-label={t('nav.title')} className={sidebarClass} data-swipe-back-reveal>
               <SpacesList
                 sidebarView={sidebarView}
                 currentSpaceId={currentSpaceId}

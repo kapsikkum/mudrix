@@ -208,7 +208,7 @@ export const RoomPermissionsMatrix = ({ roomId }: { roomId: string }) => {
                         className={`${css.customInput}${invalid ? ` ${css.invalidInput}` : ''}`}
                         value={text}
                         disabled={disabled}
-                        aria-label={`${label} — ${t('room.settings.permissions.level')}`}
+                        aria-label={`${label} - ${t('room.settings.permissions.level')}`}
                         onChange={(e) => onCustomChange(row, e.target.value)}
                       />
                     )}

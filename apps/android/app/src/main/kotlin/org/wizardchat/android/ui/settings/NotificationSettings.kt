@@ -157,11 +157,11 @@ internal fun NotificationSettingsPage(onBack: () -> Unit) {
                     prefs.notificationBanners = it
                     if (it) requestAuthorization()
                 },
-                note = tr("settings.showABannerWhen"),
+                note = tr("settings.notifications.bannerNote"),
             )
         }
         if (bannersDenied) {
-            StatusText(tr("settings.notificationsAreTurnedOffAndroid"))
+            StatusText(tr("settings.notifications.systemDisabledAndroid"))
             // The app's notification settings in Android
             SettingsSection {
                 Row(
@@ -185,7 +185,7 @@ internal fun NotificationSettingsPage(onBack: () -> Unit) {
 
         val current = rules
         if (current != null) {
-            SettingsSection(tr("room.settings.permissions.groups.messages"), tr("settings.disableNoNotificationAt")) {
+            SettingsSection(tr("room.settings.permissions.groups.messages"), tr("settings.notifications.levelHint")) {
                 LevelRow(tr("room.dm.directMessages"), PushRuleSets.dms, current)
                 SettingsDivider()
                 LevelRow(tr("settings.notifications.rooms"), PushRuleSets.rooms, current)

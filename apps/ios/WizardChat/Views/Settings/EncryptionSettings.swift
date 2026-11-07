@@ -43,7 +43,7 @@ struct EncryptionSettings: View {
                     }
                 }
                 if hasIdentity == false {
-                    Button(String(localized: "verifySession.setupButton")) { reset(password: nil) }
+                    Button(String(localized: "verification.session.setupButton")) { reset(password: nil) }
                         .buttonStyle(PrimaryButtonStyle())
                         .disabled(busy)
                 }
@@ -78,30 +78,30 @@ struct EncryptionSettings: View {
             excludeInsecure = session.excludesInsecureDevices
             hasIdentity = await session.hasEncryptionIdentity()
         }
-        .confirmationDialog(String(localized: "crypto.setupOverwritesTitle"), isPresented: $confirmReset, titleVisibility: .visible) {
+        .confirmationDialog(String(localized: "verification.setupOverwritesTitle"), isPresented: $confirmReset, titleVisibility: .visible) {
             Button(String(localized: "settings.encryption.resetButton"), role: .destructive) { reset(password: nil) }
         } message: {
-            Text(String(localized: "crypto.setupOverwritesConfirm"))
+            Text(String(localized: "verification.setupOverwritesConfirm"))
         }
         .alert(String(localized: "settings.encryption.excludeInsecure"), isPresented: $confirmReload) {
-            Button(String(localized: "auth.reloadNow")) { Task { await session.restart() } }
+            Button(String(localized: "common.reloadNow")) { Task { await session.restart() } }
             Button(String(localized: "common.cancel"), role: .cancel) {}
         } message: {
             Text(String(localized: "settings.encryption.excludeInsecureReload"))
         }
         .alert(String(localized: "settings.keyBackup.uiaTitle"), isPresented: $askPassword) {
             SecureField(String(localized: "settings.keyBackup.uiaPasswordLabel"), text: $password)
-            Button(String(localized: "settings.keyBackup.uiaConfirm")) { reset(password: password) }
+            Button(String(localized: "common.confirm")) { reset(password: password) }
             Button(String(localized: "common.cancel"), role: .cancel) { password = "" }
         } message: {
             Text(String(localized: "settings.keyBackup.uiaDescription"))
         }
-        .alert(String(localized: "settings.setUpRecoveryKey"), isPresented: Binding(get: { newRecoveryKey != nil },
+        .alert(String(localized: "settings.encryption.setUpRecoveryKey"), isPresented: Binding(get: { newRecoveryKey != nil },
                                                                                   set: { if !$0 { newRecoveryKey = nil } })) {
             Button(String(localized: "common.copy")) { UIPasteboard.general.string = newRecoveryKey }
             Button(String(localized: "common.done"), role: .cancel) {}
         } message: {
-            Text(L10n.format("settings.recoveryKeySaveHint", newRecoveryKey ?? ""))
+            Text(L10n.format("settings.encryption.recoveryKeySaveHint", newRecoveryKey ?? ""))
         }
         .sheet(item: Binding(get: { approvalURL.map { IdentifiedString(id: $0.absoluteString) } }, set: { if $0 == nil { approvalURL = nil } })) { item in
             approvalSheet(item.id)

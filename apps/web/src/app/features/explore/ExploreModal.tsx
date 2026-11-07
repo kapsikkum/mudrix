@@ -109,7 +109,7 @@ function RoomCard({
             disabled={isJoining}
             onClick={() => onJoin(roomId, alias)}
           >
-            {isJoining ? t('explore.joining') : t('explore.join')}
+            {isJoining ? t('explore.joining') : t('common.join')}
           </button>
         )}
       </div>
@@ -312,7 +312,7 @@ export function ExploreModal() {
         setOpen(false);
         navigate(`/r/${encodeURIComponent(joinedRoomId)}`);
       } catch (err) {
-        toast.error(t('explore.joinFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.joinFailed', { error: getErrorMessage(err) }));
       } finally {
         setJoiningId(null);
       }

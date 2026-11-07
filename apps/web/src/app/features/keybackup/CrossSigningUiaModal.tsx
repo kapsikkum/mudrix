@@ -92,7 +92,7 @@ export function CrossSigningUiaModal() {
             loading={submitting}
           >
             <LockIcon size={14} style={{ marginRight: 6 }} />
-            {t('settings.keyBackup.uiaConfirm')}
+            {t('common.confirm')}
           </Button>
         </div>
       }
@@ -127,7 +127,7 @@ export function CrossSigningUiaModal() {
           </p>
           <Button variant="secondary" onClick={() => close({ type: 'sso' })}>
             <ArrowSquareOutIcon size={14} style={{ marginRight: 6 }} />
-            {t('settings.sessions.continueWithSso')}
+            {t('common.continueWithSso')}
           </Button>
         </div>
       )}

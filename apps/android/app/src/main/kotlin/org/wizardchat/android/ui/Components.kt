@@ -332,7 +332,7 @@ object CopyToast {
     internal val stamp get() = shownAt
 }
 
-fun copyToClipboard(text: String, message: String = L10n.format("security.copied")) {
+fun copyToClipboard(text: String, message: String = L10n.format("common.copied")) {
     val clipboard = WizardApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(null, text))
     CopyToast.show(message)
@@ -467,7 +467,7 @@ fun VerificationBanner(onVerify: () -> Unit) {
     ) {
         PhIcon("shield-warning", size = WZ.SizeIcon.lg, tint = theme.danger)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            Text(tr("verifySession.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+            Text(tr("verification.session.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
             Text(tr("common.useAnotherDeviceOr"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         Box(

@@ -27,7 +27,7 @@ struct SettingsView: View {
             case .language: return "settings.language.title"
             case .sessions: return "settings.sessions.title"
             case .encryption: return "settings.encryption.title"
-            case .developer: return "settings.developer.title"
+            case .developer: return "developer.title"
             case .about: return "settings.about.title"
             }
         }
@@ -56,7 +56,7 @@ struct SettingsView: View {
                     let matches = Page.allCases.filter { $0.name.localizedCaseInsensitiveContains(search.trimmingCharacters(in: .whitespaces)) }
                     Section {
                         if matches.isEmpty {
-                            Text(String(localized: "home.noMatches")).foregroundStyle(theme.textMuted)
+                            Text(String(localized: "nav.noMatches")).foregroundStyle(theme.textMuted)
                         }
                         ForEach(matches) { pageRow($0) }
                     }
@@ -103,7 +103,7 @@ struct SettingsView: View {
             .background(theme.groupedBackground.ignoresSafeArea())
             .modifier(SettingsTitle(isTab: isTab))
             .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
-                        prompt: Text(String(localized: "settings.searchSettings")))
+                        prompt: Text(String(localized: "settings.search")))
             .toolbar {
                 if !isTab {
                     ToolbarItem(placement: .confirmationAction) {

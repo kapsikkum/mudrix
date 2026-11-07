@@ -74,7 +74,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
       await client.acceptInvite(invite.roomId);
       openRoom(invite.kind, invite.roomId);
     } catch (err) {
-      toast.error(t('invite.acceptFailed', { error: getErrorMessage(err) }));
+      toast.error(t('common.joinFailed', { error: getErrorMessage(err) }));
     } finally {
       setBusyId(null);
     }
@@ -189,7 +189,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
                       void handleAccept(invite);
                     }}
                   >
-                    {t('invite.accept')}
+                    {t('common.accept')}
                   </button>
                   <button
                     type="button"
@@ -200,7 +200,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
                       void handleDecline(invite);
                     }}
                   >
-                    {t('invite.decline')}
+                    {t('common.decline')}
                   </button>
                 </div>
               </div>

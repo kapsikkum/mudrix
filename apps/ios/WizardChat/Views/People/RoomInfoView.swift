@@ -63,8 +63,8 @@ struct RoomInfoView: View {
                 if canEditName || canEditTopic {
                     Section(String(localized: "settings.about.title")) {
                         if canEditName {
-                            labeledField(String(localized: "dialogs.name")) {
-                                TextField(String(localized: "dialogs.name"), text: $name)
+                            labeledField(String(localized: "common.name")) {
+                                TextField(String(localized: "common.name"), text: $name)
                             }
                         }
                         if canEditTopic {
@@ -143,7 +143,7 @@ struct RoomInfoView: View {
                         NavigationLink {
                             RoomWidgetsView(roomId: room.id, client: client, canManage: canManageWidgets)
                         } label: {
-                            Label(String(localized: "widgets.title"), image: "ph-puzzle-piece-regular")
+                            Label(String(localized: "room.settings.widgets.title"), image: "ph-puzzle-piece-regular")
                         }
                         if !bridges.isEmpty {
                             NavigationLink {
@@ -156,9 +156,9 @@ struct RoomInfoView: View {
                         }
                     }
                     if canInvite {
-                        Button { showInvite = true } label: { Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular") }
+                        Button { showInvite = true } label: { Label(String(localized: "room.members.invite"), image: "ph-user-plus-regular") }
                     }
-                    CopyButton(title: "room.copyRoomLink", image: "ph-link-simple-regular",
+                    CopyButton(title: "room.info.copyLink", image: "ph-link-simple-regular",
                                value: "https://matrix.to/#/\(alias ?? room.id)")
                     Toggle(isOn: Binding(get: { isFavourite }, set: { value in
                         isFavourite = value
@@ -170,7 +170,7 @@ struct RoomInfoView: View {
 
                 Section {
                     Button(role: .destructive) { confirmLeave = true } label: {
-                        Label(room.isDirect ? String(localized: "room.leaveConversation") : String(localized: "room.leaveRoom"),
+                        Label(room.isDirect ? String(localized: "room.info.leaveConversation") : String(localized: "room.leaveRoom"),
                               image: "ph-sign-out-regular")
                             .foregroundStyle(theme.danger)
                     }
@@ -181,12 +181,12 @@ struct RoomInfoView: View {
                 }
             }
             .tint(theme.control)
-            .navigationTitle(room.isDirect ? String(localized: "room.conversation") : String(localized: "room.roomInfo"))
+            .navigationTitle(room.isDirect ? String(localized: "room.info.conversation") : String(localized: "room.info.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
             }
-            .confirmationDialog(L10n.format("room.leaveNamed2", "\(room.displayName)"), isPresented: $confirmLeave, titleVisibility: .visible) {
+            .confirmationDialog(L10n.format("room.info.leaveConfirm", "\(room.displayName)"), isPresented: $confirmLeave, titleVisibility: .visible) {
                 Button(String(localized: "common.leave"), role: .destructive) {
                     Task {
                         try? await client.leave(roomId: room.id)
@@ -236,7 +236,7 @@ struct RoomInfoView: View {
                 }
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "room.changeRoomPicture"))
+            .accessibilityLabel(String(localized: "room.info.changePicture"))
         } else {
             picture
         }
@@ -388,8 +388,8 @@ struct CreateRoomView: View {
         NavigationStack {
             ThemedForm {
                 Section {
-                    TextField(String(localized: "dialogs.name"), text: $name)
-                    TextField(String(localized: "dialogs.topic"), text: $topic, axis: .vertical).lineLimit(1...3)
+                    TextField(String(localized: "common.name"), text: $name)
+                    TextField(String(localized: "room.create.topicOptional"), text: $topic, axis: .vertical).lineLimit(1...3)
                 }
                 if !isSpace {
                 Section {
@@ -398,7 +398,7 @@ struct CreateRoomView: View {
                     optionRow(String(localized: "room.create.typeVoice"), note: String(localized: "room.create.typeVoiceNote"),
                               icon: "ph-speaker-high-regular", selected: isVoice) { isVoice = true }
                 } header: {
-                    Text(String(localized: "room.type"))
+                    Text(String(localized: "room.create.type"))
                 }
                 }
                 Section {
@@ -409,7 +409,7 @@ struct CreateRoomView: View {
                         }
                     }
                 } header: {
-                    Text(String(localized: isSpace ? "room.space.create.access" : "room.create.access"))
+                    Text(String(localized: isSpace ? "space.create.access" : "room.create.access"))
                 }
                 if access == .public {
                     Section {
@@ -421,7 +421,7 @@ struct CreateRoomView: View {
                             Text(":\(server)").foregroundStyle(theme.textMuted).lineLimit(1)
                         }
                     } header: {
-                        Text(String(localized: isSpace ? "room.space.create.roomAddress" : "room.create.roomAddress"))
+                        Text(String(localized: isSpace ? "space.create.roomAddress" : "room.create.roomAddress"))
                     }
                 }
                 Section {
@@ -454,8 +454,8 @@ struct CreateRoomView: View {
                 }
             }
             .tint(theme.control)
-            .navigationTitle(isSpace ? String(localized: "room.space.create.title")
-                             : spaceId == nil ? String(localized: "rooms.newRoom") : String(localized: "room.newRoomInSpace"))
+            .navigationTitle(isSpace ? String(localized: "space.create.title")
+                             : spaceId == nil ? String(localized: "nav.newRoom") : String(localized: "space.newRoom"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -544,8 +544,8 @@ struct CreateRoomView: View {
     private func label(_ option: Access) -> String {
         switch option {
         case .spaceMembers: String(localized: "room.create.accessStandard")
-        case .invite: String(localized: isSpace ? "room.space.create.accessInvite" : "room.create.accessInvite")
-        case .public: String(localized: isSpace ? "room.space.create.public" : "room.create.accessPublic")
+        case .invite: String(localized: isSpace ? "space.create.accessInvite" : "room.create.accessInvite")
+        case .public: String(localized: isSpace ? "space.create.public" : "room.create.accessPublic")
         }
     }
 
@@ -561,7 +561,7 @@ struct CreateRoomView: View {
         switch option {
         case .spaceMembers: String(localized: "room.create.accessStandardNote")
         case .invite: String(localized: "room.create.accessInviteNote")
-        case .public: String(localized: isSpace ? "room.space.create.accessPublicNote" : "room.anyoneCanFindAnd")
+        case .public: String(localized: isSpace ? "space.create.accessPublicNote" : "room.create.accessPublicNote")
         }
     }
 

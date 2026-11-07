@@ -46,7 +46,7 @@ struct SpacesScreen: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onCreateSpace) { Image("ph-plus-regular") }
-                    .accessibilityLabel(String(localized: "home.createOrJoin"))
+                    .accessibilityLabel(String(localized: "nav.createOrJoin"))
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onExplore) { Image("ph-compass-regular") }

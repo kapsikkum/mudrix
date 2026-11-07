@@ -65,7 +65,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     accessibility("settings.accessibility.title", "person-simple-circle"),
     language("settings.language.title", "globe-simple"),
     sessions("settings.sessions.title", "devices"),
-    developer("settings.developer.title", "wrench"),
+    developer("developer.title", "wrench"),
     about("settings.about.title", "info"),
 }
 
@@ -124,7 +124,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
         WizardTextField(
             search,
             { search = it },
-            tr("settings.searchSettings"),
+            tr("settings.search"),
             Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
         )
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) {
@@ -132,7 +132,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
             if (query.isNotEmpty()) {
                 val matches = SettingsPageId.entries.filter { L10n.format(it.titleKey).contains(query, ignoreCase = true) }
                 if (matches.isEmpty()) {
-                    Text(tr("home.noMatches"), Modifier.fillMaxWidth().padding(WZ.Space.space9), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                    Text(tr("nav.noMatches"), Modifier.fillMaxWidth().padding(WZ.Space.space9), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 } else {
                     PageRows(matches, open)
                 }

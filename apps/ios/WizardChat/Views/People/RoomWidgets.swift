@@ -20,7 +20,7 @@ struct RoomWidgetsView: View {
         ThemedList {
             Section {
                 if loaded && widgets.isEmpty {
-                    Text(String(localized: "widgets.empty")).foregroundStyle(theme.textMuted)
+                    Text(String(localized: "room.settings.widgets.noWidgets")).foregroundStyle(theme.textMuted)
                 }
                 ForEach(widgets, id: \.id) { widget in
                     Button { Task { await open(widget) } } label: {
@@ -29,14 +29,14 @@ struct RoomWidgetsView: View {
                                 .font(.system(size: WZ.SizeIcon.md))
                                 .foregroundStyle(theme.textMuted)
                             VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                                Text(widget.name?.isEmpty == false ? widget.name! : String(localized: "widgets.untitled"))
+                                Text(widget.name?.isEmpty == false ? widget.name! : String(localized: "room.settings.widgets.untitled"))
                                     .foregroundStyle(theme.textPrimary)
                                 Text(URL(string: widget.url)?.host() ?? widget.url)
                                     .font(.wizard(WZ.FontSize.sm))
                                     .foregroundStyle(theme.textMuted)
                                     .lineLimit(1)
                                 if let creator = widget.creator {
-                                    Text(L10n.format("widgets.addedBy", creator))
+                                    Text(L10n.format("room.settings.widgets.addedBy", creator))
                                         .font(.wizard(WZ.FontSize.xs))
                                         .foregroundStyle(theme.textMuted)
                                         .lineLimit(1)
@@ -51,18 +51,18 @@ struct RoomWidgetsView: View {
                     .swipeActions(edge: .trailing) {
                         if canManage {
                             Button(role: .destructive) { removing = widget } label: {
-                                Label(String(localized: "widgets.remove"), image: "ph-trash-regular")
+                                Label(String(localized: "room.settings.widgets.removeWidget"), image: "ph-trash-regular")
                             }
                         }
                     }
                 }
             } footer: {
-                Text(String(localized: "widgets.privacy")).foregroundStyle(theme.textMuted)
+                Text(String(localized: "room.settings.widgets.privacy")).foregroundStyle(theme.textMuted)
             }
             if canManage {
                 Section {
                     Button { adding = true } label: {
-                        Label(String(localized: "widgets.add"), image: "ph-plus-regular")
+                        Label(String(localized: "room.settings.widgets.addWidgetBtn"), image: "ph-plus-regular")
                     }
                 }
             }
@@ -70,7 +70,7 @@ struct RoomWidgetsView: View {
                 StatusText(text: error).listRowBackground(Color.clear)
             }
         }
-        .navigationTitle(String(localized: "widgets.title"))
+        .navigationTitle(String(localized: "room.settings.widgets.title"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }
         .sheet(isPresented: $adding) {
@@ -79,10 +79,10 @@ struct RoomWidgetsView: View {
                 await load()
             }
         }
-        .confirmationDialog(L10n.format("widgets.removeConfirm", removing?.name ?? String(localized: "widgets.untitled")),
+        .confirmationDialog(L10n.format("room.settings.widgets.removeWidgetConfirm", removing?.name ?? String(localized: "room.settings.widgets.untitled")),
                             isPresented: Binding(get: { removing != nil }, set: { if !$0 { removing = nil } }),
                             titleVisibility: .visible) {
-            Button(String(localized: "widgets.remove"), role: .destructive) {
+            Button(String(localized: "room.settings.widgets.removeWidget"), role: .destructive) {
                 guard let widget = removing else { return }
                 Task {
                     do {
@@ -123,19 +123,19 @@ private struct AddWidgetSheet: View {
         NavigationStack {
             ThemedForm {
                 Section {
-                    TextField(String(localized: "widgets.name"), text: $name)
-                    TextField(String(localized: "widgets.url"), text: $url)
+                    TextField(String(localized: "common.name"), text: $name)
+                    TextField(String(localized: "room.settings.widgets.url"), text: $url)
                         .keyboardType(.URL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                 } footer: {
-                    Text(String(localized: "widgets.urlHint")).foregroundStyle(theme.textMuted)
+                    Text(String(localized: "room.settings.widgets.urlHint")).foregroundStyle(theme.textMuted)
                 }
                 if let error {
                     StatusText(text: error).listRowBackground(Color.clear)
                 }
             }
-            .navigationTitle(String(localized: "widgets.add"))
+            .navigationTitle(String(localized: "room.settings.widgets.addWidgetBtn"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

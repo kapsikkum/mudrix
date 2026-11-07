@@ -26,7 +26,7 @@ struct EmojisSettings: View {
         SettingsPage(title: "room.settings.emojis.title") {
             SettingsSection(title: "settings.emojisStickers.defaultPack", note: "settings.emojisStickers.defaultPackNote") {
                 VStack(alignment: .leading, spacing: WZ.Space.space5) {
-                    Text(images.count == 1 ? String(localized: "settings.oneImage") : L10n.format("settings.images", images.count))
+                    Text(L10n.format("settings.emojisStickers.imageCount", images.count))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 72), spacing: WZ.Space.space4)], spacing: WZ.Space.space4) {
@@ -50,7 +50,7 @@ struct EmojisSettings: View {
                                     .font(.system(size: WZ.SizeIcon.md))
                                     .frame(width: WZ.Space.space11, height: WZ.Space.space11)
                                     .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
-                                Text(String(localized: "settings.upload")).font(.wizard(WZ.FontSize.xs))
+                                Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.xs))
                             }
                             .foregroundStyle(theme.textMuted)
                         }
@@ -67,7 +67,7 @@ struct EmojisSettings: View {
                                 .disabled(shortcode.trimmingCharacters(in: CharacterSet(charactersIn: ": ")).isEmpty)
                         }
                     }
-                    Text(String(localized: "settings.longPressAnImage"))
+                    Text(String(localized: "settings.emojisStickers.imageActionsHint"))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -199,7 +199,7 @@ struct EmojisSettings: View {
             try await session.setAccountDataJSON(Self.userPackType, content)
             pack = content
         } catch {
-            self.error = L10n.format("settings.failedToSave", "\(error.localizedDescription)")
+            self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)")
         }
     }
 
@@ -216,7 +216,7 @@ struct EmojisSettings: View {
             }
             await reload()
         } catch {
-            self.error = L10n.format("settings.failedToSave", "\(error.localizedDescription)")
+            self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)")
         }
     }
 }

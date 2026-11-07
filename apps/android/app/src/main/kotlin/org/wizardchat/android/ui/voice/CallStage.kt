@@ -93,7 +93,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 item(span = full) {
                     Box(contentAlignment = Alignment.Center) {
                         IconLabel(
-                            tr("voice.statusReconnecting"),
+                            tr("call.statusReconnecting"),
                             "wifi-slash",
                             color = theme.warningColor,
                             size = WZ.FontSize.sm,
@@ -143,7 +143,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
             ) {
                 Spinner()
-                Text(tr("voice.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                Text(tr("call.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
             }
         }
     }
@@ -164,7 +164,7 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
         tween(WZ.MotionDuration.fast),
         label = "speaking",
     )
-    val hint = if (participant.isLocal || participant.isOwnOtherDevice) "" else tr("voice.tapToChangeTheir")
+    val hint = if (participant.isLocal || participant.isOwnOtherDevice) "" else tr("call.volumeHint")
     val label = when {
         participant.isOwnOtherDevice -> tr("call.ownOtherDevice", name)
         else -> name
@@ -246,7 +246,7 @@ private fun ScreenShareTile(roomId: String, participant: CallParticipantInfo, tr
     Box(Modifier.fillMaxWidth().aspectRatio(16f / 9f).clip(shape).background(theme.bgTertiary)) {
         CallVideoView(track, participant.connection, fill = false, mirror = false, Modifier.fillMaxSize())
         IconLabel(
-            tr("voice.userScreen", name),
+            tr("call.userScreen", name),
             "monitor-arrow-up",
             color = theme.textPrimary,
             size = WZ.FontSize.sm,

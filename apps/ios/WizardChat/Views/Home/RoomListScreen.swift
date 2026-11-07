@@ -29,7 +29,7 @@ struct RoomListScreen: View {
 
     private var title: String {
         switch selection {
-        case .home: return String(localized: "room.home")
+        case .home: return String(localized: "nav.home")
         case .dms: return String(localized: "room.dm.directMessages")
         case .space(let id): return roomList.space(id: id)?.name ?? String(localized: "explore.typeSpace")
         }
@@ -70,7 +70,7 @@ struct RoomListScreen: View {
                     SkeletonRow().listRowBackground(Color.clear).listRowSeparator(.hidden)
                 }
             } else if rooms.isEmpty {
-                Text(search.isEmpty ? emptyText : "home.noMatches")
+                Text(search.isEmpty ? emptyText : "nav.noMatches")
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
                     .frame(maxWidth: .infinity)
@@ -111,26 +111,26 @@ struct RoomListScreen: View {
             }
         }
         .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: Text(String(localized: "home.searchRoomsPeopleMessages")))
+                    prompt: Text(String(localized: "nav.searchPlaceholder")))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
                     if selection != .dms {
-                        Button { showNewRoom = true } label: { Label(menu: String(localized: "rooms.newRoom"), icon: "ph-hash-straight-regular") }
+                        Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
                     }
                     if selection != .dms {
                         Button { startNewSection(for: nil) } label: { Label(menu: String(localized: "room.sections.new"), icon: "ph-list-bullets-regular") }
-                        Button { reordering = true } label: { Label(menu: String(localized: "home.reorderRooms"), icon: "ph-caret-up-down-regular") }
+                        Button { reordering = true } label: { Label(menu: String(localized: "nav.reorderRooms"), icon: "ph-caret-up-down-regular") }
                     }
                     if spaceId != nil {
                         Divider()
-                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "home.spaceSettings"), icon: "ph-gear-regular") }
+                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "space.settingsTitle"), icon: "ph-gear-regular") }
                     }
                 } label: {
                     Image("ph-plus-regular")
                 }
-                .accessibilityLabel(String(localized: "home.new"))
+                .accessibilityLabel(String(localized: "nav.new"))
             }
             if reordering {
                 ToolbarItem(placement: .confirmationAction) {
@@ -171,7 +171,7 @@ struct RoomListScreen: View {
             Button(String(localized: "common.close"), role: .cancel) {}
         }
         .confirmationDialog(
-            L10n.format("room.leaveNamed2", leaving?.displayName ?? ""),
+            L10n.format("room.info.leaveConfirm", leaving?.displayName ?? ""),
             isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }),
             titleVisibility: .visible
         ) {
@@ -194,7 +194,7 @@ struct RoomListScreen: View {
             Button {
                 Task { await roomList.setRead(room, read: unread) }
             } label: {
-                Label(unread ? String(localized: "common.markRead") : String(localized: "home.markAsUnread"),
+                Label(unread ? String(localized: "common.markRead") : String(localized: "nav.markAsUnread"),
                       image: unread ? "ph-envelope-open-regular" : "ph-envelope-simple-regular")
             }
             // Swipe actions always draw their icon white, so this needs a darker neutral
@@ -213,10 +213,10 @@ struct RoomListScreen: View {
             Menu {
                 Picker(selection: Binding(get: { roomList.notificationMode(of: room) },
                                           set: { mode in Task { await roomList.setNotificationMode(room, mode) } })) {
-                    Label(menu: String(localized: "notifLevel.default"), icon: "ph-bell-regular").tag(NotificationMode?.none)
-                    Label(menu: String(localized: "notifLevel.all"), icon: "ph-bell-ringing-regular").tag(NotificationMode?.some(.all))
-                    Label(menu: String(localized: "notifLevel.mentions"), icon: "ph-bell-simple-regular").tag(NotificationMode?.some(.mentions))
-                    Label(menu: String(localized: "notifLevel.mute"), icon: "ph-bell-slash-regular").tag(NotificationMode?.some(.mute))
+                    Label(menu: String(localized: "room.notifications.default"), icon: "ph-bell-regular").tag(NotificationMode?.none)
+                    Label(menu: String(localized: "room.notifications.all"), icon: "ph-bell-ringing-regular").tag(NotificationMode?.some(.all))
+                    Label(menu: String(localized: "room.notifications.mentions"), icon: "ph-bell-simple-regular").tag(NotificationMode?.some(.mentions))
+                    Label(menu: String(localized: "room.notifications.mute"), icon: "ph-bell-slash-regular").tag(NotificationMode?.some(.mute))
                 } label: {
                     EmptyView()
                 }
@@ -301,7 +301,7 @@ struct RoomListScreen: View {
                 Menu {
                     if case .section(let section) = group.kind {
                         Button { renaming = section; sectionName = section.name } label: {
-                            Label(menu: String(localized: "room.sections.rename"), icon: "ph-pencil-simple-regular")
+                            Label(menu: String(localized: "common.rename"), icon: "ph-pencil-simple-regular")
                         }
                     }
                     Button { moveGroup(group, by: -1, in: groups) } label: {
@@ -355,9 +355,9 @@ struct RoomListScreen: View {
 
     private func groupTitle(_ group: RoomGroup) -> String {
         switch group.kind {
-        case .favourites: String(localized: "room.favourites")
+        case .favourites: String(localized: "nav.favourites")
         case .section(let section): section.name
-        case .rooms: String(localized: "room.title")
+        case .rooms: String(localized: "nav.rooms")
         }
     }
 
@@ -421,8 +421,8 @@ struct RoomListScreen: View {
 
     private var emptyText: LocalizedStringKey {
         switch selection {
-        case .dms: return "home.noDirectMessagesYet"
-        default: return "home.noRoomsHereYet"
+        case .dms: return "nav.noDirectMessagesYet"
+        default: return "nav.noRoomsHereYet"
         }
     }
 }
@@ -499,7 +499,7 @@ struct RoomRow: View {
                 Image("ph-bell-slash-regular")
                     .font(.system(size: WZ.SizeIcon.sm))
                     .foregroundStyle(theme.textMuted)
-                    .accessibilityLabel(String(localized: "notifLevel.mute"))
+                    .accessibilityLabel(String(localized: "room.notifications.mute"))
             }
             if room.mentionCount > 0 {
                 UnreadBadge(count: room.mentionCount, isMention: true)

@@ -115,7 +115,7 @@ fun LoginScreen() {
 
     fun logInWithPassword() = scope.launch {
         if (username.isEmpty() || password.isEmpty()) {
-            errorMessage = L10n.format("welcome.fillAllFields")
+            errorMessage = L10n.format("auth.fillAllFields")
             return@launch
         }
         busy = true
@@ -138,7 +138,7 @@ fun LoginScreen() {
         val flows = registration?.flows.orEmpty()
         val supported = { stage: String -> stage == "m.login.dummy" || stage == "m.login.terms" }
         if (flows.isNotEmpty() && flows.none { flow -> flow.all(supported) }) {
-            errorMessage = L10n.format("welcome.additionalVerification", flows.joinToString(", ") { it.joinToString(" -> ") })
+            errorMessage = L10n.format("auth.additionalVerification", flows.joinToString(", ") { it.joinToString(" -> ") })
             return@launch
         }
         busy = true
@@ -147,14 +147,14 @@ fun LoginScreen() {
             session.register(server, username, password)
         } catch (error: WizardError) {
             errorMessage = when (error.errcode) {
-                "M_USER_IN_USE" -> L10n.format("welcome.usernameTaken")
-                "M_INVALID_USERNAME" -> L10n.format("welcome.invalidUsername")
-                "M_EXCLUSIVE" -> L10n.format("welcome.usernameReserved")
-                "M_WEAK_PASSWORD" -> L10n.format("welcome.weakPassword", error.message)
-                else -> L10n.format("welcome.registrationFailed", error.message)
+                "M_USER_IN_USE" -> L10n.format("auth.usernameTaken")
+                "M_INVALID_USERNAME" -> L10n.format("auth.invalidUsername")
+                "M_EXCLUSIVE" -> L10n.format("auth.usernameReserved")
+                "M_WEAK_PASSWORD" -> L10n.format("auth.weakPassword", error.message)
+                else -> L10n.format("auth.registrationFailed", error.message)
             }
         } catch (error: Exception) {
-            errorMessage = L10n.format("welcome.registrationFailed", error.message ?: "")
+            errorMessage = L10n.format("auth.registrationFailed", error.message ?: "")
         } finally {
             busy = false
         }
@@ -231,8 +231,8 @@ fun LoginScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
             ) {
-                Text(tr("welcome.title"), style = wizardFont(WZ.FontSize.display, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
-                Text(tr("welcome.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
+                Text(tr("auth.title"), style = wizardFont(WZ.FontSize.display, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
+                Text(tr("auth.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
             }
 
             Column(
@@ -240,7 +240,7 @@ fun LoginScreen() {
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space5),
             ) {
                 Text(
-                    tr(if (mode == Mode.Login) "welcome.login" else "welcome.register"),
+                    tr(if (mode == Mode.Login) "auth.login" else "auth.register"),
                     style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
                     color = theme.textPrimary,
                 )
@@ -255,48 +255,48 @@ fun LoginScreen() {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Spinner(size = WZ.SizeIcon.md)
-                        Text(tr("welcome.checkingServer"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                        Text(tr("auth.checkingServer"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                     }
-                    unreachable -> Note(tr("welcome.serverUnreachable"))
+                    unreachable -> Note(tr("auth.serverUnreachable"))
                     discovered != null && mode == Mode.Login -> {
                         if (discovered.oauth) {
-                            PrimaryButton(tr(if (busy) "welcome.redirecting" else "welcome.oidcLogin"), { signInWithBrowser() }, enabled = !busy)
+                            PrimaryButton(tr(if (busy) "auth.redirecting" else "auth.oidcLogin"), { signInWithBrowser() }, enabled = !busy)
                         }
                         if (discovered.password) {
-                            WizardTextField(username, { username = it }, tr("welcome.username"))
-                            WizardTextField(password, { password = it }, tr("welcome.password"), password = true, onSubmit = { logInWithPassword() })
+                            WizardTextField(username, { username = it }, tr("auth.username"))
+                            WizardTextField(password, { password = it }, tr("auth.password"), password = true, onSubmit = { logInWithPassword() })
                             PrimaryButton(
-                                tr(if (busy) "welcome.loggingIn" else "welcome.login"),
+                                tr(if (busy) "auth.loggingIn" else "auth.login"),
                                 { logInWithPassword() },
                                 enabled = !busy && username.isNotEmpty() && password.isNotEmpty(),
                             )
                         }
                         SsoButtons(discovered, afterPassword = discovered.password, busy) { signInWithBrowser(sso = it) }
-                        if (!discovered.oauth && !discovered.password && discovered.sso.isEmpty()) Note(tr("welcome.noLoginMethod"))
+                        if (!discovered.oauth && !discovered.password && discovered.sso.isEmpty()) Note(tr("auth.noLoginMethod"))
                     }
                     discovered != null -> {
                         val passwordRegister = !discovered.oauth && registration?.enabled == true
                         if (discovered.oauth) {
                             PrimaryButton(
-                                tr(if (busy) "welcome.redirecting" else "welcome.oidcRegister"),
+                                tr(if (busy) "auth.redirecting" else "auth.oidcRegister"),
                                 { signInWithBrowser(createAccount = true) },
                                 enabled = !busy,
                             )
                         }
                         if (passwordRegister) {
-                            WizardTextField(username, { username = it }, tr("welcome.username"))
+                            WizardTextField(username, { username = it }, tr("auth.username"))
                             usernameHint(usernameState, username, serverName)?.let { hint ->
                                 Text(hint, style = wizardFont(WZ.FontSize.sm), color = if (usernameError) theme.error else theme.textMuted)
                             }
-                            WizardTextField(password, { password = it }, tr("welcome.password"), password = true, onSubmit = { register() })
+                            WizardTextField(password, { password = it }, tr("auth.password"), password = true, onSubmit = { register() })
                             if (password.isNotEmpty() && password.length < 8) {
-                                Text(tr("welcome.passwordTooShort"), style = wizardFont(WZ.FontSize.sm), color = theme.error)
+                                Text(tr("auth.passwordTooShort"), style = wizardFont(WZ.FontSize.sm), color = theme.error)
                             }
-                            PrimaryButton(tr(if (busy) "welcome.registering" else "welcome.registerSubmit"), { register() }, enabled = !busy && canRegister)
+                            PrimaryButton(tr(if (busy) "auth.registering" else "auth.registerSubmit"), { register() }, enabled = !busy && canRegister)
                         }
                         if (!discovered.oauth) SsoButtons(discovered, afterPassword = passwordRegister, busy) { signInWithBrowser(sso = it) }
                         if (!discovered.oauth && !passwordRegister && discovered.sso.isEmpty()) {
-                            Note(tr(if (registrationRateLimited) "welcome.registrationRateLimited" else "welcome.registrationUnavailable"))
+                            Note(tr(if (registrationRateLimited) "auth.registrationRateLimited" else "auth.registrationUnavailable"))
                         }
                     }
                 }
@@ -306,9 +306,9 @@ fun LoginScreen() {
                 }
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterHorizontally)) {
-                    Text(tr(if (mode == Mode.Login) "welcome.noAccount" else "welcome.haveAccount"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                    Text(tr(if (mode == Mode.Login) "auth.noAccount" else "auth.haveAccount"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                     Text(
-                        tr(if (mode == Mode.Login) "welcome.register" else "welcome.login"),
+                        tr(if (mode == Mode.Login) "auth.register" else "auth.login"),
                         Modifier.clickable {
                             mode = if (mode == Mode.Login) Mode.Register else Mode.Login
                             errorMessage = null
@@ -339,7 +339,7 @@ private fun ServerPicker(choice: String, onChoice: (String) -> Unit, custom: Str
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    if (choice == CUSTOM) tr("welcome.customServer") else android.net.Uri.parse(choice).host ?: choice,
+                    if (choice == CUSTOM) tr("auth.customServer") else android.net.Uri.parse(choice).host ?: choice,
                     Modifier.weight(1f),
                     style = wizardFont(WZ.FontSize.lg),
                     color = theme.textPrimary,
@@ -351,7 +351,7 @@ private fun ServerPicker(choice: String, onChoice: (String) -> Unit, custom: Str
                     DropdownMenuItem(
                         text = {
                             Text(
-                                if (preset == CUSTOM) tr("welcome.customServer") else android.net.Uri.parse(preset).host ?: preset,
+                                if (preset == CUSTOM) tr("auth.customServer") else android.net.Uri.parse(preset).host ?: preset,
                                 style = wizardFont(WZ.FontSize.lg),
                                 color = theme.textPrimary,
                             )
@@ -365,7 +365,7 @@ private fun ServerPicker(choice: String, onChoice: (String) -> Unit, custom: Str
             }
         }
         if (choice == CUSTOM) {
-            WizardTextField(custom, onCustom, tr("welcome.serverUrl"), keyboardType = KeyboardType.Uri)
+            WizardTextField(custom, onCustom, tr("auth.serverUrl"), keyboardType = KeyboardType.Uri)
         }
     }
 }
@@ -376,7 +376,7 @@ private fun SsoButtons(info: ServerInfo, afterPassword: Boolean, busy: Boolean, 
     if (afterPassword) LineDivider(tr("common.or"))
     info.sso.forEach { provider ->
         SecondaryButton(
-            if (provider.id == null) tr("welcome.ssoLogin") else tr("welcome.continueWithIdp", provider.name),
+            if (provider.id == null) tr("common.continueWithSso") else tr("auth.continueWithIdp", provider.name),
             { onClick(provider) },
             enabled = !busy,
         )
@@ -388,11 +388,11 @@ private fun usernameHint(state: UsernameState, username: String, serverName: Str
     if (username.isEmpty() || serverName.isEmpty()) return null
     val fullId = "@$username:$serverName"
     return when (state) {
-        UsernameState.Taken -> tr("welcome.usernameTaken")
-        UsernameState.Reserved -> tr("welcome.usernameReserved")
-        UsernameState.Invalid -> tr("welcome.usernameInvalidChars")
-        UsernameState.Available -> tr("welcome.usernameAvailable", fullId)
-        UsernameState.Checking -> tr("welcome.usernameChecking", fullId)
-        UsernameState.Idle -> tr("welcome.usernameHint", fullId)
+        UsernameState.Taken -> tr("auth.usernameTaken")
+        UsernameState.Reserved -> tr("auth.usernameReserved")
+        UsernameState.Invalid -> tr("auth.usernameInvalidChars")
+        UsernameState.Available -> tr("auth.usernameAvailable", fullId)
+        UsernameState.Checking -> tr("auth.usernameChecking", fullId)
+        UsernameState.Idle -> tr("auth.usernameHint", fullId)
     }
 }

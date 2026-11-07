@@ -383,7 +383,7 @@ export function Sessions() {
                               onClick={verifyWithOtherDevice}
                             >
                               <DevicesIcon size={14} />
-                              {t('verifySession.useOtherDevice')}
+                              {t('verification.session.useOtherDevice')}
                             </Button>
                           )}
                           {hasRecoveryKey && (
@@ -398,7 +398,7 @@ export function Sessions() {
                               }}
                             >
                               <KeyIcon size={14} />
-                              {t('verifySession.useRecoveryKey')}
+                              {t('verification.session.useRecoveryKey')}
                             </Button>
                           )}
                           {!canVerify && (
@@ -462,7 +462,7 @@ export function Sessions() {
                       onClick={() => setLinkingDevice(true)}
                     >
                       <QrCodeIcon size={14} />
-                      {t('qrLogin.linkTitle')}
+                      {t('auth.qr.linkTitle')}
                     </button>
                   )}
                 </div>

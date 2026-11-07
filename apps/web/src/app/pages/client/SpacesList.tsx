@@ -335,7 +335,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       const updates = planSpaceReorder(reorderedIds, currentOrders, String(active.id));
       saveSpaceBarOrders(client, updates).catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [orderedSpaces, client, toast, t]
@@ -351,14 +351,14 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       {!isMobile && (
         <>
           {/* Home button */}
-          <Tooltip placement="right" content={t('room.home')}>
+          <Tooltip placement="right" content={t('nav.home')}>
             <button
               type="button"
               className={sidebarView === 'home' ? css.spaceBarBtnActive : css.spaceBarBtn}
               style={{
                 color: sidebarView !== 'home' && homeHasNotif ? vars.color.textPrimary : undefined,
               }}
-              aria-label={t('room.home')}
+              aria-label={t('nav.home')}
               onClick={() => {
                 if (sidebarView === 'home') {
                   setDrawerOpen(false);
@@ -466,11 +466,11 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
             <div className={css.spacesStickyBottom}>
               {orderedSpaces.length > 0 && <div className={css.spacesSeparator} />}
               {/* Create / Join Space button */}
-              <Tooltip placement="right" content={t('room.space.add')}>
+              <Tooltip placement="right" content={t('space.add')}>
                 <button
                   type="button"
                   className={createSpaceOpen.open ? css.spaceBarBtnActive : css.spaceBarBtn}
-                  aria-label={t('room.space.create.title')}
+                  aria-label={t('space.create.title')}
                   onClick={() => setCreateSpaceOpen({ open: true })}
                 >
                   <span className={css.spacePill} />

@@ -48,7 +48,7 @@ export function VoiceRoomStage({ client, roomId }: Props) {
         <div className={css.stageContent}>
           <h1 className={css.stageTitle}>{room?.name ?? roomId}</h1>
           {callPoppedOut ? (
-            <p className={css.stageNote}>{t('voice.poppedOut')}</p>
+            <p className={css.stageNote}>{t('call.poppedOut')}</p>
           ) : (
             <div className={css.stageActions}>
               <button

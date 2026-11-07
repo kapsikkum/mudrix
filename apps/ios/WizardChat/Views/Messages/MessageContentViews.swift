@@ -658,7 +658,7 @@ struct ThreadSummaryBadge: View {
             .contentShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
         }
         .buttonStyle(.plain)
-        .accessibilityHint(String(localized: "thread.openThread"))
+        .accessibilityHint(String(localized: "timeline.openThread"))
     }
 
     private var preview: String? {

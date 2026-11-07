@@ -76,12 +76,12 @@ export function RoomHeader({
   const callLabel = isVoice
     ? t('room.joinVoice')
     : callActive
-      ? t('voice.callActive')
+      ? t('call.callActive')
       : inCallElsewhere
         ? t('call.joinHere')
         : othersInCall
-          ? t('voice.joinCall')
-          : t('voice.startCall');
+          ? t('call.joinCall')
+          : t('call.startCall');
   const callTooltip =
     inCallElsewhere && !callActive && !isVoice ? (
       <>

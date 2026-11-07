@@ -548,7 +548,7 @@ private fun RoomTopBar(
             BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
             Box {
                 var callMenu by remember { mutableStateOf(false) }
-                BarButton("phone", tr("voice.startCall"), { callMenu = true }, enabled = !inCall)
+                BarButton("phone", tr("call.startCall"), { callMenu = true }, enabled = !inCall)
                 WizardMenu(
                     callMenu,
                     { callMenu = false },
@@ -599,7 +599,7 @@ internal fun RoomHeader(
 @Composable
 private fun ThreadTitle(room: RoomSummary) {
     Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
-        Text(tr("thread.title"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
+        Text(tr("timeline.threadPanel"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
         Text(
             room.displayName,
             style = wizardFont(WZ.FontSize.xs),
@@ -769,11 +769,11 @@ private fun CallRow(call: CallHistoryView, joinCall: (() -> Unit)?) {
     val ongoing = call.outcome == CallOutcome.ongoing
     val title = tr(
         when (call.outcome) {
-            CallOutcome.ongoing -> "timeline.callOngoing"
-            CallOutcome.ended -> "timeline.callEnded"
-            CallOutcome.missed -> "timeline.callMissed"
-            CallOutcome.declined -> "timeline.callDeclined"
-            CallOutcome.unanswered -> "timeline.callUnanswered"
+            CallOutcome.ongoing -> "call.event.ongoing"
+            CallOutcome.ended -> "call.event.ended"
+            CallOutcome.missed -> "call.event.missed"
+            CallOutcome.declined -> "call.event.declined"
+            CallOutcome.unanswered -> "call.event.unanswered"
         },
     )
     val tint = when (call.outcome) {
@@ -836,7 +836,7 @@ private fun CallRow(call: CallHistoryView, joinCall: (() -> Unit)?) {
             duration?.let { Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1) }
             if (ongoing && joinCall != null) {
                 Text(
-                    tr("timeline.callJoin"),
+                    tr("common.join"),
                     Modifier
                         .clip(CircleShape)
                         .background(theme.success)
@@ -1397,7 +1397,7 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                 }
             }
             HorizontalDivider(color = theme.border)
-            item(tr("emoji.react"), "smiley") { actions.moreReactions(entry) }
+            item(tr("timeline.addReaction"), "smiley") { actions.moreReactions(entry) }
             if (entry.canBeRepliedTo) item(tr("timeline.reply"), "arrow-bend-up-left") { actions.reply(entry) }
             val openThread = actions.openThread
             if (entry.canBeRepliedTo && openThread != null) item(tr("timeline.replyInThread"), "chat-dots") { openThread(entry) }
@@ -1471,7 +1471,7 @@ private fun ReportDialog(onDismiss: () -> Unit, onReport: (String?) -> Unit) {
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
                 Text(tr("timeline.yourHomeserverSAdmins"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
-                WizardTextField(reason, { reason = it }, tr("room.members.reasonLabel"))
+                WizardTextField(reason, { reason = it }, tr("common.reasonOptional"))
             }
         },
         confirmButton = {

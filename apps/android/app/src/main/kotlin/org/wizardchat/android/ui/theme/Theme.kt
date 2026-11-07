@@ -28,7 +28,7 @@ sealed interface ThemeSetting {
 
     @Composable
     fun label(): String = when (this) {
-        System -> tr("settings.themeSystem")
+        System -> tr("settings.appearance.themeSystem")
         is Fixed -> theme.label
     }
 

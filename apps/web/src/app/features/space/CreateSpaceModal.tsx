@@ -109,15 +109,13 @@ export function CreateSpaceModal() {
           await client.addRoomAlias(newRoomId, aliasToSet);
           await client.setCanonicalAlias(newRoomId, aliasToSet, []);
         } catch (aliasErr) {
-          toast.error(
-            t('room.space.create.aliasCreateFailed', { error: getErrorMessage(aliasErr) })
-          );
+          toast.error(t('space.create.aliasCreateFailed', { error: getErrorMessage(aliasErr) }));
         }
       }
 
       resetAndClose();
     } catch (err) {
-      toast.error(t('room.space.create.failed', { error: getErrorMessage(err) }));
+      toast.error(t('space.create.failed', { error: getErrorMessage(err) }));
     } finally {
       setCreateLoading(false);
     }
@@ -136,7 +134,7 @@ export function CreateSpaceModal() {
       await client.join(target.roomIdOrAlias, viaServers.length > 0 ? viaServers : null);
       resetAndClose();
     } catch (err) {
-      toast.error(t('room.space.join.failed', { error: getErrorMessage(err) }));
+      toast.error(t('space.join.failed', { error: getErrorMessage(err) }));
     } finally {
       setJoinLoading(false);
     }
@@ -150,12 +148,12 @@ export function CreateSpaceModal() {
   };
 
   const title = parentSpaceName
-    ? t('room.space.create.titleInParent', { name: parentSpaceName })
+    ? t('space.create.titleInParent', { name: parentSpaceName })
     : view === 'choose'
-      ? t('room.space.chooseCreateJoin')
+      ? t('space.chooseCreateJoin')
       : view === 'create'
-        ? t('room.space.create.title')
-        : t('room.space.join.title');
+        ? t('space.create.title')
+        : t('space.join.title');
 
   return (
     <Modal
@@ -192,7 +190,7 @@ export function CreateSpaceModal() {
               onClick={handleJoin}
               disabled={!canJoin}
             >
-              {t('room.space.join.titleShort')}
+              {t('space.join.titleShort')}
             </Button>
           </>
         ) : null
@@ -207,7 +205,7 @@ export function CreateSpaceModal() {
             style={{ paddingTop: 12, paddingBottom: 12 }}
           >
             <StackPlusIcon size={14} className={css.iconMargin} />
-            {t('room.space.create.title')}
+            {t('space.create.title')}
           </Button>
           <Button
             variant="secondary"
@@ -216,7 +214,7 @@ export function CreateSpaceModal() {
             style={{ paddingTop: 12, paddingBottom: 12 }}
           >
             <LinkIcon size={14} className={css.iconMargin} />
-            {t('room.space.join.title')}
+            {t('space.join.title')}
           </Button>
         </div>
       )}
@@ -224,8 +222,8 @@ export function CreateSpaceModal() {
       {view === 'create' && (
         <div className={css.panel} onKeyDown={handleKeyDown}>
           <Input
-            label={t('room.space.name')}
-            placeholder={t('room.space.namePlaceholder')}
+            label={t('space.name')}
+            placeholder={t('space.namePlaceholder')}
             value={name}
             onChange={(e) => setName(e.target.value)}
             data-dialog-autofocus
@@ -238,8 +236,8 @@ export function CreateSpaceModal() {
             onChange={(e) => setDescription(e.target.value)}
           />
           <ToggleRow
-            label={t('room.space.create.public')}
-            description={t('room.space.create.publicNote')}
+            label={t('space.create.public')}
+            description={t('space.create.publicNote')}
             checked={isPublic}
             onChange={(v) => {
               setIsPublic(v);
@@ -249,8 +247,8 @@ export function CreateSpaceModal() {
           />
           {isPublic && (
             <Input
-              label={t('room.space.create.roomAddress')}
-              placeholder={t('room.space.create.roomAddressPlaceholder')}
+              label={t('space.create.roomAddress')}
+              placeholder={t('space.create.roomAddressPlaceholder')}
               value={spaceAlias}
               onChange={(e) => setSpaceAlias(e.target.value)}
             />
@@ -271,8 +269,8 @@ export function CreateSpaceModal() {
       {view === 'join' && (
         <div className={css.panel} onKeyDown={handleKeyDown}>
           <Input
-            label={t('room.space.join.spaceId')}
-            placeholder={t('room.space.join.spaceIdPlaceholder')}
+            label={t('space.join.spaceId')}
+            placeholder={t('space.join.spaceIdPlaceholder')}
             value={spaceId}
             onChange={(e) => setSpaceId(e.target.value)}
             data-dialog-autofocus
@@ -287,7 +285,7 @@ export function CreateSpaceModal() {
             style={{ paddingTop: 12, paddingBottom: 12 }}
           >
             <CompassIcon size={14} className={css.iconMargin} />
-            {t('room.space.join.discoverSpaces')}
+            {t('space.join.discoverSpaces')}
           </Button>
         </div>
       )}

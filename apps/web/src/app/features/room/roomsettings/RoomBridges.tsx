@@ -147,7 +147,7 @@ export function RoomBridges({ roomId }: { roomId: string }) {
                     {bridge.network && (
                       <>
                         {sectionName(bridge.network)}
-                        <span className={css.separator}>›</span>
+                        <span className={css.separator}>{'>'}</span>
                       </>
                     )}
                     {bridge.channel.externalUrl ? (

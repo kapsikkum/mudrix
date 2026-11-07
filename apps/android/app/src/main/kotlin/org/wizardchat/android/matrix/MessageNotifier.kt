@@ -94,7 +94,7 @@ class MessageNotifier {
         val sender = notification.senderName ?: notification.sender
         val title = notification.roomName ?: sender
         var body = if (notification.isDirect || notification.roomName == null) notification.body else "$sender: ${notification.body}"
-        if (body.isEmpty()) body = L10n.format("notifications.newMessage")
+        if (body.isEmpty()) body = L10n.format("common.newMessage")
         val sound = prefs.notificationSounds && notification.sound
         val userId = roomList?.client?.userId ?: return
         val tag = "$userId|${notification.roomId}"

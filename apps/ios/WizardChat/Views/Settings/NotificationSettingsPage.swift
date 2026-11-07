@@ -18,15 +18,15 @@ struct NotificationSettingsPage: View {
                 ToggleRow(label: "settings.notifications.notificationSounds", note: "settings.notifications.notificationSoundsNote",
                           isOn: $prefs.notificationSounds)
                 SettingsDivider()
-                ToggleRow(label: "settings.notifications.notificationBanners", note: "settings.showABannerWhen",
+                ToggleRow(label: "settings.notifications.notificationBanners", note: "settings.notifications.bannerNote",
                           isOn: $prefs.notificationBanners)
             }
             if bannersDenied {
-                StatusText(text: String(localized: "settings.notificationsAreTurnedOff"))
+                StatusText(text: String(localized: "settings.notifications.systemDisabledIos"))
             }
 
             if let rules {
-                SettingsSection(title: "room.settings.permissions.groups.messages", note: "settings.disableNoNotificationAt") {
+                SettingsSection(title: "room.settings.permissions.groups.messages", note: "settings.notifications.levelHint") {
                     levelRow("room.dm.directMessages", PushRuleSets.dms, rules)
                     SettingsDivider()
                     levelRow("settings.notifications.rooms", PushRuleSets.rooms, rules)

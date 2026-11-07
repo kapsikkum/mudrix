@@ -94,7 +94,7 @@ export function useMatrixToLinks(client: WizardClient | null): void {
           const ok = await confirm({
             title: t('link.joinTitle'),
             message: t('link.joinMessage', { room: known?.name || roomIdOrAlias }),
-            confirmLabel: t('link.join'),
+            confirmLabel: t('common.join'),
           });
           if (!ok) return;
           roomId = await client.join(

@@ -46,13 +46,13 @@ private data class Permission(
 
 private val permissions = listOf(
     Permission("room.settings.permissions.rows.send_message", "chat-circle", "events_default", fallback = 0),
-    Permission("room.invitePeople", "user-plus", "invite", fallback = 0),
-    Permission("room.removePeople", "user-minus", "kick", fallback = 50),
-    Permission("room.banPeople", "prohibit", "ban", fallback = 50),
-    Permission("room.deleteOthersMessages", "trash", "redact", fallback = 50),
-    Permission("room.changeName", "text-aa", "events", "m.room.name", 50),
+    Permission("room.members.invite", "user-plus", "invite", fallback = 0),
+    Permission("room.settings.permissions.removePeople", "user-minus", "kick", fallback = 50),
+    Permission("room.settings.permissions.banPeople", "prohibit", "ban", fallback = 50),
+    Permission("room.settings.permissions.deleteOthersMessages", "trash", "redact", fallback = 50),
+    Permission("room.settings.permissions.changeName", "text-aa", "events", "m.room.name", 50),
     Permission("room.settings.permissions.rows.change_topic", "text-align-left", "events", "m.room.topic", 50),
-    Permission("room.changePicture", "image", "events", "m.room.avatar", 50),
+    Permission("room.settings.permissions.changePicture", "image", "events", "m.room.avatar", 50),
     Permission("room.settings.permissions.rows.other_state_events", "gear", "state_default", fallback = 50),
 )
 
@@ -109,9 +109,9 @@ internal fun RolesPermissionsScreen(roomId: String, onBack: () -> Unit) {
         WizardTopBar(tr("room.settings.permissions.title"), onBack = onBack)
         FormList(Modifier.weight(1f)) {
             item {
-                GroupedSection(header = tr("room.settings.permissions.groups.roles"), footer = tr("room.changeSomeoneSRole")) {
+                GroupedSection(header = tr("room.settings.permissions.groups.roles"), footer = tr("room.members.changeRoleHint")) {
                     if (staff.isEmpty()) {
-                        GroupedRow(tr("room.noAdminsOrModerators"), titleColor = theme.textMuted)
+                        GroupedRow(tr("room.members.noAdminsOrModerators"), titleColor = theme.textMuted)
                     }
                     staff.forEachIndexed { index, member ->
                         if (index > 0) RowDivider()
@@ -141,8 +141,8 @@ internal fun RolesPermissionsScreen(roomId: String, onBack: () -> Unit) {
             levels?.let { current ->
                 item {
                     GroupedSection(
-                        header = tr("room.permissions"),
-                        footer = if (!rights.canEditLevels) tr("room.onlyPeopleAllowedTo") else null,
+                        header = tr("room.settings.permissions.sectionTitle"),
+                        footer = if (!rights.canEditLevels) tr("room.settings.permissions.editHint") else null,
                     ) {
                         permissions.forEachIndexed { index, permission ->
                             if (index > 0) RowDivider()

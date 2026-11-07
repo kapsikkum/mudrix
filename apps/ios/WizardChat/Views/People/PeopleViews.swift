@@ -36,10 +36,10 @@ struct MembersView: View {
             list.sorted { ($0.displayName ?? $0.userId).localizedCaseInsensitiveCompare($1.displayName ?? $1.userId) == .orderedAscending }
         }
         return [
-            Group(id: "admins", title: "room.admins", members: sorted(joined.filter { role($0) == 0 })),
-            Group(id: "mods", title: "room.moderators", members: sorted(joined.filter { role($0) == 1 })),
+            Group(id: "admins", title: "room.members.admins", members: sorted(joined.filter { role($0) == 0 })),
+            Group(id: "mods", title: "room.members.moderators", members: sorted(joined.filter { role($0) == 1 })),
             Group(id: "members", title: "common.members", members: sorted(joined.filter { role($0) == 2 })),
-            Group(id: "invited", title: "room.invited", members: sorted(filtered.filter(\.isInvite))),
+            Group(id: "invited", title: "room.members.invited", members: sorted(filtered.filter(\.isInvite))),
         ].filter { !$0.members.isEmpty }
     }
 
@@ -47,7 +47,7 @@ struct MembersView: View {
         ThemedList {
             if canInvite {
                 Button { showInvite = true } label: {
-                    Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular").foregroundStyle(theme.control)
+                    Label(String(localized: "room.members.invite"), image: "ph-user-plus-regular").foregroundStyle(theme.control)
                 }
             }
             ForEach(groups) { group in
@@ -116,9 +116,9 @@ struct RoleBadge: View {
     private var role: (text: LocalizedStringKey, color: Color) {
         switch level {
         case .max: ("room.members.founder", theme.roleFounder)
-        case 100...: ("profile.roleAdmin", theme.roleAdmin)
-        case 50..<100: ("profile.roleModerator", theme.roleModerator)
-        default: ("profile.roleMember", theme.roleMember)
+        case 100...: ("room.members.admin", theme.roleAdmin)
+        case 50..<100: ("room.members.moderator", theme.roleModerator)
+        default: ("room.members.member", theme.roleMember)
         }
     }
 
@@ -218,7 +218,7 @@ struct UserProfileSheet: View {
                             Label(String(localized: "profile.ignoreUser"), image: "ph-eye-slash-regular").foregroundStyle(theme.danger)
                         }
                     } footer: {
-                        Text(String(localized: "room.ignoringHidesTheirMessages"))
+                        Text(String(localized: "room.members.ignoreHint"))
                     }
                     .tint(theme.danger)
                 }
@@ -233,7 +233,7 @@ struct UserProfileSheet: View {
             }
             .alert(alertTitle, isPresented: Binding(get: { confirm != nil }, set: { if !$0 { confirm = nil } }),
                    presenting: confirm) { action in
-                if action != .ignore { TextField(String(localized: "room.members.reasonLabel"), text: $reason) }
+                if action != .ignore { TextField(String(localized: "common.reasonOptional"), text: $reason) }
                 Button(actionTitle(action), role: .destructive) { Task { await perform(action) } }
                 Button(String(localized: "common.cancel"), role: .cancel) {}
             }
@@ -245,9 +245,9 @@ struct UserProfileSheet: View {
     private var alertTitle: String {
         let who = name ?? userId
         switch confirm {
-        case .kick: return L10n.format("room.removeUser", "\(who)")
-        case .ban: return L10n.format("room.banUser", "\(who)")
-        case .ignore: return L10n.format("room.ignoreUser", "\(who)")
+        case .kick: return L10n.format("room.members.removeConfirm", "\(who)")
+        case .ban: return L10n.format("room.members.banConfirm", "\(who)")
+        case .ignore: return L10n.format("room.members.ignoreConfirm", "\(who)")
         case nil: return ""
         }
     }
@@ -345,7 +345,7 @@ struct UserPickerView: View {
 
     private var title: String {
         switch mode {
-        case .invite: String(localized: "room.invitePeople")
+        case .invite: String(localized: "room.members.invite")
         case .directMessage: String(localized: "common.newDm")
         case .select(let title, _, _): title
         }
@@ -409,16 +409,16 @@ struct UserPickerView: View {
                     }
                 } footer: {
                     if query.isEmpty {
-                        Text(String(localized: "room.searchByNameOr"))
+                        Text(String(localized: "room.members.searchHint"))
                     } else if results.isEmpty && typedId == nil && !searching {
-                        Text(String(localized: "room.noOneFound"))
+                        Text(String(localized: "room.members.noOneFound"))
                     }
                 }
                 if let error {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: String(localized: "room.nameOrMatrixId"))
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: String(localized: "room.members.searchPlaceholder"))
             .autocorrectionDisabled()
             .textInputAutocapitalization(.never)
             .task(id: query) {
@@ -486,7 +486,7 @@ struct UserPickerView: View {
         if failed.isEmpty {
             dismiss()
         } else {
-            error = L10n.format("dialogs.inviteFailed", failed.joined(separator: ", "))
+            error = L10n.format("invite.inviteFailed", failed.joined(separator: ", "))
             selected.removeAll { !failed.contains($0.userId) }
         }
     }

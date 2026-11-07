@@ -67,7 +67,7 @@ import org.wizardchat.tokens.WZ
 internal const val PACK_TYPE = "im.ponies.room_emotes"
 
 internal fun packDisplayName(content: JsonObject, key: String): String =
-    (content["pack"] as? JsonObject)?.get("display_name").string ?: key.ifEmpty { L10n.format("room.roomPack") }
+    (content["pack"] as? JsonObject)?.get("display_name").string ?: key.ifEmpty { L10n.format("room.settings.emojis.roomPack") }
 
 /** A room's custom emoji and sticker packs */
 @Composable
@@ -111,10 +111,10 @@ internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (ke
         WizardTopBar(tr("room.settings.emojis.title"), onBack = onBack)
         FormList(Modifier.weight(1f)) {
             if (loaded && packs.isEmpty() && !canEdit) {
-                item { EmptyState(tr("room.noPacks"), "smiley", Modifier.padding(top = WZ.Space.space12)) }
+                item { EmptyState(tr("room.settings.emojis.empty"), "smiley", Modifier.padding(top = WZ.Space.space12)) }
             } else {
                 item {
-                    GroupedSection(footer = tr("room.everyoneInTheRoom")) {
+                    GroupedSection(footer = tr("room.settings.emojis.packsHint")) {
                         packs.forEachIndexed { index, (key, content) ->
                             if (index > 0) RowDivider()
                             val images = (content["images"] as? JsonObject)?.size ?: 0
@@ -135,7 +135,7 @@ internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (ke
             tr("room.settings.emojis.newPack"),
             newPackName,
             { newPackName = it },
-            tr("dialogs.name"),
+            tr("common.name"),
             tr("common.create"),
             onConfirm = ::create,
             onDismiss = { showNewPack = false },
@@ -185,7 +185,7 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                 ImagePacks.forget()
                 error = null
             } catch (e: Exception) {
-                error = L10n.format("room.saveFailed", errorText(e))
+                error = L10n.format("common.saveFailed", errorText(e))
             }
         }
     }
@@ -248,24 +248,24 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
         FormList(Modifier.weight(1f)) {
             if (canEdit) {
                 item {
-                    GroupedSection(header = tr("room.pack")) {
+                    GroupedSection(header = tr("room.settings.emojis.pack")) {
                         FormField(
                             pack["display_name"].string ?: stateKey,
                             { value -> withPack { this["display_name"] = JsonPrimitive(value) } },
-                            tr("dialogs.name"),
+                            tr("common.name"),
                             onSubmit = ::save,
                         )
                         RowDivider()
-                        ToggleRow(tr("room.useAsEmoji"), "emoticon" in usage, { setUsage("emoticon", it) })
+                        ToggleRow(tr("room.settings.emojis.useAsEmoji"), "emoticon" in usage, { setUsage("emoticon", it) })
                         RowDivider()
-                        ToggleRow(tr("room.useAsStickers"), "sticker" in usage, { setUsage("sticker", it) })
+                        ToggleRow(tr("room.settings.emojis.useAsStickers"), "sticker" in usage, { setUsage("sticker", it) })
                     }
                 }
             }
             item {
                 GroupedSection(
-                    header = L10n.format("settings.images", images.size),
-                    footer = if (canEdit) tr("room.longPressAnImage") else null,
+                    header = L10n.plural("settings.emojisStickers.imageCount", images.size, images.size),
+                    footer = if (canEdit) tr("room.settings.emojis.imageActionsHint") else null,
                 ) {
                     FlowRow(
                         Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space5),
@@ -294,7 +294,7 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                                     menuFor == code,
                                     { menuFor = null },
                                     listOf(
-                                        MenuItem(tr("settings.sessions.renameSession"), "pencil-simple") {
+                                        MenuItem(tr("common.rename"), "pencil-simple") {
                                             renaming = code
                                             newCode = code
                                         },
@@ -318,7 +318,7 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                                 ) {
                                     PhIcon("plus", size = WZ.SizeIcon.md, tint = theme.textMuted)
                                 }
-                                Text(tr("settings.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
+                                Text(tr("settings.emojisStickers.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
                             }
                         }
                     }
@@ -337,7 +337,7 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
 
     renaming?.let { old ->
         TextFieldDialog(
-            tr("settings.sessions.renameSession"),
+            tr("common.rename"),
             newCode,
             { newCode = it },
             "shortcode",

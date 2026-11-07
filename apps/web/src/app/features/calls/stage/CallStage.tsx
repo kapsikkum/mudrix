@@ -144,7 +144,7 @@ function Tile({
   const videoHidden = !screen && participant.cameraHidden;
   const canFullscreen = !!track && !previewHidden && !unwatched;
   const [isFullscreen, toggleFullscreen] = useFullscreen(ref);
-  const fullscreenLabel = isFullscreen ? t('call.exitFullscreen') : t('call.fullscreen');
+  const fullscreenLabel = isFullscreen ? t('common.exitFullscreen') : t('common.fullscreen');
 
   const classes = [
     css.tile,
@@ -301,7 +301,7 @@ function Tile({
           <span
             className={css.connectingSpinner}
             role="status"
-            aria-label={t('voice.statusConnecting')}
+            aria-label={t('call.statusConnecting')}
           />
         )}
       </span>
@@ -344,13 +344,13 @@ function AvatarBubble({
         <span
           className={css.bubbleConnecting}
           role="status"
-          aria-label={t('voice.statusConnecting')}
+          aria-label={t('call.statusConnecting')}
         >
           <span className={css.connectingSpinner} />
         </span>
       )}
       {participant.audioMuted && (
-        <span className={css.bubbleMuted} aria-label={t('voice.mute')}>
+        <span className={css.bubbleMuted} aria-label={t('call.mute')}>
           <MicrophoneSlashIcon size={14} weight="fill" />
         </span>
       )}
@@ -416,9 +416,9 @@ function CallingView({
       ? t('call.calling', { name: targetName })
       : ring === 'declined'
         ? group
-          ? t('voice.callDeclined')
+          ? t('call.event.declined')
           : t('call.declined', { name: targetName })
-        : t('call.noAnswer');
+        : t('call.event.unanswered');
 
   return (
     <div className={css.calling}>
@@ -662,7 +662,7 @@ export function CallStage() {
       />
     );
   } else if (tiles.length === 0 || !focused) {
-    content = <span className={css.empty}>{t('voice.statusConnecting')}</span>;
+    content = <span className={css.empty}>{t('call.statusConnecting')}</span>;
   } else if (docked) {
     content = (
       <div className={css.dockedRow}>

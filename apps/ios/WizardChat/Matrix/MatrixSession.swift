@@ -384,6 +384,6 @@ final class MatrixSession: ObservableObject {
 
 extension WizardError {
     static let notSignedIn = WizardError(code: "notSignedIn", message: String(localized: "common.somethingWentWrong"))
-    static let invalidLoginUrl = WizardError(code: "homeserver", message: String(localized: "welcome.oidcLoginFailed"))
+    static let invalidLoginUrl = WizardError(code: "homeserver", message: String(localized: "auth.oidcLoginFailed"))
     static let noPendingLogin = WizardError(code: "expired", message: String(localized: "auth.popupClosed"))
 }

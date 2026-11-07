@@ -44,7 +44,7 @@ struct SessionsSettings: View {
             if canLinkDevices && isVerified {
                 SettingsSection {
                     Button { linkingDevice = true } label: {
-                        Label(String(localized: "qrLogin.linkTitle"), image: "ph-qr-code-regular")
+                        Label(String(localized: "auth.qr.linkTitle"), image: "ph-qr-code-regular")
                     }
                     .foregroundStyle(theme.control)
                 }
@@ -76,12 +76,12 @@ struct SessionsSettings: View {
         .sheet(item: $removing) { device in
             RemoveDeviceSheet(device: device) { await reload() }
         }
-        .alert(String(localized: "settings.setUpRecoveryKey"), isPresented: Binding(get: { newRecoveryKey != nil },
+        .alert(String(localized: "settings.encryption.setUpRecoveryKey"), isPresented: Binding(get: { newRecoveryKey != nil },
                                                           set: { if !$0 { newRecoveryKey = nil } })) {
             Button(String(localized: "common.copy")) { UIPasteboard.general.string = newRecoveryKey }
             Button(String(localized: "common.done"), role: .cancel) {}
         } message: {
-            Text(L10n.format("settings.recoveryKeySaveHint", newRecoveryKey ?? ""))
+            Text(L10n.format("settings.encryption.recoveryKeySaveHint", newRecoveryKey ?? ""))
         }
     }
 
@@ -93,11 +93,11 @@ struct SessionsSettings: View {
                     .font(.system(size: WZ.SizeIcon.md))
                     .foregroundStyle(isVerified ? theme.success : theme.danger)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                    Text(isVerified ? String(localized: "settings.sessions.verified") : String(localized: "settings.sessions.unverified"))
+                    Text(isVerified ? String(localized: "common.verified") : String(localized: "settings.sessions.unverified"))
                         .font(.wizard(WZ.FontSize.md, .semibold))
                         .foregroundStyle(theme.textPrimary)
                     if !isVerified {
-                        Text(String(localized: "settings.enterYourRecoveryKey"))
+                        Text(String(localized: "settings.encryption.enterRecoveryKeyNote"))
                             .font(.wizard(WZ.FontSize.sm))
                             .foregroundStyle(theme.textMuted)
                             .fixedSize(horizontal: false, vertical: true)
@@ -110,7 +110,7 @@ struct SessionsSettings: View {
                     Button {
                         verification = VerificationModel(.ownDevice)
                     } label: {
-                        Label(String(localized: "settings.verifyWithAnotherDevice"), image: "ph-devices-regular")
+                        Label(String(localized: "settings.encryption.verifyWithDevice"), image: "ph-devices-regular")
                     }
                     .buttonStyle(PrimaryButtonStyle())
                 }
@@ -118,7 +118,7 @@ struct SessionsSettings: View {
                     Button {
                         Task { await setUpRecovery(reset: false) }
                     } label: {
-                        Label(String(localized: "settings.setUpRecoveryKey"), image: "ph-key-regular")
+                        Label(String(localized: "settings.encryption.setUpRecoveryKey"), image: "ph-key-regular")
                     }
                     .buttonStyle(SecondaryButtonStyle())
                 } else {
@@ -132,7 +132,7 @@ struct SessionsSettings: View {
                         Button {
                             Task { await setUpRecovery(reset: true) }
                         } label: {
-                            Label(String(localized: "settings.resetEncryptionKeys"), image: "ph-arrow-counter-clockwise-regular")
+                            Label(String(localized: "settings.encryption.resetKeys"), image: "ph-arrow-counter-clockwise-regular")
                         }
                         .buttonStyle(SecondaryButtonStyle())
                     }
@@ -152,7 +152,7 @@ struct SessionsSettings: View {
                 .sorted { ($0.lastSeen ?? .distantPast) > ($1.lastSeen ?? .distantPast) }
             error = nil
         } catch {
-            self.error = L10n.format("settings.couldNotLoadSessions", "\(error.localizedDescription)")
+            self.error = L10n.format("settings.sessions.loadSessionsFailed", "\(error.localizedDescription)")
         }
     }
 
@@ -161,7 +161,7 @@ struct SessionsSettings: View {
             try await session.requireClient.renameDevice(deviceId: device.id, name: name)
             await reload()
         } catch {
-            self.error = L10n.format("settings.failedToRenameSession", "\(error.localizedDescription)")
+            self.error = L10n.format("settings.sessions.renameSessionFailed", "\(error.localizedDescription)")
         }
     }
 
@@ -170,7 +170,7 @@ struct SessionsSettings: View {
             newRecoveryKey = reset ? try await session.resetRecoveryKey() : try await session.enableRecovery()
             refreshState()
         } catch {
-            self.error = L10n.format("settings.setupFailed", "\(error.localizedDescription)")
+            self.error = L10n.format("settings.keyBackup.setupFailed", "\(error.localizedDescription)")
         }
     }
 }
@@ -205,7 +205,7 @@ private struct DeviceRow: View {
                             Circle()
                                 .fill(verified ? theme.success : theme.danger)
                                 .frame(width: WZ.Space.space4, height: WZ.Space.space4)
-                                .accessibilityLabel(verified ? String(localized: "settings.sessions.verified") : String(localized: "settings.sessions.unverified"))
+                                .accessibilityLabel(verified ? String(localized: "common.verified") : String(localized: "settings.sessions.unverified"))
                         }
                     }
                     if let lastSeen = device.lastSeen {
@@ -217,7 +217,7 @@ private struct DeviceRow: View {
                 Spacer()
                 Menu {
                     Button { newName = device.name ?? ""; renaming = true } label: {
-                        Label(menu: String(localized: "settings.sessions.renameSession"), icon: "ph-pencil-simple-regular")
+                        Label(menu: String(localized: "common.rename"), icon: "ph-pencil-simple-regular")
                     }
                     if let onRemove {
                         Button(role: .destructive) { onRemove(device) } label: {
@@ -296,7 +296,7 @@ private struct RemoveDeviceSheet: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: WZ.Space.space5) {
-                Text(L10n.format("settings.removeSessionThatDevice", "\(device.name ?? device.id)"))
+                Text(L10n.format("settings.sessions.removeConfirm", "\(device.name ?? device.id)"))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textPrimary)
                 if session.isOAuthAccount {
@@ -356,7 +356,7 @@ private struct RecoveryKeyEntrySheet: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: WZ.Space.space5) {
-                Text(String(localized: "settings.enterYourRecoveryKey"))
+                Text(String(localized: "settings.encryption.enterRecoveryKeyNote"))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
                 TextField("", text: $key, prompt: Text("EsTc ...").foregroundColor(theme.textMuted), axis: .vertical)
@@ -372,7 +372,7 @@ private struct RecoveryKeyEntrySheet: View {
                             try await session.recover(with: key)
                             dismiss()
                         } catch {
-                            self.error = String(localized: "settings.wrongDecryptionKeyPlease")
+                            self.error = String(localized: "settings.encryption.wrongKey")
                         }
                     }
                 }

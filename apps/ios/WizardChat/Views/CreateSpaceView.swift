@@ -30,7 +30,7 @@ struct CreateSpaceView: View {
                             .foregroundStyle(theme.error)
                     }
                 }
-                .navigationTitle(mode == .join ? String(localized: "room.space.join.title") : String(localized: "space.addASpace"))
+                .navigationTitle(mode == .join ? String(localized: "space.join.title") : String(localized: "space.addSpace"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -60,10 +60,10 @@ struct CreateSpaceView: View {
 
     private var chooser: some View {
         Section {
-            choice(icon: "ph-plus-circle-regular", title: String(localized: "room.space.create.title"),
-                   note: String(localized: "space.groupRoomsTogetherFor")) { mode = .create }
-            choice(icon: "ph-link-simple-regular", title: String(localized: "room.space.join.title"),
-                   note: String(localized: "space.joinWithASpace")) { mode = .join }
+            choice(icon: "ph-plus-circle-regular", title: String(localized: "space.create.title"),
+                   note: String(localized: "space.addSpaceHint")) { mode = .create }
+            choice(icon: "ph-link-simple-regular", title: String(localized: "space.join.title"),
+                   note: String(localized: "space.joinHint")) { mode = .join }
         }
     }
 
@@ -95,9 +95,9 @@ struct CreateSpaceView: View {
                 .autocorrectionDisabled()
                 .onSubmit { Task { await join() } }
         } header: {
-            Text(String(localized: "room.space.join.spaceId"))
+            Text(String(localized: "space.join.spaceId"))
         } footer: {
-            Text(String(localized: "space.joinWithASpace"))
+            Text(String(localized: "space.joinHint"))
         }
     }
 
@@ -111,7 +111,7 @@ struct CreateSpaceView: View {
             onDone(spaceId)
             dismiss()
         } catch {
-            errorMessage = L10n.format("explore.failedToJoin", "\(error)")
+            errorMessage = L10n.format("common.joinFailed", "\(error)")
         }
     }
 }

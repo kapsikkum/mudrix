@@ -45,7 +45,7 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     labelKey: 'room.settings.emojis.title',
     Icon: SmileyStickerIcon,
   },
-  { tab: 'developer', labelKey: 'room.settings.developer.title', Icon: WrenchIcon },
+  { tab: 'developer', labelKey: 'developer.title', Icon: WrenchIcon },
 ];
 
 const DEV_TABS: Tab[] = ['widgets', 'developer'];

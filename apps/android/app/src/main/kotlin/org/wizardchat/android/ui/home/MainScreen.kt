@@ -338,8 +338,8 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
     }
     Surface(modifier.fillMaxWidth(), shape = CircleShape, color = theme.bgTertiary.copy(alpha = 0.96f), shadowElevation = 8.dp) {
         Row(Modifier.padding(WZ.Space.space2)) {
-            TabItem(Tab.home, selected, tr("room.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
-            TabItem(Tab.dms, selected, tr("roomSwitcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
+            TabItem(Tab.home, selected, tr("nav.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
+            TabItem(Tab.dms, selected, tr("search.switcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
             TabItem(Tab.spaces, selected, tr("room.settings.permissions.groups.spaces"), "stack", spacesUnread, onSelect)
             val isSelected = selected == Tab.me
             Column(
@@ -359,7 +359,7 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
                     WZ.SizeAvatar.sm,
                     modifier = Modifier.border(WZ.BorderWidth.thick, if (isSelected) theme.accent else androidx.compose.ui.graphics.Color.Transparent, CircleShape),
                 )
-                Text(tr("mobileNav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
+                Text(tr("nav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
             }
         }
     }

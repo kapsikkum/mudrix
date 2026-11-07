@@ -130,19 +130,19 @@ export function RegisterForm({
 
   const usernameError =
     usernameState === 'taken'
-      ? t('welcome.usernameTaken')
+      ? t('auth.usernameTaken')
       : usernameState === 'reserved'
-        ? t('welcome.usernameReserved')
+        ? t('auth.usernameReserved')
         : usernameState === 'invalid'
-          ? t('welcome.usernameInvalidChars')
+          ? t('auth.usernameInvalidChars')
           : undefined;
   const usernameHint = !fullId
     ? undefined
     : usernameState === 'available'
-      ? t('welcome.usernameAvailable', { id: fullId })
+      ? t('auth.usernameAvailable', { id: fullId })
       : usernameState === 'checking'
-        ? t('welcome.usernameChecking', { id: fullId })
-        : t('welcome.usernameHint', { id: fullId });
+        ? t('auth.usernameChecking', { id: fullId })
+        : t('auth.usernameHint', { id: fullId });
 
   const canSubmit =
     !!localpart &&
@@ -153,7 +153,7 @@ export function RegisterForm({
 
   const handleRegister = async () => {
     if (!localpart || !password) {
-      setStatus(t('welcome.fillAllFields'));
+      setStatus(t('auth.fillAllFields'));
       setStatusType('error');
       return;
     }
@@ -167,7 +167,7 @@ export function RegisterForm({
       const dummyOnly = (stages: string[]) => stages.length === 1 && stages[0] === 'm.login.dummy';
       if (flows.length > 0 && !flows.some(dummyOnly)) {
         const names = flows.map((stages) => stages.join(' -> ')).join(', ');
-        throw new Error(t('welcome.additionalVerification', { names: names || 'unknown' }));
+        throw new Error(t('auth.additionalVerification', { names: names || 'unknown' }));
       }
 
       const credentials = await register(serverUrl, localpart, password);
@@ -177,15 +177,15 @@ export function RegisterForm({
       const message = getErrorMessage(err);
       const errcode = matrixErrcode(err);
       if (errcode === MatrixErrorCode.USER_IN_USE) {
-        setStatus(t('welcome.usernameTaken'));
+        setStatus(t('auth.usernameTaken'));
       } else if (errcode === MatrixErrorCode.INVALID_USERNAME) {
-        setStatus(t('welcome.invalidUsername'));
+        setStatus(t('auth.invalidUsername'));
       } else if (errcode === MatrixErrorCode.EXCLUSIVE) {
-        setStatus(t('welcome.usernameReserved'));
+        setStatus(t('auth.usernameReserved'));
       } else if (errcode === MatrixErrorCode.WEAK_PASSWORD) {
-        setStatus(t('welcome.weakPassword', { error: message }));
+        setStatus(t('auth.weakPassword', { error: message }));
       } else {
-        setStatus(t('welcome.registrationFailed', { error: message }));
+        setStatus(t('auth.registrationFailed', { error: message }));
       }
       setStatusType('error');
     } finally {
@@ -202,7 +202,7 @@ export function RegisterForm({
       },
       (err) => {
         if (isPopupClosed(err)) return;
-        setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
+        setStatus(t('auth.registrationFailed', { error: getErrorMessage(err) }));
         setStatusType('error');
       }
     );
@@ -219,7 +219,7 @@ export function RegisterForm({
       },
       (err) => {
         if (!isPopupClosed(err)) {
-          setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
+          setStatus(t('auth.registrationFailed', { error: getErrorMessage(err) }));
           setStatusType('error');
         }
         setLoading(false);
@@ -229,20 +229,20 @@ export function RegisterForm({
 
   return (
     <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.register')}</h2>
+      <h2 className={css.formTitle}>{t('auth.register')}</h2>
 
       <div className={css.serverGroup}>
         <Select
-          aria-label={t('welcome.customServer')}
+          aria-label={t('auth.customServer')}
           value={serverSelect}
-          options={[...PRESET_SERVERS, { value: 'custom', label: t('welcome.customServer') }]}
+          options={[...PRESET_SERVERS, { value: 'custom', label: t('auth.customServer') }]}
           onChange={onServerSelect}
         />
         {serverSelect === 'custom' && (
           <Input
             type="text"
-            placeholder={t('welcome.serverUrl')}
-            aria-label={t('welcome.serverUrl')}
+            placeholder={t('auth.serverUrl')}
+            aria-label={t('auth.serverUrl')}
             value={customUrl}
             onChange={(e) => onCustomUrlChange(e.target.value)}
             onBlur={onRetryDiscovery}
@@ -253,13 +253,13 @@ export function RegisterForm({
       {isChecking ? (
         <div className={css.checkingServer}>
           <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
           {oidcMetadata && (
             <Button fullWidth size="lg" variant="primary" onClick={handleOidc} disabled={loading}>
-              {loading ? t('welcome.redirecting') : t('welcome.oidcRegister')}
+              {loading ? t('auth.redirecting') : t('auth.oidcRegister')}
             </Button>
           )}
 
@@ -267,8 +267,8 @@ export function RegisterForm({
             <>
               <Input
                 type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
+                placeholder={t('auth.username')}
+                aria-label={t('auth.username')}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
@@ -279,13 +279,13 @@ export function RegisterForm({
               />
               <Input
                 type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
+                placeholder={t('auth.password')}
+                aria-label={t('auth.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
                 showPasswordToggle
-                error={passwordTooShort ? t('welcome.passwordTooShort') : undefined}
+                error={passwordTooShort ? t('auth.passwordTooShort') : undefined}
                 onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
               />
 
@@ -301,7 +301,7 @@ export function RegisterForm({
                       />
                     ))}
                   </div>
-                  <span>{t(`welcome.passwordStrength.${strength}`)}</span>
+                  <span>{t(`auth.passwordStrength.${strength}`)}</span>
                 </div>
               )}
 
@@ -312,7 +312,7 @@ export function RegisterForm({
                 onClick={handleRegister}
                 disabled={loading || !canSubmit}
               >
-                {loading ? t('welcome.registering') : t('welcome.registerSubmit')}
+                {loading ? t('auth.registering') : t('auth.registerSubmit')}
               </Button>
             </>
           )}
@@ -322,7 +322,7 @@ export function RegisterForm({
               {hasPasswordRegister && <div className={css.divider}>{t('common.or')}</div>}
               {idps.length === 0 ? (
                 <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
-                  {t('welcome.ssoLogin')}
+                  {t('common.continueWithSso')}
                 </Button>
               ) : (
                 idps.map((idp) => {
@@ -335,7 +335,7 @@ export function RegisterForm({
                       onClick={() => handleSso(idp.id)}
                     >
                       {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
-                      {t('welcome.continueWithIdp', { name: idp.name })}
+                      {t('auth.continueWithIdp', { name: idp.name })}
                     </Button>
                   );
                 })
@@ -343,9 +343,7 @@ export function RegisterForm({
             </>
           )}
 
-          {isRateLimited && (
-            <p className={css.statusText}>{t('welcome.registrationRateLimited')}</p>
-          )}
+          {isRateLimited && <p className={css.statusText}>{t('auth.registrationRateLimited')}</p>}
 
           {!capabilitiesLoading &&
             !hasPasswordRegister &&
@@ -353,9 +351,9 @@ export function RegisterForm({
             !isRateLimited &&
             !oidcMetadata && (
               <p className={css.statusText}>
-                {serverUnreachable && t('welcome.serverUnreachable')}
-                {wellKnownInvalid && t('welcome.notMatrixServer')}
-                {!serverUnreachable && !wellKnownInvalid && t('welcome.registrationUnavailable')}
+                {serverUnreachable && t('auth.serverUnreachable')}
+                {wellKnownInvalid && t('auth.notMatrixServer')}
+                {!serverUnreachable && !wellKnownInvalid && t('auth.registrationUnavailable')}
               </p>
             )}
         </>
@@ -366,9 +364,9 @@ export function RegisterForm({
       )}
 
       <p className={css.switchText}>
-        {t('welcome.haveAccount')}{' '}
+        {t('auth.haveAccount')}{' '}
         <button type="button" className={css.switchLink} onClick={onShowLogin}>
-          {t('welcome.login')}
+          {t('auth.login')}
         </button>
       </p>
 
