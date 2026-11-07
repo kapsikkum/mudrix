@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -414,5 +415,38 @@ internal fun PersonRow(
             }
         }
         trailing()
+    }
+}
+
+/**
+ * A [org.wizardchat.android.ui.GroupedSection] whose rows are lazy items, so a long list (thousands of members) only
+ * composes what is on screen. The rows get the section's rounded corners by position.
+ */
+internal fun <T> LazyListScope.lazyGroupedSection(
+    key: String,
+    header: String,
+    rows: List<T>,
+    rowKey: (T) -> Any,
+    row: @Composable (T) -> Unit,
+) {
+    item(key = "$key-header", contentType = "section-header") {
+        Text(
+            header.uppercase(),
+            Modifier.padding(start = WZ.Space.space6 + WZ.Space.space5, bottom = WZ.Space.space3, top = WZ.Space.space6),
+            style = wizardFont(WZ.FontSize.sm),
+            color = theme.textMuted,
+        )
+    }
+    itemsIndexed(rows, key = { _, item -> "$key-${rowKey(item)}" }, contentType = { _, _ -> "section-row" }) { index, item ->
+        val shape = androidx.compose.foundation.shape.RoundedCornerShape(
+            topStart = if (index == 0) WZ.Radius.lg else WZ.Space.space0,
+            topEnd = if (index == 0) WZ.Radius.lg else WZ.Space.space0,
+            bottomStart = if (index == rows.lastIndex) WZ.Radius.lg else WZ.Space.space0,
+            bottomEnd = if (index == rows.lastIndex) WZ.Radius.lg else WZ.Space.space0,
+        )
+        Column(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6).clip(shape).background(theme.groupedRow)) {
+            if (index > 0) org.wizardchat.android.ui.RowDivider()
+            row(item)
+        }
     }
 }

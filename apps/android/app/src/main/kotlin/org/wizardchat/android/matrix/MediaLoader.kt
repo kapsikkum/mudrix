@@ -39,10 +39,10 @@ class MediaLoader(val client: WizardClient) {
     }
 
     suspend fun thumbnail(url: String, size: Int = 96): Bitmap? =
-        load(url) { it.thumbnail(url, size.toLong(), size.toLong()) }
+        load(url, maxSide = size * 2) { it.thumbnail(url, size.toLong(), size.toLong()) }
 
     suspend fun image(source: MediaSource, thumbnailSize: Int?): Bitmap? =
-        load("${key(source)}|${thumbnailSize ?: 0}") {
+        load("${key(source)}|${thumbnailSize ?: 0}", maxSide = thumbnailSize?.let { it * 2 } ?: MAX_FULL_SIDE) {
             it.media(source, thumbnailSize?.toLong(), thumbnailSize?.toLong())
         }
 
@@ -84,13 +84,13 @@ class MediaLoader(val client: WizardClient) {
         return file
     }
 
-    private suspend fun load(key: String, fetch: suspend (WizardClient) -> ByteArray): Bitmap? {
+    private suspend fun load(key: String, maxSide: Int = MAX_FULL_SIDE, fetch: suspend (WizardClient) -> ByteArray): Bitmap? {
         cache.get(key)?.let { return it }
         inFlight[key]?.let { return it.await() }
         val deferred = CompletableDeferred<Bitmap?>()
         inFlight[key] = deferred
         val image = runCatching { fetch(client) }.getOrNull()?.let { data ->
-            withContext(Dispatchers.Default) { BitmapFactory.decodeByteArray(data, 0, data.size) }
+            withContext(Dispatchers.Default) { decodeSampled(data, maxSide) }
         }
         inFlight.remove(key)
         if (image != null) store(image, key)
@@ -99,6 +99,19 @@ class MediaLoader(val client: WizardClient) {
     }
 
     companion object {
+        /** Nothing is decoded larger than this on its longer side: a 48 MP photo would need ~190 MB and exceeds the GPU texture limit */
+        const val MAX_FULL_SIDE = 4096
+
+        /** The bitmap, decoded at a power-of-two fraction of its size so its longer side is not much over [maxSide] */
+        fun decodeSampled(data: ByteArray, maxSide: Int): Bitmap? {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+            val longest = maxOf(bounds.outWidth, bounds.outHeight)
+            var sample = 1
+            while (longest / (sample * 2) >= maxSide) sample *= 2
+            return BitmapFactory.decodeByteArray(data, 0, data.size, BitmapFactory.Options().apply { inSampleSize = sample })
+        }
+
         fun key(source: MediaSource): String {
             val obj = source as? JsonObject ?: return source.toString()
             return obj["url"]?.jsonPrimitive?.content

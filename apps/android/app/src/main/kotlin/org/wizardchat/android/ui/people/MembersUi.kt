@@ -66,20 +66,23 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
     }
     LaunchedEffect(roomId) { load() }
 
-    val filtered = if (search.isEmpty()) {
-        members
-    } else {
-        members.filter { (it.displayName ?: "").contains(search, ignoreCase = true) || it.userId.contains(search, ignoreCase = true) }
+    // Filtering and sorting thousands of members happens when the list or the search changes, not on every recomposition
+    val groups = remember(members, search) {
+        val filtered = if (search.isEmpty()) {
+            members
+        } else {
+            members.filter { (it.displayName ?: "").contains(search, ignoreCase = true) || it.userId.contains(search, ignoreCase = true) }
+        }
+        val joined = filtered.filter { !it.isInvite }
+        fun role(member: Member) = if (member.level >= 100) 0 else if (member.level >= 50) 1 else 2
+        fun sorted(list: List<Member>) = list.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
+        listOf(
+            "room.admins" to sorted(joined.filter { role(it) == 0 }),
+            "room.moderators" to sorted(joined.filter { role(it) == 1 }),
+            "common.members" to sorted(joined.filter { role(it) == 2 }),
+            "room.invited" to sorted(filtered.filter { it.isInvite }),
+        ).filter { it.second.isNotEmpty() }
     }
-    val joined = filtered.filter { !it.isInvite }
-    fun role(member: Member) = if (member.level >= 100) 0 else if (member.level >= 50) 1 else 2
-    fun sorted(list: List<Member>) = list.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
-    val groups = listOf(
-        "room.admins" to sorted(joined.filter { role(it) == 0 }),
-        "room.moderators" to sorted(joined.filter { role(it) == 1 }),
-        "common.members" to sorted(joined.filter { role(it) == 2 }),
-        "room.invited" to sorted(filtered.filter { it.isInvite }),
-    ).filter { it.second.isNotEmpty() }
 
     SheetPage {
         WizardTopBar(tr("common.members"), onBack = onBack)
@@ -99,13 +102,8 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                     }
                 }
                 groups.forEach { (title, list) ->
-                    item(key = title) {
-                        GroupedSection(header = "${tr(title)} — ${list.size}") {
-                            list.forEachIndexed { index, member ->
-                                if (index > 0) RowDivider()
-                                MemberRow(member) { selected = member.userId }
-                            }
-                        }
+                    lazyGroupedSection(title, "${L10n.format(title)} — ${list.size}", list, { it.userId }) { member ->
+                        MemberRow(member) { selected = member.userId }
                     }
                 }
             }

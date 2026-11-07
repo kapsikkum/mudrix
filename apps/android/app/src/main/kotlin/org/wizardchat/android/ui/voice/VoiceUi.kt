@@ -572,7 +572,7 @@ private fun DMCallContent(onDismiss: () -> Unit) {
         ) {
             Box(
                 Modifier
-                    .size(WZ.Space.space10)
+                    .size(WZ.Space.space11)
                     .floatingGlass()
                     .clickable(onClick = onDismiss),
                 contentAlignment = Alignment.Center,
@@ -588,7 +588,7 @@ private fun DMCallContent(onDismiss: () -> Unit) {
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
             )
-            Spacer(Modifier.size(WZ.Space.space10))
+            Spacer(Modifier.size(WZ.Space.space11))
         }
 
         if (room != null) {

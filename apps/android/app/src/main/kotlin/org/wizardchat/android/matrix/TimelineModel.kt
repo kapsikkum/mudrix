@@ -14,6 +14,7 @@ import java.time.Instant
 import java.time.ZoneId
 import kotlin.math.roundToLong
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.NonCancellable
@@ -219,6 +220,9 @@ class TimelineModel(
     private val kind: TimelineKind = threadRoot?.let { TimelineKind.Thread(it) }
         ?: if (pinnedOnly) TimelineKind.Pinned else TimelineKind.Main
     private val scope = MainScope()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val worker = Dispatchers.Default.limitedParallelism(1)
     private var timeline: RoomTimeline? = null
     private val items = mutableListOf<TimelineEntry>()
     private val converted = mutableListOf<ChatEntry?>()
@@ -240,7 +244,8 @@ class TimelineModel(
         try {
             val timeline = if (kind == TimelineKind.Main) client.timeline(roomId) else client.timelineOf(roomId, kind)
             this.timeline = timeline
-            subscriptions += timeline.watch { diffs -> apply(diffs) }
+            // The core calls back on the main thread; rebuilding the rows is O(n) and must not run there
+            subscriptions += timeline.watch { diffs -> scope.launch(worker) { apply(diffs) } }
             if (kind == TimelineKind.Main) {
                 subscriptions += timeline.watchTyping { users ->
                     typingNames = users.map { it.displayName ?: localpart(it.userId) }
@@ -655,7 +660,7 @@ class TimelineModel(
         // The read marker is a virtual item; the first message after it is the first unread
         val marker = items.indexOfFirst { it is TimelineEntry.ReadMarker }
         firstUnreadId = if (marker >= 0) {
-            converted.drop(marker + 1).firstOrNull { it?.isContent == true }?.id
+            (marker + 1 until converted.size).firstNotNullOfOrNull { converted[it]?.takeIf { entry -> entry.isContent } }?.id
         } else {
             null
         }

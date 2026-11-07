@@ -11,6 +11,9 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.widget.ImageView
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -63,6 +66,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -308,68 +312,56 @@ fun ImageViewer(
     val context = LocalContext.current
     val loader = LocalMedia.current
     val scope = rememberCoroutineScope()
+    var dim by remember { mutableFloatStateOf(0f) }
+    var bars by remember { mutableStateOf(true) }
+    var menu by remember { mutableStateOf(false) }
     FullScreenDialog(onDismiss) {
-        Column(Modifier.fillMaxSize().background(Color.Black)) {
-            Row(
-                Modifier.fillMaxWidth().background(Color(0xFF1C1C1E)).statusBarsPadding().height(WZ.Space.space11)
-                    .padding(horizontal = WZ.Space.space3),
-                verticalAlignment = Alignment.CenterVertically,
+        // The black fades as the picture is dragged away; `dim` is read while drawing only
+        Box(Modifier.fillMaxSize().drawBehind { drawRect(Color.Black.copy(alpha = 1f - dim * 0.85f)) }) {
+            ZoomableBox(
+                Modifier.fillMaxSize().navigationBarsPadding(),
+                onDismissDrag = { dim = it },
+                onDismiss = onDismiss,
+                onTap = { bars = !bars },
+                onLongPress = { if (image != null && source != null) menu = true },
             ) {
-                BarTextButton(tr("common.done"), onDismiss)
-                Text(
-                    title,
-                    Modifier.weight(1f),
-                    style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
-                    color = Color.White,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center,
-                )
-                if (image != null && source != null && loader != null) {
-                    BarButton("export", tr("desktopPicker.share"), {
-                        scope.launch {
-                            val file = runCatching { loader.file(source, filename) }.getOrNull() ?: return@launch
-                            shareFile(context, file, mimetype ?: "image/*")
-                        }
-                    })
-                } else {
-                    Spacer(Modifier.size(WZ.Space.space11))
-                }
-            }
-            ZoomableBox(Modifier.weight(1f).fillMaxWidth().navigationBarsPadding()) {
                 when {
                     animated != null -> AnimatedDrawable(animated, fit = true, modifier = Modifier.fillMaxSize())
                     image != null -> Image(image.asImageBitmap(), title, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
                 }
             }
-        }
-    }
-}
-
-/** Pinch to zoom; springs back on release */
-@Composable
-internal fun ZoomableBox(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-    var scale by remember { mutableFloatStateOf(1f) }
-    Box(
-        modifier
-            .clipToBounds()
-            .pointerInput(Unit) {
-                awaitEachGesture {
-                    awaitFirstDown(requireUnconsumed = false)
-                    do {
-                        val event = awaitPointerEvent()
-                        if (event.changes.size > 1) {
-                            scale = maxOf(1f, scale * event.calculateZoom())
-                            event.changes.forEach { it.consume() }
-                        }
-                    } while (event.changes.any { it.pressed })
-                    scale = 1f
+            AnimatedVisibility(bars && dim < 0.05f, Modifier.align(Alignment.TopCenter), enter = fadeIn(), exit = fadeOut()) {
+                Row(
+                    Modifier.fillMaxWidth().background(Color.Black.copy(alpha = 0.55f)).statusBarsPadding().height(WZ.Space.space11)
+                        .padding(horizontal = WZ.Space.space3),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    BarTextButton(tr("common.done"), onDismiss)
+                    Text(
+                        title,
+                        Modifier.weight(1f),
+                        style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
+                        color = Color.White,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center,
+                    )
+                    if (image != null && source != null && loader != null) {
+                        BarButton("dots-three", tr("common.more"), { menu = true }, weight = PhWeight.bold)
+                        BarButton("export", tr("desktopPicker.share"), {
+                            scope.launch {
+                                val file = runCatching { loader.file(source, filename) }.getOrNull() ?: return@launch
+                                shareFile(context, file, mimetype ?: "image/*")
+                            }
+                        })
+                    } else {
+                        Spacer(Modifier.size(WZ.Space.space11))
+                    }
                 }
             }
-            .graphicsLayer(scaleX = scale, scaleY = scale),
-        contentAlignment = Alignment.Center,
-        content = content,
-    )
+        }
+        if (menu && source != null) LocalMediaMenu(source, filename, mimetype, isImage = true) { menu = false }
+    }
 }
 
 /** A started download is given up after this long */
@@ -864,36 +856,86 @@ fun ReplyQuoteView(quote: ChatEntry.ReplyQuote) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, onToggle: (String) -> Unit) {
+fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, onToggle: (String) -> Unit) {
+    var reactors by remember { mutableStateOf<ChatEntry.ReactionGroup?>(null) }
     FlowRow(
         Modifier.padding(top = WZ.Space.space2),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
-        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
         reactions.forEach { reaction ->
             val mine = reaction.reactedByMe
-            Row(
+            // The chip is 24 dp tall but its touch area is 44 dp, like the web's touch layer
+            val messageLongPress = LocalMessageLongPress.current
+            Box(
                 Modifier
-                    .height(WZ.Space.space8)
-                    .clip(CircleShape)
-                    .background(if (mine) theme.accent.copy(alpha = 0.18f) else theme.fill)
-                    .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, CircleShape)
-                    .messageTap { onToggle(reaction.key) }
-                    .padding(horizontal = WZ.Space.space4)
+                    .heightIn(min = 44.dp)
+                    .combinedClickable(
+                        interactionSource = null,
+                        indication = null,
+                        // A long press lists who reacted; a chip without known senders keeps opening the message menu
+                        onLongClick = if (roomId != null && reaction.senders.isNotEmpty()) ({ reactors = reaction }) else messageLongPress,
+                        onClick = { onToggle(reaction.key) },
+                    )
                     .semantics { contentDescription = "${reaction.key} ${reaction.count}" },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                contentAlignment = Alignment.Center,
             ) {
-                if (reaction.key.startsWith("mxc://")) {
-                    PackThumb(reaction.key, Modifier.size(WZ.Space.space6))
-                } else {
-                    Text(reaction.key, fontSize = WZ.SizeIcon.sm.value.sp)
+                Row(
+                    Modifier
+                        .height(WZ.Space.space8)
+                        .clip(CircleShape)
+                        .background(if (mine) theme.accent.copy(alpha = 0.18f) else theme.fill)
+                        .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, CircleShape)
+                        .padding(horizontal = WZ.Space.space4),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                ) {
+                    if (reaction.key.startsWith("mxc://")) {
+                        PackThumb(reaction.key, Modifier.size(WZ.Space.space6))
+                    } else {
+                        Text(reaction.key, fontSize = WZ.SizeIcon.sm.value.sp)
+                    }
+                    Text(
+                        "${reaction.count}",
+                        style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                        color = if (mine) theme.accent else theme.textMuted,
+                    )
                 }
-                Text(
-                    "${reaction.count}",
-                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
-                    color = if (mine) theme.accent else theme.textMuted,
-                )
+            }
+        }
+    }
+    reactors?.let { group -> ReactorsSheet(roomId ?: "", group) { reactors = null } }
+}
+
+/** Who reacted with one emoji (a long press on its chip) */
+@Composable
+private fun ReactorsSheet(roomId: String, group: ChatEntry.ReactionGroup, onDismiss: () -> Unit) {
+    WizardSheet(onDismiss) {
+        Row(
+            Modifier.fillMaxWidth().padding(bottom = WZ.Space.space4),
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (group.key.startsWith("mxc://")) {
+                PackThumb(group.key, Modifier.size(WZ.Space.space9))
+            } else {
+                Text(group.key, fontSize = WZ.SizeIcon.xl.value.sp)
+            }
+            Text(
+                L10n.format("timeline.reactions"),
+                style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
+                color = theme.textPrimary,
+            )
+        }
+        LazyColumn(Modifier.fillMaxWidth().heightIn(max = 560.dp).navigationBarsPadding()) {
+            items(group.senders, key = { it }) { userId ->
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+                ) {
+                    ReceiptAvatar(roomId, userId, 32.dp)
+                    ReceiptName(roomId, userId, Modifier.weight(1f))
+                }
             }
         }
     }

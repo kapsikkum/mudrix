@@ -7,6 +7,9 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,6 +49,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -76,6 +81,7 @@ import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.MediaLoader
 import org.wizardchat.android.matrix.TimelineModel
+import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
@@ -213,39 +219,75 @@ fun MediaPagerView(
             if (failed > 0) CopyToast.show(L10n.format("mediaLightbox.saveAllFailed", failed.toString(), items.size.toString()))
         }
     }
+    var zoomed by remember { mutableStateOf(false) }
+    var dim by remember { mutableFloatStateOf(0f) }
+    var bars by remember { mutableStateOf(true) }
+    var menuFor by remember { mutableStateOf<Int?>(null) }
     FullScreenDialog(onDismiss) {
-        Column(Modifier.fillMaxSize().background(Color.Black)) {
-            Box(
-                Modifier.fillMaxWidth().background(Color(0xFF1C1C1E)).statusBarsPadding().height(WZ.Space.space11)
-                    .padding(horizontal = WZ.Space.space3),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(Modifier.align(Alignment.CenterStart)) { BarTextButton(tr("common.done"), onDismiss) }
-                if (items.size > 1) {
-                    Text(
-                        tr("timeline.pageIndicator", "${pager.currentPage + 1}", items.size),
-                        style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
-                        color = Color.White,
-                    )
-                }
-                if (saveAll) {
-                    Box(Modifier.align(Alignment.CenterEnd)) {
-                        BarTextButton(
-                            if (saving) tr("mediaLightbox.savingAll") else L10n.format("mediaLightbox.saveAll", items.size),
-                            { if (!saving) folderPicker.launch(null) },
+        // The black fades as a picture is dragged away; `dim` is read while drawing only
+        Box(Modifier.fillMaxSize().drawBehind { drawRect(Color.Black.copy(alpha = 1f - dim * 0.85f)) }) {
+            HorizontalPager(
+                pager,
+                Modifier.fillMaxSize().navigationBarsPadding(),
+                // A zoomed picture is panned, not paged
+                userScrollEnabled = !zoomed,
+                key = { it },
+            ) { page ->
+                MediaPage(
+                    items[page],
+                    isVideo.getOrElse(page) { false },
+                    onZoomedChange = { if (page == pager.currentPage) zoomed = it },
+                    onDismissDrag = { dim = it },
+                    onDismiss = onDismiss,
+                    onTap = { bars = !bars },
+                    onLongPress = { menuFor = page },
+                )
+            }
+            AnimatedVisibility(bars && dim < 0.05f, Modifier.align(Alignment.TopCenter), enter = fadeIn(), exit = fadeOut()) {
+                Box(
+                    Modifier.fillMaxWidth().background(Color.Black.copy(alpha = 0.55f)).statusBarsPadding().height(WZ.Space.space11)
+                        .padding(horizontal = WZ.Space.space3),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Box(Modifier.align(Alignment.CenterStart)) { BarTextButton(tr("common.done"), onDismiss) }
+                    if (items.size > 1) {
+                        Text(
+                            tr("timeline.pageIndicator", "${pager.currentPage + 1}", items.size),
+                            style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
+                            color = Color.White,
                         )
+                    }
+                    Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically) {
+                        if (saveAll) {
+                            BarTextButton(
+                                if (saving) tr("mediaLightbox.savingAll") else L10n.format("mediaLightbox.saveAll", items.size),
+                                { if (!saving) folderPicker.launch(null) },
+                            )
+                        }
+                        BarButton("dots-three", tr("common.more"), { menuFor = pager.currentPage }, weight = PhWeight.bold)
                     }
                 }
             }
-            HorizontalPager(pager, Modifier.weight(1f).fillMaxWidth().navigationBarsPadding()) { page ->
-                MediaPage(items[page], isVideo.getOrElse(page) { false })
+        }
+        menuFor?.let { index ->
+            val media = items.getOrNull(index)
+            if (media != null) {
+                LocalMediaMenu(media.source, media.filename, media.mimetype, isImage = !isVideo.getOrElse(index) { false }) { menuFor = null }
             }
         }
     }
 }
 
 @Composable
-private fun MediaPage(media: ChatEntry.MediaContent, isVideo: Boolean) {
+private fun MediaPage(
+    media: ChatEntry.MediaContent,
+    isVideo: Boolean,
+    onZoomedChange: (Boolean) -> Unit,
+    onDismissDrag: (Float) -> Unit,
+    onDismiss: () -> Unit,
+    onTap: () -> Unit,
+    onLongPress: () -> Unit,
+) {
     val loader = LocalMedia.current
     val scope = rememberCoroutineScope()
     var image by remember(media.source) { mutableStateOf<Bitmap?>(null) }
@@ -261,12 +303,15 @@ private fun MediaPage(media: ChatEntry.MediaContent, isVideo: Boolean) {
             image = loader.image(media.source, null)
         }
     }
-    Box(Modifier.fillMaxSize().background(theme.overlay), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         val drawable = animated
         val bitmap = image
+        val zoomable = Modifier.fillMaxSize()
         when {
-            drawable != null -> ZoomableBox(Modifier.fillMaxSize()) { AnimatedDrawable(drawable, fit = true, modifier = Modifier.fillMaxSize()) }
-            bitmap != null -> ZoomableBox(Modifier.fillMaxSize()) {
+            drawable != null -> ZoomableBox(zoomable, onZoomedChange, onDismissDrag, onDismiss, onTap, onLongPress) {
+                AnimatedDrawable(drawable, fit = true, modifier = Modifier.fillMaxSize())
+            }
+            bitmap != null -> ZoomableBox(zoomable, onZoomedChange, onDismissDrag, onDismiss, onTap, onLongPress) {
                 Image(bitmap.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Fit)
             }
             else -> Spinner(color = theme.textOnAccent)

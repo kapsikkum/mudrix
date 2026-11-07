@@ -92,6 +92,7 @@ fun Avatar(
 ) {
     val media = LocalMedia.current
     var image by remember(url) { mutableStateOf<Bitmap?>(url?.let { media?.cachedThumbnail(it) }) }
+    val imageBitmap = remember(image) { image?.asImageBitmap() }
     LaunchedEffect(url, media) {
         if (url == null || media == null) {
             image = null
@@ -108,9 +109,8 @@ fun Avatar(
             .background(if (image == null) hueColor(name) else Color.Transparent),
         contentAlignment = Alignment.Center,
     ) {
-        val bitmap = image
-        if (bitmap != null) {
-            Image(bitmap.asImageBitmap(), null, Modifier.size(size), contentScale = ContentScale.Crop)
+        if (imageBitmap != null) {
+            Image(imageBitmap, null, Modifier.size(size), contentScale = ContentScale.Crop)
         } else {
             WizardMark(theme.textOnAccent, Modifier.size(size * 0.58f))
         }
@@ -283,10 +283,8 @@ fun UnreadDot(mention: Boolean, modifier: Modifier = Modifier) {
 
 @Composable
 fun SkeletonRow() {
-    val transition = rememberInfiniteTransition(label = "skeleton")
-    val alpha by transition.animateFloat(0.5f, 1f, infiniteRepeatable(tween(800), RepeatMode.Reverse), label = "pulse")
     Row(
-        Modifier.padding(vertical = WZ.Space.space3).alpha(alpha),
+        Modifier.padding(vertical = WZ.Space.space3).shimmer(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {

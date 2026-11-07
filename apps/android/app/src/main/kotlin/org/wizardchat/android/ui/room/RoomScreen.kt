@@ -3,6 +3,7 @@ package org.wizardchat.android.ui.room
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -15,6 +16,8 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.Orientation
@@ -71,10 +74,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -120,12 +125,14 @@ import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.shimmer
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
@@ -227,10 +234,15 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     }
     val fillsScreen by remember { derivedStateOf { listState.canScrollForward || listState.canScrollBackward } }
 
-    /** Index in the reversed list of an entry (0 is the bottom anchor) */
+    // Runs of three or more unreadable messages are one row unless the reader opened them
+    val expandedFolds = UndecryptableFolds.expandedRooms
+    val timelineItems = remember(timeline.entries, room.id in expandedFolds) { foldTimeline(timeline.entries, room.id in expandedFolds) }
+    val reversedItems = remember(timelineItems) { timelineItems.asReversed() }
+
+    /** Index in the reversed list of an entry (0 is the bottom anchor, then the uploads) */
     fun listIndex(id: String): Int? {
-        val index = timeline.entries.indexOfFirst { it.id == id }
-        return if (index < 0) null else 1 + timeline.entries.size - 1 - index
+        val index = timelineItems.indexOfFirst { it.contains(id) }
+        return if (index < 0) null else 1 + timeline.uploads.size + timelineItems.size - 1 - index
     }
 
     suspend fun scrollToNewest(animated: Boolean = true) {
@@ -350,7 +362,10 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         if (positioned && !fillsScreen && !timeline.reachedStart && nearTop) loadOlder()
     }
 
-    val actions = MessageActions(
+    // One instance while nothing it reads changes, so rows that did not change are skipped when this screen recomposes
+    val pinnedIds = timeline.pinnedIds
+    val actions = remember(timeline, room.id, threadRoot, pinnedIds, canPin, canRedactOthers, linkPreviews, navigator) {
+        MessageActions(
         reply = {
             replyTo = it
             editing = null
@@ -366,7 +381,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         endPoll = { entry -> scope.launch { timeline.endPoll(entry) } },
         roomId = room.id,
         openProfile = { profileUserId = it },
-        pinnedIds = timeline.pinnedIds,
+        pinnedIds = pinnedIds,
         canPin = canPin,
         canRedactOthers = canRedactOthers,
         togglePin = { entry -> scope.launch { timeline.togglePin(entry) } },
@@ -375,7 +390,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
         linkPreviews = linkPreviews,
         retry = { timeline.retrySending() },
-    )
+        )
+    }
 
     fun startCall(video: Boolean) {
         calls.showCallScreen = true
@@ -395,16 +411,21 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             ) {
                 item(key = BOTTOM_ID) { Spacer(Modifier.height(0.dp)) }
                 items(timeline.uploads.asReversed(), key = { "upload${it.id}" }) { UploadingRow(it) { timeline.cancelUpload(it.id) } }
-                items(timeline.entries.asReversed(), key = { it.id }) { entry ->
-                    val highlight by animateColorAsState(
-                        if (highlightedId == entry.id) theme.accent.copy(alpha = 0.18f) else Color.Transparent,
-                        tween(if (highlightedId == entry.id) WZ.MotionDuration.normal else 600),
-                        label = "highlight",
-                    )
-                    Column(Modifier.fillMaxWidth()) {
-                        if (entry.id == unreadDividerId) NewMessagesDivider()
-                        Box(Modifier.background(highlight)) {
-                            TimelineRow(entry, actions, room.isDirect)
+                items(reversedItems, key = { it.key }, contentType = { item -> (item as? TimelineItem.Single)?.entry?.kind?.let { it::class } ?: "fold" }) { item ->
+                    when (item) {
+                        is TimelineItem.Fold -> {
+                            if (item.entries.any { it.id == unreadDividerId }) NewMessagesDivider()
+                            UndecryptableFoldRow(item.entries, room.id)
+                        }
+                        is TimelineItem.Single -> {
+                            val entry = item.entry
+                            Column(Modifier.fillMaxWidth()) {
+                                if (entry.id == unreadDividerId) NewMessagesDivider()
+                                HighlightBox(highlightedId == entry.id) {
+                                    TimelineRow(entry, actions, room.isDirect)
+                                }
+                                if (item.collapsible) UndecryptableCollapseRow(room.id)
+                            }
                         }
                     }
                 }
@@ -648,14 +669,12 @@ private fun JumpToNewestButton(newCount: Int, onClick: () -> Unit) {
 
 @Composable
 private fun TimelinePlaceholder() {
-    val transition = rememberInfiniteTransition(label = "placeholder")
-    val pulse by transition.animateFloat(0.5f, 1f, infiniteRepeatable(tween(800), RepeatMode.Reverse), label = "pulse")
     val label = tr("timeline.loadingOlderMessages")
     Column(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space5)
-            .alpha(pulse)
+            .shimmer()
             .semantics { contentDescription = label },
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space6),
     ) {
@@ -714,6 +733,45 @@ private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom
     }
 }
 
+/** The reply arrow behind a row being dragged; [progress] is read while drawing (1 is where a release replies) */
+@Composable
+private fun ReplySwipeHint(progress: () -> Float, modifier: Modifier = Modifier) {
+    val over by remember { derivedStateOf { progress() >= 1f } }
+    val tint = if (over) theme.accent else theme.textMuted
+    Box(
+        modifier
+            .padding(start = WZ.Space.space5)
+            .size(WZ.Space.space9)
+            .graphicsLayer {
+                val p = progress().coerceIn(0f, 1f)
+                scaleX = p
+                scaleY = p
+            }
+            .background(theme.fill, CircleShape),
+        contentAlignment = Alignment.Center,
+    ) {
+        PhIcon("arrow-bend-up-left", size = WZ.SizeIcon.sm, tint = tint)
+    }
+}
+
+/** Tints a row while it is the jumped-to one; only that row runs an animation */
+@Composable
+private fun HighlightBox(active: Boolean, content: @Composable () -> Unit) {
+    var seen by remember { mutableStateOf(active) }
+    if (active) seen = true
+    val highlight = if (seen) {
+        animateColorAsState(
+            if (active) theme.accent.copy(alpha = 0.18f) else Color.Transparent,
+            tween(if (active) WZ.MotionDuration.normal else 600),
+            label = "highlight",
+        )
+    } else {
+        null
+    }
+    // The tint is read while drawing, so the fade does not recompose the row
+    Box(if (highlight != null) Modifier.drawBehind { drawRect(highlight.value) } else Modifier) { content() }
+}
+
 /** One message: avatar, name and time, content, link preview, reactions and read receipts */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -726,9 +784,11 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showRemind by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
     val replyThreshold = 64f
-    val animatedSwipe by animateFloatAsState(swipe, spring(), label = "swipe")
+    val showReplyHint by remember { derivedStateOf { swipe > 8f } }
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
     // Only timeline rows have the menu
     val longPress: (() -> Unit)? = if (actions != null && entry.isContent) {
@@ -744,27 +804,13 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
 
     CompositionLocalProvider(LocalMessageLongPress provides longPress) {
         Box(modifier.fillMaxWidth()) {
-            if (animatedSwipe > 8f) {
-                Box(
-                    Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = WZ.Space.space5)
-                        .size(WZ.Space.space9)
-                        .scale(minOf(animatedSwipe / replyThreshold, 1f))
-                        .background(theme.fill, CircleShape),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    PhIcon(
-                        "arrow-bend-up-left",
-                        size = WZ.SizeIcon.sm,
-                        tint = if (animatedSwipe >= replyThreshold) theme.accent else theme.textMuted,
-                    )
-                }
+            if (showReplyHint) {
+                ReplySwipeHint({ swipe / replyThreshold }, Modifier.align(Alignment.CenterStart))
             }
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .offset { IntOffset((animatedSwipe * density.density).roundToInt(), 0) }
+                    .offset { IntOffset((swipe * density.density).roundToInt(), 0) }
                     .then(
                         if (canSwipe) {
                             Modifier.draggable(
@@ -778,8 +824,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                 Orientation.Horizontal,
                                 onDragStopped = {
                                     if (swipe >= replyThreshold) actions?.reply?.invoke(entry)
-                                    swipe = 0f
                                     crossed = false
+                                    scope.launch { animate(swipe, 0f, animationSpec = spring()) { value, _ -> swipe = value } }
                                 },
                             )
                         } else {
@@ -857,8 +903,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     val loader = actions?.linkPreviews
                     val body = (entry.kind as? ChatEntry.Kind.Message)?.body
-                    val previewUrl = body?.let { MessageText.firstPreviewURL(it) }
-                    val youtube = previewUrl?.let { YouTubeLink.parse(it) }
+                    val previewUrl = remember(body) { body?.let { MessageText.firstPreviewURL(it) } }
+                    val youtube = remember(previewUrl) { previewUrl?.let { YouTubeLink.parse(it) } }
                     if (previewUrl != null && youtube != null && LocalPrefs.current.youtubeEmbeds != YouTubeEmbeds.off) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
                         YouTubeCard(previewUrl, youtube, loader)
@@ -866,7 +912,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         LinkPreviewCard(previewUrl, loader)
                     }
                     if (entry.reactions.isNotEmpty()) {
-                        ReactionsBar(entry.reactions) { key -> actions?.react?.invoke(key, entry) }
+                        ReactionsBar(entry.reactions, actions?.roomId) { key -> actions?.react?.invoke(key, entry) }
                     }
                     val thread = entry.thread
                     val openThread = actions?.openThread
@@ -949,7 +995,8 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String?
             val linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor
             val body = if (kind.isEmote) "* ${entry.senderName} ${kind.body}" else kind.body
             // Messages of only emoji are shown larger, like on the web
-            val emojiSize = if (!kind.isEmote && DisplayFormats.isOnlyEmoji(body)) {
+            val onlyEmoji = remember(body) { !kind.isEmote && DisplayFormats.isOnlyEmoji(body) }
+            val emojiSize = if (onlyEmoji) {
                 when (prefs.emojiOnlySize) {
                     EmojiOnlySize.normal -> null
                     EmojiOnlySize.large -> 40f
@@ -959,20 +1006,21 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String?
                 null
             }
             val textStyle = if (emojiSize == null) style else wizardFont((emojiSize * scale).sp).copy(lineHeight = (emojiSize * scale * 1.2f).sp)
-            val text = MessageText.attributed(
-                body,
-                prefs.prettifyLinks,
-                linkColor,
-                if (spoilersRevealed) emptyList() else entry.spoilers,
-                theme.textMuted,
-            )
+            val spoilers = if (spoilersRevealed) emptyList() else entry.spoilers
+            val mutedColor = theme.textMuted
+            // Link detection and spoiler search are regex work: once per message, not on every recomposition
+            val text = remember(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor) {
+                MessageText.attributed(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor)
+            }
             val edited = tr("timeline.edited")
             val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
-            val full = buildAnnotatedString {
-                withStyle(SpanStyle(fontStyle = if (kind.isEmote) FontStyle.Italic else FontStyle.Normal)) { append(text) }
-                if (entry.isEdited) {
-                    append(" ")
-                    withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(edited) }
+            val full = remember(text, kind.isEmote, entry.isEdited, edited, scale, mutedColor) {
+                buildAnnotatedString {
+                    withStyle(SpanStyle(fontStyle = if (kind.isEmote) FontStyle.Italic else FontStyle.Normal)) { append(text) }
+                    if (entry.isEdited) {
+                        append(" ")
+                        withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = mutedColor)) { append(edited) }
+                    }
                 }
             }
             Text(
@@ -1076,7 +1124,9 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
     val eventId = entry.eventId
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
-    DropdownMenu(expanded = true, onDismissRequest = onDismiss, containerColor = theme.bgTertiary) {
+    // A bottom sheet like the web's message sheet: the six quick reactions on top (yours lit), rows of at least 48 dp
+    WizardSheet(onDismiss) {
+      Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).navigationBarsPadding().padding(bottom = WZ.Space.space4)) {
         fun run(action: () -> Unit) {
             onDismiss()
             action()
@@ -1085,26 +1135,34 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
         @Composable
         fun item(label: String, icon: String, destructive: Boolean = false, action: () -> Unit) {
             val color = if (destructive) theme.danger else theme.textPrimary
-            DropdownMenuItem(
-                text = { Text(label, style = wizardFont(WZ.FontSize.lg), color = color) },
-                leadingIcon = { PhIcon(icon, tint = color) },
-                onClick = { run(action) },
-            )
+            Row(
+                Modifier.fillMaxWidth().heightIn(min = WZ.Space.space11).clickable { run(action) }.padding(horizontal = WZ.Space.space6),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+            ) {
+                PhIcon(icon, tint = color)
+                Text(label, style = wizardFont(WZ.FontSize.lg), color = color)
+            }
         }
         if (actions != null && entry.itemKey != null) {
             Row(
-                Modifier.padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space2),
-                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+                Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space2),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 val recentEmoji = RecentEmoji.shared
                 recentEmoji.quickReactions.forEach { emoji ->
+                    val mine = entry.reactions.any { it.key == emoji && it.reactedByMe }
                     Box(
-                        Modifier.size(WZ.Space.space10).clip(CircleShape).clickable {
-                            run {
-                                recentEmoji.use(emoji, Emoji.labelOf(emoji))
-                                actions.react(emoji, entry)
-                            }
-                        },
+                        Modifier
+                            .size(WZ.Space.space11)
+                            .clip(CircleShape)
+                            .background(if (mine) theme.accent.copy(alpha = 0.18f) else Color.Transparent)
+                            .clickable {
+                                run {
+                                    recentEmoji.use(emoji, Emoji.labelOf(emoji))
+                                    actions.react(emoji, entry)
+                                }
+                            },
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(emoji, fontSize = WZ.SizeIcon.xl.value.sp)
@@ -1151,6 +1209,7 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
             if (!entry.isOwn) item(tr("timeline.reportShort"), "flag", destructive = true) { actions.report(entry) }
             if (entry.isOwn || actions.canRedactOthers) item(tr("common.delete"), "trash", destructive = true) { actions.delete(entry) }
         }
+      }
     }
 }
 

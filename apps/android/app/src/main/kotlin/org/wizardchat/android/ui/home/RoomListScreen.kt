@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -115,8 +116,9 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         SidebarSelection.Dms -> tr("room.dm.directMessages")
         is SidebarSelection.Space -> roomList.space(selection.id)?.name ?: tr("explore.typeSpace")
     }
-    val rooms = roomList.rooms(selection)
-    val groups = if (roomList.isLoaded) roomList.groups(selection) else emptyList()
+    // Typing in the search box recomposes this screen on every key; the lists only change with the rooms
+    val rooms by remember(roomList, selection) { derivedStateOf { roomList.rooms(selection) } }
+    val groups by remember(roomList, selection) { derivedStateOf { if (roomList.isLoaded) roomList.groups(selection) else emptyList() } }
     val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }
 
     fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||

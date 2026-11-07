@@ -51,8 +51,14 @@ internal fun UndecryptableContent(roomId: String?, reason: String, label: @Compo
         backupReadable = runCatching { session.client?.encryptionStatus()?.backupEnabled }.getOrNull() == true
     }
 
+    var help by remember { mutableStateOf(false) }
+
     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-        label()
+        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+            label()
+            HowToFixButton(help) { help = !help }
+        }
+        if (help) UndecryptableHelp(reason)
         restore?.let {
             Text(
                 tr("timeline.undecryptable.restoreProgress", "${it.roomsDone}", "${it.roomsTotal}"),

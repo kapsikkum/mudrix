@@ -125,11 +125,20 @@ internal object Formats {
     fun time(instant: Instant): String {
         val time = instant.atZone(zone)
         val skeleton = when (prefs.timeFormat) {
-            TimeFormat.auto -> return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale).format(time)
+            TimeFormat.auto -> return cached("auto") { DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(it) }.format(time)
             TimeFormat.h12 -> "hm"
             TimeFormat.h24 -> "Hm"
         }
-        return DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, skeleton), locale).format(time)
+        return cached(skeleton) { DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(it, skeleton), it) }.format(time)
+    }
+
+    // Every row asks for its time while it is composed; building a pattern each time shows up in scrolling
+    private val formatters = java.util.concurrent.ConcurrentHashMap<String, Pair<Locale, DateTimeFormatter>>()
+
+    private fun cached(key: String, build: (Locale) -> DateTimeFormatter): DateTimeFormatter {
+        val current = locale
+        formatters[key]?.let { (loc, formatter) -> if (loc == current) return formatter }
+        return build(current).also { formatters[key] = current to it }
     }
 
     /** The date in the numeric form the date format setting asks for, or null for the localised one */
@@ -145,7 +154,7 @@ internal object Formats {
     /** "October 31, 2026" */
     fun longDate(instant: Instant): String =
         numericDate(instant)
-            ?: DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "MMMMdy"), locale).format(instant.atZone(zone))
+            ?: cached("MMMMdy") { DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(it, "MMMMdy"), it) }.format(instant.atZone(zone))
 
     fun isToday(instant: Instant): Boolean = instant.atZone(zone).toLocalDate() == LocalDate.now(zone)
 
