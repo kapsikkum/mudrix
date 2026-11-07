@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,20 @@ plugins {
 
 val packages = rootProject.layout.projectDirectory.dir("../../packages")
 
+// 26.12.2-next.1 -> 26120201, 26.12.2 -> 26120299
+val appVersion: String = Regex("\"version\"\\s*:\\s*\"([^\"]+)\"")
+    .find(rootProject.file("../../package.json").readText())!!.groupValues[1]
+val appVersionCode: Int = Regex("^(\\d+)\\.(\\d+)\\.(\\d+)(?:-next\\.(\\d+))?").find(appVersion)!!
+    .destructured.let { (major, minor, patch, next) ->
+        major.toInt() * 1_000_000 + minor.toInt() * 10_000 + patch.toInt() * 100 +
+            (next.toIntOrNull() ?: 99)
+    }
+
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 android {
     namespace = "org.wizardchat.android"
     compileSdk = 36
@@ -15,16 +31,27 @@ android {
         applicationId = "org.wizardchat.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = appVersionCode
+        versionName = appVersion
+    }
+
+    signingConfigs {
+        if (!keystoreProperties.isEmpty) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // Until there's a release key: installable release builds for testing
-            signingConfig = signingConfigs.getByName("debug")
+            // Without apps/android/keystore.properties: debug-signed, installable but not uploadable
+            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
         }
     }
 

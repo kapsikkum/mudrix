@@ -24,6 +24,7 @@
     "ios:core": "apps/ios/scripts/build-core.sh --debug",
     "android": "npm run assets && npm run android:core && npm run android:install",
     "android:build": "npm run assets && apps/android/scripts/build-core.sh && cd apps/android && ./gradlew :app:assembleRelease",
+    "android:bundle": "npm run assets && apps/android/scripts/build-core.sh && cd apps/android && ./gradlew :app:bundleRelease",
     "android:core": "apps/android/scripts/build-core.sh --debug",
     "android:install": "cd apps/android && ./gradlew :app:installDebug",
     "core:web": "wasm-pack build crates/wasm --target web --out-dir pkg --out-name wizardchat_core",

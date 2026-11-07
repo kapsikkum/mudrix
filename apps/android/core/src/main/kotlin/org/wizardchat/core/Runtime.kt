@@ -12,6 +12,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.nullable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -80,12 +81,12 @@ sealed interface Arg {
     class Listener(val id: Long) : Arg
 
     companion object {
-        inline fun <reified T> value(value: T): Arg = Value { CoreJson.encodeToJsonElement(value) }
+        inline fun <reified T> value(value: T): Arg = Value { CoreJson.encodeToJsonElement(coreSerializer<T>(), value) }
 
         fun bytes(data: ByteArray): Arg = Bytes(data)
 
         inline fun <reified T> listener(noinline handler: (T) -> Unit): Arg =
-            Listener(Runtime.register(serializer<T>(), handler))
+            Listener(Runtime.register(coreSerializer<T>(), handler))
     }
 }
 
@@ -122,6 +123,14 @@ object BytesSerializer : KSerializer<ByteArray> {
 }
 
 typealias Bytes = @kotlinx.serialization.Serializable(with = BytesSerializer::class) ByteArray
+
+/** `serializer<T>()`, except that `Bytes` keeps its blob encoding: a typealias's serializer is lost in a type parameter */
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> coreSerializer(): KSerializer<T> = when {
+    T::class != ByteArray::class -> serializer<T>()
+    null is T -> BytesSerializer.nullable as KSerializer<T>
+    else -> BytesSerializer as KSerializer<T>
+}
 
 /** `()`: encodes as null, reads anything */
 @kotlinx.serialization.Serializable(with = EmptySerializer::class)
@@ -170,7 +179,7 @@ object Runtime {
 
     /** An async method; callbacks passed to it only live as long as the call */
     suspend inline fun <reified R> call(method: String, handle: Long?, args: List<Arg>): R =
-        call(method, handle, args, serializer<R>())
+        call(method, handle, args, coreSerializer<R>())
 
     suspend fun <R> call(method: String, handle: Long?, args: List<Arg>, type: KSerializer<R>): R {
         try {
