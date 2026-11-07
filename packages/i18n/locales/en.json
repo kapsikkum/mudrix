@@ -504,7 +504,8 @@
       "newDm": "New Direct Message",
       "startChat": "Start Chat",
       "leaveDm": "Leave DM",
-      "startFailed": "Failed to start DM: {{error}}"
+      "startFailed": "Failed to start DM: {{error}}",
+      "resetAvatarConfirm": "Use {{name}}'s profile picture for this DM again?"
     },
     "upgrade": {
       "title": "Upgrade Room",

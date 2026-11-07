@@ -504,7 +504,8 @@
       "newDm": "Neue Direktnachricht",
       "startChat": "Chat starten",
       "leaveDm": "DM verlassen",
-      "startFailed": "Fehler beim Starten der DM: {{error}}"
+      "startFailed": "Fehler beim Starten der DM: {{error}}",
+      "resetAvatarConfirm": "Für diese Direktnachricht wieder das Profilbild von {{name}} verwenden?"
     },
     "upgrade": {
       "title": "Raum aktualisieren",

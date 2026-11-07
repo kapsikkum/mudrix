@@ -160,8 +160,8 @@ struct RoomInfoView: View {
                     }
                 }
             }
-            .confirmationDialog(String(localized: "common.removeAvatarConfirm"), isPresented: $confirmResetAvatar,
-                                titleVisibility: .visible) {
+            .confirmationDialog(L10n.format("room.dm.resetAvatarConfirm", room.dmUserName ?? room.displayName),
+                                isPresented: $confirmResetAvatar, titleVisibility: .visible) {
                 Button(String(localized: "room.settings.general.resetAvatar"), role: .destructive) {
                     Task { await resetAvatar() }
                 }
@@ -272,8 +272,11 @@ struct RoomInfoView: View {
         do {
             try await client.removeRoomAvatar(roomId: room.id)
             hasCustomAvatar = false
-            try? await Task.sleep(for: .milliseconds(500))
-            await load()
+            if let partner = room.dmUserId {
+                avatarUrl = await session.memberProfile(partner, in: room.id).avatarUrl ?? room.dmUserAvatar
+            } else {
+                avatarUrl = nil
+            }
         } catch {
             self.error = error.localizedDescription
         }

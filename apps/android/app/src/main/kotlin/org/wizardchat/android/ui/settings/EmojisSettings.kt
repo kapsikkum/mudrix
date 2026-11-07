@@ -110,7 +110,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
                 }
             }
         }
-        favorites = result.map { it.copy(name = packName(it.roomId, it.stateKey)) }
+        favorites = result.map { it.copy(name = session.packName(it.roomId, it.stateKey)) }
     }
 
     suspend fun save(content: JsonObject) {

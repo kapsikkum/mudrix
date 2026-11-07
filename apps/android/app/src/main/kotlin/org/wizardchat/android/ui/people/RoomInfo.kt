@@ -329,7 +329,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
 
             if (confirmResetAvatar) {
                 ConfirmDialog(
-                    title = tr("common.removeAvatarConfirm"),
+                    title = tr("room.dm.resetAvatarConfirm", room.dmUserName ?: room.displayName),
                     confirmLabel = tr("room.settings.general.resetAvatar"),
                     onConfirm = {
                         scope.launch {
@@ -337,8 +337,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             try {
                                 client.removeRoomAvatar(room.id)
                                 hasCustomAvatar = false
-                                delay(500)
-                                reloads++
+                                val partner = room.dmUserId
+                                avatarUrl = if (partner != null) session.memberProfile(partner, room.id).avatarUrl ?: room.dmUserAvatar else null
                             } catch (e: Exception) {
                                 error = errorText(e)
                             } finally {

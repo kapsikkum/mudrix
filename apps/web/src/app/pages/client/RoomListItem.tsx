@@ -264,9 +264,10 @@ export const RoomListItem = memo(function RoomListItem({
       handleCopyLink,
       handleToggleFavourite,
       sectionMenu,
-      onOpenChat,
       onOpenChatOnly,
       entry.hasVoiceRoom,
+      entry.unreadCount,
+      entry.hasNotif,
       favourite,
       t,
       level,
@@ -319,6 +320,7 @@ export const DmListItem = memo(function DmListItem({
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const client = getMatrixClientOrNull();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
+  const [, setRoomSettings] = useAtom(roomSettingsRoomIdAtom);
 
   const handleClick = useCallback(() => {
     onSelect(entry.roomId, true);
@@ -343,6 +345,16 @@ export const DmListItem = memo(function DmListItem({
           label: '',
           onClick: () => {},
         },
+        {
+          label: t('common.settings'),
+          icon: <GearIcon size={14} />,
+          onClick: () => setRoomSettings(entry.roomId),
+        },
+        {
+          divider: true,
+          label: '',
+          onClick: () => {},
+        },
         notifMenuItem(level, setLevel, t),
         {
           divider: true,
@@ -360,6 +372,7 @@ export const DmListItem = memo(function DmListItem({
     [
       openContextMenu,
       roomActions,
+      setRoomSettings,
       entry.roomId,
       entry.partnerName,
       entry.unreadCount,
@@ -375,7 +388,7 @@ export const DmListItem = memo(function DmListItem({
     <ChatListItem
       name={entry.partnerName}
       roomId={entry.roomId}
-      avatarMxc={entry.partnerAvatarMxc}
+      avatarMxc={entry.avatarMxc}
       avatarPlaceholder="logo"
       isActive={isActive}
       unread={entry.unreadCount}

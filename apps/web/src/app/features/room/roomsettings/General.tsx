@@ -12,6 +12,7 @@ import {
   refreshRoomSettings,
   useClient,
   useMembers,
+  useRoom,
   useRoomDetails,
   useRoomSettings,
   useSpaceGraph,
@@ -54,6 +55,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
 
   const { data: settings } = useRoomSettings(roomId);
   const details = useRoomDetails(roomId);
+  const summary = useRoom(roomId);
+  const isDm = !!summary?.isDirect;
   const room = settings ?? null;
   const graph = useSpaceGraph();
   const { data: roomMembers } = useMembers(roomId);
@@ -62,6 +65,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   const currentName: string = details?.name ?? settings?.name ?? '';
   const currentTopic: string = details?.topic ?? settings?.topic ?? '';
   const currentAvatarMxc: string | null = details?.avatarUrl ?? settings?.avatarUrl ?? null;
+  // A DM without its own avatar shows the other person's, as the room list does
+  const shownAvatarMxc = currentAvatarMxc ?? (isDm ? (summary?.dmUserAvatar ?? null) : null);
   const isEncrypted: boolean = details?.isEncrypted ?? settings?.encrypted ?? false;
   const currentJoinRule: string = settings?.joinRule ?? 'invite';
   const currentHistory: HistoryVisibility = settings?.historyVisibility ?? 'joined';
@@ -132,11 +137,20 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   };
 
   const handleRemoveAvatar = async () => {
-    const ok = await confirmDialog({
-      title: t('common.removeAvatar'),
-      message: t('common.removeAvatarConfirm'),
-      danger: true,
-    });
+    const ok = await confirmDialog(
+      isDm
+        ? {
+            title: t('room.settings.general.resetAvatar'),
+            message: t('room.dm.resetAvatarConfirm', {
+              name: summary?.dmUserName ?? summary?.dmUserId ?? roomName,
+            }),
+          }
+        : {
+            title: t('common.removeAvatar'),
+            message: t('common.removeAvatarConfirm'),
+            danger: true,
+          }
+    );
     if (!ok) return;
     try {
       await client.removeRoomAvatar(roomId);
@@ -379,7 +393,7 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
               {avatarPreview ? (
                 <img src={avatarPreview} alt="preview" className={css.avatarPreviewImg} />
               ) : (
-                <Avatar name={roomName} mxcUrl={currentAvatarMxc} client={client} size="xl" />
+                <Avatar name={roomName} mxcUrl={shownAvatarMxc} client={client} size="xl" />
               )}
               {canSetAvatar && !currentAvatarMxc && !avatarPreview && (
                 <div className={css.avatarOverlay}>
@@ -411,6 +425,11 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
                     : undefined
                 }
               />
+            )}
+            {isDm && canSetAvatar && currentAvatarMxc && !avatarPreview && (
+              <Button variant="secondary" size="sm" onClick={() => void handleRemoveAvatar()}>
+                {t('room.settings.general.resetAvatar')}
+              </Button>
             )}
             <input
               ref={fileRef}
