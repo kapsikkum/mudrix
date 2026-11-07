@@ -34,12 +34,16 @@ export interface CommandContext {
   callActive: boolean;
   markdown: boolean;
   myId: string;
+  /** Integration commands: replaces the (already cleared) draft with this text. Never sends. */
+  setComposerText?: (text: string) => void;
+  /** Integration commands: asks the person to confirm an api action before it is called. */
+  openApiConfirm?: (request: { integrationId: string; actionId: string; args: string }) => void;
 }
 
 export interface CommandDefinition {
   command: string;
   aliases: string[];
-  description: (t: (key: string) => string) => string;
+  description: (t: (key: string, opts?: Record<string, string>) => string) => string;
   usage: string;
   fn: (args: string, ctx: CommandContext) => Promise<void>;
 }
@@ -449,13 +453,31 @@ export function parseCommand(text: string): { command: string; args: string } | 
   return { command: match[1].toLowerCase(), args: match[2] ?? '' };
 }
 
-export function getCommandDefinition(command: string): CommandDefinition | undefined {
-  return ALL_COMMANDS.get(command);
+/** Every built-in command name and alias. Integration commands with these names are never offered. */
+export const RESERVED_COMMAND_NAMES: ReadonlySet<string> = new Set(ALL_COMMANDS.keys());
+
+/** Built-in commands always win: `extra` (integration commands) is only consulted for other names. */
+export function getCommandDefinition(
+  command: string,
+  extra?: readonly CommandDefinition[]
+): CommandDefinition | undefined {
+  const builtIn = ALL_COMMANDS.get(command);
+  if (builtIn) return builtIn;
+  if (!extra) return undefined;
+  return extra.find((c) => c.command === command && !RESERVED_COMMAND_NAMES.has(c.command));
 }
 
-export function getCommandSuggestions(query: string): CommandDefinition[] {
+export function getCommandSuggestions(
+  query: string,
+  extra?: readonly CommandDefinition[]
+): CommandDefinition[] {
   const q = query.toLowerCase();
-  return COMMANDS.filter(
+  const builtIn = COMMANDS.filter(
     (cmd) => cmd.command.startsWith(q) || cmd.aliases.some((a) => a.startsWith(q))
   );
+  if (!extra) return builtIn;
+  return [
+    ...builtIn,
+    ...extra.filter((c) => !RESERVED_COMMAND_NAMES.has(c.command) && c.command.startsWith(q)),
+  ];
 }

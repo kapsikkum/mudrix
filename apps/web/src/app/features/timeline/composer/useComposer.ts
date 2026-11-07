@@ -3,6 +3,8 @@ import {
   useState,
   useCallback,
   useEffect,
+  useId,
+  useMemo,
   type KeyboardEvent,
   type ClipboardEvent,
 } from 'react';
@@ -54,6 +56,8 @@ import {
 } from './attachmentUploads';
 import { getAttachmentQuality, setAttachmentQuality } from './attachmentQuality';
 import { parseCommand, getCommandDefinition } from './commands';
+import { useIntegrationCommands } from '@/app/features/integrations/ui/useIntegrationCommands';
+import { useIntegrationLauncher } from '@/app/features/integrations/ui/runtime';
 import type { FormatType } from './FormatToolbar';
 import type { CommandContext } from './commands';
 import { toMarkdown } from './editor/toMarkdown';
@@ -114,6 +118,10 @@ export interface ComposerState {
   submitLink: (url: string) => void;
   cancelLink: () => void;
   sendMessage: () => Promise<void>;
+  /** Plain-text preview of the composer content (empty when there is none). */
+  draftText: string;
+  /** Identifies this composer to the integration dialogs it opens (api confirmation). */
+  integrationOwner: string;
   isEmpty: boolean;
   attachments: ComposerAttachment[];
   removeAttachment: (id: string) => void;
@@ -218,6 +226,22 @@ export function useComposer({
     client,
     roomId,
   });
+
+  const integrationCommands = useIntegrationCommands();
+  const integrationOwner = useId();
+  const integrationLauncher = useIntegrationLauncher(integrationOwner, roomId);
+  const setComposerText = useCallback(
+    (text: string) => {
+      Transforms.select(editor, Editor.end(editor, []));
+      Transforms.insertText(editor, text);
+      ReactEditor.focus(editor);
+    },
+    [editor]
+  );
+  const draftText = useMemo(
+    () => (isEmpty ? '' : toMarkdown(editorValue).markdown.trim()),
+    [isEmpty, editorValue]
+  );
 
   const emoticonsToEmoji = useAtomValue(emoticonsToEmojiAtom);
   const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -379,7 +403,7 @@ export function useComposer({
       try {
         const parsed = parseCommand(text);
         if (parsed) {
-          const cmd = getCommandDefinition(parsed.command);
+          const cmd = getCommandDefinition(parsed.command, integrationCommands);
           if (cmd) {
             const ctx: CommandContext = {
               client,
@@ -401,6 +425,9 @@ export function useComposer({
               hangup: commandActions?.hangup,
               callActive: callUi.phase === 'joined',
               markdown: markdownEnabled,
+              setComposerText,
+              openApiConfirm: (req) =>
+                integrationLauncher.openApi(req.integrationId, req.actionId, req.args, req.args),
             };
             try {
               await cmd.fn(parsed.args, ctx);
@@ -488,6 +515,9 @@ export function useComposer({
     callUi,
     navigate,
     isEncrypted,
+    integrationCommands,
+    integrationLauncher,
+    setComposerText,
   ]);
 
   const handleEditorKeyDown = useCallback(
@@ -925,6 +955,8 @@ export function useComposer({
     submitLink,
     cancelLink,
     sendMessage,
+    draftText,
+    integrationOwner,
     isEmpty,
     attachments,
     removeAttachment,

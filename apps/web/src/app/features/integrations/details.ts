@@ -215,7 +215,8 @@ async function request(
   url: string,
   host: string,
   allow: readonly string[],
-  etag: string | undefined
+  etag: string | undefined,
+  passive: boolean
 ): Promise<FetchResult> {
   const conditional = etag !== undefined && !noConditional.has(host) ? etag : undefined;
   const base = {
@@ -223,7 +224,7 @@ async function request(
     allow,
     expect: 'json',
     maxBytes: MAX_DETAILS_RESPONSE_BYTES,
-    passive: true,
+    passive,
   } as const;
   if (!conditional) return fetchIntegration(base);
   const res = await fetchIntegration({ ...base, ifNoneMatch: conditional });
@@ -238,10 +239,11 @@ async function refresh(
   host: string,
   allow: readonly string[],
   previous: CacheEntry | undefined,
-  budgetAt: number
+  budgetAt: number,
+  passive: boolean
 ): Promise<Outcome> {
   const stale = staleJson(previous);
-  const res = await request(url, host, allow, stale !== null ? previous?.etag : undefined);
+  const res = await request(url, host, allow, stale !== null ? previous?.etag : undefined, passive);
   const now = Date.now();
   if (!res.ok && res.status === 304 && stale !== null && previous) {
     refundBudget(host, budgetAt);
@@ -289,7 +291,8 @@ export function isLookupCached(url: string): boolean {
 
 /**
  * Looks the link up. `allow` is the list of hosts the person approved for this integration (see
- * hosts.ts). Never throws; failures are only ever "no details".
+ * `allowedHosts`). `passive` is true when nobody asked (a card appeared on screen), false when the
+ * person pressed the card's button. Never throws; failures are only ever "no details".
  */
 export async function loadLinkDetails(
   host: string,
@@ -297,7 +300,8 @@ export async function loadLinkDetails(
   captures: Record<string, string>,
   allow: readonly string[],
   locale?: string,
-  settings: SettingValues = NO_SETTING_VALUES
+  settings: SettingValues = NO_SETTING_VALUES,
+  passive = true
 ): Promise<DetailsResult> {
   try {
     // Every field it could show is switched off: nothing to ask for.
@@ -316,7 +320,7 @@ export async function loadLinkDetails(
     // When the host can not be asked right now, a recent enough answer is better than none.
     const stale = staleJson(entry);
     // Streamer mode: nothing leaves the device on its own, and nothing is remembered as a failure.
-    if (passiveFetchesBlocked())
+    if (passive && passiveFetchesBlocked())
       return stale !== null
         ? finish({ json: stale })
         : { ok: false, error: 'paused', paused: true };
@@ -329,7 +333,7 @@ export async function loadLinkDetails(
       return stale !== null
         ? finish({ json: stale })
         : { ok: false, error: `Too many lookups on ${host} just now` };
-    const p = refresh(url, host, allow, entry, budgetAt);
+    const p = refresh(url, host, allow, entry, budgetAt, passive);
     inflight.set(url, p);
     try {
       return finish(await p);

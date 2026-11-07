@@ -42,6 +42,8 @@ import { VoiceRecordComposerTile } from './VoiceRecordComposerTile';
 import { AttachmentTray } from './AttachmentTray';
 import { RichComposer } from './editor/RichComposer';
 import { insertEmoji } from './editor/insertEmoji';
+import { useComposerIntegrationItems } from '@/app/features/integrations/ui/useComposerIntegrationItems';
+import { IntegrationDialogs } from '@/app/features/integrations/ui/IntegrationDialogs';
 import { isMod } from './editor/keyboard';
 import { ReactEditor } from 'slate-react';
 import { Editor, Transforms } from 'slate';
@@ -112,39 +114,6 @@ export function Composer({
   const [moreOpener, setMoreOpener] = useState<HTMLElement | null>(null);
   const moreOpen = !!contextMenu && contextMenu.opener === moreOpener;
 
-  const openMoreMenu = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
-      const trigger = e.currentTarget;
-      const items: ContextMenuItem[] = [
-        {
-          label: t('composer.poll.create'),
-          icon: <ChartBarHorizontalIcon size={14} />,
-          onClick: () => setPollOpen(true),
-        },
-        {
-          label: t('composer.location.share'),
-          icon: <MapPinIcon size={14} />,
-          onClick: () => setLocationOpen(true),
-        },
-        {
-          label: t('composer.voice.record'),
-          icon: <MicrophoneIcon size={14} />,
-          onClick: () => setVoiceOpen(true),
-        },
-      ];
-      if (stickerWidget) {
-        items.push({
-          label: stickerWidget.name || t('composer.stickers'),
-          icon: <StickerIcon size={14} />,
-          onClick: () => setStickerPickerOpen(true),
-        });
-      }
-      setMoreOpener(trigger);
-      openContextMenuAt(items, anchorFromElement(trigger), trigger);
-    },
-    [openContextMenuAt, setStickerPickerOpen, stickerWidget, t]
-  );
-
   const {
     editor,
     editorValue,
@@ -173,6 +142,8 @@ export function Composer({
     removeAttachment,
     updateAttachment,
     setVideoQuality,
+    draftText,
+    integrationOwner,
   } = useComposer({
     client,
     roomId,
@@ -184,6 +155,51 @@ export function Composer({
     droppedFile,
     onDroppedFileConsumed,
   });
+
+  const insertIntegrationText = useCallback(
+    (text: string) => insertEmoji(editor, text, undefined, !pickerDocked),
+    [editor, pickerDocked]
+  );
+  const integrationItems = useComposerIntegrationItems(
+    roomId,
+    insertIntegrationText,
+    integrationOwner,
+    draftText
+  );
+
+  const openMoreMenu = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+      const trigger = e.currentTarget;
+      const items: ContextMenuItem[] = [
+        {
+          label: t('composer.poll.create'),
+          icon: <ChartBarHorizontalIcon size={14} />,
+          onClick: () => setPollOpen(true),
+        },
+        {
+          label: t('composer.location.share'),
+          icon: <MapPinIcon size={14} />,
+          onClick: () => setLocationOpen(true),
+        },
+        {
+          label: t('composer.voice.record'),
+          icon: <MicrophoneIcon size={14} />,
+          onClick: () => setVoiceOpen(true),
+        },
+      ];
+      if (stickerWidget) {
+        items.push({
+          label: stickerWidget.name || t('composer.stickers'),
+          icon: <StickerIcon size={14} />,
+          onClick: () => setStickerPickerOpen(true),
+        });
+      }
+      items.push(...integrationItems);
+      setMoreOpener(trigger);
+      openContextMenuAt(items, anchorFromElement(trigger), trigger);
+    },
+    [openContextMenuAt, setStickerPickerOpen, stickerWidget, integrationItems, t]
+  );
 
   // The send button only shows once there is something to send; the tools it replaces come back
   // when the box is cleared.
@@ -551,6 +567,12 @@ export function Composer({
         client={client}
         roomId={roomId}
         threadId={threadId}
+      />
+
+      <IntegrationDialogs
+        owner={integrationOwner}
+        roomId={roomId}
+        onInsertLink={insertIntegrationText}
       />
 
       <LocationShareModal

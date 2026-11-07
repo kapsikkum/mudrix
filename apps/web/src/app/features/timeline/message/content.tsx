@@ -49,6 +49,8 @@ import { VoiceMessagePlayer } from '@/app/components/VoiceMessagePlayer/VoiceMes
 import { PollViewer } from './PollViewer';
 import { UndecryptableNote } from './UndecryptableMessage';
 import { LinkPreview } from './LinkPreview';
+import { useIntegrationCards } from '@/app/features/integrations/ui/useIntegrationCards';
+import { IntegrationCards } from '@/app/features/integrations/ui/IntegrationCard';
 import { extractFirstUrl } from '@/util/extractFirstUrl';
 import { formatFileSize } from '@/util/format';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
@@ -559,6 +561,18 @@ export function MessageContent({
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
   const sessionVerified = useAtomValue(sessionVerificationAtom).status !== 'unverified';
   const room = useRoom(roomId);
+  const cardSource = event.content;
+  const integrationCards = useIntegrationCards(
+    optimisticBody ??
+      (cardSource.type === 'text' || cardSource.type === 'notice' || cardSource.type === 'emote'
+        ? cardSource.body
+        : undefined),
+    optimisticBody !== null
+      ? undefined
+      : cardSource.type === 'text' || cardSource.type === 'notice' || cardSource.type === 'emote'
+        ? (cardSource.html ?? undefined)
+        : undefined
+  );
 
   const handleContentClick = useCallback(
     (e: React.MouseEvent) => {
@@ -1035,7 +1049,10 @@ export function MessageContent({
           revealedSpoilers={revealedSpoilers}
           onRevealSpoiler={handleRevealSpoiler}
         />
-        {firstUrl && <LinkPreview url={firstUrl} client={client} isEncrypted={isEncrypted} />}
+        <IntegrationCards cards={integrationCards} isEncrypted={isEncrypted} />
+        {firstUrl && !integrationCards.some((c) => c.url === firstUrl) && (
+          <LinkPreview url={firstUrl} client={client} isEncrypted={isEncrypted} />
+        )}
       </GifLinkEmbed>
     </div>
   );

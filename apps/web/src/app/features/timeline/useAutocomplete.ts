@@ -9,6 +9,7 @@ import { getMaxEmojiVersion } from '@/util/emojiStyle';
 import emojibaseData from 'emojibase-data/en/data.json';
 import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json';
 import { getCommandSuggestions } from './composer/commands';
+import { useIntegrationCommands } from '@/app/features/integrations/ui/useIntegrationCommands';
 import type { CustomEditor, MentionElement, RoomMentionElement } from './composer/editor/types';
 
 interface EmojiEntry {
@@ -109,6 +110,7 @@ export function useAutocomplete(
   options?: { disableCommands?: boolean }
 ) {
   const { disableCommands = false } = options ?? {};
+  const integrationCommands = useIntegrationCommands();
   const room = useRoom(roomId);
   const { data: roomMembers } = useMembers(roomId);
   const roomRef = useRef(room);
@@ -263,7 +265,7 @@ export function useAutocomplete(
       const commandMatch = textBefore.match(/^\/([\w-]*)$/);
       if (commandMatch && !disableCommands) {
         const query = commandMatch[1];
-        const results = getCommandSuggestions(query);
+        const results = getCommandSuggestions(query, integrationCommands);
         if (results.length > 0) {
           const triggerRange: Range = { anchor: blockStart, focus: cursor };
           setState({
@@ -283,7 +285,7 @@ export function useAutocomplete(
 
       setState(CLOSED);
     },
-    [disableCommands, maxEmojiVersion]
+    [disableCommands, maxEmojiVersion, integrationCommands]
   );
 
   const onArrow = useCallback(
