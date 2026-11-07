@@ -229,6 +229,7 @@ internal fun FormField(
     maxLines: Int = 1,
     plain: Boolean = false,
     horizontalPadding: Dp = WZ.Space.space5,
+    verticalPadding: Dp = WZ.Space.space5,
     onSubmit: (() -> Unit)? = null,
 ) {
     BasicTextField(
@@ -236,8 +237,8 @@ internal fun FormField(
         onValueChange,
         modifier
             .fillMaxWidth()
-            .heightIn(min = WZ.Space.space11)
-            .padding(horizontal = horizontalPadding, vertical = WZ.Space.space5),
+            .heightIn(min = if (verticalPadding == WZ.Space.space5) WZ.Space.space11 else 0.dp)
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding),
         textStyle = wizardFont(WZ.FontSize.lg).copy(color = theme.textPrimary),
         singleLine = maxLines == 1,
         maxLines = maxLines,
@@ -305,10 +306,10 @@ internal fun RoleBadge(level: Long) {
 @Composable
 internal fun CameraBadge(saving: Boolean, size: Dp, modifier: Modifier = Modifier) {
     Box(
-        modifier.size(size).clip(CircleShape).background(theme.accent),
+        modifier.size(size).clip(CircleShape).background(theme.bgTertiary),
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon(if (saving) "hourglass" else "camera", size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
+        PhIcon(if (saving) "hourglass" else "camera", size = WZ.SizeIcon.xs, tint = theme.accent)
     }
 }
 

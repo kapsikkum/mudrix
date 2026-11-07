@@ -1018,6 +1018,7 @@ data class RoomPermissions(
     val changePermissions: Boolean,
     val pin: Boolean,
     val manageWidgets: Boolean,
+    val enableEncryption: Boolean,
 )
 
 /** A user-made section of the room list */

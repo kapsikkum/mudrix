@@ -759,6 +759,7 @@ export type RoomPermissions = {
   changePermissions: boolean;
   pin: boolean;
   manageWidgets: boolean;
+  enableEncryption: boolean;
 };
 
 /**

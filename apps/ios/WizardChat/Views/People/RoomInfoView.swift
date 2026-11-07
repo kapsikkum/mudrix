@@ -25,6 +25,9 @@ struct RoomInfoView: View {
     @State private var canInvite = false
     @State private var canPin = false
     @State private var canManageWidgets = false
+    @State private var canEnableEncryption = false
+    @State private var isPublic = false
+    @State private var confirmEncryption = false
     @State private var bridges: [RoomBridge] = []
     @State private var pinnedCount = 0
     @State private var showInvite = false
@@ -52,10 +55,6 @@ struct RoomInfoView: View {
                             .foregroundStyle(theme.textPrimary)
                             .multilineTextAlignment(.center)
                         if let alias { Text(alias).font(.wizard(WZ.FontSize.md)).foregroundStyle(theme.textMuted) }
-                        Label(encrypted ? String(localized: "room.encryptedLabel") : String(localized: "room.notEncrypted"),
-                              image: encrypted ? "ph-lock-regular" : "ph-lock-open-regular")
-                            .font(.wizard(WZ.FontSize.sm, .medium))
-                            .foregroundStyle(encrypted ? theme.success : theme.textMuted)
                     }
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
@@ -63,13 +62,48 @@ struct RoomInfoView: View {
 
                 if canEditName || canEditTopic {
                     Section(String(localized: "settings.about.title")) {
-                        if canEditName { TextField(String(localized: "dialogs.name"), text: $name) }
-                        if canEditTopic { TextField(String(localized: "room.topic"), text: $topic, axis: .vertical).lineLimit(1...4) }
-                        Button(String(localized: "common.save")) { Task { await save() } }
-                            .disabled(saving || !hasChanges)
+                        if canEditName {
+                            labeledField(String(localized: "dialogs.name")) {
+                                TextField(String(localized: "dialogs.name"), text: $name)
+                            }
+                        }
+                        if canEditTopic {
+                            labeledField(String(localized: "room.topic")) {
+                                TextField(String(localized: "room.topicPlaceholder"), text: $topic, axis: .vertical).lineLimit(1...4)
+                            }
+                        }
+                    }
+                    if hasChanges {
+                        Section {
+                            Button { Task { await save() } } label: {
+                                Text(String(localized: "common.save"))
+                                    .font(.wizard(WZ.FontSize.lg, .semibold))
+                                    .foregroundStyle(theme.textOnAccent)
+                                    .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
+                                    .background(theme.accent, in: Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(saving)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets())
+                        }
                     }
                 } else if !topic.isEmpty {
                     Section(String(localized: "room.topic")) { Text(topic).foregroundStyle(theme.textPrimary) }
+                }
+
+                Section {
+                    Toggle(isOn: Binding(get: { encrypted }, set: { if $0 { confirmEncryption = true } })) {
+                        VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                            Text(String(localized: "room.settings.general.e2ee")).foregroundStyle(theme.textPrimary)
+                            Text(encrypted ? String(localized: "room.settings.general.encryptionEnabledNote")
+                                           : String(localized: "room.settings.general.encryptionNote"))
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
+                        }
+                    }
+                    .tint(theme.accent)
+                    .disabled(encrypted || !canEnableEncryption || saving)
                 }
 
                 Section {
@@ -160,6 +194,16 @@ struct RoomInfoView: View {
                     }
                 }
             }
+            .alert(String(localized: "room.settings.general.e2ee"), isPresented: $confirmEncryption) {
+                Button(String(localized: "common.cancel"), role: .cancel) {}
+                Button(String(localized: "common.confirm"), role: .destructive) {
+                    Task { await enableEncryption() }
+                }
+            } message: {
+                Text(isPublic
+                     ? String(localized: "room.settings.general.encryptionPublicRoomWarning") + "\n\n" + String(localized: "room.settings.general.encryptionConfirm")
+                     : String(localized: "room.settings.general.encryptionConfirm"))
+            }
             .confirmationDialog(L10n.format("room.dm.resetAvatarConfirm", room.dmUserName ?? room.displayName),
                                 isPresented: $confirmResetAvatar, titleVisibility: .visible) {
                 Button(String(localized: "room.settings.general.resetAvatar"), role: .destructive) {
@@ -185,9 +229,9 @@ struct RoomInfoView: View {
                 picture.overlay(alignment: .bottomTrailing) {
                     Image(saving ? "ph-hourglass-regular" : "ph-camera-regular")
                         .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                        .foregroundStyle(theme.textOnAccent)
+                        .foregroundStyle(theme.accent)
                         .frame(width: WZ.Space.space9, height: WZ.Space.space9)
-                        .background(theme.accent, in: Circle())
+                        .background(theme.bgTertiary, in: Circle())
                         .overlay(Circle().stroke(theme.bgSecondary, lineWidth: WZ.BorderWidth.thick))
                 }
             }
@@ -231,7 +275,9 @@ struct RoomInfoView: View {
             canInvite = permissions.invite
             canPin = permissions.pin
             canManageWidgets = permissions.manageWidgets
+            canEnableEncryption = permissions.enableEncryption
         }
+        isPublic = info?.isPublic ?? false
         bridges = await RoomBridge.load(client: client, roomId: room.id)
     }
 
@@ -264,6 +310,25 @@ struct RoomInfoView: View {
         } catch {
             self.error = error.localizedDescription
         }
+    }
+
+    private func enableEncryption() async {
+        saving = true
+        defer { saving = false }
+        do {
+            try await client.enableEncryption(roomId: room.id)
+            encrypted = true
+        } catch {
+            self.error = L10n.format("room.settings.general.encryptionEnableFailed", error.localizedDescription)
+        }
+    }
+
+    private func labeledField<Field: View>(_ label: String, @ViewBuilder field: () -> Field) -> some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space1) {
+            Text(label).font(.wizard(WZ.FontSize.sm, .medium)).foregroundStyle(theme.textMuted)
+            field().foregroundStyle(theme.textPrimary)
+        }
+        .padding(.vertical, WZ.Space.space1)
     }
 
     private func resetAvatar() async {

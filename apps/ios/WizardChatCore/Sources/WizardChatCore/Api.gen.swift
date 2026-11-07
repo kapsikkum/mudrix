@@ -1595,8 +1595,9 @@ public struct RoomPermissions: Codable, Hashable, Sendable {
     public var changePermissions: Bool
     public var pin: Bool
     public var manageWidgets: Bool
+    public var enableEncryption: Bool
 
-    public init(invite: Bool, kick: Bool, ban: Bool, redactOthers: Bool, changeName: Bool, changeTopic: Bool, changeAvatar: Bool, changePermissions: Bool, pin: Bool, manageWidgets: Bool) {
+    public init(invite: Bool, kick: Bool, ban: Bool, redactOthers: Bool, changeName: Bool, changeTopic: Bool, changeAvatar: Bool, changePermissions: Bool, pin: Bool, manageWidgets: Bool, enableEncryption: Bool) {
         self.invite = invite
         self.kick = kick
         self.ban = ban
@@ -1607,6 +1608,7 @@ public struct RoomPermissions: Codable, Hashable, Sendable {
         self.changePermissions = changePermissions
         self.pin = pin
         self.manageWidgets = manageWidgets
+        self.enableEncryption = enableEncryption
     }
 }
 

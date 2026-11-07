@@ -35,9 +35,9 @@ struct SpaceSettingsView: View {
                                     if canEdit {
                                         Image(saving ? "ph-hourglass-regular" : "ph-camera-regular")
                                             .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                                            .foregroundStyle(theme.textOnAccent)
+                                            .foregroundStyle(theme.accent)
                                             .frame(width: WZ.Space.space8, height: WZ.Space.space8)
-                                            .background(theme.accent, in: Circle())
+                                            .background(theme.bgTertiary, in: Circle())
                                     }
                                 }
                         }
