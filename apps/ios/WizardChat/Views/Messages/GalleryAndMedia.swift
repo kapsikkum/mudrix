@@ -387,6 +387,7 @@ private struct MediaThumb: View {
 
 private struct DocsList: View {
     @ObservedObject var model: TimelineModel
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     private var items: [(entry: ChatEntry, media: ChatEntry.MediaContent)] {
@@ -405,7 +406,7 @@ private struct DocsList: View {
             ForEach(items, id: \.entry.id) { item in
                 VStack(alignment: .leading, spacing: WZ.Space.space2) {
                     FileMessageView(media: item.media)
-                    Text("\(item.entry.senderName) · \(item.entry.timestamp.formatted(date: .abbreviated, time: .omitted))")
+                    Text(verbatim: "\(item.entry.senderName) · \(Formats.abbreviatedDate(item.entry.timestamp, prefs.dateFormat))")
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -422,6 +423,7 @@ private struct DocsList: View {
 
 private struct LinksList: View {
     @ObservedObject var model: TimelineModel
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.openURL) private var openURL
     @Environment(\.theme) private var theme
 
@@ -455,7 +457,7 @@ private struct LinksList: View {
                             Text(item.url.absoluteString)
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.linkColor)
-                            Text("\(item.entry.senderName) · \(item.entry.timestamp.formatted(date: .abbreviated, time: .omitted))")
+                            Text(verbatim: "\(item.entry.senderName) · \(Formats.abbreviatedDate(item.entry.timestamp, prefs.dateFormat))")
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.textMuted)
                         }

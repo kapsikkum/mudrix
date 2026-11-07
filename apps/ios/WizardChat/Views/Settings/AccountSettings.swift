@@ -58,6 +58,7 @@ struct AccountSettings: View {
                 }
                 SettingsDivider()
                 CopyRow(label: "auth.username", value: session.userId ?? "")
+                    .sensitive()
             }
 
             SettingsSection(title: "status.title") {
@@ -221,6 +222,7 @@ private struct EmailSection: View {
                 ForEach(emails, id: \.self) { email in
                     HStack {
                         Text(email).font(.wizard(WZ.FontSize.md)).foregroundStyle(theme.textPrimary)
+                            .sensitive()
                         Spacer()
                         Button(String(localized: "settings.account.removeEmail"), role: .destructive) {
                             Task { await remove(email) }

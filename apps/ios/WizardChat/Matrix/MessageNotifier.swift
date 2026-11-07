@@ -59,6 +59,8 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         content.body = notification.isDirect || notification.roomName == nil
             ? notification.body : "\(sender): \(notification.body)"
         if content.body.isEmpty { content.body = String(localized: "notifications.newMessage") }
+        // Streamer mode keeps message text out of banners, so it does not end up on a stream
+        if prefs.streamerModeActive { content.body = String(localized: "settings.privacy.streamer.notificationBody") }
         content.threadIdentifier = notification.roomId
         content.categoryIdentifier = Self.messageCategory
         var info = ["roomId": notification.roomId, "eventId": notification.eventId]

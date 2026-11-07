@@ -13,6 +13,7 @@ struct ComposerView: View {
     let onTyping: (Bool) -> Void
 
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     @State private var draft = ""
@@ -623,7 +624,8 @@ struct ComposerView: View {
         await send(text.hasPrefix("//") ? String(text.dropFirst()) : text, replyTo: reply)
     }
 
-    private func send(_ text: String, replyTo: String?) async {
+    private func send(_ original: String, replyTo: String?) async {
+        let text = prefs.emoticonsToEmoji ? Emoticons.replaceInMessage(original) : original
         let html = Self.richHtml(text, emotes: usedEmotes, mentions: mentions)
         // Always set (even empty) so legacy push rules don't fire
         let userIds = mentions.filter { text.contains($0.key) && $0.value != session.userId }.map(\.value)

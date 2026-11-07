@@ -686,12 +686,13 @@ private struct TimelineRow: View {
     let entry: ChatEntry
     let actions: MessageActions
     let isPrivateRoom: Bool
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
         switch entry.kind {
         case .dateDivider(let date):
-            Text(Self.dateText(date))
+            Text(Self.dateText(date, prefs.dateFormat))
                 .font(.wizard(WZ.FontSize.sm, .semibold))
                 .foregroundStyle(theme.textMuted)
                 .frame(maxWidth: .infinity)
@@ -710,10 +711,10 @@ private struct TimelineRow: View {
         }
     }
 
-    private static func dateText(_ date: Date) -> String {
+    private static func dateText(_ date: Date, _ style: DateFormatStyle) -> String {
         if Calendar.current.isDateInToday(date) { return String(localized: "timeline.dateToday") }
         if Calendar.current.isDateInYesterday(date) { return String(localized: "timeline.dateYesterday") }
-        return date.formatted(.dateTime.month(.wide).day().year())
+        return Formats.longDate(date, style)
     }
 }
 
@@ -759,7 +760,7 @@ struct MessageRow: View {
                             .foregroundStyle(theme.accent)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
-                        Text(entry.timestamp, format: .dateTime.hour().minute())
+                        Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
                             .font(.wizard(WZ.FontSize.sm * scale))
                             .foregroundStyle(theme.textMuted)
                         if let eventId = entry.eventId, actions?.pinnedIds.contains(eventId) == true {
@@ -833,11 +834,23 @@ struct MessageRow: View {
         .sensoryFeedback(.impact(weight: .medium), trigger: swipe >= Self.replyThreshold)
     }
 
+    /// Messages of only emoji are shown larger, like on the web
+    private var emojiOnlyFontSize: CGFloat? {
+        guard case .message(let body, let isEmote, _) = entry.kind, !isEmote, DisplayFormats.isOnlyEmoji(body) else {
+            return nil
+        }
+        switch prefs.emojiOnlySize {
+        case .normal: return nil
+        case .large: return 40
+        case .jumbo: return 56
+        }
+    }
+
     @ViewBuilder
     private var messageContent: some View {
         if isText {
             textContent
-                .font(.wizard(WZ.FontSize.lg * scale))
+                .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
                 .lineSpacing(3 * scale)
                 .tint(isClassic && entry.isOwn && theme.colorScheme == .dark ? theme.textOnAccent : theme.linkColor)
                 .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)

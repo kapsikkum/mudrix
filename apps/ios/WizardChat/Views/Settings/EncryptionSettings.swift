@@ -3,6 +3,7 @@ import SwiftUI
 
 struct EncryptionSettings: View {
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @Environment(\.openURL) private var openURL
 
@@ -101,7 +102,8 @@ struct EncryptionSettings: View {
             Button(String(localized: "common.copy")) { UIPasteboard.general.string = newRecoveryKey }
             Button(String(localized: "common.done"), role: .cancel) {}
         } message: {
-            Text(L10n.format("settings.recoveryKeySaveHint", newRecoveryKey ?? ""))
+            // Streamer mode keeps the key off the screen; Copy still puts it on the clipboard
+            Text(L10n.format("settings.recoveryKeySaveHint", prefs.streamerModeActive ? "••••" : (newRecoveryKey ?? "")))
         }
         .sheet(item: Binding(get: { approvalURL.map { IdentifiedString(id: $0.absoluteString) } }, set: { if $0 == nil { approvalURL = nil } })) { item in
             approvalSheet(item.id)

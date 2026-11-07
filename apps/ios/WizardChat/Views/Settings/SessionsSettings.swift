@@ -259,7 +259,7 @@ private struct DeviceRow: View {
             if showDetails {
                 VStack(alignment: .leading, spacing: WZ.Space.space2) {
                     detail("settings.sessions.deviceId", device.id)
-                    if let ip = device.lastSeenIp { detail("settings.sessions.ipAddress", ip) }
+                    if let ip = device.lastSeenIp { detail("settings.sessions.ipAddress", ip).sensitive() }
                 }
             }
         }

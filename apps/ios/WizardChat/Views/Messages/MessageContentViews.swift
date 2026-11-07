@@ -575,6 +575,7 @@ struct ReactionsBar: View {
 struct ReadReceiptsView: View {
     let roomId: String
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     let userIds: [String]
     var readAt: [String: Date] = [:]
     @Environment(\.theme) private var theme
@@ -607,9 +608,9 @@ struct ReadReceiptsView: View {
                         ReceiptName(roomId: roomId, userId: userId)
                         Spacer()
                         if let date = readAt[userId] {
-                            Text(Calendar.current.isDateInToday(date)
-                                 ? date.formatted(date: .omitted, time: .shortened)
-                                 : date.formatted(date: .abbreviated, time: .shortened))
+                            Text(verbatim: Calendar.current.isDateInToday(date)
+                                 ? Formats.time(date, prefs.timeFormat)
+                                 : Formats.abbreviatedDateTime(date, prefs.dateFormat, prefs.timeFormat))
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.textMuted)
                         }

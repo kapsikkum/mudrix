@@ -45,6 +45,7 @@ struct RoomSearchView: View {
     let onJump: (String) -> Void
 
     @StateObject private var model: TimelineModel
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var query = ""
 
@@ -103,7 +104,7 @@ struct RoomSearchView: View {
                 HStack {
                     HighlightedText(text: entry.senderName, query: needle, font: .wizard(WZ.FontSize.md, .semibold))
                     Spacer()
-                    Text(entry.timestamp.formatted(date: .abbreviated, time: .shortened))
+                    Text(verbatim: Formats.abbreviatedDateTime(entry.timestamp, prefs.dateFormat, prefs.timeFormat))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -145,6 +146,7 @@ struct GlobalSearchResults: View {
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var messages: [ServerSearchHit] = []
     @State private var searchingMessages = false
@@ -262,7 +264,7 @@ struct GlobalSearchResults: View {
             HStack {
                 Text(hit.roomName).font(.wizard(WZ.FontSize.sm, .semibold)).foregroundStyle(theme.textMuted)
                 Spacer()
-                Text(hit.date.formatted(date: .abbreviated, time: .omitted)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                Text(verbatim: Formats.abbreviatedDate(hit.date, prefs.dateFormat)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
             }
             HighlightedText(text: hit.body.snippet(around: text), query: text)
                 .foregroundStyle(theme.textPrimary)
