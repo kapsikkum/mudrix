@@ -23,6 +23,7 @@ import { deafenedAtom, micMutedAtom } from '@/app/store/atoms/settings';
 import { useToast } from '@/app/hooks/useToast';
 import { loopVoiceSound, playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
+import { useScreenWakeLock } from './useScreenWakeLock';
 import { AloneNotice } from './AloneNotice';
 import { getMatrixClientOrNull, onSessionEnd } from '@/client/initMatrix';
 
@@ -338,6 +339,7 @@ export function CallController() {
   );
 
   usePushToTalk(session ? setTransmitting : null);
+  useScreenWakeLock(!!session);
 
   const roomId = useAtomValue(callUiAtom).roomId;
   useEffect(() => {

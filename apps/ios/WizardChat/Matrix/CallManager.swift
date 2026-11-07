@@ -1,5 +1,6 @@
 import AVFoundation
 import LiveKit
+import UIKit
 import WizardChatCore
 
 struct CallParticipantInfo: Identifiable, Equatable {
@@ -35,7 +36,10 @@ final class CallManager: NSObject, ObservableObject {
     private static let joinTimeout = Duration.seconds(30)
     private static let remoteRetryDelay = Duration.seconds(2)
 
-    @Published private(set) var state = State.idle
+    @Published private(set) var state = State.idle {
+        // Calls keep the screen on
+        didSet { UIApplication.shared.isIdleTimerDisabled = state == .joining || state == .joined }
+    }
     @Published private(set) var room: RoomSummary?
     @Published private(set) var participants: [CallParticipantInfo] = []
     @Published private(set) var cameraOn = false

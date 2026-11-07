@@ -1,5 +1,6 @@
 #![recursion_limit = "256"]
 
+mod keep_awake;
 mod links;
 mod loopback;
 mod push_to_talk;
@@ -75,6 +76,7 @@ pub fn run() {
         .manage(rpc::Core::new())
         .manage(links::Pending::default())
         .manage(push_to_talk::PushToTalk::default())
+        .manage(keep_awake::KeepAwake::default())
         .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
         // Calls, screen sharing and location sharing
@@ -119,6 +121,7 @@ pub fn run() {
             links::take_deep_link,
             push_to_talk::push_to_talk_set_key,
             push_to_talk::push_to_talk_permission,
+            keep_awake::keep_awake,
             update::update_ready,
             update::install_update,
             screen_share::screen_capture_supported,

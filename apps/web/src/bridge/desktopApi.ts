@@ -46,6 +46,7 @@ export const desktopApi: DesktopAPI = {
   },
   setPushToTalkKey: (code) => invoke('push_to_talk_set_key', { code }),
   onPushToTalk: (listener) => onDesktopEvent<boolean>('push-to-talk', listener),
+  setKeepAwake: (on) => invoke('keep_awake', { on }),
   getPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: false }),
   requestPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: true }),
   onUpdateDownloaded(listener) {

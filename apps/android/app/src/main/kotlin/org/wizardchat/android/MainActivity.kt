@@ -3,6 +3,7 @@ package org.wizardchat.android
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -67,6 +68,11 @@ class MainActivity : AppCompatActivity() {
                     SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT)
                 }
                 enableEdgeToEdge(style, style)
+            }
+            val inCall = CallManager.shared.isInCall
+            LaunchedEffect(inCall) {
+                if (inCall) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
                 WizardThemeRoot(app.prefs.theme) { Root() }
