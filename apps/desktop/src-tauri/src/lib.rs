@@ -1,5 +1,6 @@
 #![recursion_limit = "256"]
 
+mod downloads;
 mod links;
 mod loopback;
 mod push_to_talk;
@@ -114,6 +115,7 @@ pub fn run() {
             loopback::loopback_listen,
             loopback::loopback_wait,
             loopback::loopback_cancel,
+            downloads::save_download,
             links::show_notification,
             links::take_pending_room,
             links::take_deep_link,

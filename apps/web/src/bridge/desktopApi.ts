@@ -38,6 +38,11 @@ export const desktopApi: DesktopAPI = {
   setTitleBarTheme(background) {
     void invoke('set_background_color', { color: background }).catch(() => {});
   },
+  // Raw body (the bytes) with the name in a header; the shell sanitises it and returns the path
+  saveDownload: (bytes, filename) =>
+    invoke<string>('save_download', bytes, {
+      headers: { 'x-filename': encodeURIComponent(filename) },
+    }),
   setPushToTalkKey: (code) => invoke('push_to_talk_set_key', { code }),
   onPushToTalk: (listener) => onDesktopEvent<boolean>('push-to-talk', listener),
   getPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: false }),
