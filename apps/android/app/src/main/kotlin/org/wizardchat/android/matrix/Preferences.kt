@@ -180,6 +180,58 @@ class AppPreferences(context: Context) {
 
     var showPresence by pref(defaults.getBoolean("showPresence", false), boolCodec("showPresence")) { putBoolean("showPresence", it) }
     var notificationSounds by pref(defaults.getBoolean("notificationSounds", true), boolCodec("notificationSounds")) { putBoolean("notificationSounds", it) }
+    /** Message sounds also play while the app is open on screen */
+    var notificationSoundsWhenFocused by pref(
+        defaults.getBoolean("notificationSoundsWhenFocused", false),
+        boolCodec("notificationSoundsWhenFocused"),
+    ) { putBoolean("notificationSoundsWhenFocused", it) }
+    /** The sound pack for every sound without an override of its own */
+    var notificationSoundPack by pref(
+        defaults.getString("notificationSoundPack", null)?.takeIf(SoundPacks::isPackId) ?: SoundPacks.DEFAULT,
+        packCodec("notificationSoundPack"),
+    ) { putString("notificationSoundPack", it) }
+    /** The mention pack of earlier versions; read as the mention override */
+    var notificationMentionSoundPack by pref(
+        defaults.getString("notificationMentionSoundPack", null)?.takeIf(SoundPacks::isPackId) ?: "",
+        packCodec("notificationMentionSoundPack"),
+    ) { putString("notificationMentionSoundPack", it) }
+    /** 0-100, for message, mention and call sounds */
+    var notificationSoundVolume by pref(
+        defaults.getInt("notificationSoundVolume", 70).coerceIn(0, 100),
+        Codec<Int>(
+            "notificationSoundVolume",
+            { JsonPrimitive(it) },
+            { json -> (json as? JsonPrimitive)?.takeIf { !it.isString }?.doubleOrNull?.takeIf { it in 0.0..100.0 }?.toInt() },
+        ),
+    ) { putInt("notificationSoundVolume", it) }
+    /** Per sound: a pack id or "off"; a sound left out follows [notificationSoundPack] */
+    var soundOverrides by pref(
+        defaults.getString("soundOverrides", null)
+            ?.let { raw -> runCatching { SoundPacks.sanitizeOverrides(Json.parseToJsonElement(raw)) }.getOrNull() }.orEmpty(),
+        Codec<Map<SoundKind, String>>(
+            "soundOverrides",
+            { SoundPacks.overridesJson(it) },
+            { json -> SoundPacks.sanitizeOverrides(json) },
+        ),
+    ) { putString("soundOverrides", SoundPacks.overridesJson(it).toString()) }
+    /** Microphone processing applied when a call is joined */
+    var noiseSuppression by pref(defaults.getBoolean("noiseSuppression", true), boolCodec("noiseSuppression")) { putBoolean("noiseSuppression", it) }
+    var echoCancellation by pref(defaults.getBoolean("echoCancellation", true), boolCodec("echoCancellation")) { putBoolean("echoCancellation", it) }
+    var autoGainControl by pref(defaults.getBoolean("autoGainControl", true), boolCodec("autoGainControl")) { putBoolean("autoGainControl", it) }
+
+    // Soundboard listening choices are per device (a phone in a pocket and a desktop with speakers differ), so they are not synced
+    var soundboardEnabled by pref(defaults.getBoolean("soundboardEnabled", true)) { putBoolean("soundboardEnabled", it) }
+    /** 0-100, separate from voice and notification volume */
+    var soundboardVolume by pref(defaults.getInt("soundboardVolume", 70).coerceIn(0, 100)) { putInt("soundboardVolume", it) }
+    /** People whose soundboard clips are muted on this device */
+    var soundboardMutedUsers by pref(defaults.getStringSet("soundboardMutedUsers", emptySet()).orEmpty().toSet()) {
+        putStringSet("soundboardMutedUsers", it)
+    }
+
+    /** Ask a person's homeserver what it runs and show it on their profile */
+    var showHomeserverSoftware by pref(defaults.getBoolean("showHomeserverSoftware", true), boolCodec("showHomeserverSoftware")) {
+        putBoolean("showHomeserverSoftware", it)
+    }
     var notificationBanners by pref(defaults.getBoolean("notificationBanners", true)) { putBoolean("notificationBanners", it) }
     var language by pref(
         defaults.getString("language", "") ?: "",
@@ -197,6 +249,14 @@ class AppPreferences(context: Context) {
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }
+
+    /** The sound overrides with the older mention pack read as the mention override */
+    fun effectiveSoundOverrides(): Map<SoundKind, String> =
+        if (SoundKind.Mention !in soundOverrides && notificationMentionSoundPack.isNotEmpty()) {
+            soundOverrides + (SoundKind.Mention to notificationMentionSoundPack)
+        } else {
+            soundOverrides
+        }
 
     /** The video options in the form [VideoPlan] plans with */
     fun videoUploadPrefs(): VideoPlan.UploadPrefs = VideoPlan.UploadPrefs(
@@ -273,6 +333,12 @@ class AppPreferences(context: Context) {
         key,
         { JsonPrimitive(it) },
         { json -> (json as? JsonPrimitive)?.takeIf { !it.isString }?.booleanOrNull },
+    )
+
+    private fun packCodec(key: String) = Codec<String>(
+        key,
+        { JsonPrimitive(it) },
+        { json -> (json as? JsonPrimitive)?.takeIf { it.isString }?.content?.takeIf(SoundPacks::isPackId) },
     )
 
     private inline fun <reified E : Enum<E>> enumCodec(key: String) = Codec<E>(

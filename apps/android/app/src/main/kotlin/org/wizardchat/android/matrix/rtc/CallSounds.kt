@@ -11,8 +11,8 @@ object CallSounds {
     private val playing = mutableListOf<MediaPlayer>()
 
     /** Plays `name` (`call-join`) once */
-    fun play(name: String) {
-        val player = makePlayer(name, ringtone = false) ?: return
+    fun play(name: String, volume: Float = VOLUME) {
+        val player = makePlayer(name, ringtone = false, volume) ?: return
         playing.add(player)
         player.setOnCompletionListener {
             playing.remove(it)
@@ -22,15 +22,15 @@ object CallSounds {
     }
 
     /** Plays `name` over and over until the returned loop is stopped */
-    fun loop(name: String): Loop? {
-        val player = makePlayer(name, ringtone = name == "ringtone") ?: return null
+    fun loop(name: String, volume: Float = VOLUME, ringtone: Boolean = name == "ringtone"): Loop? {
+        val player = makePlayer(name, ringtone, volume) ?: return null
         player.isLooping = true
         player.start()
         return Loop(player)
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun makePlayer(name: String, ringtone: Boolean): MediaPlayer? {
+    private fun makePlayer(name: String, ringtone: Boolean, volume: Float): MediaPlayer? {
         val context = WizardApplication.instance
         val id = context.resources.getIdentifier(name, "raw", context.packageName)
         if (id == 0) return null
@@ -44,7 +44,7 @@ object CallSounds {
                 setAudioAttributes(attributes)
                 setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
                 descriptor.close()
-                setVolume(VOLUME, VOLUME)
+                setVolume(volume, volume)
                 prepare()
             }
         }.getOrNull()

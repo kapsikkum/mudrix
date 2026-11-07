@@ -130,7 +130,7 @@ internal fun SettingsCard(content: @Composable ColumnScope.() -> Unit) {
 internal fun SettingsDivider() = RowDivider()
 
 @Composable
-private fun RowLabel(label: String, note: String?, modifier: Modifier = Modifier) {
+internal fun RowLabel(label: String, note: String?, modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
         Text(label, style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
         if (note != null) Text(note, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
@@ -138,7 +138,7 @@ private fun RowLabel(label: String, note: String?, modifier: Modifier = Modifier
 }
 
 @Composable
-private fun RowFrame(
+internal fun RowFrame(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,

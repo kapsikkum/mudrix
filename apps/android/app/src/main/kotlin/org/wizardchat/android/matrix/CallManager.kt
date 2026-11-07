@@ -48,6 +48,7 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.rtc.CallActivityState
 import org.wizardchat.android.matrix.rtc.CallNotificationController
 import org.wizardchat.android.matrix.rtc.CallSounds
+import org.wizardchat.android.matrix.rtc.Sounds
 import org.wizardchat.android.matrix.rtc.WatchParticipant
 import org.wizardchat.android.matrix.rtc.WatchTogether
 import org.wizardchat.android.ui.L10n
@@ -238,7 +239,7 @@ class CallManager {
                 },
             )
             runCatching { publisher.localParticipant.setMicrophoneEnabled(!micMuted && !deafened) }
-            CallSounds.play("call_join")
+            Sounds.play(SoundKind.Join)
             notification.start(room.displayName, room.isDirect, activityState)
             if (intent == "video") toggleCamera()
             if (ring && room.isDirect && members.none { it.userId != client.userId }) startRinging()
@@ -262,7 +263,7 @@ class CallManager {
     }
 
     private suspend fun leaveAndWait() {
-        if (state == State.Joined) CallSounds.play("call_leave")
+        if (state == State.Joined) Sounds.play(if (room?.isVoice == true) SoundKind.Leave else SoundKind.CallEnd)
         val call = session
         tearDown()
         runCatching { call?.leave() }
@@ -340,9 +341,9 @@ class CallManager {
         val others = members.filter { it.userId != client.userId }.map { it.userId }.toSet()
         if (state == State.Joined) {
             if ((others - knownOthers).isNotEmpty()) {
-                CallSounds.play("call_join")
+                Sounds.play(SoundKind.Join)
             } else if ((knownOthers - others).isNotEmpty()) {
-                CallSounds.play("call_leave")
+                Sounds.play(SoundKind.Leave)
             }
         }
         knownOthers = others
@@ -364,7 +365,13 @@ class CallManager {
             adaptiveStream = true,
             dynacast = true,
             e2eeOptions = keyProvider?.let { E2EEOptions(keyProvider = it) },
-            audioTrackCaptureDefaults = LocalAudioTrackOptions(noiseSuppression = true, echoCancellation = true, autoGainControl = true),
+            audioTrackCaptureDefaults = WizardApplication.instance.prefs.let { prefs ->
+                LocalAudioTrackOptions(
+                    noiseSuppression = prefs.noiseSuppression,
+                    echoCancellation = prefs.echoCancellation,
+                    autoGainControl = prefs.autoGainControl,
+                )
+            },
             videoTrackCaptureDefaults = LocalVideoTrackOptions(position = CameraPosition.FRONT, captureParams = VideoPreset169.H720.capture),
             screenShareTrackCaptureDefaults = LocalVideoTrackOptions(isScreencast = true, captureParams = VideoPreset169.H1080.capture),
             // No RED (redundant audio): browsers can't decrypt RED-wrapped frames
@@ -443,6 +450,7 @@ class CallManager {
         } else {
             micMuted = !micMuted
         }
+        if (state == State.Joined) Sounds.play(if (micMuted) SoundKind.Mute else SoundKind.Unmute)
         applyMic()
     }
 
@@ -475,6 +483,7 @@ class CallManager {
             try {
                 publisher?.localParticipant?.setCameraEnabled(enabled)
                 cameraOn = enabled
+                if (state == State.Joined) Sounds.play(if (enabled) SoundKind.CameraOn else SoundKind.CameraOff)
                 notification.cameraChanged()
             } catch (error: Exception) {
                 Log.w(TAG, "camera: $error")
@@ -650,7 +659,7 @@ class CallManager {
 
     private fun startRinging() {
         ring = RingState.ringing
-        ringback = CallSounds.loop("ringback")
+        ringback = Sounds.loop(SoundKind.Ringback)
     }
 
     fun ringAgain() {
@@ -694,7 +703,7 @@ class CallManager {
         val remaining = call.expiresAt - System.currentTimeMillis()
         if (remaining <= 0) return
         incoming = RingingCall(call.roomId, call.eventId, call.sender, call.senderName, voiceOnly = call.intent == "audio")
-        if (call.ring) ringtone = CallSounds.loop("ringtone")
+        if (call.ring) ringtone = Sounds.loop(SoundKind.Ring)
         incomingTimer?.cancel()
         incomingTimer = scope.launch {
             delay(remaining)

@@ -62,7 +62,7 @@ private fun notificationsAllowed(context: Context): Boolean {
 
 /** Device notification switches and the account's push rules */
 @Composable
-internal fun NotificationSettingsPage(onBack: () -> Unit) {
+internal fun NotificationSettingsPage(onBack: () -> Unit, openVoice: () -> Unit = {}) {
     val prefs = LocalPrefs.current
     val session = LocalSession.current
     val context = LocalContext.current
@@ -149,6 +149,18 @@ internal fun NotificationSettingsPage(onBack: () -> Unit) {
                 },
                 note = tr("settings.notifications.notificationSoundsNote"),
             )
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.notifications.soundsWhenFocused"),
+                prefs.notificationSoundsWhenFocused,
+                { prefs.notificationSoundsWhenFocused = it },
+                note = tr("settings.notifications.soundsWhenFocusedNote"),
+            )
+            SettingsDivider()
+            RowFrame(onClick = openVoice) {
+                RowLabel(tr("settings.notifications.chooseSounds"), null, Modifier.weight(1f))
+                PhIcon("caret-right", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+            }
             SettingsDivider()
             ToggleRow(
                 tr("settings.notifications.notificationBanners"),

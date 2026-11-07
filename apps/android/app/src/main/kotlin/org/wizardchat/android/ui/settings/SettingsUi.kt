@@ -60,6 +60,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     emojis("room.settings.emojis.title", "smiley-sticker"),
     media("settings.media.title", "film-strip"),
     notifications("settings.notifications.title", "bell"),
+    voice("settings.voice.title", "microphone"),
     appearance("settings.appearance.title", "palette"),
     accessibility("settings.accessibility.title", "person-simple-circle"),
     language("settings.language.title", "globe-simple"),
@@ -102,7 +103,8 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.privacy -> PrivacySettings(pop)
             SettingsPageId.emojis -> EmojisSettings(pop)
             SettingsPageId.media -> MediaSettings(pop)
-            SettingsPageId.notifications -> NotificationSettingsPage(pop)
+            SettingsPageId.notifications -> NotificationSettingsPage(pop, openVoice = { stack = stack + SettingsPageId.voice })
+            SettingsPageId.voice -> VoiceSettings(pop)
             SettingsPageId.appearance -> AppearanceSettings(pop)
             SettingsPageId.accessibility -> AccessibilitySettings(pop)
             SettingsPageId.language -> LanguageSettings(pop)

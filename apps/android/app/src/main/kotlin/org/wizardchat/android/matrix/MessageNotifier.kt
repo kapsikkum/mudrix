@@ -25,6 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.MainActivity
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.matrix.rtc.Sounds
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcons
 import org.wizardchat.android.ui.PhWeight
@@ -106,14 +107,16 @@ class MessageNotifier {
             actionIntent(ACTION_MARK_READ, notification.roomId, userId, tag, id, mutable = false),
         ).build()
 
-        val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
+        // The sound is the chosen pack's, played by the app (a channel can only carry one fixed tone)
+        if (sound) Sounds.playMessage(notification.highlight || notification.isDirect)
+        val builder = NotificationCompat.Builder(context, CHANNEL_SILENT)
             .setSmallIcon(smallIcon())
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(if (notification.highlight) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_DEFAULT)
-            .setSilent(!sound)
+            .setSilent(true)
             .setAutoCancel(true)
             .setNumber(badge)
             .setContentIntent(openIntent(notification.roomId, userId))
