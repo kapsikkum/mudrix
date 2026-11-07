@@ -6,14 +6,28 @@
     </mask>
   </defs>
   <g mask="url(#notifMask)">
-    <g transform="translate(0, 40)" stroke="none">
-      <polygon points="0,280 100,320 200,270 100,230" fill="#D95B00"/>
-      <polygon points="100,320 300,320 200,270" fill="#FF7B00"/>
-      <polygon points="400,280 300,320 200,270 300,230" fill="#D95B00"/>
-      <polygon points="100,230 200,270 230,80 200,70" fill="#FF7B00"/>
-      <polygon points="200,270 300,230 260,75 230,80" fill="#993D00"/>
-      <polygon points="200,70 230,80 260,75 300,0" fill="#FF9D00"/>
-    </g>
+      <polygon points="60,200 130,120 125,205" fill="#E65F00"/>
+      <polygon points="130,120 210,140 125,205" fill="#FF9D00"/>
+      <polygon points="130,120 210,55 210,140" fill="#FF9D00"/>
+      <polygon points="210,55 280,100 210,140" fill="#E65F00"/>
+      <polygon points="280,100 285,195 210,140" fill="#E65F00"/>
+      <polygon points="280,100 340,180 285,195" fill="#4A2A78"/>
+      <polygon points="340,180 365,270 285,195" fill="#2B1F3A"/>
+      <polygon points="40,290 60,200 125,205" fill="#7A4BC0"/>
+      <polygon points="40,290 125,205 105,285" fill="#7A4BC0"/>
+      <polygon points="125,205 210,140 200,260" fill="#E65F00"/>
+      <polygon points="210,140 285,195 200,260" fill="#7A4BC0"/>
+      <polygon points="125,205 200,260 105,285" fill="#7A4BC0"/>
+      <polygon points="285,195 300,285 200,260" fill="#2B1F3A"/>
+      <polygon points="285,195 365,270 300,285" fill="#2B1F3A"/>
+      <polygon points="365,270 330,330 300,285" fill="#111111"/>
+      <polygon points="330,330 180,340 300,285" fill="#111111"/>
+      <polygon points="300,285 180,340 200,260" fill="#2B1F3A"/>
+      <polygon points="200,260 180,340 105,285" fill="#4A2A78"/>
+      <polygon points="105,285 180,340 95,320" fill="#111111"/>
+      <polygon points="40,290 105,285 95,320" fill="#4A2A78"/>
+      <polygon points="95,320 180,340 90,385" fill="#111111"/>
+      <polygon points="185,92 212,68 208,108" fill="#FF9D00"/>
   </g>
   <circle cx="300" cy="315" r="55" fill="#1b8217"/>
 </svg>
