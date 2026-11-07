@@ -82,6 +82,10 @@ struct WizardChatApp: App {
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
             .onChange(of: prefs.followSystemTheme) { _, _ in applyAppIcon() }
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
+            // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork)
+            .onChange(of: prefs.streamerModeActive, initial: true) { _, active in
+                IntegrationNetwork.setPassiveBlocked(active)
+            }
             .onChange(of: prefs.showPresence) { _, visible in
                 Task { await session.applyPresence(visible) }
             }
