@@ -14,7 +14,7 @@ tauri-build = { version = "2", features = [] }
 
 [dependencies]
 wizardchat-core = { path = "../../../crates/core" }
-tauri = { version = "2", features = [] }
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
@@ -24,6 +24,8 @@ tauri-plugin-deep-link = "2"
 device_query = "4"
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
 tauri-plugin-updater = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-window-state = "2"
 jpeg-encoder = { version = "0.7", features = ["simd"] }
 base64 = "0.22"
 
@@ -45,6 +47,8 @@ x11rb = { version = "0.13", features = ["randr", "shm", "xfixes"] }
 rustix = { version = "1", features = ["mm"] }
 
 [target.'cfg(windows)'.dependencies]
+# The version tauri-plugin-notification uses; toasts under our own AppUserModelID (see toast.rs)
+tauri-winrt-notification = "0.8"
 windows-core = "0.62"
 windows = { version = "0.62", features = [
   "Foundation",
@@ -62,9 +66,11 @@ windows = { version = "0.62", features = [
   "Win32_Storage_FileSystem",
   "Win32_Storage_Xps",
   "Win32_System_Com_StructuredStorage",
+  "Win32_System_Registry",
   "Win32_System_Threading",
   "Win32_System_Variant",
   "Win32_System_WinRT_Direct3D11",
   "Win32_System_WinRT_Graphics_Capture",
+  "Win32_UI_Shell",
   "Win32_UI_WindowsAndMessaging",
 ] }

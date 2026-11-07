@@ -1,18 +1,40 @@
 #![recursion_limit = "256"]
 
+mod badge;
+mod dev;
 mod downloads;
 mod links;
 mod loopback;
 mod push_to_talk;
 mod rpc;
 mod screen_share;
+mod settings;
+mod shell;
+mod toast;
+mod tray;
 mod update;
+
+use std::sync::Mutex;
 
 use tauri::{
     webview::{PermissionKind, PermissionResponse},
     window::Color,
     AppHandle, Manager, Runtime, WebviewWindow,
 };
+use tauri_plugin_window_state::WindowExt as _;
+
+pub const MAIN_WINDOW: &str = "main";
+
+/// Where the window's size and place are kept. A dev build gets a file of its own, or it would
+/// open exactly over the installed app's window.
+const WINDOW_STATE_FILE: &str = if cfg!(debug_assertions) {
+    ".window-state.dev.json"
+} else {
+    ".window-state.json"
+};
+
+/// The autostart entry passes this flag, so "start minimised" only applies to a start at login
+const AUTOSTART_FLAG: &str = "--autostart";
 
 /// Deletes the database directory of a signed-out account (`StoreConfig.location`)
 #[tauri::command]
@@ -34,33 +56,38 @@ fn set_background_color(window: WebviewWindow, color: Color) {
 }
 
 pub(crate) fn focus_main<R: Runtime>(app: &AppHandle<R>) {
-    if let Some(window) = app.get_webview_window("main") {
+    if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
         let _ = window.unminimize();
         let _ = window.show();
         let _ = window.set_focus();
     }
 }
 
-/// macOS keeps the app running when the window closes, like other Mac apps: the window only hides
-#[cfg(target_os = "macos")]
+/// Closing the main window hides it to the tray when "keep running in the background" is on
+/// (macOS always keeps the app running when the window closes, like other Mac apps)
 fn hide_on_close<R: Runtime>(window: &tauri::Window<R>, event: &tauri::WindowEvent) {
     let tauri::WindowEvent::CloseRequested { api, .. } = event else {
         return;
     };
-    if window.label() != "main" {
+    if window.label() != MAIN_WINDOW {
+        return;
+    }
+    let keep = cfg!(target_os = "macos")
+        || settings::get_if_ready(window.app_handle()).is_none_or(|s| s.keep_running_in_background);
+    if !keep {
         return;
     }
     api.prevent_close();
+    let app = window.app_handle().clone();
     if window.is_fullscreen().unwrap_or(false) {
         // A fullscreen window that hides leaves a black space behind: leave fullscreen first
         let _ = window.set_fullscreen(false);
-        let window = window.clone();
         std::thread::spawn(move || {
             std::thread::sleep(std::time::Duration::from_millis(800));
-            let _ = window.hide();
+            shell::hide_main_window(&app);
         });
     } else {
-        let _ = window.hide();
+        shell::hide_main_window(&app);
     }
 }
 
@@ -73,7 +100,18 @@ pub fn run() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_notification::init())
+        .plugin(
+            tauri_plugin_window_state::Builder::default()
+                .with_filename(WINDOW_STATE_FILE)
+                .with_state_flags(shell::window_state_flags())
+                .build(),
+        )
+        .plugin(tauri_plugin_autostart::init(
+            tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+            Some(vec![AUTOSTART_FLAG]),
+        ))
         .manage(rpc::Core::new())
+        .manage(shell::FullscreenState::default())
         .manage(links::Pending::default())
         .manage(push_to_talk::PushToTalk::default())
         .manage(update::PendingUpdate::default())
@@ -86,20 +124,43 @@ pub fn run() {
             | PermissionKind::Geolocation => PermissionResponse::Allow,
             _ => PermissionResponse::Default,
         })
-        .on_window_event(|_window, _event| {
-            #[cfg(target_os = "macos")]
-            hide_on_close(_window, _event);
+        .on_window_event(|window, event| {
+            if window.label() != MAIN_WINDOW {
+                return;
+            }
+            hide_on_close(window, event);
+            if matches!(
+                event,
+                tauri::WindowEvent::Resized(_) | tauri::WindowEvent::ScaleFactorChanged { .. }
+            ) {
+                shell::check_fullscreen(window.app_handle());
+            }
         })
         .setup(|app| {
             // Account stores (`StoreConfig.location`) are relative paths: keep them in app data
             let data = app.path().app_data_dir()?;
             std::fs::create_dir_all(&data)?;
             std::env::set_current_dir(&data)?;
+            let loaded = settings::load(app.handle());
+            let start_hidden =
+                loaded.start_minimized && std::env::args().any(|a| a == AUTOSTART_FLAG);
+            app.manage(settings::SettingsState(Mutex::new(loaded)));
+            #[cfg(windows)]
+            toast::init(app.handle());
+            tray::build(app.handle())?;
             // On Windows the app draws its own title bar, window buttons included. Linux keeps the
             // window manager's frame: many ignore a frameless window and draw theirs anyway
             #[cfg(windows)]
-            if let Some(window) = app.get_webview_window("main") {
+            if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
                 window.set_decorations(false)?;
+            }
+            // The window starts hidden (no flash): place it, then show it unless this is a start
+            // at login that should stay in the tray
+            if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
+                let _ = window.restore_state(shell::window_state_flags());
+                if !start_hidden {
+                    focus_main(app.handle());
+                }
             }
             links::setup(app.handle());
             update::start(app.handle().clone());
@@ -116,6 +177,9 @@ pub fn run() {
             loopback::loopback_wait,
             loopback::loopback_cancel,
             downloads::save_download,
+            shell::get_desktop_settings,
+            shell::set_desktop_settings,
+            shell::set_unread_count,
             links::show_notification,
             links::take_pending_room,
             links::take_deep_link,

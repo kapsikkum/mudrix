@@ -46,7 +46,7 @@ fn open_link<R: Runtime>(app: &AppHandle<R>, url: &Url) {
     let _ = app.emit("deep-link", ());
 }
 
-fn open_room<R: Runtime>(app: &AppHandle<R>, room: String) {
+pub(crate) fn open_room<R: Runtime>(app: &AppHandle<R>, room: String) {
     *app.state::<Pending>().room.lock().unwrap() = Some(room);
     crate::focus_main(app);
     let _ = app.emit("open-room", ());
@@ -109,8 +109,36 @@ fn icon_file<R: Runtime>(app: &AppHandle<R>, icon: &str) -> Option<String> {
 
 /// A message notification; clicking it focuses the window and opens `room_url`
 #[tauri::command]
-pub fn show_notification<R: Runtime>(
-    app: AppHandle<R>,
+pub fn show_notification(
+    app: AppHandle,
+    title: String,
+    body: String,
+    icon: Option<String>,
+    room_url: Option<String>,
+) -> bool {
+    // "Mute notifications" in the tray menu
+    if crate::settings::get_if_ready(&app).is_some_and(|settings| settings.notifications_muted) {
+        return true;
+    }
+    // Windows: the plugin would label an unpackaged build "Windows PowerShell" (see `toast`)
+    #[cfg(windows)]
+    {
+        let _ = icon;
+        crate::toast::show(
+            &app,
+            &title,
+            &body,
+            room_url.filter(|url| url.starts_with('/')),
+        )
+        .is_ok()
+    }
+    #[cfg(not(windows))]
+    show_with_plugin(&app, title, body, icon, room_url)
+}
+
+#[cfg(not(windows))]
+fn show_with_plugin<R: Runtime>(
+    app: &AppHandle<R>,
     title: String,
     body: String,
     icon: Option<String>,
@@ -119,7 +147,7 @@ pub fn show_notification<R: Runtime>(
     let mut notification = app.notification().builder().title(title).body(body);
     // macOS and Windows always show the app icon
     #[cfg(target_os = "linux")]
-    if let Some(icon) = icon.and_then(|icon| icon_file(&app, &icon)) {
+    if let Some(icon) = icon.and_then(|icon| icon_file(app, &icon)) {
         notification = notification.icon(icon);
     }
     #[cfg(not(target_os = "linux"))]
