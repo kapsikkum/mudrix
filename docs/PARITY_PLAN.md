@@ -22,8 +22,9 @@ How far to take "looks how it used to":
 | A. Restyle the base      | Keep the base's components, change tokens and CSS until they look like the old ones                                 | Medium                | Never exactly identical; every upstream merge fights it                                |
 | B. Bring the old UI over | Copy the old `src/app/components` and feature CSS (vanilla-extract) into `apps/web`, keep only the Rust core wiring | Large, but mechanical | Closest result; upstream UI merges become impractical (acceptable, upstream is frozen) |
 
-Recommendation: B for web and desktop (they share the UI), and token-level A for Android and iOS (native, so
-"identical" means same colours, radii, spacing, type, icons and motion, not the same code).
+Recommendation: B for web and desktop (they share the UI). Android and iOS keep their native layouts (decided
+after seeing the Android app); there "parity" means Mudrix's features, colours, type, icons, cosmetics and sounds
+inside the native layouts, not the old layouts (see phase 5).
 
 ## Phase 0: reference capture (cheap, scripted, do first)
 
@@ -89,16 +90,36 @@ audit log role changes, tagged gallery sends, GIF favourites from received messa
 completeness, spellcheck, developer tools. Core-call work (`watchRoomEvents` follow-ups, `fetchPublic`,
 `addRequiredState`, `stateEventsWithSender`) goes in as needed.
 
-## Phase 5: Android and iOS look parity
+## Phase 5: Android and iOS (the new native layout stays, Mudrix's features and looks come in)
 
-- Same tokens, same type scale and icons, same motion. Compare with the old Tauri mobile app screenshots
-  (phone widths) rather than the web.
-- Android: run on the emulator for the first time (nothing has ever run on a device), then screenshot tour and
-  compare. Fix what the emulator shows before polishing.
-- iOS: first needs a macOS build (GitHub macOS runner or a Mac). Until then every iOS row stays "written, not
-  compiled". Expect a first round of compile fixes before any visual work.
+Decision (user, after seeing the Android app on the emulator): the native Android layout is better than the old
+Tauri mobile app's. Keep the native layouts and navigation on Android and iOS. "Parity" on mobile therefore means
+bringing Mudrix's features, theme colours, cosmetics, sounds, cards and copy into the native layouts, not
+redrawing the layouts like the old app. The old app is only a reference for features and for colours, type and icons.
+
+- Android, already running on the emulator (as `chat.mudrix.mobile.test`; the old Mudrix apps sit beside it for
+  comparison). First fixes from the first screenshot: WizardChat logo and tagline still on the login screen
+  ("Simple, Secure, Magical"; the old Mudrix tagline is "Simple, Secure, Muddy"), and "Couldn't reach this
+  server" shown for matrix.org although the emulator has network. Then a screenshot tour of every screen, a
+  feature-by-feature check against `docs/MISSING.md` (the Android column), and the partial rows. Each mirrored
+  feature gets looked at for the first time here, since so far Android code is only compile-checked.
+- iOS, using the user's 2015 MacBook (OpenCore Legacy Patcher, newest macOS an Intel Mac can run):
+  - Check first: macOS version, Xcode version it can run, RAM, free disk. The project targets iOS 18.0
+    (`apps/ios/project.yml`), so it needs an Xcode with the iOS 18 SDK or newer, which needs a recent macOS; an
+    unsupported-Mac macOS may not be enough, so verify before planning around it. The Rust core build for iOS
+    is heavy (tens of GB of build cache, slow on a 2015 machine); build the simulator and device libraries
+    one target at a time.
+  - Get the repo onto the Mac without GitHub if needed: `git bundle` over USB or the local network, or a
+    private GitHub repo once decided.
+  - Install on the Mac: Xcode (and command line tools), Rust via rustup with the iOS targets, Node 22+,
+    `xcodegen`, then `npm install`, `npm run ios`.
+  - First pass is a compile-fix round: every iOS file is "written, not compiled". Fix errors in the order in
+    the riskiest-files lists in `docs/PORT.md`, run the XCTests, run on the simulator, then a screenshot tour.
+  - A real iPhone needs an Apple ID (free signing expires after 7 days); the old SideStore route (the
+    unsigned IPA) stays available for installing.
+  - Fallback if the old Mac cannot run a new enough Xcode: a GitHub macOS runner (needs the repo).
 - Measure performance, since mobile speed was the original complaint: scroll jank in the timeline and room
-  list, cold start, memory. Compare with the old Tauri mobile app.
+  list, cold start, memory. Compare with the old Tauri mobile app on the same emulator.
 
 ## Phase 6: desktop shell parity
 
@@ -124,8 +145,9 @@ release build and an upgrade test from the old installed app (same app id `chat.
 
 ## Open questions for the user
 
-1. Option A or B in the key decision above?
-2. Is "identical" acceptable on Android and iOS at the token level, or does it mean the same layouts too?
+1. Option A or B in the key decision above? (Applies to web and desktop only.)
+2. Answered: Android and iOS keep their native layouts; Mudrix's features and looks are ported into them.
 3. Which screens matter most, so phase 3 starts there?
+   4a. For iOS: what macOS and Xcode version does the MacBook run, how much RAM and free disk?
 4. Which artwork should be used for the macOS and iOS icons, the Android launcher and the in-app logos?
 5. A private or public GitHub repo, so CI (the WizardChat-string gate, macOS compile, release builds) can run?
