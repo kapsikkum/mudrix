@@ -43,6 +43,14 @@ export const desktopApi: DesktopAPI = {
     invoke<string>('save_download', bytes, {
       headers: { 'x-filename': encodeURIComponent(filename) },
     }),
+  getSettings: () => invoke<DesktopSettings>('get_desktop_settings'),
+  setSettings: (patch) => invoke<DesktopSettings>('set_desktop_settings', { patch }),
+  onSettingsChange: (listener) =>
+    onDesktopEvent<DesktopSettings>('desktop://settings-changed', listener),
+  setUnreadCount(total, highlight) {
+    void invoke('set_unread_count', { total, highlight }).catch(() => {});
+  },
+  onFullscreenChange: (listener) => onDesktopEvent<boolean>('fullscreen-changed', listener),
   setPushToTalkKey: (code) => invoke('push_to_talk_set_key', { code }),
   onPushToTalk: (listener) => onDesktopEvent<boolean>('push-to-talk', listener),
   getPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: false }),

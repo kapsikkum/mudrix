@@ -18,6 +18,17 @@ interface DesktopSource {
   appIcon: string | null;
 }
 
+/** Settings the desktop shell keeps itself, because it needs them before the web app has loaded */
+interface DesktopSettings {
+  /** Closing the window hides it to the tray instead of quitting */
+  keepRunningInBackground: boolean;
+  launchAtLogin: boolean;
+  /** When started at login, stay in the tray */
+  startMinimized: boolean;
+  /** The tray's "Mute notifications" */
+  notificationsMuted: boolean;
+}
+
 interface DesktopAPI {
   showNotification?: (payload: {
     title: string;
@@ -49,9 +60,15 @@ interface DesktopAPI {
   installUpdate?: () => void;
   /** Saves bytes into the Downloads folder and resolves with the saved path; needs a native command. */
   saveDownload?: (bytes: Uint8Array, filename: string) => Promise<string>;
+  getSettings?: () => Promise<DesktopSettings>;
+  setSettings?: (patch: Partial<DesktopSettings>) => Promise<DesktopSettings>;
+  /** Called when the shell changes a setting itself (the tray's mute switch); returns a stopper */
+  onSettingsChange?: (cb: (settings: DesktopSettings) => void) => () => void;
+  /** Tray icon and tooltip, taskbar overlay and dock badge: unread messages and rooms with a mention */
+  setUnreadCount?: (total: number, highlight: number) => void;
   getPlatform?: () => string;
   setTitleBarTheme?: (background: string, foreground: string) => void;
-  onFullscreenChange?: (cb: (fullscreen: boolean) => void) => void;
+  onFullscreenChange?: (cb: (fullscreen: boolean) => void) => () => void;
 }
 
 interface Window {

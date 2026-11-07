@@ -15,6 +15,7 @@ import { requestNotificationPermission } from '@/app/hooks/useNotifications';
 import { getErrorMessage } from '@/util/error';
 import { Select } from '@/app/components/Select';
 import { isTouchDevice } from '@/util/touch';
+import { DesktopPreferences } from './DesktopPreferences';
 import { RemindersList } from './RemindersList';
 import * as layoutCss from '../Settings.css';
 import * as css from './Notifications.css';
@@ -175,6 +176,8 @@ export function Notifications() {
           }}
         />
       </div>
+
+      <DesktopPreferences />
 
       <div className={layoutCss.divider} />
 

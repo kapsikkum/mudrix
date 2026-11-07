@@ -4,7 +4,7 @@ import { useAllRooms } from '@/app/data';
 import { effectiveThemeAtom, themedAppIconAtom } from '@/app/store/atoms';
 import { resolveLogoAssets } from '@/theme/themeLogos';
 
-import { getRoomUnreadCount } from '@/util/mentions';
+import { getRoomUnreadCount, roomHasUnreadMention } from '@/util/mentions';
 
 function setFavicon(href: string) {
   for (const link of document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]')) {
@@ -23,6 +23,18 @@ export function useFaviconBadge() {
   const hasUnread = rooms.some(
     (room) => !room.isInvite && !room.isTombstoned && getRoomUnreadCount(room) > 0
   );
+
+  // The desktop shell shows the unread count on its tray icon, taskbar overlay and dock badge
+  let total = 0;
+  let mentionRooms = 0;
+  for (const room of rooms) {
+    if (room.isInvite || room.isTombstoned) continue;
+    total += getRoomUnreadCount(room);
+    if (roomHasUnreadMention(room)) mentionRooms += 1;
+  }
+  useEffect(() => {
+    window.desktopAPI?.setUnreadCount?.(total, mentionRooms);
+  }, [total, mentionRooms]);
 
   useEffect(() => {
     const assets = resolveLogoAssets(theme, themedAppIcon);
