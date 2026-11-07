@@ -1,5 +1,8 @@
 # Contributing
 
+Mudrix is a fork of WizardChat's Rust-core rewrite (see the README). User-visible text, ids and docs say Mudrix; code
+identifiers mostly still say WizardChat, see [Internal names left as-is](#internal-names-left-as-is).
+
 ## Where code goes
 
 **Features live in the Rust core. Apps only render state and call the core.**
@@ -91,3 +94,33 @@ simulator. For core changes, also run the example for the area you changed (see 
 - Don't edit generated files (`api.gen.ts`, `Api.gen.swift`, `Api.gen.kt`, `dist/`, `crates/wasm/pkg`); change the
   source and regenerate.
 - Never hard-code the iOS team, bundle IDs or app group; they come from `apps/ios/Config/Signing.xcconfig`.
+
+## Internal names left as-is
+
+Renaming these would touch hundreds of files and make merging upstream changes painful, and no user sees them, so they
+still say WizardChat (or Wizard). Do not rename them without a decision to drop upstream merges.
+
+- **Rust:** the crates `wizardchat-core`, `wizardchat-core-ffi`, `wizardchat-core-wasm` and `wizardchat-desktop` (lib
+  `wizardchat_desktop`), their modules and the `WizardClient` type of the generated API; the wasm output name
+  `wizardchat_core` and the JNI class `org.wizardchat.core.CoreInit`.
+- **npm workspaces:** the root `wizardchat` and `@wizardchat/{web,desktop,design-tokens,i18n,emoji,icons,sounds,core}`.
+- **Android:** the Kotlin `namespace` and packages `org.wizardchat.android` and `org.wizardchat.core`, `WizardApplication`,
+  `WizardLogo`, `Theme.WizardChat`, intent action strings and the Gradle project name. The `applicationId` is
+  `chat.mudrix.mobile`.
+- **iOS:** the Xcode project, targets and folders `WizardChat`, `WizardChatCore`, `WizardChatShare`, `WizardChatWidgets`
+  and `WizardChatTests`, the `WizardChat.app` product and the Swift types `WizardLogo`, `WizardMark` and
+  `WizardChatTokens`. The `WZ_*` build settings (`WZ_TEAM`, `WZ_BUNDLE_PREFIX`, `WZ_APP_GROUP`) keep their names; their
+  values are Mudrix's, except `WZ_TEAM`, which is still upstream's Apple team id and has to be set to your own.
+- **Web:** `WizardMark` (the component draws the Mudrix logo), `wizardchat:state` and similar DOM event names,
+  `wizardchat.*` storage keys, `wizardchat-*` channel and log prefixes, the `@wizardchat/core` import alias and the
+  `WizardChat` native bridge name.
+- **Protocol and compatibility, on purpose:** the `org.wizardchat.*` account-data and profile-field names that are still
+  read (and, where `util/namespace.ts` says so, written) so accounts move over from WizardChat, the `org.wizardchat`
+  sign-in callback scheme and the OIDC client registration that goes with it, `io.gitlab.wizardchat.settings`, the
+  `wizardchat` notification sound pack (the base's own alert sound) and the YouTube player host
+  `*.wizardchat.org/youtube-player.html`, which is still upstream's.
+- **Design tokens:** the `org.wizardchat.theme` extension key in `packages/design-tokens/src/themes/*.json`.
+- **Packaging and CI:** `packaging/aur/wizardchat-bin`, `apps/desktop/scripts/package-linux.mjs`,
+  `apps/desktop/scripts/publish-update.mjs`, `.gitlab-ci.yml` and `.gitlab/` are upstream's GitLab-era release tooling,
+  unused here (see [RELEASING.md](../RELEASING.md)).
+- **Research docs:** [PORT.md](PORT.md) and [MISSING.md](MISSING.md) name WizardChat as the upstream the port starts from.
