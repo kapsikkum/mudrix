@@ -10,13 +10,14 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, media, emojis, notifications, voice, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, media, integrations, emojis, notifications, voice, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey {
             switch self {
             case .account: return "settings.account.title"
             case .privacy: return "settings.privacy.title"
             case .media: return "settings.media.title"
+            case .integrations: return "settings.integrations.title"
             case .emojis: return "room.settings.emojis.title"
             case .notifications: return "settings.notifications.title"
             case .voice: return "settings.voice.title"
@@ -35,6 +36,7 @@ struct SettingsView: View {
             case .account: return "ph-user-regular"
             case .privacy: return "ph-shield-regular"
             case .media: return "ph-film-strip-regular"
+            case .integrations: return "ph-plugs-connected-regular"
             case .emojis: return "ph-smiley-sticker-regular"
             case .notifications: return "ph-bell-regular"
             case .voice: return "ph-speaker-high-regular"
@@ -76,7 +78,7 @@ struct SettingsView: View {
                 .listRowBackground(theme.groupedRow)
 
                 Section {
-                    ForEach([Page.privacy, .media, .notifications, .voice, .emojis]) { pageRow($0) }
+                    ForEach([Page.privacy, .media, .integrations, .notifications, .voice, .emojis]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.appearance, .accessibility, .language]) { pageRow($0) }
@@ -104,6 +106,7 @@ struct SettingsView: View {
                 case .account: AccountSettings()
                 case .privacy: PrivacySettings()
                 case .media: MediaSettings()
+                case .integrations: IntegrationsSettings()
                 case .emojis: EmojisSettings()
                 case .notifications: NotificationSettingsPage()
                 case .voice: VoiceSettings()
