@@ -908,6 +908,10 @@ struct MessageRow: View {
                         LinkPreviewCard(url: url, loader: loader)
                     }
                 }
+                if case .message(let body, _, _) = entry.kind, !body.isEmpty {
+                    // linkPreviews is set only in unencrypted rooms, so until it is known the room counts as encrypted
+                    IntegrationLinkCards(text: body, roomId: actions?.roomId, isEncrypted: actions?.linkPreviews == nil)
+                }
                 if !entry.reactions.isEmpty {
                     ReactionsBar(reactions: entry.reactions, roomId: actions?.roomId) { key in actions?.react(key, entry) }
                 }
