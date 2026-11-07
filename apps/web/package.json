@@ -1,6 +1,6 @@
 {
   "name": "@wizardchat/web",
-  "description": "WizardChat Web: simple, secure, magical [matrix] client",
+  "description": "Mudrix Web: a Matrix client",
   "license": "AGPL-3.0",
   "type": "module",
   "scripts": {
@@ -55,5 +55,5 @@
     "typescript": "^5.9.3",
     "vite": "^8.3.5"
   },
-  "homepage": "https://wizardchat.org"
+  "homepage": "https://github.com/kapsikkum/mudrix"
 }

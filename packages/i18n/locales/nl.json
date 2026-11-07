@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "Over",
-      "viewSourceOnGitLab": "Bron bekijken op GitLab",
+      "viewSourceOnGitHub": "Bron bekijken op GitLab",
       "downloadDesktop": "Desktop-app downloaden",
       "donate": "Doneren",
       "credits": "Dankbetuigingen",

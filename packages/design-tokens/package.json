@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "AGPL-3.0",
   "type": "module",
-  "description": "WizardChat design tokens: one source for colours, spacing, sizes, type and motion on every platform",
+  "description": "Mudrix design tokens: one source for colours, spacing, sizes, type and motion on every platform",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

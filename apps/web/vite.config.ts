@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.APP_VERSION': JSON.stringify(appVersion),
       'import.meta.env.DESKTOP': JSON.stringify(desktop),
       'import.meta.env.APP_HOME_URL': JSON.stringify(
-        packageJson.homepage ?? 'https://wizardchat.org'
+        packageJson.homepage ?? 'https://github.com/kapsikkum/mudrix'
       ),
     },
     optimizeDeps: { exclude: ['@wizardchat/core-wasm'] },

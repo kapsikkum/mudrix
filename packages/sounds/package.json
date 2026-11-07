@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "AGPL-3.0",
   "type": "module",
-  "description": "WizardChat's sounds (calls, voice rooms, alerts, notification sound packs) for every app, in raw/ so Android can use the folder as resources; the web serves it and iOS bundles it",
+  "description": "Mudrix's sounds (calls, voice rooms, alerts, notification sound packs) for every app, in raw/ so Android can use the folder as resources; the web serves it and iOS bundles it",
   "files": [
     "raw",
     "LICENSES.md"

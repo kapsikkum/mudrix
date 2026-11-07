@@ -85,7 +85,7 @@ fun WhatsNewSheet(entry: WhatsNew.Entry, onDismiss: () -> Unit) {
                     else -> Text(inline(line), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                 }
             }
-            LabelButton(tr("whatsNew.fullChangelog"), "arrow-square-out", { uriHandler.openUri("https://gitlab.com/wizardchat/wizardchat/-/releases") })
+            LabelButton(tr("whatsNew.fullChangelog"), "arrow-square-out", { uriHandler.openUri("https://github.com/kapsikkum/mudrix/releases") })
             PrimaryButton(tr("whatsNew.gotIt"), onDismiss)
         }
     }

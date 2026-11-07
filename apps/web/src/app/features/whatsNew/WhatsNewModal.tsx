@@ -11,7 +11,7 @@ import { useSyncReady } from '@/app/hooks/useSync';
 import { latestWhatsNew } from './whatsNew';
 import * as css from './WhatsNewModal.css';
 
-const CHANGELOG_URL = 'https://gitlab.com/wizardchat/wizardchat/-/releases';
+const CHANGELOG_URL = 'https://github.com/kapsikkum/mudrix/releases';
 
 export function WhatsNewModal() {
   const { t, i18n } = useTranslation();

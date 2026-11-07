@@ -1,6 +1,6 @@
 # The web app, built from source and served by nginx:
-#   docker build -t wizardchat .
-#   docker run -p 8080:80 wizardchat
+#   docker build -t mudrix .
+#   docker run -p 8080:80 mudrix
 FROM rust:1-bookworm AS builder
 
 # Node next to the Rust toolchain (the build runs both)

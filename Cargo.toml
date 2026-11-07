@@ -6,7 +6,7 @@ members = ["crates/core", "crates/wasm", "crates/ffi", "apps/desktop/src-tauri"]
 version = "0.1.0"
 edition = "2021"
 license = "AGPL-3.0"
-repository = "https://gitlab.com/wizardchat/wizardchat"
+repository = "https://github.com/kapsikkum/mudrix"
 
 [profile.release]
 lto = true

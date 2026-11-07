@@ -39,7 +39,7 @@ export function RecoveryKeyModal() {
 
   const handleDownload = () => {
     const blob = new Blob([state.recoveryKey], { type: 'text/plain' });
-    downloadBlob(blob, 'wizardchat-recovery-key.txt');
+    downloadBlob(blob, 'mudrix-recovery-key.txt');
     setDownloaded(true);
   };
 

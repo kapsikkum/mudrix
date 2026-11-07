@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "Sobre",
-      "viewSourceOnGitLab": "Ver código-fonte no GitLab",
+      "viewSourceOnGitHub": "Ver código-fonte no GitLab",
       "downloadDesktop": "Transferir a aplicação para computador",
       "donate": "Doar",
       "credits": "Créditos",

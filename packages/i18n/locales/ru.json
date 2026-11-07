@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "О приложении",
-      "viewSourceOnGitLab": "Исходный код на GitLab",
+      "viewSourceOnGitHub": "Исходный код на GitLab",
       "downloadDesktop": "Скачать приложение для компьютера",
       "donate": "Поддержать",
       "credits": "Авторство",

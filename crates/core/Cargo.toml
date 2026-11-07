@@ -1,6 +1,6 @@
 [package]
 name = "wizardchat-core"
-description = "WizardChat's platform-independent client core: Matrix sync, rooms, timelines and WizardChat features"
+description = "Mudrix's platform-independent client core: Matrix sync, rooms, timelines and Mudrix features"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

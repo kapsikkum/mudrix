@@ -1,2 +1,1 @@
-export const GITLAB_URL = 'https://gitlab.com/wizardchat/wizardchat';
-export const PRIVACY_POLICY_URL = 'https://wizardchat.org/privacy/';
+export const SOURCE_URL = 'https://github.com/kapsikkum/mudrix';

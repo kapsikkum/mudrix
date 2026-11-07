@@ -46,7 +46,7 @@ final class MatrixSession: ObservableObject {
 
     static let deviceName = "WizardChat iOS"
     static let callbackScheme = "org.wizardchat"
-    static let app = AppInfo(name: "WizardChat", clientUri: "https://wizardchat.org")
+    static let app = AppInfo(name: "Mudrix", clientUri: "https://github.com/kapsikkum/mudrix")
 
     var requireClient: WizardClient {
         get throws {

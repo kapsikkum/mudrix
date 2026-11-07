@@ -1744,7 +1744,7 @@
     },
     "about": {
       "title": "Über",
-      "viewSourceOnGitLab": "Quellcode auf GitLab ansehen",
+      "viewSourceOnGitHub": "Quellcode auf GitLab ansehen",
       "downloadDesktop": "Desktop App herunterladen",
       "donate": "Spenden",
       "credits": "Danksagungen",

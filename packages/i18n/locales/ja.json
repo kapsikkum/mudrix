@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "情報",
-      "viewSourceOnGitLab": "GitLabでソースを見る",
+      "viewSourceOnGitHub": "GitLabでソースを見る",
       "downloadDesktop": "デスクトップアプリをダウンロード",
       "donate": "寄付",
       "credits": "クレジット",

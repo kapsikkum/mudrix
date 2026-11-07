@@ -517,11 +517,11 @@ internal fun AboutSettings(onBack: () -> Unit) {
             }
             SettingsDivider()
             SettingsItem {
-                LabelButton(tr("settings.downloadWizardchatForDesktop"), "download-simple", { uriHandler.openUri("https://wizardchat.org") })
+                LabelButton(tr("settings.downloadWizardchatForDesktop"), "download-simple", { uriHandler.openUri("https://github.com/kapsikkum/mudrix/releases/latest") })
                 LabelButton(
                     tr("settings.about.viewSourceOnGitLab"),
                     "code",
-                    { uriHandler.openUri("https://gitlab.com/wizardchat/wizardchat") },
+                    { uriHandler.openUri("https://github.com/kapsikkum/mudrix") },
                 )
                 if (whatsNew != null) LabelButton(tr("whatsNew.title"), "sparkle", { showWhatsNew = true })
             }

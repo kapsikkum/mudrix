@@ -310,7 +310,7 @@ private suspend fun loadTile(x: Int, y: Int): Bitmap? {
     return withContext(Dispatchers.IO) {
         runCatching {
             val connection = URL("https://tile.openstreetmap.org/$key.png").openConnection() as HttpURLConnection
-            connection.setRequestProperty("User-Agent", "WizardChat Android (https://wizardchat.org)")
+            connection.setRequestProperty("User-Agent", "Mudrix Android (https://github.com/kapsikkum/mudrix)")
             try {
                 connection.inputStream.use { BitmapFactory.decodeStream(it) }
             } finally {

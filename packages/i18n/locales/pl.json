@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "O aplikacji",
-      "viewSourceOnGitLab": "Zobacz kod źródłowy na GitLabie",
+      "viewSourceOnGitHub": "Zobacz kod źródłowy na GitLabie",
       "downloadDesktop": "Pobierz aplikację na komputer",
       "donate": "Wesprzyj",
       "credits": "Podziękowania",

@@ -347,11 +347,11 @@ struct AboutSettings: View {
             .padding(.vertical, WZ.Space.space4)
 
             VStack(spacing: WZ.Space.space4) {
-                Link(destination: URL(string: "https://wizardchat.org")!) {
+                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
                     Label(String(localized: "settings.downloadWizardchatForDesktop"), image: "ph-download-simple-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())
-                Link(destination: URL(string: "https://gitlab.com/wizardchat/wizardchat")!) {
+                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
                     Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())

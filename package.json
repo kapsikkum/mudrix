@@ -1,7 +1,7 @@
 {
   "name": "wizardchat",
   "version": "26.12.2-next.1",
-  "description": "simple, secure, magical [matrix] client",
+  "description": "Mudrix: a Matrix client",
   "type": "module",
   "license": "AGPL-3.0",
   "workspaces": [

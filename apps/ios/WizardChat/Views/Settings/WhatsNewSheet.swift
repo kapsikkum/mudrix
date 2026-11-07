@@ -49,7 +49,7 @@ struct WhatsNewSheet: View {
                     ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
                         lineView(line)
                     }
-                    Link(destination: URL(string: "https://gitlab.com/wizardchat/wizardchat/-/releases")!) {
+                    Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases")!) {
                         Label(String(localized: "whatsNew.fullChangelog"), image: "ph-arrow-square-out-regular")
                             .font(.wizard(WZ.FontSize.md, .semibold))
                     }

@@ -1760,7 +1760,7 @@
     },
     "about": {
       "title": "Hakkında",
-      "viewSourceOnGitLab": "Kaynağı GitLab'da görüntüle",
+      "viewSourceOnGitHub": "Kaynağı GitLab'da görüntüle",
       "downloadDesktop": "Masaüstü uygulamasını indir",
       "donate": "Bağış yap",
       "credits": "Teşekkürler",

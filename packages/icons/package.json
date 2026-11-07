@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "AGPL-3.0",
   "type": "module",
-  "description": "WizardChat icons for the native apps: the Phosphor glyphs they use, as an iOS asset catalog and Android vector drawables",
+  "description": "Mudrix icons for the native apps: the Phosphor glyphs they use, as an iOS asset catalog and Android vector drawables",
   "files": [
     "dist",
     "src"

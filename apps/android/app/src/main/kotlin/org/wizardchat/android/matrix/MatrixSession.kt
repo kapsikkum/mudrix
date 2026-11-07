@@ -375,6 +375,6 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         const val DEVICE_NAME = "WizardChat Android"
         const val CALLBACK_SCHEME = "org.wizardchat"
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"
-        val APP = AppInfo(name = "WizardChat", clientUri = "https://wizardchat.org")
+        val APP = AppInfo(name = "Mudrix", clientUri = "https://github.com/kapsikkum/mudrix")
     }
 }
