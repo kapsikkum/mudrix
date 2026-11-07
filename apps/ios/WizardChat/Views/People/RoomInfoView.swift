@@ -93,6 +93,11 @@ struct RoomInfoView: View {
                             Label(String(localized: "room.settings.permissions.title"), image: "ph-shield-check-regular")
                         }
                         NavigationLink {
+                            AuditLogView(roomId: room.id)
+                        } label: {
+                            Label(String(localized: "room.settings.auditLog.title"), image: "ph-clipboard-text-regular")
+                        }
+                        NavigationLink {
                             RoomPacksView(roomId: room.id)
                         } label: {
                             Label(String(localized: "room.settings.emojis.title"), image: "ph-smiley-regular")

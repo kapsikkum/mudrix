@@ -70,6 +70,7 @@ struct VoiceRoomView: View {
                     VStack(spacing: WZ.Space.space0) {
                         ForEach(room.callParticipants, id: \.self) { userId in
                             ParticipantRow(roomId: room.id, userId: userId)
+                                .voiceMoveMenu(roomId: room.id, userId: userId)
                         }
                     }
                     .padding(.vertical, WZ.Space.space2)

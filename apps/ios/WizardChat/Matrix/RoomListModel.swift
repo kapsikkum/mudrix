@@ -300,7 +300,7 @@ final class RoomListModel: ObservableObject {
     }
 
     /// The space graph comes from local state; refresh it shortly after rooms or spaces change
-    private func refreshGraph() {
+    func refreshGraph() {
         graphTask?.cancel()
         let delay: Duration = isLoaded ? .milliseconds(150) : .zero
         graphTask = Task { [weak self] in

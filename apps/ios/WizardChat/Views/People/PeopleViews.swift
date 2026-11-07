@@ -17,6 +17,7 @@ struct MembersView: View {
     @State private var selected: String?
     @State private var showInvite = false
     @State private var canInvite = false
+    @StateObject private var roleManager = SpaceRoleManager()
 
     private struct Group: Identifiable {
         let id: String
@@ -55,6 +56,7 @@ struct MembersView: View {
                     ForEach(group.members, id: \.userId) { member in
                         Button { selected = member.userId } label: { MemberRow(member: member) }
                             .buttonStyle(.plain)
+                            .memberRolesMenu(roleManager, spaceId: roomId, member: member)
                     }
                 } header: {
                     Text(group.title) + Text(" — \(group.members.count)")
@@ -66,6 +68,7 @@ struct MembersView: View {
         .navigationTitle(String(localized: "common.members"))
         .navigationBarTitleDisplayMode(.inline)
         .roomRoles(for: roomId)
+        .spaceRoleManager(roleManager, spaceId: roomId)
         .task { await load() }
         .sheet(item: Binding(get: { selected.map(IdentifiedString.init) }, set: { selected = $0?.id })) { item in
             UserProfileSheet(userId: item.id, roomId: roomId) { Task { await load() } }

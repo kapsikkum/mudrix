@@ -79,6 +79,8 @@ struct SpaceSettingsView: View {
                     if canManageRooms { Text(String(localized: "room.swipeARoomTo")) }
                 }
 
+                SpaceModernSettingsSections(space: space, roomList: roomList)
+
                 Section {
                     NavigationLink { MembersView(roomId: space.id) } label: { Label(String(localized: "common.members"), image: "ph-users-regular") }
                     NavigationLink { RolesPermissionsView(roomId: space.id) } label: {
