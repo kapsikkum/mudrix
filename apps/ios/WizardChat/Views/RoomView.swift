@@ -71,6 +71,8 @@ struct RoomView: View {
     @EnvironmentObject private var calls: CallManager
     @State private var profileUserId: String?
     @State private var highlightedId: String?
+    /// The reader chose to see every unreadable message instead of folded rows
+    @State private var undecryptableExpanded = false
     @State private var unreadDividerId: String?
 
     private static let bottomId = "timeline-bottom"
@@ -384,15 +386,27 @@ struct RoomView: View {
                 ForEach(timeline.uploads.reversed()) { upload in
                     UploadingRow(upload: upload).flippedVertically()
                 }
-                ForEach(timeline.entries.reversed()) { entry in
-                    VStack(spacing: WZ.Space.space0) {
-                        if entry.id == unreadDividerId { NewMessagesDivider() }
-                        TimelineRow(entry: entry, actions: actions, isPrivateRoom: room.isDirect)
-                            .background(highlightedId == entry.id ? theme.accent.opacity(0.18) : .clear)
+                ForEach(TimelineItem.folding(timeline.entries, expanded: undecryptableExpanded).reversed()) { item in
+                    switch item {
+                    case .single(let entry, let collapsible):
+                        VStack(spacing: WZ.Space.space0) {
+                            if entry.id == unreadDividerId { NewMessagesDivider() }
+                            TimelineRow(entry: entry, actions: actions, isPrivateRoom: room.isDirect)
+                                .equatable()
+                                .background(highlightedId == entry.id ? theme.accent.opacity(0.18) : .clear)
+                            if collapsible {
+                                UndecryptableCollapseRow { withAnimation { undecryptableExpanded = false } }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                            .flippedVertically()
+                            .modifier(MessageContextMenu(entry: entry, actions: actions))
+                            .id(entry.id)
+                    case .fold(let entries):
+                        UndecryptableFoldRow(entries: entries) { withAnimation { undecryptableExpanded = true } }
+                            .flippedVertically()
+                            .id(item.id)
                     }
-                        .flippedVertically()
-                        .modifier(MessageContextMenu(entry: entry, actions: actions))
-                        .id(entry.id)
                 }
                 Group {
                     if timeline.reachedStart && threadRoot != nil {
@@ -462,6 +476,8 @@ struct RoomView: View {
             return
         }
         userScrolledAway = true
+        // A target inside a folded run only exists as a row once the run is shown
+        if case .undecryptable = entry.kind { undecryptableExpanded = true }
         try? await Task.sleep(for: .milliseconds(100))
         withAnimation(.easeOut(duration: WZ.MotionDuration.slow)) { proxy.scrollTo(entry.id, anchor: .center) }
         withAnimation { highlightedId = entry.id }
@@ -654,7 +670,6 @@ private struct JumpToNewestButton: View {
 
 private struct TimelinePlaceholder: View {
     @Environment(\.theme) private var theme
-    @State private var pulse = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: WZ.Space.space6) {
@@ -664,9 +679,7 @@ private struct TimelinePlaceholder: View {
         }
         .padding(.horizontal, WZ.Space.space6)
         .padding(.vertical, WZ.Space.space5)
-        .opacity(pulse ? 1 : 0.5)
-        .animation(.easeInOut(duration: 0.8).repeatForever(), value: pulse)
-        .onAppear { pulse = true }
+        .shimmer()
         .accessibilityLabel(String(localized: "timeline.loadingOlderMessages"))
     }
 
@@ -754,12 +767,29 @@ private struct TimelineStart: View {
     }
 }
 
-private struct TimelineRow: View {
+private struct TimelineRow: View, Equatable {
     let entry: ChatEntry
     let actions: MessageActions
     let isPrivateRoom: Bool
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
+
+    /// Compares everything the row displays: the whole entry (ChatEntry's synthesized `==` covers
+    /// every stored property), the room kind and the inputs of `MessageActions` that can change.
+    /// The closures are ignored on purpose: they only capture stable models and state setters.
+    /// Environment and observed objects (prefs, theme) still re-render the row when they change.
+    static func == (lhs: TimelineRow, rhs: TimelineRow) -> Bool {
+        guard lhs.entry == rhs.entry, lhs.isPrivateRoom == rhs.isPrivateRoom else { return false }
+        let a = lhs.actions
+        let b = rhs.actions
+        let pinned = lhs.entry.eventId.map { a.pinnedIds.contains($0) } == rhs.entry.eventId.map { b.pinnedIds.contains($0) }
+        return pinned
+            && a.roomId == b.roomId
+            && a.canPin == b.canPin
+            && a.canRedactOthers == b.canRedactOthers
+            && a.linkPreviews === b.linkPreviews
+            && (a.openThread == nil) == (b.openThread == nil)
+    }
 
     var body: some View {
         switch entry.kind {
@@ -987,6 +1017,7 @@ struct MessageRow: View {
                 Text(TimelineModel.decryptionMessage(reason))
                     .font(.wizard(WZ.FontSize.sm * scale))
                     .foregroundStyle(theme.textMuted)
+                UndecryptableHowToFix(reason: reason)
                 if let roomId = actions?.roomId {
                     UndecryptableActions(roomId: roomId, reason: reason)
                 }

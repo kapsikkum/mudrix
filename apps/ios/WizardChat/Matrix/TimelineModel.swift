@@ -20,8 +20,10 @@ struct MessageMention: Hashable {
     let isOwn: Bool
 }
 
-struct ChatEntry: Identifiable {
-    enum Kind {
+/// Equatable is synthesized over every stored property (and the nested types below), so `==`
+/// compares everything a row can display; TimelineRow relies on that to skip unchanged rows.
+struct ChatEntry: Identifiable, Equatable {
+    enum Kind: Equatable {
         case message(body: String, isEmote: Bool, isNotice: Bool)
         case image(MediaContent)
         case sticker(MediaContent)
@@ -41,7 +43,7 @@ struct ChatEntry: Identifiable {
         case text, notice, emote, image, video, audio, file, location
     }
 
-    struct MediaContent {
+    struct MediaContent: Equatable {
         let source: MediaSource
         let body: String
         let caption: String?
@@ -69,8 +71,8 @@ struct ChatEntry: Identifiable {
         }
     }
 
-    struct PollContent {
-        struct Answer: Identifiable {
+    struct PollContent: Equatable {
+        struct Answer: Identifiable, Equatable {
             let id: String
             let text: String
             let votes: Int
@@ -84,7 +86,7 @@ struct ChatEntry: Identifiable {
         let totalVotes: Int
     }
 
-    struct ReactionGroup: Identifiable {
+    struct ReactionGroup: Identifiable, Equatable {
         var id: String { key }
         let key: String
         let count: Int
@@ -92,7 +94,7 @@ struct ChatEntry: Identifiable {
         let senders: [String]
     }
 
-    struct ReplyQuote {
+    struct ReplyQuote: Equatable {
         let eventId: String
         let senderName: String
         let text: String

@@ -488,7 +488,6 @@ struct RoomRow: View {
 
 struct SkeletonRow: View {
     @Environment(\.theme) private var theme
-    @State private var pulse = false
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
@@ -496,8 +495,6 @@ struct SkeletonRow: View {
             Capsule().fill(theme.fill).frame(width: WZ.SizeAvatar.xxl, height: WZ.Space.space5)
         }
         .padding(.vertical, WZ.Space.space3)
-        .opacity(pulse ? 1 : 0.5)
-        .animation(.easeInOut(duration: 0.8).repeatForever(), value: pulse)
-        .onAppear { pulse = true }
+        .shimmer()
     }
 }

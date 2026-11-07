@@ -140,6 +140,16 @@ private struct GalleryTile: View {
     }
 }
 
+/// The viewer's black backdrop, fading while a picture is dragged away
+private struct MediaBackdrop: View {
+    @ObservedObject var progress: MediaDismissProgress
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        theme.overlay.opacity(1 - progress.value * 0.85).ignoresSafeArea()
+    }
+}
+
 struct MediaPagerView: View {
     let items: [ChatEntry.MediaContent]
     let startIndex: Int
@@ -148,27 +158,57 @@ struct MediaPagerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
     @Environment(\.mediaLoader) private var mediaLoader
-    @State private var index = 0
+    @State private var scrollId: Int?
+    @State private var isZoomed = false
+    @State private var barsHidden = false
+    @State private var menuOpen = false
     @State private var saving = false
     @State private var saveResult: String?
+    @StateObject private var dismissProgress = MediaDismissProgress()
+
+    init(items: [ChatEntry.MediaContent], startIndex: Int, isVideo: [Bool] = []) {
+        self.items = items
+        self.startIndex = startIndex
+        self.isVideo = isVideo
+        _scrollId = State(initialValue: startIndex)
+    }
+
+    private var index: Int { scrollId ?? startIndex }
+
+    private func isVideoItem(_ position: Int) -> Bool {
+        isVideo.indices.contains(position) && isVideo[position]
+    }
 
     private var photoCount: Int {
-        items.indices.filter { !(isVideo.indices.contains($0) && isVideo[$0]) }.count
+        items.indices.filter { !isVideoItem($0) }.count
     }
 
     var body: some View {
         NavigationStack {
-            TabView(selection: $index) {
-                ForEach(items.indices, id: \.self) { i in
-                    MediaPage(media: items[i], isVideo: isVideo.indices.contains(i) && isVideo[i])
-                        .tag(i)
+            // A paging scroll view rather than a TabView, so paging can be switched off while zoomed
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 0) {
+                    ForEach(items.indices, id: \.self) { i in
+                        MediaPage(media: items[i], isVideo: isVideoItem(i), isZoomed: $isZoomed, progress: dismissProgress,
+                                  onTap: { withAnimation(.easeInOut(duration: 0.2)) { barsHidden.toggle() } },
+                                  onLongPress: { menuOpen = true },
+                                  onDismiss: { dismiss() })
+                            .containerRelativeFrame([.horizontal, .vertical])
+                            .id(i)
+                    }
                 }
+                .scrollTargetLayout()
             }
-            .tabViewStyle(.page(indexDisplayMode: items.count > 1 ? .automatic : .never))
-            .background(theme.overlay.ignoresSafeArea())
+            .scrollTargetBehavior(.paging)
+            .scrollPosition(id: $scrollId)
+            .scrollDisabled(isZoomed)
+            .scrollIndicators(.hidden)
+            .background { MediaBackdrop(progress: dismissProgress) }
             .navigationTitle(items.count > 1 ? L10n.format("timeline.pageIndicator", "\(index + 1)", items.count) : "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar(barsHidden ? .hidden : .visible, for: .navigationBar)
+            .statusBarHidden(barsHidden)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.done")) { dismiss() } }
                 if photoCount > 1 {
@@ -180,37 +220,107 @@ struct MediaPagerView: View {
                         .disabled(saving)
                     }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    Menu { mediaMenuItems } label: {
+                        Image("ph-dots-three-bold").accessibilityLabel(String(localized: "common.more"))
+                    }
+                }
             }
+            .confirmationDialog("", isPresented: $menuOpen, titleVisibility: .hidden) { mediaMenuItems }
             .alert(saveResult ?? "", isPresented: Binding(get: { saveResult != nil }, set: { if !$0 { saveResult = nil } })) {
                 Button(String(localized: "common.done")) {}
             }
         }
         .preferredColorScheme(.dark)
-        .onAppear { index = startIndex }
+        .presentationBackground(.clear)
+    }
+
+    /// Copy and Save for the picture or video on screen (the long press menu and the bar's more button)
+    @ViewBuilder
+    private var mediaMenuItems: some View {
+        let video = isVideoItem(index)
+        if !video {
+            Button { Task { await copyImage() } } label: {
+                Label(menu: String(localized: "common.copyImage"), icon: "ph-copy-regular")
+            }
+        }
+        Button { Task { await saveCurrent() } } label: {
+            Label(menu: video ? String(localized: "common.saveVideo") : String(localized: "common.saveImage"),
+                  icon: "ph-download-simple-regular")
+        }
+        .disabled(saving)
+    }
+
+    private func localFile(_ media: ChatEntry.MediaContent) async throws -> URL {
+        guard let mediaLoader else { throw CocoaError(.fileNoSuchFile) }
+        return try await mediaLoader.file(for: media.source, filename: media.filename, mimetype: media.mimetype)
+    }
+
+    /// Puts the decrypted picture on the pasteboard (a GIF as its data, so it stays animated)
+    private func copyImage() async {
+        guard items.indices.contains(index) else { return }
+        let media = items[index]
+        do {
+            let url = try await localFile(media)
+            if media.mimetype == "image/gif" {
+                UIPasteboard.general.setData(try Data(contentsOf: url), forPasteboardType: "com.compuserve.gif")
+            } else if let picture = UIImage(contentsOfFile: url.path) {
+                UIPasteboard.general.image = picture
+            } else {
+                throw CocoaError(.fileReadCorruptFile)
+            }
+            CopyToast.shared.show(String(localized: "common.copied"))
+        } catch {
+            CopyToast.shared.show(String(localized: "common.copyImageFailed"))
+        }
+    }
+
+    private func requestLibraryAccess() async -> Bool {
+        let access = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
+        return access == .authorized || access == .limited
+    }
+
+    private func addToLibrary(_ media: ChatEntry.MediaContent, isVideo: Bool) async throws {
+        let url = try await localFile(media)
+        try await PHPhotoLibrary.shared().performChanges {
+            let request = PHAssetCreationRequest.forAsset()
+            let options = PHAssetResourceCreationOptions()
+            options.originalFilename = media.filename
+            request.addResource(with: isVideo ? .video : .photo, fileURL: url, options: options)
+        }
+    }
+
+    /// Saves the picture or video on screen to the photo library
+    private func saveCurrent() async {
+        guard items.indices.contains(index), !saving else { return }
+        let media = items[index]
+        let video = isVideoItem(index)
+        saving = true
+        defer { saving = false }
+        do {
+            guard await requestLibraryAccess() else { throw CocoaError(.userCancelled) }
+            try await addToLibrary(media, isVideo: video)
+            CopyToast.shared.show(L10n.format("common.downloadSaved", media.filename))
+        } catch {
+            CopyToast.shared.show(String(localized: "common.downloadFailed"))
+        }
     }
 
     /// Saves every photo of the gallery to the photo library; says how many could not be saved
     private func saveAll() async {
-        guard let mediaLoader, !saving else { return }
+        guard !saving else { return }
         saving = true
         defer { saving = false }
-        let access = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
-        guard access == .authorized || access == .limited else {
+        guard await requestLibraryAccess() else {
             saveResult = L10n.format("mediaLightbox.saveAllFailed", "\(photoCount)", "\(photoCount)")
             return
         }
         var failed = 0
         var total = 0
-        for (position, media) in items.enumerated() where !(isVideo.indices.contains(position) && isVideo[position]) {
+        for (position, media) in items.enumerated() where !isVideoItem(position) {
             total += 1
             do {
-                let url = try await mediaLoader.file(for: media.source, filename: media.filename, mimetype: media.mimetype)
-                try await PHPhotoLibrary.shared().performChanges {
-                    let request = PHAssetCreationRequest.forAsset()
-                    let options = PHAssetResourceCreationOptions()
-                    options.originalFilename = media.filename
-                    request.addResource(with: .photo, fileURL: url, options: options)
-                }
+                try await addToLibrary(media, isVideo: false)
             } catch {
                 failed += 1
             }
@@ -224,22 +334,21 @@ struct MediaPagerView: View {
 private struct MediaPage: View {
     let media: ChatEntry.MediaContent
     let isVideo: Bool
+    @Binding var isZoomed: Bool
+    let progress: MediaDismissProgress
+    let onTap: () -> Void
+    let onLongPress: () -> Void
+    let onDismiss: () -> Void
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
     @State private var image: UIImage?
-    @State private var scale: CGFloat = 1
     @StateObject private var download = VideoDownloader()
 
     var body: some View {
         ZStack {
-            theme.overlay
             if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .scaleEffect(scale)
-                    .gesture(MagnifyGesture().onChanged { scale = max(1, $0.magnification) }
-                        .onEnded { _ in withAnimation { scale = 1 } })
+                ZoomableImage(image: image, isZoomed: $isZoomed, progress: progress,
+                              onTap: onTap, onLongPress: onLongPress, onDismiss: onDismiss)
             } else {
                 ProgressView().tint(theme.textOnAccent)
             }
