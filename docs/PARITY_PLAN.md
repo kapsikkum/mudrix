@@ -55,6 +55,53 @@ Still to do:
   share extension and permission prompts must say Mudrix.
 - Gate: a CI grep that fails on user-visible `wizard` strings outside an allow-list.
 
+## Phase 1b: full rename, we are a hard fork (do this before any other work: it touches ~700 files)
+
+Decision (user): Mudrix is a hard fork and takes upstream changes by cherry-picking, so internal names are renamed
+too, not just visible text. This replaces the "Internal names left as-is" note in `docs/CONTRIBUTING.md`.
+
+What gets renamed (scripted codemod, not hand edits; one commit per layer so each can be reverted):
+
+| Layer              | Examples                                                                                                                                                                                                         | How                                                                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Rust               | crates `wizardchat-core`, `-core-wasm`, `-core-ffi`, `-desktop`; lib names (`wizardchat_core_ffi`, `wizardchat_core`), `WizardClient` and other `Wizard*` types, Cargo.lock, `rust-toolchain`/workspace metadata | `git mv` crate dirs only if they carry the name; rewrite `Cargo.toml` names and `use` paths; regenerate `Cargo.lock`      |
+| UniFFI and typegen | generated Swift/Kotlin/TS API files, the `.so`/`.a` names the apps load                                                                                                                                          | rename in the source declarations, then `npm run core:types` and rebuild the bindings; do not hand-edit generated files   |
+| npm                | `@wizardchat/web`, `@wizardchat/desktop`, workspace scripts, `package-lock.json`                                                                                                                                 | rename, then `npm install` to rewrite the lock file                                                                       |
+| Android            | Kotlin package `org.wizardchat.*` (namespace, every file's `package` line and directory), `WizardApplication`, JNI/library names, resource names                                                                 | move directories to `chat/mudrix/...`, rewrite package lines and imports; `applicationId` is already `chat.mudrix.mobile` |
+| iOS                | target names `WizardChat*`, `WizardChatCore`, `WizardChatShare`, `WizardChatWidgets`, `WZ_*` build settings, bundle id prefixes, `Signing.xcconfig`, app group, Swift type prefixes                              | rename directories and `project.yml`, rewrite sources; `WZ_TEAM` becomes the user's own team id                           |
+| Web                | CSS/vanilla-extract class prefixes, storage keys, event names, localStorage/IndexedDB names, service-worker cache names, `window.*` bridge names, file names                                                     | rename; **keep reading the old storage keys once** so an existing local session migrates instead of logging out           |
+| Desktop            | Tauri crate, bundle names, installer names, `wizardchat-desktop.exe` becomes `mudrix.exe`, deep-link scheme, updater endpoint                                                                                    | rename; deep-link scheme stays `mudrix`                                                                                   |
+| Packaging and CI   | `packaging/` (AUR), `.gitlab-ci.yml`, `.gitlab/`                                                                                                                                                                 | delete what we will not use; GitHub Actions replace it later                                                              |
+| Docs               | the "Internal names" note in `docs/CONTRIBUTING.md`, the grep gate allow-list                                                                                                                                    | update                                                                                                                    |
+
+What must NOT be blindly renamed (compatibility with data that already exists):
+
+- `org.wizardchat.*` account-data and state keys: Mudrix now writes `io.github.kapsikkum.mudrix.*`, but keep
+  READING `org.wizardchat.*` (legacy read path in `util/namespace.ts` and the Android and iOS equivalents), so
+  data written by the base or by accounts that used WizardChat clients still loads. Renaming the read path
+  would drop that data.
+- `*.wizardchat.org` hosts used at runtime (for example the YouTube player host): either point at a Mudrix-hosted
+  copy or keep until one exists; do not leave a dependency on someone else's domain unnoticed. List every
+  remaining one in `docs/BRANDING.md`.
+- The AGPL-3.0 licence text and the one-paragraph "based on WizardChat" attribution in `README.md`, plus upstream
+  copyright lines in file headers where they exist. These are legal requirements, not branding.
+- Persisted data names on installed apps: an installed old Mudrix keeps its own ids; the new app's storage
+  names changing is fine because it is a new install, but web users of the new build must not lose a session.
+
+Cherry-picking afterwards: keep the `upstream` remote and add `scripts/upstream-pick` that applies the inverse
+rename to an upstream diff (`mudrix` to `wizardchat` for the touched layers) before `git apply --3way`, so
+upstream fixes can still be pulled in without hand-translating every name.
+
+Verification (heavy, do once at the end of the rename, one build at a time): `cargo fmt`, clippy for wasm and
+workspace, `cargo test -p <core>`, `npm run core:types`, `npm run core:web:dev`, web `tsc`, ESLint, `npm run i18n`,
+unit tests, `vite build`; Android `compile.sh`, unit tests, `assembleDebug` (and an emulator launch, since the
+JNI library name changes and a mismatch only shows at launch, as the x86_64 crash did); desktop `tauri build
+--debug --no-bundle`; iOS cannot be compiled here, so the rename is checked by grep and rechecked on the Mac.
+Final gate: `git grep -il wizard` returns only the allow-listed files above.
+
+Order: Rust and UniFFI first (everything depends on it), then npm and web, then desktop, then Android, then iOS,
+then packaging and docs. Commit after each layer, build after each of the first three.
+
 ## Phase 2: design system parity (web and desktop)
 
 Order matters, each step shrinks the diff for the next:
