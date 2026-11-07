@@ -173,6 +173,7 @@ internal fun AccountSettings(onBack: () -> Unit) {
             SettingsDivider()
             CopyRow(tr("auth.username"), session.userId ?: "", sensitive = true)
         }
+        AboutMeSection()
 
         SettingsSection(title = tr("status.title")) {
             SettingsItem {

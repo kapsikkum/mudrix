@@ -218,6 +218,8 @@ object ProfileFields {
         return there.toLocalTime() to offset
     }
 
+    val ACCENT_PRESETS = listOf("#5865f2", "#3b82f6", "#14b8a6", "#22c55e", "#eab308", "#f97316", "#ef4444", "#ec4899", "#a855f7", "#64748b")
+
     // --- Known homeserver software ---
 
     data class KnownSoftware(val label: String, val color: Long, val glyph: String)

@@ -54,6 +54,7 @@ import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.RoomListModel
+import org.wizardchat.android.matrix.ensureMudrixUserFlag
 import org.wizardchat.android.matrix.SettingsSyncer
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.UnreadState
@@ -176,6 +177,9 @@ fun MainScreen(roomList: RoomListModel) {
         calls.watchIncoming(client)
         RecentEmoji.shared.start(client)
         VerificationRequests.shared.start(client)
+    }
+    LaunchedEffect(session.client) {
+        if (session.client != null) session.ensureMudrixUserFlag()
     }
     // Also when another device changes the setting
     LaunchedEffect(session.client, prefs.showPresence) {

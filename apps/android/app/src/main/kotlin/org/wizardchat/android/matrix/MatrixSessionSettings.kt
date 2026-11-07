@@ -137,6 +137,37 @@ suspend fun MatrixSession.searchUsers(term: String): List<UserResult> {
     return runCatching { client.searchUsers(term, 20) }.getOrDefault(emptyList())
 }
 
+/**
+ * Writes or deletes one logical profile field under all of its key names (stable and unstable), so a client
+ * that only knows one of them sees it. Succeeds when at least one write lands; deleting a key that was never
+ * set may fail, which is not an error.
+ */
+suspend fun MatrixSession.writeProfileField(keys: List<String>, value: JsonElement?) {
+    val client = requireClient
+    val failures = keys.mapNotNull { key ->
+        runCatching { if (value == null) client.deleteProfileField(key) else client.setProfileField(key, value) }.exceptionOrNull()
+    }
+    if (value != null && failures.size == keys.size) throw failures.first()
+}
+
+/**
+ * Marks the account as one that uses Mudrix (the `is_user` profile field other clients show as a badge); done
+ * once per account and device, and only on servers with extended profiles.
+ */
+suspend fun MatrixSession.ensureMudrixUserFlag() {
+    val client = client ?: return
+    val userId = client.userId ?: return
+    val defaults = org.wizardchat.android.WizardApplication.instance.getSharedPreferences("profile", android.content.Context.MODE_PRIVATE)
+    val done = "userFlagSet.$userId"
+    if (defaults.getBoolean(done, false)) return
+    val current = runCatching { client.profileField(userId, ProfileFields.IS_USER_KEYS.first()) }.getOrNull()
+    if ((current as? JsonPrimitive)?.content != "true") {
+        if (!runCatching { client.supportsExtendedProfiles() }.getOrDefault(false)) return
+        if (runCatching { writeProfileField(ProfileFields.IS_USER_KEYS, JsonPrimitive(true)) }.isFailure) return
+    }
+    defaults.edit().putBoolean(done, true).apply()
+}
+
 suspend fun MatrixSession.profile(userId: String): UserProfile? = runCatching { client?.userProfile(userId) }.getOrNull()
 
 suspend fun MatrixSession.ignore(userId: String) {
