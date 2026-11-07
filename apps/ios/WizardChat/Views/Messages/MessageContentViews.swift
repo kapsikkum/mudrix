@@ -145,7 +145,7 @@ struct VideoMessageView: View {
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
     @State private var thumbnail: UIImage?
-    @State private var loading = false
+    @StateObject private var download = VideoDownloader()
 
     var body: some View {
         let width: CGFloat = 260
@@ -159,14 +159,17 @@ struct VideoMessageView: View {
             if spoiler != nil && !revealed {
                 Rectangle().fill(.thinMaterial)
                 SpoilerCover(reason: spoiler ?? "")
-            } else if loading {
-                ProgressView().tint(theme.textOnAccent)
             } else {
-                Image("ph-play-fill")
-                    .font(.system(size: WZ.SizeIcon.lg, weight: .semibold))
+                VideoPlayButton(download: download)
+            }
+            if let error = download.error {
+                Text(error)
+                    .font(.wizard(WZ.FontSize.xs))
                     .foregroundStyle(theme.textOnAccent)
-                    .frame(width: WZ.Space.space11, height: WZ.Space.space11)
-                    .background(.ultraThinMaterial, in: Circle())
+                    .padding(WZ.Space.space3)
+                    .background(theme.overlay, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding(WZ.Space.space4)
             }
             if let duration = media.duration {
                 Text(Duration.seconds(duration).formatted(.time(pattern: .minuteSecond)))
@@ -191,11 +194,11 @@ struct VideoMessageView: View {
     }
 
     private func play() async {
-        guard let mediaLoader, !loading else { return }
-        loading = true
-        defer { loading = false }
-        if let url = try? await mediaLoader.file(for: media.source, filename: media.filename, mimetype: media.mimetype) {
-            NativeVideoPlayer.present(url: url)
+        guard let mediaLoader else { return }
+        if download.isDownloading {
+            download.cancel(using: mediaLoader)
+        } else {
+            await download.play(media, using: mediaLoader)
         }
     }
 }

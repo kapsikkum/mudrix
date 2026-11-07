@@ -8,6 +8,7 @@ struct MainTabView: View {
     @EnvironmentObject private var notifier: MessageNotifier
     @EnvironmentObject private var calls: CallManager
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.theme) private var theme
 
@@ -57,13 +58,13 @@ struct MainTabView: View {
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
         .onOpenURL { url in
             guard url.scheme == "wizardchat" else { return }
-            Task { await ShareSender.sendPending(roomList: roomList, notifier: notifier) }
+            sendShared()
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { Task { await ShareSender.sendPending(roomList: roomList, notifier: notifier) } }
+            if phase == .active { sendShared() }
         }
         .onChange(of: roomList.isLoaded, initial: true) { _, loaded in
-            if loaded { Task { await ShareSender.sendPending(roomList: roomList, notifier: notifier) } }
+            if loaded { sendShared() }
         }
         .animation(.easeOut(duration: WZ.MotionDuration.normal), value: calls.isInCall)
         .onChange(of: notifier.roomToOpen) { _, _ in openNotificationRoom() }
@@ -226,6 +227,13 @@ struct MainTabView: View {
     private func showSpace(_ spaceId: String) {
         tab = .spaces
         paths[.spaces] = [.space(spaceId)]
+    }
+
+    private func sendShared() {
+        Task {
+            await ShareSender.sendPending(roomList: roomList, notifier: notifier, prefs: prefs,
+                                          uploadLimit: session.uploadLimit)
+        }
     }
 
     private func openNotificationRoom() {

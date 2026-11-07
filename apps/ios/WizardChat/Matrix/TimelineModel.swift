@@ -9,6 +9,9 @@ struct PendingUpload: Identifiable {
     let isVideo: Bool
     let filename: String
     var progress: Double?
+    /// True while a video is being shrunk before it is uploaded; `progress` is then that work's
+    var compressing = false
+    var cancel: (() -> Void)?
 }
 
 struct MessageMention: Hashable {
@@ -182,6 +185,13 @@ final class TimelineModel: ObservableObject {
     private var ownUserId: String { client.userId ?? "" }
 
     private static let groupingInterval: TimeInterval = 5 * 60
+    /// Images sent together are posted back to back; anything further apart is not one set
+    private static let galleryInterval: TimeInterval = 60
+
+    /// Whether images sent together are shown as one gallery (the "Group images" setting)
+    var groupImages = true {
+        didSet { if groupImages != oldValue { apply([]) } }
+    }
 
     init(client: WizardClient, roomId: String, threadRoot: String? = nil, pinnedOnly: Bool = false,
          onlyTypes: Set<ChatEntry.ContentType>? = nil) {
@@ -331,13 +341,15 @@ final class TimelineModel: ObservableObject {
         await report { try await timeline.toggleReaction(itemKey: itemKey, key: key) }
     }
 
-    func sendFile(at url: URL, caption: String? = nil, replyTo: String? = nil, spoiler: Bool = false) async {
-        await sendFiles([(url, nil)], caption: caption, replyTo: replyTo, spoiler: spoiler)
+    func sendFile(at url: URL, caption: String? = nil, replyTo: String? = nil, spoiler: Bool = false,
+                  prep: UploadPrep? = nil) async {
+        await sendFiles([(url, nil)], caption: caption, replyTo: replyTo, spoiler: spoiler, prep: prep)
     }
 
-    /// The caption and reply go with the first file
+    /// The caption and reply go with the first file; with `prep`, photos are cleaned and shrunk and
+    /// big videos re-encoded first, as the settings say
     func sendFiles(_ files: [(url: URL, preview: UIImage?)], caption: String? = nil, replyTo: String? = nil,
-                   spoiler: Bool = false) async {
+                   spoiler: Bool = false, prep: UploadPrep? = nil) async {
         guard timeline != nil else { return }
         let pending = files.map { file in
             let type = UTType(filenameExtension: file.url.pathExtension) ?? .data
@@ -347,13 +359,23 @@ final class TimelineModel: ObservableObject {
         uploads.append(contentsOf: pending)
         for (index, (file, item)) in zip(files, pending).enumerated() {
             await upload(file.url, as: item.id, caption: index == 0 ? caption : nil,
-                         replyTo: index == 0 ? replyTo : nil, spoiler: spoiler)
+                         replyTo: index == 0 ? replyTo : nil, spoiler: spoiler, prep: prep)
             uploads.removeAll { $0.id == item.id }
         }
     }
 
-    private func upload(_ url: URL, as id: UUID, caption: String?, replyTo: String?, spoiler: Bool) async {
+    private func upload(_ original: URL, as id: UUID, caption: String?, replyTo: String?, spoiler: Bool,
+                        prep: UploadPrep?) async {
         guard let timeline else { return }
+        var url = original
+        if let prep {
+            // A file that cannot be prepared is not sent (the reason is in sendError)
+            guard let prepared = await prepare(original, id: id, prep: prep) else { return }
+            url = prepared
+        }
+        defer {
+            if url != original { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
+        }
         let type = UTType(filenameExtension: url.pathExtension) ?? .data
         let mimetype = type.preferredMIMEType ?? "application/octet-stream"
         var file = UploadedFile(source: .null, size: 0, filename: url.lastPathComponent, mimetype: mimetype,
@@ -382,6 +404,91 @@ final class TimelineModel: ObservableObject {
             }
             try await timeline.sendUploaded(file: file)
         }
+    }
+
+    /// The file to upload for `url`: itself, or a cleaned or shrunk copy. Nil when it must not be sent.
+    private func prepare(_ url: URL, id: UUID, prep: UploadPrep) async -> URL? {
+        let type = UTType(filenameExtension: url.pathExtension) ?? .data
+        if type.conforms(to: .image) { return await prepareImage(url, prep.photo) }
+        if type.conforms(to: .movie) { return await prepareVideo(url, id: id, prep: prep) }
+        return url
+    }
+
+    /// A photo that must lose its details and cannot is not sent; one that cannot be scaled goes as it is
+    private func prepareImage(_ url: URL, _ options: ImagePrep.Options) async -> URL? {
+        guard options.stripMetadata || options.maxSide != nil else { return url }
+        do {
+            let data = try Data(contentsOf: url)
+            let prepared = try await Task.detached(priority: .userInitiated) {
+                try ImagePrep.prepare(data, options)
+            }.value
+            if prepared.fileExtension == nil && prepared.data == data { return url }
+            var name = url.lastPathComponent
+            if let ext = prepared.fileExtension { name = url.deletingPathExtension().lastPathComponent + "." + ext }
+            return try MediaMetadata.temporaryCopy(of: prepared.data, filename: name)
+        } catch {
+            sendError = String(localized: "composer.photoPrepareFailed")
+            return nil
+        }
+    }
+
+    /// Re-encodes a video as the plan says; cancelling drops the file, any other failure sends the original
+    private func prepareVideo(_ url: URL, id: UUID, prep: UploadPrep) async -> URL? {
+        let size = MediaMetadata.fileSize(at: url)
+        let quality = prep.videoQualities[url]
+            ?? VideoPlan.defaultQuality(prep.videoPrefs, size: size, maxUploadBytes: prep.maxUploadBytes, canCompress: true)
+        guard let target = VideoPlan.qualityTarget(quality, prep.videoPrefs, prep.maxUploadBytes),
+              let meta = await MediaMetadata.videoMeta(at: url),
+              let plan = VideoPlan.planCompression(meta, target) else { return url }
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let output = folder.appendingPathComponent(url.deletingPathExtension().lastPathComponent + ".mp4")
+        do {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        } catch {
+            return url
+        }
+        let work = Task { [weak self] () -> Int64 in
+            try await VideoCompressor.compress(source: url, plan: plan, to: output) { fraction in
+                Task { @MainActor in self?.setCompressProgress(id, fraction) }
+            }
+        }
+        setCompressing(id) { work.cancel() }
+        defer { clearCompressing(id) }
+        do {
+            let compressed = try await work.value
+            // The result is only worth sending if it is clearly smaller
+            if Double(compressed) > Double(size) * (1 - VideoPlan.minSaving) {
+                try? FileManager.default.removeItem(at: folder)
+                return url
+            }
+            return output
+        } catch is CancellationError {
+            try? FileManager.default.removeItem(at: folder)
+            return nil
+        } catch {
+            try? FileManager.default.removeItem(at: folder)
+            sendError = String(localized: "composer.compressFailed")
+            return url
+        }
+    }
+
+    private func setCompressing(_ id: UUID, cancel: @escaping () -> Void) {
+        guard let index = uploads.firstIndex(where: { $0.id == id }) else { return }
+        uploads[index].compressing = true
+        uploads[index].progress = 0
+        uploads[index].cancel = cancel
+    }
+
+    private func setCompressProgress(_ id: UUID, _ fraction: Double) {
+        guard let index = uploads.firstIndex(where: { $0.id == id }), uploads[index].compressing else { return }
+        uploads[index].progress = fraction
+    }
+
+    private func clearCompressing(_ id: UUID) {
+        guard let index = uploads.firstIndex(where: { $0.id == id }) else { return }
+        uploads[index].compressing = false
+        uploads[index].progress = nil
+        uploads[index].cancel = nil
     }
 
     func sendVoiceMessage(at url: URL, duration: TimeInterval, waveform: [Float], replyTo: String?) async {
@@ -519,7 +626,7 @@ final class TimelineModel: ObservableObject {
             entries[index].isGrouped = previous.sender == current.sender
                 && current.timestamp.timeIntervalSince(previous.timestamp) < Self.groupingInterval
         }
-        self.entries = kind == .main && onlyTypes == nil ? Self.collapseGalleries(entries) : entries
+        self.entries = kind == .main && onlyTypes == nil && groupImages ? Self.collapseGalleries(entries) : entries
     }
 
     private static func makeEntry(_ item: TimelineEntry, ownUserId: String) -> ChatEntry? {
@@ -695,7 +802,9 @@ final class TimelineModel: ObservableObject {
     private static func collapseGalleries(_ entries: [ChatEntry]) -> [ChatEntry] {
         func isCandidate(_ entry: ChatEntry) -> Bool {
             guard entry.replyTo == nil, case .image(let media) = entry.kind else { return false }
+            // GIFs and other animated images are usually reactions sent one at a time, not part of a set
             return media.mimetype != "image/svg+xml" && media.caption == nil
+                && media.mimetype != "image/gif" && !media.isAnimated
         }
         var result: [ChatEntry] = []
         var index = 0
@@ -706,7 +815,7 @@ final class TimelineModel: ObservableObject {
             var next = index + 1
             while next < entries.count, isCandidate(entries[next]),
                   entries[next].sender == entry.sender,
-                  entries[next].timestamp.timeIntervalSince(group.last!.timestamp) < groupingInterval,
+                  entries[next].timestamp.timeIntervalSince(group.last!.timestamp) < galleryInterval,
                   Calendar.current.isDate(entries[next].timestamp, inSameDayAs: entry.timestamp) {
                 group.append(entries[next])
                 next += 1

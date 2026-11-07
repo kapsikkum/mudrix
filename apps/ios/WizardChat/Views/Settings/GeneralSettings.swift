@@ -216,10 +216,6 @@ struct PrivacySettings: View {
                           note: "settings.letOtherUsersKnow",
                           isOn: $prefs.sendReadReceipts)
             }
-            SettingsSection(title: "settings.privacy.media") {
-                PickerRow(label: "settings.privacy.mediaVisibility", selection: $prefs.mediaVisibility,
-                          options: [(.always, "settings.privacy.mediaVisibilityAlways"), (.private, "settings.privacy.mediaVisibilityPrivate"), (.never, "settings.privacy.mediaVisibilityNever")])
-            }
             SettingsSection(title: "settings.privacy.streamer.title", note: "settings.privacy.streamer.note") {
                 PickerRow(label: "settings.privacy.streamer.mode", selection: $prefs.streamerMode,
                           options: [(.off, "settings.privacy.streamer.off"), (.auto, "settings.privacy.streamer.auto"), (.on, "settings.privacy.streamer.on")])

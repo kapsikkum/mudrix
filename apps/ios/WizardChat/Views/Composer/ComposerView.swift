@@ -19,6 +19,8 @@ struct ComposerView: View {
     @State private var draft = ""
     @State private var selection = NSRange(location: 0, length: 0)
     @State private var attachments: [PendingAttachment] = []
+    /// What each video in the tray is sent as, by attachment
+    @State private var videoInfo: [UUID: VideoInfo] = [:]
     @StateObject private var packStore = PacksStore()
     private var packs: [ImagePack] { packStore.packs }
     @State private var usedEmotes: [String: PackImage] = [:]
@@ -120,6 +122,7 @@ struct ComposerView: View {
         }
         .photosPicker(isPresented: $showPhotos, selection: $photoItems, maxSelectionCount: 10,
                       matching: .any(of: [.images, .videos]))
+        .onChange(of: attachments.map(\.id)) { _, ids in registerVideos(ids) }
         .onChange(of: photoItems) { _, items in
             guard !items.isEmpty else { return }
             preparing += items.count
@@ -305,6 +308,7 @@ struct ComposerView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: WZ.Space.space4) {
                 ForEach(attachments) { attachment in
+                    VStack(spacing: WZ.Space.space2) {
                     ZStack(alignment: .topTrailing) {
                         Group {
                             if let thumbnail = attachment.thumbnail {
@@ -335,6 +339,14 @@ struct ComposerView: View {
                         .offset(x: WZ.Space.space3, y: -WZ.Space.space3)
                         .accessibilityLabel(String(localized: "common.remove"))
                     }
+                    if attachment.isVideo, let info = videoInfo[attachment.id] {
+                        VideoQualityChip(
+                            info: info,
+                            choices: VideoPlan.choices(meta: info.meta, fileSize: info.size,
+                                                       prefs: prefs.videoUploadPrefs(), maxUploadBytes: session.uploadLimit),
+                            onPick: { quality in setQuality(attachment.id, quality) })
+                    }
+                    }
                 }
                 ForEach(0..<preparing, id: \.self) { _ in
                     ProgressView()
@@ -347,6 +359,32 @@ struct ComposerView: View {
             .padding(.horizontal, WZ.Space.space5)
             .padding(.top, WZ.Space.space5)
         }
+    }
+
+    /// Gives every video in the tray what it is sent as by default (the settings, or the server's limit) and reads its details
+    private func registerVideos(_ ids: [UUID]) {
+        videoInfo = videoInfo.filter { ids.contains($0.key) }
+        for attachment in attachments where attachment.isVideo && videoInfo[attachment.id] == nil {
+            let id = attachment.id
+            let url = attachment.url
+            let size = MediaMetadata.fileSize(at: url)
+            let quality = VideoPlan.defaultQuality(prefs.videoUploadPrefs(), size: size,
+                                                   maxUploadBytes: session.uploadLimit, canCompress: true)
+            videoInfo[id] = VideoInfo(meta: nil, size: size, quality: quality)
+            Task {
+                let meta = await MediaMetadata.videoMeta(at: url)
+                if var info = videoInfo[id] {
+                    info.meta = meta
+                    videoInfo[id] = info
+                }
+            }
+        }
+    }
+
+    private func setQuality(_ id: UUID, _ quality: VideoQuality) {
+        guard var info = videoInfo[id] else { return }
+        info.quality = quality
+        videoInfo[id] = info
     }
 
     private func addPhotos(_ items: [PhotosPickerItem]) async {
@@ -609,8 +647,14 @@ struct ComposerView: View {
             attachments = []
             draft = ""
             replyTo = nil
+            var qualities: [URL: VideoQuality] = [:]
+            for attachment in pending where attachment.isVideo {
+                if let info = videoInfo[attachment.id] { qualities[attachment.url] = info.quality }
+            }
+            videoInfo = [:]
+            let prep = UploadPrep(prefs: prefs, maxUploadBytes: session.uploadLimit, videoQualities: qualities)
             await timeline.sendFiles(pending.map { ($0.url, $0.thumbnail) }, caption: text.isEmpty ? nil : text,
-                                     replyTo: reply)
+                                     replyTo: reply, prep: prep)
             return
         }
 

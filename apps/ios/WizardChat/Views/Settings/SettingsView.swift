@@ -10,12 +10,13 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, emojis, notifications, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, media, emojis, notifications, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey {
             switch self {
             case .account: return "settings.account.title"
             case .privacy: return "settings.privacy.title"
+            case .media: return "settings.media.title"
             case .emojis: return "room.settings.emojis.title"
             case .notifications: return "settings.notifications.title"
             case .appearance: return "settings.appearance.title"
@@ -32,6 +33,7 @@ struct SettingsView: View {
             switch self {
             case .account: return "ph-user-regular"
             case .privacy: return "ph-shield-regular"
+            case .media: return "ph-film-strip-regular"
             case .emojis: return "ph-smiley-sticker-regular"
             case .notifications: return "ph-bell-regular"
             case .appearance: return "ph-palette-regular"
@@ -72,7 +74,7 @@ struct SettingsView: View {
                 .listRowBackground(theme.groupedRow)
 
                 Section {
-                    ForEach([Page.privacy, .notifications, .emojis]) { pageRow($0) }
+                    ForEach([Page.privacy, .media, .notifications, .emojis]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.appearance, .accessibility, .language]) { pageRow($0) }
@@ -99,6 +101,7 @@ struct SettingsView: View {
                 switch page {
                 case .account: AccountSettings()
                 case .privacy: PrivacySettings()
+                case .media: MediaSettings()
                 case .emojis: EmojisSettings()
                 case .notifications: NotificationSettingsPage()
                 case .appearance: AppearanceSettings()

@@ -34,14 +34,43 @@ final class MediaLoader {
         }
     }
 
-    func file(for source: MediaSource, filename: String, mimetype: String?) async throws -> URL {
+    private func location(for source: MediaSource, filename: String, mimetype: String?) -> (folder: URL, file: URL) {
         let folder = files.appendingPathComponent(Self.key(source).addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? UUID().uuidString)
-        let url = folder.appendingPathComponent(Self.safeName(filename, mimetype: mimetype))
-        if FileManager.default.fileExists(atPath: url.path) { return url }
+        return (folder, folder.appendingPathComponent(Self.safeName(filename, mimetype: mimetype)))
+    }
+
+    func file(for source: MediaSource, filename: String, mimetype: String?) async throws -> URL {
+        let place = location(for: source, filename: filename, mimetype: mimetype)
+        if FileManager.default.fileExists(atPath: place.file.path) { return place.file }
         let data = try await client.media(source: source)
-        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        try data.write(to: url, options: [.atomic, .completeFileProtection])
-        return url
+        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true)
+        try data.write(to: place.file, options: [.atomic, .completeFileProtection])
+        return place.file
+    }
+
+    /// The file when it has been downloaded already
+    func cachedFile(for source: MediaSource, filename: String, mimetype: String?) -> URL? {
+        let url = location(for: source, filename: filename, mimetype: mimetype).file
+        return FileManager.default.fileExists(atPath: url.path) ? url : nil
+    }
+
+    /// Like `file(for:)`, but tells how much has arrived and can be stopped with `cancelDownload(token:)`
+    /// (the call then throws). `token` must be unique to this download.
+    func downloadFile(for source: MediaSource, filename: String, mimetype: String?, sizeHint: Int?, token: String,
+                      progress: @escaping @MainActor (DownloadProgress) -> Void) async throws -> URL {
+        let place = location(for: source, filename: filename, mimetype: mimetype)
+        if FileManager.default.fileExists(atPath: place.file.path) { return place.file }
+        let data = try await client.mediaDownload(source: source, sizeHint: sizeHint, token: token) { update in
+            Task { @MainActor in progress(update) }
+        }
+        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true)
+        try data.write(to: place.file, options: [.atomic, .completeFileProtection])
+        return place.file
+    }
+
+    func cancelDownload(token: String) {
+        let client = client
+        Task { try? await client.cancelMediaDownload(token: token) }
     }
 
     private func load(_ key: String, animated: Bool = false, fetch: @escaping (WizardClient) async throws -> Data) async -> UIImage? {

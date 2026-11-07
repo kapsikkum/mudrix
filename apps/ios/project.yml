@@ -89,6 +89,7 @@ targets:
         INFOPLIST_KEY_NSMicrophoneUsageDescription: 'WizardChat uses your microphone for calls, voice rooms and voice messages.'
         INFOPLIST_KEY_NSCameraUsageDescription: 'WizardChat uses your camera for video calls and to scan QR codes when you sign in.'
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'WizardChat uses your location only when you share it in a chat.'
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: 'WizardChat saves the photos you choose from a chat to your photo library.'
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: 'AppIcon-Parrot AppIcon-Hallow'
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES

@@ -1,3 +1,4 @@
+import Photos
 import WizardChatCore
 import SwiftUI
 
@@ -146,7 +147,14 @@ struct MediaPagerView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
+    @Environment(\.mediaLoader) private var mediaLoader
     @State private var index = 0
+    @State private var saving = false
+    @State private var saveResult: String?
+
+    private var photoCount: Int {
+        items.indices.filter { !(isVideo.indices.contains($0) && isVideo[$0]) }.count
+    }
 
     var body: some View {
         NavigationStack {
@@ -163,10 +171,53 @@ struct MediaPagerView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.done")) { dismiss() } }
+                if photoCount > 1 {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button { Task { await saveAll() } } label: {
+                            Text(saving ? String(localized: "mediaLightbox.savingAll")
+                                        : L10n.format("mediaLightbox.saveAll", photoCount))
+                        }
+                        .disabled(saving)
+                    }
+                }
+            }
+            .alert(saveResult ?? "", isPresented: Binding(get: { saveResult != nil }, set: { if !$0 { saveResult = nil } })) {
+                Button(String(localized: "common.done")) {}
             }
         }
         .preferredColorScheme(.dark)
         .onAppear { index = startIndex }
+    }
+
+    /// Saves every photo of the gallery to the photo library; says how many could not be saved
+    private func saveAll() async {
+        guard let mediaLoader, !saving else { return }
+        saving = true
+        defer { saving = false }
+        let access = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
+        guard access == .authorized || access == .limited else {
+            saveResult = L10n.format("mediaLightbox.saveAllFailed", "\(photoCount)", "\(photoCount)")
+            return
+        }
+        var failed = 0
+        var total = 0
+        for (position, media) in items.enumerated() where !(isVideo.indices.contains(position) && isVideo[position]) {
+            total += 1
+            do {
+                let url = try await mediaLoader.file(for: media.source, filename: media.filename, mimetype: media.mimetype)
+                try await PHPhotoLibrary.shared().performChanges {
+                    let request = PHAssetCreationRequest.forAsset()
+                    let options = PHAssetResourceCreationOptions()
+                    options.originalFilename = media.filename
+                    request.addResource(with: .photo, fileURL: url, options: options)
+                }
+            } catch {
+                failed += 1
+            }
+        }
+        if failed > 0 {
+            saveResult = L10n.format("mediaLightbox.saveAllFailed", "\(failed)", "\(total)")
+        }
     }
 }
 
@@ -177,7 +228,7 @@ private struct MediaPage: View {
     @Environment(\.theme) private var theme
     @State private var image: UIImage?
     @State private var scale: CGFloat = 1
-    @State private var loadingVideo = false
+    @StateObject private var download = VideoDownloader()
 
     var body: some View {
         ZStack {
@@ -194,13 +245,15 @@ private struct MediaPage: View {
             }
             if isVideo {
                 Button { Task { await playVideo() } } label: {
-                    Image(loadingVideo ? "ph-hourglass-regular" : "ph-play-fill")
-                        .font(.system(size: WZ.SizeIcon.lg, weight: .semibold))
-                        .foregroundStyle(theme.textOnAccent)
-                        .frame(width: WZ.SizeAvatar.xl, height: WZ.SizeAvatar.xl)
-                        .background(.ultraThinMaterial, in: Circle())
+                    VideoPlayButton(download: download)
                 }
-                .accessibilityLabel(String(localized: "timeline.playVideo"))
+                if let error = download.error {
+                    Text(error)
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textOnAccent)
+                        .padding(WZ.Space.space4)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
             }
         }
         .task {
@@ -216,11 +269,11 @@ private struct MediaPage: View {
     }
 
     private func playVideo() async {
-        guard let mediaLoader, !loadingVideo else { return }
-        loadingVideo = true
-        defer { loadingVideo = false }
-        if let url = try? await mediaLoader.file(for: media.source, filename: media.filename, mimetype: media.mimetype) {
-            NativeVideoPlayer.present(url: url)
+        guard let mediaLoader else { return }
+        if download.isDownloading {
+            download.cancel(using: mediaLoader)
+        } else {
+            await download.play(media, using: mediaLoader)
         }
     }
 }

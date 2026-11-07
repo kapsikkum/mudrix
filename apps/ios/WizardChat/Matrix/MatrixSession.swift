@@ -23,6 +23,12 @@ final class MatrixSession: ObservableObject {
     @Published private(set) var accounts: [Account] = []
     @Published var isAddingAccount = false
 
+    /// What an upload may be until the homeserver says (or when it will not say)
+    static let defaultUploadLimit: Int64 = 15 * 1024 * 1024
+
+    /// The largest upload the homeserver takes, in bytes
+    @Published private(set) var uploadLimit: Int64 = MatrixSession.defaultUploadLimit
+
     struct Account: Identifiable, Equatable {
         let userId: String
         let displayName: String?
@@ -318,6 +324,7 @@ final class MatrixSession: ObservableObject {
         avatarUrl = stored.avatarUrl
         roomList = RoomListModel(client: client)
         media = MediaLoader(client: client)
+        uploadLimit = Self.defaultUploadLimit
         subscriptions = [
             client.watchSession { [weak self] event in
                 MainActor.assumeIsolated { self?.sessionChanged(event) }
@@ -341,6 +348,10 @@ final class MatrixSession: ObservableObject {
             })
             roomList?.start()
             encryption = try? await client.encryptionStatus()
+            // The core asks the authenticated media config first and the legacy one only when the server lacks it
+            if let size = (try? await client.serverCapabilities())?.uploadSize, size > 0, self.client === client {
+                uploadLimit = Int64(size)
+            }
             await refreshProfile()
         }
         Task { [weak self] in await self?.refreshProfile() }

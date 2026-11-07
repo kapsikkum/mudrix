@@ -279,6 +279,7 @@ struct RoomView: View {
         .sheet(item: Binding(get: { profileUserId.map(IdentifiedString.init) }, set: { profileUserId = $0?.id })) { item in
             UserProfileSheet(userId: item.id, roomId: room.id)
         }
+        .onChange(of: prefs.groupImages, initial: true) { _, group in timeline.groupImages = group }
         .task { await timeline.start() }
         .fullScreenCover(item: $menuTarget, onDismiss: {
             afterMenu?()
@@ -495,6 +496,7 @@ private struct UploadingRow: View {
                     theme.fill
                 }
                 UploadProgressRing(progress: upload.progress)
+                if upload.compressing { CompressingOverlay(upload: upload) }
             }
             .frame(width: size.width, height: size.height)
             .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
@@ -505,6 +507,43 @@ private struct UploadingRow: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(L10n.format("timeline.uploading", upload.filename))
         .accessibilityValue(upload.progress.map { "\(Int($0 * 100))%" } ?? "")
+    }
+}
+
+/// "Compressing 42%" and a cancel button over a video that is being shrunk before it is sent
+private struct CompressingOverlay: View {
+    let upload: PendingUpload
+    @Environment(\.theme) private var theme
+
+    private var text: String {
+        let percent = String(Int((upload.progress ?? 0) * 100))
+        return NSLocalizedString("composer.compressing", comment: "").replacingOccurrences(of: "%1$@", with: percent)
+    }
+
+    var body: some View {
+        VStack(spacing: WZ.Space.space3) {
+            Spacer(minLength: 0)
+            Text(verbatim: text)
+                .font(.wizard(WZ.FontSize.sm, .semibold))
+                .foregroundStyle(theme.textOnAccent)
+                .padding(.horizontal, WZ.Space.space4)
+                .padding(.vertical, WZ.Space.space2)
+                .background(theme.overlay, in: Capsule())
+            if let cancel = upload.cancel {
+                Button {
+                    cancel()
+                } label: {
+                    Text(String(localized: "common.cancel"))
+                        .font(.wizard(WZ.FontSize.sm, .semibold))
+                        .foregroundStyle(theme.textOnAccent)
+                        .padding(.horizontal, WZ.Space.space5)
+                        .padding(.vertical, WZ.Space.space2)
+                        .background(theme.overlay, in: Capsule())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(WZ.Space.space4)
     }
 }
 
@@ -797,9 +836,13 @@ struct MessageRow: View {
                         }
                     }
                 }
-                if let loader = actions?.linkPreviews, case .message(let body, _, _) = entry.kind,
-                   let url = MessageText.firstPreviewURL(in: body) {
-                    LinkPreviewCard(url: url, loader: loader)
+                if case .message(let body, _, _) = entry.kind, let url = MessageText.firstPreviewURL(in: body) {
+                    if prefs.youtubeEmbeds != .off, let video = YouTubeLink.parse(url.absoluteString) {
+                        // Also in encrypted rooms, where the card is made without the homeserver's preview
+                        YouTubeCard(url: url, video: video, loader: actions?.linkPreviews)
+                    } else if let loader = actions?.linkPreviews {
+                        LinkPreviewCard(url: url, loader: loader)
+                    }
                 }
                 if !entry.reactions.isEmpty {
                     ReactionsBar(reactions: entry.reactions) { key in actions?.react(key, entry) }
