@@ -156,7 +156,7 @@ struct InboxView: View {
                     .font(.wizard(WZ.FontSize.md, .semibold))
                     .foregroundStyle(theme.textPrimary)
                 if let inviter = inviters[invite.id] {
-                    Text(L10n.format("inbox.invitedByName", inviter))
+                    Text(L10n.format("inbox.invitedBy", inviter))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                 }

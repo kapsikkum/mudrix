@@ -231,7 +231,7 @@ struct ComposerView: View {
         ComposerTextView(
             text: $draft, selection: $selection, isFocused: $focused,
             placeholder: editing != nil ? String(localized: "composer.editMessage")
-                : threadRoot != nil ? String(localized: "thread.composerPlaceholder")
+                : threadRoot != nil ? String(localized: "timeline.threadComposerPlaceholder")
                 : L10n.format("composer.messageRoom", "\(room.displayName)"),
             font: Font.wizardUIFont(17),
             textColor: UIColor(theme.textPrimary),

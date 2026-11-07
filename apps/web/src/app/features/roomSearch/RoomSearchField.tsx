@@ -59,7 +59,7 @@ export function RoomSearchField() {
         <>
           <span className={css.count}>
             {matchCount === 0
-              ? t('room.header.noResults')
+              ? t('common.noResults')
               : t('room.header.searchResultCount', {
                   active: (ownResults?.activeMatch ?? 0) + 1,
                   total: matchCount,

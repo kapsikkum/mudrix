@@ -43,13 +43,13 @@ private enum class RoomAccess(
     val spaceHint: String? = null,
 ) {
     SpaceMembers("room.create.accessStandard", "users", "room.create.accessStandardNote"),
-    Invite("room.create.accessInvite", "lock", "room.create.accessInviteNote", spaceLabel = "room.space.create.accessInvite"),
+    Invite("room.create.accessInvite", "lock", "room.create.accessInviteNote", spaceLabel = "space.create.accessInvite"),
     Public(
         "room.create.accessPublic",
         "globe-simple",
-        "room.anyoneCanFindAnd",
-        spaceLabel = "room.space.create.public",
-        spaceHint = "room.space.create.accessPublicNote",
+        "room.create.accessPublicNote",
+        spaceLabel = "space.create.public",
+        spaceHint = "space.create.accessPublicNote",
     ),
 }
 
@@ -120,7 +120,7 @@ fun CreateRoomSheet(
     WizardSheet(onDismiss) {
         SheetPage {
             SheetBar(
-                tr(if (isSpace) "room.space.create.title" else if (spaceId == null) "rooms.newRoom" else "room.newRoomInSpace"),
+                tr(if (isSpace) "space.create.title" else if (spaceId == null) "nav.newRoom" else "space.newRoom"),
                 leading = { if (onBack != null) BarTextButton(tr("common.back"), onBack) else BarTextButton(tr("common.cancel"), onDismiss) },
                 trailing = {
                     if (busy) {
@@ -133,13 +133,13 @@ fun CreateRoomSheet(
             FormList(Modifier.weight(1f)) {
                 item {
                     GroupedSection {
-                        FormField(name, { name = it }, tr("dialogs.name"))
+                        FormField(name, { name = it }, tr("common.name"))
                         RowDivider()
-                        FormField(topic, { topic = it }, tr("dialogs.topic"), maxLines = 3)
+                        FormField(topic, { topic = it }, tr("room.create.topicOptional"), maxLines = 3)
                     }
                 }
                 if (!isSpace) item {
-                    GroupedSection(header = tr("room.type")) {
+                    GroupedSection(header = tr("room.create.type")) {
                         GroupedRow(tr("room.create.typeChat"), icon = "hash-straight", subtitle = tr("room.create.typeChatNote"), onClick = { isVoice = false }) {
                             if (!isVoice) SelectedCheck()
                         }
@@ -150,7 +150,7 @@ fun CreateRoomSheet(
                     }
                 }
                 item {
-                    GroupedSection(header = tr(if (isSpace) "room.space.create.access" else "room.create.access")) {
+                    GroupedSection(header = tr(if (isSpace) "space.create.access" else "room.create.access")) {
                         options.forEachIndexed { index, option ->
                             if (index > 0) RowDivider()
                             val label = if (isSpace) option.spaceLabel ?: option.label else option.label
@@ -166,7 +166,7 @@ fun CreateRoomSheet(
                 }
                 if (isPublic) {
                     item {
-                        GroupedSection(header = tr(if (isSpace) "room.space.create.roomAddress" else "room.create.roomAddress")) {
+                        GroupedSection(header = tr(if (isSpace) "space.create.roomAddress" else "room.create.roomAddress")) {
                             Row(
                                 Modifier.padding(start = WZ.Space.space5, end = WZ.Space.space5),
                                 verticalAlignment = Alignment.CenterVertically,

@@ -72,7 +72,7 @@ fun ActiveNowSection(roomList: RoomListModel) {
         Modifier.fillMaxWidth().padding(start = WZ.Space.space6, top = WZ.Space.space2, bottom = WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
-        Text(tr("home.activeNow"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
+        Text(tr("nav.activeNow"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
             cards.forEach { card ->
                 val shown = card.people.take(PEOPLE_LIMIT)
@@ -104,12 +104,12 @@ fun ActiveNowSection(roomList: RoomListModel) {
                         shown.forEach { person -> PersonRow(person, card.room.id) }
                         if (card.people.size > shown.size) {
                             val more = card.people.size - shown.size
-                            Text(trPlural("home.morePeople", more, more), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
+                            Text(trPlural("nav.morePeople", more, more), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
                         }
                     }
                     Spacer(Modifier.weight(1f))
                     Text(
-                        tr(if (card.includesMe) "home.open" else "home.join"),
+                        tr(if (card.includesMe) "common.open" else "common.join"),
                         Modifier
                             .fillMaxWidth()
                             .defaultMinSize(minHeight = WZ.SizeControl.md)

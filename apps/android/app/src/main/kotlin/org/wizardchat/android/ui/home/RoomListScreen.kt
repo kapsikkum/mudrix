@@ -117,7 +117,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
 
     val spaceId = (selection as? SidebarSelection.Space)?.id
     val title = when (selection) {
-        SidebarSelection.Home -> tr("room.home")
+        SidebarSelection.Home -> tr("nav.home")
         SidebarSelection.Dms -> tr("room.dm.directMessages")
         is SidebarSelection.Space -> roomList.space(selection.id)?.name ?: tr("explore.typeSpace")
     }
@@ -154,18 +154,18 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
             onBack = if (spaceId != null) navigator.pop else null,
         ) {
             Box {
-                BarButton("plus", tr("home.new"), { menuOpen = true })
+                BarButton("plus", tr("nav.new"), { menuOpen = true })
                 WizardMenu(
                     menuOpen,
                     { menuOpen = false },
                     buildList {
                         add(MenuItem(tr("common.newDm"), "chat-circle") { showNewMessage = true })
-                        if (selection != SidebarSelection.Dms) add(MenuItem(tr("rooms.newRoom"), "hash-straight") { showNewRoom = true })
+                        if (selection != SidebarSelection.Dms) add(MenuItem(tr("nav.newRoom"), "hash-straight") { showNewRoom = true })
                         if (selection != SidebarSelection.Dms) {
                             add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
-                            add(MenuItem(tr("home.reorderRooms"), "caret-up-down") { reordering = true })
+                            add(MenuItem(tr("nav.reorderRooms"), "caret-up-down") { reordering = true })
                         }
-                        if (spaceId != null) add(MenuItem(tr("home.spaceSettings"), "gear", divider = true) { showSpaceSettings = true })
+                        if (spaceId != null) add(MenuItem(tr("space.settingsTitle"), "gear", divider = true) { showSpaceSettings = true })
                     },
                 )
             }
@@ -176,7 +176,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         WizardTextField(
             search,
             { search = it },
-            tr("home.searchRoomsPeopleMessages"),
+            tr("nav.searchPlaceholder"),
             Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
         )
         Box(Modifier.weight(1f)) {
@@ -199,7 +199,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                 } else if (rooms.isEmpty()) {
                     item(key = "empty") {
                         Note(
-                            tr(if (selection == SidebarSelection.Dms) "home.noDirectMessagesYet" else "home.noRoomsHereYet"),
+                            tr(if (selection == SidebarSelection.Dms) "nav.noDirectMessagesYet" else "nav.noRoomsHereYet"),
                             Modifier.padding(vertical = WZ.Space.space9),
                         )
                     }
@@ -304,7 +304,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
     }
     leaving?.let { room ->
         ConfirmDialog(
-            tr("room.leaveNamed2", room.displayName),
+            tr("room.info.leaveConfirm", room.displayName),
             tr("common.leave"),
             onConfirm = { scope.launch { roomList.leave(room) } },
             onDismiss = { leaving = null },
@@ -398,10 +398,10 @@ private fun SwipeableRoomRow(
                 notificationsOpen,
                 { notificationsOpen = false },
                 listOf(
-                    Triple(null, "notifLevel.default", "bell"),
-                    Triple(NotificationMode.all, "notifLevel.all", "bell-ringing"),
-                    Triple(NotificationMode.mentions, "notifLevel.mentions", "bell-simple"),
-                    Triple(NotificationMode.mute, "notifLevel.mute", "bell-slash"),
+                    Triple(null, "room.notifications.default", "bell"),
+                    Triple(NotificationMode.all, "room.notifications.all", "bell-ringing"),
+                    Triple(NotificationMode.mentions, "room.notifications.mentions", "bell-simple"),
+                    Triple(NotificationMode.mute, "room.notifications.mute", "bell-slash"),
                 ).map { (mode, label, icon) ->
                     MenuItem(tr(label), icon, checked = mode == notificationMode) { onSetNotificationMode(mode) }
                 },
@@ -465,7 +465,7 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
         }
         Spacer(Modifier.width(6.dp))
         if (muted) {
-            PhIcon("bell-slash", size = WZ.SizeIcon.sm, tint = theme.textMuted, contentDescription = tr("notifLevel.mute"))
+            PhIcon("bell-slash", size = WZ.SizeIcon.sm, tint = theme.textMuted, contentDescription = tr("room.notifications.mute"))
             if (room.mentionCount > 0 || room.unreadCount > 0) Spacer(Modifier.width(WZ.Space.space3))
         }
         when {
@@ -489,9 +489,9 @@ private fun GroupHeader(
     val section = (group.kind as? RoomGroup.Kind.Section)?.section
     val index = anchors.indexOf(group.id)
     val title = when (val kind = group.kind) {
-        RoomGroup.Kind.Favourites -> tr("room.favourites")
+        RoomGroup.Kind.Favourites -> tr("nav.favourites")
         is RoomGroup.Kind.Section -> kind.section.name
-        RoomGroup.Kind.Rooms -> tr("room.title")
+        RoomGroup.Kind.Rooms -> tr("nav.rooms")
     }
     val rotation by androidx.compose.animation.core.animateFloatAsState(if (closed) 0f else 90f, label = "chevron")
     val haptics = androidx.compose.ui.platform.LocalHapticFeedback.current
@@ -528,7 +528,7 @@ private fun GroupHeader(
                     menuOpen,
                     { menuOpen = false },
                     listOfNotNull(
-                        section?.let { MenuItem(tr("room.sections.rename"), "pencil-simple") { onRename(it) } },
+                        section?.let { MenuItem(tr("common.rename"), "pencil-simple") { onRename(it) } },
                         MenuItem(tr("room.sections.moveUp"), "caret-up-down") { onMove(-1) }.takeIf { index > 0 },
                         MenuItem(tr("room.sections.moveDown"), "caret-up-down") { onMove(1) }.takeIf { index < anchors.size - 1 },
                         section?.let { MenuItem(tr("room.sections.delete"), "trash", destructive = true, divider = true) { onDelete(it) } },

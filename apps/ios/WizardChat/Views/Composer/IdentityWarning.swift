@@ -27,7 +27,7 @@ struct IdentityWarning: View {
                         .font(.system(size: WZ.SizeIcon.md))
                         .foregroundStyle(current.verified ? theme.danger : theme.warningColor)
                     VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                        Text(L10n.format(current.verified ? "identityWarning.verifiedReset" : "identityWarning.reset", name))
+                        Text(L10n.format(current.verified ? "verification.identityWarning.verifiedReset" : "verification.identityWarning.reset", name))
                             .font(.wizard(WZ.FontSize.sm))
                             .foregroundStyle(theme.textPrimary)
                         Text(current.userId)
@@ -38,7 +38,7 @@ struct IdentityWarning: View {
                         }
                     }
                     Spacer(minLength: WZ.Space.space0)
-                    Button(String(localized: current.verified ? "identityWarning.withdraw" : "common.ok")) {
+                    Button(String(localized: current.verified ? "verification.identityWarning.withdraw" : "common.ok")) {
                         resolve(current.userId)
                     }
                     .font(.wizard(WZ.FontSize.sm, .semibold))
@@ -90,7 +90,7 @@ struct IdentityWarning: View {
             do {
                 try await client.acknowledgeIdentity(userId: userId)
             } catch {
-                self.error = L10n.format("identityWarning.failed", error.localizedDescription)
+                self.error = L10n.format("verification.identityWarning.failed", error.localizedDescription)
             }
         }
     }

@@ -140,9 +140,9 @@ export function PermissionsPanel({ roomId }: PermissionsPanelProps) {
 
   const grouped = useMemo(() => {
     const groups: { label: string; key: string; members: MemberEntry[] }[] = [
-      { label: t('room.settings.members.admin'), key: 'admin', members: [] },
-      { label: t('room.settings.members.moderator'), key: 'moderator', members: [] },
-      { label: t('room.settings.members.member'), key: 'member', members: [] },
+      { label: t('room.members.admin'), key: 'admin', members: [] },
+      { label: t('room.members.moderator'), key: 'moderator', members: [] },
+      { label: t('room.members.member'), key: 'member', members: [] },
     ];
 
     for (const m of visibleMembers) {

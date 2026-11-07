@@ -22,7 +22,7 @@ struct AccountSettings: View {
                     AvatarView(name: name, url: session.avatarUrl, size: WZ.SizeAvatar.lg)
                     VStack(alignment: .leading, spacing: WZ.Space.space4) {
                         PhotosPicker(selection: $photo, matching: .images) {
-                            Text(String(localized: "settings.upload")).font(.wizard(WZ.FontSize.md, .semibold))
+                            Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.md, .semibold))
                         }
                         if session.avatarUrl != nil {
                             Button(String(localized: "common.remove"), role: .destructive) {
@@ -186,7 +186,7 @@ private struct PasswordSection: View {
             status = (String(localized: "settings.account.passwordTooShort"), true); return
         }
         guard new == confirm else {
-            status = (String(localized: "welcome.passwordMismatch"), true); return
+            status = (String(localized: "common.passwordMismatch"), true); return
         }
         busy = true
         defer { busy = false }
@@ -245,7 +245,7 @@ private struct EmailSection: View {
                     Text(String(localized: "settings.account.checkEmail"))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
-                    Text(String(localized: "settings.openTheLinkIn"))
+                    Text(String(localized: "settings.account.emailLinkHint"))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                     SecureField("", text: $password, prompt: Text(String(localized: "auth.password")).foregroundColor(theme.textMuted))

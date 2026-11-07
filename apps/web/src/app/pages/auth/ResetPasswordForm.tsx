@@ -69,7 +69,7 @@ export function ResetPasswordForm({
 
   const handleRequestReset = async () => {
     if (!email.trim()) {
-      setStatus(t('welcome.emailRequired'));
+      setStatus(t('auth.emailRequired'));
       setStatusType('error');
       return;
     }
@@ -80,16 +80,16 @@ export function ResetPasswordForm({
       const requestSid = await requestPasswordReset(serverUrl, email.trim(), clientSecret);
       setSid(requestSid);
       setStep('password');
-      setStatus(t('welcome.resetLinkSent'));
+      setStatus(t('auth.resetLinkSent'));
       setStatusType('success');
     } catch (err) {
       // Check for 404/M_UNRECOGNIZED (password reset not supported)
       const isNotSupported = matrixErrcode(err) === 'M_UNRECOGNIZED';
 
       if (isNotSupported && isDelegatedAuth) {
-        setStatus(t('welcome.resetNotSupported'));
+        setStatus(t('auth.resetNotSupported'));
       } else if (isNotSupported) {
-        setStatus(t('welcome.resetNotSupported'));
+        setStatus(t('auth.resetNotSupported'));
       } else {
         setStatus(getErrorMessage(err));
       }
@@ -101,17 +101,17 @@ export function ResetPasswordForm({
 
   const handleCompleteReset = async () => {
     if (!newPassword || !confirmPassword) {
-      setStatus(t('welcome.fillAllFields'));
+      setStatus(t('auth.fillAllFields'));
       setStatusType('error');
       return;
     }
     if (newPassword !== confirmPassword) {
-      setStatus(t('welcome.passwordMismatch'));
+      setStatus(t('common.passwordMismatch'));
       setStatusType('error');
       return;
     }
     if (!isPasswordValid(pwdValidity)) {
-      setStatus(t('welcome.passwordRequirements.title'));
+      setStatus(t('auth.passwordRequirements.title'));
       setStatusType('error');
       return;
     }
@@ -121,13 +121,13 @@ export function ResetPasswordForm({
     try {
       await completePasswordReset(serverUrl, sid, clientSecret, newPassword);
       setStep('done');
-      setStatus(t('welcome.resetSuccess'));
+      setStatus(t('auth.resetSuccess'));
       setStatusType('success');
     } catch (err) {
       const errMsg = getErrorMessage(err);
       // Check for common password reset errors
       if (matrixErrcode(err) === 'M_UNAUTHORIZED') {
-        setStatus(t('welcome.resetClickLinkFirst'));
+        setStatus(t('auth.resetClickLinkFirst'));
       } else {
         setStatus(errMsg);
       }
@@ -139,21 +139,21 @@ export function ResetPasswordForm({
 
   return (
     <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.resetTitle')}</h2>
+      <h2 className={css.formTitle}>{t('auth.resetTitle')}</h2>
 
       <div className={css.serverGroup}>
         <Select
-          aria-label={t('welcome.customServer')}
+          aria-label={t('auth.customServer')}
           value={serverSelect}
-          options={[...PRESET_SERVERS, { value: 'custom', label: t('welcome.customServer') }]}
+          options={[...PRESET_SERVERS, { value: 'custom', label: t('auth.customServer') }]}
           onChange={onServerSelect}
           disabled={step !== 'email'}
         />
         {serverSelect === 'custom' && (
           <Input
             type="text"
-            placeholder={t('welcome.serverUrl')}
-            aria-label={t('welcome.serverUrl')}
+            placeholder={t('auth.serverUrl')}
+            aria-label={t('auth.serverUrl')}
             value={customUrl}
             onChange={(e) => onCustomUrlChange(e.target.value)}
             onBlur={onRetryDiscovery}
@@ -165,25 +165,25 @@ export function ResetPasswordForm({
       {isChecking ? (
         <div className={css.checkingServer}>
           <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
           {isDelegatedAuth ? (
             <>
-              <p className={css.infoText}>{t('welcome.resetDelegatedInfo')}</p>
+              <p className={css.infoText}>{t('auth.resetDelegatedInfo')}</p>
               <Button fullWidth size="lg" variant="primary" onClick={handleOpenAccountPortal}>
-                {t('welcome.resetOpenAccountPortal')}
+                {t('auth.resetOpenAccountPortal')}
               </Button>
             </>
           ) : (
             <>
               {step === 'email' && (
                 <>
-                  <p className={css.infoText}>{t('welcome.resetEmailPrompt')}</p>
+                  <p className={css.infoText}>{t('auth.resetEmailPrompt')}</p>
                   <Input
                     type="email"
-                    placeholder={t('welcome.emailPlaceholder')}
+                    placeholder={t('auth.emailPlaceholder')}
                     aria-label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -197,18 +197,18 @@ export function ResetPasswordForm({
                     onClick={handleRequestReset}
                     disabled={loading}
                   >
-                    {loading ? t('welcome.sending') : t('welcome.resetSendCode')}
+                    {loading ? t('auth.sending') : t('auth.resetSendCode')}
                   </Button>
                 </>
               )}
 
               {step === 'password' && (
                 <>
-                  <p className={css.infoText}>{t('welcome.resetCheckEmail')}</p>
+                  <p className={css.infoText}>{t('auth.resetCheckEmail')}</p>
                   <Input
                     type="password"
-                    placeholder={t('welcome.password')}
-                    aria-label={t('welcome.password')}
+                    placeholder={t('auth.password')}
+                    aria-label={t('auth.password')}
                     value={newPassword}
                     onChange={(e) => {
                       setNewPassword(e.target.value);
@@ -220,8 +220,8 @@ export function ResetPasswordForm({
                   />
                   <Input
                     type="password"
-                    placeholder={t('welcome.confirmPassword')}
-                    aria-label={t('welcome.confirmPassword')}
+                    placeholder={t('auth.confirmPassword')}
+                    aria-label={t('auth.confirmPassword')}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     autoComplete="new-password"
@@ -231,15 +231,15 @@ export function ResetPasswordForm({
                   />
 
                   <div className={css.passwordReqs}>
-                    <p>{t('welcome.passwordRequirements.title')}</p>
+                    <p>{t('auth.passwordRequirements.title')}</p>
                     <ul>
                       {(
                         [
-                          ['length', t('welcome.passwordRequirements.length')],
-                          ['uppercase', t('welcome.passwordRequirements.uppercase')],
-                          ['lowercase', t('welcome.passwordRequirements.lowercase')],
-                          ['number', t('welcome.passwordRequirements.number')],
-                          ['special', t('welcome.passwordRequirements.special')],
+                          ['length', t('auth.passwordRequirements.length')],
+                          ['uppercase', t('auth.passwordRequirements.uppercase')],
+                          ['lowercase', t('auth.passwordRequirements.lowercase')],
+                          ['number', t('auth.passwordRequirements.number')],
+                          ['special', t('auth.passwordRequirements.special')],
                         ] as [keyof PasswordValidity, string][]
                       ).map(([key, label]) => {
                         const met = pwdValidity[key];
@@ -264,16 +264,16 @@ export function ResetPasswordForm({
                     onClick={handleCompleteReset}
                     disabled={loading}
                   >
-                    {loading ? t('welcome.resetting') : t('welcome.resetComplete')}
+                    {loading ? t('auth.resetting') : t('auth.resetComplete')}
                   </Button>
                 </>
               )}
 
               {step === 'done' && (
                 <>
-                  <p className={css.statusSuccess}>{t('welcome.resetSuccess')}</p>
+                  <p className={css.statusSuccess}>{t('auth.resetSuccess')}</p>
                   <Button fullWidth size="lg" variant="primary" onClick={onBackToLogin}>
-                    {t('welcome.backToLogin')}
+                    {t('auth.backToLogin')}
                   </Button>
                 </>
               )}
@@ -289,7 +289,7 @@ export function ResetPasswordForm({
           {!loading && step !== 'done' && (
             <p className={css.switchText}>
               <button type="button" className={css.switchLink} onClick={onBackToLogin}>
-                {t('welcome.backToLogin')}
+                {t('auth.backToLogin')}
               </button>
             </p>
           )}

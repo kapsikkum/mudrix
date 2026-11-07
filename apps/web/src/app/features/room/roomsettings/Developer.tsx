@@ -66,7 +66,7 @@ export function DeveloperPanel({ roomId, client }: { roomId: string; client: Wiz
       .roomState(roomId)
       .then((state) => setEvents(state.filter(isStateEvent)))
       .catch((err) =>
-        toast.error(t('room.settings.developer.loadFailed', { error: getErrorMessage(err) }))
+        toast.error(t('developer.roomState.loadFailed', { error: getErrorMessage(err) }))
       )
       .finally(() => setLoading(false));
   }, [client, roomId, toast, t]);
@@ -100,7 +100,7 @@ export function DeveloperPanel({ roomId, client }: { roomId: string; client: Wiz
 
   return (
     <div>
-      <h2 className={panelCss.panelTitle}>{t('room.settings.developer.title')}</h2>
+      <h2 className={panelCss.panelTitle}>{t('developer.title')}</h2>
 
       <div className={panelCss.section}>
         <h3 className={panelCss.sectionTitle}>{t('room.settings.general.id')}</h3>
@@ -111,14 +111,14 @@ export function DeveloperPanel({ roomId, client }: { roomId: string; client: Wiz
       </div>
 
       <div className={panelCss.section}>
-        <h3 className={panelCss.sectionTitle}>{t('room.settings.developer.roomState')}</h3>
+        <h3 className={panelCss.sectionTitle}>{t('developer.roomState.title')}</h3>
         <div className={panelCss.flexRow}>
           <div className={panelCss.flexOne}>
             <Input
-              placeholder={t('room.settings.developer.filter')}
+              placeholder={t('developer.roomState.filter')}
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              aria-label={t('room.settings.developer.filter')}
+              aria-label={t('developer.roomState.filter')}
             />
           </div>
           <Button
@@ -126,21 +126,19 @@ export function DeveloperPanel({ roomId, client }: { roomId: string; client: Wiz
             onClick={() => setComposing({ type: '', stateKey: '', content: '{}', state: true })}
           >
             <PaperPlaneTiltIcon size={14} className={panelCss.iconBefore} />
-            {t('room.settings.developer.sendEvent')}
+            {t('developer.roomState.sendEvent')}
           </Button>
         </div>
         <div className={css.panel}>
           <div className={css.toolbar}>
-            <span className={css.count}>
-              {t('room.settings.developer.typeCount', { count: groups.length })}
-            </span>
+            <span className={css.count}>{t('developer.typeCount', { count: groups.length })}</span>
             <Button variant="ghost" size="sm" loading={loading} onClick={refresh}>
               <ArrowClockwiseIcon size={14} className={panelCss.iconBefore} />
               {t('common.refresh')}
             </Button>
           </div>
           {events && groups.length === 0 ? (
-            <div className={panelCss.noResults}>{t('room.settings.developer.empty')}</div>
+            <div className={panelCss.noResults}>{t('developer.roomState.empty')}</div>
           ) : (
             <div className={css.list}>
               {groups.map(({ type, events: list }) => {
@@ -172,7 +170,7 @@ export function DeveloperPanel({ roomId, client }: { roomId: string; client: Wiz
                           onClick={() => setViewing(event)}
                         >
                           <code className={css.rowType}>
-                            {event.state_key || t('room.settings.developer.emptyKey')}
+                            {event.state_key || t('developer.roomState.emptyKey')}
                           </code>
                           <CaretRightIcon size={14} className={css.rowCaret} />
                         </button>
@@ -232,7 +230,7 @@ function StateEventModal({
       open
       onClose={onClose}
       size="lg"
-      title={t('room.settings.developer.stateEvent')}
+      title={t('developer.roomState.stateEvent')}
       titleIcon={<CodeIcon size={18} />}
       footer={
         <>
@@ -278,10 +276,7 @@ function SendEventModal({
   const [stateKey, setStateKey] = useState(initial.stateKey);
   const [json, setJson] = useState(initial.content);
   const [sending, setSending] = useState(false);
-  const { value: content, error: jsonError } = parseObject(
-    json,
-    t('room.settings.developer.notObject')
-  );
+  const { value: content, error: jsonError } = parseObject(json, t('developer.notObject'));
   const canSend = !!content && !!type.trim();
 
   const send = async () => {
@@ -290,10 +285,10 @@ function SendEventModal({
     try {
       if (isState) await client.setStateEvent(roomId, type.trim(), stateKey, content);
       else await client.sendEvent(roomId, type.trim(), content);
-      toast.success(t('room.settings.developer.sent'));
+      toast.success(t('developer.roomState.sent'));
       onSent(isState);
     } catch (err) {
-      toast.error(t('room.settings.developer.sendFailed', { error: getErrorMessage(err) }));
+      toast.error(t('developer.roomState.sendFailed', { error: getErrorMessage(err) }));
     } finally {
       setSending(false);
     }
@@ -304,7 +299,7 @@ function SendEventModal({
       open
       onClose={onClose}
       size="lg"
-      title={t('room.settings.developer.sendEvent')}
+      title={t('developer.roomState.sendEvent')}
       titleIcon={<PaperPlaneTiltIcon size={18} />}
       footer={
         <>
@@ -318,17 +313,17 @@ function SendEventModal({
       }
     >
       <ToggleRow
-        label={t('room.settings.developer.stateEvent')}
+        label={t('developer.roomState.stateEvent')}
         description={
           isState
-            ? t('room.settings.developer.stateEventNote')
-            : t('room.settings.developer.timelineEventNote')
+            ? t('developer.roomState.stateEventNote')
+            : t('developer.roomState.timelineEventNote')
         }
         checked={isState}
         onChange={setIsState}
       />
       <Input
-        label={t('room.settings.developer.eventType')}
+        label={t('developer.eventType')}
         placeholder={isState ? 'org.example.state' : 'org.example.event'}
         value={type}
         onChange={(e) => setType(e.target.value)}
@@ -337,15 +332,15 @@ function SendEventModal({
       />
       {isState && (
         <Input
-          label={t('room.settings.developer.stateKey')}
-          placeholder={t('room.settings.developer.emptyKey')}
+          label={t('developer.roomState.stateKey')}
+          placeholder={t('developer.roomState.emptyKey')}
           value={stateKey}
           onChange={(e) => setStateKey(e.target.value)}
           spellCheck={false}
         />
       )}
       <Textarea
-        label={t('room.settings.developer.content')}
+        label={t('developer.content')}
         className={css.jsonEditor}
         value={json}
         onChange={(e) => setJson(e.target.value)}

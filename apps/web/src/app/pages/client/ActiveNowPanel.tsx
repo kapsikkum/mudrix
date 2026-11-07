@@ -99,13 +99,13 @@ export function ActiveNowPanel({ client }: { client: WizardClient }) {
   }, [rooms, knownById, myId, graph, spaces]);
 
   return (
-    <aside className={css.panel} aria-label={t('home.activeNow')}>
+    <aside className={css.panel} aria-label={t('nav.activeNow')}>
       <div className={sidebarCss.membersSidebarHeader}>
-        <span className={sidebarCss.membersSidebarTitle}>{t('home.activeNow')}</span>
+        <span className={sidebarCss.membersSidebarTitle}>{t('nav.activeNow')}</span>
       </div>
       <div className={css.list}>
         {cards.length === 0 ? (
-          <div className={css.empty}>{t('home.activeNowEmpty')}</div>
+          <div className={css.empty}>{t('nav.activeNowEmpty')}</div>
         ) : (
           cards.map(({ roomId, roomName, spaceName, people, includesMe }) => {
             const shown = people.slice(0, PEOPLE_LIMIT);
@@ -132,7 +132,7 @@ export function ActiveNowPanel({ client }: { client: WizardClient }) {
                   ))}
                   {people.length > shown.length && (
                     <span className={css.more}>
-                      {t('home.morePeople', { count: people.length - shown.length })}
+                      {t('nav.morePeople', { count: people.length - shown.length })}
                     </span>
                   )}
                 </div>
@@ -145,7 +145,7 @@ export function ActiveNowPanel({ client }: { client: WizardClient }) {
                     else void joinVoiceRoom(roomId);
                   }}
                 >
-                  {includesMe ? t('home.open') : t('home.join')}
+                  {includesMe ? t('common.open') : t('common.join')}
                 </Button>
               </div>
             );

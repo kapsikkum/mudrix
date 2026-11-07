@@ -71,10 +71,10 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
     fun role(member: Member) = if (member.level >= 100) 0 else if (member.level >= 50) 1 else 2
     fun sorted(list: List<Member>) = list.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
     val groups = listOf(
-        "room.admins" to sorted(joined.filter { role(it) == 0 }),
-        "room.moderators" to sorted(joined.filter { role(it) == 1 }),
+        "room.members.admins" to sorted(joined.filter { role(it) == 0 }),
+        "room.members.moderators" to sorted(joined.filter { role(it) == 1 }),
         "common.members" to sorted(joined.filter { role(it) == 2 }),
-        "room.invited" to sorted(filtered.filter { it.isInvite }),
+        "room.members.invited" to sorted(filtered.filter { it.isInvite }),
     ).filter { it.second.isNotEmpty() }
 
     SheetPage {
@@ -90,7 +90,7 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                 if (canInvite) {
                     item {
                         GroupedSection {
-                            ActionRow(tr("room.invitePeople"), "user-plus", { showInvite = true })
+                            ActionRow(tr("room.members.invite"), "user-plus", { showInvite = true })
                         }
                     }
                 }
@@ -262,7 +262,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             }
             if (!isMe) {
                 item {
-                    GroupedSection(footer = tr("room.ignoringHidesTheirMessages")) {
+                    GroupedSection(footer = tr("room.members.ignoreHint")) {
                         if (canKick) {
                             ActionRow(tr("profile.kick"), "user-minus", { confirm = ProfileAction.Kick }, theme.danger)
                             RowDivider()
@@ -282,9 +282,9 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     confirm?.let { action ->
         val who = name ?: userId
         val title = when (action) {
-            ProfileAction.Kick -> L10n.format("room.removeUser", who)
-            ProfileAction.Ban -> L10n.format("room.banUser", who)
-            ProfileAction.Ignore -> L10n.format("room.ignoreUser", who)
+            ProfileAction.Kick -> L10n.format("room.members.removeConfirm", who)
+            ProfileAction.Ban -> L10n.format("room.members.banConfirm", who)
+            ProfileAction.Ignore -> L10n.format("room.members.ignoreConfirm", who)
         }
         val label = when (action) {
             ProfileAction.Kick -> tr("common.remove")
@@ -295,7 +295,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             title,
             reason,
             { reason = it },
-            tr("room.members.reasonLabel"),
+            tr("common.reasonOptional"),
             label,
             onConfirm = { perform(action) },
             onDismiss = { confirm = null },
@@ -320,9 +320,9 @@ internal data class RoleRights(val ownLevel: Long, val canEditLevels: Boolean) {
 }
 
 internal enum class RoleLevel(val value: Long, val titleKey: String, val whoKey: String) {
-    Member(0, "profile.roleMember", "room.everyone"),
-    Moderator(50, "profile.roleModerator", "room.moderators"),
-    Admin(100, "profile.roleAdmin", "room.admins"),
+    Member(0, "room.members.member", "room.members.everyone"),
+    Moderator(50, "room.members.moderator", "room.members.moderators"),
+    Admin(100, "room.members.admin", "room.members.admins"),
     ;
 
     companion object {
@@ -332,11 +332,11 @@ internal enum class RoleLevel(val value: Long, val titleKey: String, val whoKey:
 
 /** The name of a power level: creator, admin, moderator, member or a custom number */
 internal fun roleName(level: Long): String = when {
-    level == Long.MAX_VALUE -> L10n.format("room.creator")
-    level >= 100 -> L10n.format("profile.roleAdmin")
-    level >= 50 -> L10n.format("profile.roleModerator")
-    level == 0L -> L10n.format("profile.roleMember")
-    else -> L10n.format("room.customLevel", "$level")
+    level == Long.MAX_VALUE -> L10n.format("room.members.owner")
+    level >= 100 -> L10n.format("room.members.admin")
+    level >= 50 -> L10n.format("room.members.moderator")
+    level == 0L -> L10n.format("room.members.member")
+    else -> L10n.format("room.members.customLevel", "$level")
 }
 
 /** The role row in a profile; picking a level that can't be undone asks first */
@@ -383,11 +383,11 @@ private fun RoleMenu(roomId: String, userId: String, currentLevel: Long, rights:
     ErrorText(error)
     confirmLevel?.let { level ->
         ConfirmDialog(
-            title = tr(if (isSelf) "room.lowerYourOwnRole" else "room.giveThemYourLevel"),
-            confirmLabel = tr("room.changeRole"),
+            title = tr(if (isSelf) "room.members.selfDemoteTitle" else "room.members.equalLevelTitle"),
+            confirmLabel = tr("room.members.changeRole"),
             onConfirm = { set(level) },
             onDismiss = { confirmLevel = null },
-            message = tr(if (isSelf) "room.selfDemoteWarning" else "room.equalLevelWarning"),
+            message = tr(if (isSelf) "room.members.selfDemoteWarning" else "room.members.equalLevelWarning"),
         )
     }
 }

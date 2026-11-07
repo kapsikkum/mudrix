@@ -540,7 +540,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       if (!client) return;
       openContextMenu(e, [
         {
-          label: t('room.sections.rename'),
+          label: t('common.rename'),
           icon: <PencilSimpleIcon size={14} />,
           onClick: async () => {
             const name = (
@@ -675,7 +675,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           kind: 'space',
           roomId: spaceFavKey,
           categoryKey: spaceFavKey,
-          name: t('room.favourites'),
+          name: t('nav.favourites'),
           avatarMxc: null,
           hasNotif: favHasNotif,
           hasMention: favHasMention,
@@ -882,7 +882,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       items.push({
         kind: 'header',
         itemKey,
-        label: itemKey === HOME_FAVOURITES_CATEGORY ? t('room.favourites') : t('room.title'),
+        label: itemKey === HOME_FAVOURITES_CATEGORY ? t('nav.favourites') : t('nav.rooms'),
         hasNotif,
         hasMention,
         showAdd: itemKey === HOME_ROOMS_CATEGORY,
@@ -1113,7 +1113,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
       save.catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [client, spaceGraph, toast, t]
@@ -1159,7 +1159,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
   const renderReorderOverlay = (roomId: string) => {
     if (roomId === roomsHeaderId) {
-      return <HomeCategoryHeader label={t('room.title')} isClosed={false} onToggle={noop} />;
+      return <HomeCategoryHeader label={t('nav.rooms')} isClosed={false} onToggle={noop} />;
     }
     if (roomId.startsWith('sec:')) {
       const tag = roomId.slice('sec:'.length);
@@ -1411,8 +1411,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const headerLabel = isDmView
     ? t('room.dm.directMessages')
     : isSpaceContext
-      ? (currentSpaceDetails?.name ?? currentSpaceEntry?.name ?? t('room.home'))
-      : t('room.home');
+      ? (currentSpaceDetails?.name ?? currentSpaceEntry?.name ?? t('nav.home'))
+      : t('nav.home');
 
   const renderSpaceList = () => {
     return (
@@ -1594,7 +1594,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     if (dms.length === 0) {
       return (
         <div ref={roomListRef} className={css.roomList}>
-          <div className={css.emptyList}>{t('room.noDms')}</div>
+          <div className={css.emptyList}>{t('nav.noDms')}</div>
         </div>
       );
     }

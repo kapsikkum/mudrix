@@ -226,7 +226,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             } else {
             SheetPage {
                 SheetBar(
-                    tr(if (room.isDirect) "room.conversation" else "room.roomInfo"),
+                    tr(if (room.isDirect) "room.info.conversation" else "room.info.title"),
                     trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) },
                 )
                 FormList(Modifier.weight(1f)) {
@@ -254,7 +254,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                         item {
                             GroupedSection(header = tr("settings.about.title")) {
                                 if (canEditName) {
-                                    LabeledFormField(tr("dialogs.name")) { FormField(name, { name = it }, tr("dialogs.name"), horizontalPadding = 0.dp, verticalPadding = WZ.Space.space1) }
+                                    LabeledFormField(tr("common.name")) { FormField(name, { name = it }, tr("common.name"), horizontalPadding = 0.dp, verticalPadding = WZ.Space.space1) }
                                 }
                                 if (canEditName && canEditTopic) RowDivider()
                                 if (canEditTopic) {
@@ -314,7 +314,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                                 RowDivider()
                                 NavRow(tr("room.settings.emojis.title"), "smiley", { push(PeoplePage.Packs(room.id)) })
                                 RowDivider()
-                                NavRow(tr("widgets.title"), "puzzle-piece", { push(PeoplePage.Widgets(canManageWidgets)) })
+                                NavRow(tr("room.settings.widgets.title"), "puzzle-piece", { push(PeoplePage.Widgets(canManageWidgets)) })
                                 if (bridges.isNotEmpty()) {
                                     RowDivider()
                                     NavRow(tr("room.settings.bridges.title"), "plugs-connected", { push(PeoplePage.Bridges) }, value = "${bridges.size}")
@@ -322,10 +322,10 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             }
                             if (canInvite) {
                                 RowDivider()
-                                ActionRow(tr("room.invitePeople"), "user-plus", { showInvite = true })
+                                ActionRow(tr("room.members.invite"), "user-plus", { showInvite = true })
                             }
                             RowDivider()
-                            CopyRow(tr("room.copyRoomLink"), "link-simple", "https://matrix.to/#/${alias ?: room.id}")
+                            CopyRow(tr("room.info.copyLink"), "link-simple", "https://matrix.to/#/${alias ?: room.id}")
                             RowDivider()
                             ToggleRow(tr("room.favourite"), isFavourite, { value ->
                                 isFavourite = value
@@ -337,7 +337,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                     item {
                         GroupedSection {
                             ActionRow(
-                                tr(if (room.isDirect) "room.leaveConversation" else "room.leaveRoom"),
+                                tr(if (room.isDirect) "room.info.leaveConversation" else "room.leaveRoom"),
                                 "sign-out",
                                 { confirmLeave = true },
                                 theme.danger,
@@ -394,7 +394,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             }
             if (confirmLeave) {
                 ConfirmDialog(
-                    title = L10n.format("room.leaveNamed2", room.displayName),
+                    title = L10n.format("room.info.leaveConfirm", room.displayName),
                     confirmLabel = tr("common.leave"),
                     onConfirm = {
                         scope.launch {
@@ -427,7 +427,7 @@ private fun RoomAvatar(name: String, url: String?, canEdit: Boolean, onPick: () 
         Avatar(name, url, WZ.SizeAvatar.xl, cornerRadius)
         return
     }
-    val label = tr("room.changeRoomPicture")
+    val label = tr("room.info.changePicture")
     Box(
         Modifier
             .clip(if (cornerRadius == null) CircleShape else RoundedCornerShape(cornerRadius))

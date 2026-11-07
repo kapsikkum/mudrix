@@ -100,7 +100,7 @@ struct MessageMenuOverlay: View {
                     .background(theme.fill, in: Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "emoji.react"))
+            .accessibilityLabel(String(localized: "timeline.addReaction"))
         }
         .padding(.horizontal, WZ.Space.space3)
         .padding(.vertical, WZ.Space.space2)

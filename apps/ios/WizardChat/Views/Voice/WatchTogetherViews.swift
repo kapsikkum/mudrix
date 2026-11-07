@@ -254,7 +254,7 @@ struct WatchTogetherStage: View {
                                   onUpdate: { playing, position in watch.update(playing: playing, position: position) },
                                   onFailed: { failed = true })
                 if failed {
-                    Text(String(localized: "voice.videoUnplayable"))
+                    Text(String(localized: "call.watchTogether.videoUnplayable"))
                         .font(.wizard(WZ.FontSize.md, .semibold))
                         .foregroundStyle(theme.textOnAccent)
                         .padding()
@@ -263,7 +263,7 @@ struct WatchTogetherStage: View {
             .aspectRatio(16 / 9, contentMode: .fit)
             .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             HStack(spacing: WZ.Space.space4) {
-                Label(L10n.format("voice.startedBy", "\(starterName ?? state.startedBy)"), image: "ph-youtube-logo-fill")
+                Label(L10n.format("call.watchTogether.startedBy", "\(starterName ?? state.startedBy)"), image: "ph-youtube-logo-fill")
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .foregroundStyle(theme.textMuted)
                     .lineLimit(1)
@@ -271,24 +271,24 @@ struct WatchTogetherStage: View {
                 smallButton("ph-arrow-square-out-regular", label: "call.watchTogether.openOnYouTube") {
                     openURL(WatchTogether.watchURL(state.videoId, seconds: state.expectedPosition()))
                 }
-                smallButton("ph-eye-slash-regular", label: "voice.stopWatchingJustYou") { watch.watchingVideoId = nil }
-                smallButton("ph-x-regular", label: "voice.stopForEveryone", tint: theme.danger) { confirmStop = true }
+                smallButton("ph-eye-slash-regular", label: "call.watchTogether.stopJustMe") { watch.watchingVideoId = nil }
+                smallButton("ph-x-regular", label: "call.watchTogether.stopForEveryone", tint: theme.danger) { confirmStop = true }
             }
         }
-        .confirmationDialog(String(localized: "voice.stopWatchingTogetherFor"), isPresented: $confirmStop, titleVisibility: .visible) {
-            Button(String(localized: "voice.stopForEveryone"), role: .destructive) { watch.stop() }
+        .confirmationDialog(String(localized: "call.watchTogether.stopConfirm"), isPresented: $confirmStop, titleVisibility: .visible) {
+            Button(String(localized: "call.watchTogether.stopForEveryone"), role: .destructive) { watch.stop() }
         }
         .onChange(of: state.videoId) { _, _ in failed = false }
     }
 
     private func invite(_ state: WatchState) -> some View {
         VStack(alignment: .leading, spacing: WZ.Space.space4) {
-            Label(L10n.format("voice.isWatchingAYoutube", "\(starterName ?? state.startedBy)"),
+            Label(L10n.format("call.watchTogether.isWatching", "\(starterName ?? state.startedBy)"),
                   image: "ph-youtube-logo-fill")
                 .font(.wizard(WZ.FontSize.md, .semibold))
                 .foregroundStyle(theme.textPrimary)
             if !watch.consent {
-                Text(String(localized: "voice.watchingLoadsTheVideo"))
+                Text(String(localized: "call.watchTogether.consentNote"))
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)
             }
@@ -329,23 +329,23 @@ struct WatchTogetherStartSheet: View {
         NavigationStack {
             ThemedForm {
                 Section {
-                    TextField("https://www.youtube.com/watch?v=…", text: $link)
+                    TextField("https://www.youtube.com/watch?v=...", text: $link)
                         .keyboardType(.URL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .onSubmit(start)
                     if UIPasteboard.general.hasURLs || UIPasteboard.general.hasStrings {
                         Button { link = UIPasteboard.general.string ?? link } label: {
-                            Label(String(localized: "voice.pasteLink"), image: "ph-clipboard-text-regular")
+                            Label(String(localized: "call.watchTogether.pasteLink"), image: "ph-clipboard-text-regular")
                         }
                     }
                 } header: {
                     Text(String(localized: "call.watchTogether.linkLabel"))
                 } footer: {
                     if invalid {
-                        Text(String(localized: "voice.notYoutubeLink")).foregroundStyle(theme.error)
+                        Text(String(localized: "call.watchTogether.invalidLink")).foregroundStyle(theme.error)
                     } else {
-                        Text(String(localized: "voice.everyoneInTheCall"))
+                        Text(String(localized: "call.watchTogether.joinNote"))
                     }
                 }
             }

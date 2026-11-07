@@ -98,7 +98,7 @@ fun PinnedMessagesScreen(room: RoomSummary, client: WizardClient, canPin: Boolea
             }
             if (messages.isEmpty()) {
                 EmptyState(
-                    tr("pins.empty"),
+                    tr("timeline.pinnedEmpty"),
                     "push-pin",
                     Modifier.align(Alignment.Center),
                     description = tr("timeline.pinImportantMessagesFrom"),

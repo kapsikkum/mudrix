@@ -121,7 +121,7 @@ struct VerificationSheet: View {
     @ObservedObject var model: VerificationModel
 
     private var title: String {
-        if case .ownDevice = model.start { return String(localized: "settings.verifyWithAnotherDevice") }
+        if case .ownDevice = model.start { return String(localized: "settings.encryption.verifyWithDevice") }
         return String(localized: "verification.verifyDevice")
     }
 
@@ -133,7 +133,7 @@ struct VerificationSheet: View {
                     ProgressView().tint(theme.accent)
                     Group {
                         if case .ownDevice = model.start {
-                            Text(String(localized: "settings.openWizardchatOrAnother"))
+                            Text(String(localized: "verification.otherDeviceHint"))
                         } else {
                             Text(String(localized: "verification.waitingForOther"))
                         }
@@ -155,9 +155,9 @@ struct VerificationSheet: View {
                     }
                 case .waitingForEmojis:
                     ProgressView().tint(theme.accent)
-                    Text(String(localized: "settings.waitingForTheOther"))
+                    Text(String(localized: "verification.waitingForOtherDevice"))
                 case .compare(let emojis):
-                    Text(String(localized: "settings.checkThatTheseEmojis"))
+                    Text(String(localized: "verification.compareEmojis"))
                         .multilineTextAlignment(.center)
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: WZ.Space.space5) {
                         ForEach(Array(emojis.enumerated()), id: \.offset) { _, emoji in
@@ -178,13 +178,13 @@ struct VerificationSheet: View {
                     }
                 case .done:
                     Image("ph-shield-check-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.success)
-                    Text(String(localized: "settings.sessions.verified")).font(.wizard(WZ.FontSize.lg, .bold))
+                    Text(String(localized: "common.verified")).font(.wizard(WZ.FontSize.lg, .bold))
                     Button(String(localized: "common.done")) { dismiss() }.buttonStyle(PrimaryButtonStyle())
                 case .failed(let message):
                     Image("ph-x-circle-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.error)
                     Text(message).multilineTextAlignment(.center)
                 case .cancelled:
-                    Text(String(localized: "settings.verificationWasCancelled"))
+                    Text(String(localized: "verification.cancelled"))
                 }
                 Spacer()
             }

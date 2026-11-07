@@ -820,12 +820,12 @@ export function MessageContent({
           </Tooltip>
           {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
         </span>
-        <Tooltip content={t('mediaLightbox.download')}>
+        <Tooltip content={t('common.download')}>
           <a
             href={src}
             download={filename}
             className={css.fileDownload}
-            aria-label={t('mediaLightbox.download')}
+            aria-label={t('common.download')}
           >
             <DownloadSimpleIcon size={16} />
           </a>

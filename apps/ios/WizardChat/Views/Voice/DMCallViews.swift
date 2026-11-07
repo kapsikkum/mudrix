@@ -11,7 +11,7 @@ struct IncomingCallBanner: View {
     @State private var pulse = false
 
     private var kindLabel: String {
-        let kind = call.voiceOnly ? String(localized: "voice.incomingVoiceCall") : String(localized: "voice.incomingVideoCall")
+        let kind = call.voiceOnly ? String(localized: "call.incomingVoiceCall") : String(localized: "call.incomingVideoCall")
         guard let room = session.roomList?.room(id: call.roomId), !room.isDirect else { return kind }
         return "\(kind) · \(room.displayName)"
     }
@@ -39,7 +39,7 @@ struct IncomingCallBanner: View {
         .floatingGlass(in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
         .padding(.horizontal, WZ.Space.space5)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(L10n.format("voice.incomingCallFrom", "\(name ?? call.callerId)"))
+        .accessibilityLabel(L10n.format("call.incomingFrom", "\(name ?? call.callerId)"))
         .task(id: call.callerId) {
             let profile = await session.memberProfile(call.callerId, in: call.roomId)
             name = profile.name
@@ -84,7 +84,7 @@ struct DMCallScreen: View {
                         .floatingGlass(in: Circle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(String(localized: "voice.minimizeCall"))
+                .accessibilityLabel(String(localized: "call.minimize"))
                 Spacer()
                 Text(calls.room?.name ?? "")
                     .font(.wizard(WZ.FontSize.lg, .semibold))
@@ -128,16 +128,16 @@ struct DMCallScreen: View {
                 .foregroundStyle(theme.textPrimary)
             Group {
                 switch calls.ring {
-                case .ringing: Text(String(localized: "voice.ringing"))
-                case .declined: Text(String(localized: "voice.callDeclined"))
-                case .unanswered: Text(String(localized: "call.noAnswer"))
-                case nil: Text(calls.state == .joining ? String(localized: "voice.statusConnecting") : String(localized: "voice.waitingForThemTo"))
+                case .ringing: Text(String(localized: "call.ringing"))
+                case .declined: Text(String(localized: "call.event.declined"))
+                case .unanswered: Text(String(localized: "call.event.unanswered"))
+                case nil: Text(calls.state == .joining ? String(localized: "call.statusConnecting") : String(localized: "call.waitingForThem"))
                 }
             }
             .font(.wizard(WZ.FontSize.lg))
             .foregroundStyle(calls.ring == .declined ? theme.danger : theme.textMuted)
             if calls.ring == .declined || calls.ring == .unanswered {
-                Button { calls.ringAgain() } label: { Label(String(localized: "voice.callAgain"), image: "ph-phone-outgoing-regular") }
+                Button { calls.ringAgain() } label: { Label(String(localized: "call.callAgain"), image: "ph-phone-outgoing-regular") }
                     .buttonStyle(PrimaryButtonStyle())
                     .frame(maxWidth: WZ.Size.sidebar)
             }
@@ -160,7 +160,7 @@ struct JoinCallBar: View {
                 .foregroundStyle(theme.textOnAccent)
                 .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                 .background(theme.success, in: Circle())
-            Text(room.inCallElsewhere ? String(localized: "call.inCallElsewhere") : String(localized: "voice.callInProgress"))
+            Text(room.inCallElsewhere ? String(localized: "call.inCallElsewhere") : String(localized: "call.inProgress"))
                 .font(.wizard(WZ.FontSize.md, .semibold))
                 .foregroundStyle(theme.textPrimary)
                 .lineLimit(2)

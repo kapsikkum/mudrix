@@ -130,7 +130,7 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 ) {
                     Text(tr("settings.appearance.textSize"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                     Text(
-                        tr("settings.textSizePx", "${prefs.chatFontSize.toInt()}"),
+                        tr("settings.appearance.textSizePx", "${prefs.chatFontSize.toInt()}"),
                         style = wizardFont(WZ.FontSize.sm, FontWeight.Medium),
                         color = theme.textMuted,
                     )
@@ -342,7 +342,7 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                 note = tr("settings.privacy.typingIndicatorsNote"),
             )
             SettingsDivider()
-            ToggleRow(tr("settings.readReceipts"), prefs.sendReadReceipts, { prefs.sendReadReceipts = it }, note = tr("settings.letOtherUsersKnow"))
+            ToggleRow(tr("settings.privacy.readReceipts"), prefs.sendReadReceipts, { prefs.sendReadReceipts = it }, note = tr("settings.privacy.readReceiptsNote"))
         }
         SettingsSection(tr("settings.privacy.media")) {
             PickerRow(
@@ -357,7 +357,7 @@ internal fun PrivacySettings(onBack: () -> Unit) {
             )
         }
         SettingsSection(tr("settings.privacy.other")) {
-            ToggleRow(tr("settings.showUserPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.displayWhenUsersAre"))
+            ToggleRow(tr("settings.privacy.presence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.presenceNote"))
         }
     }
 }
@@ -388,13 +388,13 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
     val session = LocalSession.current
     var tokenExpanded by remember { mutableStateOf(false) }
     var showAccountData by remember { mutableStateOf(false) }
-    SettingsPage(tr("settings.developer.title"), onBack) {
+    SettingsPage(tr("developer.title"), onBack) {
         SettingsSection {
             ToggleRow(
-                tr("settings.developer.enable"),
+                tr("developer.enable"),
                 prefs.developerMode,
                 { prefs.developerMode = it },
-                note = tr("settings.developer.enableDescription"),
+                note = tr("developer.enableDescription"),
             )
         }
         if (prefs.developerMode) {
@@ -408,7 +408,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                         .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(tr("settings.developer.accessToken"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
+                    Text(tr("developer.accessToken"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                     Box(Modifier.rotate(rotation)) {
                         PhIcon("caret-right", org.wizardchat.android.ui.PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.accent)
                     }
@@ -420,13 +420,13 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
                         ) {
                             PhIcon("warning", size = WZ.SizeIcon.sm, tint = theme.warningColor)
-                            Text(tr("settings.developer.accessTokenWarning"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
+                            Text(tr("developer.accessTokenWarning"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
                         }
-                        CopyRow(tr("settings.developer.accessToken"), session.client?.session?.accessToken ?: "", secret = true)
+                        CopyRow(tr("developer.accessToken"), session.client?.session?.accessToken ?: "", secret = true)
                     }
                 }
                 SettingsDivider()
-                CopyRow(tr("settings.developer.homeserverUrl"), session.client?.session?.homeserverUrl ?: "")
+                CopyRow(tr("developer.homeserverUrl"), session.client?.session?.homeserverUrl ?: "")
                 session.deviceId?.let { deviceId ->
                     SettingsDivider()
                     CopyRow(tr("settings.sessions.deviceId"), deviceId)
@@ -434,7 +434,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
             }
             SettingsSection {
                 Text(
-                    tr("settings.developer.accountData"),
+                    tr("developer.accountData.title"),
                     Modifier
                         .fillMaxWidth()
                         .clickable { showAccountData = true }
@@ -466,7 +466,7 @@ internal fun AboutSettings(onBack: () -> Unit) {
             SettingsItem(horizontalAlignment = Alignment.CenterHorizontally) {
                 WizardLogo(size = WZ.Space.space12)
                 Text(tr("app.name"), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary)
-                Text(tr("welcome.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                Text(tr("auth.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 Text(version, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
             SettingsItem {

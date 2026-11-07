@@ -34,8 +34,8 @@ extension String {
         let start = index(range.lowerBound, offsetBy: -radius, limitedBy: startIndex) ?? startIndex
         let end = index(range.upperBound, offsetBy: radius, limitedBy: endIndex) ?? endIndex
         var piece = String(self[start..<end]).replacingOccurrences(of: "\n", with: " ")
-        if start > startIndex { piece = "…" + piece }
-        if end < endIndex { piece += "…" }
+        if start > startIndex { piece = "..." + piece }
+        if end < endIndex { piece += "..." }
         return piece
     }
 }
@@ -86,10 +86,10 @@ struct RoomSearchView: View {
         .overlay {
             if needle.isEmpty {
                 ContentUnavailableView(String(localized: "search.title"), image: "ph-magnifying-glass-regular",
-                                       description: Text(String(localized: "search.findMessagesFilesAnd")))
+                                       description: Text(String(localized: "search.roomHint")))
             }
         }
-        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: String(localized: "search.searchThisRoom"))
+        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: String(localized: "search.thisRoom"))
         .autocorrectionDisabled()
         .navigationTitle(String(localized: "common.search"))
         .navigationBarTitleDisplayMode(.inline)
@@ -121,7 +121,7 @@ struct RoomSearchView: View {
         if !model.reachedStart {
             HStack(spacing: WZ.Space.space4) {
                 ProgressView()
-                Text(String(localized: "search.searchingOlderMessages")).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                Text(String(localized: "search.searchingOlder")).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
             }
             .frame(maxWidth: .infinity)
             .padding(WZ.Space.space6)
@@ -221,7 +221,7 @@ struct GlobalSearchResults: View {
                 }
             }
             if rooms.isEmpty && spaces.isEmpty && (prefix != nil || text.count < 3) {
-                Text(String(localized: "room.header.noResults")).font(.wizard(WZ.FontSize.md)).foregroundStyle(theme.textMuted)
+                Text(String(localized: "common.noResults")).font(.wizard(WZ.FontSize.md)).foregroundStyle(theme.textMuted)
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
             }

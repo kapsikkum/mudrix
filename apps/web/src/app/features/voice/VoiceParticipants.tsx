@@ -161,7 +161,7 @@ function CompactParticipants({
         </Tooltip>
       ))}
       {rest > 0 && (
-        <span className={css.compactMore} aria-label={t('voice.moreParticipants', { count: rest })}>
+        <span className={css.compactMore} aria-label={t('call.moreParticipants', { count: rest })}>
           +{rest}
         </span>
       )}

@@ -22,8 +22,8 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
-            tabItem(.home, title: "room.home", icon: "house", unread: roomList.unreadState(of: .home))
-            tabItem(.dms, title: "roomSwitcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
+            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
             tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
             SwiftUI.Tab(value: Tab.me) {
                 tabContent(.me).tint(theme.control)
@@ -31,7 +31,7 @@ struct MainTabView: View {
                 Group {
                     if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
                 }
-                .accessibilityLabel(String(localized: "mobileNav.you"))
+                .accessibilityLabel(String(localized: "nav.you"))
             }
         }
         .tint(theme.accent)

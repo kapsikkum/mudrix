@@ -217,7 +217,7 @@ const handleJoinVoice: CommandHandler = async (args, ctx) => {
 };
 
 const handleCall: CommandHandler = async (args, ctx) => {
-  if (ctx.callActive) throw new Error(ctx.t('voice.toastAlreadyInCall'));
+  if (ctx.callActive) throw new Error(ctx.t('call.toastAlreadyInCall'));
   if (!ctx.placeCall) throw new Error(ctx.t('timeline.commands.callUnavailable'));
   const targetRoomId = await resolveTargetRoomId(ctx, args);
   await ctx.placeCall(targetRoomId);
@@ -228,7 +228,7 @@ const handleHangup: CommandHandler = async (_args, ctx) => {
     ctx.hangup?.();
     return;
   }
-  throw new Error(ctx.t('voice.noActiveCall'));
+  throw new Error(ctx.t('call.noActiveCall'));
 };
 
 const handlePart: CommandHandler = async (

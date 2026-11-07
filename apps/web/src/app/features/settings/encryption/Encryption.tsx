@@ -25,7 +25,7 @@ export function Encryption() {
     const reload = await confirm({
       title: t('settings.encryption.excludeInsecure'),
       message: t('settings.encryption.excludeInsecureReload'),
-      confirmLabel: t('auth.reloadNow'),
+      confirmLabel: t('common.reloadNow'),
       danger: false,
     });
     if (reload) window.location.reload();
@@ -49,7 +49,7 @@ export function Encryption() {
             <SpinnerGapIcon size={18} className="icon-spin" />
           ) : status === 'no-identity' ? (
             <Button variant="primary" loading={recovery.loading} onClick={resetIdentity}>
-              {t('verifySession.setupButton')}
+              {t('verification.session.setupButton')}
             </Button>
           ) : (
             <span className={encryptionCss.activeBadge}>

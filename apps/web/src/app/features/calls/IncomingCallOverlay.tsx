@@ -28,7 +28,7 @@ export function IncomingCallOverlay({
   const { t } = useTranslation();
   const avatarMxc = useProfile(callerId).data?.avatarUrl ?? null;
   const CallIcon = voiceOnly ? PhoneIcon : VideoCameraIcon;
-  const kind = voiceOnly ? t('voice.incomingVoiceCall') : t('voice.incomingVideoCall');
+  const kind = voiceOnly ? t('call.incomingVoiceCall') : t('call.incomingVideoCall');
 
   return (
     <div className={css.overlay} role="alertdialog" aria-label={`${kind}: ${callerName}`}>
@@ -43,22 +43,22 @@ export function IncomingCallOverlay({
         </span>
         {roomName && <span className={css.roomName}>{roomName}</span>}
       </div>
-      <Tooltip content={t('voice.declineShort')}>
+      <Tooltip content={t('common.decline')}>
         <button
           type="button"
           className={css.declineBtn}
           onClick={onDecline}
-          aria-label={t('voice.declineShort')}
+          aria-label={t('common.decline')}
         >
           <PhoneXIcon size={18} weight="fill" />
         </button>
       </Tooltip>
-      <Tooltip content={t('voice.acceptShort')}>
+      <Tooltip content={t('common.accept')}>
         <button
           type="button"
           className={css.acceptBtn}
           onClick={onAccept}
-          aria-label={t('voice.acceptShort')}
+          aria-label={t('common.accept')}
         >
           <CallIcon size={18} weight="fill" />
         </button>

@@ -143,7 +143,7 @@ private fun Lobby(room: RoomSummary, onOpenChat: () -> Unit, modifier: Modifier 
             }
             Text(room.displayName, style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
             Text(
-                if (room.callParticipants.isEmpty()) tr("voice.noOneIsHere") else tr("voice.inVoice", room.callParticipants.size),
+                if (room.callParticipants.isEmpty()) tr("call.empty") else tr("call.inVoice", room.callParticipants.size),
                 style = wizardFont(WZ.FontSize.md),
                 color = theme.textMuted,
             )
@@ -190,7 +190,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
         Control(
             if (calls.micMuted) "microphone-slash" else "microphone",
             active = calls.micMuted,
-            label = tr(if (calls.micMuted) "voice.unmute" else "voice.mute"),
+            label = tr(if (calls.micMuted) "call.unmute" else "call.mute"),
         ) {
             light()
             calls.toggleMic()
@@ -199,7 +199,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
             if (calls.deafened) "speaker-slash" else "speaker-high",
             active = calls.deafened,
             weight = if (calls.deafened) PhWeight.regular else PhWeight.fill,
-            label = tr(if (calls.deafened) "voice.undeafen" else "voice.deafen"),
+            label = tr(if (calls.deafened) "call.undeafen" else "call.deafen"),
         ) {
             light()
             calls.toggleDeafen()
@@ -209,12 +209,12 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
             active = false,
             highlighted = calls.cameraOn,
             weight = PhWeight.regular,
-            label = tr(if (calls.cameraOn) "voice.turnCameraOff" else "voice.turnCameraOn"),
+            label = tr(if (calls.cameraOn) "call.turnCameraOff" else "call.turnCameraOn"),
         ) { calls.toggleCamera() }
         Box {
             RoundIconButton(
                 if (calls.handRaised) "hand" else "dots-three",
-                tr("voice.moreReactionsRaiseHand"),
+                tr("call.moreActionsHint"),
                 background = if (moreHighlighted) theme.accent else theme.fill,
                 tint = if (moreHighlighted) theme.textOnAccent else theme.textPrimary,
                 onClick = { showMenu = true },
@@ -247,7 +247,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                     calls.toggleHand()
                 }
                 MenuRow(
-                    tr(if (calls.screenSharing) "voice.stopSharingScreen" else "voice.shareScreen"),
+                    tr(if (calls.screenSharing) "call.stopSharingScreen" else "call.shareScreen"),
                     if (calls.screenSharing) "monitor" else "monitor-arrow-up",
                 ) {
                     showMenu = false
@@ -256,12 +256,12 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                 val watch = calls.watch
                 if (watch != null) {
                     if (watch.state != null) {
-                        MenuRow(tr("voice.stopWatchingTogether"), "stop", PhWeight.fill, color = theme.danger) {
+                        MenuRow(tr("call.watchTogether.stopTogether"), "stop", PhWeight.fill, color = theme.danger) {
                             showMenu = false
                             watch.stop()
                         }
                     } else {
-                        MenuRow(tr("voice.watchTogetherBeta"), "youtube-logo", PhWeight.fill) {
+                        MenuRow(tr("call.watchTogether.menuBeta"), "youtube-logo", PhWeight.fill) {
                             showMenu = false
                             showWatchSheet = true
                         }
@@ -318,7 +318,7 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
     val room = calls.room ?: return
     if (!calls.isInCall) return
     val joined = calls.state == CallManager.State.Joined
-    val returnLabel = tr("voice.returnToCall")
+    val returnLabel = tr("call.returnToCall")
     Row(
         modifier
             .fillMaxWidth()
@@ -350,9 +350,9 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
                 Text(
                     tr(
                         when {
-                            calls.reconnecting -> "voice.statusReconnecting"
-                            joined -> "voice.statusConnected"
-                            else -> "voice.statusConnecting"
+                            calls.reconnecting -> "call.statusReconnecting"
+                            joined -> "call.statusConnected"
+                            else -> "call.statusConnecting"
                         },
                     ),
                     style = wizardFont(WZ.FontSize.sm),
@@ -361,13 +361,13 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
                 )
             }
         }
-        BarControl(if (calls.micMuted) "microphone-slash" else "microphone", calls.micMuted, tr(if (calls.micMuted) "voice.unmute" else "voice.mute")) {
+        BarControl(if (calls.micMuted) "microphone-slash" else "microphone", calls.micMuted, tr(if (calls.micMuted) "call.unmute" else "call.mute")) {
             calls.toggleMic()
         }
         BarControl(
             if (calls.deafened) "speaker-slash" else "speaker-high",
             calls.deafened,
-            tr(if (calls.deafened) "voice.undeafen" else "voice.deafen"),
+            tr(if (calls.deafened) "call.undeafen" else "call.deafen"),
             weight = if (calls.deafened) PhWeight.regular else PhWeight.fill,
         ) { calls.toggleDeafen() }
         RoundIconButton(
@@ -472,7 +472,7 @@ private fun IncomingCallCard(call: RingingCall) {
     val pulse = rememberInfiniteTransition(label = "pulse")
     val progress by pulse.animateFloat(0f, 1f, infiniteRepeatable(tween(1200, easing = LinearEasing), RepeatMode.Restart), label = "ring")
     LaunchedEffect(call) { haptics.performHapticFeedback(HapticFeedbackType.LongPress) }
-    val label = tr("voice.incomingCallFrom", profile.name ?: call.callerId)
+    val label = tr("call.incomingFrom", profile.name ?: call.callerId)
 
     Row(
         Modifier
@@ -496,7 +496,7 @@ private fun IncomingCallCard(call: RingingCall) {
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
             Text(name, style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            val kind = tr(if (call.voiceOnly) "voice.incomingVoiceCall" else "voice.incomingVideoCall")
+            val kind = tr(if (call.voiceOnly) "call.incomingVoiceCall" else "call.incomingVideoCall")
             val room = session.roomList?.room(call.roomId)
             IconLabel(
                 if (room == null || room.isDirect) kind else "$kind · ${room.displayName}",
@@ -557,7 +557,7 @@ private fun DMCallContent(onDismiss: () -> Unit) {
                     .clickable(onClick = onDismiss),
                 contentAlignment = Alignment.Center,
             ) {
-                PhIcon("caret-down", size = WZ.SizeIcon.sm, tint = theme.textPrimary, contentDescription = tr("voice.minimizeCall"))
+                PhIcon("caret-down", size = WZ.SizeIcon.sm, tint = theme.textPrimary, contentDescription = tr("call.minimize"))
             }
             Text(
                 room?.name ?: "",
@@ -598,10 +598,10 @@ private fun Waiting(room: RoomSummary, otherName: String?, otherAvatar: String?,
         Avatar(otherName ?: room.displayName, otherAvatar ?: room.avatarUrl, WZ.SizeAvatar.xxl)
         Text(otherName ?: room.displayName, style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
         val status = when (calls.ring) {
-            CallManager.RingState.ringing -> tr("voice.ringing")
-            CallManager.RingState.declined -> tr("voice.callDeclined")
-            CallManager.RingState.unanswered -> tr("call.noAnswer")
-            null -> tr(if (calls.state == CallManager.State.Joining) "voice.statusConnecting" else "voice.waitingForThemTo")
+            CallManager.RingState.ringing -> tr("call.ringing")
+            CallManager.RingState.declined -> tr("call.event.declined")
+            CallManager.RingState.unanswered -> tr("call.event.unanswered")
+            null -> tr(if (calls.state == CallManager.State.Joining) "call.statusConnecting" else "call.waitingForThem")
         }
         Text(
             status,
@@ -610,7 +610,7 @@ private fun Waiting(room: RoomSummary, otherName: String?, otherAvatar: String?,
             textAlign = TextAlign.Center,
         )
         if (calls.ring == CallManager.RingState.declined || calls.ring == CallManager.RingState.unanswered) {
-            LabelButton(tr("voice.callAgain"), "phone-outgoing", { calls.ringAgain() }, Modifier.widthIn(max = WZ.Size.sidebar))
+            LabelButton(tr("call.callAgain"), "phone-outgoing", { calls.ringAgain() }, Modifier.widthIn(max = WZ.Size.sidebar))
         }
     }
 }
@@ -637,7 +637,7 @@ fun JoinCallBar(room: RoomSummary, modifier: Modifier = Modifier) {
             PhIcon("phone", PhWeight.regular, size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
         }
         Text(
-            tr(if (elsewhere) "call.inCallElsewhere" else "voice.callInProgress"),
+            tr(if (elsewhere) "call.inCallElsewhere" else "call.inProgress"),
             Modifier.weight(1f),
             style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
             color = theme.textPrimary,

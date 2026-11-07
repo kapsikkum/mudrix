@@ -257,7 +257,7 @@ private fun ShareScreen(
                     WizardTextField(
                         message,
                         onMessageChange,
-                        tr("share.addAMessage"),
+                        tr("share.messagePlaceholder"),
                         Modifier.padding(WZ.Space.space3),
                         singleLine = false,
                     )
@@ -268,7 +268,7 @@ private fun ShareScreen(
                     when {
                         restoring -> Box(Modifier.fillMaxWidth().padding(WZ.Space.space6), contentAlignment = Alignment.Center) { Spinner() }
                         allRooms.isEmpty() -> Text(
-                            tr("share.openWizardchatOnceSo"),
+                            tr("share.noRoomsHint"),
                             Modifier.padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
                             style = wizardFont(WZ.FontSize.lg),
                             color = theme.textMuted,

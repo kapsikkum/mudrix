@@ -225,10 +225,10 @@ struct RoomView: View {
                             Label(menu: String(localized: "timeline.videoCall"), icon: "ph-video-camera-regular")
                         }
                     } label: {
-                        Label(String(localized: "voice.startCall"), image: "ph-phone-regular").labelStyle(.iconOnly)
+                        Label(String(localized: "call.startCall"), image: "ph-phone-regular").labelStyle(.iconOnly)
                     }
                     .disabled(room.inCall || calls.isInCall(roomId: room.id))
-                    .accessibilityLabel(String(localized: "voice.startCall"))
+                    .accessibilityLabel(String(localized: "call.startCall"))
                 }
             }
         }
@@ -256,7 +256,7 @@ struct RoomView: View {
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
         .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
-            TextField(String(localized: "room.members.reasonLabel"), text: $reportReason)
+            TextField(String(localized: "common.reasonOptional"), text: $reportReason)
             Button(String(localized: "timeline.reportShort"), role: .destructive) {
                 guard let entry = reporting else { return }
                 let reason = reportReason.isEmpty ? nil : reportReason
@@ -626,7 +626,7 @@ private struct ThreadTitle: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: WZ.Space.space0) {
-            Text(String(localized: "thread.title"))
+            Text(String(localized: "timeline.threadPanel"))
                 .font(.wizard(WZ.FontSize.lg, .semibold))
                 .foregroundStyle(theme.textPrimary)
             Text(room.displayName)

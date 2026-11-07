@@ -124,7 +124,7 @@ fun UserPickerSheet(
             if (failed.isEmpty()) {
                 onDismiss()
             } else {
-                error = L10n.format("dialogs.inviteFailed", failed.joinToString(", "))
+                error = L10n.format("invite.inviteFailed", failed.joinToString(", "))
                 selected = selected.filter { it.userId in failed }
             }
         }
@@ -133,7 +133,7 @@ fun UserPickerSheet(
     WizardSheet(onDismiss) {
         SheetPage {
             SheetBar(
-                title ?: tr(if (isInvite) "room.invitePeople" else "common.newDm"),
+                title ?: tr(if (isInvite) "room.members.invite" else "common.newDm"),
                 leading = { BarTextButton(tr("common.cancel"), onDismiss) },
                 trailing = {
                     if (mode == UserPickerMode.Select) {
@@ -146,7 +146,7 @@ fun UserPickerSheet(
             WizardTextField(
                 query,
                 { query = it },
-                tr("room.nameOrMatrixId"),
+                tr("room.members.searchPlaceholder"),
                 Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
                 keyboardType = KeyboardType.Email,
             )
@@ -166,8 +166,8 @@ fun UserPickerSheet(
                 val people = listOfNotNull(typedId) + results
                 item {
                     val footer = when {
-                        query.isEmpty() -> tr("room.searchByNameOr")
-                        results.isEmpty() && typedId == null && !searching -> tr("room.noOneFound")
+                        query.isEmpty() -> tr("room.members.searchHint")
+                        results.isEmpty() && typedId == null && !searching -> tr("room.members.noOneFound")
                         else -> null
                     }
                     if (people.isEmpty()) {

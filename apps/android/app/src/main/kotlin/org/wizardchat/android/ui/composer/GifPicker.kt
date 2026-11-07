@@ -159,7 +159,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                     "star",
                     if (showFavourites) PhWeight.fill else PhWeight.regular,
                     tint = if (showFavourites) theme.accent else theme.textMuted,
-                    contentDescription = tr("room.favourites"),
+                    contentDescription = tr("nav.favourites"),
                 )
             }
         }

@@ -84,16 +84,16 @@ export function RecoveryKeyModal() {
           <button type="button" className={css.copyBtn} onClick={handleCopy}>
             {copied ? (
               <>
-                <CheckIcon size={14} /> {t('settings.keyBackup.copied')}
+                <CheckIcon size={14} /> {t('common.copied')}
               </>
             ) : (
               <>
-                <CopyIcon size={14} /> {t('settings.keyBackup.copyKey')}
+                <CopyIcon size={14} /> {t('common.copy')}
               </>
             )}
           </button>
           <button type="button" className={css.downloadBtn} onClick={handleDownload}>
-            <DownloadSimpleIcon size={14} /> {t('settings.keyBackup.downloadKey')}
+            <DownloadSimpleIcon size={14} /> {t('common.download')}
           </button>
         </div>
       </div>

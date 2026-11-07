@@ -59,7 +59,7 @@ export function DeviceCard({
 
   const menuItems: ContextMenuItem[] = [
     {
-      label: t('settings.sessions.renameSession'),
+      label: t('common.rename'),
       icon: <PencilSimpleIcon size={16} />,
       onClick: () => {
         setDraft(d.displayName);
@@ -69,7 +69,7 @@ export function DeviceCard({
   ];
   if (!d.isCurrentDevice) {
     menuItems.push({
-      label: t('settings.sessions.remove'),
+      label: t('common.remove'),
       icon: <TrashIcon size={16} />,
       danger: true,
       onClick: () => onRemove(d.deviceId, d.displayName),
@@ -98,7 +98,7 @@ export function DeviceCard({
 
   const lastActivity = d.lastSeenTs
     ? `${formatDateLabel(d.lastSeenTs, t, i18n.language)} ${formatTime(d.lastSeenTs, i18n.language)}`
-    : '—';
+    : '-';
 
   return (
     <div className={d.isCurrentDevice ? css.deviceCardCurrent : css.deviceCard}>
@@ -116,11 +116,11 @@ export function DeviceCard({
               />
             </Tooltip>
           ) : d.isVerified === true ? (
-            <Tooltip content={t('settings.sessions.verified')}>
+            <Tooltip content={t('common.verified')}>
               <span
                 className={css.deviceDotVerified}
                 role="img"
-                aria-label={t('settings.sessions.verified')}
+                aria-label={t('common.verified')}
               />
             </Tooltip>
           ) : null}
@@ -141,7 +141,7 @@ export function DeviceCard({
                   if (e.key === 'Escape') cancelEdit();
                 }}
                 disabled={actionLoading !== null}
-                aria-label={t('settings.sessions.renameSession')}
+                aria-label={t('common.rename')}
               />
               <div className={css.editActions}>
                 <Button
@@ -233,7 +233,7 @@ export function DeviceCard({
           </div>
           <div className={css.detailRow}>
             <span className={css.detailLabel}>{t('settings.sessions.ipAddress')}</span>
-            <span className={css.detailValue}>{d.lastSeenIp ?? '—'}</span>
+            <span className={css.detailValue}>{d.lastSeenIp ?? '-'}</span>
           </div>
         </div>
       )}

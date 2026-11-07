@@ -58,7 +58,7 @@ struct GifPicker: View {
                     }
                     .foregroundStyle(showFavourites ? theme.accent : theme.textMuted)
                     .padding(.trailing, WZ.Space.space3)
-                    .accessibilityLabel(String(localized: "room.favourites"))
+                    .accessibilityLabel(String(localized: "nav.favourites"))
                 }
                 ZStack {
                     grid(showFavourites ? favourites : results)

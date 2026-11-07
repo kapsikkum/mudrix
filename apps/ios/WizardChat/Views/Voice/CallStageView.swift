@@ -16,7 +16,7 @@ struct CallStageView: View {
         ScrollView {
             VStack(spacing: WZ.Space.space5) {
                 if calls.reconnecting {
-                    Label(String(localized: "voice.statusReconnecting"), image: "ph-wifi-slash-regular")
+                    Label(String(localized: "call.statusReconnecting"), image: "ph-wifi-slash-regular")
                         .font(.wizard(WZ.FontSize.sm, .semibold))
                         .foregroundStyle(theme.warningColor)
                 }
@@ -41,7 +41,7 @@ struct CallStageView: View {
         }
         .overlay {
             if calls.state == .joining {
-                ProgressView(String(localized: "voice.statusConnecting"))
+                ProgressView(String(localized: "call.statusConnecting"))
                     .tint(theme.accent)
                     .padding(WZ.Space.space7)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
@@ -134,7 +134,7 @@ private struct ParticipantTile: View {
         .animation(.spring(duration: WZ.MotionDuration.slow), value: participant.reaction)
         .animation(.easeOut(duration: WZ.MotionDuration.fast), value: participant.speaking)
         .accessibilityElement(children: .combine)
-        .accessibilityHint(participant.isLocal ? "" : String(localized: "voice.tapToChangeTheir"))
+        .accessibilityHint(participant.isLocal ? "" : String(localized: "call.volumeHint"))
         .task(id: participant.userId) {
             let profile = await session.memberProfile(participant.userId, in: roomId)
             name = profile.name
@@ -157,7 +157,7 @@ private struct ScreenShareTile: View {
             .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             .overlay(alignment: .bottomLeading) {
-                Label(L10n.format("voice.userScreen", "\(name ?? participant.userId)"), image: "ph-monitor-arrow-up-regular")
+                Label(L10n.format("call.userScreen", "\(name ?? participant.userId)"), image: "ph-monitor-arrow-up-regular")
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .foregroundStyle(theme.textPrimary)
                     .padding(.horizontal, WZ.Space.space4)

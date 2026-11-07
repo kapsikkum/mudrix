@@ -180,7 +180,7 @@ export function UserProfilePopup() {
       setPrompt({
         open: true,
         title: t('room.members.kickConfirm', { name: profile.displayName }),
-        message: t('room.members.reasonLabel'),
+        message: t('common.reasonOptional'),
         defaultValue: '',
         resolve,
       });
@@ -200,7 +200,7 @@ export function UserProfilePopup() {
       setPrompt({
         open: true,
         title: t('room.members.banConfirm', { name: profile.displayName }),
-        message: t('room.members.reasonLabel'),
+        message: t('common.reasonOptional'),
         defaultValue: '',
         resolve,
       });
@@ -623,12 +623,12 @@ export function UserProfilePopup() {
             <span className={css.displayNameRow}>
               <span className={css.displayName}>{profile.displayName}</span>
               {userVerification.verified && (
-                <Tooltip content={t('profile.verified')}>
+                <Tooltip content={t('common.verified')}>
                   <ShieldCheckIcon
                     size={18}
                     weight="fill"
                     className={css.verifiedBadge}
-                    aria-label={t('profile.verified')}
+                    aria-label={t('common.verified')}
                   />
                 </Tooltip>
               )}
@@ -677,7 +677,7 @@ export function UserProfilePopup() {
                   );
                 } catch (err) {
                   toast.error(
-                    t('room.settings.members.permissionsApplyFailed', {
+                    t('room.settings.permissions.saveFailed', {
                       error: getErrorMessage(err),
                     })
                   );
@@ -742,8 +742,8 @@ export function UserProfilePopup() {
             {userVerification.canVerify && !userVerification.verified && (
               <IconButton
                 size="md"
-                tooltip={t('profile.verifyUser')}
-                aria-label={t('profile.verifyUser')}
+                tooltip={t('verification.verifyUser')}
+                aria-label={t('verification.verifyUser')}
                 disabled={startingVerification}
                 onClick={handleVerifyUser}
               >

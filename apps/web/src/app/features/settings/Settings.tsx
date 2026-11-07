@@ -213,7 +213,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       dividerBefore: true,
     },
     { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
-    { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
+    { key: 'developer', label: t('developer.title'), Icon: WrenchIcon },
     { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
   ];
 }
@@ -282,7 +282,7 @@ export function Settings() {
       surface="primary"
       fullscreenOnMobile
       bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
-      ariaLabel={t('settings.userSettings')}
+      ariaLabel={t('settings.title')}
     >
       {isNarrow ? (
         showPage ? (
@@ -295,7 +295,7 @@ export function Settings() {
           </NarrowSettingsPage>
         ) : (
           <NarrowSettingsList
-            title={t('settings.userSettings')}
+            title={t('settings.title')}
             items={NAV}
             onSelect={openPage}
             onClose={close}
@@ -309,7 +309,7 @@ export function Settings() {
       ) : (
         <>
           <nav className={css.nav}>
-            <span className={css.navLabel}>{t('settings.userSettings')}</span>
+            <span className={css.navLabel}>{t('settings.title')}</span>
             {NAV.map((item) => {
               const isActive = activePage === item.key;
               return (

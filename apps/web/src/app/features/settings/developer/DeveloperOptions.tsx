@@ -43,12 +43,12 @@ export function DeveloperOptions() {
 
   return (
     <div>
-      <h2 className={css.panelTitle}>{t('settings.developer.title')}</h2>
+      <h2 className={css.panelTitle}>{t('developer.title')}</h2>
 
       <div className={css.section}>
         <ToggleRow
-          label={t('settings.developer.enable')}
-          description={t('settings.developer.enableDescription')}
+          label={t('developer.enable')}
+          description={t('developer.enableDescription')}
           checked={devModeEnabled}
           onChange={setDevModeEnabled}
         />
@@ -63,14 +63,14 @@ export function DeveloperOptions() {
               onClick={() => setTokenExpanded(!tokenExpanded)}
             >
               {tokenExpanded ? <CaretUpIcon size={14} /> : <CaretDownIcon size={14} />}
-              {t('settings.developer.accessToken')}
+              {t('developer.accessToken')}
             </button>
 
             {tokenExpanded && (
               <div className={css.tokenSection}>
                 <div className={css.warningBox}>
                   <WarningIcon size={14} />
-                  {t('settings.developer.accessTokenWarning')}
+                  {t('developer.accessTokenWarning')}
                 </div>
                 <div className={css.tokenRow}>
                   <code className={css.tokenField}>
@@ -92,7 +92,7 @@ export function DeveloperOptions() {
           <div className={css.divider} />
 
           <div className={css.section}>
-            <h3 className={css.sectionTitle}>{t('settings.developer.homeserverUrl')}</h3>
+            <h3 className={css.sectionTitle}>{t('developer.homeserverUrl')}</h3>
             <div className={css.tokenRow}>
               <code className={css.tokenField}>{homeserverUrl}</code>
               <CopyButton text={homeserverUrl} />

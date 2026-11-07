@@ -119,7 +119,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
             pack = content
             ImagePacks.forget()
         } catch (failure: Exception) {
-            error = L10n.format("settings.failedToSave", failure.text)
+            error = L10n.format("common.saveFailed", failure.text)
         }
     }
 
@@ -135,7 +135,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
             }
             reload()
         } catch (failure: Exception) {
-            error = L10n.format("settings.failedToSave", failure.text)
+            error = L10n.format("common.saveFailed", failure.text)
         }
     }
 
@@ -185,7 +185,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
         SettingsSection(tr("settings.emojisStickers.defaultPack"), tr("settings.emojisStickers.defaultPackNote")) {
             SettingsItem(verticalArrangement = Arrangement.spacedBy(WZ.Space.space5)) {
                 Text(
-                    if (images.size == 1) tr("settings.oneImage") else tr("settings.images", images.size),
+                    trPlural("settings.emojisStickers.imageCount", images.size, images.size),
                     style = wizardFont(WZ.FontSize.sm),
                     color = theme.textMuted,
                 )
@@ -205,7 +205,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
                         )
                     }
                 }
-                Text(tr("settings.longPressAnImage"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                Text(tr("settings.emojisStickers.imageActionsHint"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
         }
 
@@ -299,7 +299,7 @@ private fun ImageGrid(images: List<Pair<String, String>>, onRemove: (String) -> 
                                     ) {
                                         PhIcon("plus", size = WZ.SizeIcon.md, tint = theme.textMuted)
                                     }
-                                    Text(tr("settings.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
+                                    Text(tr("settings.emojisStickers.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
                                 }
                             } else {
                                 var menuOpen by remember { mutableStateOf(false) }

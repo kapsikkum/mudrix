@@ -77,7 +77,7 @@ fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: 
 
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
         WizardTopBar(tr("room.settings.permissions.groups.spaces"), large = true, titleInRow = true) {
-            BarButton("plus", tr("home.createOrJoin"), onCreateSpace)
+            BarButton("plus", tr("nav.createOrJoin"), onCreateSpace)
             BarButton("compass", tr("explore.title"), onExplore)
         }
         WizardTextField(
@@ -190,7 +190,7 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
                 onCreated(spaceId)
                 onDismiss()
             } catch (e: Exception) {
-                errorMessage = L10n.format("explore.failedToJoin", e.message ?: e.toString())
+                errorMessage = L10n.format("common.joinFailed", e.message ?: e.toString())
             } finally {
                 isWorking = false
             }
@@ -199,7 +199,7 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
 
     WizardSheet(onDismiss) {
         SheetTopBar(
-            tr(if (mode == CreateSpaceMode.join) "room.space.join.title" else "space.addASpace"),
+            tr(if (mode == CreateSpaceMode.join) "space.join.title" else "space.addSpace"),
             leading = {
                 if (mode == CreateSpaceMode.choose) {
                     BarTextButton(tr("common.cancel"), onDismiss)
@@ -223,13 +223,13 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
         ) {
             if (mode == CreateSpaceMode.choose) {
                 GroupedSection {
-                    Choice("plus-circle", tr("room.space.create.title"), tr("space.groupRoomsTogetherFor")) { mode = CreateSpaceMode.create }
+                    Choice("plus-circle", tr("space.create.title"), tr("space.addSpaceHint")) { mode = CreateSpaceMode.create }
                     RowDivider()
-                    Choice("link-simple", tr("room.space.join.title"), tr("space.joinWithASpace")) { mode = CreateSpaceMode.join }
+                    Choice("link-simple", tr("space.join.title"), tr("space.joinHint")) { mode = CreateSpaceMode.join }
                 }
             } else {
                 Column(Modifier.padding(horizontal = WZ.Space.space6), verticalArrangement = Arrangement.spacedBy(WZ.Space.space6)) {
-                    Field(tr("room.space.join.spaceId")) {
+                    Field(tr("space.join.spaceId")) {
                         WizardTextField(
                             joinTarget,
                             { joinTarget = it },

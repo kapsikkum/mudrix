@@ -13,11 +13,11 @@ struct CallTile: View {
 
     private var title: String {
         switch call.outcome {
-        case .ongoing: String(localized: "timeline.callOngoing")
-        case .ended: String(localized: "timeline.callEnded")
-        case .missed: String(localized: "timeline.callMissed")
-        case .declined: String(localized: "timeline.callDeclined")
-        case .unanswered: String(localized: "timeline.callUnanswered")
+        case .ongoing: String(localized: "call.event.ongoing")
+        case .ended: String(localized: "call.event.ended")
+        case .missed: String(localized: "call.event.missed")
+        case .declined: String(localized: "call.event.declined")
+        case .unanswered: String(localized: "call.event.unanswered")
         }
     }
 
@@ -61,7 +61,7 @@ struct CallTile: View {
             .lineLimit(1)
             avatars
             if canJoin {
-                Button(String(localized: "timeline.callJoin"), action: join)
+                Button(String(localized: "common.join"), action: join)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .buttonStyle(.borderedProminent)
                     .controlSize(.small)

@@ -257,7 +257,7 @@ final class CopyToast: ObservableObject {
 }
 
 @MainActor
-func copyToClipboard(_ text: String, message: String = String(localized: "security.copied")) {
+func copyToClipboard(_ text: String, message: String = String(localized: "common.copied")) {
     UIPasteboard.general.string = text
     CopyToast.shared.show(message)
 }
@@ -303,7 +303,7 @@ struct CopyButton: View {
             }
         } label: {
             if copied {
-                Label(String(localized: "security.copied"), image: "ph-check-bold")
+                Label(String(localized: "common.copied"), image: "ph-check-bold")
             } else {
                 Label(title, image: image)
             }
@@ -347,7 +347,7 @@ struct VerificationBanner: View {
                     .font(.system(size: WZ.SizeIcon.lg))
                     .foregroundStyle(theme.danger)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                    Text(String(localized: "verifySession.title"))
+                    Text(String(localized: "verification.session.title"))
                         .font(.wizard(WZ.FontSize.md, .semibold))
                         .foregroundStyle(theme.textPrimary)
                     Text(String(localized: "common.useAnotherDeviceOr"))

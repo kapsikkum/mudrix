@@ -66,7 +66,7 @@ export function ComposerMediaPicker({
             onClick={() => onTabChange('emoji')}
           >
             <SmileyIcon size={16} weight={tab === 'emoji' ? 'fill' : 'regular'} />
-            {t('composer.emoji')}
+            {t('common.emoji')}
           </button>
           <button
             type="button"

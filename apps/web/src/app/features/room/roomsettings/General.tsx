@@ -603,7 +603,7 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
             <IconButton
               size="sm"
               onClick={() => handleRemoveAlias(alias)}
-              aria-label={t('room.settings.addresses.removeAddress')}
+              aria-label={t('common.remove')}
               disabled={!canSetCanonical}
             >
               <TrashIcon size={14} />

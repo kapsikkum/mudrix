@@ -13,7 +13,7 @@ data class SlashCommand(val name: String, val description: String) {
             get() = listOf(
                 SlashCommand("me", L10n.format("timeline.commands.me.description")),
                 SlashCommand("notice", L10n.format("timeline.commands.notice.description")),
-                SlashCommand("spoiler", L10n.format("composer.sendASpoilerMessage")),
+                SlashCommand("spoiler", L10n.format("timeline.commands.spoiler.description")),
                 SlashCommand("join", L10n.format("timeline.commands.join.description")),
                 SlashCommand("part", L10n.format("timeline.commands.part.description")),
                 SlashCommand("invite", L10n.format("timeline.commands.invite.description")),

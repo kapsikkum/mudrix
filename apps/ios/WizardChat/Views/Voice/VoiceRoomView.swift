@@ -77,8 +77,8 @@ struct VoiceRoomView: View {
                     .font(.wizard(WZ.FontSize.xxl, .bold))
                     .foregroundStyle(theme.textPrimary)
                 Text(room.callParticipants.isEmpty
-                     ? String(localized: "voice.noOneIsHere")
-                     : L10n.format("voice.inVoice", room.callParticipants.count))
+                     ? String(localized: "call.empty")
+                     : L10n.format("call.inVoice", room.callParticipants.count))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
 
@@ -130,11 +130,11 @@ struct CallControls: View {
     var body: some View {
         HStack(spacing: WZ.Space.space3) {
             control(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
-                    label: calls.micMuted ? "voice.unmute" : "voice.mute") { calls.toggleMic() }
+                    label: calls.micMuted ? "call.unmute" : "call.mute") { calls.toggleMic() }
             control(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-regular", active: calls.deafened,
-                    label: calls.deafened ? "voice.undeafen" : "voice.deafen") { calls.toggleDeafen() }
+                    label: calls.deafened ? "call.undeafen" : "call.deafen") { calls.toggleDeafen() }
             control(calls.cameraOn ? "ph-video-camera-regular" : "ph-video-camera-slash-regular", active: false, highlighted: calls.cameraOn,
-                    label: calls.cameraOn ? "voice.turnCameraOff" : "voice.turnCameraOn") { calls.toggleCamera() }
+                    label: calls.cameraOn ? "call.turnCameraOff" : "call.turnCameraOn") { calls.toggleCamera() }
             Menu {
                 ControlGroup {
                     ForEach(CallReaction.all.prefix(6)) { reaction in
@@ -147,18 +147,18 @@ struct CallControls: View {
                         : Label(menu: String(localized: "call.raiseHand"), icon: "ph-hand-regular")
                 }
                 Button { calls.toggleScreenShare() } label: {
-                    calls.screenSharing ? Label(menu: String(localized: "voice.stopSharingScreen"), icon: "ph-monitor-regular")
-                        : Label(menu: String(localized: "voice.shareScreen"), icon: "ph-monitor-arrow-up-regular")
+                    calls.screenSharing ? Label(menu: String(localized: "call.stopSharingScreen"), icon: "ph-monitor-regular")
+                        : Label(menu: String(localized: "call.shareScreen"), icon: "ph-monitor-arrow-up-regular")
                 }
                 if let watch = calls.watch {
                     if watch.state != nil {
                         Button(role: .destructive) { watch.stop() } label: {
-                            Label(menu: String(localized: "voice.stopWatchingTogether"), icon: "ph-stop-fill", destructive: true)
+                            Label(menu: String(localized: "call.watchTogether.stopTogether"), icon: "ph-stop-fill", destructive: true)
                         }
                         .tint(theme.danger)
                     } else {
                         Button { showWatchSheet = true } label: {
-                            Label(menu: String(localized: "voice.watchTogetherBeta"), icon: "ph-youtube-logo-fill")
+                            Label(menu: String(localized: "call.watchTogether.menuBeta"), icon: "ph-youtube-logo-fill")
                         }
                     }
                 }
@@ -176,7 +176,7 @@ struct CallControls: View {
             .menuOrder(.fixed)
             // Menu icons in the text colour instead of the accent, like the message menu.
             .tint(theme.textPrimary)
-            .accessibilityLabel(String(localized: "voice.moreReactionsRaiseHand"))
+            .accessibilityLabel(String(localized: "call.moreActionsHint"))
             Button {
                 calls.leave()
             } label: {
@@ -234,7 +234,7 @@ struct CallBar: View {
                             .background(theme.success, in: Circle())
                         VStack(alignment: .leading, spacing: WZ.Space.space0) {
                             Text(room.displayName).font(.wizard(WZ.FontSize.md, .semibold)).foregroundStyle(theme.textPrimary)
-                            Text(calls.state == .joined ? String(localized: "voice.statusConnected") : String(localized: "voice.statusConnecting"))
+                            Text(calls.state == .joined ? String(localized: "call.statusConnected") : String(localized: "call.statusConnecting"))
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(calls.state == .joined ? theme.success : theme.textMuted)
                         }
@@ -244,11 +244,11 @@ struct CallBar: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(String(localized: "voice.returnToCall"))
+                .accessibilityLabel(String(localized: "call.returnToCall"))
                 barButton(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
-                          label: calls.micMuted ? "voice.unmute" : "voice.mute") { calls.toggleMic() }
+                          label: calls.micMuted ? "call.unmute" : "call.mute") { calls.toggleMic() }
                 barButton(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-regular", active: calls.deafened,
-                          label: calls.deafened ? "voice.undeafen" : "voice.deafen") { calls.toggleDeafen() }
+                          label: calls.deafened ? "call.undeafen" : "call.deafen") { calls.toggleDeafen() }
                 Button { calls.leave() } label: {
                     Image("ph-phone-x-regular")
                         .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))

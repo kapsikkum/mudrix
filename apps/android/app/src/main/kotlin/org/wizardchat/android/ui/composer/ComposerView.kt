@@ -540,7 +540,7 @@ fun ComposerView(
                         draft,
                         placeholder = when {
                             editing != null -> tr("composer.editMessage")
-                            threadRoot != null -> tr("thread.composerPlaceholder")
+                            threadRoot != null -> tr("timeline.threadComposerPlaceholder")
                             else -> L10n.format("composer.messageRoom", room.displayName)
                         },
                         modifier = Modifier

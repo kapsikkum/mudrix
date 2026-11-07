@@ -380,11 +380,11 @@ export function Composer({
                 />
               ) : (
                 <>
-                  <Tooltip content={t('composer.emoji')}>
+                  <Tooltip content={t('common.emoji')}>
                     <button
                       type="button"
                       className={emojiActive ? css.emojiBtnActive : css.emojiBtn}
-                      aria-label={t('composer.emoji')}
+                      aria-label={t('common.emoji')}
                       aria-pressed={emojiActive}
                       onClick={() => {
                         if (emojiActive) {
@@ -437,11 +437,11 @@ export function Composer({
                     </button>
                   </Tooltip>
 
-                  <Tooltip content={t('composer.moreOptions')}>
+                  <Tooltip content={t('common.moreOptions')}>
                     <button
                       type="button"
                       className={moreOpen ? css.moreBtnActive : css.moreBtn}
-                      aria-label={t('composer.moreOptions')}
+                      aria-label={t('common.moreOptions')}
                       aria-haspopup="menu"
                       aria-expanded={moreOpen}
                       onClick={openMoreMenu}

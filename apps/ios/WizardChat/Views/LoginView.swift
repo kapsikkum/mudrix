@@ -46,10 +46,10 @@ struct LoginView: View {
             VStack(spacing: WZ.Space.space6) {
                 WizardLogo(size: WZ.SizeAvatar.xl)
                 VStack(spacing: WZ.Space.space2) {
-                    Text(String(localized: "welcome.title"))
+                    Text(String(localized: "auth.title"))
                         .font(.wizard(WZ.FontSize.display, .bold))
                         .foregroundStyle(theme.textPrimary)
-                    Text(String(localized: "welcome.tagline"))
+                    Text(String(localized: "auth.tagline"))
                         .font(.wizard(WZ.FontSize.md))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -57,7 +57,7 @@ struct LoginView: View {
                 .padding(.bottom, WZ.Space.space4)
 
                 VStack(alignment: .leading, spacing: WZ.Space.space5) {
-                    Text(mode == .login ? String(localized: "welcome.login") : String(localized: "welcome.register"))
+                    Text(mode == .login ? String(localized: "auth.login") : String(localized: "auth.register"))
                         .font(.wizard(WZ.FontSize.lg, .semibold))
                         .foregroundStyle(theme.textPrimary)
 
@@ -66,13 +66,13 @@ struct LoginView: View {
                     if checking {
                         HStack(spacing: WZ.Space.space3) {
                             ProgressView()
-                            Text(String(localized: "welcome.checkingServer"))
+                            Text(String(localized: "auth.checkingServer"))
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
                     } else if unreachable {
-                        note(String(localized: "welcome.serverUnreachable"))
+                        note(String(localized: "auth.serverUnreachable"))
                     } else if let info {
                         if mode == .login {
                             loginOptions(info)
@@ -112,18 +112,18 @@ struct LoginView: View {
 
     private var serverPicker: some View {
         VStack(spacing: WZ.Space.space3) {
-            Picker(String(localized: "welcome.customServer"), selection: $serverChoice) {
+            Picker(String(localized: "auth.customServer"), selection: $serverChoice) {
                 ForEach(Self.presets, id: \.self) { preset in
                     Text(URL(string: preset)?.host ?? preset).tag(preset)
                 }
-                Text(String(localized: "welcome.customServer")).tag(Self.custom)
+                Text(String(localized: "auth.customServer")).tag(Self.custom)
             }
             .pickerStyle(.menu)
             .frame(maxWidth: .infinity, alignment: .leading)
             .wizardField()
 
             if serverChoice == Self.custom {
-                TextField("", text: $customServer, prompt: Text(String(localized: "welcome.serverUrl")).foregroundColor(theme.textMuted))
+                TextField("", text: $customServer, prompt: Text(String(localized: "auth.serverUrl")).foregroundColor(theme.textMuted))
                     .textContentType(.URL)
                     .keyboardType(.URL)
                     .textInputAutocapitalization(.never)
@@ -136,14 +136,14 @@ struct LoginView: View {
     @ViewBuilder
     private func loginOptions(_ info: ServerInfo) -> some View {
         if info.oauth {
-            Button(busy ? String(localized: "welcome.redirecting") : String(localized: "welcome.oidcLogin")) {
+            Button(busy ? String(localized: "auth.redirecting") : String(localized: "auth.oidcLogin")) {
                 Task { await signInWithBrowser() }
             }
             .buttonStyle(PrimaryButtonStyle())
             .disabled(busy)
             if info.qrLogin {
                 Button { showQrSignIn = true } label: {
-                    Label(String(localized: "qrLogin.signInTitle"), image: "ph-qr-code-regular")
+                    Label(String(localized: "auth.qr.signInTitle"), image: "ph-qr-code-regular")
                 }
                 .buttonStyle(SecondaryButtonStyle())
                 .disabled(busy)
@@ -154,7 +154,7 @@ struct LoginView: View {
         if info.password {
             usernameField
             passwordField(submit: { Task { await logInWithPassword() } })
-            Button(busy ? String(localized: "welcome.loggingIn") : String(localized: "welcome.login")) {
+            Button(busy ? String(localized: "auth.loggingIn") : String(localized: "auth.login")) {
                 Task { await logInWithPassword() }
             }
             .buttonStyle(PrimaryButtonStyle())
@@ -164,7 +164,7 @@ struct LoginView: View {
         ssoButtons(info, afterPassword: info.password)
 
         if !info.oauth && !info.password && info.sso.isEmpty {
-            note(String(localized: "welcome.noLoginMethod"))
+            note(String(localized: "auth.noLoginMethod"))
         }
     }
 
@@ -173,7 +173,7 @@ struct LoginView: View {
         let passwordRegister = !info.oauth && registration?.enabled == true
 
         if info.oauth {
-            Button(busy ? String(localized: "welcome.redirecting") : String(localized: "welcome.oidcRegister")) {
+            Button(busy ? String(localized: "auth.redirecting") : String(localized: "auth.oidcRegister")) {
                 Task { await signInWithBrowser(createAccount: true) }
             }
             .buttonStyle(PrimaryButtonStyle())
@@ -189,11 +189,11 @@ struct LoginView: View {
             }
             passwordField(submit: { Task { await register() } })
             if !password.isEmpty && password.count < 8 {
-                Text(String(localized: "welcome.passwordTooShort"))
+                Text(String(localized: "auth.passwordTooShort"))
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.error)
             }
-            Button(busy ? String(localized: "welcome.registering") : String(localized: "welcome.registerSubmit")) {
+            Button(busy ? String(localized: "auth.registering") : String(localized: "auth.registerSubmit")) {
                 Task { await register() }
             }
             .buttonStyle(PrimaryButtonStyle())
@@ -206,8 +206,8 @@ struct LoginView: View {
 
         if !info.oauth && !passwordRegister && info.sso.isEmpty {
             note(registrationRateLimited
-                ? String(localized: "welcome.registrationRateLimited")
-                : String(localized: "welcome.registrationUnavailable"))
+                ? String(localized: "auth.registrationRateLimited")
+                : String(localized: "auth.registrationUnavailable"))
         }
     }
 
@@ -221,8 +221,8 @@ struct LoginView: View {
             }
             ForEach(info.sso, id: \.self) { provider in
                 Button(provider.id == nil
-                    ? String(localized: "welcome.ssoLogin")
-                    : L10n.format("welcome.continueWithIdp", provider.name)) {
+                    ? String(localized: "common.continueWithSso")
+                    : L10n.format("auth.continueWithIdp", provider.name)) {
                     Task { await signInWithBrowser(sso: provider) }
                 }
                 .buttonStyle(SecondaryButtonStyle())
@@ -232,7 +232,7 @@ struct LoginView: View {
     }
 
     private var usernameField: some View {
-        TextField("", text: $username, prompt: Text(String(localized: "welcome.username")).foregroundColor(theme.textMuted))
+        TextField("", text: $username, prompt: Text(String(localized: "auth.username")).foregroundColor(theme.textMuted))
             .textContentType(.username)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
@@ -240,7 +240,7 @@ struct LoginView: View {
     }
 
     private func passwordField(submit: @escaping () -> Void) -> some View {
-        SecureField("", text: $password, prompt: Text(String(localized: "welcome.password")).foregroundColor(theme.textMuted))
+        SecureField("", text: $password, prompt: Text(String(localized: "auth.password")).foregroundColor(theme.textMuted))
             .textContentType(mode == .login ? .password : .newPassword)
             .wizardField()
             .onSubmit(submit)
@@ -248,9 +248,9 @@ struct LoginView: View {
 
     private var switchMode: some View {
         HStack(spacing: WZ.Space.space2) {
-            Text(mode == .login ? String(localized: "welcome.noAccount") : String(localized: "welcome.haveAccount"))
+            Text(mode == .login ? String(localized: "auth.noAccount") : String(localized: "auth.haveAccount"))
                 .foregroundStyle(theme.textMuted)
-            Button(mode == .login ? String(localized: "welcome.register") : String(localized: "welcome.login")) {
+            Button(mode == .login ? String(localized: "auth.register") : String(localized: "auth.login")) {
                 withAnimation {
                     mode = mode == .login ? .register : .login
                     errorMessage = nil
@@ -281,12 +281,12 @@ struct LoginView: View {
     private var usernameHint: String? {
         guard !username.isEmpty, !serverName.isEmpty else { return nil }
         switch usernameState {
-        case .taken: return String(localized: "welcome.usernameTaken")
-        case .reserved: return String(localized: "welcome.usernameReserved")
-        case .invalid: return String(localized: "welcome.usernameInvalidChars")
-        case .available: return L10n.format("welcome.usernameAvailable", fullId)
-        case .checking: return L10n.format("welcome.usernameChecking", fullId)
-        case .idle: return L10n.format("welcome.usernameHint", fullId)
+        case .taken: return String(localized: "auth.usernameTaken")
+        case .reserved: return String(localized: "auth.usernameReserved")
+        case .invalid: return String(localized: "auth.usernameInvalidChars")
+        case .available: return L10n.format("auth.usernameAvailable", fullId)
+        case .checking: return L10n.format("auth.usernameChecking", fullId)
+        case .idle: return L10n.format("auth.usernameHint", fullId)
         }
     }
 
@@ -374,7 +374,7 @@ struct LoginView: View {
 
     private func logInWithPassword() async {
         guard !username.isEmpty, !password.isEmpty else {
-            errorMessage = String(localized: "welcome.fillAllFields")
+            errorMessage = String(localized: "auth.fillAllFields")
             return
         }
         busy = true
@@ -394,7 +394,7 @@ struct LoginView: View {
         let supported: (String) -> Bool = { $0 == "m.login.dummy" || $0 == "m.login.terms" }
         if !flows.isEmpty && !flows.contains(where: { $0.allSatisfy(supported) }) {
             let names = flows.map { $0.joined(separator: " -> ") }.joined(separator: ", ")
-            errorMessage = L10n.format("welcome.additionalVerification", names)
+            errorMessage = L10n.format("auth.additionalVerification", names)
             return
         }
         busy = true
@@ -404,14 +404,14 @@ struct LoginView: View {
             try await session.register(server: server, username: username, password: password)
         } catch let error as WizardError {
             switch error.errcode ?? "" {
-            case "M_USER_IN_USE": errorMessage = String(localized: "welcome.usernameTaken")
-            case "M_INVALID_USERNAME": errorMessage = String(localized: "welcome.invalidUsername")
-            case "M_EXCLUSIVE": errorMessage = String(localized: "welcome.usernameReserved")
-            case "M_WEAK_PASSWORD": errorMessage = L10n.format("welcome.weakPassword", error.message)
-            default: errorMessage = L10n.format("welcome.registrationFailed", error.message)
+            case "M_USER_IN_USE": errorMessage = String(localized: "auth.usernameTaken")
+            case "M_INVALID_USERNAME": errorMessage = String(localized: "auth.invalidUsername")
+            case "M_EXCLUSIVE": errorMessage = String(localized: "auth.usernameReserved")
+            case "M_WEAK_PASSWORD": errorMessage = L10n.format("auth.weakPassword", error.message)
+            default: errorMessage = L10n.format("auth.registrationFailed", error.message)
             }
         } catch {
-            errorMessage = L10n.format("welcome.registrationFailed", error.localizedDescription)
+            errorMessage = L10n.format("auth.registrationFailed", error.localizedDescription)
         }
     }
 

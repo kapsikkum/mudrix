@@ -27,11 +27,11 @@ const MAX_VISIBLE_AVATARS = 3;
 const TICK_MS = 1000;
 
 const TITLE_KEYS: Record<CallOutcome, string> = {
-  ongoing: 'timeline.callOngoing',
-  ended: 'timeline.callEnded',
-  missed: 'timeline.callMissed',
-  declined: 'timeline.callDeclined',
-  unanswered: 'timeline.callUnanswered',
+  ongoing: 'call.event.ongoing',
+  ended: 'call.event.ended',
+  missed: 'call.event.missed',
+  declined: 'call.event.declined',
+  unanswered: 'call.event.unanswered',
 };
 
 function CallIcon({ video, outcome }: { video: boolean; outcome: CallOutcome }) {
@@ -129,7 +129,7 @@ export function CallHistoryDisplay({ call, client, roomId }: CallHistoryProps) {
               })
             }
           >
-            {t('timeline.callJoin')}
+            {t('common.join')}
           </button>
         )}
       </div>
@@ -141,7 +141,7 @@ export function CallHistoryDisplay({ call, client, roomId }: CallHistoryProps) {
         anchorRef={receipts.anchorRef}
         open={receipts.open}
         onClose={receipts.close}
-        title={t('timeline.callParticipants')}
+        title={t('call.event.participants')}
         showTimestamp={false}
       />
     </>

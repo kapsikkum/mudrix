@@ -201,12 +201,12 @@ class CallService : Service() {
                 .setUsesChronometer(!state.ringing)
                 .addAction(
                     PhIcons.id(if (state.micMuted) "microphone-slash" else "microphone"),
-                    L10n.format(if (state.micMuted) "voice.unmute" else "voice.mute"),
+                    L10n.format(if (state.micMuted) "call.unmute" else "call.mute"),
                     action(context, ACTION_TOGGLE_MIC, 1),
                 )
                 .addAction(
                     PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", PhWeight.regular),
-                    L10n.format(if (state.deafened) "voice.undeafen" else "voice.deafen"),
+                    L10n.format(if (state.deafened) "call.undeafen" else "call.deafen"),
                     action(context, ACTION_TOGGLE_DEAFEN, 2),
                 )
                 .addAction(PhIcons.id("phone-x"), L10n.format("common.leave"), action(context, ACTION_LEAVE, 3))

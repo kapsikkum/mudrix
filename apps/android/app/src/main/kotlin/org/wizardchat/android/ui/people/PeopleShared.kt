@@ -202,7 +202,7 @@ internal fun WizardSwitch(checked: Boolean, onChange: (Boolean) -> Unit) {
 @Composable
 internal fun CopyRow(title: String, icon: String, value: String) {
     var copied by remember { mutableStateOf(false) }
-    val copiedText = tr("security.copied")
+    val copiedText = tr("common.copied")
     LaunchedEffect(copied) {
         if (copied) {
             delay(1600)
@@ -287,9 +287,9 @@ internal fun EmptyState(title: String, icon: String, modifier: Modifier = Modifi
 internal fun RoleBadge(level: Long) {
     val (key, color) = when {
         level == Long.MAX_VALUE -> "room.members.founder" to theme.roleFounder
-        level >= 100 -> "profile.roleAdmin" to theme.roleAdmin
-        level >= 50 -> "profile.roleModerator" to theme.roleModerator
-        else -> "profile.roleMember" to theme.roleMember
+        level >= 100 -> "room.members.admin" to theme.roleAdmin
+        level >= 50 -> "room.members.moderator" to theme.roleModerator
+        else -> "room.members.member" to theme.roleMember
     }
     Text(
         tr(key),

@@ -278,7 +278,7 @@ private fun InviteRow(invite: RoomSummary, inviterName: String?, busy: Boolean, 
             )
             inviterName?.let {
                 Text(
-                    tr("inbox.invitedByName", it),
+                    tr("inbox.invitedBy", it),
                     style = wizardFont(WZ.FontSize.sm),
                     color = theme.textMuted,
                     maxLines = 1,

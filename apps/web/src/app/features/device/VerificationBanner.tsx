@@ -90,10 +90,10 @@ export function VerificationBanner() {
         <span className={css.text}>{state.text}</span>
         <div className={css.actions}>
           <button type="button" className={css.btnDecline} onClick={handleDecline}>
-            {t('invite.decline')}
+            {t('common.decline')}
           </button>
           <button type="button" className={css.btnAccept} onClick={handleAccept}>
-            {t('invite.accept')}
+            {t('common.accept')}
           </button>
         </div>
       </div>

@@ -31,7 +31,7 @@ enum ThemeSetting: Hashable, Identifiable {
 
     var label: String {
         switch self {
-        case .system: return String(localized: "settings.themeSystem")
+        case .system: return String(localized: "settings.appearance.themeSystem")
         case .fixed(let theme): return theme.name
         }
     }

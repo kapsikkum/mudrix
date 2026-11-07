@@ -53,7 +53,7 @@ struct SpaceSettingsView: View {
 
                 if canEdit {
                     Section(String(localized: "settings.about.title")) {
-                        TextField(String(localized: "dialogs.name"), text: $name)
+                        TextField(String(localized: "common.name"), text: $name)
                         TextField(String(localized: "room.topic"), text: $topic, axis: .vertical).lineLimit(1...4)
                         Button(String(localized: "common.save")) { Task { await save() } }
                             .disabled(saving || (name, topic) == original)
@@ -71,12 +71,12 @@ struct SpaceSettingsView: View {
                     }
                     if canManageRooms {
                         Button { showCreateRoom = true } label: { Label(String(localized: "room.create.title"), image: "ph-plus-regular") }
-                        Button { showAddRooms = true } label: { Label(String(localized: "room.addExistingRooms"), image: "ph-stack-plus-regular") }
+                        Button { showAddRooms = true } label: { Label(String(localized: "space.addExistingRooms"), image: "ph-stack-plus-regular") }
                     }
                 } header: {
-                    Text(String(localized: "room.title"))
+                    Text(String(localized: "nav.rooms"))
                 } footer: {
-                    if canManageRooms { Text(String(localized: "room.swipeARoomTo")) }
+                    if canManageRooms { Text(String(localized: "space.swipeToRemoveHint")) }
                 }
 
                 Section {
@@ -87,21 +87,21 @@ struct SpaceSettingsView: View {
                     NavigationLink { RoomPacksView(roomId: space.id) } label: {
                         Label(String(localized: "room.settings.emojis.title"), image: "ph-smiley-regular")
                     }
-                    CopyButton(title: "room.copySpaceLink", image: "ph-link-simple-regular", value: "https://matrix.to/#/\(space.id)")
+                    CopyButton(title: "space.copyLink", image: "ph-link-simple-regular", value: "https://matrix.to/#/\(space.id)")
                 }
 
                 Section {
                     Button(role: .destructive) { confirmLeave = true } label: {
-                        Label(String(localized: "room.space.leave"), image: "ph-sign-out-regular").foregroundStyle(theme.danger)
+                        Label(String(localized: "space.leave"), image: "ph-sign-out-regular").foregroundStyle(theme.danger)
                     }
                 }
                 if let error { Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error) }
             }
             .tint(theme.control)
-            .navigationTitle(String(localized: "home.spaceSettings"))
+            .navigationTitle(String(localized: "space.settingsTitle"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } } }
-            .confirmationDialog(L10n.format("room.leaveNamed", "\(space.name)"), isPresented: $confirmLeave, titleVisibility: .visible) {
+            .confirmationDialog(L10n.format("room.info.leaveConfirm", "\(space.name)"), isPresented: $confirmLeave, titleVisibility: .visible) {
                 Button(String(localized: "common.leave"), role: .destructive) {
                     Task { try? await session.client?.leave(roomId: space.id); dismiss() }
                 }
@@ -128,7 +128,7 @@ struct SpaceSettingsView: View {
             Text(name).lineLimit(1).foregroundStyle(theme.textPrimary)
             Spacer()
             if room == nil {
-                Text(String(localized: "room.notJoined")).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                Text(String(localized: "space.notJoined")).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
             }
         }
     }
@@ -218,8 +218,8 @@ private struct AddRoomsToSpaceSheet: View {
                     }
                 }
             }
-            .overlay { if candidates.isEmpty { ContentUnavailableView(String(localized: "room.noOtherRooms"), image: "ph-hash-straight-regular") } }
-            .navigationTitle(String(localized: "room.addRooms"))
+            .overlay { if candidates.isEmpty { ContentUnavailableView(String(localized: "space.noOtherRooms"), image: "ph-hash-straight-regular") } }
+            .navigationTitle(String(localized: "space.addRooms"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.cancel")) { dismiss() } }
@@ -275,12 +275,12 @@ struct RoomPacksView: View {
                     Button { showNewPack = true } label: { Label(String(localized: "room.settings.emojis.newPack"), image: "ph-plus-regular") }
                 }
             } footer: {
-                Text(String(localized: "room.everyoneInTheRoom"))
+                Text(String(localized: "room.settings.emojis.packsHint"))
             }
         }
         .overlay {
             if loaded && packs.isEmpty && !canEdit {
-                ContentUnavailableView(String(localized: "room.noPacks"), image: "ph-smiley-regular")
+                ContentUnavailableView(String(localized: "room.settings.emojis.empty"), image: "ph-smiley-regular")
             }
         }
         .navigationTitle(String(localized: "room.settings.emojis.title"))
@@ -288,14 +288,14 @@ struct RoomPacksView: View {
         .tint(theme.control)
         .task { await load() }
         .alert(String(localized: "room.settings.emojis.newPack"), isPresented: $showNewPack) {
-            TextField(String(localized: "dialogs.name"), text: $newPackName)
+            TextField(String(localized: "common.name"), text: $newPackName)
             Button(String(localized: "common.create")) { Task { await create() } }
             Button(String(localized: "common.cancel"), role: .cancel) { newPackName = "" }
         }
     }
 
     static func displayName(_ content: [String: Any], key: String) -> String {
-        ((content["pack"] as? [String: Any])?["display_name"] as? String) ?? (key.isEmpty ? String(localized: "room.roomPack") : key)
+        ((content["pack"] as? [String: Any])?["display_name"] as? String) ?? (key.isEmpty ? String(localized: "room.settings.emojis.roomPack") : key)
     }
 
     private func load() async {
@@ -352,8 +352,8 @@ private struct PackEditorView: View {
     var body: some View {
         ThemedForm {
             if canEdit {
-                Section(String(localized: "room.pack")) {
-                    TextField(String(localized: "dialogs.name"), text: Binding(
+                Section(String(localized: "room.settings.emojis.pack")) {
+                    TextField(String(localized: "common.name"), text: Binding(
                         get: { ((content["pack"] as? [String: Any])?["display_name"] as? String) ?? stateKey },
                         set: { value in
                             var pack = content["pack"] as? [String: Any] ?? [:]
@@ -361,8 +361,8 @@ private struct PackEditorView: View {
                             content["pack"] = pack
                         }))
                         .onSubmit { Task { await save() } }
-                    Toggle(String(localized: "room.useAsEmoji"), isOn: usageBinding("emoticon"))
-                    Toggle(String(localized: "room.useAsStickers"), isOn: usageBinding("sticker"))
+                    Toggle(String(localized: "room.settings.emojis.useAsEmoji"), isOn: usageBinding("emoticon"))
+                    Toggle(String(localized: "room.settings.emojis.useAsStickers"), isOn: usageBinding("sticker"))
                 }
             }
             Section {
@@ -374,7 +374,7 @@ private struct PackEditorView: View {
                         }
                         .contextMenu {
                             if canEdit {
-                                Button { renaming = image.code; newCode = image.code } label: { Label(menu: String(localized: "settings.sessions.renameSession"), icon: "ph-pencil-simple-regular") }
+                                Button { renaming = image.code; newCode = image.code } label: { Label(menu: String(localized: "common.rename"), icon: "ph-pencil-simple-regular") }
                                 Button(role: .destructive) { Task { await remove(image.code) } } label: { Label(menu: String(localized: "common.remove"), icon: "ph-trash-regular", destructive: true) }
                             }
                         }
@@ -385,7 +385,7 @@ private struct PackEditorView: View {
                                 Image("ph-plus-regular").font(.system(size: WZ.SizeIcon.md))
                                     .frame(width: WZ.Space.space11, height: WZ.Space.space11)
                                     .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg))
-                                Text(String(localized: "settings.upload")).font(.wizard(WZ.FontSize.xs))
+                                Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.xs))
                             }
                             .foregroundStyle(theme.textMuted)
                         }
@@ -401,9 +401,9 @@ private struct PackEditorView: View {
                     }
                 }
             } header: {
-                Text(L10n.format("settings.images", images.count))
+                Text(L10n.format("settings.emojisStickers.imageCount", images.count))
             } footer: {
-                if canEdit { Text(String(localized: "room.longPressAnImage")) }
+                if canEdit { Text(String(localized: "room.settings.emojis.imageActionsHint")) }
             }
             if let error { Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error) }
         }
@@ -414,7 +414,7 @@ private struct PackEditorView: View {
             guard let item else { return }
             Task { await upload(item) }
         }
-        .alert(String(localized: "settings.sessions.renameSession"), isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
+        .alert(String(localized: "common.rename"), isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
             TextField("shortcode", text: $newCode).textInputAutocapitalization(.never)
             Button(String(localized: "common.save")) { if let old = renaming { Task { await rename(old, to: newCode) } } }
             Button(String(localized: "common.cancel"), role: .cancel) {}
@@ -482,7 +482,7 @@ private struct PackEditorView: View {
             try await session.setStateEvent(RoomPacksView.packType, key: stateKey, content: content, in: roomId)
             ImagePacks.forget(roomId: roomId)
             error = nil
-        } catch { self.error = L10n.format("room.saveFailed", "\(error.localizedDescription)") }
+        } catch { self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)") }
     }
 }
 

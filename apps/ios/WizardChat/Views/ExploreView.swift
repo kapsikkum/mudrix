@@ -157,7 +157,7 @@ struct ExploreView: View {
                 onOpen(roomId)
                 dismiss()
             } catch {
-                errorMessage = L10n.format("explore.failedToJoin", "\(error)")
+                errorMessage = L10n.format("common.joinFailed", "\(error)")
             }
         }
     }
@@ -179,7 +179,7 @@ private struct ResultsList: View {
                     .font(.wizard(WZ.FontSize.sm, .bold))
                     .kerning(0.5)
                     .foregroundStyle(theme.textMuted)
-                if let error = errorMessage ?? model.error.map({ L10n.format("explore.couldNotLoadRooms", "\($0)") }) {
+                if let error = errorMessage ?? model.error.map({ L10n.format("explore.fetchError", "\($0)") }) {
                     Text(error)
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.error)
