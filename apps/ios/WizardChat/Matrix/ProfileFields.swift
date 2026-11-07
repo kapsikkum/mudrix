@@ -40,6 +40,8 @@ enum ProfileFields {
     static let maxActivities = 3
     private static let maxActivityChars = 80
 
+    static let accentPresets = ["#5865f2", "#3b82f6", "#14b8a6", "#22c55e", "#eab308", "#f97316", "#ef4444", "#ec4899", "#a855f7", "#64748b"]
+
     private static func mudrix(_ name: String) -> [String] {
         [Namespace.mudrixKey(name), Namespace.legacyMudrixKey(name)]
     }

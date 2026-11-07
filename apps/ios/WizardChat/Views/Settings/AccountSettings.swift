@@ -61,6 +61,8 @@ struct AccountSettings: View {
                     .sensitive()
             }
 
+            AboutMeSection()
+
             SettingsSection(title: "status.title") {
                 HStack(spacing: WZ.Space.space4) {
                     VStack(alignment: .leading, spacing: WZ.Space.space1) {

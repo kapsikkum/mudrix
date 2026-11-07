@@ -136,6 +136,7 @@ struct WizardChatApp: App {
             next.start()
         }
         await session.applyPresence(prefs.showPresence)
+        await session.ensureMudrixUserFlag()
         if let roomList = session.roomList {
             notifier.start(roomList: roomList, prefs: prefs)
         }
