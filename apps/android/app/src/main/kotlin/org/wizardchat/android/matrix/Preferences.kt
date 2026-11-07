@@ -185,6 +185,8 @@ class AppPreferences(context: Context) {
         defaults.getBoolean("notificationSoundsWhenFocused", false),
         boolCodec("notificationSoundsWhenFocused"),
     ) { putBoolean("notificationSoundsWhenFocused", it) }
+    /** People who manage a space may move this person between its voice channels while in a call */
+    var allowVoiceMoves by pref(defaults.getBoolean("allowVoiceMoves", true), boolCodec("allowVoiceMoves")) { putBoolean("allowVoiceMoves", it) }
     /** The sound pack for every sound without an override of its own */
     var notificationSoundPack by pref(
         defaults.getString("notificationSoundPack", null)?.takeIf(SoundPacks::isPackId) ?: SoundPacks.DEFAULT,

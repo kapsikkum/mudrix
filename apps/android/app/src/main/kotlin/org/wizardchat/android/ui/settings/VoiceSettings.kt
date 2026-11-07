@@ -49,6 +49,9 @@ internal fun VoiceSettings(onBack: () -> Unit) {
             )
         }
         SoundboardSection()
+        SettingsSection(null, tr("settings.voice.allowMovesNote")) {
+            ToggleRow(tr("settings.voice.allowMoves"), prefs.allowVoiceMoves, { prefs.allowVoiceMoves = it })
+        }
     }
 }
 

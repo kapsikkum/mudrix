@@ -42,6 +42,8 @@ import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.android.matrix.SpaceModern
+import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.core.HomeserverSoftware
 import org.wizardchat.core.Member
 import org.wizardchat.tokens.WZ
@@ -67,7 +69,10 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
     LaunchedEffect(roomId) { load() }
 
     // Filtering and sorting thousands of members happens when the list or the search changes, not on every recomposition
-    val groups = remember(members, search) {
+    val roomRoles = rememberRoomRoles(roomId)
+    val management = rememberRoleManagement(roomId)
+    var assigning by remember { mutableStateOf<Member?>(null) }
+    val groups = remember(members, search, roomRoles) {
         val filtered = if (search.isEmpty()) {
             members
         } else {
@@ -76,12 +81,22 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
         val joined = filtered.filter { !it.isInvite }
         fun role(member: Member) = if (member.level >= 100) 0 else if (member.level >= 50) 1 else 2
         fun sorted(list: List<Member>) = list.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
-        listOf(
-            "room.admins" to sorted(joined.filter { role(it) == 0 }),
-            "room.moderators" to sorted(joined.filter { role(it) == 1 }),
-            "common.members" to sorted(joined.filter { role(it) == 2 }),
-            "room.invited" to sorted(filtered.filter { it.isInvite }),
-        ).filter { it.second.isNotEmpty() }
+        val builtin = roomRoles.roles.builtin
+        // Roles marked "show separately" get their own heading above the power level groups, in the order of the roles
+        val hoisted = roomRoles.roles.roles.filter { it.hoist }
+        val placed = mutableSetOf<String>()
+        val separate = hoisted.map { role ->
+            val people = joined.filter { it.userId !in placed && roomRoles.roles.byUser[it.userId]?.any { held -> held.id == role.id } == true }
+            placed += people.map { it.userId }
+            Triple("role-${role.id}", role.name, sorted(people))
+        }
+        val rest = joined.filter { it.userId !in placed }
+        (separate + listOf(
+            Triple("room.admins", builtin[SpaceModern.Builtin.Admin]?.name ?: L10n.format("room.admins"), sorted(rest.filter { role(it) == 0 })),
+            Triple("room.moderators", builtin[SpaceModern.Builtin.Moderator]?.name ?: L10n.format("room.moderators"), sorted(rest.filter { role(it) == 1 })),
+            Triple("common.members", builtin[SpaceModern.Builtin.Member]?.name ?: L10n.format("common.members"), sorted(rest.filter { role(it) == 2 })),
+            Triple("room.invited", L10n.format("room.invited"), sorted(filtered.filter { it.isInvite })),
+        )).filter { it.third.isNotEmpty() }
     }
 
     SheetPage {
@@ -101,9 +116,13 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                         }
                     }
                 }
-                groups.forEach { (title, list) ->
-                    lazyGroupedSection(title, "${L10n.format(title)} — ${list.size}", list, { it.userId }) { member ->
-                        MemberRow(member) { selected = member.userId }
+                groups.forEach { (id, title, list) ->
+                    lazyGroupedSection(id, "$title — ${list.size}", list, { it.userId }) { member ->
+                        MemberRow(
+                            member,
+                            roomRoles.colorOf(member.userId),
+                            onAssign = if (management.canManage && management.modern && management.roles.roles.isNotEmpty() && !member.isInvite) ({ assigning = member }) else null,
+                        ) { selected = member.userId }
                     }
                 }
             }
@@ -111,6 +130,9 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
         }
     }
 
+    assigning?.let { member ->
+        AssignRolesDialog(roomId, member.userId, member.name, management) { assigning = null }
+    }
     selected?.let { userId ->
         UserProfileSheet(userId, roomId, onDismiss = { selected = null }, onChanged = { scope.launch { load() } })
     }
@@ -120,9 +142,12 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
 }
 
 @Composable
-private fun MemberRow(member: Member, onClick: () -> Unit) {
-    PersonRow(member.displayName, member.userId, member.avatarUrl, onClick) {
+private fun MemberRow(member: Member, nameColor: androidx.compose.ui.graphics.Color?, onAssign: (() -> Unit)? = null, onClick: () -> Unit) {
+    PersonRow(member.displayName, member.userId, member.avatarUrl, onClick, nameColor = nameColor) {
         RoleBadge(member.level)
+        if (onAssign != null) {
+            org.wizardchat.android.ui.BarButton("plus", tr("room.settings.roles.assign"), onAssign, size = WZ.SizeIcon.md)
+        }
     }
 }
 

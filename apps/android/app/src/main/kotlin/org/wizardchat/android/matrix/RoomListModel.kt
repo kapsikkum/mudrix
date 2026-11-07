@@ -53,6 +53,10 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     var homeOrder by mutableStateOf(listOf<String>())
         private set
 
+    /** The spaces we are in and what they link to (from local state), refreshed shortly after rooms or spaces change */
+    var graph by mutableStateOf(listOf<org.wizardchat.core.SpaceNode>())
+        private set
+
     private var rooms = mutableListOf<RoomSummary>()
     private val spaceList = mutableListOf<SpaceSummary>()
     private var subscriptions = listOf<Subscription>()
@@ -222,11 +226,12 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     }
 
     /** The space graph comes from local state; refresh it shortly after rooms or spaces change */
-    private fun refreshGraph() {
+    fun refreshGraph() {
         graphJob?.cancel()
         graphJob = scope.launch {
             delay(150)
             val graph = runCatching { client.spaceGraph() }.getOrNull() ?: return@launch
+            this@RoomListModel.graph = graph
             val children = graph.associate { node -> node.spaceId to node.children.map { it.roomId } }
             fun descendants(id: String, seen: MutableSet<String>) {
                 for (child in children[id].orEmpty()) if (seen.add(child)) descendants(child, seen)

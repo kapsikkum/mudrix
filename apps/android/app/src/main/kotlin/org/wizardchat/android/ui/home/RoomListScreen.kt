@@ -45,7 +45,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.matrix.RoomGroup
+import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.RoomListModel
+import org.wizardchat.android.matrix.RoomListStyle
+import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
@@ -121,6 +124,27 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
     val groups by remember(roomList, selection) { derivedStateOf { if (roomList.isLoaded) roomList.groups(selection) else emptyList() } }
     val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }
 
+    // A space whose top space says "modern" lists categories, voice channels and a banner. Its state is not in sync, so it is asked for.
+    val stores = MudrixRoomStates.shared
+    val rootSpace = remember(roomList.graph, spaceId) { spaceId?.let { SpaceModern.rootSpaceOf(roomList.graph, it) } }
+    val modern = spaceId != null && SpaceModern.styleOf(stores.state(rootSpace)) == RoomListStyle.modern
+    val modernCategories = remember(roomList.graph, spaceId, modern) {
+        if (modern && spaceId != null) SpaceModern.categories(roomList.graph, spaceId) else emptyList()
+    }
+    LaunchedEffect(rootSpace, spaceId) {
+        stores.keepFresh { listOfNotNull(rootSpace, spaceId) }
+    }
+    LaunchedEffect(modern, modernCategories) {
+        if (modern) stores.ensureAll(modernCategories.flatMap { it.roomIds })
+    }
+    val voiceChannels = remember(stores.states, modernCategories) {
+        modernCategories.flatMap { it.roomIds }.filter { SpaceModern.isVoiceChannelFlagged(stores.states[it]) }.toSet()
+    }
+    val modernContent = remember(modernCategories, voiceChannels, roomList.spaces) {
+        ModernSpaceContent(modernCategories, roomList.spaces.associate { it.id to it.name }, voiceChannels)
+    }
+    val banner = if (modern) SpaceModern.bannerOf(stores.state(spaceId)) ?: SpaceModern.bannerOf(stores.state(rootSpace)) else null
+
     fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||
         (group.kind == RoomGroup.Kind.Rooms && selection == SidebarSelection.Home))
 
@@ -177,6 +201,11 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                         }
                     }
                 }
+                if (banner != null && search.isBlank()) {
+                    item(key = "space-banner") {
+                        SpaceBannerView(banner, Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2))
+                    }
+                }
                 if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded) {
                     item(key = "welcome") { HomeWelcome(roomList, onOpenInbox) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
@@ -193,7 +222,9 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                 }
                 val headers = selection != SidebarSelection.Dms
                 groups.forEach { group ->
-                    if (headers) {
+                    val isModernGroup = modern && group.kind == RoomGroup.Kind.Rooms
+                    // The Modern list has no "Rooms" heading unless favourites or sections above it need one
+                    if (headers && !(isModernGroup && groups.size == 1)) {
                         item(key = "header-${group.id}") {
                             GroupHeader(
                                 group,
@@ -203,6 +234,22 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                                 onDelete = { deleting = it },
                             )
                         }
+                    }
+                    if (isModernGroup) {
+                        modernRooms(modernContent, group.rooms) { room, voice ->
+                            SwipeableRoomRow(
+                                room,
+                                showsHashIcon = !room.isDirect,
+                                voiceChannel = voice,
+                                onOpen = { navigator.push(Route.Room(room.id)) },
+                                onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                                onLeave = { leaving = room },
+                                onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                                onMoveToSection = { movingRoom = room },
+                                reorder = null,
+                            )
+                        }
+                        return@forEach
                     }
                     itemsIndexed(group.rooms, key = { _, room -> room.id }) { index, room ->
                         SwipeableRoomRow(
@@ -306,6 +353,7 @@ private fun InboxButton(roomList: RoomListModel, onClick: () -> Unit) {
 private fun SwipeableRoomRow(
     room: RoomSummary,
     showsHashIcon: Boolean,
+    voiceChannel: Boolean = false,
     onOpen: () -> Unit,
     onToggleRead: (Boolean) -> Unit,
     onLeave: () -> Unit,
@@ -348,7 +396,7 @@ private fun SwipeableRoomRow(
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                RoomRow(room, showsHashIcon, Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0))
+                RoomRow(room, showsHashIcon, Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0), voiceChannel = voiceChannel || room.isVoice)
                 if (reorder != null) {
                     BarButton("caret-left", tr("room.sections.moveUp"), { reorder(-1) }, modifier = Modifier.rotate(90f), weight = PhWeight.bold, tint = theme.textPrimary)
                     BarButton("caret-left", tr("room.sections.moveDown"), { reorder(1) }, modifier = Modifier.rotate(-90f), weight = PhWeight.bold, tint = theme.textPrimary)
@@ -372,17 +420,17 @@ private fun SwipeableRoomRow(
 }
 
 @Composable
-fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modifier) {
+fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modifier, voiceChannel: Boolean = room.isVoice) {
     val prefs = LocalPrefs.current
     val avatarSize = prefs.roomAvatarSize
-    val inCall = room.isVoice && room.callParticipants.isNotEmpty()
+    val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
 
     @Composable
     fun TypeIcon(size: androidx.compose.ui.unit.Dp) {
         PhIcon(
-            if (room.isVoice) "speaker-high" else "hash-straight",
-            if (room.isVoice) PhWeight.fill else PhWeight.bold,
+            if (voiceChannel) "speaker-high" else "hash-straight",
+            if (voiceChannel) PhWeight.fill else PhWeight.bold,
             size = size,
             tint = if (inCall) theme.success else theme.textMuted,
         )

@@ -53,7 +53,10 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
+import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.Reminders
+import org.wizardchat.android.matrix.VoiceMoves
+import org.wizardchat.android.ui.space.LocalSpaceGraph
 import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.ensureMudrixUserFlag
@@ -181,6 +184,8 @@ fun MainScreen(roomList: RoomListModel) {
         VerificationRequests.shared.start(client)
         SavedMessages.shared.start(client)
         Reminders.shared.start(client)
+        MudrixRoomStates.shared.start(client)
+        VoiceMoves.start(client, calls, session, roomList)
     }
     LaunchedEffect(session.client) {
         if (session.client != null) session.ensureMudrixUserFlag()
@@ -199,6 +204,8 @@ fun MainScreen(roomList: RoomListModel) {
             VerificationRequests.shared.stop()
             SavedMessages.shared.stop()
             Reminders.shared.stop()
+            MudrixRoomStates.shared.stop()
+            VoiceMoves.stop()
             syncer?.stop()
         }
     }
@@ -220,7 +227,12 @@ fun MainScreen(roomList: RoomListModel) {
     BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) { tab = Tab.home }
 
     val stateHolder = rememberSaveableStateHolder()
-    CompositionLocalProvider(LocalNavigator provides navigator, LocalCalls provides calls, LocalNotifier provides notifier) {
+    CompositionLocalProvider(
+        LocalNavigator provides navigator,
+        LocalCalls provides calls,
+        LocalNotifier provides notifier,
+        LocalSpaceGraph provides roomList.graph,
+    ) {
         Box(Modifier.fillMaxSize().background(theme.bgPrimary)) {
             val inset = (if (showsIsland(tab)) islandHeight else 0.dp) + (if (showsCallBar(tab)) callBarHeight else 0.dp)
             CompositionLocalProvider(LocalBottomBarInset provides inset) {

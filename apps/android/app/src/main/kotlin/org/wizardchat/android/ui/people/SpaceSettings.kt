@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.MudrixTypes
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.addChild
 import org.wizardchat.android.matrix.canSendState
@@ -64,6 +65,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
     var avatarUrl by remember { mutableStateOf<String?>(null) }
     var canEdit by remember { mutableStateOf(false) }
     var canManageRooms by remember { mutableStateOf(false) }
+    var canStyle by remember { mutableStateOf(false) }
     var childIds by remember { mutableStateOf(listOf<String>()) }
     var hierarchy by remember { mutableStateOf(mapOf<String, Pair<String, String?>>()) }
     var showAddRooms by remember { mutableStateOf(false) }
@@ -84,6 +86,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
         avatarUrl = info?.avatarUrl ?: space.avatarUrl
         canEdit = info?.permissions?.changeName ?: false
         canManageRooms = session.canSendState("m.space.child", space.id)
+        canStyle = session.canSendState(MudrixTypes.SPACE_LIST_STYLE, space.id)
         val children = runCatching { client.spaceChildren(space.id) }.getOrDefault(emptyList())
         hierarchy = hierarchy + children.associate { it.id to (it.name to it.avatarUrl) }
         childIds = children.map { it.id }
@@ -133,6 +136,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
         }
     }
 
+    val roleManagement = rememberRoleManagement(space.id)
     val push = { page: PeoplePage -> stack = stack + page }
     val pop = { stack = stack.dropLast(1) }
 
@@ -140,7 +144,9 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
         CompositionLocalProvider(LocalCloseParents provides onDismiss) {
             BackHandler(enabled = stack.isNotEmpty()) { pop() }
             val page = stack.lastOrNull()
-            if (page != null) {
+            if (page is PeoplePage.Channels) {
+                SpaceChannelsScreen(page.spaceId, roomList, pop)
+            } else if (page != null) {
                 SharedPage(page, push, pop)
             } else {
                 SheetPage {
@@ -193,6 +199,22 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                                     ActionRow(tr("room.create.title"), "plus", { showCreateRoom = true })
                                     RowDivider()
                                     ActionRow(tr("room.addExistingRooms"), "stack-plus", { showAddRooms = true })
+                                }
+                            }
+                        }
+
+                        item { SpaceModernSection(space.id, canStyle) }
+
+                        item {
+                            GroupedSection {
+                                NavRow(tr("room.settings.channels.title"), "list-bullets", { push(PeoplePage.Channels(space.id)) })
+                                if (roleManagement.modern) {
+                                    RowDivider()
+                                    NavRow(tr("room.settings.roles.title"), "star", { push(PeoplePage.SpaceRoles(space.id)) })
+                                }
+                                if (canManageRooms) {
+                                    RowDivider()
+                                    NavRow(tr("room.settings.auditLog.title"), "clipboard-text", { push(PeoplePage.AuditLog(space.id)) })
                                 }
                             }
                         }

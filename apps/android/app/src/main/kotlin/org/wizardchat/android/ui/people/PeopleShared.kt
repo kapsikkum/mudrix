@@ -391,6 +391,7 @@ internal fun PersonRow(
     avatarUrl: String?,
     onClick: (() -> Unit)?,
     enabled: Boolean = true,
+    nameColor: Color? = null,
     trailing: @Composable () -> Unit = {},
 ) {
     Row(
@@ -406,7 +407,7 @@ internal fun PersonRow(
             Text(
                 name ?: userId,
                 style = wizardFont(WZ.FontSize.lg, FontWeight.Medium),
-                color = theme.textPrimary,
+                color = nameColor ?: theme.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

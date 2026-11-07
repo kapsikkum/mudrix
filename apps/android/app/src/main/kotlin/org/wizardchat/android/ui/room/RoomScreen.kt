@@ -133,6 +133,8 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.shimmer
+import org.wizardchat.android.ui.space.LocalRoomRoles
+import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
@@ -185,6 +187,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     val timeline = remember(room.id, threadRoot) { TimelineModel(client, room.id, threadRoot) }
     val navigator = LocalNavigator.current
     var showThreads by remember { mutableStateOf(false) }
+    val roomRoles = rememberRoomRoles(room.id)
     val listState = rememberLazyListState()
 
     var replyTo by remember { mutableStateOf<ChatEntry?>(null) }
@@ -403,6 +406,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
             inThread = threadRoot != null, onShowThreads = { showThreads = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
+            CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
             LazyColumn(
                 Modifier.fillMaxSize(),
                 state = listState,
@@ -439,6 +443,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                         TimelinePlaceholder()
                     }
                 }
+            }
             }
             if (threadRoot == null && !calls.isInCall(room.id) && room.callParticipants.any { it != session.userId }) {
                 JoinCallBar(room, Modifier.align(Alignment.TopCenter).padding(top = WZ.Space.space3))
@@ -784,6 +789,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showRemind by remember { mutableStateOf(false) }
+    val roomRoles = LocalRoomRoles.current
+    val roleColor = remember(roomRoles, entry.sender) { roomRoles.colorOf(entry.sender) }
     val scope = rememberCoroutineScope()
     // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
@@ -860,7 +867,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                 entry.senderName,
                                 Modifier.weight(1f, fill = false).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
                                 style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                                color = theme.accent,
+                                color = roleColor ?: theme.accent,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )

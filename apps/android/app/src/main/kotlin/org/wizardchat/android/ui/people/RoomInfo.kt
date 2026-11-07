@@ -70,6 +70,9 @@ internal sealed interface PeoplePage {
     data class Pinned(val canPin: Boolean) : PeoplePage
     data class Widgets(val canManage: Boolean) : PeoplePage
     data object Bridges : PeoplePage
+    data class SpaceRoles(val spaceId: String) : PeoplePage
+    data class Channels(val spaceId: String) : PeoplePage
+    data class AuditLog(val roomId: String) : PeoplePage
 }
 
 /** The pages shared by room info and space settings; false for pages the caller shows itself */
@@ -82,6 +85,8 @@ internal fun SharedPage(page: PeoplePage, push: (PeoplePage) -> Unit, pop: () ->
             push(PeoplePage.PackEditor(page.roomId, key, content, canEdit))
         }
         is PeoplePage.PackEditor -> PackEditorScreen(page.roomId, page.key, page.content, page.canEdit, pop)
+        is PeoplePage.SpaceRoles -> SpaceRolesScreen(page.spaceId, pop)
+        is PeoplePage.AuditLog -> AuditLogScreen(page.roomId, pop)
         else -> return false
     }
     return true
