@@ -1941,6 +1941,115 @@
       "soundboardUnmute": "Réactiver le son",
       "allowMoves": "Autoriser les administrateurs d'espace à me déplacer entre salons vocaux",
       "allowMovesNote": "Une personne qui gère un espace peut vous faire glisser d'un de ses salons vocaux vers un autre pendant un appel."
+    },
+    "integrations": {
+      "title": "Intégrations",
+      "intro": "Les intégrations relient Mudrix à d’autres applications. Elles viennent de dépôts et ne sont que des descriptions : quels liens reconnaître, quels boutons, commandes et requêtes proposer. Rien d’un dépôt n’est exécuté comme du code. Elles sont conservées sur cet appareil. Les dépôts sont signés ; Mudrix vérifie chaque signature et épingle la clé de l’éditeur lors du premier ajout.",
+      "installed": "Installées",
+      "installedEmpty": "Rien d'installé pour le moment.",
+      "available": "Disponibles",
+      "availableEmpty": "Ajoutez un dépôt ci-dessous pour trouver des intégrations.",
+      "repositories": "Dépôts",
+      "repositoriesNote": "Un dépôt est un fichier repo.json sur n'importe quel hôte HTTPS. Collez son URL ou un dépôt github.com avec un repo.json à sa racine. Les dépôts sont signés ; Mudrix vérifie chaque signature et épingle la clé de l'éditeur lors du premier ajout.",
+      "repoUrl": "URL du dépôt",
+      "add": "Ajouter",
+      "refresh": "Actualiser",
+      "remove": "Retirer",
+      "install": "Installer",
+      "uninstall": "Désinstaller",
+      "enabled": "Activée",
+      "enableNamed": "Activer {{name}}",
+      "permissions": "Permissions",
+      "noPermissions": "Aucune permission n'est approuvée.",
+      "allowCap": "Autoriser : {{capability}}",
+      "versionSource": "Version {{version}} · {{repo}}",
+      "unknownSource": "Source inconnue",
+      "sourceGone": "Sa source ne la propose plus (le dépôt ou l'intégration a été supprimé). Elle continue de fonctionner mais ne recevra plus de mises à jour.",
+      "integrationCount_one": "{{count}} intégration",
+      "integrationCount_other": "{{count}} intégrations",
+      "fetchError": "Échec de la dernière actualisation : {{error}}",
+      "securityError": "Refusé : {{error}}",
+      "alreadyAdded": "Déjà ajouté",
+      "release": "Version {{serial}}",
+      "publisherKey": "Clé de l'éditeur",
+      "official": "Officiel",
+      "fromOfficial": "De {{repo}} · Officiel",
+      "fromPublisher": "De {{repo}} · Clé de l’éditeur {{short}}…",
+      "fromPublisherFull": "De {{repo}} · Clé de l’éditeur",
+      "keyChanged": {
+        "title": "La clé de l'éditeur a changé",
+        "body": "La clé de signature de ce dépôt ne correspond pas à la clé précédemment enregistrée. Le dépôt a peut-être été compromis."
+      },
+      "trust": {
+        "title": "Faire confiance à ce dépôt ?",
+        "lists_other": "Contient {{count}} intégrations",
+        "lists_one": "Contient {{count}} intégration",
+        "rejected_other": "{{count}} autres sont listées mais ne peuvent pas être utilisées :",
+        "rejected_one": "{{count}} autre est listée mais ne peut pas être utilisée :",
+        "fingerprint": "Empreinte de la clé",
+        "fingerprintLabel": "Empreinte de la clé de signature : {{fingerprint}}",
+        "explain": "Mudrix enregistrera cette clé et s'y fiera pour les futures mises à jour.",
+        "confirm": "Faire confiance et ajouter"
+      },
+      "rejected": {
+        "unsupported": "Non pris en charge par cette version de Mudrix ({{error}}).",
+        "invalid": "Utilisation impossible : {{error}}",
+        "keepsWorking": "La version que vous avez installée continue de fonctionner.",
+        "unnamed": "Intégration sans nom",
+        "source": "Listée par {{repo}}"
+      },
+      "settings": {
+        "title": "Réglages",
+        "offered": "Réglages que vous pouvez modifier",
+        "note": "Les réglages sont conservés sur cet appareil et jamais envoyés ailleurs par Mudrix. N’y mettez ni mot de passe ni jeton.",
+        "reset": "Rétablir les valeurs par défaut",
+        "invalidText": "Ce texte ne peut pas être utilisé (il contient des caractères masqués ou de contrôle)."
+      },
+      "updateAvailable": "Mise à jour disponible",
+      "updateAvailableVersion": "Mise à jour vers {{version}} disponible",
+      "updateRequests": "La mise à jour requiert de nouvelles permissions.",
+      "updateOldStays": "L'ancienne version reste active tant que vous n'approuvez pas la mise à jour.",
+      "approveUpdate": "Approuver la mise à jour",
+      "dismiss": "Ignorer",
+      "cap": {
+        "linkCards": {
+          "title": "Cartes d'aperçu de liens",
+          "rule": "Les liens vers {{hosts}} s’affichent comme une carte « {{title}} »",
+          "path": "Chemin : {{path}}",
+          "pattern": "(uniquement les chemins de la forme {{pattern}})",
+          "exclude": "(pas {{paths}})"
+        },
+        "linkDetails": {
+          "title": "Rechercher en ligne les détails des liens",
+          "summary": "Quand un lien correspondant s’affiche, votre appareil demande ses détails à {{host}}, sans cookies ni données de compte. {{host}} voit votre adresse IP et les liens que vous consultez. Dans les salons chiffrés, il ne demande que lorsque vous appuyez sur le bouton de la carte, et jamais tant que le mode streamer est activé.",
+          "shows": "et affiche : {{fields}}",
+          "shownTitle": "un titre",
+          "shownDescription": "une description"
+        },
+        "composerActions": {
+          "title": "Actions de rédaction",
+          "inserts": "Insère du texte ou des modèles dans la zone de message"
+        },
+        "commands": {
+          "title": "Commandes",
+          "inserts": "Insère des réponses de commande",
+          "runsApi": "vous demande confirmation, puis exécute « {{label}} »"
+        },
+        "api": {
+          "title": "Requêtes API",
+          "summary": "Mudrix contacte {{host}} quand vous utilisez : {{labels}}. Vous confirmez chaque requête et voyez exactement ce qui est envoyé.",
+          "sends": "et envoie :",
+          "sendsNothing": "N'envoie aucune donnée personnelle",
+          "link": "Un lien dans la réponse peut être ajouté à votre zone de message."
+        }
+      },
+      "consent": {
+        "title": "Installer {{name}} ?",
+        "intro": "Si vous installez ceci, il sera autorisé à :",
+        "safety": "Rien ne s'exécute depuis le dépôt et rien n'est envoyé nulle part. Les boutons insèrent uniquement du texte dans la zone de message ; vous choisissez de l'envoyer ou non. Vous pouvez désactiver toute permission ou désinstaller l'intégration à tout moment.",
+        "safetyApi": "Rien ne s'exécute depuis le dépôt. Rien n'est envoyé tant que vous n'utilisez pas l'une de ces actions et confirmez la requête, qui détaille exactement ce qui est transmis. Vous pouvez désactiver toute permission ou désinstaller à tout moment.",
+        "safetyDetails": "Rien ne s’exécute depuis le dépôt. Votre appareil ne contacte que les services indiqués ci-dessus : pour rechercher les liens correspondants (en n’affichant que les champs listés) et, pour toute action, seulement après votre confirmation. Vous pouvez désactiver toute permission ou désinstaller à tout moment."
+      }
     }
   },
   "titleBar": {
@@ -2761,5 +2870,34 @@
   "reminders": {
     "title": "Rappel",
     "open": "Ouvrir"
+  },
+  "integrations": {
+    "card": {
+      "open": "Ouvrir",
+      "via": "via {{name}}",
+      "viaDetails": "via {{name}} · détails de {{host}}",
+      "loadDetails": "Afficher les détails de {{host}}",
+      "noDetails": "Aucun détail de {{host}} pour le moment."
+    },
+    "composer": {
+      "actionLabel": "{{label}} ({{name}})"
+    },
+    "command": {
+      "description": "{{description}} · via {{name}}"
+    },
+    "api": {
+      "title": "Envoyer à {{host}} ?",
+      "intro": "{{name}} ({{label}}) enverra la requête ci-dessous lorsque vous appuierez sur Envoyer.",
+      "host": "Envoyé à",
+      "path": "Requête",
+      "body": "Contenu exact envoyé",
+      "noBody": "Aucune donnée n'est envoyée avec cette requête.",
+      "onlyThis": "Rien d'autre n'est envoyé à {{host}} : aucun cookie, aucun identifiant et aucun autre message. Comme toute requête Web, le serveur peut voir votre adresse IP.",
+      "send": "Envoyer",
+      "sent": "Envoyé à {{host}}.",
+      "sentLink": "Envoyé à {{host}}. Un lien a été ajouté à votre zone de message.",
+      "failed": "Impossible d'envoyer : {{error}}",
+      "unavailable": "Cette action n'est plus disponible. L'intégration est peut-être désactivée ou désinstallée."
+    }
   }
 }

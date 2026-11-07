@@ -1941,6 +1941,115 @@
       "soundboardUnmute": "Dempen opheffen",
       "allowMoves": "Space-beheerders mogen me tussen spraakkanalen verplaatsen",
       "allowMovesNote": "Iemand die een space beheert, kan je van het ene spraakkanaal naar het andere slepen terwijl je in een gesprek zit."
+    },
+    "integrations": {
+      "title": "Integraties",
+      "intro": "Integraties verbinden Mudrix met andere apps. Ze komen uit opslagplaatsen en zijn alleen beschrijvingen: welke links worden herkend en welke knoppen, opdrachten en verzoeken worden aangeboden. Niets uit een opslagplaats wordt als code uitgevoerd. Ze worden op dit apparaat bewaard. Opslagplaatsen zijn ondertekend; Mudrix controleert elke handtekening en pint de sleutel van de uitgever vast wanneer je er voor het eerst een toevoegt.",
+      "installed": "Geïnstalleerd",
+      "installedEmpty": "Nog niets geïnstalleerd.",
+      "available": "Beschikbaar",
+      "availableEmpty": "Voeg hieronder een opslagplaats toe om integraties te vinden.",
+      "repositories": "Opslagplaatsen",
+      "repositoriesNote": "Een opslagplaats is een repo.json op een willekeurige HTTPS-host. Plak de URL of een github.com-repository met een repo.json in de hoofdmap. Opslagplaatsen zijn ondertekend; Mudrix controleert elke handtekening en pint de sleutel van de uitgever vast wanneer je er voor het eerst een toevoegt.",
+      "repoUrl": "URL van opslagplaats",
+      "add": "Toevoegen",
+      "refresh": "Vernieuwen",
+      "remove": "Verwijderen",
+      "install": "Installeren",
+      "uninstall": "Verwijderen",
+      "enabled": "Ingeschakeld",
+      "enableNamed": "{{name}} inschakelen",
+      "permissions": "Machtigingen",
+      "noPermissions": "Geen machtigingen goedgekeurd.",
+      "allowCap": "Toestaan: {{capability}}",
+      "versionSource": "Versie {{version}} · {{repo}}",
+      "unknownSource": "Onbekende bron",
+      "sourceGone": "De bron biedt deze integratie niet meer aan (de opslagplaats of de integratie is verwijderd). Hij blijft werken, maar ontvangt geen updates meer.",
+      "integrationCount_one": "{{count}} integratie",
+      "integrationCount_other": "{{count}} integraties",
+      "fetchError": "Laatste vernieuwing mislukt: {{error}}",
+      "securityError": "Geweigerd: {{error}}",
+      "alreadyAdded": "Al toegevoegd",
+      "release": "Release {{serial}}",
+      "publisherKey": "Sleutel van uitgever",
+      "official": "Officieel",
+      "fromOfficial": "Van {{repo}} · Officieel",
+      "fromPublisher": "Van {{repo}} · Sleutel van de uitgever {{short}}…",
+      "fromPublisherFull": "Van {{repo}} · Sleutel van de uitgever",
+      "keyChanged": {
+        "title": "Sleutel van uitgever is gewijzigd",
+        "body": "De handtekeningsleutel voor deze opslagplaats komt niet overeen met de eerder opgeslagen sleutel. De opslagplaats is mogelijk gecompromitteerd."
+      },
+      "trust": {
+        "title": "Deze opslagplaats vertrouwen?",
+        "lists_other": "Bevat {{count}} integraties",
+        "lists_one": "Bevat {{count}} integratie",
+        "rejected_other": "{{count}} andere staan in de lijst, maar kunnen niet worden gebruikt:",
+        "rejected_one": "{{count}} andere staat in de lijst, maar kan niet worden gebruikt:",
+        "fingerprint": "Vingerafdruk van sleutel",
+        "fingerprintLabel": "Vingerafdruk van de ondertekeningssleutel: {{fingerprint}}",
+        "explain": "Mudrix slaat deze sleutel op en controleert toekomstige updates aan de hand hiervan.",
+        "confirm": "Vertrouwen en toevoegen"
+      },
+      "rejected": {
+        "unsupported": "Wordt niet ondersteund door deze versie van Mudrix ({{error}}).",
+        "invalid": "Kan niet worden gebruikt: {{error}}",
+        "keepsWorking": "De versie die je hebt geïnstalleerd blijft werken.",
+        "unnamed": "Integratie zonder naam",
+        "source": "Vermeld door {{repo}}"
+      },
+      "settings": {
+        "title": "Instellingen",
+        "offered": "Instellingen die je kunt wijzigen",
+        "note": "Instellingen worden op dit apparaat bewaard en door Mudrix nergens naartoe gestuurd. Zet hier geen wachtwoorden of tokens in.",
+        "reset": "Standaardwaarden herstellen",
+        "invalidText": "Deze tekst kan niet worden gebruikt (hij bevat verborgen tekens of stuurtekens)."
+      },
+      "updateAvailable": "Update beschikbaar",
+      "updateAvailableVersion": "Update naar {{version}} beschikbaar",
+      "updateRequests": "De update vraagt om nieuwe machtigingen.",
+      "updateOldStays": "De oude versie blijft actief totdat je de update goedkeurt.",
+      "approveUpdate": "Update goedkeuren",
+      "dismiss": "Sluiten",
+      "cap": {
+        "linkCards": {
+          "title": "Linkvoorvertoningskaarten",
+          "rule": "Links naar {{hosts}} worden getoond als een kaart «{{title}}»",
+          "path": "Pad: {{path}}",
+          "pattern": "(alleen paden van de vorm {{pattern}})",
+          "exclude": "(niet {{paths}})"
+        },
+        "linkDetails": {
+          "title": "Details van links online opzoeken",
+          "summary": "Wanneer een passende link wordt getoond, vraagt je apparaat de details op bij {{host}}, zonder cookies of accountgegevens. {{host}} ziet je IP-adres en welke links je bekijkt. In versleutelde kamers wordt alleen gevraagd wanneer je op de knop van de kaart drukt, en nooit zolang de streamermodus aan staat.",
+          "shows": "en toont: {{fields}}",
+          "shownTitle": "een titel",
+          "shownDescription": "een beschrijving"
+        },
+        "composerActions": {
+          "title": "Acties in invoerveld",
+          "inserts": "Voegt tekst of sjablonen in het invoerveld in"
+        },
+        "commands": {
+          "title": "Commando's",
+          "inserts": "Voegt commando-antwoorden in",
+          "runsApi": "vraagt om bevestiging en voert dan «{{label}}» uit"
+        },
+        "api": {
+          "title": "API-verzoeken",
+          "summary": "Mudrix neemt contact op met {{host}} wanneer je dit gebruikt: {{labels}}. Je bevestigt elk verzoek en ziet precies wat er wordt verstuurd.",
+          "sends": "en verstuurt:",
+          "sendsNothing": "Verstuurt geen persoonlijke gegevens",
+          "link": "Een link in het antwoord kan aan je berichtveld worden toegevoegd."
+        }
+      },
+      "consent": {
+        "title": "{{name}} installeren?",
+        "intro": "Als je dit installeert, krijgt het toestemming om:",
+        "safety": "Er wordt niets uitgevoerd vanuit de opslagplaats en er wordt niets ergens naartoe gestuurd. Knoppen plaatsen alleen tekst in het invoerveld; jij kiest of je het verzendt. Je kunt elke machtiging op elk gewenst moment uitschakelen of de integratie verwijderen.",
+        "safetyApi": "Er wordt niets uitgevoerd vanuit de opslagplaats. Er wordt niets verzonden totdat je een van deze acties gebruikt en het verzoek bevestigt, waarin precies staat wat er wordt verstuurd. Je kunt elke machtiging op elk gewenst moment uitschakelen of verwijderen.",
+        "safetyDetails": "Er wordt niets uitgevoerd vanuit de opslagplaats. Je apparaat neemt alleen contact op met de hierboven genoemde diensten: om passende links op te zoeken (alleen de genoemde velden worden getoond) en, bij een actie, pas nadat je die hebt bevestigd. Je kunt elke machtiging op elk moment uitschakelen of de integratie verwijderen."
+      }
     }
   },
   "titleBar": {
@@ -2761,5 +2870,34 @@
   "reminders": {
     "title": "Herinnering",
     "open": "Openen"
+  },
+  "integrations": {
+    "card": {
+      "open": "Openen",
+      "via": "via {{name}}",
+      "viaDetails": "via {{name}} · details van {{host}}",
+      "loadDetails": "Details van {{host}} tonen",
+      "noDetails": "Op dit moment geen details van {{host}}."
+    },
+    "composer": {
+      "actionLabel": "{{label}} ({{name}})"
+    },
+    "command": {
+      "description": "{{description}} · via {{name}}"
+    },
+    "api": {
+      "title": "Verzenden naar {{host}}?",
+      "intro": "{{name}} ({{label}}) verstuurt het onderstaande verzoek wanneer je op Verzenden drukt.",
+      "host": "Verzonden naar",
+      "path": "Verzoek",
+      "body": "Precies wat er wordt verzonden",
+      "noBody": "Er worden geen gegevens meegestuurd met dit verzoek.",
+      "onlyThis": "Er wordt niets anders naar {{host}} gestuurd: geen cookies, geen accountgegevens en geen andere berichten. Zoals bij elk webverzoek kan de server je IP-adres zien.",
+      "send": "Verzenden",
+      "sent": "Verzonden naar {{host}}.",
+      "sentLink": "Verzonden naar {{host}}. Er is een link toegevoegd aan je berichtveld.",
+      "failed": "Kon niet verzenden: {{error}}",
+      "unavailable": "Deze actie is niet meer beschikbaar. De integratie is mogelijk uitgeschakeld of verwijderd."
+    }
   }
 }

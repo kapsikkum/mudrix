@@ -1941,6 +1941,115 @@
       "soundboardUnmute": "ミュート解除",
       "allowMoves": "スペース管理者によるボイスチャンネル間の移動を許可",
       "allowMovesNote": "スペースを管理している人は、通話中のあなたをそのスペースの別のボイスチャンネルへドラッグして移動できます。"
+    },
+    "integrations": {
+      "title": "統合機能",
+      "intro": "統合機能は Mudrix を他のアプリとつなげます。リポジトリから提供され、どのリンクを認識し、どのボタン、コマンド、リクエストを用意するかを記述しただけのものです。リポジトリのコードが実行されることはありません。統合機能はこの端末に保存されます。リポジトリには署名が付いており、Mudrix はすべての署名を検証し、最初に追加したときに発行者の鍵を固定します。",
+      "installed": "インストール済み",
+      "installedEmpty": "まだ何もインストールされていません。",
+      "available": "利用可能",
+      "availableEmpty": "統合機能を見つけるには下でリポジトリを追加してください。",
+      "repositories": "リポジトリ",
+      "repositoriesNote": "リポジトリは任意の HTTPS ホスト上の repo.json です。その URL またはルートに repo.json を持つ github.com リポジトリを入力してください。リポジトリには署名が付いており、Mudrix は追加時に署名を検証し発行者の公開鍵を固定（ピン留め）します。",
+      "repoUrl": "リポジトリ URL",
+      "add": "追加",
+      "refresh": "更新",
+      "remove": "削除",
+      "install": "インストール",
+      "uninstall": "アンインストール",
+      "enabled": "有効",
+      "enableNamed": "{{name}} を有効化",
+      "permissions": "権限",
+      "noPermissions": "承認されている権限はありません。",
+      "allowCap": "許可: {{capability}}",
+      "versionSource": "バージョン {{version}} · {{repo}}",
+      "unknownSource": "不明なソース",
+      "sourceGone": "提供元での公開が終了しました（リポジトリまたは統合機能が削除されました）。現在の機能はそのまま使えますが、アップデートは届きません。",
+      "integrationCount_one": "{{count}} 件の統合機能",
+      "integrationCount_other": "{{count}} 件の統合機能",
+      "fetchError": "前回の更新に失敗しました: {{error}}",
+      "securityError": "拒否されました: {{error}}",
+      "alreadyAdded": "すでに追加されています",
+      "release": "リリース {{serial}}",
+      "publisherKey": "発行者の公開鍵",
+      "official": "公式",
+      "fromOfficial": "{{repo}} 提供 · 公式",
+      "fromPublisher": "{{repo}} 提供 · 発行者の鍵 {{short}}…",
+      "fromPublisherFull": "{{repo}} 提供 · 発行者の鍵",
+      "keyChanged": {
+        "title": "発行者の公開鍵が変更されました",
+        "body": "このリポジトリの署名鍵が以前保存された鍵と一致しません。リポジトリが改ざんされている可能性があります。"
+      },
+      "trust": {
+        "title": "このリポジトリを信頼しますか？",
+        "lists_other": "{{count}} 件の統合機能が含まれています",
+        "lists_one": "{{count}} 件の統合機能が含まれています",
+        "rejected_other": "ほかに {{count}} 件が一覧にありますが、使用できません:",
+        "rejected_one": "ほかに {{count}} 件が一覧にありますが、使用できません:",
+        "fingerprint": "鍵のフィンガープリント",
+        "fingerprintLabel": "署名鍵のフィンガープリント: {{fingerprint}}",
+        "explain": "Mudrix はこの公開鍵を保存し、今後のアップデート検証に使用します。",
+        "confirm": "信頼して追加"
+      },
+      "rejected": {
+        "unsupported": "このバージョンの Mudrix では対応していません ({{error}})。",
+        "invalid": "使用できません: {{error}}",
+        "keepsWorking": "インストール済みのバージョンは引き続き動作します。",
+        "unnamed": "名前のない統合機能",
+        "source": "{{repo}} が掲載"
+      },
+      "settings": {
+        "title": "設定",
+        "offered": "変更できる設定",
+        "note": "設定はこの端末に保存され、Mudrix がどこかへ送信することはありません。パスワードやトークンは入力しないでください。",
+        "reset": "初期値に戻す",
+        "invalidText": "このテキストは使用できません（非表示文字または制御文字が含まれています）。"
+      },
+      "updateAvailable": "アップデートがあります",
+      "updateAvailableVersion": "{{version}} へのアップデートが利用可能です",
+      "updateRequests": "このアップデートには新しい権限が必要です。",
+      "updateOldStays": "アップデートを承認するまで以前のバージョンが維持されます。",
+      "approveUpdate": "アップデートを承認",
+      "dismiss": "閉じる",
+      "cap": {
+        "linkCards": {
+          "title": "リンクプレビューカード",
+          "rule": "{{hosts}} へのリンクを「{{title}}」カードとして表示します",
+          "path": "パス: {{path}}",
+          "pattern": "（{{pattern}} の形のパスのみ）",
+          "exclude": "（{{paths}} は除く）"
+        },
+        "linkDetails": {
+          "title": "リンクの詳細をオンラインで取得",
+          "summary": "一致するリンクが表示されると、お使いの端末は Cookie やアカウント情報なしで {{host}} に詳細を問い合わせます。{{host}} にはあなたの IP アドレスと、どのリンクを見たかが伝わります。暗号化されたルームでは、カードのボタンを押したときだけ問い合わせ、ストリーマーモードがオンの間は問い合わせません。",
+          "shows": "表示する項目: {{fields}}",
+          "shownTitle": "タイトル",
+          "shownDescription": "説明"
+        },
+        "composerActions": {
+          "title": "入力欄のアクション",
+          "inserts": "入力欄にテキストや定型文を挿入します"
+        },
+        "commands": {
+          "title": "コマンド",
+          "inserts": "コマンドの実行結果を挿入します",
+          "runsApi": "確認を求めてから「{{label}}」を実行します"
+        },
+        "api": {
+          "title": "API リクエスト",
+          "summary": "次の機能を使うと、Mudrix は {{host}} に接続します: {{labels}}。リクエストごとに確認でき、送信される内容が正確に表示されます。",
+          "sends": "送信する内容:",
+          "sendsNothing": "個人情報は送信しません",
+          "link": "応答内のリンクをメッセージ入力欄に追加できます。"
+        }
+      },
+      "consent": {
+        "title": "{{name}} をインストールしますか？",
+        "intro": "インストールすると、以下の操作が許可されます:",
+        "safety": "リポジトリから勝手にコードが実行されたり、どこかに送信されたりすることはありません。ボタンは入力欄にテキストを挿入するだけで、送信するかどうかはあなたが決定します。いつでも権限を無効化またはアンインストールできます。",
+        "safetyApi": "リポジトリから勝手にコードが実行されることはありません。あなたがアクションを使用して確認するまで何も送信されず、何が送信されるかは事前に正確に表示されます。いつでも権限を無効化またはアンインストールできます。",
+        "safetyDetails": "リポジトリから実行されるものはありません。端末が接続するのは上記のサービスだけです。一致するリンクの詳細の取得（表示するのは記載された項目のみ）と、確認後に行うアクションに限られます。権限はいつでもオフにでき、アンインストールもできます。"
+      }
     }
   },
   "titleBar": {
@@ -2761,5 +2870,34 @@
   "reminders": {
     "title": "リマインダー",
     "open": "開く"
+  },
+  "integrations": {
+    "card": {
+      "open": "開く",
+      "via": "{{name}} 経由",
+      "viaDetails": "{{name}} 経由 · 詳細は {{host}} から",
+      "loadDetails": "{{host}} から詳細を表示",
+      "noDetails": "現在、{{host}} の詳細はありません。"
+    },
+    "composer": {
+      "actionLabel": "{{label}} ({{name}})"
+    },
+    "command": {
+      "description": "{{description}} · {{name}} 経由"
+    },
+    "api": {
+      "title": "{{host}} に送信しますか？",
+      "intro": "「送信」を押すと、{{name}} ({{label}}) が以下のリクエストを送信します。",
+      "host": "送信先",
+      "path": "リクエスト",
+      "body": "送信される内容",
+      "noBody": "このリクエストではデータは送信されません。",
+      "onlyThis": "{{host}} にはこれ以外の情報（Cookie、アカウント情報、他のメッセージなど）は送信されません。通常のウェブ通信と同様に IP アドレスは送信先に認識されます。",
+      "send": "送信",
+      "sent": "{{host}} に送信しました。",
+      "sentLink": "{{host}} に送信しました。メッセージ入力欄にリンクが追加されました。",
+      "failed": "送信できませんでした: {{error}}",
+      "unavailable": "この操作は現在利用できません。統合機能が無効またはアンインストールされている可能性があります。"
+    }
   }
 }

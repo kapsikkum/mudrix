@@ -1941,6 +1941,115 @@
       "soundboardUnmute": "Unmute",
       "allowMoves": "Let space admins move me between voice channels",
       "allowMovesNote": "Someone who manages a space can drag you from one of its voice channels to another while you are in a call."
+    },
+    "integrations": {
+      "title": "Integrations",
+      "intro": "Integrations connect Mudrix to other apps. They come from repositories and are only descriptions: which links to recognise, which buttons, commands and requests to offer. Nothing from a repository runs as code. They are kept on this device. Repositories are signed; Mudrix checks every signature and pins the publisher's key when you first add one.",
+      "installed": "Installed",
+      "installedEmpty": "Nothing installed yet.",
+      "available": "Available",
+      "availableEmpty": "Add a repository below to find integrations.",
+      "repositories": "Repositories",
+      "repositoriesNote": "A repository is a repo.json on any https host. Paste its URL, or a github.com repository with a repo.json at its root. Repositories are signed; Mudrix checks every signature and pins the publisher's key when you first add one.",
+      "repoUrl": "Repository URL",
+      "add": "Add",
+      "refresh": "Refresh",
+      "remove": "Remove",
+      "install": "Install",
+      "uninstall": "Uninstall",
+      "enabled": "Enabled",
+      "enableNamed": "Enable {{name}}",
+      "permissions": "Permissions",
+      "noPermissions": "No permissions are approved.",
+      "allowCap": "Allow: {{capability}}",
+      "versionSource": "Version {{version}} · {{repo}}",
+      "unknownSource": "Unknown source",
+      "sourceGone": "Its source no longer offers it (the repository or the integration was removed). It keeps working, but will not receive updates.",
+      "integrationCount_one": "{{count}} integration",
+      "integrationCount_other": "{{count}} integrations",
+      "fetchError": "Last refresh failed: {{error}}",
+      "securityError": "Refused: {{error}}",
+      "alreadyAdded": "This repository is already added.",
+      "release": "Release {{serial}}",
+      "publisherKey": "Publisher key",
+      "official": "Official",
+      "fromOfficial": "From {{repo}} · Official",
+      "fromPublisher": "From {{repo}} · Publisher key {{short}}…",
+      "fromPublisherFull": "From {{repo}} · Publisher key",
+      "keyChanged": {
+        "title": "This repository now uses a different signing key",
+        "body": "Mudrix refused its update because the key no longer matches the one you trusted. Remove it and add it again only if you expected the publisher to change keys."
+      },
+      "trust": {
+        "title": "Trust this publisher?",
+        "lists_other": "Lists {{count}} integrations:",
+        "lists_one": "Lists {{count}} integration:",
+        "rejected_other": "{{count}} more are listed but can't be used:",
+        "rejected_one": "{{count}} more is listed but can't be used:",
+        "fingerprint": "Signing key fingerprint",
+        "fingerprintLabel": "Signing key fingerprint: {{fingerprint}}",
+        "explain": "Mudrix only accepts updates to this repository that are signed with this key. If the author gave you a fingerprint, check that it matches. Whoever holds this key can change what these integrations ask for; anything new still needs your approval before it switches on. If the repository ever uses a different key, Mudrix refuses it.",
+        "confirm": "Trust and add"
+      },
+      "rejected": {
+        "unsupported": "Not supported in this version of Mudrix ({{error}}).",
+        "invalid": "Can't be used: {{error}}",
+        "keepsWorking": "The version you installed keeps working.",
+        "unnamed": "Unnamed integration",
+        "source": "Listed by {{repo}}"
+      },
+      "settings": {
+        "title": "Settings",
+        "offered": "Settings you can change",
+        "note": "Settings are kept on this device and never sent anywhere by Mudrix. Don't put passwords or tokens here.",
+        "reset": "Reset to defaults",
+        "invalidText": "This text can't be used (it contains hidden or control characters)."
+      },
+      "updateAvailable": "Update available",
+      "updateAvailableVersion": "Update available: version {{version}}",
+      "updateRequests": "The new version asks to be allowed to:",
+      "updateOldStays": "Until you approve, it keeps working with the permissions you approved before.",
+      "approveUpdate": "Approve update",
+      "dismiss": "Dismiss",
+      "cap": {
+        "linkCards": {
+          "title": "Recognise links in messages",
+          "rule": "Links to {{hosts}} are shown as a \"{{title}}\" card",
+          "path": "(only paths starting with {{path}})",
+          "pattern": "(only paths shaped like {{pattern}})",
+          "exclude": "(not {{paths}})"
+        },
+        "linkDetails": {
+          "title": "Look up details of links online",
+          "summary": "When a matching link is shown, your device asks {{host}} for its details, without cookies or account details. {{host}} sees your IP address and which links you look at. In encrypted rooms it only asks when you press the card's button, and never while streamer mode is on.",
+          "shows": "and shows: {{fields}}",
+          "shownTitle": "a title",
+          "shownDescription": "a description"
+        },
+        "composerActions": {
+          "title": "Add buttons to the message box",
+          "inserts": "inserts"
+        },
+        "commands": {
+          "title": "Add slash commands",
+          "inserts": "puts this text in the message box:",
+          "runsApi": "asks you to confirm, then runs \"{{label}}\""
+        },
+        "api": {
+          "title": "Contact an online service",
+          "summary": "Mudrix contacts {{host}} when you use: {{labels}}. You confirm each request and see exactly what is sent.",
+          "sends": "and sends:",
+          "sendsNothing": "and sends no data.",
+          "link": "A link in the answer can be added to your message box."
+        }
+      },
+      "consent": {
+        "title": "Install {{name}}?",
+        "intro": "If you install this, it will be allowed to:",
+        "safety": "Nothing runs from the repository and nothing is sent anywhere. Buttons only put text in the message box; you choose whether to send it. You can switch off any permission or uninstall at any time.",
+        "safetyApi": "Nothing runs from the repository. Nothing is sent until you use one of these actions and confirm the request, which shows exactly what is sent. You can switch off any permission or uninstall at any time.",
+        "safetyDetails": "Nothing runs from the repository. Your device contacts only the services named above: to look up matching links (showing only the fields listed), and for any action only after you confirm it. You can switch off any permission or uninstall at any time."
+      }
     }
   },
   "titleBar": {
@@ -2761,5 +2870,34 @@
   "reminders": {
     "title": "Reminder",
     "open": "Open"
+  },
+  "integrations": {
+    "card": {
+      "open": "Open",
+      "via": "via {{name}}",
+      "viaDetails": "via {{name}} · details from {{host}}",
+      "loadDetails": "Show details from {{host}}",
+      "noDetails": "No details from {{host}} right now."
+    },
+    "composer": {
+      "actionLabel": "{{label}} ({{name}})"
+    },
+    "command": {
+      "description": "{{description}} · via {{name}}"
+    },
+    "api": {
+      "title": "Send to {{host}}?",
+      "intro": "{{name}} ({{label}}) will send the request below when you press Send.",
+      "host": "Sent to",
+      "path": "Request",
+      "body": "Exactly what is sent",
+      "noBody": "No data is sent with this request.",
+      "onlyThis": "Nothing else is sent to {{host}}: no cookies, no account details and no other messages. Like any web request, it can see your IP address.",
+      "send": "Send",
+      "sent": "Sent to {{host}}.",
+      "sentLink": "Sent to {{host}}. A link was added to your message box.",
+      "failed": "Could not send: {{error}}",
+      "unavailable": "This action is no longer available. The integration may be turned off or uninstalled."
+    }
   }
 }

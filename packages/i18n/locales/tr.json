@@ -1941,6 +1941,115 @@
       "soundboardUnmute": "Sesi aç",
       "allowMoves": "Alan yöneticilerinin beni sesli kanallar arasında taşımasına izin ver",
       "allowMovesNote": "Bir alanı yöneten biri, siz bir aramadayken sizi o alanın bir sesli kanalından diğerine sürükleyebilir."
+    },
+    "integrations": {
+      "title": "Entegrasyonlar",
+      "intro": "Entegrasyonlar Mudrix’i diğer uygulamalara bağlar. Depolardan gelir ve yalnızca açıklamalardır: hangi bağlantıların tanınacağı, hangi düğmelerin, komutların ve isteklerin sunulacağı. Bir depodan hiçbir şey kod olarak çalıştırılmaz. Bu cihazda saklanır. Depolar imzalıdır; Mudrix her imzayı doğrular ve ilk eklediğinizde yayıncının anahtarını sabitler.",
+      "installed": "Yüklü",
+      "installedEmpty": "Henüz hiçbir şey yüklenmedi.",
+      "available": "Kullanılabilir",
+      "availableEmpty": "Entegrasyonları bulmak için aşağıdan bir depo ekleyin.",
+      "repositories": "Depolar",
+      "repositoriesNote": "Bir depo, herhangi bir HTTPS ana bilgisayarındaki bir repo.json dosyasıdır. URL'sini veya kökünde repo.json bulunan bir github.com deposunu yapıştırın. Depolar imzalıdır; Mudrix her imzayı doğrular ve ilk eklediğinizde yayıncının anahtarını sabitler.",
+      "repoUrl": "Depo URL'si",
+      "add": "Ekle",
+      "refresh": "Yenile",
+      "remove": "Kaldır",
+      "install": "Yükle",
+      "uninstall": "Kaldır",
+      "enabled": "Etkin",
+      "enableNamed": "{{name}} uygulamasını etkinleştir",
+      "permissions": "İzinler",
+      "noPermissions": "Onaylanmış izin yok.",
+      "allowCap": "İzin ver: {{capability}}",
+      "versionSource": "Sürüm {{version}} · {{repo}}",
+      "unknownSource": "Bilinmeyen kaynak",
+      "sourceGone": "Kaynağı artık bunu sunmuyor (depo veya entegrasyon kaldırıldı). Çalışmaya devam eder ancak güncelleme almaz.",
+      "integrationCount_one": "{{count}} entegrasyon",
+      "integrationCount_other": "{{count}} entegrasyon",
+      "fetchError": "Son yenileme başarısız: {{error}}",
+      "securityError": "Reddedildi: {{error}}",
+      "alreadyAdded": "Zaten eklendi",
+      "release": "Sürüm {{serial}}",
+      "publisherKey": "Yayıncı anahtarı",
+      "official": "Resmi",
+      "fromOfficial": "{{repo}} · Resmî",
+      "fromPublisher": "{{repo}} · Yayıncı anahtarı {{short}}…",
+      "fromPublisherFull": "{{repo}} · Yayıncı anahtarı",
+      "keyChanged": {
+        "title": "Yayıncı anahtarı değişti",
+        "body": "Bu depo için imzalama anahtarı daha önce kaydedilen anahtarla eşleşmiyor. Depo güvenliği ihlal edilmiş olabilir."
+      },
+      "trust": {
+        "title": "Bu depoya güvenilsin mi?",
+        "lists_other": "{{count}} entegrasyon içeriyor",
+        "lists_one": "{{count}} entegrasyon içeriyor",
+        "rejected_other": "{{count}} tane daha listelenmiş ama kullanılamıyor:",
+        "rejected_one": "{{count}} tane daha listelenmiş ama kullanılamıyor:",
+        "fingerprint": "Anahtar parmak izi",
+        "fingerprintLabel": "İmza anahtarı parmak izi: {{fingerprint}}",
+        "explain": "Mudrix bu anahtarı kaydedecek ve gelecekteki güncellemeleri buna göre doğrulayacaktır.",
+        "confirm": "Güven ve ekle"
+      },
+      "rejected": {
+        "unsupported": "Mudrix’in bu sürümünde desteklenmiyor ({{error}}).",
+        "invalid": "Kullanılamaz: {{error}}",
+        "keepsWorking": "Kurduğunuz sürüm çalışmaya devam eder.",
+        "unnamed": "Adsız entegrasyon",
+        "source": "{{repo}} tarafından listelendi"
+      },
+      "settings": {
+        "title": "Ayarlar",
+        "offered": "Değiştirebileceğiniz ayarlar",
+        "note": "Ayarlar bu cihazda saklanır ve Mudrix bunları hiçbir yere göndermez. Buraya parola veya belirteç yazmayın.",
+        "reset": "Varsayılanlara sıfırla",
+        "invalidText": "Bu metin kullanılamaz (gizli veya denetim karakterleri içeriyor)."
+      },
+      "updateAvailable": "Güncelleme mevcut",
+      "updateAvailableVersion": "{{version}} sürümüne güncelleme mevcut",
+      "updateRequests": "Güncelleme yeni izinler talep ediyor.",
+      "updateOldStays": "Siz güncellemeyi onaylayana kadar eski sürüm etkin kalacaktır.",
+      "approveUpdate": "Güncellemeyi onayla",
+      "dismiss": "Kapat",
+      "cap": {
+        "linkCards": {
+          "title": "Bağlantı önizleme kartları",
+          "rule": "{{hosts}} bağlantıları «{{title}}» kartı olarak gösterilir",
+          "path": "Yol: {{path}}",
+          "pattern": "(yalnızca {{pattern}} biçimindeki yollar)",
+          "exclude": "({{paths}} hariç)"
+        },
+        "linkDetails": {
+          "title": "Bağlantı ayrıntılarını çevrimiçi ara",
+          "summary": "Eşleşen bir bağlantı gösterildiğinde cihazınız çerezler veya hesap bilgileri olmadan {{host}} sunucusundan ayrıntılarını ister. {{host}} IP adresinizi ve hangi bağlantılara baktığınızı görür. Şifreli odalarda yalnızca kartın düğmesine bastığınızda sorar, yayıncı modu açıkken ise hiç sormaz.",
+          "shows": "ve şunu gösterir: {{fields}}",
+          "shownTitle": "bir başlık",
+          "shownDescription": "bir açıklama"
+        },
+        "composerActions": {
+          "title": "Oluşturucu eylemleri",
+          "inserts": "Mesaj kutusuna metin veya şablon ekler"
+        },
+        "commands": {
+          "title": "Komutlar",
+          "inserts": "Komut yanıtlarını ekler",
+          "runsApi": "onayınızı ister, sonra «{{label}}» işlemini çalıştırır"
+        },
+        "api": {
+          "title": "API istekleri",
+          "summary": "Şunları kullandığınızda Mudrix {{host}} ile iletişim kurar: {{labels}}. Her isteği onaylarsınız ve tam olarak neyin gönderildiğini görürsünüz.",
+          "sends": "ve şunu gönderir:",
+          "sendsNothing": "Kişisel veri göndermez",
+          "link": "Yanıttaki bir bağlantı mesaj kutunuza eklenebilir."
+        }
+      },
+      "consent": {
+        "title": "{{name}} yüklensin mi?",
+        "intro": "Bunu yüklerseniz şunlara izin verilecektir:",
+        "safety": "Depodan hiçbir şey çalıştırılmaz ve hiçbir yere hiçbir şey gönderilmez. Düğmeler yalnızca mesaj kutusuna metin yerleştirir; gönderip göndermeyeceğinizi siz seçersiniz. İstediğiniz zaman herhangi bir izni kapatabilir veya entegrasyonu kaldırabilirsiniz.",
+        "safetyApi": "Depodan hiçbir şey çalıştırılmaz. Bu işlemlerden birini kullanıp tam olarak neyin gönderildiğini gösteren isteği onaylayana kadar hiçbir şey gönderilmez. İstediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz.",
+        "safetyDetails": "Depodan hiçbir şey çalıştırılmaz. Cihazınız yalnızca yukarıda adı geçen hizmetlerle iletişim kurar: eşleşen bağlantıların ayrıntılarını aramak için (yalnızca listelenen alanlar gösterilir) ve herhangi bir eylem için ancak siz onayladıktan sonra. Dilediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz."
+      }
     }
   },
   "titleBar": {
@@ -2761,5 +2870,34 @@
   "reminders": {
     "title": "Hatırlatma",
     "open": "Aç"
+  },
+  "integrations": {
+    "card": {
+      "open": "Aç",
+      "via": "{{name}} aracılığıyla",
+      "viaDetails": "{{name}} aracılığıyla · ayrıntılar {{host}} üzerinden",
+      "loadDetails": "{{host}} ayrıntılarını göster",
+      "noDetails": "Şu anda {{host}} için ayrıntı yok."
+    },
+    "composer": {
+      "actionLabel": "{{label}} ({{name}})"
+    },
+    "command": {
+      "description": "{{description}} · {{name}} aracılığıyla"
+    },
+    "api": {
+      "title": "{{host}} adresine gönderilsin mi?",
+      "intro": "Gönder'e bastığınızda {{name}} ({{label}}) aşağıdaki isteği gönderecektir.",
+      "host": "Gönderilen adres",
+      "path": "İstek",
+      "body": "Tam olarak gönderilen içerik",
+      "noBody": "Bu istekle hiçbir veri gönderilmez.",
+      "onlyThis": "{{host}} adresine başka hiçbir şey gönderilmez: çerezler, hesap bilgileri veya başka mesajlar yok. Tüm web isteklerinde olduğu gibi sunucu IP adresinizi görebilir.",
+      "send": "Gönder",
+      "sent": "{{host}} adresine gönderildi.",
+      "sentLink": "{{host}} adresine gönderildi. Mesaj kutunuza bir bağlantı eklendi.",
+      "failed": "Gönderilemedi: {{error}}",
+      "unavailable": "Bu eylem artık kullanılamıyor. Entegrasyon kapatılmış veya kaldırılmış olabilir."
+    }
   }
 }

@@ -12,6 +12,7 @@ import {
   BellIcon,
   SmileyStickerIcon,
   FilmStripIcon,
+  PuzzlePieceIcon,
   MicrophoneIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
@@ -43,6 +44,7 @@ import { Language } from './language';
 import { Notifications } from './notifications';
 import { EmojisStickers } from './emojis';
 import { Media } from './media';
+import { Integrations } from './integrations';
 import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
@@ -171,6 +173,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Notifications />;
     case 'emojis-stickers':
       return <EmojisStickers />;
+    case 'integrations':
+      return <Integrations />;
     case 'media':
       return <Media />;
     case 'voice':
@@ -194,6 +198,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   return [
     { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
     { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
+    { key: 'integrations', label: t('settings.integrations.title'), Icon: PuzzlePieceIcon },
     {
       key: 'emojis-stickers',
       label: t('settings.emojisStickers.title'),
