@@ -1,5 +1,6 @@
 package org.wizardchat.android.ui.voice
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
@@ -318,20 +319,28 @@ internal fun CallVideoView(track: VideoTrack, connection: LiveKitRoom?, fill: Bo
     key(room) {
         val attached = remember { arrayOfNulls<VideoTrack>(1) }
         AndroidView(
-            factory = { context -> TextureViewRenderer(context).also(room::initVideoRenderer) },
+            factory = { context ->
+                TextureViewRenderer(context).also { view ->
+                    runCatching { room.initVideoRenderer(view) }.onFailure { Log.w("WZCALL", "video view setup failed", it) }
+                }
+            },
             update = { view ->
                 view.setScalingType(if (fill) RendererCommon.ScalingType.SCALE_ASPECT_FILL else RendererCommon.ScalingType.SCALE_ASPECT_FIT)
                 view.setMirror(mirror)
                 if (attached[0] !== track) {
-                    attached[0]?.removeRenderer(view)
-                    track.addRenderer(view)
+                    runCatching {
+                        attached[0]?.removeRenderer(view)
+                        track.addRenderer(view)
+                    }.onFailure { Log.w("WZCALL", "attaching video failed", it) }
                     attached[0] = track
                 }
             },
             onRelease = { view ->
-                attached[0]?.removeRenderer(view)
+                runCatching {
+                    attached[0]?.removeRenderer(view)
+                    view.release()
+                }
                 attached[0] = null
-                view.release()
             },
             modifier = modifier,
         )

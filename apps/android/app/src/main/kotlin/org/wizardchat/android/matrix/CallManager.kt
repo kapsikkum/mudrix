@@ -36,12 +36,14 @@ import io.livekit.android.room.track.VideoPreset169
 import io.livekit.android.room.track.VideoTrack
 import io.livekit.android.room.track.screencapture.ScreenCaptureParams
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.JsonObject
 import livekit.org.webrtc.FrameCryptorKeyDerivationAlgorithm
@@ -174,7 +176,11 @@ class CallManager {
     /** Asks to capture the screen: the result data for LiveKit's screen capture, or null */
     internal var screenCaptureRequester: (suspend () -> Intent?)? = null
 
-    private val scope = MainScope()
+    // Anything unexpected in the call's work ends the call with its message instead of the app
+    private val scope = MainScope() + CoroutineExceptionHandler { _, error ->
+        Log.e(TAG, "call failed", error)
+        fail(error.message ?: error.javaClass.simpleName, leave = true)
+    }
     private var ringback: CallSounds.Loop? = null
     private var ringtone: CallSounds.Loop? = null
     private var knownOthers = setOf<String>()
@@ -240,6 +246,8 @@ class CallManager {
             }
             this.session = joined
             if (joined.encrypted()) {
+                // The key provider calls into WebRTC, which only LiveKit.init or the first connection loads
+                LiveKit.init(context)
                 keyProvider = BaseKeyProvider(
                     ratchetWindowSize = 10,
                     enableSharedKey = false,
@@ -270,8 +278,9 @@ class CallManager {
         } catch (error: CancellationException) {
             // Left while joining: leaving already cleaned up
             if (attempt == current && this.session === call) failJoin(current, call, null)
-        } catch (error: Exception) {
-            failJoin(current, call, error.message ?: L10n.format("common.somethingWentWrong"))
+        } catch (error: Throwable) {
+            Log.e(TAG, "join failed", error)
+            failJoin(current, call, error.message ?: error.javaClass.simpleName)
         }
     }
 

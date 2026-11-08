@@ -12,11 +12,14 @@ import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.WizardApplication
@@ -52,7 +55,7 @@ class CallNotificationController {
     private var shown: CallActivityState? = null
     private var lastUpdate = 0L
     private var pending: Job? = null
-    private val scope = MainScope()
+    private val scope = MainScope() + CoroutineExceptionHandler { _, error -> Log.w("WZCALL", "call notification failed", error) }
     private val context: Context get() = WizardApplication.instance
 
     fun start(roomName: String, isDirect: Boolean, state: CallActivityState) {
