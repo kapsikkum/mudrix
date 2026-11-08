@@ -18,7 +18,7 @@ Matrix logic)    Tauri IPC (rpc.rs)   apps/desktop   macOS/Windows/Linux
 `crates/core` does everything that isn't UI: sign-in, sync, encryption, rooms, timelines, calls and settings. The apps
 only render what the core pushes to them and call it for actions. `apps/desktop` reuses the web UI, `apps/ios` (SwiftUI)
 and `apps/android` (Jetpack Compose) are native. The apps' typed API is generated from the declarations in
-`crates/core/src/rpc/`. How the code is organised and what goes where is in [CONTRIBUTING.md](CONTRIBUTING.md).
+`crates/core/src/rpc/`. How the code is organised and what goes where is in [CODEBASE.md](CODEBASE.md).
 
 ## Setup
 

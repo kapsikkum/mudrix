@@ -81,7 +81,8 @@ Not in the stores yet, but you can build them yourself (see Local Development).
 
 - [Development](docs/DEVELOPMENT.md): setting up, running the apps, checks
 - [Building and releasing](docs/BUILDING.md)
-- [Contributing](docs/CONTRIBUTING.md): where code goes and the conventions
+- [Working on the codebase](docs/CODEBASE.md): where code goes and the conventions
+- [Contributing](CONTRIBUTING.md): reporting bugs, suggesting features and contributing code
 
 ### Using Docker
 
