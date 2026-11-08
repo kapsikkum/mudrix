@@ -3,7 +3,7 @@
  * Covers all screens in docs/PARITY_PLAN.md phase 3.
  */
 
-const CLICK_OPTS = { timeout: 2000 };
+const CLICK_OPTS = { timeout: 3000, force: true };
 
 async function waitPageReady(page) {
   await page.waitForTimeout(400);
@@ -41,17 +41,28 @@ async function closeDialog(page) {
 }
 
 async function openSettingsTab(page, port, tabName, width) {
-  if (!page.url().endsWith(`:${port}/`)) {
-    await page.goto(`http://localhost:${port}/`);
-    await waitPageReady(page);
-  }
+  await page.goto(`http://localhost:${port}/`);
+  await waitPageReady(page);
   await closeDialog(page);
 
   if (width && width < 600) {
-    const youBtn = page.locator('button:has-text("You")').first();
-    if (await youBtn.isVisible().catch(() => false)) {
-      await youBtn.click(CLICK_OPTS).catch(() => {});
+    const menuBtn = page.locator('button[aria-label="Menu"]').first();
+    if (await menuBtn.isVisible().catch(() => false)) {
+      await menuBtn.click(CLICK_OPTS).catch(() => {});
       await page.waitForTimeout(400);
+      const settingsBtn = page
+        .locator('button[aria-label*="User Settings" i], button[aria-label*="Settings" i]')
+        .last();
+      if (await settingsBtn.isVisible().catch(() => false)) {
+        await settingsBtn.click(CLICK_OPTS).catch(() => {});
+        await page.waitForTimeout(500);
+      }
+    } else {
+      const youBtn = page.locator('button:has-text("You")').first();
+      if (await youBtn.isVisible().catch(() => false)) {
+        await youBtn.click(CLICK_OPTS).catch(() => {});
+        await page.waitForTimeout(400);
+      }
     }
   } else {
     const settingsBtn = page
@@ -67,9 +78,10 @@ async function openSettingsTab(page, port, tabName, width) {
     const tab = page
       .locator(`button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}")`)
       .first();
+    await tab.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await tab.isVisible().catch(() => false)) {
       await tab.click(CLICK_OPTS).catch(() => {});
-      await page.waitForTimeout(400);
+      await page.waitForTimeout(500);
     }
   }
 }

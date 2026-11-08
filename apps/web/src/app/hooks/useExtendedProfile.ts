@@ -283,7 +283,28 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
     onSettled: invalidate,
   });
 
-  return { saveFields, busy };
+  const { mutateAsync: saveBannerFile, isPending: savingBanner } = useMutation({
+    mutationFn: async (file: File) => {
+      if (!client) throw new Error('No client');
+      await client.setBanner(new Uint8Array(await file.arrayBuffer()), file.type || null);
+    },
+    onSettled: invalidate,
+  });
+
+  const { mutateAsync: removeBannerField, isPending: removingBanner } = useMutation({
+    mutationFn: async () => {
+      if (!client) throw new Error('No client');
+      await client.setBanner(null);
+    },
+    onSettled: invalidate,
+  });
+
+  return {
+    saveFields,
+    saveBannerFile,
+    removeBannerField,
+    busy: busy || savingBanner || removingBanner,
+  };
 }
 
 /**
