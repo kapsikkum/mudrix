@@ -24,7 +24,7 @@ function CloseButton({ onClose }: { onClose: () => void }) {
       onClick={onClose}
       aria-label={t('common.close')}
     >
-      <XIcon size={18} />
+      <XIcon size={22} />
     </button>
   );
 }
@@ -88,7 +88,7 @@ export function NarrowSettingsPage({
           onClick={onBack}
           aria-label={t('common.back')}
         >
-          <CaretLeftIcon size={20} />
+          <CaretLeftIcon size={22} />
         </button>
         <span className={css.pageHeaderTitle}>{title}</span>
         {onClose && <CloseButton onClose={onClose} />}

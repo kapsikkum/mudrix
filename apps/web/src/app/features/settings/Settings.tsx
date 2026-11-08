@@ -392,7 +392,7 @@ export function Settings() {
             </div>
           </nav>
 
-          <div className={css.content} ref={setScrollerEl}>
+          <div className={css.content}>
             <button
               type="button"
               className={css.closeBtn}
@@ -401,7 +401,9 @@ export function Settings() {
             >
               <XIcon size={18} />
             </button>
-            <PageContent page={shownPage} />
+            <div className={css.scroller} ref={setScrollerEl}>
+              <PageContent page={shownPage} />
+            </div>
           </div>
         </>
       )}

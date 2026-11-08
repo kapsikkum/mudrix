@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import {
+  LockSimpleIcon,
+  LockSimpleOpenIcon,
   PushPinIcon,
   PhoneIcon,
   HashStraightIcon,
@@ -11,7 +13,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Tooltip } from '@/app/components/Tooltip';
-import { membersPanelOpenAtom, threadsPanelViewAtom } from '@/app/store/atoms';
+import {
+  membersPanelOpenAtom,
+  threadsPanelViewAtom,
+  roomSettingsRoomIdAtom,
+  roomSettingsTabAtom,
+} from '@/app/store/atoms';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
 import { useRoom } from '@/app/data';
@@ -42,8 +49,11 @@ export function RoomHeader({
   const setThreadsPanelView = useSetAtom(threadsPanelViewAtom);
   const membersPanelOpen = useAtomValue(membersPanelOpenAtom);
   const threadsPanelView = useAtomValue(threadsPanelViewAtom);
+  const setRoomSettingsId = useSetAtom(roomSettingsRoomIdAtom);
+  const setRoomSettingsTab = useSetAtom(roomSettingsTabAtom);
   const hasUnreadThreads = useHasUnreadThreads(roomId);
   const room = useRoom(roomId);
+  const encrypted = room?.isEncrypted ?? false;
   const [showPinned, setShowPinned] = useState(false);
 
   useEffect(() => {
@@ -128,6 +138,27 @@ export function RoomHeader({
             <Tooltip content={roomId}>
               <h1 className={css.roomName}>{roomName}</h1>
             </Tooltip>
+            {room && !room.isSpace && (
+              <Tooltip
+                content={encrypted ? t('encryption.encrypted') : t('encryption.notEncrypted')}
+              >
+                <button
+                  type="button"
+                  className={encrypted ? css.encryptionBtn : css.encryptionBtnOff}
+                  aria-label={encrypted ? t('encryption.encrypted') : t('encryption.notEncrypted')}
+                  onClick={() => {
+                    setRoomSettingsTab('general');
+                    setRoomSettingsId(roomId);
+                  }}
+                >
+                  {encrypted ? (
+                    <LockSimpleIcon size={14} weight="fill" />
+                  ) : (
+                    <LockSimpleOpenIcon size={14} />
+                  )}
+                </button>
+              </Tooltip>
+            )}
           </div>
           {topic && (
             <>

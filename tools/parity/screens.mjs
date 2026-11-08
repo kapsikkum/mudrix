@@ -71,11 +71,14 @@ async function openRoomSettingsTab(page, port, roomId, tabName) {
   await page.goto(`http://localhost:${port}/r/${encodeURIComponent(roomId)}`);
   await waitPageReady(page);
   await closeDialog(page);
-  const roomGear = page
-    .locator('header button[aria-label*="Settings"], header button[aria-label*="Room"]')
-    .first();
-  if (await roomGear.isVisible().catch(() => false)) {
-    await roomGear.click(CLICK_OPTS).catch(() => {});
+  const lockBtn = page.locator('button[aria-label*="encrypted" i]').first();
+  await lockBtn.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+  if (await lockBtn.isVisible().catch(() => false)) {
+    await lockBtn.click(CLICK_OPTS).catch(() => {});
+    await page
+      .locator('[role="dialog"]')
+      .waitFor({ state: 'visible', timeout: 5000 })
+      .catch(() => {});
     await page.waitForTimeout(500);
   }
   if (tabName) {

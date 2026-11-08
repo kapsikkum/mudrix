@@ -177,7 +177,7 @@ export function SpaceSettings() {
             >
               <XIcon size={18} />
             </button>
-            {panel}
+            <div className={css.scroller}>{panel}</div>
           </div>
         </>
       )}

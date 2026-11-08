@@ -1,6 +1,9 @@
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 export const dialogBody = style({
   selectors: {
@@ -23,17 +26,31 @@ export const nav = style({
   gap: '2px',
   overflowY: 'auto',
   flexShrink: 0,
+  '@media': {
+    [PANEL_OVERLAY_QUERY]: { width: '56px' },
+  },
 });
 
 export const navLabel = style({
   padding: '8px 10px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   fontWeight: 700,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
+  '@media': {
+    [PANEL_OVERLAY_QUERY]: {
+      display: 'none',
+    },
+  },
 });
 
-export const navLabelText = style({});
+export const navLabelText = style({
+  '@media': {
+    [PANEL_OVERLAY_QUERY]: {
+      display: 'none',
+    },
+  },
+});
 
 export const navItem = style({
   display: 'flex',
@@ -45,7 +62,7 @@ export const navItem = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   transition: `background-color ${fast}, color ${fast}`,
   textAlign: 'left',
@@ -68,20 +85,28 @@ export const navItemActive = style([
   },
 ]);
 
+// The page scrolls inside `scroller`; the close button and the page title stay put above it.
 export const content = style({
   flex: 1,
-  overflowY: 'auto',
-  padding: '32px 40px',
+  minWidth: 0,
+  overflow: 'hidden',
   position: 'relative',
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.textPrimary,
+});
+
+export const scroller = style({
+  height: '100%',
+  overflowY: 'auto',
+  padding: '32px 40px',
   '@media': {
-    '(max-width: 768px)': { padding: '16px' },
+    [PANEL_OVERLAY_QUERY]: { padding: '16px' },
   },
 });
 
 export const closeBtn = style({
   position: 'absolute',
+  zIndex: zIndex.above,
   top: '16px',
   right: '20px',
   width: '32px',
@@ -94,7 +119,7 @@ export const closeBtn = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '1rem',
+  fontSize: fontSize.rem100,
   transition: `background-color ${fast}, color ${fast}`,
   ':hover': {
     backgroundColor: vars.color.bgHover,
@@ -102,13 +127,26 @@ export const closeBtn = style({
   },
 });
 
+// A bar that sticks to the top of the scrolling page, level with the close button.
 export const panelTitle = style({
-  fontSize: '1.6rem',
+  position: 'sticky',
+  top: '-32px',
+  zIndex: zIndex.lifted,
+  display: 'flex',
+  alignItems: 'center',
+  minHeight: '64px',
+  margin: '-32px -40px 12px',
+  padding: '0 72px 0 40px',
+  fontSize: fontSize.rem160,
   fontWeight: 700,
   color: vars.color.textPrimary,
   letterSpacing: '-0.01em',
-  marginBottom: '24px',
+  backgroundColor: vars.color.bgSecondary,
+  borderBottom: `1px solid ${vars.color.border}`,
   cursor: 'text',
+  '@media': {
+    [PANEL_OVERLAY_QUERY]: { top: '-16px', margin: '-16px -16px 12px', padding: '0 64px 0 16px' },
+  },
 });
 
 export const section = style({
@@ -116,7 +154,7 @@ export const section = style({
 });
 
 export const sectionTitle = style({
-  fontSize: '1rem',
+  fontSize: fontSize.rem100,
   fontWeight: 700,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
@@ -138,6 +176,10 @@ export const avatarRow = style({
   alignItems: 'flex-start',
   gap: '16px',
   marginBottom: '4px',
+  '@media': {
+    // Avatar on top, fields below at full width.
+    [PANEL_OVERLAY_QUERY]: { flexDirection: 'column-reverse', alignItems: 'stretch' },
+  },
 });
 
 export const avatarClickable = style({
@@ -219,14 +261,14 @@ export const settingInfo = style({
 });
 
 export const settingLabel = style({
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   fontWeight: 500,
   color: vars.color.textPrimary,
   lineHeight: 1.4,
 });
 
 export const settingNote = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.textMuted,
   lineHeight: 1.5,
 });
@@ -243,7 +285,7 @@ export const tokenField = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
   padding: '8px 12px',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   fontFamily: 'monospace',
   wordBreak: 'break-all',
   color: vars.color.textMuted,
@@ -300,7 +342,7 @@ export const noResults = style({
   padding: '16px',
   textAlign: 'center',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
 });
 
 export const permGroupHeader = style({
@@ -308,7 +350,7 @@ export const permGroupHeader = style({
   alignItems: 'center',
   gap: '8px',
   padding: '16px 10px 6px',
-  fontSize: '1rem',
+  fontSize: fontSize.rem100,
   fontWeight: 700,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
@@ -321,7 +363,7 @@ export const permGroupHeader = style({
 });
 
 export const permGroupBadge = style({
-  fontSize: '0.7rem',
+  fontSize: fontSize.rem70,
   fontWeight: 600,
   padding: '1px 7px',
   borderRadius: '10px',
@@ -334,7 +376,7 @@ export const permShowMore = style({
   alignItems: 'center',
   gap: '6px',
   padding: '6px 10px',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.accent,
   cursor: 'pointer',
   border: 'none',
@@ -358,7 +400,7 @@ export const permRow = style({
 export const permRowName = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   color: vars.color.textPrimary,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -369,12 +411,12 @@ export const permRowName = style({
 export const permRowRole = style({
   marginLeft: 'auto',
   flexShrink: 0,
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textMuted,
 });
 
 export const permRowId = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -508,39 +550,44 @@ export const pageHeader = style({
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
-  minHeight: '56px',
-  padding: '8px',
+  height: '56px',
+  padding: '0 8px',
   flexShrink: 0,
   borderBottom: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgSecondary,
+  color: vars.color.textPrimary,
 });
 
 export const pageHeaderTitle = style({
   flex: 1,
   minWidth: 0,
+  fontSize: fontSize.rem110,
+  fontWeight: 700,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '1.1rem',
-  fontWeight: 700,
+  padding: '0 8px',
   color: vars.color.textPrimary,
 });
 
 export const headerIconBtn = style({
-  width: '40px',
-  height: '40px',
-  flexShrink: 0,
-  borderRadius: vars.radius.sm,
+  width: '44px',
+  height: '44px',
+  borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   border: 'none',
   background: 'none',
-  color: vars.color.textMuted,
+  color: vars.color.textPrimary,
   cursor: 'pointer',
-  transition: `background-color ${fast}, color ${fast}`,
-  ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
+  selectors: { '&:active': { backgroundColor: vars.color.bgHover } },
 });
 
-export const narrowPage = style({});
+export const narrowPage = style({
+  flex: 1,
+  overflowY: 'auto',
+  padding: '16px 16px calc(24px + var(--safe-bottom, 0px))',
+  color: vars.color.textPrimary,
+});
 globalStyle(`${narrowPage} ${panelTitle}`, { display: 'none' });

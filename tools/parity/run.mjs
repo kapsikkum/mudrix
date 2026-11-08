@@ -157,6 +157,10 @@ async function captureAppScreens(appName, port, screens, seed, env) {
       ignoreHTTPSErrors: true,
     });
     const page = await authCtx.newPage();
+    page.on('pageerror', (err) => console.error(`[${appName} pageerror]`, err.message));
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') console.error(`[${appName} console.error]`, msg.text());
+    });
 
     const theo = seed.tokens.theo;
     const storeLocation = 'wizardchat-session-' + theo.userId.replace(/[^a-zA-Z0-9]/g, '_');
