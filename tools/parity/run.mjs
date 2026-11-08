@@ -78,8 +78,17 @@ async function applyTheme(page, theme) {
     },
     { theme, customTheme: CUSTOM_THEME }
   );
-  await page.reload();
-  await page.waitForTimeout(600);
+  await page.reload().catch(() => {});
+  await page.waitForLoadState('domcontentloaded').catch(() => {});
+  await page
+    .locator('[class*="AppLoading_overlay"]')
+    .waitFor({ state: 'detached', timeout: 20000 })
+    .catch(() => {});
+  const gotItBtn = page.locator('button:has-text("Got it")').first();
+  if (await gotItBtn.isVisible().catch(() => false)) {
+    await gotItBtn.click({ timeout: 2000 }).catch(() => {});
+  }
+  await page.waitForTimeout(500);
 }
 
 async function captureAppScreens(appName, port, screens, seed, env) {
@@ -150,70 +159,83 @@ async function captureAppScreens(appName, port, screens, seed, env) {
     const page = await authCtx.newPage();
 
     const theo = seed.tokens.theo;
+    const storeLocation = 'wizardchat-session-' + theo.userId.replace(/[^a-zA-Z0-9]/g, '_');
+    const storePassphrase = btoa('12345678901234567890123456789012');
 
-    if (appName === 'old') {
-      // Inject saved credentials for old app
-      await page.goto(`http://localhost:${port}/`);
-      await page.evaluate(
-        ({ token, hs, userId, deviceId }) => {
+    await page.goto(`http://localhost:${port}/`);
+    await page.evaluate(
+      ({ appName, token, hs, userId, deviceId, storeLocation, storePassphrase }) => {
+        if (appName === 'old') {
           localStorage.setItem(
             'wz_accounts',
             JSON.stringify({
               [userId]: { userId, accessToken: token, deviceId, homeserverUrl: hs },
             })
           );
-          localStorage.setItem('wz_active_account', userId);
-          localStorage.setItem('wz_user_id', userId);
-          localStorage.setItem('wz_last_homeserver', hs);
           localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.10.18'));
-        },
-        {
-          token: theo.accessToken,
-          hs: theo.homeserverUrl,
-          userId: theo.userId,
-          deviceId: theo.deviceId,
+        } else {
+          localStorage.setItem(
+            'wizardchat.accounts',
+            JSON.stringify({
+              active: userId,
+              accounts: {
+                [userId]: {
+                  session: {
+                    accessToken: token,
+                    deviceId: deviceId,
+                    homeserverUrl: hs,
+                    userId: userId,
+                  },
+                  store: {
+                    location: storeLocation,
+                    passphrase: storePassphrase,
+                  },
+                },
+              },
+            })
+          );
+          localStorage.setItem(
+            'wz_accounts',
+            JSON.stringify({
+              [userId]: { userId, accessToken: token, deviceId, homeserverUrl: hs },
+            })
+          );
+          localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.11.0'));
         }
-      );
-
-      await page.goto(`http://localhost:${port}/`);
-      await page
-        .locator('[class*="AppLoading_overlay"]')
-        .waitFor({ state: 'detached', timeout: 30000 })
-        .catch(() => {});
-      console.log(`[old] Initial sync completed!`);
-    } else {
-      // Log in via UI for new app
-      await page.goto(`http://localhost:${port}/`);
-      await page.evaluate((hs) => {
+        localStorage.setItem('wz_active_account', userId);
+        localStorage.setItem('wz_user_id', userId);
         localStorage.setItem('wz_last_homeserver', hs);
-        localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.10.18'));
-      }, env.homeserver);
-
-      await page.goto(`http://localhost:${port}/welcome`);
-      await page.waitForTimeout(600);
-      const userInp = page.locator('input[type="text"]').first();
-      if (await userInp.isVisible()) {
-        await userInp.fill('theo');
-        await page.locator('input[type="password"]').fill(seed.password);
-        await page.locator('button:has-text("Log In"), button:has-text("Login")').first().click();
-        await page
-          .waitForSelector(
-            'button[aria-label*="Settings"], button[aria-label*="Home"], [aria-label*="Direct Messages"]',
-            { timeout: 20000 }
-          )
-          .catch(() => {});
+        localStorage.setItem(
+          'wz_preferences',
+          JSON.stringify({
+            followSystemTheme: false,
+            systemDarkTheme: 'Carbon',
+            systemLightTheme: 'Ethereal',
+          })
+        );
+      },
+      {
+        appName,
+        token: theo.accessToken,
+        hs: theo.homeserverUrl,
+        userId: theo.userId,
+        deviceId: theo.deviceId,
+        storeLocation,
+        storePassphrase,
       }
-      await page
-        .locator('[class*="AppLoading_overlay"]')
-        .waitFor({ state: 'detached', timeout: 30000 })
-        .catch(() => {});
-      console.log(`[new] Initial sync completed!`);
-    }
+    );
+
+    await page.goto(`http://localhost:${port}/`);
+    await page
+      .locator('[class*="AppLoading_overlay"]')
+      .waitFor({ state: 'detached', timeout: 30000 })
+      .catch(() => {});
+    console.log(`[${appName}] Initial sync completed!`);
 
     // Dismiss any initial modal if present
     const gotItBtn = page.locator('button:has-text("Got it")').first();
     if (await gotItBtn.isVisible().catch(() => false)) {
-      await gotItBtn.click().catch(() => {});
+      await gotItBtn.click({ timeout: 2000 }).catch(() => {});
     }
 
     // Run authenticated screens across all themes and widths

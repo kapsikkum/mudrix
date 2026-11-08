@@ -9,7 +9,7 @@ async function waitPageReady(page) {
   await page.waitForTimeout(400);
   await page
     .locator('[class*="AppLoading_overlay"]')
-    .waitFor({ state: 'detached', timeout: 5000 })
+    .waitFor({ state: 'detached', timeout: 20000 })
     .catch(() => {});
 }
 
