@@ -112,6 +112,19 @@ data class ChatEntry(
 
     enum class ContentType { text, notice, emote, image, video, audio, file, location }
 
+    val editableMedia: MediaContent?
+        get() = when (val k = kind) {
+            is Kind.Image -> k.media
+            is Kind.Video -> k.media
+            is Kind.Audio -> k.media.takeUnless { k.isVoice }
+            is Kind.File -> k.media
+            else -> null
+        }
+
+    val editableText: String?
+        get() = (kind as? Kind.Message)?.body
+            ?: editableMedia?.let { media -> media.caption?.takeIf { it.isNotBlank() && it != media.filename } ?: "" }
+
     /** `duration` is in seconds */
     data class MediaContent(
         val source: MediaSource,
@@ -358,7 +371,10 @@ class TimelineModel(
     suspend fun edit(entry: ChatEntry, newText: String) {
         val timeline = timeline ?: return
         val itemKey = entry.itemKey ?: return
-        report { timeline.editText(itemKey, newText) }
+        report {
+            if (entry.editableMedia != null) timeline.editCaption(itemKey, newText)
+            else timeline.editText(itemKey, newText)
+        }
     }
 
     suspend fun redact(entry: ChatEntry) {

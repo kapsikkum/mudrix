@@ -80,7 +80,12 @@ function formatReactors(names: string[]): string {
   return `${shown} and ${others} others`;
 }
 
-import { buildReplyContent, isEditableEvent, type ReplyContent } from './textContent';
+import {
+  buildReplyContent,
+  isCaptionEditable,
+  isEditableEvent,
+  type ReplyContent,
+} from './textContent';
 import { ReceiptAvatar } from './receiptAvatar';
 import { ReadReceiptsPopover, useReadReceiptsPopover } from './readReceiptsPopover';
 import {
@@ -282,7 +287,10 @@ export const Message = memo(function Message({
   const myId = client.userId() ?? '';
   const isPollEvent = contentType === 'poll';
   const poll = event.content.type === 'poll' ? event.content.poll : null;
-  const canEditMessageType = isEditableEvent(event) || isPollEvent;
+  const isCaptionEvent = isCaptionEditable(event);
+  const canEditMessageType =
+    (isEditableEvent(event) && !(isCaptionEvent && (galleryEvents?.length ?? 0) >= 2)) ||
+    isPollEvent;
 
   const pollData = useMemo(() => {
     if (!isPollEvent) return null;
@@ -732,6 +740,7 @@ export const Message = memo(function Message({
         event={event}
         client={client}
         timeline={timeline}
+        hideCaption={isEditing}
         mediaSrc={mediaSrc}
         thumbnailSrc={thumbnailSrc}
         isDecrypting={isFileDecrypting}
@@ -1066,7 +1075,10 @@ export const Message = memo(function Message({
                 )}
               </div>
               {isEditing && !isPollEvent && editState ? (
-                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+                <>
+                  {isCaptionEvent && <div className={css.compactBlock}>{messageContent}</div>}
+                  <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+                </>
               ) : !isEditing && !isCompactInline ? (
                 <div className={css.compactBlock}>
                   {messageContent}
@@ -1078,7 +1090,10 @@ export const Message = memo(function Message({
             </>
           ) : isEditing && !isPollEvent ? (
             editState ? (
-              <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              <>
+                {isCaptionEvent && <div className={contentClass}>{messageContent}</div>}
+                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              </>
             ) : null
           ) : !isEditing ? (
             <div className={contentClass}>

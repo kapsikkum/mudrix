@@ -2552,6 +2552,11 @@ class RoomTimeline(handle: Long, props: JsonObject) : Remote(handle, props) {
         Runtime.callUnit("RoomTimeline.editText", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(body)))
     }
 
+    /** Replaces a media caption; without `html` it's Markdown, empty removes it. */
+    suspend fun editCaption(itemKey: String, caption: String, html: String? = null, mentions: Mentions? = null) {
+        Runtime.callUnit("RoomTimeline.editCaption", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(caption), Arg.value<String?>(html), Arg.value<Mentions?>(mentions)))
+    }
+
     suspend fun redact(itemKey: String, reason: String? = null) {
         Runtime.callUnit("RoomTimeline.redact", handle, listOf(Arg.value<String>(itemKey), Arg.value<String?>(reason)))
     }

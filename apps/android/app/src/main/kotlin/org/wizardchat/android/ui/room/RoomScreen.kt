@@ -1404,7 +1404,7 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
             if (entry.canBeRepliedTo) item(tr("timeline.reply"), "arrow-bend-up-left") { actions.reply(entry) }
             val openThread = actions.openThread
             if (entry.canBeRepliedTo && openThread != null) item(tr("timeline.replyInThread"), "chat-dots") { openThread(entry) }
-            if (entry.isOwn && entry.isEditable && entry.kind is ChatEntry.Kind.Message) {
+            if (entry.isOwn && entry.isEditable && entry.editableText != null) {
                 item(tr("common.edit"), "pencil-simple") { actions.edit(entry) }
             }
         }

@@ -719,7 +719,7 @@ fun PushToTalkButton(size: Dp = WZ.Space.space10, iconSize: Dp = WZ.SizeIcon.sm)
     val talking = calls.talking
     val label = tr(if (talking) "call.talking" else "call.holdToTalk")
     val scale by animateFloatAsState(if (talking) 0.92f else 1f, label = "talk")
-    DisposableEffect(Unit) { onDispose { calls.setTalking(false) } }
+    DisposableEffect(Unit) { onDispose { calls.holdToTalk(false) } }
     Box(
         Modifier
             .scale(scale)
@@ -729,9 +729,9 @@ fun PushToTalkButton(size: Dp = WZ.Space.space10, iconSize: Dp = WZ.SizeIcon.sm)
             .pointerInput(Unit) {
                 detectTapGestures(onPress = {
                     haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    calls.setTalking(true)
+                    calls.holdToTalk(true)
                     tryAwaitRelease()
-                    calls.setTalking(false)
+                    calls.holdToTalk(false)
                 })
             }
             .semantics { contentDescription = label; role = Role.Button },

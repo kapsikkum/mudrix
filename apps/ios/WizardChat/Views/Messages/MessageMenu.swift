@@ -142,7 +142,7 @@ struct MessageMenuOverlay: View {
         if canReact, entry.canBeRepliedTo, let openThread = actions.openThread {
             main.append(.init(title: String(localized: "timeline.replyInThread"), icon: "ph-chat-dots-regular") { openThread(entry) })
         }
-        if canReact, entry.isOwn, entry.isEditable, case .message = entry.kind {
+        if canReact, entry.isOwn, entry.isEditable, entry.editableText != nil {
             main.append(.init(title: String(localized: "common.edit"), icon: "ph-pencil-simple-regular") { actions.edit(entry) })
         }
         if !entry.summary.isEmpty, case .message = entry.kind {

@@ -478,6 +478,7 @@ interface MessageContentProps {
   requestFullRes?: () => Promise<string | null>;
   mediaCover?: MediaCover | null;
   onRevealMedia?: () => void;
+  hideCaption?: boolean;
 }
 
 export function MessageContent({
@@ -503,6 +504,7 @@ export function MessageContent({
   requestFullRes,
   mediaCover = null,
   onRevealMedia,
+  hideCaption = false,
 }: MessageContentProps) {
   const { t } = useTranslation();
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
@@ -544,6 +546,7 @@ export function MessageContent({
 
   const renderCaptionHtml = useCallback(
     (media: MediaInfo): string | undefined => {
+      if (hideCaption) return undefined;
       const caption = getMediaCaption(media);
       if (caption === undefined) return undefined;
       const captionContent: Record<string, unknown> = media.captionHtml
@@ -551,7 +554,7 @@ export function MessageContent({
         : { body: caption };
       return renderRichTextHtml(captionContent, imagePacks, myId, prettifyLinks);
     },
-    [myId, prettifyLinks, imagePacks]
+    [myId, prettifyLinks, imagePacks, hideCaption]
   );
 
   if (isRedacted) {

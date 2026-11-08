@@ -39,7 +39,10 @@ import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import { buildItems, useBuildContext } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { useMessageHover } from '@/app/features/timeline/useMessageHover';
-import { publishTimelineEntries } from '@/app/features/timeline/message/editNavigation';
+import {
+  editStateFor,
+  publishTimelineEntries,
+} from '@/app/features/timeline/message/editNavigation';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
 import * as css from './ThreadPanel.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
@@ -238,15 +241,7 @@ export function ThreadPanel({
         toast.info(t('timeline.editNotSent'));
         return;
       }
-      const content = event.content;
-      setEditMessage({
-        roomId,
-        eventId: event.eventId ?? event.itemKey,
-        body: contentBody(content),
-        msgtype:
-          content.type === 'emote' ? 'm.emote' : content.type === 'notice' ? 'm.notice' : 'm.text',
-        threadId: rootId || null,
-      });
+      setEditMessage(editStateFor(event, roomId, rootId || null));
     },
     [roomId, rootId, setEditMessage, toast, t]
   );

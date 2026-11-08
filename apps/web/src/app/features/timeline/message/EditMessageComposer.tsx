@@ -37,6 +37,7 @@ import { applyInlineMarkdown } from '@/app/features/timeline/composer/editor/app
 import { insertEmoji } from '@/app/features/timeline/composer/editor/insertEmoji';
 import { useRichEditor } from '@/app/features/timeline/composer/useRichEditor';
 import { resolveRelationTarget } from './relationTarget';
+import { isCaptionMsgtype } from './textContent';
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import { AutocompleteDropdown } from '@/app/features/timeline/AutocompleteDropdown';
 import * as css from '../Timeline.css';
@@ -221,8 +222,28 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
     try {
       const { markdown } = toMarkdown(value);
       const newBody = markdown.trim();
-      if (!newBody || newBody === editState.body) {
+      const isCaption = isCaptionMsgtype(editState.msgtype);
+      if ((!newBody && !isCaption) || newBody === editState.body) {
         onClose();
+        return;
+      }
+
+      if (isCaption) {
+        onClose();
+        const built = newBody
+          ? buildTextContent(markdownEnabled ? applyInlineMarkdown(value) : value, {
+              myId: client.userId() ?? undefined,
+            })
+          : null;
+        const mentions = built?.content['m.mentions'] as
+          { user_ids?: string[]; room?: boolean } | undefined;
+        const timeline = await getTimeline();
+        await timeline.editCaption(
+          editState.eventId,
+          built?.body ?? '',
+          typeof built?.content.formatted_body === 'string' ? built.content.formatted_body : null,
+          mentions ? { userIds: mentions.user_ids ?? [], room: mentions.room === true } : null
+        );
         return;
       }
 
@@ -346,7 +367,12 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
         <button type="button" className={css.editBtnCancel} onClick={onClose}>
           {t('common.cancel')}
         </button>
-        <button type="button" className={css.editBtnSave} onClick={saveEdit} disabled={isEmpty}>
+        <button
+          type="button"
+          className={css.editBtnSave}
+          onClick={saveEdit}
+          disabled={isEmpty && !isCaptionMsgtype(editState.msgtype)}
+        >
           {t('common.save')}
         </button>
       </div>

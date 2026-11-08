@@ -34,6 +34,22 @@ struct ChatEntry: Identifiable {
         case dateDivider(Date)
     }
 
+    var editableMedia: MediaContent? {
+        switch kind {
+        case .image(let media), .video(let media), .file(let media): return media
+        case .audio(let media, let isVoice, _): return isVoice ? nil : media
+        default: return nil
+        }
+    }
+
+    var editableText: String? {
+        if case .message(let body, _, _) = kind { return body }
+        guard let media = editableMedia else { return nil }
+        guard let caption = media.caption, !caption.trimmingCharacters(in: .whitespaces).isEmpty,
+              caption != media.filename else { return "" }
+        return caption
+    }
+
     enum ContentType: Hashable {
         case text, notice, emote, image, video, audio, file, location
     }
@@ -326,7 +342,11 @@ final class TimelineModel: ObservableObject {
 
     func edit(_ entry: ChatEntry, newText: String) async {
         guard let timeline, let itemKey = entry.itemKey else { return }
-        await report { try await timeline.editText(itemKey: itemKey, body: newText) }
+        if entry.editableMedia != nil {
+            await report { try await timeline.editCaption(itemKey: itemKey, caption: newText) }
+        } else {
+            await report { try await timeline.editText(itemKey: itemKey, body: newText) }
+        }
     }
 
     func redact(_ entry: ChatEntry) async {

@@ -178,7 +178,7 @@ fun ComposerView(
 
     val text = draft.text.toString()
     val trimmed = text.trim()
-    val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
+    val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty() || editing?.editableMedia != null) && preparing == 0
     val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
     val hasSelection = !draft.selection.collapsed
     val draftKey = threadRoot?.let { "draft.${room.id}.$it" } ?: "draft.${room.id}"
@@ -433,8 +433,8 @@ fun ComposerView(
         }
     }
     LaunchedEffect(editing?.id) {
-        val kind = editing?.kind as? ChatEntry.Kind.Message ?: return@LaunchedEffect
-        setDraft(kind.body)
+        val text = editing?.editableText ?: return@LaunchedEffect
+        setDraft(text)
         focus(true)
     }
     LaunchedEffect(replyTo?.id) { if (replyTo != null) focus(true) }

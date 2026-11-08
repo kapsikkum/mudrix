@@ -36,7 +36,7 @@ struct ComposerView: View {
     @State private var focused = false
 
     private var trimmed: String { draft.trimmingCharacters(in: .whitespacesAndNewlines) }
-    private var canSend: Bool { (!trimmed.isEmpty || !attachments.isEmpty) && preparing == 0 }
+    private var canSend: Bool { (!trimmed.isEmpty || !attachments.isEmpty || editing?.editableMedia != nil) && preparing == 0 }
     @State private var preparing = 0
     private var isRecording: Bool { [.recording, .paused].contains(recorder.state) }
 
@@ -106,8 +106,8 @@ struct ComposerView: View {
         }
         .task { members = await timeline.members() }
         .onChange(of: editing?.id) { _, _ in
-            if let editing, case .message(let body, _, _) = editing.kind {
-                draft = body
+            if let text = editing?.editableText {
+                draft = text
                 focused = true
             }
         }

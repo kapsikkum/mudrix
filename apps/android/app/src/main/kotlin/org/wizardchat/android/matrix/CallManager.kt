@@ -609,7 +609,7 @@ class CallManager {
         publisher.localParticipant.getTrackPublication(Track.Source.MICROPHONE)?.track?.enabled = !silenced
     }
 
-    fun setTalking(on: Boolean) {
+    fun holdToTalk(on: Boolean) {
         if (!pushToTalk || talking == on) return
         talking = on
         applyMic()

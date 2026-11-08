@@ -1026,6 +1026,32 @@ impl RoomTimeline {
         Ok(())
     }
 
+    pub async fn edit_caption(
+        &self,
+        item_key: &str,
+        caption: &str,
+        html: Option<&str>,
+        mentions: Option<MentionsInput>,
+    ) -> Result<()> {
+        use matrix_sdk::ruma::events::room::message::FormattedBody;
+        let caption = Some(caption.trim()).filter(|c| !c.is_empty());
+        let formatted_caption = caption.and_then(|c| match html.filter(|h| !h.trim().is_empty()) {
+            Some(html) => Some(FormattedBody::html(html)),
+            None => FormattedBody::markdown(c),
+        });
+        self.timeline
+            .edit(
+                &parse_item_key(item_key)?,
+                EditedContent::MediaCaption {
+                    caption: caption.map(str::to_owned),
+                    formatted_caption,
+                    mentions: mentions.map(mentions_of),
+                },
+            )
+            .await?;
+        Ok(())
+    }
+
     /// Deletes (redacts) a message.
     pub async fn redact(&self, item_key: &str, reason: Option<&str>) -> Result<()> {
         self.timeline

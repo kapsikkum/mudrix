@@ -1,6 +1,7 @@
 import type { TimelineEntry, WizardClient } from '@wizardchat/core';
 import { composerDraftKey, type EditMessageState } from '@/app/store/atoms';
 import { entryEventId, entryMsgtype, entryText, isEventEntry, type EventEntry } from './entry';
+import { editableBody } from './textContent';
 
 const published = new Map<string, TimelineEntry[]>();
 const localIds = new Map<string, string>();
@@ -91,7 +92,7 @@ export function editStateFor(
   return {
     roomId,
     eventId: entryEventId(event),
-    body: entryText(event)?.body ?? '',
+    body: editableBody(event),
     msgtype: entryMsgtype(event) ?? 'm.text',
     threadId: threadId ?? null,
   };

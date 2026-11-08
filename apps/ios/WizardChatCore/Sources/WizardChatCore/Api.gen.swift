@@ -3641,6 +3641,10 @@ public final class RoomTimeline: Remote, @unchecked Sendable {
         _ = try await call("RoomTimeline.editText", [.value(itemKey), .value(body)]) as Empty
     }
 
+    public func editCaption(itemKey: String, caption: String, html: String? = nil, mentions: Mentions? = nil) async throws {
+        _ = try await call("RoomTimeline.editCaption", [.value(itemKey), .value(caption), .value(html), .value(mentions)]) as Empty
+    }
+
     public func redact(itemKey: String, reason: String? = nil) async throws {
         _ = try await call("RoomTimeline.redact", [.value(itemKey), .value(reason)]) as Empty
     }

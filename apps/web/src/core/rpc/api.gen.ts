@@ -2698,6 +2698,20 @@ export class RoomTimeline extends Remote {
     return runtime.call('RoomTimeline.editText', this, [itemKey, body]) as Promise<void>;
   }
 
+  editCaption(
+    itemKey: string,
+    caption: string,
+    html?: string | null,
+    mentions?: Mentions | null
+  ): Promise<void> {
+    return runtime.call('RoomTimeline.editCaption', this, [
+      itemKey,
+      caption,
+      html,
+      mentions,
+    ]) as Promise<void>;
+  }
+
   redact(itemKey: string, reason?: string | null): Promise<void> {
     return runtime.call('RoomTimeline.redact', this, [itemKey, reason]) as Promise<void>;
   }
