@@ -177,10 +177,6 @@ export function Notifications() {
         />
       </div>
 
-      <DesktopPreferences />
-
-      <div className={layoutCss.divider} />
-
       <div className={layoutCss.divider} />
 
       <div className={layoutCss.section}>
@@ -273,6 +269,8 @@ export function Notifications() {
       {error && <p className={css.errorText}>{error}</p>}
 
       <RemindersList />
+
+      <DesktopPreferences />
     </div>
   );
 }
