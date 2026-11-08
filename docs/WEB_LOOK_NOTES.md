@@ -4,8 +4,11 @@ This document tracks visual differences between the new web client (`apps/web`) 
 
 ---
 
-## 1. User Profile Popup (`profile-popup`)
+## 1. User Profile Popup & Cosmetics Chooser (`profile-popup`, `profile-cosmetics`)
 
+- **Cosmetic Chooser Modal (`profile-cosmetics`)**:
+  - _Observed in `mudrix-web`_: Clicking "Profile Style" in Account settings opens `CosmeticChooserModal`, a dedicated dialog featuring live avatar and popout preview card, search, category tabs, user pack uploads, and favorite packs.
+  - _Status in new app_: The new web app currently implements profile cosmetic styling inline within the Account page instead of opening the separate `CosmeticChooserModal` dialog.
 - **Mutual Rooms Section (MSC2666)**:
   - _Observed in `mudrix-web`_: Profile popup displays mutual rooms count and mutual space/room list for the target user.
   - _Status in new app_: Documented in `docs/MISSING.md` (Row P10). Requires Rust core RPC `mutualRooms(user_id)`. The web UI cannot render this section until the core RPC is exposed.
