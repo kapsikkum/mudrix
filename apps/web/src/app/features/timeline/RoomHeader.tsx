@@ -9,6 +9,7 @@ import {
   SpeakerHighIcon,
   UsersIcon,
   ChatDotsIcon,
+  ListIcon,
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -18,7 +19,9 @@ import {
   threadsPanelViewAtom,
   roomSettingsRoomIdAtom,
   roomSettingsTabAtom,
+  mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
 import { useRoom } from '@/app/data';
@@ -55,6 +58,8 @@ export function RoomHeader({
   const room = useRoom(roomId);
   const encrypted = room?.isEncrypted ?? false;
   const [showPinned, setShowPinned] = useState(false);
+  const merged = useMediaQuery('(max-width: 768px)');
+  const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
 
   useEffect(() => {
     if (!onJumpToEvent) return;
@@ -128,6 +133,16 @@ export function RoomHeader({
     <div className={css.headerWrapper}>
       {/* Main header bar */}
       <div className={css.header}>
+        {merged && (
+          <button
+            type="button"
+            className={css.headerBtn}
+            onClick={() => setDrawerOpen(true)}
+            aria-label={t('common.menu')}
+          >
+            <ListIcon size={20} />
+          </button>
+        )}
         <div className={css.nameContainer}>
           <div className={css.nameRow}>
             {isVoice ? (

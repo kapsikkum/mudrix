@@ -91,7 +91,7 @@ async function applyTheme(page, theme) {
   await page.waitForTimeout(500);
 }
 
-async function captureAppScreens(appName, port, screens, seed, env) {
+async function captureAppScreens(appName, port, screens, seed, env, sessions) {
   console.log(`\n========================================`);
   console.log(`  Capturing ${appName.toUpperCase()} app on port ${port}`);
   console.log(`========================================`);
@@ -107,12 +107,11 @@ async function captureAppScreens(appName, port, screens, seed, env) {
       `\n[${appName}] --- Capturing ${unauthScreens.length} unauthenticated screen(s) ---`
     );
     const unauthCtx = await browser.newContext({ ignoreHTTPSErrors: true });
-    const page = await unauthCtx.newPage();
-
-    await page.goto(`http://localhost:${port}/`);
-    await page.evaluate((hs) => {
+    await unauthCtx.addInitScript((hs) => {
       localStorage.setItem('wz_last_homeserver', hs);
     }, env.homeserver);
+    const page = await unauthCtx.newPage();
+    await page.goto(`http://localhost:${port}/welcome`);
 
     for (const theme of THEMES) {
       console.log(`[${appName} | unauth] Theme: ${theme}`);
@@ -156,63 +155,48 @@ async function captureAppScreens(appName, port, screens, seed, env) {
       viewport: { width: 1440, height: 900 },
       ignoreHTTPSErrors: true,
     });
-    const page = await authCtx.newPage();
-    page.on('pageerror', (err) => console.error(`[${appName} pageerror]`, err.message));
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') console.error(`[${appName} console.error]`, msg.text());
-    });
 
-    const theo = seed.tokens.theo;
-    const storeLocation = 'wizardchat-session-' + theo.userId.replace(/[^a-zA-Z0-9]/g, '_');
+    const theo = sessions.theo;
+    const storeLocation = 'wizardchat-session-' + theo.user_id.replace(/[^a-zA-Z0-9]/g, '_');
     const storePassphrase = btoa('12345678901234567890123456789012');
 
-    await page.goto(`http://localhost:${port}/`);
-    await page.evaluate(
-      ({ appName, token, hs, userId, deviceId, storeLocation, storePassphrase }) => {
-        if (appName === 'old') {
-          localStorage.setItem(
-            'wz_accounts',
-            JSON.stringify({
-              [userId]: { userId, accessToken: token, deviceId, homeserverUrl: hs },
-            })
-          );
-          localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.10.18'));
-          localStorage.setItem(`wz_whats_new_seen::${userId}`, JSON.stringify('26.10.18'));
-        } else {
-          localStorage.setItem(
-            'wizardchat.accounts',
-            JSON.stringify({
-              active: userId,
-              accounts: {
-                [userId]: {
-                  session: {
-                    accessToken: token,
-                    deviceId: deviceId,
-                    homeserverUrl: hs,
-                    userId: userId,
-                  },
-                  store: {
-                    location: storeLocation,
-                    passphrase: storePassphrase,
-                  },
+    const wnVersion = appName === 'old' ? '26.10.18' : '26.11.0';
+
+    await authCtx.addInitScript(
+      ({ token, hs, userId, deviceId, storeLocation, storePassphrase, wnVersion }) => {
+        localStorage.setItem(
+          'wizardchat.accounts',
+          JSON.stringify({
+            active: userId,
+            accounts: {
+              [userId]: {
+                session: {
+                  accessToken: token,
+                  deviceId: deviceId,
+                  homeserverUrl: hs,
+                  userId: userId,
+                },
+                store: {
+                  location: storeLocation,
+                  passphrase: storePassphrase,
                 },
               },
-            })
-          );
-          localStorage.setItem(
-            'wz_accounts',
-            JSON.stringify({
-              [userId]: { userId, accessToken: token, deviceId, homeserverUrl: hs },
-            })
-          );
-          localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.11.0'));
-          localStorage.setItem(`wz_whats_new_seen::${userId}`, JSON.stringify('26.11.0'));
-          localStorage.setItem('wz_verify_skipped_device', JSON.stringify(deviceId));
-          localStorage.setItem(`wz_verify_skipped_device::${userId}`, JSON.stringify(deviceId));
-        }
+            },
+          })
+        );
+        localStorage.setItem(
+          'wz_accounts',
+          JSON.stringify({
+            [userId]: { userId, accessToken: token, deviceId, homeserverUrl: hs },
+          })
+        );
         localStorage.setItem('wz_active_account', userId);
         localStorage.setItem('wz_user_id', userId);
         localStorage.setItem('wz_last_homeserver', hs);
+        localStorage.setItem('wz_whats_new_seen', JSON.stringify(wnVersion));
+        localStorage.setItem(`wz_whats_new_seen::${userId}`, JSON.stringify(wnVersion));
+        localStorage.setItem('wz_verify_skipped_device', JSON.stringify(deviceId));
+        localStorage.setItem(`wz_verify_skipped_device::${userId}`, JSON.stringify(deviceId));
         localStorage.setItem(
           'wz_preferences',
           JSON.stringify({
@@ -223,15 +207,23 @@ async function captureAppScreens(appName, port, screens, seed, env) {
         );
       },
       {
-        appName,
-        token: theo.accessToken,
-        hs: theo.homeserverUrl,
-        userId: theo.userId,
-        deviceId: theo.deviceId,
+        token: theo.access_token,
+        hs: env.homeserver,
+        userId: theo.user_id,
+        deviceId: theo.device_id,
         storeLocation,
         storePassphrase,
+        wnVersion,
       }
     );
+
+    const page = await authCtx.newPage();
+    page.on('pageerror', (err) =>
+      console.error(`[${appName} pageerror]`, err.stack || err.message)
+    );
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') console.error(`[${appName} console.error]`, msg.text());
+    });
 
     await page.goto(`http://localhost:${port}/`);
     await page
@@ -305,6 +297,12 @@ async function main() {
   }
   const env = JSON.parse(readFileSync(envFile, 'utf8'));
 
+  const sessionsFile = 'E:/code/web/mudrix-web/dev/test-server/.generated/sessions.json';
+  if (!existsSync(sessionsFile)) {
+    throw new Error('Test server sessions.json not found!');
+  }
+  const sessions = JSON.parse(readFileSync(sessionsFile, 'utf8'));
+
   // 2. Check old and new servers
   const oldOk = await checkServer('http://localhost:8080/');
   const newOk = await checkServer('http://localhost:5180/');
@@ -329,10 +327,10 @@ async function main() {
   console.log(`Targeting ${screensToRun.length} screen(s) across 3 widths and 3 themes.`);
 
   // 3. Capture old app
-  await captureAppScreens('old', 8080, screensToRun, seed, env);
+  await captureAppScreens('old', 8080, screensToRun, seed, env, sessions);
 
   // 4. Capture new app
-  await captureAppScreens('new', 5180, screensToRun, seed, env);
+  await captureAppScreens('new', 5180, screensToRun, seed, env, sessions);
 
   // 5. Compute diffs with pixelmatch
   console.log('\n=== Computing pixel diffs ===');

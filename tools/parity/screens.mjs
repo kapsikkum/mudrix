@@ -20,8 +20,13 @@ async function closeDialog(page) {
       await gotIt.click(CLICK_OPTS).catch(() => {});
       await page.waitForTimeout(200);
     }
+    const backBtn = page.locator('button[aria-label*="back" i], button[data-back-dismiss]').first();
+    if (await backBtn.isVisible().catch(() => false)) {
+      await backBtn.click(CLICK_OPTS).catch(() => {});
+      await page.waitForTimeout(200);
+    }
     const closeBtn = page
-      .locator('button[aria-label*="Close"], button[aria-label*="close"]')
+      .locator('button[aria-label*="Close" i], button[aria-label*="close" i]')
       .first();
     if (await closeBtn.isVisible().catch(() => false)) {
       await closeBtn.click(CLICK_OPTS).catch(() => {});
@@ -37,25 +42,29 @@ async function closeDialog(page) {
   }
 }
 
-async function openSettingsTab(page, port, tabName) {
+async function openSettingsTab(page, port, tabName, width) {
   if (!page.url().endsWith(`:${port}/`)) {
     await page.goto(`http://localhost:${port}/`);
     await waitPageReady(page);
   }
   await closeDialog(page);
-  let btn = page.locator('button[aria-label*="Settings"], button[title*="Settings"]').last();
-  if (!(await btn.isVisible().catch(() => false))) {
-    const menuBtn = page.locator('button[aria-label*="Menu"], button[aria-label*="menu"]').first();
-    if (await menuBtn.isVisible().catch(() => false)) {
-      await menuBtn.click(CLICK_OPTS).catch(() => {});
-      await page.waitForTimeout(300);
+
+  if (width && width < 600) {
+    const youBtn = page.locator('button:has-text("You")').first();
+    if (await youBtn.isVisible().catch(() => false)) {
+      await youBtn.click(CLICK_OPTS).catch(() => {});
+      await page.waitForTimeout(400);
     }
-    btn = page.locator('button[aria-label*="Settings"], button[title*="Settings"]').last();
+  } else {
+    const settingsBtn = page
+      .locator('button[aria-label*="User Settings" i], button[aria-label*="Settings" i]')
+      .last();
+    if (await settingsBtn.isVisible().catch(() => false)) {
+      await settingsBtn.click(CLICK_OPTS).catch(() => {});
+      await page.waitForTimeout(500);
+    }
   }
-  if (await btn.isVisible().catch(() => false)) {
-    await btn.click(CLICK_OPTS).catch(() => {});
-    await page.waitForTimeout(500);
-  }
+
   if (tabName) {
     const tab = page
       .locator(`button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}")`)
@@ -234,10 +243,10 @@ export const SCREENS = [
           await page.waitForTimeout(600);
         }
       } else {
-        const avatar = page.locator('[class*="msgAvatarCol"] button, [class*="msgSender"]').first();
-        await avatar.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
-        if (await avatar.isVisible().catch(() => false)) {
-          await avatar.click(CLICK_OPTS).catch(() => {});
+        const junoMsg = page.locator('[class*="msgSender"]:has-text("Juno")').last();
+        await junoMsg.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+        if (await junoMsg.isVisible().catch(() => false)) {
+          await junoMsg.click(CLICK_OPTS).catch(() => {});
           await page.waitForTimeout(600);
         }
       }
@@ -250,8 +259,8 @@ export const SCREENS = [
     id: 'settings-account',
     title: 'Settings: Account',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Account');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Account', width);
     },
     cleanup: closeDialog,
   },
@@ -259,8 +268,8 @@ export const SCREENS = [
     id: 'profile-cosmetics',
     title: 'Profile: Cosmetics chooser modal',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Account');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Account', width);
       const editBtn = page
         .locator(
           'button:has-text("Profile Style"), button:has-text("Change Decoration"), button:has-text("Edit Profile")'
@@ -277,8 +286,8 @@ export const SCREENS = [
     id: 'settings-appearance',
     title: 'Settings: Appearance',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Appearance');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Appearance', width);
     },
     cleanup: closeDialog,
   },
@@ -286,8 +295,8 @@ export const SCREENS = [
     id: 'settings-notifications',
     title: 'Settings: Notifications',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Notifications');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Notifications', width);
     },
     cleanup: closeDialog,
   },
@@ -295,8 +304,8 @@ export const SCREENS = [
     id: 'settings-privacy',
     title: 'Settings: Privacy',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Privacy');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Privacy', width);
     },
     cleanup: closeDialog,
   },
@@ -304,8 +313,8 @@ export const SCREENS = [
     id: 'settings-media',
     title: 'Settings: Media',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Media');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Media', width);
     },
     cleanup: closeDialog,
   },
@@ -313,8 +322,8 @@ export const SCREENS = [
     id: 'settings-voice',
     title: 'Settings: Voice & Audio',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Voice');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Voice', width);
     },
     cleanup: closeDialog,
   },
@@ -322,8 +331,8 @@ export const SCREENS = [
     id: 'settings-integrations',
     title: 'Settings: Integrations',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Integrations');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Integrations', width);
     },
     cleanup: closeDialog,
   },
@@ -331,8 +340,8 @@ export const SCREENS = [
     id: 'settings-keybinds',
     title: 'Settings: Keybinds',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Keybinds');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Keybinds', width);
     },
     cleanup: closeDialog,
   },
@@ -340,8 +349,8 @@ export const SCREENS = [
     id: 'settings-activity',
     title: 'Settings: Activity',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Activity');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Activity', width);
     },
     cleanup: closeDialog,
   },
@@ -349,8 +358,8 @@ export const SCREENS = [
     id: 'settings-developer',
     title: 'Settings: Developer',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'Developer');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Developer', width);
     },
     cleanup: closeDialog,
   },
@@ -358,8 +367,8 @@ export const SCREENS = [
     id: 'settings-about',
     title: 'Settings: About',
     requiresAuth: true,
-    navigate: async (page, { port }) => {
-      await openSettingsTab(page, port, 'About');
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'About', width);
     },
     cleanup: closeDialog,
   },

@@ -125,14 +125,15 @@ export function isInAnySpace(graph: SpaceNode[], roomId: string): boolean {
 
 /** Live details (name, topic, permissions, pinned events) of a room */
 export function useRoomDetails(roomId: string | null | undefined): RoomDetails | null {
+  const syncReady = useSyncReady();
   const [details, setDetails] = useState<RoomDetails | null>(null);
   useEffect(() => {
     const client = getMatrixClientOrNull();
     setDetails(null);
-    if (!client || !roomId) return;
+    if (!client || !roomId || !syncReady) return;
     const subscription = client.watchRoomDetails(roomId, setDetails);
     return () => subscription.cancel();
-  }, [roomId]);
+  }, [roomId, syncReady]);
   return details;
 }
 
@@ -172,15 +173,16 @@ function useCoreQuery<T>(
  * `localAliases` are still empty).
  */
 export function useRoomSettings(roomId: string | null | undefined) {
+  const syncReady = useSyncReady();
   const local = useCoreQuery<RoomSettings>(
     [...queryKeys.roomSettings(roomId ?? ''), 'local'],
     (c) => c.localRoomSettings(roomId!),
-    !!roomId
+    !!roomId && syncReady
   );
   const full = useCoreQuery<RoomSettings>(
     queryKeys.roomSettings(roomId ?? ''),
     (c) => c.roomSettings(roomId!),
-    !!roomId
+    !!roomId && syncReady
   );
   return useMemo(
     () =>
@@ -198,11 +200,12 @@ export function refreshRoomSettings(queryClient: QueryClient, roomId: string) {
 /** Joined and invited members, refetched when the member count changes */
 export function useMembers(roomId: string | null | undefined) {
   const room = useRoom(roomId);
+  const syncReady = useSyncReady();
   const queryClient = useQueryClient();
   const query = useCoreQuery<Member[]>(
     queryKeys.members(roomId ?? ''),
     (c) => c.members(roomId!),
-    !!roomId
+    !!roomId && syncReady
   );
   const count = room?.memberCount;
   useEffect(() => {
@@ -225,10 +228,11 @@ export function useMembersIn(
   roomId: string | null | undefined,
   membership: 'ban' | 'knock' | 'invite'
 ) {
+  const syncReady = useSyncReady();
   return useCoreQuery<MemberEntry[]>(
     queryKeys.membersIn(roomId ?? '', membership),
     (c) => c.membersInState(roomId!, membership),
-    !!roomId
+    !!roomId && syncReady
   );
 }
 

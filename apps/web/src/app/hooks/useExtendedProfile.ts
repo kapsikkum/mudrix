@@ -23,6 +23,8 @@ import {
   parseAvatarDecoration,
   parseNameplate,
   parseProfileFrame,
+  isStatusExpired,
+  type ProfileStatus,
   type AvatarDecorationId,
   type NameplateId,
   type ProfileFrameId,
@@ -156,6 +158,11 @@ export function useLiveActivities(
 }
 
 /** The first emoji of what someone is doing, for places with room for little. */
+
+export function useActiveStatus(status: ProfileStatus | null | undefined): ProfileStatus | null {
+  const tick = useRerenderAt(status?.expiresAt ?? Infinity);
+  return useMemo(() => (status && !isStatusExpired(status) ? status : null), [status, tick]);
+}
 export function activityEmoji(activity: ProfileActivity): string {
   return ACTIVITY_EMOJI[activity.type];
 }

@@ -250,13 +250,13 @@ export const Message = memo(function Message({
     [senderColor]
   );
 
-  const handleNameClick = useCallback(() => {
-    setMentionInsert({ text: `@${senderName} `, displayName: senderName, userId: senderId });
-  }, [senderName, senderId, setMentionInsert]);
-
   const handleOpenProfile = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (e.shiftKey) {
+        setMentionInsert({ text: `@${senderName} `, displayName: senderName, userId: senderId });
+        return;
+      }
       const rect = e.currentTarget.getBoundingClientRect();
       setProfile({
         userId: senderId,
@@ -264,7 +264,7 @@ export const Message = memo(function Message({
         anchorRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
       });
     },
-    [senderId, roomId, setProfile]
+    [senderId, roomId, senderName, setMentionInsert, setProfile]
   );
 
   const handleMouseEnter = useCallback(() => {
@@ -1144,7 +1144,7 @@ export const Message = memo(function Message({
                 type="button"
                 className={css.msgSender}
                 style={senderNameStyle}
-                onClick={handleNameClick}
+                onClick={handleOpenProfile}
               >
                 {senderName}
               </button>
@@ -1183,7 +1183,7 @@ export const Message = memo(function Message({
                     type="button"
                     className={css.msgSender}
                     style={senderNameStyle}
-                    onClick={handleNameClick}
+                    onClick={handleOpenProfile}
                   >
                     {senderName}
                   </button>

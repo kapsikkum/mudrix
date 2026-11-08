@@ -18,6 +18,7 @@ import {
   nameplatePaletteRgb,
   type AvatarDecorationId,
   type NameplateId,
+  type ProfileStatus,
 } from '@/util/profileCosmetics';
 import { builtinNameplateSrc, getBuiltinNameplate } from '@/util/builtinCosmetics';
 import { useRestartingSrc } from './useRestartingSrc';
@@ -273,6 +274,16 @@ export function NameplateWrapper({
         />
       )}
       <span className={css.nameplateContent}>{children}</span>
+    </span>
+  );
+}
+
+export function StatusPill({ status }: { status: ProfileStatus }) {
+  if (!status.emoji && !status.text) return null;
+  return (
+    <span className={css.statusPill}>
+      {status.emoji && <span className={css.statusEmoji}>{status.emoji}</span>}
+      {status.text && <span className={css.statusText}>{status.text}</span>}
     </span>
   );
 }

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CaretLeftIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { useLocation } from 'react-router-dom';
+import { ListIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   mobileDrawerOpenAtom,
@@ -31,9 +32,15 @@ export function MobileHeader() {
   const spaceDetails = useRoomDetails(sidebarView === 'space' ? currentSpaceId : null);
   const inboxOpen = useAtomValue(inboxOpenAtom);
   const youOpen = useAtomValue(mobileYouOpenAtom);
+  const location = useLocation();
+  const inRoomView = !!location.pathname.match(/^\/(?:r|dm)\//);
+
   // Inbox and the search field share global state, so they only mount here on mobile
   const isMobile = useMediaQuery('(max-width: 768px)');
   const searchingRoom = isMobile && !!roomSearch && roomSearch.roomId === currentRoomId;
+
+  // In a room the room header carries the menu button, the name and the actions.
+  if (inRoomView && !searchingRoom) return null;
 
   const listTitle = youOpen
     ? t('settings.userSettings')
@@ -54,10 +61,9 @@ export function MobileHeader() {
           type="button"
           className={css.mobileMenuBtn}
           onClick={() => setDrawerOpen(true)}
-          aria-label={t('common.back')}
-          data-back-dismiss={isMobile || undefined}
+          aria-label={t('common.menu')}
         >
-          <CaretLeftIcon size={20} />
+          <ListIcon size={20} />
         </button>
       )}
       {searchingRoom ? (
