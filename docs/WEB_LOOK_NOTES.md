@@ -34,3 +34,7 @@ This document tracks visual differences between the new web client (`apps/web`) 
   - In tablet viewports (820x1180), the centered modal dialog measures < 1.0% diff internally, but the visible background timeline around the modal exhibits variance driven by live message relative timestamps ("just now", "1m ago"), presence badges, and seeded room avatar gradient generation.
 - **Roles & Permissions and Audit Log Subpanels**:
   - On desktop (1440px) and mobile (390px), both `room-settings-roles` and `room-settings-audit-log` achieve < 1.3% pixel diff across Carbon, Amber, and Ethereal themes.
+- **User Settings Account & Appearance (`settings-account`, `settings-appearance`)**:
+  - `settings-account` achieves 1.57% diff on desktop (1440px) and 1.94% on tablet (820px) across Amber and Ethereal themes.
+  - Remaining variance on mobile (390px) is driven by the dynamic safe-area-inset fallback variables and seed user avatar placeholder tint.
+  - `settings-appearance` desktop achieves 3.0% diff; minor differences stem from presence and profile effect toggles currently reserved in `mudrix-web`'s feature branches.

@@ -1,6 +1,8 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { navItem } from '@/app/components/Settings/Settings.css';
+import { fontSize } from '@/theme/typeScale';
 
 export * from '@/app/components/Settings/Settings.css';
 
@@ -17,12 +19,12 @@ export const actionBtn = style({
   gap: '6px',
   padding: '9px 20px',
   borderRadius: vars.radius.sm,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   cursor: 'pointer',
   border: 'none',
   backgroundColor: vars.color.accent,
-  color: '#fff',
+  color: vars.color.onAccent,
   ':hover': { backgroundColor: vars.color.accentHover },
   ':disabled': { opacity: 0.5, cursor: 'not-allowed' },
 });
@@ -38,7 +40,7 @@ export const inputCss = style({
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   outline: 'none',
   ':focus': { borderColor: vars.color.accent },
 });
@@ -58,7 +60,7 @@ export const settingRowColumn = style({
 
 export const fieldLabel = style({
   display: 'block',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.05em',
@@ -66,13 +68,13 @@ export const fieldLabel = style({
 });
 
 export const statusText = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   flexShrink: 0,
 });
 
 export const versionText = style({
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
 });
 
 export const accessTokenBtn = style({
@@ -84,7 +86,7 @@ export const accessTokenBtn = style({
   color: vars.color.textPrimary,
   cursor: 'pointer',
   fontWeight: 600,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
 });
 
 export const tokenSection = style({
@@ -101,7 +103,7 @@ export const warningBox = style({
   padding: '8px',
   backgroundColor: 'rgba(248,81,73,0.1)',
   borderRadius: '6px',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.error,
 });
 
@@ -110,9 +112,22 @@ export const clearBtn = style({
   background: 'none',
   color: vars.color.textMuted,
   cursor: 'pointer',
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   display: 'flex',
   alignItems: 'center',
+});
+
+export const kbd = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1px 5px',
+  borderRadius: '3px',
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgTertiary,
+  fontSize: fontSize.rem70,
+  fontFamily: 'monospace',
+  color: vars.color.textSecondary,
 });
 
 export const kbdStack = style({
@@ -128,9 +143,59 @@ export const keybindHint = style({
   justifyContent: 'flex-end',
   gap: '6px',
   margin: '-4px 0 10px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textMuted,
 });
+
+const keybindBtnBase = style({
+  minWidth: '110px',
+  padding: '6px 10px',
+  whiteSpace: 'nowrap',
+  borderRadius: vars.radius.sm,
+  border: '2px solid transparent',
+  backgroundColor: vars.color.bgTertiary,
+  cursor: 'pointer',
+  fontSize: fontSize.rem85,
+  textAlign: 'center',
+  transition: `background-color ${fast}, border-color ${fast}, color ${fast}`,
+  ':hover': {
+    backgroundColor: vars.color.bgHover,
+  },
+});
+
+export const keybindBtnSet = style([
+  keybindBtnBase,
+  {
+    borderColor: vars.color.border,
+    color: vars.color.textPrimary,
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+    ':hover': { borderColor: vars.color.textMuted },
+  },
+]);
+
+export const keybindBtnEmpty = style([
+  keybindBtnBase,
+  {
+    borderStyle: 'dashed',
+    borderColor: vars.color.border,
+    color: vars.color.textMuted,
+    fontWeight: 400,
+    letterSpacing: 'normal',
+  },
+]);
+
+export const keybindBtnListening = style([
+  keybindBtnBase,
+  {
+    borderColor: vars.color.accent,
+    backgroundColor: vars.color.bgActive,
+    color: vars.color.accent,
+    fontWeight: 600,
+    letterSpacing: 'normal',
+    ':hover': { backgroundColor: vars.color.bgActive },
+  },
+]);
 
 export const keybindEdit = style({
   display: 'inline-flex',
@@ -167,7 +232,7 @@ export const keybindEditIcon = style({
 
 export const keybindPlaceholder = style({
   padding: '0 4px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textMuted,
   whiteSpace: 'nowrap',
 });
@@ -178,7 +243,7 @@ export const externalLink = style({
   gap: '6px',
   color: vars.color.accent,
   textDecoration: 'none',
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   transition: `color ${fast}`,
   ':hover': {
@@ -192,10 +257,109 @@ export const externalLink = style({
   },
 });
 
+// Phone layout: a list of sections, then one section at a time with a back arrow.
+export const mobileRoot = style({
+  flex: 1,
+  minWidth: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: vars.color.bgSecondary,
+  overflow: 'hidden',
+});
+
+export const mobileTopBar = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  height: '56px',
+  padding: '0 8px',
+  flexShrink: 0,
+  borderBottom: `1px solid ${vars.color.border}`,
+  color: vars.color.textPrimary,
+});
+
+export const mobileTopTitle = style({
+  flex: 1,
+  minWidth: 0,
+  fontSize: fontSize.rem110,
+  fontWeight: 700,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  padding: '0 8px',
+});
+
+export const mobileIconBtn = style({
+  width: '44px',
+  height: '44px',
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 'none',
+  background: 'none',
+  color: vars.color.textPrimary,
+  cursor: 'pointer',
+  selectors: { '&:active': { backgroundColor: vars.color.bgHover } },
+});
+
+export const mobileList = style({
+  flex: 1,
+  overflowY: 'auto',
+  padding: '8px 0 calc(8px + var(--safe-bottom))',
+});
+
+export const mobileRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+  width: '100%',
+  minHeight: '56px',
+  padding: '0 20px',
+  border: 'none',
+  background: 'none',
+  color: vars.color.textPrimary,
+  fontSize: fontSize.rem100,
+  textAlign: 'left',
+  cursor: 'pointer',
+  selectors: { '&:active': { backgroundColor: vars.color.bgHover } },
+});
+
+export const mobileRowLabel = style({ flex: 1, minWidth: 0 });
+
+export const mobileRowChevron = style({ color: vars.color.textMuted, flexShrink: 0 });
+
+export const mobileDivider = style({
+  height: '1px',
+  backgroundColor: vars.color.border,
+  margin: '8px 20px',
+});
+
+export const mobileContent = style({
+  flex: 1,
+  overflowY: 'auto',
+  padding: '16px 16px calc(24px + var(--safe-bottom))',
+  color: vars.color.textPrimary,
+});
+
+// The page title is already in the top bar.
+globalStyle(`${mobileContent} > div > h2:first-child, ${mobileContent} > h2:first-child`, {
+  display: 'none',
+});
+
 export const navFooter = style({
   marginTop: 'auto',
   paddingTop: '12px',
 });
+
+export const navLogout = style([
+  navItem,
+  {
+    justifyContent: 'center',
+    color: vars.color.error,
+    ':hover': { color: vars.color.error },
+  },
+]);
 
 // The sections of the open page, listed under its sidebar entry, with a rule down the left. The
 // wrapper grows from nothing to the list's height (a grid row goes from 0fr to 1fr).
@@ -224,7 +388,7 @@ export const navSubItem = style({
   background: 'none',
   textAlign: 'left',
   cursor: 'pointer',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   fontWeight: 500,
   color: vars.color.textMuted,
   transition: `color ${fast}`,

@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { chatSize } from '@/app/features/timeline/chatDisplay';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const preview = style({
   backgroundColor: vars.color.bgSecondary,
@@ -14,9 +14,8 @@ export const preview = style({
 
 export const previewSender = style({
   fontWeight: 600,
-  color: vars.color.textPrimary,
-  fontSize: chatSize(0.95),
-  lineHeight: 1.15,
+  color: vars.color.accent,
+  fontSize: fontSize.rem90,
 });
 
 export const swatchRow = style({
@@ -26,19 +25,16 @@ export const swatchRow = style({
 });
 
 export const swatch = style({
-  position: 'relative',
   width: '32px',
   height: '32px',
-  borderRadius: '10px',
-  border: 'none',
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.color.border}`,
   padding: 0,
   cursor: 'pointer',
-  backgroundClip: 'padding-box',
-  boxShadow: 'inset 0 0 0 1px rgba(128, 128, 128, 0.28)',
   outline: '2px solid transparent',
-  outlineOffset: '3px',
+  outlineOffset: '2px',
   transition: `outline-color ${fast}, transform ${fast}`,
-  ':hover': { transform: 'scale(1.06)' },
+  ':hover': { transform: 'scale(1.08)' },
   ':focus-visible': { outlineColor: vars.color.accent },
 });
 
@@ -78,7 +74,7 @@ export const customThemeName = style({
 });
 
 export const customThemeActive = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.rem78,
   fontWeight: 600,
   color: vars.color.accent,
 });
@@ -99,7 +95,7 @@ export const colorField = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   cursor: 'pointer',
 });

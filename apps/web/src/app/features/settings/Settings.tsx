@@ -1,19 +1,24 @@
-import { useEffect, useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { motionReduced } from '@/app/util/elastic';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue } from 'jotai';
+import { Tooltip } from '@/app/components/Tooltip';
 import { Dialog } from '@/app/components/Dialog/Dialog';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { logout } from '@/client/initMatrix';
 import {
   UserIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
   PaletteIcon,
   PersonSimpleCircleIcon,
   ShieldIcon,
+  PuzzlePieceIcon,
   BellIcon,
+  MicrophoneIcon,
   SmileyStickerIcon,
   FilmStripIcon,
-  PuzzlePieceIcon,
-  MicrophoneIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
@@ -22,68 +27,54 @@ import {
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
+  SignOutIcon,
 } from '@phosphor-icons/react';
 import { mobileYouOpenAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
+import type { NarrowSettingsItem } from '@/app/components/Settings/NarrowSettings';
 import {
   Avatar,
   MatrixId,
   DisplayName,
+  ExtendedProfile,
   ChangePassword,
   EmailSettings,
-  ExtendedProfile,
   DeactivateAccount,
 } from './account';
 import { useAccountManagement } from '@/app/hooks/useAccountManagement';
-import { StatusSettings } from './account/Status';
-import { AccountSwitcher } from './AccountSwitcher';
 import { Appearance } from './appearance';
 import { Accessibility } from './accessibility';
 import { Privacy } from './privacy';
+import { Integrations } from './integrations';
 import { Language } from './language';
 import { Notifications } from './notifications';
+import { VoiceAudio } from './voice';
 import { EmojisStickers } from './emojis';
 import { Media } from './media';
-import { Integrations } from './integrations';
-import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
 import { Encryption } from './encryption';
 import { About } from './about';
 import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
-import {
-  NarrowSettingsList,
-  NarrowSettingsPage,
-  type NarrowSettingsItem,
-} from '@/app/components/Settings/NarrowSettings';
 import { useSubSections, type SubSection } from './useSubSections';
+import { motionReduced } from '@/app/util/elastic';
 import * as css from './Settings.css';
+import { zIndex } from '@/theme/zIndex';
 
 function AccountPage() {
   const { t } = useTranslation();
   const { canChangePassword, canChangeThreePids, accountManagementUrl, loading } =
     useAccountManagement();
-  const statusSection = (
-    <>
-      <div className={css.divider} />
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('status.title')}</h3>
-        <StatusSettings />
-      </div>
-      <div className={css.divider} />
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('settings.account.aboutTitle')}</h3>
-        <ExtendedProfile />
-      </div>
-    </>
-  );
 
   if (accountManagementUrl) {
     return (
       <div>
         <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
         <div className={css.section}>
+          <h3 className={css.sectionTitle}>
+            {t('settings.account.profileTitle', { defaultValue: 'Profile' })}
+          </h3>
           <div className={css.avatarRow}>
             <div className={css.profileFields}>
               <DisplayName />
@@ -92,7 +83,10 @@ function AccountPage() {
             <Avatar />
           </div>
         </div>
-        {statusSection}
+        <div className={css.divider} />
+        <div className={css.section}>
+          <ExtendedProfile />
+        </div>
         <div className={css.divider} />
         <div className={css.section}>
           <p className={css.settingNote}>{t('settings.account.externalManagement')}</p>
@@ -113,6 +107,9 @@ function AccountPage() {
     <div>
       <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
       <div className={css.section}>
+        <h3 className={css.sectionTitle}>
+          {t('settings.account.profileTitle', { defaultValue: 'Profile' })}
+        </h3>
         <div className={css.avatarRow}>
           <div className={css.profileFields}>
             <DisplayName />
@@ -121,7 +118,10 @@ function AccountPage() {
           <Avatar />
         </div>
       </div>
-      {statusSection}
+      <div className={css.divider} />
+      <div className={css.section}>
+        <ExtendedProfile />
+      </div>
       {loading ? (
         <div className={css.actions}>
           <SpinnerGapIcon size={20} className="icon-spin" />
@@ -195,43 +195,46 @@ function PageContent({ page }: { page: SettingsPage }) {
 export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   const { t } = useTranslation();
   const keyboardHints = useKeyboardHints();
-  return [
-    { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
-    { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
-    { key: 'integrations', label: t('settings.integrations.title'), Icon: PuzzlePieceIcon },
-    {
-      key: 'emojis-stickers',
-      label: t('settings.emojisStickers.title'),
-      Icon: SmileyStickerIcon,
-    },
-    { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
-    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
-    { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
-    {
-      key: 'appearance',
-      label: t('settings.appearance.title'),
-      Icon: PaletteIcon,
-      dividerBefore: true,
-    },
-    {
-      key: 'accessibility',
-      label: t('settings.accessibility.title'),
-      Icon: PersonSimpleCircleIcon,
-    },
-    ...(keyboardHints
-      ? [{ key: 'keybinds' as const, label: t('settings.keybinds.title'), Icon: KeyboardIcon }]
-      : []),
-    { key: 'language', label: t('settings.language.title'), Icon: GlobeSimpleIcon },
-    {
-      key: 'sessions',
-      label: t('settings.sessions.title'),
-      Icon: DevicesIcon,
-      dividerBefore: true,
-    },
-    { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
-    { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
-    { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
-  ];
+  return useMemo(
+    () => [
+      { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
+      { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
+      { key: 'integrations', label: t('settings.integrations.title'), Icon: PuzzlePieceIcon },
+      {
+        key: 'emojis-stickers',
+        label: t('settings.emojisStickers.title'),
+        Icon: SmileyStickerIcon,
+      },
+      { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
+      { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
+      { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
+      {
+        key: 'appearance',
+        label: t('settings.appearance.title'),
+        Icon: PaletteIcon,
+        dividerBefore: true,
+      },
+      {
+        key: 'accessibility',
+        label: t('settings.accessibility.title'),
+        Icon: PersonSimpleCircleIcon,
+      },
+      ...(keyboardHints
+        ? [{ key: 'keybinds' as const, label: t('settings.keybinds.title'), Icon: KeyboardIcon }]
+        : []),
+      { key: 'language', label: t('settings.language.title'), Icon: GlobeSimpleIcon },
+      {
+        key: 'sessions',
+        label: t('settings.sessions.title'),
+        Icon: DevicesIcon,
+        dividerBefore: true,
+      },
+      { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
+      { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
+      { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
+    ],
+    [t, keyboardHints]
+  );
 }
 
 /** The sections of the open page under its sidebar entry; it opens out when it first appears. */
@@ -276,99 +279,149 @@ export function Settings() {
   const youTabOpen = useAtomValue(mobileYouOpenAtom);
   const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
   const [activePage, setActivePage] = useState<SettingsPage>('account');
+  const isNarrow = useMediaQuery(PANEL_OVERLAY_QUERY);
+  // Phone layout only: false shows the list of sections, true shows the active one.
+  const [pageOpen, setPageOpen] = useState(false);
   const [scrollerEl, setScrollerEl] = useState<HTMLDivElement | null>(null);
   const keyboardHints = useKeyboardHints();
-  const [isNarrow, setIsNarrow] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
-    setIsNarrow(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsNarrow(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
+  const subs = useSubSections(scrollerEl, activePage);
   const targetPageRef = useRef(targetPage);
   targetPageRef.current = targetPage;
 
   const NAV = useSettingsNav();
-  const subs = useSubSections(scrollerEl, activePage);
 
   const close = useCallback(() => setOpen(false), [setOpen]);
-  const navigate = useNavigate();
-  const addAccount = () => {
-    close();
-    navigate('/welcome?add=1');
-  };
-  const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
-  const backToList = useCallback(() => setNarrowView('list'), []);
-  const openPage = (page: SettingsPage) => {
-    setActivePage(page);
-    setNarrowView('page');
-  };
+
+  const logoutButton = (
+    <button
+      type="button"
+      className={css.navLogout}
+      onClick={() => void logout()}
+      aria-label={t('settings.account.logout')}
+    >
+      <SignOutIcon size={16} />
+      <span className={css.navLabelText}>{t('settings.account.logout')}</span>
+    </button>
+  );
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
     if (open && !targetPageRef.current) {
       setActivePage('account');
-      setNarrowView('list');
+      setPageOpen(false);
     }
   }, [open]);
 
   useLayoutEffect(() => {
     if (!open || !targetPage) return;
     setActivePage(targetPage);
-    setNarrowView('page');
+    setPageOpen(true);
     setTargetPage(null);
   }, [open, targetPage, setTargetPage]);
 
+  // Back from a section returns to the list (the dialog's own back entry closes Settings).
+  useBackToClose(open && isNarrow && pageOpen, () => setPageOpen(false));
+
   const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
   const pageOnly = isNarrow && youTabOpen;
-  const showPage = isNarrow && (pageOnly || narrowView === 'page');
+  const showPage = isNarrow && (pageOnly || pageOpen);
+
+  if (isNarrow) {
+    const activeEntry = NAV.find((n) => n.key === shownPage);
+    return (
+      <Dialog
+        open={open}
+        onClose={close}
+        size="xl"
+        zIndex={zIndex.modal}
+        surface="primary"
+        fullscreenOnMobile
+        bodyClassName={css.dialogBody}
+        ariaLabel={t('settings.userSettings')}
+      >
+        <div className={css.mobileRoot}>
+          <div className={css.mobileTopBar}>
+            {showPage && !pageOnly && (
+              <button
+                type="button"
+                className={css.mobileIconBtn}
+                onClick={() => setPageOpen(false)}
+                aria-label={t('common.back', { defaultValue: 'Back' })}
+              >
+                <CaretLeftIcon size={22} />
+              </button>
+            )}
+            <span className={css.mobileTopTitle}>
+              {showPage ? activeEntry?.label : t('settings.userSettings')}
+            </span>
+            {(!showPage || pageOnly) && (
+              <button
+                type="button"
+                className={css.mobileIconBtn}
+                onClick={close}
+                aria-label={t('common.close')}
+              >
+                <XIcon size={22} />
+              </button>
+            )}
+          </div>
+          {showPage ? (
+            <div className={css.mobileContent}>
+              <PageContent page={shownPage} />
+            </div>
+          ) : (
+            <div className={css.mobileList}>
+              {NAV.map((item) => (
+                <div key={item.key}>
+                  {item.dividerBefore && <div className={css.mobileDivider} />}
+                  <button
+                    type="button"
+                    className={css.mobileRow}
+                    onClick={() => {
+                      setActivePage(item.key);
+                      setPageOpen(true);
+                    }}
+                  >
+                    <item.Icon size={22} />
+                    <span className={css.mobileRowLabel}>{item.label}</span>
+                    <CaretRightIcon size={16} className={css.mobileRowChevron} />
+                  </button>
+                </div>
+              ))}
+              <div className={css.mobileDivider} />
+              <button type="button" className={css.mobileRow} onClick={() => void logout()}>
+                <SignOutIcon size={22} />
+                <span className={css.mobileRowLabel}>{t('settings.account.logout')}</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog
       open={open}
-      onClose={showPage && !pageOnly ? backToList : close}
-      swipeBack={pageOnly}
+      onClose={close}
       size="xl"
-      zIndex={7000}
+      zIndex={zIndex.modal}
       maxWidth="900px"
       height="640px"
       surface="primary"
       fullscreenOnMobile
-      bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
+      bodyClassName={css.dialogBody}
       ariaLabel={t('settings.userSettings')}
     >
-      {isNarrow ? (
-        showPage ? (
-          <NarrowSettingsPage
-            title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
-            onBack={pageOnly ? close : backToList}
-            onClose={pageOnly ? undefined : close}
-          >
-            <PageContent page={shownPage} />
-          </NarrowSettingsPage>
-        ) : (
-          <NarrowSettingsList
-            title={t('settings.userSettings')}
-            items={NAV}
-            onSelect={openPage}
-            onClose={close}
-            footer={
-              <div className={css.navListFooter}>
-                <AccountSwitcher onAddAccount={addAccount} />
-              </div>
-            }
-          />
-        )
-      ) : (
-        <>
-          <nav className={css.nav}>
-            <span className={css.navLabel}>{t('settings.userSettings')}</span>
-            {NAV.map((item) => {
-              const isActive = activePage === item.key;
-              return (
-                <div key={item.key}>
-                  {item.dividerBefore && <div className={css.navDivider} />}
+      <nav className={css.nav}>
+        <span className={css.navLabel}>{t('settings.userSettings')}</span>
+        {NAV.map((item) => {
+          const isActive = activePage === item.key;
+          return (
+            <div key={item.key}>
+              {item.dividerBefore && <div className={css.navDivider} />}
+              {isNarrow ? (
+                <Tooltip content={item.label} placement="right">
                   <button
                     type="button"
                     className={isActive ? css.navItemActive : css.navItem}
@@ -377,36 +430,51 @@ export function Settings() {
                     <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
                     <span className={css.navLabelText}>{item.label}</span>
                   </button>
-                  {isActive && subs.sections.length > 1 && (
-                    <NavSubList
-                      sections={subs.sections}
-                      activeId={subs.activeId}
-                      onPick={subs.scrollTo}
-                    />
-                  )}
-                </div>
-              );
-            })}
-            <div className={css.navFooter}>
-              <AccountSwitcher onAddAccount={addAccount} />
+                </Tooltip>
+              ) : (
+                <button
+                  type="button"
+                  className={isActive ? css.navItemActive : css.navItem}
+                  onClick={() => setActivePage(item.key)}
+                >
+                  <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                  <span className={css.navLabelText}>{item.label}</span>
+                </button>
+              )}
+              {isActive && subs.sections.length > 1 && (
+                <NavSubList
+                  sections={subs.sections}
+                  activeId={subs.activeId}
+                  onPick={subs.scrollTo}
+                />
+              )}
             </div>
-          </nav>
+          );
+        })}
+        <div className={css.navFooter}>
+          {isNarrow ? (
+            <Tooltip content={t('settings.account.logout')} placement="right">
+              {logoutButton}
+            </Tooltip>
+          ) : (
+            logoutButton
+          )}
+        </div>
+      </nav>
 
-          <div className={css.content}>
-            <button
-              type="button"
-              className={css.closeBtn}
-              onClick={close}
-              aria-label={t('common.close')}
-            >
-              <XIcon size={18} />
-            </button>
-            <div className={css.scroller} ref={setScrollerEl}>
-              <PageContent page={shownPage} />
-            </div>
-          </div>
-        </>
-      )}
+      <div className={css.content}>
+        <button
+          type="button"
+          className={css.closeBtn}
+          onClick={close}
+          aria-label={t('common.close')}
+        >
+          <XIcon size={18} />
+        </button>
+        <div className={css.scroller} ref={setScrollerEl}>
+          <PageContent page={shownPage} />
+        </div>
+      </div>
     </Dialog>
   );
 }
