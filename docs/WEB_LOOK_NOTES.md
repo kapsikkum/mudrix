@@ -24,3 +24,13 @@ This document tracks visual differences between the new web client (`apps/web`) 
   - The message composer box and formatting toolbar styling matches `mudrix-web` with 1.52% pixel difference within the component bounding box.
 - **Background Timeline Content**:
   - Full-screen captures of `composer` include the room timeline and right-hand member sidebar. Pixel variance across those screen areas is driven by dynamic content: message timestamp formatting differences, avatar placeholders/tints, and live presence indicators in the member sidebar.
+
+---
+
+## 3. Settings & Modal Backdrops (`room-settings-*`, `settings-*`)
+
+- **Modal Backdrop Scrim & Timeline Artifacts**:
+  - Modal dialogs (such as Room Settings and Space Settings) are displayed with a semi-transparent scrim (`vars.scrim.modal` / `rgba(0,0,0,0.6)`).
+  - In tablet viewports (820x1180), the centered modal dialog measures < 1.0% diff internally, but the visible background timeline around the modal exhibits variance driven by live message relative timestamps ("just now", "1m ago"), presence badges, and seeded room avatar gradient generation.
+- **Roles & Permissions and Audit Log Subpanels**:
+  - On desktop (1440px) and mobile (390px), both `room-settings-roles` and `room-settings-audit-log` achieve < 1.3% pixel diff across Carbon, Amber, and Ethereal themes.
