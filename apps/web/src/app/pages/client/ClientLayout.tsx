@@ -240,6 +240,31 @@ export function ClientLayout() {
     setCurrentRoomId,
   ]);
 
+  // When space graph finishes loading asynchronously, ensure the room's parent space is selected
+  useEffect(() => {
+    if (stateSidebar !== undefined || stateSpaceId !== undefined) return;
+    const path = location.pathname;
+    const roomMatch = path.match(/^\/r\/(.+)/);
+    if (!roomMatch || !client) return;
+    const roomId = decodeURIComponent(roomMatch[1]);
+    const keepSpaceId =
+      currentSpaceIdRef.current && isChildOfSpace(roomId, currentSpaceIdRef.current, spaceGraph)
+        ? currentSpaceIdRef.current
+        : findParentSpaceId(roomId, spaceGraph);
+    if (keepSpaceId && keepSpaceId !== currentSpaceIdRef.current) {
+      setSidebarView('space');
+      setCurrentSpaceId(keepSpaceId);
+    }
+  }, [
+    spaceGraph,
+    location.pathname,
+    stateSidebar,
+    stateSpaceId,
+    client,
+    setSidebarView,
+    setCurrentSpaceId,
+  ]);
+
   const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

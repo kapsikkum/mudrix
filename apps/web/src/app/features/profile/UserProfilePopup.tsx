@@ -82,7 +82,6 @@ import * as extrasCss from './ProfileExtras.css';
 import * as cardCss from './ProfileCard.css';
 import {
   DecoratedAvatar,
-  NameplateWrapper,
   ProfileBadges,
   StatusPill,
   useHomeserverSoftware,
@@ -114,7 +113,7 @@ import {
 } from '@/app/data';
 import { getRoleKey, getRoleLabel, getRoomCreators } from '@/app/features/room/memberRoles';
 
-const POPUP_MARGIN = 12;
+const POPUP_MARGIN = 24;
 
 export function UserProfilePopup() {
   const { t } = useTranslation();
@@ -162,7 +161,6 @@ export function UserProfilePopup() {
   const activeStatus = useActiveStatus(extFields?.status);
   const liveActivities = useLiveActivities(extFields?.activities);
   const software = useHomeserverSoftware(client, profileState?.userId ?? '');
-  const badgeCount = (extFields?.isMudrixUser ? 1 : 0) + (software ? 1 : 0);
   const { data: avatarBlob } = useAvatarBlobUrl(profile?.avatarMxc, client);
   const bannerGradient = useBannerGradient(avatarBlob, profile?.displayName ?? '');
   const fileRef = useRef<HTMLInputElement>(null);
@@ -739,7 +737,7 @@ export function UserProfilePopup() {
                           className={css.nameSection}
                           style={
                             {
-                              '--badge-room': badgeCount ? `${badgeCount * 30 + 6}px` : '0px',
+                              '--badge-room': extFields?.isMudrixUser ? '64px' : '36px',
                             } as React.CSSProperties
                           }
                         >
@@ -1089,25 +1087,11 @@ export function UserProfilePopup() {
                   className={css.nameSection}
                   style={
                     {
-                      '--badge-room': badgeCount ? `${badgeCount * 30 + 6}px` : '0px',
+                      '--badge-room': extFields?.isMudrixUser ? '64px' : '36px',
                     } as React.CSSProperties
                   }
                 >
-                  <span className={css.displayNameRow}>
-                    <NameplateWrapper nameplate={extFields?.nameplate} client={client}>
-                      <span className={css.displayName}>{profile.displayName}</span>
-                    </NameplateWrapper>
-                    {userVerification.verified && (
-                      <Tooltip content={t('profile.verified')}>
-                        <ShieldCheckIcon
-                          size={18}
-                          weight="fill"
-                          className={css.verifiedBadge}
-                          aria-label={t('profile.verified')}
-                        />
-                      </Tooltip>
-                    )}
-                  </span>
+                  <span className={css.displayName}>{profile.displayName}</span>
 
                   <div className={css.userIdRow}>
                     <span className={css.userId}>{profile.userId.split(':')[0]}</span>
@@ -1192,14 +1176,7 @@ export function UserProfilePopup() {
                   )}
                 </div>
 
-                {profileState.roomId && (
-                  <MemberSinceRow
-                    client={client}
-                    roomId={profileState.roomId}
-                    room={room}
-                    userId={profile.userId}
-                  />
-                )}
+                {profileState.roomId && <MemberSinceRow room={room} userId={profile.userId} />}
 
                 {extFields?.timezone && (
                   <div className={css.infoRow}>

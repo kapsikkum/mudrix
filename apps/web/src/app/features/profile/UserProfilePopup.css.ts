@@ -871,12 +871,6 @@ export const coverEdit = style({
   },
 });
 
-export const displayNameRow = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-});
-
 export const verifiedBadge = style({
   color: vars.color.success,
   display: 'flex',

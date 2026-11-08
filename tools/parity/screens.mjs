@@ -246,19 +246,30 @@ export const SCREENS = [
       await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
       await waitPageReady(page);
       await closeDialog(page);
+      await page
+        .locator('[class*="msgSender"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 15000 })
+        .catch(() => {});
       if (width && width > 500) {
         const juno = page.locator('aside').getByText('Juno', { exact: true }).first();
         await juno.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
         if (await juno.isVisible().catch(() => false)) {
-          await juno.click(CLICK_OPTS).catch(() => {});
+          await juno.click({ force: true, timeout: 5000 }).catch(() => {});
           await page.waitForTimeout(600);
         }
       } else {
+        await closeDialog(page);
         const junoMsg = page.locator('[class*="msgSender"]:has-text("Juno")').last();
         await junoMsg.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
         if (await junoMsg.isVisible().catch(() => false)) {
-          await junoMsg.click(CLICK_OPTS).catch(() => {});
-          await page.waitForTimeout(600);
+          await junoMsg.scrollIntoViewIfNeeded().catch(() => {});
+          await junoMsg.click({ force: true, timeout: 5000 }).catch(() => {});
+          await page
+            .getByText('In room since')
+            .waitFor({ state: 'visible', timeout: 3000 })
+            .catch(() => {});
+          await page.waitForTimeout(300);
         }
       }
     },
