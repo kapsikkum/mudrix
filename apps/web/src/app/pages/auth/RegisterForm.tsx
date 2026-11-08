@@ -4,6 +4,7 @@ import { WizardClient } from '@wizardchat/core';
 import { loadCore, register } from '@/client/initMatrix';
 import { useSetAtom } from 'jotai';
 import { credentialsAtom } from '@/app/store/atoms';
+import type { MatrixCredentials } from '@/client/types';
 import { getErrorMessage, MatrixErrorCode } from '@/util/error';
 import { passwordStrength } from '@/util/password';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
