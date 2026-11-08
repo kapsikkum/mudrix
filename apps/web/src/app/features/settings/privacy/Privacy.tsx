@@ -5,22 +5,17 @@ import {
   typingIndicatorsAtom,
   sendReadReceiptsAtom,
   showPresenceAtom,
-  showHomeserverSoftwareAtom,
   streamerModeAtom,
+  showHomeserverSoftwareAtom,
   type StreamerMode,
 } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Select } from '@/app/components/Select';
-import { ArrowCounterClockwiseIcon } from '@phosphor-icons/react';
-import { Avatar } from '@/app/components/Avatar';
-import { IconButton } from '@/app/components/Button';
-import { useIgnoredUsers, useUnignoreUser } from '@/app/hooks/useIgnoredUsers';
+import { IgnoredUsers } from './IgnoredUsers';
 import { useInviteBlocking } from '@/app/hooks/useInviteBlocking';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
-import { useProfile } from '@/app/data';
-import { formatUserId } from '@/util/matrix';
 import * as css from '../Settings.css';
 
 const STREAMER_OPTIONS: Record<StreamerMode, string> = {
@@ -34,8 +29,8 @@ export function Privacy() {
   const [typingIndicators, setTypingIndicators] = useAtom(typingIndicatorsAtom);
   const [sendReadReceipts, setSendReadReceipts] = useAtom(sendReadReceiptsAtom);
   const [showPresence, setShowPresence] = useAtom(showPresenceAtom);
-  const [showHomeserverSoftware, setShowHomeserverSoftware] = useAtom(showHomeserverSoftwareAtom);
   const [streamerMode, setStreamerMode] = useAtom(streamerModeAtom);
+  const [showHomeserverSoftware, setShowHomeserverSoftware] = useAtom(showHomeserverSoftwareAtom);
 
   return (
     <div>
@@ -101,7 +96,10 @@ export function Privacy() {
 
       <div className={css.divider} />
 
-      <IgnoredUsers />
+      <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('settings.privacy.ignoredUsers')}</h3>
+        <IgnoredUsers />
+      </div>
     </div>
   );
 }
@@ -130,60 +128,5 @@ function BlockInvitesToggle() {
         }
       }}
     />
-  );
-}
-
-function IgnoredUsers() {
-  const { t } = useTranslation();
-  const ignored = useIgnoredUsers();
-  const unignore = useUnignoreUser();
-
-  return (
-    <div className={css.section}>
-      <h3 className={css.sectionTitle}>{t('settings.privacy.ignoredUsers')}</h3>
-      {ignored.length === 0 ? (
-        <div className={css.noResults}>{t('settings.privacy.noIgnoredUsers')}</div>
-      ) : (
-        ignored.map((userId) => (
-          <IgnoredUserRow key={userId} userId={userId} onUnignore={unignore} />
-        ))
-      )}
-    </div>
-  );
-}
-
-function IgnoredUserRow({
-  userId,
-  onUnignore,
-}: {
-  userId: string;
-  onUnignore: (userId: string, displayName: string) => Promise<void>;
-}) {
-  const { t } = useTranslation();
-  const client = getMatrixClientOrNull();
-  const { data: user } = useProfile(userId);
-  const name = user?.displayName || formatUserId(userId);
-  return (
-    <div className={css.permRow}>
-      <Avatar
-        name={name}
-        mxcUrl={user?.avatarUrl}
-        client={client ?? undefined}
-        size="sm"
-        placeholder="logo"
-      />
-      <div className={css.permRowName}>
-        <div>{name}</div>
-        <div className={css.permRowId}>{userId}</div>
-      </div>
-      <IconButton
-        size="xs"
-        tooltip={t('profile.unignoreUser')}
-        aria-label={t('profile.unignoreUser')}
-        onClick={() => void onUnignore(userId, name)}
-      >
-        <ArrowCounterClockwiseIcon size={14} />
-      </IconButton>
-    </div>
   );
 }
