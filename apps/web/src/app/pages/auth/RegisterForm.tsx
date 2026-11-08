@@ -16,9 +16,8 @@ import {
   DiscoveryStatus,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
-import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
+import { AuthField } from './AuthField';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
@@ -40,9 +39,9 @@ interface Props {
   onShowLogin: () => void;
   hs: Homeserver;
   picker: ServerPickerState;
-  serverUrl: string;
-  capabilities: AuthCapabilities | null;
-  capabilitiesLoading: boolean;
+  serverUrl?: string;
+  capabilities?: AuthCapabilities | null;
+  capabilitiesLoading?: boolean;
 }
 
 export function RegisterForm({
@@ -63,24 +62,27 @@ export function RegisterForm({
   const [statusType, setStatusType] = useState<'error' | 'success'>('error');
   const [loading, setLoading] = useState(false);
 
-  const serverName = hs.serverName;
+  const resolvedServerUrl = serverUrl ?? hs.baseUrl;
+  const resolvedCaps =
+    capabilities !== undefined ? capabilities : (hs.current ?? (hs.checking ? hs.methods : null));
+  const resolvedLoading = capabilitiesLoading !== undefined ? capabilitiesLoading : hs.checking;
+
   const localpart = username.trim().replace(/^@/, '');
-  const fullId = localpart && serverName ? `@${localpart}:${serverName}` : '';
   const strength = password ? passwordStrength(password) : null;
   const passwordTooShort = password.length > 0 && password.length < 8;
 
-  const oidcMetadata = capabilities?.delegatedAuth ?? false;
-  const ssoProviders = capabilities?.ssoProviders ?? [];
+  const oidcMetadata = resolvedCaps?.delegatedAuth ?? false;
+  const ssoProviders = resolvedCaps?.ssoProviders ?? [];
   const hasSso = !oidcMetadata && ssoProviders.length > 0;
   const idps = ssoProviders.flatMap((idp) => (idp.id ? [{ ...idp, id: idp.id }] : []));
 
-  const registerStatus = capabilities?.registerStatus;
+  const registerStatus = resolvedCaps?.registerStatus;
   const hasPasswordRegister = !oidcMetadata && registerStatus === RegisterStatus.Available;
   const isRateLimited = !oidcMetadata && registerStatus === RegisterStatus.RateLimited;
-  const discoveryStatus = capabilities?.discoveryStatus;
+  const discoveryStatus = resolvedCaps?.discoveryStatus;
   const serverUnreachable = discoveryStatus === DiscoveryStatus.Unreachable;
   const wellKnownInvalid = discoveryStatus === DiscoveryStatus.WellKnownInvalid;
-  const isChecking = capabilitiesLoading && !capabilities;
+  const isChecking = resolvedLoading && !resolvedCaps;
 
   useEffect(() => {
     if (!localpart || !hasPasswordRegister) {
@@ -95,110 +97,66 @@ export function RegisterForm({
     let cancelled = false;
     const timer = setTimeout(() => {
       loadCore()
-        .then(() => WizardClient.usernameAvailable(serverUrl, localpart))
+        .then(() => WizardClient.usernameAvailable(resolvedServerUrl, localpart))
         .then((available) => {
           if (!cancelled) setUsernameState(available ? 'available' : 'taken');
         })
-        .catch((err: unknown) => {
-          if (cancelled) return;
-          const errcode = matrixErrcode(err);
-          if (errcode === MatrixErrorCode.USER_IN_USE) setUsernameState('taken');
-          else if (errcode === MatrixErrorCode.INVALID_USERNAME) setUsernameState('invalid');
-          else if (errcode === MatrixErrorCode.EXCLUSIVE) setUsernameState('reserved');
-          else setUsernameState('idle');
+        .catch(() => {
+          if (!cancelled) setUsernameState('idle');
         });
     }, USERNAME_CHECK_DELAY_MS);
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [localpart, serverUrl, hasPasswordRegister]);
+  }, [localpart, hasPasswordRegister, resolvedServerUrl]);
 
+  const usernameHint =
+    usernameState === 'checking'
+      ? t('welcome.checkingUsername')
+      : usernameState === 'available'
+        ? t('welcome.usernameAvailable')
+        : '';
   const usernameError =
-    usernameState === 'taken'
-      ? t('welcome.usernameTaken')
-      : usernameState === 'reserved'
-        ? t('welcome.usernameReserved')
-        : usernameState === 'invalid'
-          ? t('welcome.usernameInvalidChars')
-          : undefined;
-  const usernameHint = !fullId
-    ? undefined
-    : usernameState === 'available'
-      ? t('welcome.usernameAvailable', { id: fullId })
-      : usernameState === 'checking'
-        ? t('welcome.usernameChecking', { id: fullId })
-        : t('welcome.usernameHint', { id: fullId });
+    usernameState === 'invalid'
+      ? t('welcome.usernameInvalid')
+      : usernameState === 'taken'
+        ? t('welcome.usernameTaken')
+        : '';
 
   const canSubmit =
-    !!localpart &&
-    password.length >= 8 &&
-    usernameState !== 'taken' &&
-    usernameState !== 'reserved' &&
-    usernameState !== 'invalid';
+    localpart &&
+    password &&
+    !passwordTooShort &&
+    (usernameState === 'available' || usernameState === 'idle');
+
+  const registerErrorMessage = (err: unknown): string => {
+    const errcode = matrixErrcode(err);
+    if (errcode === MatrixErrorCode.USER_IN_USE) return t('welcome.usernameTaken');
+    if (errcode === MatrixErrorCode.INVALID_USERNAME) return t('welcome.usernameInvalid');
+    if (errcode === MatrixErrorCode.EXCLUSIVE) return t('welcome.usernameReserved');
+    return getErrorMessage(err);
+  };
 
   const handleRegister = async () => {
-    if (!localpart || !password) {
-      setStatus(t('welcome.fillAllFields'));
-      setStatusType('error');
-      return;
-    }
     if (!canSubmit) return;
-
     setLoading(true);
     setStatus('');
-
     try {
-      const flows = capabilities?.registerFlows ?? [];
-      const dummyOnly = (stages: string[]) => stages.length === 1 && stages[0] === 'm.login.dummy';
-      if (flows.length > 0 && !flows.some(dummyOnly)) {
-        const names = flows.map((stages) => stages.join(' -> ')).join(', ');
-        throw new Error(t('welcome.additionalVerification', { names: names || 'unknown' }));
-      }
-
-      const credentials = await register(serverUrl, localpart, password);
+      const credentials = await register(resolvedServerUrl, localpart, password);
       setCredentials(credentials);
       onSuccess();
     } catch (err) {
-      const message = getErrorMessage(err);
-      const errcode = matrixErrcode(err);
-      if (errcode === MatrixErrorCode.USER_IN_USE) {
-        setStatus(t('welcome.usernameTaken'));
-      } else if (errcode === MatrixErrorCode.INVALID_USERNAME) {
-        setStatus(t('welcome.invalidUsername'));
-      } else if (errcode === MatrixErrorCode.EXCLUSIVE) {
-        setStatus(t('welcome.usernameReserved'));
-      } else if (errcode === MatrixErrorCode.WEAK_PASSWORD) {
-        setStatus(t('welcome.weakPassword', { error: message }));
-      } else {
-        setStatus(t('welcome.registrationFailed', { error: message }));
-      }
+      setStatus(t('welcome.registrationFailed', { error: registerErrorMessage(err) }));
       setStatusType('error');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSso = (idpId?: string) => {
+  const finishPopupLogin = (signIn: Promise<MatrixCredentials>, done: () => void) => {
     setStatus('');
-    startSsoPopupLogin(serverUrl, idpId).then(
-      (credentials) => {
-        setCredentials(credentials);
-        onSuccess();
-      },
-      (err) => {
-        if (isPopupClosed(err)) return;
-        setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
-        setStatusType('error');
-      }
-    );
-  };
-
-  const handleOidc = () => {
-    if (!oidcMetadata) return;
-    setLoading(true);
-    setStatus('');
-    startOAuthPopupLogin(serverUrl, true).then(
+    signIn.then(
       (credentials) => {
         setCredentials(credentials);
         onSuccess();
@@ -208,54 +166,81 @@ export function RegisterForm({
           setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
           setStatusType('error');
         }
-        setLoading(false);
+        done();
       }
     );
   };
 
-  return (
-    <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.register')}</h2>
+  const handleSso = (idpId?: string) =>
+    finishPopupLogin(startSsoPopupLogin(resolvedServerUrl, idpId), () => {});
 
+  const handleOidc = () => {
+    if (!oidcMetadata) return;
+    setLoading(true);
+    setStatus('');
+    finishPopupLogin(startOAuthPopupLogin(resolvedServerUrl, true), () => setLoading(false));
+  };
+
+  return (
+    <form
+      className={css.form}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void handleRegister();
+      }}
+      noValidate
+      aria-label={t('welcome.registerTitle')}
+    >
       <ServerPicker hs={hs} label={t('welcome.serverLabelRegister')} {...picker} />
 
       {isChecking ? (
-        <div className={css.checkingServer}>
-          <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+        <div className={css.status} aria-busy="true">
+          <span className={css.statusMark} aria-hidden>
+            <span className={css.spinner} />
+          </span>
+          <span className={css.statusText}>{t('welcome.checkingServer')}</span>
         </div>
       ) : (
         <>
           {oidcMetadata && (
-            <Button fullWidth size="lg" variant="primary" onClick={handleOidc} disabled={loading}>
+            <Button
+              fullWidth
+              size="lg"
+              variant="primary"
+              className={css.submit}
+              onClick={handleOidc}
+              disabled={loading}
+            >
               {loading ? t('welcome.redirecting') : t('welcome.oidcRegister')}
             </Button>
           )}
 
           {hasPasswordRegister && (
             <>
-              <Input
+              <AuthField
+                label={t('welcome.username')}
+                name="username"
                 type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
                 autoCapitalize="none"
                 spellCheck={false}
-                helperText={usernameError ? undefined : usernameHint}
+                hint={usernameError ? undefined : usernameHint}
                 error={usernameError}
+                showRequired
               />
-              <Input
+              <AuthField
+                label={t('welcome.password')}
+                name="password"
                 type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="new-password"
                 showPasswordToggle
                 error={passwordTooShort ? t('welcome.passwordTooShort') : undefined}
-                onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
+                onKeyDown={(e) => e.key === 'Enter' && void handleRegister()}
+                showRequired
               />
 
               {strength && !passwordTooShort && (
@@ -274,12 +259,22 @@ export function RegisterForm({
                 </div>
               )}
 
+              <div
+                className={statusType === 'success' ? css.formSuccess : css.formError}
+                role="alert"
+              >
+                {status}
+              </div>
+
               <Button
+                type="submit"
                 fullWidth
                 size="lg"
                 variant="primary"
-                onClick={handleRegister}
+                className={css.submit}
                 disabled={loading || !canSubmit}
+                loading={loading}
+                spinnerWhileLoading
               >
                 {loading ? t('welcome.registering') : t('welcome.registerSubmit')}
               </Button>
@@ -289,26 +284,36 @@ export function RegisterForm({
           {hasSso && (
             <>
               {hasPasswordRegister && <div className={css.divider}>{t('common.or')}</div>}
-              {idps.length === 0 ? (
-                <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
-                  {t('welcome.ssoLogin')}
-                </Button>
-              ) : (
-                idps.map((idp) => {
-                  const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
-                  return (
-                    <Button
-                      key={idp.id}
-                      fullWidth
-                      variant="secondary"
-                      onClick={() => handleSso(idp.id)}
-                    >
-                      {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
-                      {t('welcome.continueWithIdp', { name: idp.name })}
-                    </Button>
-                  );
-                })
-              )}
+              <div className={css.altMethods}>
+                {idps.length === 0 ? (
+                  <Button
+                    fullWidth
+                    size="lg"
+                    variant="secondary"
+                    className={css.submit}
+                    onClick={() => handleSso()}
+                  >
+                    {t('welcome.ssoLogin')}
+                  </Button>
+                ) : (
+                  idps.map((idp) => {
+                    const iconUrl = resolveIdpIconUrl(resolvedServerUrl, idp.icon);
+                    return (
+                      <Button
+                        key={idp.id}
+                        fullWidth
+                        size="lg"
+                        variant="secondary"
+                        className={css.submit}
+                        onClick={() => handleSso(idp.id)}
+                      >
+                        {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
+                        {t('welcome.continueWithIdp', { name: idp.name })}
+                      </Button>
+                    );
+                  })
+                )}
+              </div>
             </>
           )}
 
@@ -316,7 +321,7 @@ export function RegisterForm({
             <p className={css.statusText}>{t('welcome.registrationRateLimited')}</p>
           )}
 
-          {!capabilitiesLoading &&
+          {!resolvedLoading &&
             !hasPasswordRegister &&
             !hasSso &&
             !isRateLimited &&
@@ -330,18 +335,12 @@ export function RegisterForm({
         </>
       )}
 
-      {status && (
-        <p className={statusType === 'success' ? css.statusSuccess : css.statusText}>{status}</p>
-      )}
-
-      <p className={css.switchText}>
+      <p className={css.altText}>
         {t('welcome.haveAccount')}{' '}
-        <button type="button" className={css.switchLink} onClick={onShowLogin}>
+        <button type="button" className={css.inlineLink} onClick={onShowLogin}>
           {t('welcome.login')}
         </button>
       </p>
-
-      {loading && <SpinnerOverlay />}
-    </div>
+    </form>
   );
 }

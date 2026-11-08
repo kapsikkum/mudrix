@@ -17,9 +17,8 @@ import {
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
 import type { MatrixCredentials } from '@/client/types';
-import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
+import { AuthField } from './AuthField';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import { interpretIdentifier, toLoginIdentifier } from './signInIdentifier';
 import type { Homeserver } from './useHomeserver';
@@ -31,9 +30,9 @@ interface Props {
   onShowReset: () => void;
   hs: Homeserver;
   picker: ServerPickerState;
-  serverUrl: string;
-  capabilities: AuthCapabilities | null;
-  capabilitiesLoading: boolean;
+  serverUrl?: string;
+  capabilities?: AuthCapabilities | null;
+  capabilitiesLoading?: boolean;
 }
 
 export function LoginForm({
@@ -44,7 +43,6 @@ export function LoginForm({
   picker,
   serverUrl,
   capabilities,
-  capabilitiesLoading,
 }: Props) {
   const { t } = useTranslation();
   const setCredentials = useSetAtom(credentialsAtom);
@@ -55,17 +53,22 @@ export function LoginForm({
   const [oidcLoading, setOidcLoading] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
 
-  const oidcMetadata = capabilities?.delegatedAuth ?? false;
-  const hasPassword =
-    !oidcMetadata &&
-    (!capabilities ||
-      capabilities.discoveryStatus !== DiscoveryStatus.Ok ||
-      capabilities.hasPasswordLogin);
-  const ssoProviders = capabilities?.ssoProviders ?? [];
+  const resolvedServerUrl = serverUrl ?? hs.baseUrl;
+  const resolvedCaps =
+    capabilities !== undefined ? capabilities : (hs.current ?? (hs.checking ? hs.methods : null));
+
+  const oidcMetadata = resolvedCaps?.delegatedAuth ?? false;
+  const ssoProviders = resolvedCaps?.ssoProviders ?? [];
   const hasSso = !oidcMetadata && ssoProviders.length > 0;
   const idps = ssoProviders.flatMap((idp) => (idp.id ? [{ ...idp, id: idp.id }] : []));
-  const isChecking = capabilitiesLoading && !capabilities;
-  const qrAvailable = oidcMetadata && !!serverUrl && !!capabilities?.qrLogin;
+  const qrAvailable = oidcMetadata && !!resolvedServerUrl && !!resolvedCaps?.qrLogin;
+  const passwordOffered =
+    !resolvedCaps ||
+    resolvedCaps.hasPasswordLogin ||
+    (!oidcMetadata && !hasSso) ||
+    !!username ||
+    !!password;
+  const browserMethods = oidcMetadata || hasSso;
 
   const identifier = interpretIdentifier(username, hs.serverName);
   const byEmail = identifier?.kind === 'email' || identifier?.kind === 'phone';
@@ -101,14 +104,14 @@ export function LoginForm({
       setStatus(t('welcome.fillAllFields'));
       return;
     }
-    if (capabilities?.discoveryStatus === DiscoveryStatus.NotMatrix) {
+    if (resolvedCaps?.discoveryStatus === DiscoveryStatus.NotMatrix) {
       setStatus(t('welcome.errNotAServer'));
       return;
     }
     setLoading(true);
     setStatus('');
     try {
-      const credentials = await login(serverUrl, toLoginIdentifier(identifier), password);
+      const credentials = await login(resolvedServerUrl, toLoginIdentifier(identifier), password);
       setCredentials(credentials);
       onSuccess();
     } catch (err) {
@@ -133,116 +136,202 @@ export function LoginForm({
   };
 
   const handleSso = (idpId?: string) =>
-    finishPopupLogin(startSsoPopupLogin(serverUrl, idpId), () => {});
+    finishPopupLogin(startSsoPopupLogin(resolvedServerUrl, idpId), () => {});
 
   const handleOidc = () => {
     if (!oidcMetadata) return;
     setOidcLoading(true);
-    finishPopupLogin(startOAuthPopupLogin(serverUrl), () => setOidcLoading(false));
+    finishPopupLogin(startOAuthPopupLogin(resolvedServerUrl), () => setOidcLoading(false));
   };
 
   const handleForgotPassword = () => {
-    if (capabilities?.delegatedAuth && capabilities.accountManagementUri) {
-      window.open(capabilities.accountManagementUri, '_blank', 'noopener');
+    if (resolvedCaps?.delegatedAuth && resolvedCaps.accountManagementUri) {
+      window.open(resolvedCaps.accountManagementUri, '_blank', 'noopener');
     } else {
       onShowReset();
     }
   };
 
   return (
-    <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.login')}</h2>
-
+    <form
+      className={css.form}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void handleLogin();
+      }}
+      noValidate
+      aria-label={t('welcome.loginTitle')}
+    >
       <ServerPicker hs={hs} label={t('welcome.serverLabelLogin')} {...picker} />
 
-      {isChecking ? (
-        <div className={css.checkingServer}>
-          <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
-        </div>
+      {passwordOffered ? (
+        <>
+          <AuthField
+            label={t('welcome.identifier')}
+            name="username"
+            type="text"
+            inputMode="email"
+            autoComplete="username"
+            enterKeyHint="next"
+            value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setStatus('');
+            }}
+            hint={idHint}
+          />
+          <AuthField
+            label={t('welcome.password')}
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            enterKeyHint="go"
+            showPasswordToggle
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setStatus('');
+            }}
+            hint={
+              <button type="button" className={css.textLink} onClick={handleForgotPassword}>
+                {t('welcome.forgotPassword')}
+              </button>
+            }
+          />
+
+          <div className={css.formError} role="alert">
+            {status}
+          </div>
+
+          <Button
+            type="submit"
+            fullWidth
+            size="lg"
+            variant="primary"
+            className={css.submit}
+            loading={loading}
+            spinnerWhileLoading
+            disabled={loading}
+          >
+            {loading ? t('welcome.loggingIn') : t('welcome.login')}
+          </Button>
+
+          <p className={css.altText}>
+            {t('welcome.noAccount')}{' '}
+            <button type="button" className={css.inlineLink} onClick={onShowRegister}>
+              {t('welcome.register')}
+            </button>
+          </p>
+
+          {browserMethods && (
+            <>
+              <div className={css.divider}>{t('common.or')}</div>
+              <div className={css.altMethods}>
+                {oidcMetadata && (
+                  <Button
+                    fullWidth
+                    size="lg"
+                    variant="secondary"
+                    className={css.submit}
+                    onClick={handleOidc}
+                    disabled={oidcLoading}
+                  >
+                    {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
+                  </Button>
+                )}
+                {oidcMetadata && qrAvailable && (
+                  <Button
+                    fullWidth
+                    size="lg"
+                    variant="secondary"
+                    className={css.submit}
+                    onClick={() => setQrOpen(true)}
+                  >
+                    <QrCodeIcon size={18} />
+                    {t('qrLogin.signInTitle')}
+                  </Button>
+                )}
+                {hasSso &&
+                  (idps.length === 0 ? (
+                    <Button
+                      fullWidth
+                      size="lg"
+                      variant="secondary"
+                      className={css.submit}
+                      onClick={() => handleSso()}
+                    >
+                      {t('welcome.ssoLogin')}
+                    </Button>
+                  ) : (
+                    idps.map((idp) => {
+                      const iconUrl = resolveIdpIconUrl(resolvedServerUrl, idp.icon);
+                      return (
+                        <Button
+                          key={idp.id}
+                          fullWidth
+                          size="lg"
+                          variant="secondary"
+                          className={css.submit}
+                          onClick={() => handleSso(idp.id)}
+                        >
+                          {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
+                          {t('welcome.continueWithIdp', { name: idp.name })}
+                        </Button>
+                      );
+                    })
+                  ))}
+              </div>
+            </>
+          )}
+        </>
       ) : (
         <>
-          {oidcMetadata && (
-            <Button
-              fullWidth
-              size="lg"
-              variant="primary"
-              onClick={handleOidc}
-              disabled={oidcLoading}
-            >
-              {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
-            </Button>
-          )}
-
-          {oidcMetadata && qrAvailable && (
-            <Button fullWidth size="lg" variant="secondary" onClick={() => setQrOpen(true)}>
-              <QrCodeIcon size={18} />
-              {t('qrLogin.signInTitle')}
-            </Button>
-          )}
-          {qrOpen && (
-            <SignInWithQrModal
-              serverUrl={serverUrl}
-              onClose={() => setQrOpen(false)}
-              onSuccess={onSuccess}
-            />
-          )}
-
-          {hasPassword && (
-            <>
-              <Input
-                type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
-              />
-              {idHint && <p className={css.switchText}>{idHint}</p>}
-              <Input
-                type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                showPasswordToggle
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              />
-
-              <p className={css.switchText}>
-                <button type="button" className={css.switchLink} onClick={handleForgotPassword}>
-                  {t('welcome.forgotPassword')}
-                </button>
-              </p>
-
+          <div className={css.altMethods}>
+            {oidcMetadata && (
               <Button
                 fullWidth
                 size="lg"
                 variant="primary"
-                onClick={handleLogin}
-                disabled={loading}
+                className={css.submit}
+                onClick={handleOidc}
+                disabled={oidcLoading}
               >
-                {loading ? t('welcome.loggingIn') : t('welcome.login')}
+                {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
               </Button>
-            </>
-          )}
-
-          {hasSso && (
-            <>
-              {hasPassword && <div className={css.divider}>{t('common.or')}</div>}
-              {idps.length === 0 ? (
-                <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
+            )}
+            {oidcMetadata && qrAvailable && (
+              <Button
+                fullWidth
+                size="lg"
+                variant="secondary"
+                className={css.submit}
+                onClick={() => setQrOpen(true)}
+              >
+                <QrCodeIcon size={18} />
+                {t('qrLogin.signInTitle')}
+              </Button>
+            )}
+            {hasSso &&
+              (idps.length === 0 ? (
+                <Button
+                  fullWidth
+                  size="lg"
+                  variant="primary"
+                  className={css.submit}
+                  onClick={() => handleSso()}
+                >
                   {t('welcome.ssoLogin')}
                 </Button>
               ) : (
                 idps.map((idp) => {
-                  const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
+                  const iconUrl = resolveIdpIconUrl(resolvedServerUrl, idp.icon);
                   return (
                     <Button
                       key={idp.id}
                       fullWidth
-                      variant="secondary"
+                      size="lg"
+                      variant="primary"
+                      className={css.submit}
                       onClick={() => handleSso(idp.id)}
                     >
                       {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
@@ -250,26 +339,29 @@ export function LoginForm({
                     </Button>
                   );
                 })
-              )}
-            </>
-          )}
+              ))}
+          </div>
 
-          {!capabilitiesLoading && !hasPassword && !hasSso && !oidcMetadata && (
-            <p className={css.statusText}>{t('welcome.noLoginMethod')}</p>
-          )}
+          <div className={css.formError} role="alert">
+            {status}
+          </div>
+
+          <p className={css.altText}>
+            {t('welcome.noAccount')}{' '}
+            <button type="button" className={css.inlineLink} onClick={onShowRegister}>
+              {t('welcome.register')}
+            </button>
+          </p>
         </>
       )}
 
-      {status && <p className={css.statusText}>{status}</p>}
-
-      <p className={css.switchText}>
-        {t('welcome.noAccount')}{' '}
-        <button type="button" className={css.switchLink} onClick={onShowRegister}>
-          {t('welcome.register')}
-        </button>
-      </p>
-
-      {loading && <SpinnerOverlay />}
-    </div>
+      {qrOpen && (
+        <SignInWithQrModal
+          serverUrl={resolvedServerUrl}
+          onClose={() => setQrOpen(false)}
+          onSuccess={onSuccess}
+        />
+      )}
+    </form>
   );
 }

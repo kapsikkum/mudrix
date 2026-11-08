@@ -11,6 +11,15 @@ globalStyle('.icon-spin', {
   animation: `${spin} 1s linear infinite`,
 });
 
+globalStyle(':root', {
+  vars: {
+    '--safe-top': 'env(safe-area-inset-top)',
+    '--safe-right': 'env(safe-area-inset-right)',
+    '--safe-bottom': 'env(safe-area-inset-bottom)',
+    '--safe-left': 'env(safe-area-inset-left)',
+  },
+});
+
 globalStyle('html', {
   fontSize: '16px',
   WebkitFontSmoothing: 'antialiased',
