@@ -1120,7 +1120,12 @@
     "inCallElsewhere": "Du bist auf einem anderen Gerät in diesem Anruf",
     "joinHere": "Hier beitreten",
     "joinTimeout": "Die Verbindung zum Anruf hat zu lange gedauert.",
-    "ownOtherDevice": "{{name}} (anderes Gerät)"
+    "ownOtherDevice": "{{name}} (anderes Gerät)",
+    "holdToTalk": "Zum Sprechen halten",
+    "talking": "Du sprichst…",
+    "frontCamera": "Frontkamera",
+    "backCamera": "Rückkamera",
+    "systemDefault": "Systemstandard"
   },
   "attachment": {
     "uploading": "Wird hochgeladen",
@@ -1364,7 +1369,8 @@
         "raiseHand": "Hand gehoben",
         "reaction": "Reaktion",
         "watchTogether": "Watch together gestartet"
-      }
+      },
+      "pushToTalkNote": "Halte in Anrufen die Mikrofontaste gedrückt, um zu sprechen. Sonst bist du still."
     },
     "emojisStickers": {
       "title": "Emojis & Sticker",

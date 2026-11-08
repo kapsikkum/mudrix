@@ -173,7 +173,9 @@ struct RoomView: View {
                         .padding(.horizontal, WZ.Space.space6)
                 }
                 IdentityWarning(roomId: room.id, client: timeline.client, encrypted: room.isEncrypted)
-                if prefs.typingIndicators && !timeline.typingNames.isEmpty {
+                if session.connectionLost {
+                    OfflineStatus()
+                } else if prefs.typingIndicators && !timeline.typingNames.isEmpty {
                     TypingIndicator(names: timeline.typingNames)
                 }
                 ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing, threadRoot: threadRoot) { typing in
@@ -1300,6 +1302,23 @@ extension MessageText {
             result += part
         }
         return withMentions(result, [], theme: theme)
+    }
+}
+
+private struct OfflineStatus: View {
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        HStack(spacing: WZ.Space.space3) {
+            ProgressView().controlSize(.mini).tint(theme.warningColor)
+            Text(String(localized: "banner.offline"))
+                .font(.wizard(WZ.FontSize.sm, .medium))
+                .foregroundStyle(theme.warningColor)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, WZ.Space.space8)
+        .accessibilityElement(children: .combine)
     }
 }
 

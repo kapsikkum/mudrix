@@ -4,6 +4,19 @@ import AVFoundation
 enum CallSounds {
     private static let volume: Float = 0.5
     private static var playing: [AVAudioPlayer] = []
+    private static let toggles = [
+        "mute": "mute", "unmute": "mute", "deafen": "deafen", "undeafen": "deafen",
+        "camera_on": "camera", "camera_off": "camera", "screenshare_start": "screenshare", "screenshare_stop": "screenshare",
+        "call_join": "join", "call_leave": "leave", "ringtone": "ringtone", "ringback": "ringback",
+        "call_declined": "callEnded", "call_no_answer": "callEnded", "raise_hand": "raiseHand",
+        "reaction": "reaction", "watch_together_start": "watchTogether",
+    ]
+
+    static func defaultsKey(_ toggle: String) -> String { "voice.sound.\(toggle)" }
+
+    static func isOn(_ toggle: String) -> Bool {
+        UserDefaults.standard.object(forKey: defaultsKey(toggle)) as? Bool ?? true
+    }
 
     static func play(_ name: String) {
         guard let player = makePlayer(name) else { return }
@@ -44,7 +57,7 @@ enum CallSounds {
     }
 
     private static func makePlayer(_ name: String) -> AVAudioPlayer? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "wav"),
+        guard isOn(toggles[name] ?? name), let url = Bundle.main.url(forResource: name, withExtension: "wav"),
               let player = try? AVAudioPlayer(contentsOf: url) else { return nil }
         player.volume = volume
         return player

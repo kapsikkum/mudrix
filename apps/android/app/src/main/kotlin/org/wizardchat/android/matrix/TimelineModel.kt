@@ -30,7 +30,6 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
 import org.wizardchat.core.CallHistoryView
-import org.wizardchat.core.UploadedFile
 import org.wizardchat.core.EntryContent
 import org.wizardchat.core.ListDiff
 import org.wizardchat.core.MediaInfo
@@ -47,6 +46,8 @@ import org.wizardchat.core.Subscription
 import org.wizardchat.core.ThreadSummaryView
 import org.wizardchat.core.TimelineEntry
 import org.wizardchat.core.TimelineKind
+import org.wizardchat.core.UploadedFile
+import org.wizardchat.core.UploadedThumbnail
 import org.wizardchat.core.WizardClient
 
 /** A row of the timeline. Immutable: changes make copies. */
@@ -442,6 +443,15 @@ class TimelineModel(
                 if (progress.total <= 0) return@uploadFile
                 val fraction = progress.current.toFloat() / progress.total
                 scope.launch { uploads = uploads.map { if (it.id == id) it.copy(progress = fraction) else it } }
+            }
+            if (mimetype.startsWith("video/")) {
+                MediaMetadata.videoFrame(uri)?.let { frame ->
+                    runCatching { timeline.uploadFile(frame.data, "image/jpeg") {} }.getOrNull()?.let { thumb ->
+                        file = file.copy(
+                            thumbnail = UploadedThumbnail(thumb, "image/jpeg", frame.width.toLong(), frame.height.toLong(), frame.data.size.toLong()),
+                        )
+                    }
+                }
             }
             timeline.sendUploaded(file.copy(source = source, size = data.size.toLong()))
         }

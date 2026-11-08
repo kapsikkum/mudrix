@@ -26,6 +26,15 @@ enum MediaMetadata {
         return (duration, size)
     }
 
+    static func videoFrame(at url: URL, maxSize: CGFloat = 800) async -> (data: Data, width: Int, height: Int)? {
+        let generator = AVAssetImageGenerator(asset: AVURLAsset(url: url))
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: maxSize, height: maxSize)
+        guard let frame = try? await generator.image(at: .zero).image,
+              let data = UIImage(cgImage: frame).jpegData(compressionQuality: 0.8) else { return nil }
+        return (data, frame.width, frame.height)
+    }
+
     static func duration(at url: URL) async -> TimeInterval? {
         try? await AVURLAsset(url: url).load(.duration).seconds
     }

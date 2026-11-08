@@ -76,7 +76,7 @@ import org.wizardchat.tokens.WZ
 @Composable
 internal fun AppearanceSettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
-    val themeHasIcon = prefs.theme == ThemeSetting.Fixed(WZ.Theme.PARROT) || prefs.theme == ThemeSetting.Fixed(WZ.Theme.HALLOW)
+    val themeHasIcon = (prefs.theme as? ThemeSetting.Fixed)?.theme != WZ.Theme.CARBON && prefs.theme is ThemeSetting.Fixed
 
     SettingsPage(tr("settings.appearance.title"), onBack) {
         SettingsSection { ChatPreview() }

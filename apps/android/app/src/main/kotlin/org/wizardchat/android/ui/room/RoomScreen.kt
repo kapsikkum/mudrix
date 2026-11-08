@@ -128,6 +128,7 @@ import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
@@ -467,7 +468,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                 )
             }
             org.wizardchat.android.ui.composer.IdentityWarning(room.id, client, room.isEncrypted)
-            if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
+            if (LocalSession.current.connectionLost) {
+                OfflineStatus()
+            } else if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
                 TypingIndicator(timeline.typingNames)
             }
             ComposerView(
@@ -1486,6 +1489,18 @@ private fun ReportDialog(onDismiss: () -> Unit, onReport: (String?) -> Unit) {
             TextButton(onClick = onDismiss) { Text(tr("common.cancel"), style = wizardFont(WZ.FontSize.lg), color = theme.accent) }
         },
     )
+}
+
+@Composable
+private fun OfflineStatus() {
+    Row(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space8),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spinner(size = WZ.SizeIcon.xs, color = theme.warningColor)
+        Text(tr("banner.offline"), style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = theme.warningColor, maxLines = 1)
+    }
 }
 
 @Composable

@@ -23,11 +23,12 @@ struct AvatarView: View {
 
     var body: some View {
         // The colour is only for the placeholder; transparent pictures show what's behind them
+        let shown = image ?? url.flatMap { mediaLoader?.cachedThumbnail($0) }
         shape
-            .fill(image == nil ? fallbackColor : .clear)
+            .fill(shown == nil ? fallbackColor : .clear)
             .overlay {
-                if let image {
-                    Image(uiImage: image)
+                if let shown {
+                    Image(uiImage: shown)
                         .resizable()
                         .scaledToFill()
                 } else {
@@ -43,10 +44,7 @@ struct AvatarView: View {
                     image = nil
                     return
                 }
-                image = mediaLoader.cachedThumbnail(url)
-                if image == nil {
-                    image = await mediaLoader.thumbnail(url, size: Int(size * 3))
-                }
+                image = await mediaLoader.thumbnail(url, size: Int(size * 3))
             }
     }
 
@@ -318,7 +316,7 @@ struct ConnectionBanner: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        if session.syncState == .offline || session.syncState == .error {
+        if session.connectionLost {
             HStack(spacing: WZ.Space.space4) {
                 ProgressView().controlSize(.small).tint(theme.textOnAccent)
                 Text(String(localized: "common.offlineReconnecting"))
@@ -327,7 +325,7 @@ struct ConnectionBanner: View {
             .foregroundStyle(theme.textOnAccent)
             .padding(.horizontal, WZ.Space.space5)
             .padding(.vertical, WZ.Space.space4)
-            .background(Color.orange, in: Capsule())
+            .background(theme.warningColor, in: Capsule())
             .accessibilityElement(children: .combine)
             .transition(.move(edge: .top).combined(with: .opacity))
         }

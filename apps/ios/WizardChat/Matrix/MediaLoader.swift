@@ -21,10 +21,21 @@ final class MediaLoader {
         cache.setObject(image, forKey: key as NSString)
     }
 
+    private var thumbnailSizes: [String: Int] = [:]
+
+    static func standardSize(_ size: Int) -> Int { [96, 320, 640, 800].first { $0 >= size } ?? 800 }
+
     func thumbnail(_ url: String, size: Int = 96) async -> UIImage? {
-        await load(url) { client in
-            try await client.thumbnail(mxc: url, width: size, height: size)
+        let pixels = Self.standardSize(size)
+        if let cached = cachedThumbnail(url), thumbnailSizes[url, default: 0] >= pixels { return cached }
+        let image = await load("\(url)|\(pixels)") { client in
+            try await client.thumbnail(mxc: url, width: pixels, height: pixels, crop: pixels == 96 ? true : nil)
         }
+        if let image, thumbnailSizes[url, default: 0] < pixels {
+            store(image, for: url)
+            thumbnailSizes[url] = pixels
+        }
+        return image ?? cachedThumbnail(url)
     }
 
     func image(for source: MediaSource, thumbnailSize: Int?, animated: Bool) async -> UIImage? {

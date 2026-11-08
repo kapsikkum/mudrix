@@ -11,7 +11,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, emojis, notifications, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, emojis, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
         var name: String { NSLocalizedString(titleKey, comment: "") }
@@ -22,6 +22,7 @@ struct SettingsView: View {
             case .privacy: return "settings.privacy.title"
             case .emojis: return "room.settings.emojis.title"
             case .notifications: return "settings.notifications.title"
+            case .voiceVideo: return "settings.voiceVideo.title"
             case .appearance: return "settings.appearance.title"
             case .accessibility: return "settings.accessibility.title"
             case .language: return "settings.language.title"
@@ -38,6 +39,7 @@ struct SettingsView: View {
             case .privacy: return "ph-shield-regular"
             case .emojis: return "ph-smiley-sticker-regular"
             case .notifications: return "ph-bell-regular"
+            case .voiceVideo: return "ph-microphone-regular"
             case .appearance: return "ph-palette-regular"
             case .accessibility: return "ph-person-simple-circle-regular"
             case .language: return "ph-globe-simple-regular"
@@ -89,7 +91,7 @@ struct SettingsView: View {
                     ForEach([Page.privacy, .notifications, .emojis]) { pageRow($0) }
                 }
                 Section {
-                    ForEach([Page.appearance, .accessibility, .language]) { pageRow($0) }
+                    ForEach([Page.voiceVideo, .appearance, .accessibility, .language]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.sessions, .encryption, .developer, .about]) { pageRow($0) }
@@ -118,6 +120,7 @@ struct SettingsView: View {
                 case .privacy: PrivacySettings()
                 case .emojis: EmojisSettings()
                 case .notifications: NotificationSettingsPage()
+                case .voiceVideo: VoiceVideoSettings()
                 case .appearance: AppearanceSettings()
                 case .accessibility: AccessibilitySettings()
                 case .language: LanguageSettings()
@@ -323,6 +326,28 @@ struct ToggleRow: View {
         }
         .tint(theme.accent)
         .disabled(disabled)
+    }
+}
+
+struct CheckRow: View {
+    let label: LocalizedStringKey
+    @Binding var isOn: Bool
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button { isOn.toggle() } label: {
+            HStack {
+                RowLabel(label: label)
+                Spacer(minLength: WZ.Space.space5)
+                Image("ph-check-bold")
+                    .font(.system(size: WZ.SizeIcon.sm, weight: .bold))
+                    .foregroundStyle(theme.accent)
+                    .opacity(isOn ? 1 : 0)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
     }
 }
 

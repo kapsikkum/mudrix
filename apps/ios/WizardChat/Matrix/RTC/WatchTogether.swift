@@ -61,6 +61,7 @@ final class WatchTogether: ObservableObject {
     func start(videoId: String) {
         consent = true
         watchingVideoId = videoId
+        CallSounds.play("watch_together_start")
         publish(WatchState(videoId: videoId, startedBy: ownUserId, playing: true, position: 0, at: Self.now))
     }
 
@@ -121,7 +122,10 @@ final class WatchTogether: ObservableObject {
                                       position: max(0, position), at: at + (samples.min() ?? 0))
             guard incoming.at > stoppedAt else { return }
             if let current = state, incoming.at < current.at { return }
-            if state?.videoId != incoming.videoId, consent { watchingVideoId = incoming.videoId }
+            if state?.videoId != incoming.videoId {
+                if consent { watchingVideoId = incoming.videoId }
+                CallSounds.play("watch_together_start")
+            }
             state = incoming
         default:
             return

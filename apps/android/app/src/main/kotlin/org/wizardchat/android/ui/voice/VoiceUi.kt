@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -15,6 +16,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +39,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,19 +52,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.delay
+import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.CallManager
-import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.CallReaction
+import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RingingCall
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.ui.Avatar
@@ -187,19 +195,22 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Control(
-            if (calls.micMuted) "microphone-slash" else "microphone",
-            active = calls.micMuted,
-            label = tr(if (calls.micMuted) "call.unmute" else "call.mute"),
-        ) {
-            light()
-            calls.toggleMic()
+        if (LocalPrefs.current.pushToTalk) {
+            PushToTalkButton(WZ.Space.space11, WZ.SizeIcon.md)
+        } else {
+            Control(
+                if (calls.micMuted) "microphone-slash" else "microphone",
+                active = calls.micMuted,
+                label = tr(if (calls.micMuted) "call.unmute" else "call.mute"),
+            ) {
+                light()
+                calls.toggleMic()
+            }
         }
         Control(
             if (calls.deafened) "speaker-slash" else "speaker-high",
             active = calls.deafened,
-            weight = if (calls.deafened) PhWeight.regular else PhWeight.fill,
-            label = tr(if (calls.deafened) "call.undeafen" else "call.deafen"),
+                        label = tr(if (calls.deafened) "call.undeafen" else "call.deafen"),
         ) {
             light()
             calls.toggleDeafen()
@@ -361,15 +372,18 @@ fun CallBar(onClick: () -> Unit, modifier: Modifier = Modifier) {
                 )
             }
         }
-        BarControl(if (calls.micMuted) "microphone-slash" else "microphone", calls.micMuted, tr(if (calls.micMuted) "call.unmute" else "call.mute")) {
-            calls.toggleMic()
+        if (LocalPrefs.current.pushToTalk) {
+            PushToTalkButton()
+        } else {
+            BarControl(if (calls.micMuted) "microphone-slash" else "microphone", calls.micMuted, tr(if (calls.micMuted) "call.unmute" else "call.mute")) {
+                calls.toggleMic()
+            }
         }
         BarControl(
             if (calls.deafened) "speaker-slash" else "speaker-high",
             calls.deafened,
             tr(if (calls.deafened) "call.undeafen" else "call.deafen"),
-            weight = if (calls.deafened) PhWeight.regular else PhWeight.fill,
-        ) { calls.toggleDeafen() }
+                    ) { calls.toggleDeafen() }
         RoundIconButton(
             "phone-x",
             tr("common.leave"),
@@ -697,3 +711,32 @@ fun CallErrorBanner(modifier: Modifier = Modifier) {
 }
 
 private const val ERROR_VISIBLE_MILLIS = 6000L
+
+@Composable
+fun PushToTalkButton(size: Dp = WZ.Space.space10, iconSize: Dp = WZ.SizeIcon.sm) {
+    val calls = CallManager.shared
+    val haptics = LocalHapticFeedback.current
+    val talking = calls.talking
+    val label = tr(if (talking) "call.talking" else "call.holdToTalk")
+    val scale by animateFloatAsState(if (talking) 0.92f else 1f, label = "talk")
+    DisposableEffect(Unit) { onDispose { calls.setTalking(false) } }
+    Box(
+        Modifier
+            .scale(scale)
+            .size(size)
+            .clip(CircleShape)
+            .background(if (talking) theme.success else theme.fill)
+            .pointerInput(Unit) {
+                detectTapGestures(onPress = {
+                    haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    calls.setTalking(true)
+                    tryAwaitRelease()
+                    calls.setTalking(false)
+                })
+            }
+            .semantics { contentDescription = label; role = Role.Button },
+        contentAlignment = Alignment.Center,
+    ) {
+        PhIcon("microphone", size = iconSize, tint = if (talking) theme.textOnAccent else theme.textPrimary)
+    }
+}
