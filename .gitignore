@@ -37,3 +37,11 @@ apps/android/.idea/
 apps/android/**/*.iml
 apps/android/**/.cxx/
 apps/android/captures/
+
+# Parity harness
+tools/parity/out/
+tools/parity/node_modules/
+tools/parity/user-data/
+tools/parity/*.json
+!tools/parity/package.json
+

@@ -1,0 +1,15 @@
+{
+  "name": "parity-harness",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "compare": "node run.mjs",
+    "seed": "node seed.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0"
+  }
+}
