@@ -96,7 +96,16 @@ function SortableSpaceItem({
   const className = [isActive ? css.spaceBtnActive : css.spaceBarBtn].filter(Boolean).join(' ');
 
   return (
-    <div ref={setNodeRef} className={className} style={style} {...attributes} {...listeners}>
+    // The inner button is the focus target; the sortable wrapper must not be a second tab stop.
+    <div
+      ref={setNodeRef}
+      className={className}
+      style={style}
+      {...attributes}
+      role={undefined}
+      tabIndex={-1}
+      {...listeners}
+    >
       <span className={css.spacePill} />
       <Tooltip placement="right" content={space.name}>
         <button

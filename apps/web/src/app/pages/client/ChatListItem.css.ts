@@ -1,9 +1,13 @@
-import { globalStyle, keyframes, style } from '@vanilla-extract/css';
+import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { TOUCH_UI, uiSize } from '@/theme/uiDensity';
+import { uiSize } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 export const roomItem = style({
+  position: 'relative',
+  isolation: 'isolate',
   display: 'flex',
   alignItems: 'center',
   padding: `calc((${uiSize('roomRow')} - ${uiSize('roomAvatar')}) / 2) 8px`,
@@ -11,20 +15,26 @@ export const roomItem = style({
   borderRadius: vars.radius.sm,
   margin: '0 4px',
   transition: `background-color ${fast}`,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   color: vars.color.textMuted,
   ':hover': {
     backgroundColor: vars.color.bgHover,
     color: vars.color.textPrimary,
   },
   selectors: {
-    [`${TOUCH_UI} &`]: { fontSize: '1.2rem', paddingLeft: '12px', paddingRight: '12px' },
+    '&[data-fixed-height="true"]': {
+      boxSizing: 'border-box',
+      height: `calc(${uiSize('dmRow')} - 4px)`,
+    },
     '&[data-active="true"]:hover': {
       backgroundColor: vars.color.bgActive,
     },
     '&[data-active="true"]': {
       backgroundColor: vars.color.bgActive,
       color: vars.color.textPrimary,
+      // Painted over the row's contents so it still shows on top of a custom nameplate.
+      outline: `1px solid color-mix(in srgb, ${vars.color.accent} 70%, transparent)`,
+      outlineOffset: '-1px',
     },
     '&[data-has-notif="true"]': {
       color: vars.color.textPrimary,
@@ -79,7 +89,7 @@ export const chatAvatar = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   position: 'relative',
 });
 
@@ -104,7 +114,7 @@ export const roomTypeBadge = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  zIndex: 1,
+  zIndex: zIndex.raised,
   pointerEvents: 'none',
   selectors: {
     [`${roomItem}[data-active="true"] &`]: {
@@ -175,9 +185,9 @@ export const badgeBump = style({
 export const roomBadge = style({
   marginLeft: 'auto',
   backgroundColor: vars.color.accent,
-  color: '#fff',
+  color: vars.color.onAccent,
   borderRadius: '10px',
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
   fontWeight: 700,
   padding: '1px 6px',
   minWidth: '18px',
@@ -226,33 +236,70 @@ export const itemMenuButton = style({
   },
   '@media': {
     '(pointer: coarse)': {
-      width: '18px',
-      marginLeft: '8px',
+      // A finger-sized target: the full row height, and wide enough to tap without hitting the room.
+      width: '44px',
+      height: '40px',
+      marginLeft: '0px',
       opacity: '1',
       pointerEvents: 'auto',
     },
   },
 });
 
-globalStyle(`${TOUCH_UI} ${avatarWrap}, ${TOUCH_UI} ${roomTypeIcon}`, { marginRight: '14px' });
-globalStyle(`${TOUCH_UI} ${roomItem} ${roomTypeIcon} svg`, { width: '26px', height: '26px' });
-globalStyle(`${TOUCH_UI} ${roomTypeBadge}`, {
-  width: '22px',
-  height: '22px',
-  right: '-3px',
-  bottom: '-3px',
-});
-globalStyle(`${TOUCH_UI} ${roomTypeBadge} svg`, { width: '14px', height: '14px' });
-globalStyle(`${TOUCH_UI} ${roomBadge}`, {
-  fontSize: '0.85rem',
-  padding: '2px 8px',
-  minWidth: '22px',
-  borderRadius: '12px',
+export const chatTextColumn = style({
+  flex: 1,
+  minWidth: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  lineHeight: 1.2,
 });
 
+export const chatStatusLine = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  minWidth: 0,
+  fontSize: fontSize.rem72,
+  color: vars.color.textMuted,
+  opacity: 0.9,
+});
+
+export const chatStatusEmoji = style({
+  flexShrink: 0,
+  fontSize: fontSize.rem80,
+  lineHeight: 1,
+});
+
+export const chatStatusText = style({
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const presenceDot = style({
+  position: 'absolute',
+  right: '-2px',
+  bottom: '-2px',
+  width: '14px',
+  height: '14px',
+  boxSizing: 'border-box',
+  borderRadius: '50%',
+  border: `2px solid ${vars.color.bgSecondary}`,
+  pointerEvents: 'none',
+  zIndex: zIndex.avatar,
+});
+
+export const presenceOnline = style({ backgroundColor: '#22f07a' });
+export const presenceIdle = style({ backgroundColor: '#ffd21f' });
+export const presenceDnd = style({ backgroundColor: '#ff4747' });
+export const presenceOffline = style({ backgroundColor: '#9aa3b2' });
+
+/** How long the call in a voice channel has been running. */
 export const callTimer = style({
   color: vars.color.success,
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontVariantNumeric: 'tabular-nums',
   marginRight: '4px',
   flexShrink: 0,

@@ -1,7 +1,8 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { TOUCH_UI } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 export const roomListPanel = style({
   width: '240px',
@@ -11,9 +12,6 @@ export const roomListPanel = style({
   height: '100%',
   borderRight: `1px solid ${vars.color.border}`,
   flexShrink: 0,
-  '@media': {
-    '(max-width: 768px)': { width: 'auto', flex: 1, minWidth: 0, borderRight: 'none' },
-  },
 });
 
 export const roomHeader = style({
@@ -22,11 +20,10 @@ export const roomHeader = style({
   justifyContent: 'space-between',
   padding: '12px 12px 8px',
   fontWeight: 700,
-  fontSize: '1rem',
+  fontSize: fontSize.rem100,
   color: vars.color.textMuted,
   letterSpacing: '0.04em',
   borderBottom: `1px solid ${vars.color.border}`,
-  selectors: { [`${TOUCH_UI} &`]: { fontSize: '1.2rem' } },
 });
 
 export const roomHeaderTitle = style({
@@ -66,7 +63,7 @@ const homeLinkBase = style({
   background: 'none',
   color: vars.color.textMuted,
   font: 'inherit',
-  fontSize: '0.92rem',
+  fontSize: fontSize.rem92,
   fontWeight: 600,
   textAlign: 'start',
   cursor: 'pointer',
@@ -103,7 +100,7 @@ export const roomList = style({
 export const emptyList = style({
   padding: '16px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   textAlign: 'center',
 });
 
@@ -172,12 +169,11 @@ export const subspaceCategoryHeader = style({
   background: 'none',
   border: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.78rem',
+  fontSize: fontSize.rem78,
   fontWeight: 600,
   letterSpacing: '0.02em',
   transition: `background-color ${fast}, color ${fast}`,
   selectors: {
-    [`${TOUCH_UI} &`]: { fontSize: '0.95rem' },
     '&:hover': {
       backgroundColor: vars.color.bgHover,
       color: vars.color.textPrimary,
@@ -300,17 +296,37 @@ export const subspaceAddButton = style({
   },
   '@media': {
     '(pointer: coarse)': {
-      width: '18px',
-      marginLeft: '6px',
+      // Tappable at 44px; the negative margin keeps the heading row as tall as before.
+      width: '44px',
+      height: '44px',
+      margin: '-13px 0',
       opacity: '1',
       pointerEvents: 'auto',
     },
   },
 });
 
+// The copy of a dragged row that follows the pointer. Its width is measured per drag, so it stays inline.
+export const dragGhost = style({
+  boxSizing: 'border-box',
+  borderRadius: vars.radius.sm,
+  background: vars.color.bgTertiary,
+  color: vars.color.textPrimary,
+  border: `1px solid ${vars.color.accent}`,
+  boxShadow: '0 6px 16px rgba(0, 0, 0, 0.45)',
+  overflow: 'hidden',
+  cursor: 'grabbing',
+  pointerEvents: 'none',
+});
+
+export const dragGhostLabel = style({
+  padding: '6px 12px',
+  whiteSpace: 'nowrap',
+});
+
 export const bottomDock = style({
   position: 'relative',
-  zIndex: 1,
+  zIndex: zIndex.raised,
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
@@ -319,9 +335,4 @@ export const bottomDock = style({
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
-  '@media': {
-    '(max-width: 768px)': {
-      selectors: { '&:empty': { display: 'none' } },
-    },
-  },
 });

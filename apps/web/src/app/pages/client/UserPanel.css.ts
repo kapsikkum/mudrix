@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const userPanel = style({
   display: 'flex',
@@ -15,12 +16,13 @@ export const userPanelIdentity = style({
   alignItems: 'center',
   gap: '8px',
   minWidth: 0,
+  flex: '1 1 auto',
   maxWidth: '100%',
   padding: '6px 8px',
   marginTop: '-6px',
   marginBottom: '-6px',
   marginLeft: '-8px',
-  marginRight: 'auto',
+  marginRight: '0',
   borderRadius: vars.radius.sm,
   cursor: 'pointer',
   transition: `background-color ${fast}`,
@@ -30,7 +32,7 @@ export const userPanelIdentity = style({
 });
 
 export const userPanelId = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.textMuted,
   minWidth: 0,
   overflow: 'hidden',
@@ -46,7 +48,7 @@ export const userPanelText = style({
 });
 
 export const userPanelStatus = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
   color: vars.color.textMuted,
   opacity: 0.85,
   minWidth: 0,
