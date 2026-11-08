@@ -20,6 +20,7 @@ stable, `v26.11.0-next.1` for next (add `DRY_RUN=true` to try it without publish
   `packaging/aur/wizardchat-bin/`) and the Arch package built from it, which point to the new release instead
   (`apps/desktop/scripts/package-linux.mjs`). Like the web app, stable installs only get stable releases and next
   installs only next ones
+- builds a signed Android APK (arm64) and lists it with the installers, for people who don't use Google Play
 - creates the GitLab release with the notes from the commits and the installers
 
 The "What's new" notes in the apps come from `whatsnew/<version>.md`, with translations in `whatsnew/<version>.<lang>.md`.
@@ -39,3 +40,8 @@ CI needs `GITLAB_RELEASE_TOKEN` (pushes the branch and tag, opens the merge requ
 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` and `TAURI_UPDATER_PUBKEY` variables. Create it once with
 `npx -w @wizardchat/desktop tauri signer generate -w wizardchat-updater.key` and keep it safe: without it, installed
 apps can't verify updates any more.
+
+Android release builds are signed with the key in `apps/android/keystore.properties` (`storeFile`, `storePassword`,
+`keyAlias`, `keyPassword`; not committed), and are debug-signed without it. `npm run android:bundle` builds the bundle for
+Google Play. In CI, the APK is signed with the same key, from the masked variables `ANDROID_KEYSTORE_BASE64` (the
+keystore, `base64 -i wizardchat-release.jks`) and `ANDROID_KEYSTORE_PASSWORD`; the job fails without them.

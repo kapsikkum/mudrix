@@ -382,6 +382,46 @@ build-desktop-win:
     - npm run build:release -w @wizardchat/desktop -- --runner cargo-xwin --target x86_64-pc-windows-msvc
     - sccache --show-stats
 
+build-android:
+  stage: build
+  extends: .release-rules
+  image: node:22-bookworm
+  needs: []
+  variables:
+    ANDROID_HOME: $CI_PROJECT_DIR/.android-sdk
+    ANDROID_CMDLINE_TOOLS: '15859902'
+    ANDROID_NDK: '28.2.13676358'
+  cache:
+    - *node-cache
+    - *cargo-cache
+  script:
+    - test -n "$ANDROID_KEYSTORE_BASE64" && test -n "$ANDROID_KEYSTORE_PASSWORD"
+    - apt-get update && apt-get install -y --no-install-recommends openjdk-17-jdk-headless unzip cmake
+    - curl -sSfL "https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_CMDLINE_TOOLS}_latest.zip" -o /tmp/cmdline-tools.zip
+    - mkdir -p "$ANDROID_HOME/cmdline-tools" && unzip -q /tmp/cmdline-tools.zip -d "$ANDROID_HOME/cmdline-tools"
+    - mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
+    - (yes || true) | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+    - '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0" "ndk;$ANDROID_NDK" > /dev/null'
+    - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
+    - export PATH="$CARGO_HOME/bin:$PATH"
+    - rustup toolchain install
+    - curl -sSfL "https://github.com/mozilla/sccache/releases/download/v${SCCACHE}/sccache-v${SCCACHE}-x86_64-unknown-linux-musl.tar.gz" | tar -xz --strip-components=1 -C "$CARGO_HOME/bin" "sccache-v${SCCACHE}-x86_64-unknown-linux-musl/sccache"
+    - npm ci --ignore-scripts
+    - npm run assets
+    - echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/android/wizardchat-release.jks
+    - printf 'storeFile=wizardchat-release.jks\nstorePassword=%s\nkeyAlias=wizardchat\nkeyPassword=%s\n' "$ANDROID_KEYSTORE_PASSWORD" "$ANDROID_KEYSTORE_PASSWORD" > apps/android/keystore.properties
+    - apps/android/scripts/build-core.sh
+    - (cd apps/android && ./gradlew --no-daemon :app:assembleRelease)
+    - rm apps/android/wizardchat-release.jks apps/android/keystore.properties
+    - mkdir -p target/android
+    - cp apps/android/app/build/outputs/apk/release/app-release.apk "target/android/WizardChat_$(node -p "require('./package.json').version")_arm64.apk"
+    - '"$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs target/android/*.apk'
+    - sccache --show-stats
+  artifacts:
+    paths:
+      - target/android/*.apk
+    expire_in: 1 day
+
 deploy:
   stage: deploy
   extends: .release-rules
@@ -414,7 +454,12 @@ publish-desktop:
   extends: .release-rules
   image: node:22-alpine
   resource_group: desktop-feed
-  needs: [build-desktop-mac, build-desktop-linux, build-desktop-win, build-desktop-arch]
+  needs:
+    - build-desktop-mac
+    - build-desktop-linux
+    - build-desktop-win
+    - build-desktop-arch
+    - build-android
   script:
     - node apps/desktop/scripts/publish-update.mjs
   artifacts:

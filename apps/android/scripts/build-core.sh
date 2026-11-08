@@ -42,8 +42,9 @@ CARGO_PROFILE_DEV_DEBUG=line-tables-only cargo ndk "${ABIS[@]}" -P 26 -o "$CORE/
 # The bindings come from the library's metadata, read from a host build
 cargo build -p wizardchat-core-ffi --lib
 rm -rf "$CORE/build/generated/uniffi"
+for HOST_LIB in "$ROOT"/target/debug/libwizardchat_core_ffi.{dylib,so}; do [[ -f "$HOST_LIB" ]] && break; done
 cargo run -q -p wizardchat-core-ffi --features bindgen --bin uniffi-bindgen -- \
-  generate --library "$ROOT/target/debug/libwizardchat_core_ffi.dylib" --language kotlin \
+  generate --library "$HOST_LIB" --language kotlin \
   --out-dir "$CORE/build/generated/uniffi" --no-format
 
 echo "WizardChat core for Android is ready ($PROFILE)"
