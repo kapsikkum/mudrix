@@ -21,6 +21,9 @@ mod imp {
     use windows::Win32::UI::Shell::SetCurrentProcessExplicitAppUserModelID;
 
     /// The app icon, written to a stable path for the toast header.
+    #[cfg(debug_assertions)]
+    const TOAST_ICON: &[u8] = crate::dev::TOAST_ICON;
+    #[cfg(not(debug_assertions))]
     const TOAST_ICON: &[u8] = include_bytes!("../icons/128x128.png");
 
     /// Set the process AppUserModelID and register it (name and icon) for unpackaged toasts.

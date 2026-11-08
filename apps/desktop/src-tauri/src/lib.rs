@@ -92,10 +92,27 @@ fn hide_on_close<R: Runtime>(window: &tauri::Window<R>, event: &tauri::WindowEve
 }
 
 pub fn run() {
-    let app = tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+    #[cfg(all(debug_assertions, windows))]
+    if std::env::var_os("WEBVIEW2_USER_DATA_FOLDER").is_none() {
+        if let Ok(local_data) = std::env::var("LOCALAPPDATA") {
+            let dev_webview = std::path::PathBuf::from(local_data)
+                .join("chat.mudrix.desktop")
+                .join("dev-webview");
+            let _ = std::fs::create_dir_all(&dev_webview);
+            std::env::set_var("WEBVIEW2_USER_DATA_FOLDER", dev_webview);
+        }
+    }
+
+    #[allow(unused_mut)]
+    let mut builder = tauri::Builder::default();
+    #[cfg(not(debug_assertions))]
+    {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
             focus_main(app)
-        }))
+        }));
+    }
+
+    let app = builder
         .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
@@ -139,6 +156,8 @@ pub fn run() {
         .setup(|app| {
             // Account stores (`StoreConfig.location`) are relative paths: keep them in app data
             let data = app.path().app_data_dir()?;
+            #[cfg(debug_assertions)]
+            let data = data.join("dev");
             std::fs::create_dir_all(&data)?;
             std::env::set_current_dir(&data)?;
             let loaded = settings::load(app.handle());
@@ -157,6 +176,12 @@ pub fn run() {
             // The window starts hidden (no flash): place it, then show it unless this is a start
             // at login that should stay in the tray
             if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
+                if let Some(icon) = dev::window_icon() {
+                    let _ = window.set_icon(icon);
+                }
+                if dev::IS_DEV {
+                    let _ = window.set_title(&dev::name(app.handle()));
+                }
                 let _ = window.restore_state(shell::window_state_flags());
                 if !start_hidden {
                     focus_main(app.handle());

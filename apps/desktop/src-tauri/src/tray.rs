@@ -28,8 +28,11 @@ pub fn build(app: &AppHandle) -> tauri::Result<()> {
     let separator = PredefinedMenuItem::separator(app)?;
     let menu = Menu::with_items(app, &[&open, &mute, &separator, &quit])?;
 
+    let icon = crate::dev::window_icon()
+        .unwrap_or_else(|| Image::from_bytes(ICON_NORMAL).expect("bundled tray icon"));
+
     TrayIconBuilder::with_id(TRAY_ID)
-        .icon(Image::from_bytes(ICON_NORMAL)?)
+        .icon(icon)
         .tooltip(name)
         .menu(&menu)
         .show_menu_on_left_click(false)
