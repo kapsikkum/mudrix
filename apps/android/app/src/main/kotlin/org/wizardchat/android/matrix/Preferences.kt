@@ -45,6 +45,7 @@ class AppPreferences(context: Context) {
         applyLanguage(it)
     }
     var developerMode by pref(defaults.getBoolean("developerMode", false)) { putBoolean("developerMode", it) }
+    var pushToTalk by pref(defaults.getBoolean("pushToTalk", false)) { putBoolean("pushToTalk", it) }
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }

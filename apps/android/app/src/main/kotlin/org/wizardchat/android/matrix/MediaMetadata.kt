@@ -1,9 +1,11 @@
 package org.wizardchat.android.matrix
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
 import java.util.UUID
@@ -30,6 +32,19 @@ object MediaMetadata {
     fun isRotated(stream: InputStream): Boolean = runCatching {
         ExifInterface(stream).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL) in 5..8
     }.getOrDefault(false)
+
+    class Frame(val data: ByteArray, val width: Int, val height: Int)
+
+    suspend fun videoFrame(uri: Uri, maxSize: Int = 800): Frame? = withContext(Dispatchers.IO) {
+        retrieve(uri) { r ->
+            val frame = r.getFrameAtTime(0) ?: return@retrieve null
+            val scale = minOf(1f, maxSize.toFloat() / maxOf(frame.width, frame.height))
+            val scaled = Bitmap.createScaledBitmap(frame, (frame.width * scale).toInt(), (frame.height * scale).toInt(), true)
+            val out = ByteArrayOutputStream()
+            scaled.compress(Bitmap.CompressFormat.JPEG, 80, out)
+            Frame(out.toByteArray(), scaled.width, scaled.height)
+        }
+    }
 
     suspend fun video(uri: Uri): Video = withContext(Dispatchers.IO) {
         retrieve(uri) { r ->

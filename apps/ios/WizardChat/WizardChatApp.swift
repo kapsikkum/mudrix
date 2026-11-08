@@ -1,4 +1,3 @@
-import BackgroundTasks
 import SwiftUI
 import UIKit
 
@@ -14,7 +13,6 @@ struct WizardChatApp: App {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
 
-    static let refreshTask = "org.wizardchat.ios.refresh"
 
     init() {
         FontRegistry.registerFonts()
@@ -85,7 +83,6 @@ struct WizardChatApp: App {
             switch phase {
             case .background:
                 UIApplication.shared.ignoreSnapshotOnNextApplicationLaunch()
-                Self.scheduleRefresh()
                 Task { await session.pauseSync(keepRunning: calls.isInCall) }
             case .active:
                 Task { await session.resumeSync() }
@@ -93,25 +90,6 @@ struct WizardChatApp: App {
                 break
             }
         }
-        .backgroundTask(.appRefresh(Self.refreshTask)) {
-            await backgroundRefresh()
-        }
-    }
-
-    private static func scheduleRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: refreshTask)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-        try? BGTaskScheduler.shared.submit(request)
-    }
-
-    @MainActor
-    private func backgroundRefresh() async {
-        Self.scheduleRefresh()
-        if session.state == .restoring { await session.restore() }
-        guard session.state == .loggedIn, let roomList = session.roomList else { return }
-        notifier.start(roomList: roomList, prefs: prefs)
-        try? await session.client?.startSync()
-        try? await Task.sleep(for: .seconds(20))
     }
 
     private func onLoginChanged() async {
@@ -136,7 +114,7 @@ struct WizardChatApp: App {
         }
         if let client = session.client {
             let notifier = notifier
-            calls.watchIncoming(client) { [weak notifier] call in notifier?.notifyMissedCall(call) }
+            calls.watchIncoming(client, session: session) { [weak notifier] call in notifier?.notifyMissedCall(call) }
             recentEmoji.start(client: client)
             verificationRequests.start(client: client)
         }
@@ -158,12 +136,7 @@ struct WizardChatApp: App {
     }
 
     private func applyAppIcon() {
-        let name: String?
-        switch (prefs.themedAppIcon, prefs.theme) {
-        case (true, .fixed(.parrot)): name = "AppIcon-Parrot"
-        case (true, .fixed(.hallow)): name = "AppIcon-Hallow"
-        default: name = nil
-        }
+        let name = prefs.themedAppIcon ? prefs.theme.appIcon : nil
         guard UIApplication.shared.supportsAlternateIcons,
               UIApplication.shared.alternateIconName != name else { return }
         UIApplication.shared.setAlternateIconName(name)

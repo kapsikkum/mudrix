@@ -34,8 +34,19 @@ class MediaLoader(val client: WizardClient) {
         cache.put(key, image)
     }
 
-    suspend fun thumbnail(url: String, size: Int = 96): Bitmap? =
-        load(url) { it.thumbnail(url, size.toLong(), size.toLong()) }
+    private val thumbnailSizes = HashMap<String, Int>()
+
+    suspend fun thumbnail(url: String, size: Int = 96): Bitmap? {
+        val pixels = standardSize(size)
+        val cached = cache.get(url)
+        if (cached != null && (thumbnailSizes[url] ?: 0) >= pixels) return cached
+        val image = load("$url|$pixels") { it.thumbnail(url, pixels.toLong(), pixels.toLong(), if (pixels == 96) true else null) }
+        if (image != null && (thumbnailSizes[url] ?: 0) < pixels) {
+            store(image, url)
+            thumbnailSizes[url] = pixels
+        }
+        return image ?: cache.get(url)
+    }
 
     suspend fun image(source: MediaSource, thumbnailSize: Int?): Bitmap? =
         load("${key(source)}|${thumbnailSize ?: 0}") {
@@ -84,6 +95,8 @@ class MediaLoader(val client: WizardClient) {
     }
 
     companion object {
+        fun standardSize(size: Int): Int = listOf(96, 320, 640, 800).firstOrNull { it >= size } ?: 800
+
         fun key(source: MediaSource): String {
             val obj = source as? JsonObject ?: return source.toString()
             return obj["url"]?.jsonPrimitive?.content

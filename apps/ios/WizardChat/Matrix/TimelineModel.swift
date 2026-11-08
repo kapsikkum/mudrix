@@ -388,6 +388,11 @@ final class TimelineModel: ObservableObject {
                     self.uploads[index].progress = fraction
                 }
             }
+            if type.conforms(to: .movie), let frame = await MediaMetadata.videoFrame(at: url),
+               let source = try? await timeline.uploadFile(data: frame.data, mimetype: "image/jpeg", listener: { _ in }) {
+                file.thumbnail = UploadedThumbnail(source: source, mimetype: "image/jpeg", width: frame.width,
+                                                   height: frame.height, size: frame.data.count)
+            }
             try await timeline.sendUploaded(file: file)
         }
     }

@@ -61,6 +61,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     privacy("settings.privacy.title", "shield"),
     emojis("room.settings.emojis.title", "smiley-sticker"),
     notifications("settings.notifications.title", "bell"),
+    voiceVideo("settings.voiceVideo.title", "microphone"),
     appearance("settings.appearance.title", "palette"),
     accessibility("settings.accessibility.title", "person-simple-circle"),
     language("settings.language.title", "globe-simple"),
@@ -103,6 +104,7 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.privacy -> PrivacySettings(pop)
             SettingsPageId.emojis -> EmojisSettings(pop)
             SettingsPageId.notifications -> NotificationSettingsPage(pop)
+            SettingsPageId.voiceVideo -> VoiceVideoSettings(pop)
             SettingsPageId.appearance -> AppearanceSettings(pop)
             SettingsPageId.accessibility -> AccessibilitySettings(pop)
             SettingsPageId.language -> LanguageSettings(pop)
@@ -166,7 +168,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
                 AccountSwitcher(onLogout = { if (!isTab) onDismiss?.invoke() })
             }
             PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
-            PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
+            PageRows(listOf(SettingsPageId.voiceVideo, SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
             PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
             }
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))

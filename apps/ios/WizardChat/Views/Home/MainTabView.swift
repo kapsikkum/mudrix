@@ -36,6 +36,7 @@ struct MainTabView: View {
         }
         .tint(theme.accent)
         .modifier(MinimizeTabBarOnScroll())
+        .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
         .task(id: "\(session.avatarUrl ?? "")|\(session.displayName ?? session.userId ?? "")") {
             profileIcon = await Self.tabIcon(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
                                              media: session.media, theme: theme)
@@ -46,9 +47,9 @@ struct MainTabView: View {
         .overlay(alignment: .top) {
             ConnectionBanner().padding(.top, WZ.Space.space1)
         }
-        .animation(.spring(duration: WZ.MotionDuration.slow), value: session.syncState == .offline || session.syncState == .error)
+        .animation(.spring(duration: WZ.MotionDuration.slow), value: session.connectionLost)
         .overlay(alignment: .top) {
-            if let call = calls.incoming {
+            if let call = calls.incoming, calls.incomingCallId == nil {
                 IncomingCallBanner(call: call)
                     .padding(.top, WZ.Space.space2)
                     .transition(.move(edge: .top).combined(with: .opacity))
@@ -160,6 +161,7 @@ struct MainTabView: View {
         switch item {
         case .me:
             SettingsView(isTab: true, popToRoot: settingsPopToRoot)
+                .safeAreaInset(edge: .bottom) { callBar(in: item) }
         default:
             NavigationStack(path: binding(for: item)) {
                 Group {
@@ -194,13 +196,15 @@ struct MainTabView: View {
         }
     }
 
+    private func openCall() {
+        if calls.room?.isDirect == true { calls.showCallScreen = true }
+        else if let id = calls.room?.id { show(id) }
+    }
+
     @ViewBuilder
     private func callBar(in item: Tab) -> some View {
-        if showsCallBar(in: item) {
-            CallBar {
-                if calls.room?.isDirect == true { calls.showCallScreen = true }
-                else if let id = calls.room?.id { show(id) }
-            }
+        if !CallAccessoryModifier.supported, showsCallBar(in: item) {
+            CallBar(onOpen: openCall)
             .padding(.horizontal, WZ.Space.space6)
             .padding(.bottom, WZ.Space.space2)
             .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -249,6 +253,24 @@ struct MainTabView: View {
         notifier.roomToOpen = nil
         showInbox = false; showCreateSpace = false; showExplore = false
         show(roomId)
+    }
+}
+
+private struct CallAccessoryModifier: ViewModifier {
+    let show: Bool
+    let onOpen: () -> Void
+
+    static var supported: Bool {
+        if #available(iOS 26.1, *) { return true }
+        return false
+    }
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.1, *) {
+            content.tabViewBottomAccessory(isEnabled: show) { CallAccessory(onOpen: onOpen) }
+        } else {
+            content
+        }
     }
 }
 

@@ -79,7 +79,6 @@ import org.wizardchat.android.ui.theme.WizardTheme
 import org.wizardchat.android.ui.theme.hueColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
-import org.wizardchat.core.SyncState
 import org.wizardchat.tokens.WZ
 
 @Composable
@@ -97,7 +96,7 @@ fun Avatar(
             image = null
             return@LaunchedEffect
         }
-        if (image == null) image = media.thumbnail(url, (size.value * 3).toInt())
+        media.thumbnail(url, (size.value * 3).toInt())?.let { image = it }
     }
     val shape: Shape = if (cornerRadius == null) CircleShape else RoundedCornerShape(cornerRadius)
     Box(
@@ -365,12 +364,11 @@ fun CopyToastView(modifier: Modifier = Modifier) {
 @Composable
 fun ConnectionBanner(modifier: Modifier = Modifier) {
     val session = LocalSession.current
-    val offline = session.syncState == SyncState.offline || session.syncState == SyncState.error
-    AnimatedVisibility(offline, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
+    AnimatedVisibility(session.connectionLost, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
         Row(
             Modifier
                 .clip(CircleShape)
-                .background(Color(0xFFFF9500))
+                .background(theme.warningColor)
                 .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),

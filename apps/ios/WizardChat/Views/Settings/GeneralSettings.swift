@@ -7,7 +7,7 @@ struct AppearanceSettings: View {
     @Environment(\.theme) private var theme
     @State private var iconError: String?
 
-    private var themeHasIcon: Bool { prefs.theme == .fixed(.parrot) || prefs.theme == .fixed(.hallow) }
+    private var themeHasIcon: Bool { prefs.theme.appIcon != nil }
 
     private static func swatch(for setting: ThemeSetting) -> LinearGradient {
         let first: Color

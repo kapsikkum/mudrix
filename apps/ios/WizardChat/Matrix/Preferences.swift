@@ -35,6 +35,7 @@ final class AppPreferences: ObservableObject {
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
+    @Published var pushToTalk: Bool { didSet { save("pushToTalk", pushToTalk) } }
 
     var onSyncedSettingsChange: (([String: JSONValue]) -> Void)?
     private var isApplyingRemote = false
@@ -58,6 +59,7 @@ final class AppPreferences: ObservableObject {
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
+        pushToTalk = d.bool(forKey: "pushToTalk")
         developerMode = d.bool(forKey: "developerMode")
     }
 

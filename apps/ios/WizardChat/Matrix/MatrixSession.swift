@@ -1,4 +1,5 @@
 import Foundation
+import Network
 import UIKit
 import WizardChatCore
 
@@ -19,6 +20,10 @@ final class MatrixSession: ObservableObject {
     private var presenceVisible = true
     private var statusExpiry: Task<Void, Never>?
     @Published private(set) var syncState: SyncState = .idle
+    @Published private(set) var connectionLost = false
+    private var networkAvailable = true
+    private var lostTimer: Task<Void, Never>?
+    private let pathMonitor = NWPathMonitor()
     @Published private(set) var encryption: EncryptionStatus?
     @Published private(set) var accounts: [Account] = []
     @Published var isAddingAccount = false
@@ -195,9 +200,43 @@ final class MatrixSession: ObservableObject {
         try? await client.startSync()
     }
 
+    init() {
+        pathMonitor.pathUpdateHandler = { [weak self] path in
+            Task { @MainActor in self?.networkChanged(path.status == .satisfied) }
+        }
+        pathMonitor.start(queue: .global(qos: .utility))
+    }
+
+    private func networkChanged(_ available: Bool) {
+        let regained = available && !networkAvailable
+        networkAvailable = available
+        updateConnection()
+        if regained, syncState == .error || syncState == .offline, let client {
+            Task { try? await client.startSync() }
+        }
+    }
+
+    private func updateConnection() {
+        let lost = state == .loggedIn && (!networkAvailable || [.offline, .error, .terminated].contains(syncState))
+        if lost {
+            guard !connectionLost, lostTimer == nil else { return }
+            lostTimer = Task {
+                try? await Task.sleep(for: .seconds(2))
+                guard !Task.isCancelled else { return }
+                connectionLost = true
+                lostTimer = nil
+            }
+        } else if syncState == .running || state != .loggedIn {
+            lostTimer?.cancel()
+            lostTimer = nil
+            connectionLost = false
+        }
+    }
+
     /// Sync stops on network errors; try again after a moment
     private func syncStateChanged(_ state: SyncState) {
         syncState = state
+        updateConnection()
         guard state == .error || state == .offline, let client else { return }
         guard UIApplication.shared.applicationState != .background else { return }
         Task {

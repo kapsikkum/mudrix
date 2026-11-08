@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.os.Build
 import android.util.Base64
 import android.util.Log
@@ -20,6 +21,7 @@ import io.livekit.android.e2ee.BaseKeyProvider
 import io.livekit.android.e2ee.E2EEOptions
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
+import io.livekit.android.room.Room as LiveKitRoom
 import io.livekit.android.room.participant.AudioTrackPublishDefaults
 import io.livekit.android.room.participant.Participant
 import io.livekit.android.room.participant.RemoteParticipant
@@ -64,7 +66,6 @@ import org.wizardchat.core.RingEnd
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
-import io.livekit.android.room.Room as LiveKitRoom
 
 /** One device in the call, with its media state */
 data class CallParticipantInfo(
@@ -162,6 +163,22 @@ class CallManager {
             micMutedState = value
             defaults.edit().putBoolean("voice.micMuted", value).apply()
         }
+    var talking by mutableStateOf(false)
+        private set
+    val pushToTalk: Boolean
+        get() = context.getSharedPreferences("preferences", Context.MODE_PRIVATE).getBoolean("pushToTalk", false)
+    private var micTesting = false
+    private var micJob: Job? = null
+    private val micEnabled: Boolean
+        get() = !micTesting && (if (pushToTalk) talking && !deafened else !micMuted && !deafened)
+    private val micPublished: Boolean
+        get() = if (pushToTalk) !micTesting && !deafened else micEnabled
+    private val outputVolume: Double get() = defaults.getFloat("voice.outputVolume", 1f).toDouble()
+    private val cameraOptions: LocalVideoTrackOptions
+        get() = LocalVideoTrackOptions(
+            position = if (defaults.getString("voice.cameraPosition", "front") == "back") CameraPosition.BACK else CameraPosition.FRONT,
+            captureParams = VideoPreset169.H720.capture,
+        )
     private var deafenedState by mutableStateOf(defaults.getBoolean("voice.deafened", false))
     var deafened: Boolean
         get() = deafenedState
@@ -258,6 +275,7 @@ class CallManager {
             run = joined.run { handle(it) }
             val publisher = withTimeout(CONNECT_TIMEOUT_MILLIS) { connect(joined.serviceUrl, publisher = true) }
             state = State.Joined
+            applyAudioDevice()
             watch = WatchTogether(
                 ownUserId = client.userId ?: "",
                 send = { sendData(it, WatchTogether.TOPIC) },
@@ -265,7 +283,9 @@ class CallManager {
                     participants.filter { it.connected }.map { WatchParticipant(it.identity, it.userId, it.isLocal) }
                 },
             )
-            runCatching { publisher.localParticipant.setMicrophoneEnabled(!micMuted && !deafened) }
+            if (pushToTalk) micMuted = false
+            runCatching { publisher.localParticipant.setMicrophoneEnabled(micPublished) }
+            silenceMic(publisher, pushToTalk && !micEnabled)
             CallSounds.play("call_join")
             notification.start(room.displayName, room.isDirect, activityState)
             if (intent == "video") toggleCamera()
@@ -436,7 +456,7 @@ class CallManager {
             dynacast = true,
             e2eeOptions = keyProvider?.let { E2EEOptions(keyProvider = it) },
             audioTrackCaptureDefaults = LocalAudioTrackOptions(noiseSuppression = true, echoCancellation = true, autoGainControl = true),
-            videoTrackCaptureDefaults = LocalVideoTrackOptions(position = CameraPosition.FRONT, captureParams = VideoPreset169.H720.capture),
+            videoTrackCaptureDefaults = cameraOptions,
             screenShareTrackCaptureDefaults = LocalVideoTrackOptions(isScreencast = true, captureParams = VideoPreset169.H1080.capture),
             // No RED (redundant audio): browsers can't decrypt RED-wrapped frames
             audioTrackPublishDefaults = AudioTrackPublishDefaults(dtx = true, red = false),
@@ -522,7 +542,8 @@ class CallManager {
             while (isActive && this@CallManager.session === session) {
                 try {
                     val publisher = withTimeout(CONNECT_TIMEOUT_MILLIS) { connect(session.serviceUrl, publisher = true) }
-                    runCatching { publisher.localParticipant.setMicrophoneEnabled(!micMuted && !deafened) }
+                    runCatching { publisher.localParticipant.setMicrophoneEnabled(micPublished) }
+                    silenceMic(publisher, pushToTalk && !micEnabled)
                     if (cameraOn) runCatching { publisher.localParticipant.setCameraEnabled(true) }
                     screenSharing = false
                     reconnecting = false
@@ -567,6 +588,7 @@ class CallManager {
         } else {
             micMuted = !micMuted
         }
+        if (state == State.Joined) CallSounds.play(if (micMuted) "mute" else "unmute")
         applyMic()
     }
 
@@ -579,13 +601,31 @@ class CallManager {
             deafened = true
             micMuted = true
         }
+        if (state == State.Joined) CallSounds.play(if (deafened) "deafen" else "undeafen")
         applyMic()
     }
 
-    private fun applyMic() {
-        val enabled = !micMuted
+    private fun silenceMic(publisher: LiveKitRoom, silenced: Boolean) {
+        publisher.localParticipant.getTrackPublication(Track.Source.MICROPHONE)?.track?.enabled = !silenced
+    }
+
+    fun setTalking(on: Boolean) {
+        if (!pushToTalk || talking == on) return
+        talking = on
+        applyMic()
+    }
+
+    fun applyMic() {
+        if (pushToTalk) micMuted = false else talking = false
+        val published = micPublished
+        val silenced = pushToTalk && !micEnabled
         val publisher = publisher
-        scope.launch { runCatching { publisher?.localParticipant?.setMicrophoneEnabled(enabled) } }
+        val previous = micJob
+        micJob = scope.launch {
+            previous?.join()
+            runCatching { publisher?.localParticipant?.setMicrophoneEnabled(published) }
+            if (published && publisher != null) silenceMic(publisher, silenced)
+        }
         refresh()
     }
 
@@ -597,8 +637,10 @@ class CallManager {
                 if (!hasPermission(Manifest.permission.CAMERA)) return@launch
             }
             try {
+                publisher?.videoTrackCaptureDefaults = cameraOptions
                 publisher?.localParticipant?.setCameraEnabled(enabled)
                 cameraOn = enabled
+                CallSounds.play(if (enabled) "camera_on" else "camera_off")
                 notification.cameraChanged()
             } catch (error: Exception) {
                 Log.w(TAG, "camera: $error")
@@ -622,12 +664,32 @@ class CallManager {
                     local?.setScreenShareEnabled(false)
                     screenSharing = false
                 }
+                CallSounds.play(if (screenSharing) "screenshare_start" else "screenshare_stop")
             } catch (error: Exception) {
                 Log.w(TAG, "screen share: $error")
                 screenSharing = local?.isScreenShareEnabled ?: false
             }
             refresh()
         }
+    }
+
+    fun setOutputVolume(volume: Double) {
+        defaults.edit().putFloat("voice.outputVolume", volume.toFloat()).apply()
+        appliedVolumes.clear()
+        refresh()
+    }
+
+    fun applyAudioDevice() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+        val manager = context.getSystemService(AudioManager::class.java) ?: return
+        val id = defaults.getInt("voice.outputDevice", -1)
+        val device = manager.availableCommunicationDevices.firstOrNull { it.id == id }
+        if (device != null) manager.setCommunicationDevice(device) else if (id != -1) manager.clearCommunicationDevice()
+    }
+
+    fun setMicTesting(on: Boolean) {
+        micTesting = on
+        applyMic()
     }
 
     fun setVolume(volume: Double, userId: String) {
@@ -657,12 +719,14 @@ class CallManager {
         handRaised = !handRaised
         val raise = handRaised
         if (raise) raisedHands.add(session.identity) else raisedHands.remove(session.identity)
+        if (raise) CallSounds.play("raise_hand")
         refresh()
         scope.launch { runCatching { session.setHandRaised(raise) } }
     }
 
     private fun show(emoji: String, identity: String) {
         reactions[identity] = emoji
+        CallSounds.play("reaction")
         refresh()
         scope.launch {
             delay(REACTION_VISIBLE_MILLIS)
@@ -722,7 +786,7 @@ class CallManager {
                     connection = if (isLocal) publisher else remote?.second,
                 )
             }
-            if (isLocal) info = info.copy(micMuted = micMuted, connected = state == State.Joined)
+            if (isLocal) info = info.copy(micMuted = !micPublished, connected = state == State.Joined)
             info = info.copy(
                 handRaised = member.identity in raisedHands,
                 reaction = reactions[member.identity],
@@ -733,7 +797,7 @@ class CallManager {
 
             // Deafen and per-person volume, applied only when they change
             if (participant is RemoteParticipant) {
-                val target = if (deafened || info.locallyMuted) 0.0 else info.volume
+                val target = if (deafened || info.locallyMuted) 0.0 else info.volume * outputVolume
                 for (publication in participant.trackPublications.values) {
                     val track = publication.track as? RemoteAudioTrack ?: continue
                     val key = "${member.identity}|${publication.sid}"

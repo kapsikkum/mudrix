@@ -1120,7 +1120,12 @@
     "inCallElsewhere": "You're in this call on another device",
     "joinHere": "Join here",
     "joinTimeout": "Connecting to the call took too long.",
-    "ownOtherDevice": "{{name}} (other device)"
+    "ownOtherDevice": "{{name}} (other device)",
+    "holdToTalk": "Hold to talk",
+    "talking": "Talking…",
+    "frontCamera": "Front camera",
+    "backCamera": "Back camera",
+    "systemDefault": "System default"
   },
   "attachment": {
     "uploading": "Uploading",
@@ -1364,7 +1369,8 @@
         "raiseHand": "Raised hand",
         "reaction": "Reaction",
         "watchTogether": "Watch together started"
-      }
+      },
+      "pushToTalkNote": "In calls, hold the mic button to talk. You're silent the rest of the time."
     },
     "emojisStickers": {
       "title": "Emojis & Stickers",

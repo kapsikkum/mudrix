@@ -95,6 +95,7 @@ class WatchTogether(
     fun start(videoId: String) {
         consent = true
         watchingVideoId = videoId
+        CallSounds.play("watch_together_start")
         publish(WatchState(videoId, ownUserId, playing = true, position = 0.0, at = now))
     }
 
@@ -156,7 +157,10 @@ class WatchTogether(
                 if (incoming.at <= stoppedAt) return
                 val current = state
                 if (current != null && incoming.at < current.at) return
-                if (current?.videoId != incoming.videoId && consent) watchingVideoId = incoming.videoId
+                if (current?.videoId != incoming.videoId) {
+                    if (consent) watchingVideoId = incoming.videoId
+                    CallSounds.play("watch_together_start")
+                }
                 state = incoming
             }
         }

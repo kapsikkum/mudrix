@@ -1,5 +1,7 @@
 package org.wizardchat.android.matrix
 
+import android.net.ConnectivityManager
+import android.net.Network
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,19 +9,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
+import org.wizardchat.core.CustomStatus
 import org.wizardchat.core.EncryptionStatus
 import org.wizardchat.core.IdentityProvider
-import org.wizardchat.core.CustomStatus
-import org.wizardchat.core.Presence
 import org.wizardchat.core.PendingLogin
+import org.wizardchat.core.Presence
 import org.wizardchat.core.ServerInfo
 import org.wizardchat.core.SessionEvent
 import org.wizardchat.core.StoreConfig
@@ -53,6 +56,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     var isAddingAccount by mutableStateOf(false)
     var syncState by mutableStateOf(SyncState.idle)
         private set
+    var connectionLost by mutableStateOf(false)
+        private set
+    private var networkAvailable = true
+    private var lostTimer: Job? = null
     var encryption by mutableStateOf<EncryptionStatus?>(null)
         private set
 
@@ -212,9 +219,51 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         runCatching { client.startSync() }
     }
 
+    init {
+        val manager = WizardApplication.instance.getSystemService(ConnectivityManager::class.java)
+        networkAvailable = manager?.activeNetwork != null
+        manager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                scope.launch { networkChanged(true) }
+            }
+
+            override fun onLost(network: Network) {
+                scope.launch { networkChanged(false) }
+            }
+        })
+    }
+
+    private fun networkChanged(available: Boolean) {
+        val regained = available && !networkAvailable
+        networkAvailable = available
+        updateConnection()
+        val client = client ?: return
+        if (regained && (syncState == SyncState.error || syncState == SyncState.offline)) {
+            scope.launch { runCatching { client.startSync() } }
+        }
+    }
+
+    private fun updateConnection() {
+        val loggedIn = state == State.LoggedIn
+        val lost = loggedIn && (!networkAvailable || syncState in listOf(SyncState.offline, SyncState.error, SyncState.terminated))
+        if (lost) {
+            if (connectionLost || lostTimer != null) return
+            lostTimer = scope.launch {
+                delay(2000)
+                connectionLost = true
+                lostTimer = null
+            }
+        } else if (syncState == SyncState.running || !loggedIn) {
+            lostTimer?.cancel()
+            lostTimer = null
+            connectionLost = false
+        }
+    }
+
     /** Sync stops on network errors; try again after a moment */
     private fun syncStateChanged(state: SyncState) {
         syncState = state
+        updateConnection()
         val client = client ?: return
         if (state != SyncState.error && state != SyncState.offline) return
         if (!ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return

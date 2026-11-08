@@ -29,6 +29,11 @@ enum ThemeSetting: Hashable, Identifiable {
 
     var id: String { rawValue }
 
+    var appIcon: String? {
+        if case .fixed(let theme) = self, theme != .carbon { return "AppIcon-\(theme.name)" }
+        return nil
+    }
+
     var label: String {
         switch self {
         case .system: return String(localized: "settings.appearance.themeSystem")

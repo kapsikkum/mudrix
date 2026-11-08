@@ -51,6 +51,11 @@ final class CallManager: NSObject, ObservableObject {
     enum RingState: Equatable { case ringing, declined, unanswered }
     @Published private(set) var ring: RingState?
     @Published private(set) var incoming: RingingCall?
+    @Published private(set) var incomingCallId: UUID?
+    private let callKit = CallKitController()
+    private var callId: UUID?
+    private var callIsOutgoing = false
+    private weak var appSession: MatrixSession?
     @Published var showCallScreen = false
     /// A failed DM or group call; voice rooms show their failure in the lobby
     @Published var alert: String?
@@ -64,6 +69,17 @@ final class CallManager: NSObject, ObservableObject {
     private var displayNames: [String: String] = [:]
     @Published var micMuted: Bool { didSet { UserDefaults.standard.set(micMuted, forKey: "voice.micMuted") } }
     @Published var deafened: Bool { didSet { UserDefaults.standard.set(deafened, forKey: "voice.deafened") } }
+    @Published private(set) var talking = false
+    var pushToTalk: Bool { UserDefaults.standard.bool(forKey: "pushToTalk") }
+    private var micTesting = false
+    private var micTask: Task<Void, Never>?
+    private var micEnabled: Bool { !micTesting && (pushToTalk ? talking && !deafened : !micMuted && !deafened) }
+    private var micPublished: Bool { pushToTalk ? !micTesting && !deafened : micEnabled }
+    private var outputVolume: Double { UserDefaults.standard.object(forKey: "voice.outputVolume") as? Double ?? 1 }
+    private var cameraOptions: CameraCaptureOptions {
+        let back = UserDefaults.standard.string(forKey: "voice.cameraPosition") == "back"
+        return CameraCaptureOptions(position: back ? .back : .front, dimensions: .h720_169, fps: 30)
+    }
 
     private var session: CallSession?
     private var run: Subscription?
@@ -88,13 +104,17 @@ final class CallManager: NSObject, ObservableObject {
         CallActivityActions.toggleMic = { [weak self] in self?.toggleMic() }
         CallActivityActions.toggleDeafen = { [weak self] in self?.toggleDeafen() }
         CallActivityActions.leave = { [weak self] in self?.leave() }
+        callKit.onAnswer = { [weak self] id in self?.answerFromSystem(id) }
+        callKit.onEnd = { [weak self] id in self?.endFromSystem(id) }
+        callKit.onMute = { [weak self] id, muted in self?.muteFromSystem(id, muted) }
         liveActivity.end()
     }
 
     var isInCall: Bool { state == .joining || state == .joined }
     func isInCall(roomId: String) -> Bool { isInCall && room?.id == roomId }
 
-    func join(_ room: RoomSummary, session app: MatrixSession, intent: String? = nil, ring: Bool = false) async {
+    func join(_ room: RoomSummary, session app: MatrixSession, intent: String? = nil, ring: Bool = false,
+              answering answeredId: UUID? = nil) async {
         if isInCall(roomId: room.id) { return }
         if incoming?.roomId == room.id { dismissIncoming() }
         if isInCall { await leaveAndWait() }
@@ -108,7 +128,17 @@ final class CallManager: NSObject, ObservableObject {
         guard attempt == current, let client = app.client else { return }
         self.room = room
         self.client = client
+        appSession = app
         state = .joining
+        if let answeredId {
+            callId = answeredId
+            callIsOutgoing = false
+        } else {
+            let id = UUID()
+            callId = id
+            callIsOutgoing = true
+            callKit.start(id, name: room.displayName, video: intent == "video")
+        }
         joinTimer = Task { [weak self] in
             try? await Task.sleep(for: Self.joinTimeout)
             guard !Task.isCancelled, let self, self.attempt == current, self.state == .joining else { return }
@@ -140,13 +170,17 @@ final class CallManager: NSObject, ObservableObject {
             joinTimer?.cancel()
             joinTimer = nil
             state = .joined
+            if let callId, callIsOutgoing { callKit.connected(callId) }
             watch = WatchTogether(
                 ownUserId: client.userId ?? "",
                 send: { [weak self] message in self?.sendData(message, topic: WatchTogether.topic) },
                 participants: { [weak self] in
                     (self?.participants ?? []).filter(\.connected).map { ($0.identity, $0.userId, $0.isLocal) }
                 })
-            _ = try? await publisher.localParticipant.setMicrophone(enabled: !micMuted && !deafened)
+            Self.applyPreferredInput()
+            if pushToTalk { micMuted = false }
+            _ = try? await publisher.localParticipant.setMicrophone(enabled: micPublished)
+            AudioManager.shared.isMicrophoneMuted = pushToTalk && !micEnabled
             CallSounds.play("call_join")
             if self.ring == .ringing { ringback = CallSounds.loop("ringback") }
             liveActivity.start(roomName: room.displayName, isDirect: room.isDirect, state: activityState)
@@ -199,6 +233,12 @@ final class CallManager: NSObject, ObservableObject {
     }
 
     private func tearDown() async {
+        micTask = nil
+        AudioManager.shared.isMicrophoneMuted = false
+        if let id = callId {
+            callId = nil
+            callKit.end(id)
+        }
         joinTimer?.cancel()
         joinTimer = nil
         liveActivity.end()
@@ -289,7 +329,7 @@ final class CallManager: NSObject, ObservableObject {
             return same
         }
         let options = RoomOptions(
-            defaultCameraCaptureOptions: CameraCaptureOptions(position: .front, dimensions: .h720_169, fps: 30),
+            defaultCameraCaptureOptions: cameraOptions,
             defaultScreenShareCaptureOptions: ScreenShareCaptureOptions(dimensions: .h1080_169, fps: 30),
             defaultAudioCaptureOptions: AudioCaptureOptions(echoCancellation: true, autoGainControl: true,
                                                             noiseSuppression: true),
@@ -368,6 +408,8 @@ final class CallManager: NSObject, ObservableObject {
         } else {
             micMuted.toggle()
         }
+        if let callId { callKit.setMuted(callId, micMuted) }
+        if state == .joined { CallSounds.play(micMuted ? "mute" : "unmute") }
         applyMic()
     }
 
@@ -380,12 +422,26 @@ final class CallManager: NSObject, ObservableObject {
             deafened = true
             micMuted = true
         }
+        if state == .joined { CallSounds.play(deafened ? "deafen" : "undeafen") }
         applyMic()
     }
 
-    private func applyMic() {
-        let enabled = !micMuted
-        Task { _ = try? await publisher?.localParticipant.setMicrophone(enabled: enabled) }
+    func setTalking(_ on: Bool) {
+        guard pushToTalk, talking != on else { return }
+        talking = on
+        applyMic()
+    }
+
+    func applyMic() {
+        if pushToTalk { micMuted = false } else { talking = false }
+        let published = micPublished
+        let silenced = pushToTalk && !micEnabled
+        let previous = micTask
+        micTask = Task { [weak self] in
+            await previous?.value
+            _ = try? await self?.publisher?.localParticipant.setMicrophone(enabled: published)
+            if published { AudioManager.shared.isMicrophoneMuted = silenced }
+        }
         refresh()
     }
 
@@ -394,8 +450,9 @@ final class CallManager: NSObject, ObservableObject {
         Task {
             if enabled, await AVCaptureDevice.requestAccess(for: .video) == false { return }
             do {
-                _ = try await publisher?.localParticipant.setCamera(enabled: enabled)
+                _ = try await publisher?.localParticipant.setCamera(enabled: enabled, captureOptions: cameraOptions)
                 cameraOn = enabled
+                CallSounds.play(enabled ? "camera_on" : "camera_off")
             } catch {
                 NSLog("WZCALL camera: %@", String(describing: error))
             }
@@ -409,12 +466,30 @@ final class CallManager: NSObject, ObservableObject {
             do {
                 let publication = try await publisher?.localParticipant.setScreenShare(enabled: enabled)
                 screenSharing = enabled && publication != nil
+                CallSounds.play(screenSharing ? "screenshare_start" : "screenshare_stop")
             } catch {
                 NSLog("WZCALL screen share: %@", String(describing: error))
                 screenSharing = publisher?.localParticipant.isScreenShareEnabled() ?? false
             }
             refresh()
         }
+    }
+
+    func applyOutputVolume() {
+        appliedVolumes = [:]
+        refresh()
+    }
+
+    func setMicTesting(_ on: Bool) {
+        micTesting = on
+        applyMic()
+    }
+
+    static func applyPreferredInput() {
+        let session = AVAudioSession.sharedInstance()
+        guard let uid = UserDefaults.standard.string(forKey: "voice.inputUID"), !uid.isEmpty,
+              let port = session.availableInputs?.first(where: { $0.uid == uid }) else { return }
+        try? session.setPreferredInput(port)
     }
 
     func setVolume(_ volume: Double, for userId: String) {
@@ -444,12 +519,14 @@ final class CallManager: NSObject, ObservableObject {
         handRaised.toggle()
         let raise = handRaised
         if raise { raisedHands.insert(session.identity) } else { raisedHands.remove(session.identity) }
+        if raise { CallSounds.play("raise_hand") }
         refresh()
         Task { try? await session.setHandRaised(raised: raise) }
     }
 
     private func show(reaction emoji: String, for identity: String) {
         reactions[identity] = emoji
+        CallSounds.play("reaction")
         refresh()
         Task {
             try? await Task.sleep(for: .seconds(Self.reactionVisibleSeconds))
@@ -489,7 +566,7 @@ final class CallManager: NSObject, ObservableObject {
                 info.screenTrack = participant.videoTracks
                     .first { $0.source == .screenShareVideo && !$0.isMuted }?.track as? VideoTrack
             }
-            if isLocal { info.micMuted = micMuted; info.connected = state == .joined }
+            if isLocal { info.micMuted = !micPublished; info.connected = state == .joined }
             info.handRaised = raisedHands.contains(member.identity)
             info.reaction = reactions[member.identity]
             info.volume = userVolumes[member.userId] ?? 1
@@ -498,7 +575,7 @@ final class CallManager: NSObject, ObservableObject {
 
             // Deafen and per-person volume, applied only when they change
             if let remote = participant as? RemoteParticipant {
-                let target = deafened || info.locallyMuted ? 0 : info.volume
+                let target = deafened || info.locallyMuted ? 0 : info.volume * outputVolume
                 for publication in remote.audioTracks {
                     guard let track = publication.track as? RemoteAudioTrack else { continue }
                     let key = "\(member.identity)|\(publication.sid)"
@@ -558,7 +635,8 @@ extension CallManager {
         ringback = nil
     }
 
-    func watchIncoming(_ client: WizardClient, onMissedCall: @escaping (IncomingCall) -> Void) {
+    func watchIncoming(_ client: WizardClient, session: MatrixSession, onMissedCall: @escaping (IncomingCall) -> Void) {
+        appSession = session
         self.onMissedCall = onMissedCall
         incomingWatch?.cancel()
         incomingWatch = client.watchIncomingCalls { [weak self] event in
@@ -591,14 +669,55 @@ extension CallManager {
         incoming = RingingCall(roomId: call.roomId, eventId: call.eventId, callerId: call.sender,
                                callerName: call.senderName, voiceOnly: call.intent != "video", ring: call.ring)
         if call.ring {
-            if ringtone == nil { ringtone = CallSounds.ringtone() }
+            guard incomingCallId == nil, ringtone == nil else { return }
+            let id = UUID()
+            incomingCallId = id
+            let caller = call.senderName ?? call.sender
+            Task {
+                guard await !callKit.reportIncoming(id, caller: caller, video: call.intent == "video"),
+                      incomingCallId == id else { return }
+                incomingCallId = nil
+                if incoming?.roomId == call.roomId, ringtone == nil { ringtone = CallSounds.ringtone() }
+            }
         } else {
             ringtone?.stop()
             ringtone = nil
         }
     }
 
+    private func answerFromSystem(_ id: UUID) {
+        guard id == incomingCallId, let call = incoming, let session = appSession,
+              let room = session.roomList?.room(id: call.roomId) else { return }
+        incomingCallId = nil
+        dismissIncoming()
+        showCallScreen = !room.isVoice
+        Task { await join(room, session: session, intent: call.voiceOnly ? "audio" : "video", answering: id) }
+    }
+
+    private func endFromSystem(_ id: UUID) {
+        if id == incomingCallId {
+            incomingCallId = nil
+            guard let call = incoming else { return }
+            dismissIncoming()
+            if call.ring, let client = appSession?.client {
+                Task { try? await client.declineCall(roomId: call.roomId, eventId: call.eventId) }
+            }
+        } else if id == callId {
+            callId = nil
+            leave()
+        }
+    }
+
+    private func muteFromSystem(_ id: UUID, _ muted: Bool) {
+        guard id == callId, !pushToTalk, muted != micMuted else { return }
+        toggleMic()
+    }
+
     func acceptIncoming(session: MatrixSession) {
+        if let id = incomingCallId {
+            callKit.answer(id)
+            return
+        }
         guard let call = incoming, let room = session.roomList?.room(id: call.roomId) else { return }
         dismissIncoming()
         showCallScreen = true
@@ -606,6 +725,10 @@ extension CallManager {
     }
 
     func declineIncoming(session: MatrixSession) {
+        if let id = incomingCallId {
+            callKit.end(id)
+            return
+        }
         guard let call = incoming else { return }
         dismissIncoming()
         guard call.ring else { return }
@@ -613,6 +736,10 @@ extension CallManager {
     }
 
     func dismissIncoming() {
+        if let id = incomingCallId {
+            incomingCallId = nil
+            callKit.reportEnded(id, reason: .remoteEnded)
+        }
         ringtone?.stop()
         ringtone = nil
         incoming = nil
