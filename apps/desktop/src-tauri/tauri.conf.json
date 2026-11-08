@@ -12,6 +12,8 @@
   "app": {
     "windows": [
       {
+        "label": "main",
+        "create": false,
         "title": "Mudrix",
         "width": 1280,
         "height": 820,
@@ -23,7 +25,6 @@
           "x": 14,
           "y": 23
         },
-        "label": "main",
         "visible": false,
         "backgroundColor": "#11111e",
         "backgroundThrottling": "throttle"

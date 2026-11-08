@@ -19,7 +19,7 @@ use std::sync::Mutex;
 use tauri::{
     webview::{PermissionKind, PermissionResponse},
     window::Color,
-    AppHandle, Manager, Runtime, WebviewWindow,
+    AppHandle, Manager, Runtime, WebviewWindow, WebviewWindowBuilder,
 };
 use tauri_plugin_window_state::WindowExt as _;
 
@@ -160,6 +160,20 @@ pub fn run() {
             let data = data.join("dev");
             std::fs::create_dir_all(&data)?;
             std::env::set_current_dir(&data)?;
+
+            if let Some(config) = app
+                .config()
+                .app
+                .windows
+                .iter()
+                .find(|w| w.label == MAIN_WINDOW)
+            {
+                let window = WebviewWindowBuilder::from_config(app, config)?;
+                #[cfg(all(debug_assertions, windows))]
+                let window =
+                    window.data_directory(app.path().app_local_data_dir()?.join("dev-webview"));
+                window.build()?;
+            }
             let loaded = settings::load(app.handle());
             let start_hidden =
                 loaded.start_minimized && std::env::args().any(|a| a == AUTOSTART_FLAG);
