@@ -5,6 +5,7 @@ import {
   ChatCircleIcon,
   PlusIcon,
   CompassIcon,
+  DownloadSimpleIcon,
   SpeakerHighIcon,
 } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -32,6 +33,7 @@ import {
   spaceSettingsRoomIdAtom,
   createSpaceOpenAtom,
   exploreOpenAtom,
+  getAppsOpenAtom,
   pinnedSubSpacesAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
@@ -156,6 +158,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [, setSpaceSettings] = useAtom(spaceSettingsRoomIdAtom);
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
+  const [getAppsOpen, openGetApps] = useAtom(getAppsOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
@@ -487,6 +490,17 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
                 >
                   <span className={css.spacePill} />
                   <CompassIcon size={20} weight={exploreOpen ? 'fill' : 'regular'} />
+                </button>
+              </Tooltip>
+              <Tooltip placement="right" content={t('getApps.title')}>
+                <button
+                  type="button"
+                  className={getAppsOpen ? css.spaceBarBtnActive : css.spaceBarBtn}
+                  aria-label={t('getApps.title')}
+                  onClick={() => openGetApps(true)}
+                >
+                  <span className={css.spacePill} />
+                  <DownloadSimpleIcon size={20} weight={getAppsOpen ? 'bold' : 'regular'} />
                 </button>
               </Tooltip>
             </div>
