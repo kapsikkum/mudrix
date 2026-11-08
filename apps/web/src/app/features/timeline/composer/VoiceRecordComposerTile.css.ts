@@ -1,6 +1,7 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const blink = keyframes({
   '0%, 100%': { opacity: 1 },
@@ -33,7 +34,7 @@ export const recordDotPaused = style({
 export const timer = style({
   flexShrink: 0,
   fontVariantNumeric: 'tabular-nums',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   minWidth: '42px',
 });
@@ -109,7 +110,7 @@ export const accentBtn = style([
     width: '32px',
     height: '32px',
     backgroundColor: vars.color.accent,
-    color: '#fff',
+    color: vars.color.onAccent,
     ':hover': { backgroundColor: vars.color.accentHover },
   },
 ]);
@@ -119,7 +120,7 @@ export const statusRow = style({
   alignItems: 'center',
   gap: '6px',
   maxWidth: '200px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -128,7 +129,7 @@ export const statusRow = style({
 
 export const errorText = style({
   maxWidth: '220px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.danger,
   whiteSpace: 'nowrap',
   overflow: 'hidden',

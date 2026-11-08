@@ -15,3 +15,12 @@ This document tracks visual differences between the new web client (`apps/web`) 
 - **Mobile Full Profile Modal**:
   - _Observed in `mudrix-web`_: On viewports below 768px (`PANEL_OVERLAY_QUERY`), clicking an avatar switches to the full profile bottom sheet modal (`fullModalCard`) with multi-tab navigation ("User Info", "Activity", "Mutual Rooms").
   - _Status in new app_: The new app currently renders the compact popup card on all viewports.
+
+---
+
+## 2. Message Composer & Timeline Content (`composer`, `timeline`)
+
+- **Composer Component**:
+  - The message composer box and formatting toolbar styling matches `mudrix-web` with 1.52% pixel difference within the component bounding box.
+- **Background Timeline Content**:
+  - Full-screen captures of `composer` include the room timeline and right-hand member sidebar. Pixel variance across those screen areas is driven by dynamic content: message timestamp formatting differences, avatar placeholders/tints, and live presence indicators in the member sidebar.
