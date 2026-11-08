@@ -1,44 +1,44 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import { isMobileDevice } from '@/util/desktop';
 import {
   themeAtom,
   effectiveThemeAtom,
-  customThemesAtom,
-  followSystemThemeAtom,
-  systemDarkThemeAtom,
-  systemLightThemeAtom,
   messageLayoutAtom,
   messageLayoutMobileAtom,
   prettifyLinksAtom,
   groupImagesAtom,
-  markdownAtom,
   showRoomAvatarsAtom,
-  showPresenceDotsAtom,
-  colorUsernamesAtom,
   themedAppIconAtom,
-  chatFontSizeAtom,
-  chatDensityAtom,
+  customThemesAtom,
+  useSystemAccentAtom,
+  followSystemThemeAtom,
+  systemDarkThemeAtom,
+  systemLightThemeAtom,
   uiZoomAtom,
   messageSendAnimationAtom,
+  profileEffectsAtom,
+  hideMembershipEventsAtom,
+  hideProfileEventsAtom,
   timeFormatAtom,
   dateFormatAtom,
+  chatFontSizeAtom,
+  chatDensityAtom,
   uiDensityAtom,
-  uiScaleAtom,
   type ThemeName,
   type MessageLayout,
   type TimeFormatPreference,
   type DateFormatPreference,
   type ChatDensity,
   type UiDensity,
-  type UiScale,
 } from '@/app/store/atoms';
-import { isMobileDevice } from '@/app/util/platform';
 import { CHAT_FONT_SIZES, DEFAULT_CHAT_FONT_SIZE } from '@/app/hooks/useChatDisplaySync';
 import { BUILTIN_THEME_NAMES } from '@/theme/themeTokens';
 import { customThemeName, resolveThemeTokens } from '@/theme/customThemes';
+import { CustomThemesSection } from './CustomThemes';
 import { hasThemedLogo } from '@/theme/themeLogos';
 import { useMemo } from 'react';
-import { CustomThemesSection } from './CustomThemes';
+import { isTauriDesktop } from '@/util/desktop';
 import { useProfile } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Avatar } from '@/app/components/Avatar';
@@ -51,10 +51,15 @@ import { formatTime } from '@/util/format';
 import * as timelineCss from '@/app/features/timeline/Timeline.css';
 import * as css from './Appearance.css';
 import * as layoutCss from '../Settings.css';
-import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 
 const ZOOM_LEVELS = [75, 90, 100, 110, 125, 150];
 const ZOOM_OPTIONS = ZOOM_LEVELS.map((level) => ({ value: String(level), label: `${level}%` }));
+
+const PREVIEW_OTHER_NAME = 'Muddy';
+const PREVIEW_OTHER_ID = '@muddy:example.org';
+
+const mentionMarkdown = (name: string, userId: string) =>
+  `[${name}](https://matrix.to/#/${userId})`;
 
 const TIME_FORMAT_OPTIONS: Record<TimeFormatPreference, string> = {
   auto: 'settings.appearance.timeFormatAuto',
@@ -69,16 +74,9 @@ const DATE_FORMAT_OPTIONS: Record<DateFormatPreference, string> = {
   ymd: 'settings.appearance.dateFormatYmd',
 };
 
-const PREVIEW_OTHER_NAME = 'Muddy';
-const PREVIEW_OTHER_ID = '@muddy:example.org';
-
-const mentionMarkdown = (name: string, userId: string) =>
-  `[${name}](https://matrix.to/#/${userId})`;
-
 interface PreviewMessageProps {
   layout: MessageLayout;
   isOwn: boolean;
-  senderId: string;
   senderName: string;
   senderAvatar?: string | null;
   html: string;
@@ -88,14 +86,12 @@ interface PreviewMessageProps {
 function PreviewMessage({
   layout,
   isOwn,
-  senderId,
   senderName,
   senderAvatar,
   html,
   time,
 }: PreviewMessageProps) {
   const client = getMatrixClientOrNull();
-  const senderColor = useUsernameColor()(senderId);
   const contentClass =
     layout === 'classic'
       ? isOwn
@@ -103,30 +99,8 @@ function PreviewMessage({
         : timelineCss.msgContentClassic
       : timelineCss.msgContent;
 
-  if (layout === 'compact') {
-    return (
-      <div className={timelineCss.msgRowCompact}>
-        <div className={timelineCss.msgHoverRegion}>
-          <div className={timelineCss.compactBody}>
-            <div className={timelineCss.compactLine}>
-              <span className={timelineCss.compactHeader}>
-                <span className={timelineCss.compactTime}>{time}</span>
-                <span className={css.previewSender} style={{ color: senderColor }}>
-                  {senderName}
-                </span>
-              </span>
-              <div className={timelineCss.compactText}>
-                <span dangerouslySetInnerHTML={{ __html: html }} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={timelineCss.msgRow}>
+    <div className={isOwn ? `${timelineCss.msgRow} ${timelineCss.msgRowOwn}` : timelineCss.msgRow}>
       <div className={timelineCss.msgHoverRegion}>
         <div className={timelineCss.msgAvatarCol}>
           <Avatar
@@ -139,9 +113,7 @@ function PreviewMessage({
         </div>
         <div className={timelineCss.msgBody}>
           <div className={timelineCss.msgMeta}>
-            <span className={css.previewSender} style={{ color: senderColor }}>
-              {senderName}
-            </span>
+            <span className={css.previewSender}>{senderName}</span>
             <span className={timelineCss.msgTime}>{time}</span>
           </div>
           <div className={contentClass}>
@@ -192,7 +164,6 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
       <PreviewMessage
         layout={layout}
         isOwn={false}
-        senderId={PREVIEW_OTHER_ID}
         senderName={PREVIEW_OTHER_NAME}
         html={otherHtml}
         time={time(2)}
@@ -200,7 +171,6 @@ function ChatPreview({ layout, prettifyLinks }: { layout: MessageLayout; prettif
       <PreviewMessage
         layout={layout}
         isOwn
-        senderId={myId ?? '@you:example.org'}
         senderName={myName}
         senderAvatar={me?.avatarUrl}
         html={ownHtml}
@@ -223,24 +193,21 @@ export function Appearance() {
   const setLayout = onMobile ? setMobileLayout : setMainLayout;
   const [prettifyLinks, setPrettifyLinks] = useAtom(prettifyLinksAtom);
   const [groupImages, setGroupImages] = useAtom(groupImagesAtom);
-  const [markdown, setMarkdown] = useAtom(markdownAtom);
   const [showRoomAvatars, setShowRoomAvatars] = useAtom(showRoomAvatarsAtom);
-  const [showPresenceDots, setShowPresenceDots] = useAtom(showPresenceDotsAtom);
-  const [colorUsernames, setColorUsernames] = useAtom(colorUsernamesAtom);
   const [themedAppIcon, setThemedAppIcon] = useAtom(themedAppIconAtom);
-  const [chatFontSize, setChatFontSize] = useAtom(chatFontSizeAtom);
-  const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
-  const [uiDensity, setUiDensity] = useAtom(uiDensityAtom);
-  const [uiScale, setUiScale] = useAtom(uiScaleAtom);
-  const [uiZoom, setUiZoom] = useAtom(uiZoomAtom);
-  const [messageSendAnimation, setMessageSendAnimation] = useAtom(messageSendAnimationAtom);
-  const [timeFormat, setTimeFormat] = useAtom(timeFormatAtom);
-  const [dateFormat, setDateFormat] = useAtom(dateFormatAtom);
   const [followSystem, setFollowSystem] = useAtom(followSystemThemeAtom);
   const [darkTheme, setDarkTheme] = useAtom(systemDarkThemeAtom);
   const [lightTheme, setLightTheme] = useAtom(systemLightThemeAtom);
+  const [uiZoom, setUiZoom] = useAtom(uiZoomAtom);
+  const [messageSendAnimation, setMessageSendAnimation] = useAtom(messageSendAnimationAtom);
+  const [profileEffects, setProfileEffects] = useAtom(profileEffectsAtom);
+  const [hideMembershipEvents, setHideMembershipEvents] = useAtom(hideMembershipEventsAtom);
+  const [hideProfileEvents, setHideProfileEvents] = useAtom(hideProfileEventsAtom);
+  const [timeFormat, setTimeFormat] = useAtom(timeFormatAtom);
+  const [dateFormat, setDateFormat] = useAtom(dateFormatAtom);
   const effectiveTheme = useAtomValue(effectiveThemeAtom);
   const customThemes = useAtomValue(customThemesAtom);
+  const [useSystemAccent, setUseSystemAccent] = useAtom(useSystemAccentAtom);
   const themeNames: ThemeName[] = [
     ...BUILTIN_THEME_NAMES,
     ...customThemes.map((c) => customThemeName(c.id)),
@@ -249,6 +216,9 @@ export function Appearance() {
     customThemes.find((c) => customThemeName(c.id) === name)?.name ?? name;
   const themeOptions = themeNames.map((name) => ({ value: name, label: themeLabel(name) }));
   const themeHasIcon = hasThemedLogo(effectiveTheme);
+  const [chatFontSize, setChatFontSize] = useAtom(chatFontSizeAtom);
+  const [chatDensity, setChatDensity] = useAtom(chatDensityAtom);
+  const [uiDensity, setUiDensity] = useAtom(uiDensityAtom);
 
   const handleSwatchKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     let nextIndex = -1;
@@ -267,8 +237,10 @@ export function Appearance() {
       nextIndex = themeNames.length - 1;
     }
     if (nextIndex >= 0) {
-      setTheme(themeNames[nextIndex]);
-      const buttons = e.currentTarget.querySelectorAll<HTMLButtonElement>('button[role="radio"]');
+      const nextTheme = themeNames[nextIndex];
+      setTheme(nextTheme);
+      const container = e.currentTarget;
+      const buttons = container.querySelectorAll<HTMLButtonElement>('button[role="radio"]');
       buttons[nextIndex]?.focus();
     }
   };
@@ -342,7 +314,7 @@ export function Appearance() {
                       onClick={() => setTheme(name)}
                       className={isActive ? css.swatchActive : css.swatch}
                       style={{
-                        background: `linear-gradient(135deg, ${color.bgSecondary} calc(50% - 0.5px), ${color.accent} calc(50% + 0.5px))`,
+                        background: `linear-gradient(135deg, ${color.bgSecondary} 50%, ${color.accent} 50%)`,
                       }}
                     />
                   </Tooltip>
@@ -350,6 +322,15 @@ export function Appearance() {
               })}
             </div>
           </div>
+        )}
+
+        {isTauriDesktop() && effectiveTheme === 'Carbon' && (
+          <ToggleRow
+            label={t('settings.appearance.systemAccent')}
+            description={t('settings.appearance.systemAccentNote')}
+            checked={useSystemAccent}
+            onChange={setUseSystemAccent}
+          />
         )}
 
         <CustomThemesSection />
@@ -391,14 +372,20 @@ export function Appearance() {
           <div className={layoutCss.settingRow}>
             <div className={layoutCss.settingInfo}>
               <span className={layoutCss.settingLabel}>
-                {t('settings.appearance.messageLayoutMobile')}
+                {t('settings.appearance.messageLayoutMobile', {
+                  defaultValue: 'Message layout on phones',
+                })}
               </span>
               <span className={layoutCss.settingNote}>
-                {t('settings.appearance.messageLayoutMobileNote')}
+                {t('settings.appearance.messageLayoutMobileNote', {
+                  defaultValue: 'Used on phones and tablets, separately from this device.',
+                })}
               </span>
             </div>
             <Select<MessageLayout>
-              aria-label={t('settings.appearance.messageLayoutMobile')}
+              aria-label={t('settings.appearance.messageLayoutMobile', {
+                defaultValue: 'Message layout on phones',
+              })}
               value={mobileLayout}
               options={[
                 { value: 'modern', label: t('settings.appearance.modern') },
@@ -447,9 +434,10 @@ export function Appearance() {
           onChange={setMessageSendAnimation}
         />
         <ToggleRow
-          label={t('settings.appearance.colorUsernames')}
-          checked={colorUsernames}
-          onChange={setColorUsernames}
+          label={t('settings.appearance.profileEffects')}
+          description={t('settings.appearance.profileEffectsNote')}
+          checked={profileEffects}
+          onChange={setProfileEffects}
         />
         <ToggleRow
           label={t('settings.appearance.prettifyLinks')}
@@ -465,8 +453,12 @@ export function Appearance() {
         />
         <ToggleRow
           label={t('settings.appearance.themedAppIcon')}
-          checked={themeHasIcon && themedAppIcon}
-          disabled={!themeHasIcon}
+          description={t(
+            themeHasIcon
+              ? 'settings.appearance.themedAppIconNote'
+              : 'settings.appearance.themedAppIconNoteNoArt'
+          )}
+          checked={themedAppIcon}
           onChange={setThemedAppIcon}
         />
       </div>
@@ -491,45 +483,30 @@ export function Appearance() {
           />
         </div>
 
-        <div className={layoutCss.settingRow}>
-          <div className={layoutCss.settingInfo}>
-            <span className={layoutCss.settingLabel}>{t('settings.appearance.uiScale')}</span>
-            <span className={layoutCss.settingNote}>{t('settings.appearance.uiScaleNote')}</span>
-          </div>
-          <Select<UiScale>
-            aria-label={t('settings.appearance.uiScale')}
-            value={uiScale}
-            options={[
-              { value: 'auto', label: t('settings.appearance.uiScaleAuto') },
-              { value: 'desktop', label: t('settings.appearance.uiScaleDesktop') },
-              { value: 'touch', label: t('settings.appearance.uiScaleTouch') },
-            ]}
-            onChange={setUiScale}
-          />
-        </div>
-
         <ToggleRow
           label={t('settings.appearance.showRoomAvatars')}
           checked={showRoomAvatars}
           onChange={setShowRoomAvatars}
-        />
-        <ToggleRow
-          label={t('settings.appearance.showPresenceDots')}
-          description={t('settings.appearance.showPresenceDotsNote')}
-          checked={showPresenceDots}
-          onChange={setShowPresenceDots}
-        />
-        <ToggleRow
-          label={t('settings.appearance.markdown')}
-          description={t('settings.appearance.markdownNote')}
-          checked={markdown}
-          onChange={setMarkdown}
         />
       </div>
 
       <div className={layoutCss.divider} />
 
       <div className={layoutCss.section}>
+        <h3 className={layoutCss.sectionTitle}>{t('settings.appearance.timelineDisplay')}</h3>
+
+        <ToggleRow
+          label={t('settings.appearance.hideMembershipEvents')}
+          description={t('settings.appearance.hideMembershipEventsNote')}
+          checked={hideMembershipEvents}
+          onChange={setHideMembershipEvents}
+        />
+        <ToggleRow
+          label={t('settings.appearance.hideProfileEvents')}
+          description={t('settings.appearance.hideProfileEventsNote')}
+          checked={hideProfileEvents}
+          onChange={setHideProfileEvents}
+        />
         <div className={layoutCss.settingRow}>
           <div className={layoutCss.settingInfo}>
             <span className={layoutCss.settingLabel}>{t('settings.appearance.timeFormat')}</span>

@@ -111,6 +111,9 @@ export interface Preferences {
   uiZoom: number;
   timeFormat: TimeFormatPreference;
   dateFormat: DateFormatPreference;
+  useSystemAccent: boolean;
+  hideMembershipEvents: boolean;
+  hideProfileEvents: boolean;
   profileEffects: boolean;
   /** Which colour emoji font draws emoji */
   emojiStyle: EmojiStyle;
@@ -196,6 +199,9 @@ export const DEFAULT_PREFERENCES: Preferences = {
   excludeInsecureSessions: false,
   pushToTalk: false,
   uiZoom: 100,
+  useSystemAccent: false,
+  hideMembershipEvents: false,
+  hideProfileEvents: true,
   timeFormat: 'auto',
   dateFormat: 'long',
   profileEffects: true,
@@ -266,6 +272,9 @@ export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
 export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
 export const uiZoomAtom = preferenceFieldAtom('uiZoom');
+export const useSystemAccentAtom = preferenceFieldAtom('useSystemAccent');
+export const hideMembershipEventsAtom = preferenceFieldAtom('hideMembershipEvents');
+export const hideProfileEventsAtom = preferenceFieldAtom('hideProfileEvents');
 export const timeFormatAtom = preferenceFieldAtom('timeFormat');
 export const dateFormatAtom = preferenceFieldAtom('dateFormat');
 export const profileEffectsAtom = preferenceFieldAtom('profileEffects');

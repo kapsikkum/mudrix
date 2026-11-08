@@ -1418,7 +1418,8 @@
       "profileSaved": "Profile saved",
       "aboutTitle": "About Me",
       "styleNameplate": "Nameplate",
-      "styleFrame": "Profile frame"
+      "styleFrame": "Profile frame",
+      "profileTitle": "Profile"
     },
     "appearance": {
       "title": "Appearance",
@@ -1435,11 +1436,11 @@
       "uiScaleAuto": "Automatic",
       "uiScaleDesktop": "Desktop",
       "uiScaleTouch": "Touch",
-      "classic": "Classic",
+      "classic": "Bubble",
       "modern": "Modern",
       "compact": "Compact",
       "theme": "Theme",
-      "previewOtherMessage": "hey {{mention}}, here is a link: https://example.org",
+      "previewOtherMessage": "hey {{mention}}, here is a link: https://kapsikkum.github.io/mudrix-web/",
       "previewOwnMessage": "casting a message for {{mention}}",
       "themedAppIcon": "Themed app icon",
       "colorUsernames": "Colour usernames",
@@ -1517,7 +1518,18 @@
       "roomListStyle": "Room list style",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Modern",
-      "roomListStyleNote": "Matrix shows an avatar on every room. Modern uses plain channel rows, lets you order channels inside a space and mark voice channels."
+      "roomListStyleNote": "Matrix shows an avatar on every room. Modern uses plain channel rows, lets you order channels inside a space and mark voice channels.",
+      "profileEffects": "Profile effects",
+      "profileEffectsNote": "Show animated effects on other people's profile cards. Always off when your system prefers reduced motion.",
+      "timelineDisplay": "Timeline",
+      "hideMembershipEvents": "Hide joins and leaves",
+      "hideMembershipEventsNote": "Don't show messages when people join, leave, are kicked or banned.",
+      "hideProfileEvents": "Hide profile changes",
+      "hideProfileEventsNote": "Don't show messages when people change their display name or avatar.",
+      "themedAppIconNote": "Use the app icon that goes with the current theme.",
+      "themedAppIconNoteNoArt": "The current theme has no icon of its own; this takes effect on themes that do (Parrot, Hallow).",
+      "systemAccent": "Use the system accent colour",
+      "systemAccentNote": "Takes the accent colour from Windows, macOS or your Linux desktop. Only on the desktop app and the Carbon theme."
     },
     "accessibility": {
       "title": "Accessibility",
@@ -1566,7 +1578,9 @@
       "youtubeEmbedsAsk": "Ask",
       "youtubeEmbedsOn": "Show",
       "youtubeEmbedsOff": "Hide",
-      "youtubeEmbedsNote": "Show YouTube links as playable cards. Playing loads the video from YouTube."
+      "youtubeEmbedsNote": "Show YouTube links as playable cards. Playing loads the video from YouTube.",
+      "ignoredUsersNote": "Their messages, invites and DMs are hidden from you.",
+      "ignoredUsersEmpty": "You have not ignored anyone."
     },
     "language": {
       "title": "Language",
@@ -1642,16 +1656,20 @@
       "imageCount_one": "{{count}} image",
       "imageCount_other": "{{count}} images",
       "gifs": "GIFs",
-      "gifProvider": "Preferred GIF provider"
+      "gifProvider": "Preferred GIF provider",
+      "searchPacks": "Search packs",
+      "subscribeAll": "Subscribe all",
+      "unsubscribeAll": "Unsubscribe all",
+      "noPacksMatch": "No packs match your search."
     },
     "keybinds": {
       "title": "Keybinds",
       "groupGeneral": "General",
       "groupComposer": "Composer",
       "voiceRoom": "Voice Room",
-      "searchGlobal": "Search rooms and messages",
+      "searchGlobal": "Go to room / DM / space",
       "searchInRoom": "Search in room",
-      "close": "Close dialog or context menu",
+      "close": "Close overlay / cancel",
       "send": "Send message",
       "newLine": "New line",
       "bold": "Bold",
@@ -1670,9 +1688,9 @@
       "openInbox": "Open inbox",
       "openPinned": "Open pinned messages",
       "createJoinSpace": "Create or join a space",
-      "navigateRooms": "Navigate between rooms",
-      "navigateSpaces": "Navigate between spaces",
-      "editMessage": "Navigate between messages to edit",
+      "navigateRooms": "Previous / next room",
+      "navigateSpaces": "Previous / next space",
+      "editMessage": "Edit your previous / next message",
       "pushToTalk": "Push to talk",
       "pushToTalkBrowserHint": "Push to talk only works while this browser tab is focused. Download the desktop app for system-wide push to talk.",
       "pushToTalkPermission": "System-wide push to talk needs permission to monitor keyboard input. Until then it only works while Mudrix is focused.",
@@ -1699,7 +1717,37 @@
       "accountDataSaved": "Account data saved.",
       "accountDataSaveFailed": "Couldn't save account data: {{error}}",
       "accountDataCount_one": "{{count}} event type",
-      "accountDataCount_other": "{{count}} event types"
+      "accountDataCount_other": "{{count}} event types",
+      "slidingSync": "Sliding sync (experimental)",
+      "slidingSyncDescription": "Faster startup and lighter syncing on large accounts. Needs a homeserver with simplified sliding sync (MSC4186). Reload to apply.",
+      "reload": "Reload app",
+      "session": "Session",
+      "userId": "User ID",
+      "deviceId": "Device ID",
+      "appVersion": "App version",
+      "syncMode": "Sync mode",
+      "syncClassic": "Classic sync",
+      "syncSliding": "Sliding sync",
+      "syncState": "Sync state",
+      "rooms": "Rooms",
+      "roomsValue": "{{joined}} joined, {{invited}} invited",
+      "specVersion": "Latest spec version",
+      "encryption": "Encryption",
+      "crossSigning": "Cross-signing",
+      "secretStorage": "Secret storage",
+      "keyBackup": "Key backup",
+      "ready": "Ready",
+      "notReady": "Not ready",
+      "cryptoUnavailable": "Encryption is not available.",
+      "serverFeatures": "Server features ({{count}})",
+      "tools": "Tools",
+      "copyDebugInfo": "Copy debug info",
+      "clearMedia": "Clear media cache",
+      "clearMediaDone": "Media cache cleared",
+      "resetSyncCache": "Reset sync cache",
+      "resetSyncCacheAction": "Reset",
+      "resetSyncCacheNote": "Deletes the local room and message cache and reloads. Encryption keys and settings are kept.",
+      "resetSyncCacheConfirm": "This deletes the local copy of your rooms and messages and reloads the app. Everything is downloaded again from the server. Encryption keys are not touched."
     },
     "keyBackup": {
       "downloadKey": "Download",
@@ -1724,7 +1772,39 @@
       "oldKeyWarningBody": "Messages tied to the old key may now be unrecoverable. Save this new key immediately.",
       "storeKeyWarning": "Store this key securely. You will need it to access encrypted messages on new devices",
       "copyKey": "Copy",
-      "copied": "Copied!"
+      "copied": "Copied!",
+      "setupRecoveryKey": "Set Up Recovery Key",
+      "setupIncomplete": "Set up encryption",
+      "enterRecoveryKeyBtn": "Enter Recovery Key",
+      "resetEncryptionKeys": "Reset Encryption Keys",
+      "regenerateConfirm": "This will create a new recovery key, invalidate the old one and replace your key backup. Megolm keys that exist only on your other devices may be lost in the process. Continue?",
+      "regenerateConfirmNoRestore": "Your current backup key is not available on this device, so all keys stored only in the existing backup will be permanently lost. Continue anyway?",
+      "regenerateBackupNotActive": "The new key backup could not be verified as active on the server.",
+      "invalidRecoveryKey": "Invalid recovery key. Please check you copied it correctly.",
+      "couldNotGenerateKeyNew": "Could not generate new recovery key",
+      "restoreSuccess": "Restored {{imported}} of {{total}} room keys.",
+      "restoreSuccessNoCSigning": "Restored {{imported}} of {{total}} room keys. Cross-signing could not be re-established — try verifying this session from another device.",
+      "restoreFailed": "Wrong decryption key. Please check your recovery key and try again.",
+      "noSecretStorageFound": "Secret storage isn't set up on this account, so there is no recovery key to enter.",
+      "restoreNoBackup": "This session is verified, but there is no key backup on the server to restore older messages from.",
+      "restoreError": "Could not restore keys: {{error}}",
+      "restoreFetching": "Downloading your key backup...",
+      "restoreProgress": "Restoring keys: {{imported}} of {{total}}",
+      "restoreFromBackup": "Restore from backup",
+      "autoRestoreDone": "Restored {{imported}} room keys from your key backup.",
+      "statusTitle": "Key backup",
+      "statusDescription": "Key backup stores your message keys, encrypted, on your server. A new session can read your older messages once it has your recovery key.",
+      "statusBackup": "Backup",
+      "statusThisDevice": "This session",
+      "statusVersion": "Backup version",
+      "statusNoBackup": "Not set up",
+      "statusActive": "On, ready to restore",
+      "statusLocked": "Exists, locked on this session",
+      "statusNotTrusted": "Exists, but not trusted by this session",
+      "statusDeviceVerified": "Verified",
+      "statusDeviceUnverified": "Not verified",
+      "regenerateFailed": "Regenerate failed: {{error}}",
+      "autoPromptBanner": "Enter your recovery key to restore your encrypted message history on this device, or verify using another session."
     },
     "sessions": {
       "title": "Sessions",
@@ -1762,19 +1842,29 @@
       "ssoCancelled": "SSO authentication was cancelled or the popup was closed. Please try again.",
       "authMethodUnsupported": "Your homeserver requires an authentication method that is not supported here.",
       "verifyThisSession": "This session isn't verified yet, so it can't read all your encrypted messages. Verify it:",
-      "cannotVerifyThisSession": "This session isn't verified, and there's no other verified device or recovery key to verify it with. Reset your encryption in the Encryption tab to start fresh."
+      "cannotVerifyThisSession": "This session isn't verified, and there's no other verified device or recovery key to verify it with. Reset your encryption in the Encryption tab to start fresh.",
+      "verifyWithAnotherDevice": "Verify with another device",
+      "ssoBrowserTitle": "Finish in your browser",
+      "ssoBrowserMessage": "Your browser has opened the sign-in page. Sign in there, then come back and press Done.",
+      "ssoBrowserDone": "Done",
+      "excludeInsecure": "Exclude insecure sessions",
+      "excludeInsecureNote": "When on, encrypted messages aren't shared with unverified sessions, and messages sent from unverified sessions show as an error. You might not be able to chat with people who haven't verified their sessions."
     },
     "about": {
       "title": "About",
-      "viewSourceOnGitHub": "View source on GitLab",
-      "downloadDesktop": "Download Desktop App",
+      "viewSourceOnGitHub": "View source on GitHub",
+      "downloadDesktop": "Download Mudrix for Desktop",
       "donate": "Donate",
       "credits": "Credits",
-      "matrixSdk": "The <sdkLink>matrix-rust-sdk</sdkLink> is © The Matrix.org Foundation C.I.C. used under the terms of the Apache License, Version 2.0.",
+      "matrixSdk": "The <sdkLink>matrix-js-sdk</sdkLink> is © The Matrix.org Foundation C.I.C. used under the terms of the Apache License, Version 2.0.",
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> is © Phosphor Icons used under the terms of the MIT License.",
       "privacyPolicy": "Privacy policy",
       "creditMatrix": "is © The Matrix.org Foundation C.I.C. used under the terms of the Apache License, Version 2.0.",
-      "creditRoboto": "is © Google used under the terms of the Apache License, Version 2.0."
+      "creditRoboto": "is © Google used under the terms of the Apache License, Version 2.0.",
+      "updates": "Updates",
+      "includePrereleases": "Include pre-releases",
+      "includePrereleasesNote": "Also get test builds (next, rc, beta) before they are released. They can be less stable.",
+      "elementCall": "The <elementCallLink>Element Call</elementCallLink> is © New Vector Ltd (Element), used under the terms of the GNU Affero General Public License v3.0."
     },
     "encryption": {
       "title": "Encryption",
@@ -1957,7 +2047,7 @@
     },
     "integrations": {
       "title": "Integrations",
-      "intro": "Integrations connect Mudrix to other apps. They come from repositories and are only descriptions: which links to recognise, which buttons, commands and requests to offer. Nothing from a repository runs as code. They are kept on this device. Repositories are signed; Mudrix checks every signature and pins the publisher's key when you first add one.",
+      "intro": "Integrations connect Mudrix to other apps. They come from repositories and are descriptions (which links to recognise, which buttons, commands and requests to offer). The one exception is a widget: it runs code from its own website in an isolated frame, and Mudrix always labels it \"Runs code\". They are kept on this device. Repositories are signed; Mudrix checks every signature and pins the publisher's key when you first add one.",
       "installed": "Installed",
       "installedEmpty": "Nothing installed yet.",
       "available": "Available",
@@ -2002,10 +2092,13 @@
         "fingerprint": "Signing key fingerprint",
         "fingerprintLabel": "Signing key fingerprint: {{fingerprint}}",
         "explain": "Mudrix only accepts updates to this repository that are signed with this key. If the author gave you a fingerprint, check that it matches. Whoever holds this key can change what these integrations ask for; anything new still needs your approval before it switches on. If the repository ever uses a different key, Mudrix refuses it.",
-        "confirm": "Trust and add"
+        "confirm": "Trust and add",
+        "address": "Address",
+        "runCode_other": "{{count}} of these run code",
+        "runCode_one": "{{count}} of these runs code"
       },
       "rejected": {
-        "unsupported": "Not supported in this version of Mudrix ({{error}}).",
+        "unsupported": "Needs a newer version of Mudrix ({{error}}).",
         "invalid": "Can't be used: {{error}}",
         "keepsWorking": "The version you installed keeps working.",
         "unnamed": "Unnamed integration",
@@ -2034,7 +2127,7 @@
         },
         "linkDetails": {
           "title": "Look up details of links online",
-          "summary": "When a matching link is shown, your device asks {{host}} for its details, without cookies or account details. {{host}} sees your IP address and which links you look at. In encrypted rooms it only asks when you press the card's button, and never while streamer mode is on.",
+          "summary": "When a matching link is shown, your device asks {{host}} for its details, without cookies or account details. {{host}} sees your IP address and which links you look at. In encrypted rooms it only asks when you press the card's button.",
           "shows": "and shows: {{fields}}",
           "shownTitle": "a title",
           "shownDescription": "a description"
@@ -2046,7 +2139,8 @@
         "commands": {
           "title": "Add slash commands",
           "inserts": "puts this text in the message box:",
-          "runsApi": "asks you to confirm, then runs \"{{label}}\""
+          "runsApi": "asks you to confirm, then runs \"{{label}}\"",
+          "opensWidget": "opens the widget (runs code)"
         },
         "api": {
           "title": "Contact an online service",
@@ -2054,6 +2148,10 @@
           "sends": "and sends:",
           "sendsNothing": "and sends no data.",
           "link": "A link in the answer can be added to your message box."
+        },
+        "widget": {
+          "title": "Open a widget that runs code",
+          "summary": "Opens a window over the room with a page from {{host}}. That page is code from {{host}}."
         }
       },
       "consent": {
@@ -2061,12 +2159,122 @@
         "intro": "If you install this, it will be allowed to:",
         "safety": "Nothing runs from the repository and nothing is sent anywhere. Buttons only put text in the message box; you choose whether to send it. You can switch off any permission or uninstall at any time.",
         "safetyApi": "Nothing runs from the repository. Nothing is sent until you use one of these actions and confirm the request, which shows exactly what is sent. You can switch off any permission or uninstall at any time.",
-        "safetyDetails": "Nothing runs from the repository. Your device contacts only the services named above: to look up matching links (showing only the fields listed), and for any action only after you confirm it. You can switch off any permission or uninstall at any time."
+        "safetyDetails": "Nothing runs from the repository. Your device contacts only the services named above: to look up matching links (showing only the fields listed), and for any action only after you confirm it. You can switch off any permission or uninstall at any time.",
+        "safetyCode": "Nothing runs until you open the widget yourself. You can switch off any permission or uninstall at any time."
       },
       "hosts": {
         "title": "Servers it may contact",
         "none": "It never contacts any server.",
         "note": "Every other address is refused, and no cookies or account details are sent."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Runs code"
+      },
+      "widget": {
+        "warning": {
+          "title": "This integration runs code",
+          "source": "The code comes from {{host}} and is loaded from there every time it is opened.",
+          "changes": "Its author can change it at any time without Mudrix asking you again.",
+          "isolated": "It runs in an isolated frame and cannot read your messages, keys or account, except through the things listed below that you allow.",
+          "trust": "Install only integrations from people you trust."
+        },
+        "understand": "I understand this runs code from {{host}}",
+        "refused": "This integration can't be used: {{error}}",
+        "noAccess": "It can only display things. It cannot read or send anything in your rooms.",
+        "highAccess": "High access",
+        "events": {
+          "item": "Send and read events of type <mono>{{type}}</mono> in this room. These are custom events: other apps in the room can see them, and most chat apps show nothing for them. The widget also sees the room ID and who sent each event."
+        },
+        "fromLinks": "Open links to {{host}} in a window, from a button on their cards. The page at the link is code from {{host}}, and the person who shared the link chooses which page on that host.",
+        "saveFiles": "Let that page save files to your device",
+        "address": "Added to its address: your theme and language.",
+        "addressExtra": "Also added: {{values}}.",
+        "param": {
+          "room_id": "the room ID",
+          "user_id": "your user ID",
+          "display_name": "your display name"
+        },
+        "cap": {
+          "send": {
+            "message": "Send messages in the room you open it in, as you. It also learns the room ID."
+          },
+          "read": {
+            "messages": "Read the messages in that room, including who sent them",
+            "room": "Read that room's name and topic"
+          },
+          "upload": {
+            "file": "Upload files to your media storage, as you (up to 20 files of 25 MB, and not only ones you pick)"
+          },
+          "download": {
+            "file": "Download files from messages in that room"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Encryption keys backup",
+      "description": "Export your end-to-end encryption room keys to a passphrase-protected file, or import keys from a file exported by this or another Matrix client.",
+      "exportTitle": "Export room keys",
+      "importTitle": "Import room keys",
+      "passphrase": "Passphrase",
+      "confirmPassphrase": "Confirm passphrase",
+      "passphraseMismatch": "Passphrases do not match.",
+      "exportBtn": "Export keys",
+      "importBtn": "Import keys",
+      "chooseFile": "Key file",
+      "cryptoNotAvailable": "Encryption is not available.",
+      "exportSuccess": "Room keys exported. Keep the file and passphrase safe.",
+      "exportFailed": "Could not export room keys: {{error}}",
+      "importSuccess": "Imported {{count}} room keys.",
+      "importFailed": "Could not import room keys: {{error}}",
+      "error_format": "This does not look like a valid room key export.",
+      "error_version": "This key file uses an unsupported version.",
+      "error_password": "Wrong passphrase, or the file is corrupted.",
+      "error_rounds": "This key file has invalid key derivation settings."
+    },
+    "activity": {
+      "simultaneous": "Shown next to your status, so a game and a song can both appear.",
+      "detected": "Right now",
+      "hideThis": "Never share this",
+      "title": "Activity",
+      "share": "Show what I'm playing or listening to",
+      "shareNote": "Other people see the game or music playing on this computer, on your profile and in member lists. Nothing is looked at while this is off.",
+      "games": "Games",
+      "music": "Music",
+      "musicNote": "From media players such as Spotify. Browsers are never shared.",
+      "nowPlaying": "Right now: playing {{name}}",
+      "nowListening": "Right now: listening to {{name}}",
+      "nothing": "Nothing detected right now",
+      "hiddenNote": "Hide it and it is never shared.",
+      "hiddenCount": "Hidden from sharing: {{count}}",
+      "showAgain": "Show all again",
+      "apps": {
+        "title": "Added applications",
+        "note": "Programs we don't recognise as games can be added here. While one is open it shows as Playing with the name you give it.",
+        "add": "Add an application",
+        "remove": "Remove"
+      },
+      "add": {
+        "title": "Add an application",
+        "note": "Open the program first, then pick it from the list.",
+        "search": "Search open programs",
+        "loading": "Looking for open programs…",
+        "none": "No other open programs found",
+        "nameNote": "What should it show as? ({{exe}})",
+        "confirm": "Add"
+      }
+    },
+    "cosmetics": {
+      "title": "Cosmetics",
+      "note": "Everything you are subscribed to: avatar decorations, profile effects, nameplates and profile frames from your rooms and spaces.",
+      "hint": "Packs you pick here become available for your profile.",
+      "empty": "Not subscribed to any yet.",
+      "kindPlural": {
+        "decoration": "Avatar decorations",
+        "effect": "Profile effects",
+        "nameplate": "Nameplates",
+        "profile_frame": "Profile frames"
       }
     }
   },

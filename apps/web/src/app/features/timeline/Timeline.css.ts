@@ -322,6 +322,9 @@ export const msgContentClassicGroupedOwn = style([
   { backgroundColor: vars.color.msgMineBg },
 ]);
 
+// Marks the current user's rows; only styled in the Bubble layout (root attribute).
+export const msgRowOwn = style({});
+
 // Stands in for a picture that is still decoding: a pulse, which runs on the compositor.
 export const imageSkeleton = style({
   position: 'absolute',
