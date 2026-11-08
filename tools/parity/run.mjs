@@ -173,6 +173,7 @@ async function captureAppScreens(appName, port, screens, seed, env) {
             })
           );
           localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.10.18'));
+          localStorage.setItem(`wz_whats_new_seen::${userId}`, JSON.stringify('26.10.18'));
         } else {
           localStorage.setItem(
             'wizardchat.accounts',
@@ -201,6 +202,9 @@ async function captureAppScreens(appName, port, screens, seed, env) {
             })
           );
           localStorage.setItem('wz_whats_new_seen', JSON.stringify('26.11.0'));
+          localStorage.setItem(`wz_whats_new_seen::${userId}`, JSON.stringify('26.11.0'));
+          localStorage.setItem('wz_verify_skipped_device', JSON.stringify(deviceId));
+          localStorage.setItem(`wz_verify_skipped_device::${userId}`, JSON.stringify(deviceId));
         }
         localStorage.setItem('wz_active_account', userId);
         localStorage.setItem('wz_user_id', userId);

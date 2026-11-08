@@ -219,18 +219,24 @@ export const SCREENS = [
     id: 'profile-popup',
     title: 'Profile: User popup card',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
+    navigate: async (page, { seed, port, width }) => {
       await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
       await waitPageReady(page);
       await closeDialog(page);
-      const avatar = page
-        .locator(
-          '[aria-label*="Theo"], [aria-label*="Ash"], [aria-label*="Juno"], main [role="button"], main button'
-        )
-        .first();
-      if (await avatar.isVisible().catch(() => false)) {
-        await avatar.click(CLICK_OPTS).catch(() => {});
-        await page.waitForTimeout(600);
+      if (width && width > 500) {
+        const juno = page.locator('aside').getByText('Juno', { exact: true }).first();
+        await juno.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+        if (await juno.isVisible().catch(() => false)) {
+          await juno.click(CLICK_OPTS).catch(() => {});
+          await page.waitForTimeout(600);
+        }
+      } else {
+        const avatar = page.locator('[class*="msgAvatarCol"] button, [class*="msgSender"]').first();
+        await avatar.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
+        if (await avatar.isVisible().catch(() => false)) {
+          await avatar.click(CLICK_OPTS).catch(() => {});
+          await page.waitForTimeout(600);
+        }
       }
     },
     cleanup: closeDialog,
