@@ -1,55 +1,25 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
-
-export const PROFILE_BANNER_KEY = 'm.banner_url';
-export const PROFILE_BANNER_UNSTABLE_KEY = 'chat.commet.profile_banner';
+import { useExtendedProfile, useExtendedProfileMutations } from '@/app/hooks/useExtendedProfile';
 
 interface BannerState {
   mxc: string | null;
   canModify: boolean;
 }
 
+/** Profile banner for `userId`, backed by the shared extended-profile query. */
 export function useUserBanner(client: MatrixClient | null, userId: string | null) {
-  const qc = useQueryClient();
+  const { data: fields } = useExtendedProfile(client, userId);
+  const { saveBannerFile, removeBannerField } = useExtendedProfileMutations(client);
 
-  const { data: banner } = useQuery<BannerState>({
-    queryKey: ['profile-banner', userId],
-    queryFn: async () => {
-      if (!client || !userId) return { mxc: null, canModify: false };
+  const banner = useMemo<BannerState | undefined>(() => {
+    if (!client || !userId) return undefined;
+    return { mxc: fields?.bannerMxc ?? null, canModify: userId === client.userId() };
+  }, [client, userId, fields?.bannerMxc]);
 
-      let mxc: string | null = null;
-      try {
-        mxc = (await client.banner(userId)) || null;
-      } catch {
-        mxc = null;
-      }
-
-      return { mxc, canModify: userId === client.userId() };
-    },
-    enabled: !!client && !!userId,
-    staleTime: 60_000,
-  });
-
-  const invalidate = (uid: string) => {
-    qc.invalidateQueries({ queryKey: ['profile-banner', uid] });
-  };
-
-  const { mutateAsync: saveBanner } = useMutation({
-    mutationFn: async ({ file }: { userId: string; file: File }) => {
-      if (!client) throw new Error('No client');
-      await client.setBanner(new Uint8Array(await file.arrayBuffer()), file.type || null);
-    },
-    onSuccess: (_d, { userId: uid }) => invalidate(uid),
-  });
-
-  const { mutateAsync: removeBanner } = useMutation({
-    mutationFn: async ({ userId: _uid }: { userId: string }) => {
-      if (!client) throw new Error('No client');
-      await client.setBanner(null);
-    },
-    onSuccess: (_d, { userId: uid }) => invalidate(uid),
-  });
+  const saveBanner = ({ file }: { userId: string; file: File }) => saveBannerFile(file);
+  const removeBanner = (_args: { userId: string }) => removeBannerField();
 
   return { banner, saveBanner, removeBanner };
 }

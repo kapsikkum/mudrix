@@ -13,6 +13,7 @@ interface Props {
   client: MatrixClient;
   current: RoomPackSummary[];
   onSave: (favorites: RoomPackSummary[]) => void;
+  kind?: string;
 }
 
 type PackKey = string;

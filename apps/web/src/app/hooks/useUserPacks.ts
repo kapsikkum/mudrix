@@ -332,3 +332,398 @@ export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[]
 
   return packs;
 }
+
+// --- Cosmetic Packs -----------------------------------------------------------
+
+export interface DecorationPackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  isCustom?: boolean;
+}
+
+export interface DecorationPackGroup {
+  packName: string;
+  category: string;
+  decorations: DecorationPackImage[];
+}
+
+export function useDecorationPacks(client: MatrixClient | null): DecorationPackGroup[] {
+  const userPack = useUserPack(client);
+  return useMemo(() => {
+    if (!userPack) return [];
+    const items: DecorationPackImage[] = [];
+    for (const [shortcode, img] of Object.entries(userPack.images)) {
+      if (!img.url) continue;
+      const usage = img.usage ?? userPack.usage;
+      if (
+        usage.includes('avatar_decoration' as PackUsage) ||
+        usage.includes('profile_decoration' as PackUsage) ||
+        usage.includes('avatar_frame' as PackUsage)
+      ) {
+        items.push({
+          id: img.url,
+          shortcode,
+          name: img.body || shortcode,
+          category: 'My Uploads',
+          url: img.url,
+          isCustom: true,
+        });
+      }
+    }
+    if (items.length === 0) return [];
+    return [{ packName: 'My Uploads', category: 'My Uploads', decorations: items }];
+  }, [userPack]);
+}
+
+export async function uploadUserDecoration(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'decoration';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_decoration'],
+      body: name,
+      mimetype: file.type || 'image/png',
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserDecoration(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  const current = (await client.cachedAccountData(USER_PACK)) as UserPackData | null;
+  if (!current?.images) return;
+  const newImages = { ...current.images };
+  for (const [shortcode, img] of Object.entries(newImages)) {
+    if (img.url === urlOrShortcode || shortcode === urlOrShortcode) {
+      delete newImages[shortcode];
+    }
+  }
+  await saveUserPack(client, { ...current, images: newImages });
+}
+
+export interface EffectPackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  isCustom?: boolean;
+}
+
+export interface EffectPackGroup {
+  packName: string;
+  category: string;
+  effects: EffectPackImage[];
+}
+
+export function useEffectPacks(client: MatrixClient | null): EffectPackGroup[] {
+  const userPack = useUserPack(client);
+  return useMemo(() => {
+    if (!userPack) return [];
+    const items: EffectPackImage[] = [];
+    for (const [shortcode, img] of Object.entries(userPack.images)) {
+      if (!img.url) continue;
+      const usage = img.usage ?? userPack.usage;
+      if (usage.includes('profile_effect' as PackUsage)) {
+        items.push({
+          id: img.url,
+          shortcode,
+          name: img.body || shortcode,
+          category: 'My Uploads',
+          url: img.url,
+          isCustom: true,
+        });
+      }
+    }
+    if (items.length === 0) return [];
+    return [{ packName: 'My Uploads', category: 'My Uploads', effects: items }];
+  }, [userPack]);
+}
+
+export async function uploadUserEffect(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'effect';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_effect'],
+      body: name,
+      mimetype: file.type || 'image/png',
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserEffect(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export interface NameplatePackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  palette?: string;
+  isCustom?: boolean;
+}
+
+export interface NameplatePackGroup {
+  packName: string;
+  category: string;
+  nameplates: NameplatePackImage[];
+}
+
+export function useNameplatePacks(client: MatrixClient | null): NameplatePackGroup[] {
+  const userPack = useUserPack(client);
+  return useMemo(() => {
+    if (!userPack) return [];
+    const items: NameplatePackImage[] = [];
+    for (const [shortcode, img] of Object.entries(userPack.images)) {
+      if (!img.url) continue;
+      const usage = img.usage ?? userPack.usage;
+      if (usage.includes('nameplate' as PackUsage)) {
+        const info = (img.info || {}) as Record<string, unknown>;
+        items.push({
+          id: img.url,
+          shortcode,
+          name: img.body || shortcode,
+          category: 'My Uploads',
+          url: img.url,
+          palette: typeof info.palette === 'string' ? info.palette : undefined,
+          isCustom: true,
+        });
+      }
+    }
+    if (items.length === 0) return [];
+    return [{ packName: 'My Uploads', category: 'My Uploads', nameplates: items }];
+  }, [userPack]);
+}
+
+export async function uploadUserNameplate(
+  client: MatrixClient,
+  file: File,
+  palette?: string
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'nameplate';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['nameplate'],
+      body: name,
+      mimetype,
+      info: palette ? { palette } : undefined,
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserNameplate(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export interface ProfileFramePiece {
+  layer?: 'back' | 'front';
+  pos: string;
+  url: string;
+}
+
+export interface ProfileFramePackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  pieces?: ProfileFramePiece[];
+  isCustom?: boolean;
+}
+
+export interface ProfileFramePackGroup {
+  packName: string;
+  category: string;
+  frames: ProfileFramePackImage[];
+}
+
+export function useProfileFramePacks(client: MatrixClient | null): ProfileFramePackGroup[] {
+  const userPack = useUserPack(client);
+  return useMemo(() => {
+    if (!userPack) return [];
+    const items: ProfileFramePackImage[] = [];
+    for (const [shortcode, img] of Object.entries(userPack.images)) {
+      if (!img.url) continue;
+      const usage = img.usage ?? userPack.usage;
+      if (usage.includes('profile_frame' as PackUsage)) {
+        const info = (img.info || {}) as Record<string, unknown>;
+        items.push({
+          id: img.url,
+          shortcode,
+          name: img.body || shortcode,
+          category: 'My Uploads',
+          url: img.url,
+          pieces: Array.isArray(info.pieces) ? (info.pieces as ProfileFramePiece[]) : undefined,
+          isCustom: true,
+        });
+      }
+    }
+    if (items.length === 0) return [];
+    return [{ packName: 'My Uploads', category: 'My Uploads', frames: items }];
+  }, [userPack]);
+}
+
+export async function uploadUserProfileFrame(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'frame';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_frame'],
+      body: name,
+      mimetype,
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserProfileFrame(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export function lookupPackImage(
+  _client: MatrixClient,
+  _mxc: string
+): { name: string; packName: string } | null {
+  return null;
+}
+
+export function lookupEffectIntro(_client: MatrixClient, _mxc: string): string | null {
+  return null;
+}

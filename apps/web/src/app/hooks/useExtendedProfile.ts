@@ -20,13 +20,18 @@ import {
   PROFILE_NAMEPLATE_KEYS,
   PROFILE_FRAME_KEYS,
   PROFILE_IS_MUDRIX_USER_KEYS,
+  PROFILE_STATUS_KEYS,
+  PROFILE_EFFECT_KEYS,
   normalizeHex,
   parseAvatarDecoration,
   parseNameplate,
   parseProfileFrame,
+  parseProfileEffect,
+  statusToValue,
   isStatusExpired,
   type ProfileStatus,
   type AvatarDecorationId,
+  type ProfileEffectId,
   type NameplateId,
   type ProfileFrameId,
 } from '@/util/profileCosmetics';
@@ -221,11 +226,13 @@ export interface ExtendedProfileUpdate {
   pronouns?: string[];
   /** IANA zone. Pass null to clear. */
   timezone?: string | null;
+  /** Mudrix-only fields below (`io.github.kapsikkum.mudrix.*`). Pass null to clear. */
+  status?: ProfileStatus | null;
   /** What the desktop app sees the user playing and listening to. */
   activities?: ProfileActivity[];
-  /** Mudrix-only fields below (`io.github.kapsikkum.mudrix.*`). Pass null to clear. */
   accent?: string | null;
   avatarDecoration?: AvatarDecorationId | null;
+  profileEffect?: ProfileEffectId | null;
   nameplate?: NameplateId | null;
   profileFrame?: ProfileFrameId | null;
 }
@@ -255,6 +262,9 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
       if (update.timezone !== undefined) {
         jobs.push(writeField(client, [PROFILE_TZ_KEY], update.timezone || null));
       }
+      if (update.status !== undefined) {
+        jobs.push(writeField(client, PROFILE_STATUS_KEYS, statusToValue(update.status)));
+      }
       if (update.activities !== undefined) {
         jobs.push(writeField(client, PROFILE_ACTIVITY_KEYS, activityToValue(update.activities)));
       }
@@ -268,6 +278,11 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
             PROFILE_AVATAR_DECORATION_KEYS,
             parseAvatarDecoration(update.avatarDecoration)
           )
+        );
+      }
+      if (update.profileEffect !== undefined) {
+        jobs.push(
+          writeField(client, PROFILE_EFFECT_KEYS, parseProfileEffect(update.profileEffect))
         );
       }
       if (update.nameplate !== undefined) {

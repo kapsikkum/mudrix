@@ -111,6 +111,7 @@ export interface Preferences {
   uiZoom: number;
   timeFormat: TimeFormatPreference;
   dateFormat: DateFormatPreference;
+  profileEffects: boolean;
   /** Which colour emoji font draws emoji */
   emojiStyle: EmojiStyle;
   /** Font size of messages that are only emoji */
@@ -197,6 +198,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   uiZoom: 100,
   timeFormat: 'auto',
   dateFormat: 'long',
+  profileEffects: true,
   emojiStyle: DEFAULT_EMOJI_STYLE,
   emojiOnlySize: DEFAULT_EMOJI_ONLY_SIZE,
   emoticonsToEmoji: true,
@@ -266,6 +268,7 @@ export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
 export const uiZoomAtom = preferenceFieldAtom('uiZoom');
 export const timeFormatAtom = preferenceFieldAtom('timeFormat');
 export const dateFormatAtom = preferenceFieldAtom('dateFormat');
+export const profileEffectsAtom = preferenceFieldAtom('profileEffects');
 export const emojiStyleAtom = preferenceFieldAtom('emojiStyle');
 export const emojiOnlySizeAtom = preferenceFieldAtom('emojiOnlySize');
 export const emoticonsToEmojiAtom = preferenceFieldAtom('emoticonsToEmoji');

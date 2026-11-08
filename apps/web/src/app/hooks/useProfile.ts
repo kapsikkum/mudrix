@@ -9,7 +9,7 @@ export interface ProfileData {
 }
 
 /** The own profile, with save and avatar removal */
-export function useProfile() {
+export function useProfile(_client?: unknown) {
   const qc = useQueryClient();
   const client = getMatrixClient();
   const userId = client.userId() ?? '';
