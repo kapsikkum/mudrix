@@ -3025,5 +3025,21 @@
       "failed": "No se pudo enviar: {{error}}",
       "unavailable": "Esta acción ya no está disponible. Es posible que la integración esté desactivada o desinstalada."
     }
+  },
+  "encryption": {
+    "encrypted": "Cifrado de extremo a extremo",
+    "notEncrypted": "Sin cifrar",
+    "composerEncrypted": "Envía un mensaje cifrado…",
+    "composerUnencrypted": "Envía un mensaje sin cifrar…",
+    "shield": {
+      "unverifiedIdentity": "Cifrado por un usuario no verificado",
+      "unsignedDevice": "Cifrado por un dispositivo que su propietario no ha verificado",
+      "unknownDevice": "Cifrado por un dispositivo desconocido o eliminado",
+      "authenticity": "No se puede garantizar la autenticidad de este mensaje cifrado en este dispositivo",
+      "violation": "El remitente se verificó antes, pero su identidad ha cambiado",
+      "mismatchedSender": "El remitente de este mensaje no coincide con el dispositivo que lo cifró",
+      "sentInClear": "Enviado sin cifrar en una sala cifrada",
+      "unknown": "Cifrado, pero no se pudo verificar su origen"
+    }
   }
 }

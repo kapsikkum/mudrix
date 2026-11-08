@@ -3025,5 +3025,21 @@
       "failed": "Senden fehlgeschlagen: {{error}}",
       "unavailable": "Diese Aktion ist nicht mehr verfügbar. Die Integration wurde möglicherweise deaktiviert oder deinstalliert."
     }
+  },
+  "encryption": {
+    "encrypted": "Ende-zu-Ende-verschlüsselt",
+    "notEncrypted": "Nicht verschlüsselt",
+    "composerEncrypted": "Verschlüsselte Nachricht senden…",
+    "composerUnencrypted": "Unverschlüsselte Nachricht senden…",
+    "shield": {
+      "unverifiedIdentity": "Von einem nicht verifizierten Nutzer verschlüsselt",
+      "unsignedDevice": "Von einem Gerät verschlüsselt, das sein Besitzer nicht verifiziert hat",
+      "unknownDevice": "Von einem unbekannten oder gelöschten Gerät verschlüsselt",
+      "authenticity": "Die Echtheit dieser verschlüsselten Nachricht kann auf diesem Gerät nicht garantiert werden",
+      "violation": "Der Absender war zuvor verifiziert, seine Identität hat sich aber geändert",
+      "mismatchedSender": "Der Absender dieser Nachricht stimmt nicht mit dem verschlüsselnden Gerät überein",
+      "sentInClear": "In einem verschlüsselten Raum unverschlüsselt gesendet",
+      "unknown": "Verschlüsselt, aber die Herkunft konnte nicht überprüft werden"
+    }
   }
 }

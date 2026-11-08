@@ -20,22 +20,20 @@ async function closeDialog(page) {
       await gotIt.click(CLICK_OPTS).catch(() => {});
       await page.waitForTimeout(200);
     }
-    const backBtn = page.locator('button[aria-label*="back" i], button[data-back-dismiss]').first();
-    if (await backBtn.isVisible().catch(() => false)) {
-      await backBtn.click(CLICK_OPTS).catch(() => {});
-      await page.waitForTimeout(200);
-    }
-    const closeBtn = page
-      .locator('button[aria-label*="Close" i], button[aria-label*="close" i]')
+    const dialog = page
+      .locator('[role="dialog"], [class*="Modal_overlay"], [class*="modalOverlay"]')
       .first();
-    if (await closeBtn.isVisible().catch(() => false)) {
-      await closeBtn.click(CLICK_OPTS).catch(() => {});
-      await page.waitForTimeout(200);
-    } else {
-      await page.keyboard.press('Escape');
-      await page.waitForTimeout(200);
-      await page.keyboard.press('Escape');
-      await page.waitForTimeout(200);
+    if (await dialog.isVisible().catch(() => false)) {
+      const closeBtn = dialog
+        .locator('button[aria-label*="Close" i], button[aria-label*="close" i]')
+        .first();
+      if (await closeBtn.isVisible().catch(() => false)) {
+        await closeBtn.click(CLICK_OPTS).catch(() => {});
+        await page.waitForTimeout(200);
+      } else {
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(200);
+      }
     }
   } catch {
     // ignore
@@ -209,6 +207,13 @@ export const SCREENS = [
     navigate: async (page, { seed, port }) => {
       await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
       await waitPageReady(page);
+      await closeDialog(page);
+      await page
+        .locator('[class*="msgSender"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 15000 })
+        .catch(() => {});
+      await page.waitForTimeout(600);
     },
     cleanup: closeDialog,
   },
@@ -219,6 +224,12 @@ export const SCREENS = [
     navigate: async (page, { seed, port }) => {
       await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
       await waitPageReady(page);
+      await closeDialog(page);
+      await page
+        .locator('[class*="msgSender"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 15000 })
+        .catch(() => {});
       const composer = page.locator('textarea, [contenteditable="true"]').last();
       if (await composer.isVisible().catch(() => false)) {
         await composer.focus().catch(() => {});

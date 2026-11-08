@@ -29,10 +29,13 @@ const PRESENCE_DOT_CLASS: Record<AvatarSize, string> = {
   fill: css.presenceDotFill,
 };
 
-const PRESENCE_COLOR_CLASS: Record<PresenceState, string> = {
+export type AvatarPresence = PresenceState | 'dnd';
+
+const PRESENCE_COLOR_CLASS: Record<AvatarPresence, string> = {
   online: css.presenceOnline,
   unavailable: css.presenceUnavailable,
   offline: css.presenceOffline,
+  dnd: css.presenceDnd,
 };
 
 interface Props {
@@ -41,7 +44,7 @@ interface Props {
   client?: MatrixClient | null;
   size?: AvatarSize;
   className?: string;
-  presence?: PresenceState;
+  presence?: AvatarPresence;
   presenceDotLabel?: string;
   onPresenceDotClick?: (e: React.MouseEvent) => void;
   onAvatarClick?: (e: React.MouseEvent) => void;

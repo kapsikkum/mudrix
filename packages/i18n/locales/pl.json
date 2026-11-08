@@ -3025,5 +3025,21 @@
       "failed": "Nie udało się wysłać: {{error}}",
       "unavailable": "To działanie nie jest już dostępne. Integracja mogła zostać wyłączona lub odinstalowana."
     }
+  },
+  "encryption": {
+    "encrypted": "Szyfrowane end-to-end",
+    "notEncrypted": "Nieszyfrowane",
+    "composerEncrypted": "Wyślij zaszyfrowaną wiadomość…",
+    "composerUnencrypted": "Wyślij niezaszyfrowaną wiadomość…",
+    "shield": {
+      "unverifiedIdentity": "Zaszyfrowane przez niezweryfikowanego użytkownika",
+      "unsignedDevice": "Zaszyfrowane przez urządzenie niezweryfikowane przez jego właściciela",
+      "unknownDevice": "Zaszyfrowane przez nieznane lub usunięte urządzenie",
+      "authenticity": "Autentyczność tej zaszyfrowanej wiadomości nie może być zagwarantowana na tym urządzeniu",
+      "violation": "Nadawca był wcześniej zweryfikowany, ale jego tożsamość się zmieniła",
+      "mismatchedSender": "Nadawca tej wiadomości nie odpowiada urządzeniu, które ją zaszyfrowało",
+      "sentInClear": "Wysłano bez szyfrowania w zaszyfrowanym pokoju",
+      "unknown": "Zaszyfrowane, ale pochodzenia nie udało się zweryfikować"
+    }
   }
 }

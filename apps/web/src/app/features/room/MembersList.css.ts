@@ -1,6 +1,7 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { uiSize } from '@/theme/uiDensity';
+import { fontSize } from '@/theme/typeScale';
 
 export const membersListContainer = style({
   display: 'flex',
@@ -17,6 +18,10 @@ export const membersScrollArea = style({
 });
 
 export const memberRow = style({
+  position: 'relative',
+  isolation: 'isolate',
+  boxSizing: 'border-box',
+  height: `calc(${uiSize('memberRow')} - 4px)`,
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
@@ -30,37 +35,67 @@ export const memberRow = style({
 });
 
 export const memberName = style({
-  fontSize: '0.88rem',
-  color: vars.color.textPrimary,
+  fontSize: fontSize.rem88,
+  color: vars.color.textMuted,
   flex: 1,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
 
-export const memberText = style({
+/** Name with the custom status underneath it (Discord style). */
+export const memberTextColumn = style({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   flex: 1,
   minWidth: 0,
 });
 
-export const memberNameStacked = style([memberName, { flex: 'none', lineHeight: '16px' }]);
-
 export const memberStatus = style({
-  fontSize: '0.7rem',
-  lineHeight: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  minWidth: 0,
+  fontSize: fontSize.rem78,
   color: vars.color.textMuted,
-  opacity: 0.8,
+});
+
+export const memberStatusEmoji = style({
+  flexShrink: 0,
+  fontSize: fontSize.rem95,
+  lineHeight: 1,
+});
+
+export const memberStatusText = style({
+  minWidth: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
 
+export const memberMusicIcon = style({
+  flexShrink: 0,
+  display: 'inline-flex',
+  color: '#3ba55d',
+});
+
+export const memberGameIcon = style({
+  flexShrink: 0,
+  display: 'inline-flex',
+  color: vars.color.textSecondary,
+});
+
+export const memberStatusMore = style({
+  flexShrink: 0,
+});
+
+export const memberStatusDot = style({
+  flexShrink: 0,
+});
+
 export const emptyState = style({
   padding: '16px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   textAlign: 'center',
 });
@@ -114,7 +149,7 @@ export const roleHeader = style({
 });
 
 export const roleHeaderLabel = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 600,
   color: vars.color.textMuted,
   overflow: 'hidden',
@@ -123,7 +158,7 @@ export const roleHeaderLabel = style({
 });
 
 export const roleHeaderCount = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 600,
   color: vars.color.textMuted,
   opacity: 0.7,

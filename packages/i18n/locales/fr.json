@@ -3025,5 +3025,21 @@
       "failed": "Impossible d'envoyer : {{error}}",
       "unavailable": "Cette action n'est plus disponible. L'intégration est peut-être désactivée ou désinstallée."
     }
+  },
+  "encryption": {
+    "encrypted": "Chiffré de bout en bout",
+    "notEncrypted": "Non chiffré",
+    "composerEncrypted": "Envoyer un message chiffré…",
+    "composerUnencrypted": "Envoyer un message non chiffré…",
+    "shield": {
+      "unverifiedIdentity": "Chiffré par un utilisateur non vérifié",
+      "unsignedDevice": "Chiffré par un appareil non vérifié par son propriétaire",
+      "unknownDevice": "Chiffré par un appareil inconnu ou supprimé",
+      "authenticity": "L'authenticité de ce message chiffré ne peut pas être garantie sur cet appareil",
+      "violation": "L'expéditeur avait été vérifié auparavant, mais son identité a changé",
+      "mismatchedSender": "L'expéditeur de ce message ne correspond pas à l'appareil qui l'a chiffré",
+      "sentInClear": "Envoyé non chiffré dans un salon chiffré",
+      "unknown": "Chiffré, mais son origine n'a pas pu être vérifiée"
+    }
   }
 }

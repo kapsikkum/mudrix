@@ -237,18 +237,18 @@ export const msgMeta = style({
   display: 'flex',
   alignItems: 'baseline',
   gap: '8px',
+  marginBottom: '2px',
   flexWrap: 'wrap',
 });
 export const msgSender = style({
-  font: 'inherit',
   fontWeight: 600,
-  fontSize: chatSize(0.95),
-  lineHeight: 1.15,
-  color: vars.color.textPrimary,
+  color: vars.color.accent,
+  fontSize: chatSize(0.9),
   cursor: 'pointer',
   border: 'none',
   background: 'none',
   padding: 0,
+  font: 'inherit',
   ':hover': { textDecoration: 'underline' },
 });
 export const msgTime = style({
@@ -275,7 +275,7 @@ export const msgContent = style({
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
   fontSize: chatSize(0.95),
-  lineHeight: '1.375',
+  lineHeight: '1.55',
   wordBreak: 'break-word',
   position: 'relative',
   display: 'inline',
@@ -1976,6 +1976,13 @@ export const readReceiptRow = style({
   flexShrink: 0,
   width: '52px',
   minHeight: '16px',
+  '@media': {
+    // On a phone the fixed column would squeeze every message; it only takes room when needed.
+    '(max-width: 768px)': { width: 'auto', minHeight: 0 },
+  },
+  selectors: {
+    '&:empty': { display: 'none' },
+  },
 });
 
 export const readReceiptRowSpaced = style({

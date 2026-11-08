@@ -3025,5 +3025,21 @@
       "failed": "Kon niet verzenden: {{error}}",
       "unavailable": "Deze actie is niet meer beschikbaar. De integratie is mogelijk uitgeschakeld of verwijderd."
     }
+  },
+  "encryption": {
+    "encrypted": "End-to-end versleuteld",
+    "notEncrypted": "Niet versleuteld",
+    "composerEncrypted": "Verstuur een versleuteld bericht…",
+    "composerUnencrypted": "Verstuur een onversleuteld bericht…",
+    "shield": {
+      "unverifiedIdentity": "Versleuteld door een niet-geverifieerde gebruiker",
+      "unsignedDevice": "Versleuteld door een apparaat dat niet door de eigenaar is geverifieerd",
+      "unknownDevice": "Versleuteld door een onbekend of verwijderd apparaat",
+      "authenticity": "De echtheid van dit versleutelde bericht kan op dit apparaat niet worden gegarandeerd",
+      "violation": "De afzender was eerder geverifieerd, maar zijn identiteit is veranderd",
+      "mismatchedSender": "De afzender van dit bericht komt niet overeen met het apparaat dat het heeft versleuteld",
+      "sentInClear": "Onversleuteld verzonden in een versleutelde kamer",
+      "unknown": "Versleuteld, maar de herkomst kon niet worden geverifieerd"
+    }
   }
 }

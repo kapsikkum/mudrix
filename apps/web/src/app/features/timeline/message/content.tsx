@@ -704,9 +704,23 @@ export function MessageContent({
     const imgH = media.height;
     const hasDimensions =
       typeof imgW === 'number' && typeof imgH === 'number' && imgW > 0 && imgH > 0;
-    // Reserve a fixed box from the event metadata so the layout never changes
-    // while the media bytes are fetched, decrypted or loaded.
-    const boxStyle = hasDimensions ? { aspectRatio: `${imgW} / ${imgH}` } : { height: 200 };
+    // Reserve a box sized from the event metadata so the layout never changes while
+    // the media bytes are fetched, decrypted or loaded. Both dimensions are scaled down
+    // together (not just height clamped) so the box always matches the image's own
+    // aspect ratio exactly - otherwise object-fit: contain would letterbox tall or wide
+    // images, showing the box's background colour as bars around the picture.
+    const MAX_MEDIA_W = 320;
+    const MAX_MEDIA_H = 420;
+    const boxStyle = hasDimensions
+      ? (() => {
+          const scale = Math.min(MAX_MEDIA_W / imgW, MAX_MEDIA_H / imgH, 1);
+          return {
+            width: Math.round(imgW * scale),
+            height: Math.round(imgH * scale),
+            aspectRatio: `${imgW} / ${imgH}`,
+          };
+        })()
+      : { width: MAX_MEDIA_W, height: 200 };
 
     const captionHtml = renderCaptionHtml(media);
     const mediaEl = isCovered ? (
@@ -804,7 +818,18 @@ export function MessageContent({
     const vidH = media.height;
     const hasDimensions =
       typeof vidW === 'number' && typeof vidH === 'number' && vidW > 0 && vidH > 0;
-    const boxStyle = hasDimensions ? { aspectRatio: `${vidW} / ${vidH}` } : { height: 200 };
+    const MAX_MEDIA_W = 320;
+    const MAX_MEDIA_H = 420;
+    const boxStyle = hasDimensions
+      ? (() => {
+          const scale = Math.min(MAX_MEDIA_W / vidW, MAX_MEDIA_H / vidH, 1);
+          return {
+            width: Math.round(vidW * scale),
+            height: Math.round(vidH * scale),
+            aspectRatio: `${vidW} / ${vidH}`,
+          };
+        })()
+      : { width: MAX_MEDIA_W, height: 200 };
     const captionHtml = renderCaptionHtml(media);
     const mediaEl = isCovered ? (
       <div className={css.mediaBox} style={boxStyle}>

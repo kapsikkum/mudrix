@@ -3025,5 +3025,21 @@
       "failed": "Could not send: {{error}}",
       "unavailable": "This action is no longer available. The integration may be turned off or uninstalled."
     }
+  },
+  "encryption": {
+    "encrypted": "End-to-end encrypted",
+    "notEncrypted": "Not encrypted",
+    "composerEncrypted": "Send an encrypted message…",
+    "composerUnencrypted": "Send an unencrypted message…",
+    "shield": {
+      "unverifiedIdentity": "Encrypted by an unverified user",
+      "unsignedDevice": "Encrypted by a device not verified by its owner",
+      "unknownDevice": "Encrypted by an unknown or deleted device",
+      "authenticity": "The authenticity of this encrypted message can't be guaranteed on this device",
+      "violation": "The sender was verified before but their identity has changed",
+      "mismatchedSender": "The sender of this message doesn't match the device that encrypted it",
+      "sentInClear": "Sent unencrypted in an encrypted room",
+      "unknown": "Encrypted, but its origin could not be verified"
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import {
   BIO_KEYS,
@@ -155,6 +156,30 @@ export function useLiveActivities(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activities, tick]
   );
+}
+
+/**
+ * Combined status + activity line for compact surfaces (e.g. MemberList tooltip or ChatListItem).
+ * Merges whatever status emoji/text exist with "Listening to X" / "Playing Y", delimited by ' · '.
+ */
+export function useStatusLine(
+  status: ProfileStatus | null | undefined,
+  activities: ProfileActivity[] | null | undefined
+): ProfileStatus | null {
+  const { t } = useTranslation();
+  const live = useActiveStatus(status);
+  const playing = useLiveActivities(activities);
+  return useMemo(() => {
+    const parts = [live?.text ?? '', ...playing.map((a) => activityText(t, a))].filter(Boolean);
+    const emoji = live?.emoji || (playing[0] ? ACTIVITY_EMOJI[playing[0].type] : '');
+    if (!live && parts.length === 0) return null;
+    return {
+      emoji,
+      text: parts.join(' · '),
+      mode: live?.mode ?? null,
+      expiresAt: live?.expiresAt ?? playing[0]?.expiresAt ?? null,
+    };
+  }, [live, playing, t]);
 }
 
 /** The first emoji of what someone is doing, for places with room for little. */

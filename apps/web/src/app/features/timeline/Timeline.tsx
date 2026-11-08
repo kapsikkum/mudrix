@@ -921,6 +921,72 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return map;
   }, [items]);
 
+  // Where each reader has got to: their read receipt, or their own latest message if that is later
+  // (replying means they saw what came before). A reader's marker never sits on their own messages,
+  // so it moves back to the last message from someone else.
+  const effectiveReceiptMap = useMemo(() => {
+    const myUserId = client.userId();
+    const indexOfEvent = new Map<string, number>();
+    const lastSenderPos = new Map<string, number>();
+    items.forEach((it, i) => {
+      const id = it.eventId;
+      if (id) indexOfEvent.set(id, i);
+      if (it.senderId && !it.isSystemMessage) {
+        lastSenderPos.set(it.senderId, i);
+      }
+      it.galleryEvents?.forEach((e) => {
+        const gid = entryEventId(e);
+        if (gid) indexOfEvent.set(gid, i);
+      });
+      it.callSession?.events.forEach((e) => {
+        const cid = entryEventId(e);
+        if (cid) indexOfEvent.set(cid, i);
+      });
+    });
+
+    const readers = new Map<string, { user: ReceiptUser; pos: number }>();
+    for (const [eventId, users] of receiptMap) {
+      const idx = indexOfEvent.get(eventId);
+      if (idx === undefined) continue;
+      for (const user of users) {
+        // If a receipt landed on the timeline tail from a thread or server synthesis,
+        // do not advance past the reader's latest message in the room unless they sent one here.
+        const senderPos = lastSenderPos.get(user.userId);
+        const effectivePos =
+          senderPos !== undefined && idx === items.length - 1 && idx > senderPos ? senderPos : idx;
+        const known = readers.get(user.userId);
+        if (!known || effectivePos > known.pos)
+          readers.set(user.userId, { user, pos: effectivePos });
+      }
+    }
+    items.forEach((it, i) => {
+      if (!it.senderId || it.senderId === myUserId || it.isSystemMessage) return;
+      const known = readers.get(it.senderId);
+      if (known && known.pos >= i) return;
+      readers.set(it.senderId, {
+        user: {
+          userId: it.senderId,
+          displayName: it.senderName,
+          avatarUrl: it.senderAvatar ?? null,
+          ts: it.event.timestamp ?? 0,
+        },
+        pos: i,
+      });
+    });
+
+    const out = new Map<string, ReceiptUser[]>();
+    for (const { user, pos } of readers.values()) {
+      let i = pos;
+      while (i >= 0 && items[i].senderId === user.userId) i -= 1;
+      const targetId = i >= 0 ? items[i].eventId : null;
+      if (!targetId) continue;
+      const list = out.get(targetId) ?? [];
+      list.push(user);
+      out.set(targetId, list);
+    }
+    return out;
+  }, [items, receiptMap, client]);
+
   const renderMessage = (timelineItem: TimelineItem, opts: { index?: number } = {}) => {
     const eventId = timelineItem.eventId;
     const isActiveMatch =
@@ -934,12 +1000,12 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     const isLive = liveIdsRef.current.has(timelineItem.event.id);
     const isFlashing = flashEventId === eventId;
 
-    let receiptUsers = receiptMap.get(eventId) ?? EMPTY_RECEIPTS;
+    let receiptUsers = effectiveReceiptMap.get(eventId) ?? EMPTY_RECEIPTS;
     if (timelineItem.galleryEvents) {
       for (const galleryEvent of timelineItem.galleryEvents) {
         const galleryEventId = entryEventId(galleryEvent);
         if (galleryEventId === eventId) continue;
-        const galleryReceipts = receiptMap.get(galleryEventId);
+        const galleryReceipts = effectiveReceiptMap.get(galleryEventId);
         if (galleryReceipts && galleryReceipts !== receiptUsers) {
           receiptUsers = [...receiptUsers, ...galleryReceipts];
         }
@@ -949,7 +1015,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       for (const callEvent of timelineItem.callSession.events) {
         const callEventId = entryEventId(callEvent);
         if (callEventId === eventId) continue;
-        const callReceipts = receiptMap.get(callEventId);
+        const callReceipts = effectiveReceiptMap.get(callEventId);
         if (callReceipts && callReceipts !== receiptUsers) {
           receiptUsers = [...receiptUsers, ...callReceipts];
         }

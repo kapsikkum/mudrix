@@ -3025,5 +3025,21 @@
       "failed": "Gönderilemedi: {{error}}",
       "unavailable": "Bu eylem artık kullanılamıyor. Entegrasyon kapatılmış veya kaldırılmış olabilir."
     }
+  },
+  "encryption": {
+    "encrypted": "Uçtan uca şifrelenmiş",
+    "notEncrypted": "Şifrelenmemiş",
+    "composerEncrypted": "Şifreli bir mesaj gönderin…",
+    "composerUnencrypted": "Şifrelenmemiş bir mesaj gönderin…",
+    "shield": {
+      "unverifiedIdentity": "Doğrulanmamış bir kullanıcı tarafından şifrelendi",
+      "unsignedDevice": "Sahibi tarafından doğrulanmamış bir cihaz tarafından şifrelendi",
+      "unknownDevice": "Bilinmeyen veya silinmiş bir cihaz tarafından şifrelendi",
+      "authenticity": "Bu şifreli mesajın özgünlüğü bu cihazda garanti edilemez",
+      "violation": "Gönderen daha önce doğrulanmıştı ancak kimliği değişti",
+      "mismatchedSender": "Bu mesajın göndericisi, mesajı şifreleyen cihazla eşleşmiyor",
+      "sentInClear": "Şifreli bir odada şifrelenmemiş olarak gönderildi",
+      "unknown": "Şifreli, ancak kaynağı doğrulanamadı"
+    }
   }
 }

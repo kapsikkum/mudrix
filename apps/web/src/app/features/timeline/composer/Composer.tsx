@@ -43,6 +43,7 @@ import { AttachmentTray } from './AttachmentTray';
 import { RichComposer } from './editor/RichComposer';
 import { insertEmoji } from './editor/insertEmoji';
 import { useComposerIntegrationItems } from '@/app/features/integrations/ui/useComposerIntegrationItems';
+import { useRoom } from '@/app/data';
 import { IntegrationDialogs } from '@/app/features/integrations/ui/IntegrationDialogs';
 import { isMod } from './editor/keyboard';
 import { ReactEditor } from 'slate-react';
@@ -87,6 +88,8 @@ export function Composer({
 }: Props) {
   const { t } = useTranslation();
   const { timeline, getTimeline } = useSendTimeline(client, roomId, threadId, providedTimeline);
+  const room = useRoom(roomId);
+  const roomEncrypted = room?.isEncrypted ?? false;
   const timelineContext = useMemo(
     () => ({ roomId, threadId: threadId ?? null, getTimeline }),
     [roomId, threadId, getTimeline]
@@ -391,7 +394,11 @@ export function Composer({
                 onKeyDown={handleEditorKeyDown}
                 onSelectionChange={updateToolbar}
                 onPaste={handlePaste}
-                placeholder={t('composer.typeMessage')}
+                placeholder={
+                  roomEncrypted
+                    ? t('encryption.composerEncrypted')
+                    : t('encryption.composerUnencrypted')
+                }
                 className={css.richEditor}
                 client={client}
                 ariaLabel={t('composer.messageInput')}
