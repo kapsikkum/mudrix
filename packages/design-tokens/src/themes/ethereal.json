@@ -16,75 +16,75 @@
         "$description": "Chat and main background"
       },
       "surface": {
-        "$value": "#f5f3ff",
+        "$value": "#f2f3f5",
         "$description": "Room list, space rail, panels"
       },
       "raised": {
-        "$value": "#ede9fe",
+        "$value": "#e3e5e8",
         "$description": "Cards, menus, popovers"
       },
       "input": {
-        "$value": "#ffffff"
+        "$value": "#ebedef"
       },
       "hover": {
-        "$value": "#6366f112"
+        "$value": "rgba(6, 6, 7, 0.05)"
       },
       "active": {
-        "$value": "#6366f124"
+        "$value": "rgba(88, 101, 242, 0.14)"
       },
       "overlay": {
-        "$value": "#1a1a2e66",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
     "text": {
       "primary": {
-        "$value": "#1a1a2e"
+        "$value": "#313338"
       },
       "secondary": {
-        "$value": "#42425c"
+        "$value": "#747780"
       },
       "muted": {
-        "$value": "#6b6b8a"
+        "$value": "#5c5e66"
       },
       "disabled": {
-        "$value": "#9292b0"
+        "$value": "#747780"
       },
       "onAccent": {
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#1f6fd1"
+        "$value": "#1F6FD1"
       }
     },
     "accent": {
       "default": {
-        "$value": "#6366f1"
+        "$value": "#5865f2"
       },
       "hover": {
-        "$value": "#4f46e5"
+        "$value": "#4752c4"
       },
       "soft": {
-        "$value": "#6366f11f",
+        "$value": "rgba(88, 101, 242, 0.14)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#6366f114",
+        "$value": "rgba(88, 101, 242, 0.05)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#6366f10a"
+        "$value": "rgba(88, 101, 242, 0.03)"
       }
     },
     "border": {
       "default": {
-        "$value": "#e5e3f0"
+        "$value": "#d4d7dc"
       },
       "strong": {
-        "$value": "#c6c5d6"
+        "$value": "#d4d7dc"
       },
       "focus": {
-        "$value": "#4f46e5"
+        "$value": "#5865f2"
       }
     },
     "status": {
@@ -101,7 +101,7 @@
         "$value": "#d97706"
       },
       "info": {
-        "$value": "#2563eb"
+        "$value": "#1F6FD1"
       },
       "mention": {
         "$value": "#f06428"
@@ -123,39 +123,39 @@
     },
     "logo": {
       "p0": {
-        "$value": "#4f46e5"
+        "$value": "#3730A3"
       },
       "p1": {
-        "$value": "#6366f1"
+        "$value": "#4338CA"
       },
       "p2": {
-        "$value": "#4f46e5"
+        "$value": "#4F46E5"
       },
       "p3": {
-        "$value": "#6366f1"
+        "$value": "#6366F1"
       },
       "p4": {
-        "$value": "#3730a3"
+        "$value": "#7A7CF4"
       },
       "p5": {
-        "$value": "#8b8df7"
+        "$value": "#8B8DF7"
       },
       "hover": {
-        "$value": "#a5a7fa"
+        "$value": "#A5A7FA"
       },
       "hoverGlow": {
-        "$value": "#a5a7fa99"
+        "$value": "#A5A7FA99"
       }
     },
     "message": {
       "mine": {
-        "$value": "#ddd9fb"
+        "$value": "#dbdee3"
       },
       "other": {
-        "$value": "#ede9fe"
+        "$value": "#f2f3f5"
       },
       "highlight": {
-        "$value": "#f064281f",
+        "$value": "#f0642826",
         "$description": "Messages that mention you"
       }
     },

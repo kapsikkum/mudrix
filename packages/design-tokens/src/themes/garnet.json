@@ -27,13 +27,13 @@
         "$value": "#1a0c10"
       },
       "hover": {
-        "$value": "#e23d5514"
+        "$value": "rgba(226, 61, 85, 0.08)"
       },
       "active": {
-        "$value": "#e23d552e"
+        "$value": "rgba(226, 61, 85, 0.18)"
       },
       "overlay": {
-        "$value": "#000000a6",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
@@ -42,7 +42,7 @@
         "$value": "#f3e4e7"
       },
       "secondary": {
-        "$value": "#d2b6bc"
+        "$value": "#85636a"
       },
       "muted": {
         "$value": "#b08990"
@@ -54,7 +54,7 @@
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#4ea8ff"
+        "$value": "#4EA8FF"
       }
     },
     "accent": {
@@ -65,15 +65,15 @@
         "$value": "#f05a70"
       },
       "soft": {
-        "$value": "#e23d5526",
+        "$value": "rgba(226, 61, 85, 0.18)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#e23d5514",
+        "$value": "rgba(226, 61, 85, 0.08)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#e23d550d"
+        "$value": "rgba(226, 61, 85, 0.05)"
       }
     },
     "border": {
@@ -81,10 +81,10 @@
         "$value": "#3d1d24"
       },
       "strong": {
-        "$value": "#5a383f"
+        "$value": "#3d1d24"
       },
       "focus": {
-        "$value": "#ec8190"
+        "$value": "#e23d55"
       }
     },
     "status": {
@@ -101,7 +101,7 @@
         "$value": "#ff9d00"
       },
       "info": {
-        "$value": "#58a6ff"
+        "$value": "#4EA8FF"
       },
       "mention": {
         "$value": "#f06428"
@@ -123,28 +123,28 @@
     },
     "logo": {
       "p0": {
-        "$value": "#b82a42"
+        "$value": "#7E1A2C"
       },
       "p1": {
-        "$value": "#e23d55"
+        "$value": "#9C2237"
       },
       "p2": {
-        "$value": "#b82a42"
+        "$value": "#B82A42"
       },
       "p3": {
-        "$value": "#e23d55"
+        "$value": "#E23D55"
       },
       "p4": {
-        "$value": "#7e1a2c"
+        "$value": "#EB4C63"
       },
       "p5": {
-        "$value": "#f05a70"
+        "$value": "#F05A70"
       },
       "hover": {
-        "$value": "#f5808f"
+        "$value": "#F5808F"
       },
       "hoverGlow": {
-        "$value": "#f5808f99"
+        "$value": "#F5808F99"
       }
     },
     "message": {

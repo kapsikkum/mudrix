@@ -27,13 +27,13 @@
         "$value": "#030303"
       },
       "hover": {
-        "$value": "#ffffff0f"
+        "$value": "rgba(255, 255, 255, 0.06)"
       },
       "active": {
-        "$value": "#6d7cff33"
+        "$value": "rgba(109, 124, 255, 0.2)"
       },
       "overlay": {
-        "$value": "#000000a6",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
@@ -42,7 +42,7 @@
         "$value": "#e6e6e6"
       },
       "secondary": {
-        "$value": "#b8b8b8"
+        "$value": "#5a5a5a"
       },
       "muted": {
         "$value": "#8a8a8a"
@@ -54,7 +54,7 @@
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#4ea8ff"
+        "$value": "#4EA8FF"
       }
     },
     "accent": {
@@ -65,15 +65,15 @@
         "$value": "#5966d1"
       },
       "soft": {
-        "$value": "#6d7cff26",
+        "$value": "rgba(109, 124, 255, 0.2)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#6d7cff0d",
+        "$value": "rgba(109, 124, 255, 0.05)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#6d7cff08"
+        "$value": "rgba(109, 124, 255, 0.03)"
       }
     },
     "border": {
@@ -81,15 +81,15 @@
         "$value": "#1a1a1a"
       },
       "strong": {
-        "$value": "#363636"
+        "$value": "#1a1a1a"
       },
       "focus": {
-        "$value": "#a0aaff"
+        "$value": "#6d7cff"
       }
     },
     "status": {
       "danger": {
-        "$value": "#c93b3b"
+        "$value": "#b94a48"
       },
       "error": {
         "$value": "#ff6b6b"
@@ -101,7 +101,7 @@
         "$value": "#ff9d00"
       },
       "info": {
-        "$value": "#58a6ff"
+        "$value": "#4EA8FF"
       },
       "mention": {
         "$value": "#f06428"
@@ -123,28 +123,28 @@
     },
     "logo": {
       "p0": {
-        "$value": "#6a329f"
+        "$value": "#4A301B"
       },
       "p1": {
-        "$value": "#784cc8"
+        "$value": "#644427"
       },
       "p2": {
-        "$value": "#6a329f"
+        "$value": "#7A5434"
       },
       "p3": {
-        "$value": "#784cc8"
+        "$value": "#8A6038"
       },
       "p4": {
-        "$value": "#5e3079"
+        "$value": "#A87B50"
       },
       "p5": {
-        "$value": "#885ee7"
+        "$value": "#CFA170"
       },
       "hover": {
-        "$value": "#9b75f0"
+        "$value": "#E2BC8E"
       },
       "hoverGlow": {
-        "$value": "#9b75f099"
+        "$value": "#E2BC8E99"
       }
     },
     "message": {
