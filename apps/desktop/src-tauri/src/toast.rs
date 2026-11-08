@@ -43,7 +43,12 @@ mod imp {
     fn write_icon(app: &AppHandle) -> Option<String> {
         let dir = app.path().app_local_data_dir().ok()?;
         std::fs::create_dir_all(&dir).ok()?;
-        let path = dir.join("toast-icon.png");
+        let file_name = if cfg!(debug_assertions) {
+            "toast-icon.dev.png"
+        } else {
+            "toast-icon.png"
+        };
+        let path = dir.join(file_name);
         let current = std::fs::read(&path).ok();
         if current.as_deref() != Some(TOAST_ICON) {
             std::fs::write(&path, TOAST_ICON).ok()?;
