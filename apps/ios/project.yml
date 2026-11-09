@@ -52,7 +52,7 @@ targets:
         UILaunchScreen:
           UIColorName: LaunchBackground
         # Keep voice room audio running with the screen off or the app in the background
-        UIBackgroundModes: [audio, voip]
+        UIBackgroundModes: [audio]
         # Opened by the share extension to send what you shared
         CFBundleURLTypes:
           - CFBundleURLName: org.wizardchat.ios
@@ -63,6 +63,8 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
         CFBundleLocalizations: [en, de]
+        # End-to-end encryption uses standard algorithms in open-source code, which is exempt
+        ITSAppUsesNonExemptEncryption: false
     dependencies:
       - package: WizardChatCore
       - package: LiveKit
