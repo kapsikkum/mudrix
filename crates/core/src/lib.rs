@@ -23,6 +23,7 @@ mod error;
 mod extras;
 mod features;
 mod profile;
+mod push;
 mod qr_login;
 mod rich_text;
 mod room_admin;
@@ -59,6 +60,7 @@ pub use features::{EmojiPack, Notification, PackImage, SearchHit};
 pub use profile::{
     CustomStatus, Presence, PresenceInfo, UserProfile, MAX_STATUS_LENGTH, STATUS_FIELD,
 };
+pub use push::PusherConfig;
 pub use qr_login::{QrLoginControl, QrLoginStatus};
 pub use rich_text::{RichBlock, RichSpan};
 pub use room_admin::{

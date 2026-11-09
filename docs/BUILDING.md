@@ -1,11 +1,11 @@
 # Building and releasing
 
-| App     | Command                 | Result                                                          |
-| ------- | ----------------------- | --------------------------------------------------------------- |
-| Web     | `npm run build`         | `apps/web/dist/` (or `docker build -t wizardchat .`)            |
-| Desktop | `npm run desktop:build` | `target/release/bundle/`, for the platform you build on         |
-| iOS     | `npm run ios:build`     | `apps/ios/build/Build/Products/Release-iphoneos/WizardChat.app` |
-| Android | `npm run android:build` | `apps/android/app/build/outputs/apk/release/app-release.apk`    |
+| App     | Command                 | Result                                                                   |
+| ------- | ----------------------- | ------------------------------------------------------------------------ |
+| Web     | `npm run build`         | `apps/web/dist/` (or `docker build -t wizardchat .`)                     |
+| Desktop | `npm run desktop:build` | `target/release/bundle/`, for the platform you build on                  |
+| iOS     | `npm run ios:build`     | `apps/ios/build/Build/Products/Release-iphoneos/WizardChat.app`          |
+| Android | `npm run android:build` | `apps/android/app/build/outputs/apk/gplay/release/app-gplay-release.apk` |
 
 ## Releases
 
@@ -45,3 +45,7 @@ Android release builds are signed with the key in `apps/android/keystore.propert
 `keyAlias`, `keyPassword`; not committed), and are debug-signed without it. `npm run android:bundle` builds the bundle for
 Google Play. In CI, the APK is signed with the same key, from the masked variables `ANDROID_KEYSTORE_BASE64` (the
 keystore, `base64 -i wizardchat-release.jks`) and `ANDROID_KEYSTORE_PASSWORD`; the job fails without them.
+
+Both build the `gplay` flavor, which gets push notifications through Firebase. Its config in
+`apps/android/app/src/gplay/res/values/firebase.xml` comes from the Firebase project's `google-services.json`. The
+`fdroid` flavor has no Google code.

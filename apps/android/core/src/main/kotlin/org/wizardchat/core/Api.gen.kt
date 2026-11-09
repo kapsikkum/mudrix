@@ -665,6 +665,7 @@ enum class MessageKind {
 data class Notification(
     val roomId: String,
     val roomName: String? = null,
+    val roomAvatarUrl: String? = null,
     val eventId: String,
     val sender: String,
     val senderName: String? = null,
@@ -672,6 +673,8 @@ data class Notification(
     val body: String,
     /** The message hides a spoiler: show a placeholder instead of its text */
     val spoiler: Boolean,
+    /** Its keys haven't arrived yet: show a placeholder */
+    val encrypted: Boolean,
     /** Mentions and keywords: show more prominently */
     val highlight: Boolean,
     val sound: Boolean,
@@ -759,6 +762,20 @@ data class PublicRoomsPage(
     /** Pass back to load more */
     val next: String? = null,
     val total: Long? = null,
+)
+
+/** Where the homeserver sends this device's pushes */
+@Serializable
+data class PusherConfig(
+    /** Identifies the app at the push gateway (`org.wizardchat.android`) */
+    val appId: String,
+    /** The device's token from the push service */
+    val pushkey: String,
+    /** The gateway's `/_matrix/push/v1/notify` URL */
+    val gatewayUrl: String,
+    val appName: String,
+    val deviceName: String,
+    val lang: String,
 )
 
 @Serializable(with = QrLoginStatus.Serializer::class)
@@ -2352,6 +2369,22 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchNotifications(listener: (Notification) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
 
+    /** Has the homeserver send this account's notifications to a push gateway. */
+    suspend fun setPusher(config: PusherConfig) {
+        Runtime.callUnit("WizardClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
+    }
+
+    suspend fun removePusher(appId: String, pushkey: String) {
+        Runtime.callUnit("WizardClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
+    }
+
+    /**
+     * The notification for a pushed event, fetched and decrypted without the sync running;
+     * `null` when it shouldn't notify.
+     */
+    suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
+        Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
     suspend fun logout() {
         Runtime.callUnit("WizardClient.logout", handle, listOf())
     }
@@ -2552,7 +2585,6 @@ class RoomTimeline(handle: Long, props: JsonObject) : Remote(handle, props) {
         Runtime.callUnit("RoomTimeline.editText", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(body)))
     }
 
-    /** Replaces a media caption; without `html` it's Markdown, empty removes it. */
     suspend fun editCaption(itemKey: String, caption: String, html: String? = null, mentions: Mentions? = null) {
         Runtime.callUnit("RoomTimeline.editCaption", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(caption), Arg.value<String?>(html), Arg.value<Mentions?>(mentions)))
     }

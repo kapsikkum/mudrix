@@ -35,6 +35,13 @@ android {
         versionName = appVersion
     }
 
+    // gplay pushes through Firebase; fdroid has no Google code (UnifiedPush comes later)
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("gplay") { dimension = "distribution" }
+        create("fdroid") { dimension = "distribution" }
+    }
+
     signingConfigs {
         if (!keystoreProperties.isEmpty) {
             create("release") {
@@ -99,4 +106,5 @@ dependencies {
     implementation(libs.livekit.android)
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.ui)
+    "gplayImplementation"(libs.firebase.messaging)
 }

@@ -1042,6 +1042,7 @@ public enum MessageKind: String, Codable, Hashable, Sendable, CaseIterable {
 public struct Notification: Codable, Hashable, Sendable {
     public var roomId: String
     public var roomName: String?
+    public var roomAvatarUrl: String?
     public var eventId: String
     public var sender: String
     public var senderName: String?
@@ -1049,19 +1050,23 @@ public struct Notification: Codable, Hashable, Sendable {
     public var body: String
     /// The message hides a spoiler: show a placeholder instead of its text
     public var spoiler: Bool
+    /// Its keys haven't arrived yet: show a placeholder
+    public var encrypted: Bool
     /// Mentions and keywords: show more prominently
     public var highlight: Bool
     public var sound: Bool
     public var isDirect: Bool
 
-    public init(roomId: String, roomName: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, highlight: Bool, sound: Bool, isDirect: Bool) {
+    public init(roomId: String, roomName: String? = nil, roomAvatarUrl: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, encrypted: Bool, highlight: Bool, sound: Bool, isDirect: Bool) {
         self.roomId = roomId
         self.roomName = roomName
+        self.roomAvatarUrl = roomAvatarUrl
         self.eventId = eventId
         self.sender = sender
         self.senderName = senderName
         self.body = body
         self.spoiler = spoiler
+        self.encrypted = encrypted
         self.highlight = highlight
         self.sound = sound
         self.isDirect = isDirect
@@ -1196,6 +1201,28 @@ public struct PublicRoomsPage: Codable, Hashable, Sendable {
         self.rooms = rooms
         self.next = next
         self.total = total
+    }
+}
+
+/// Where the homeserver sends this device's pushes
+public struct PusherConfig: Codable, Hashable, Sendable {
+    /// Identifies the app at the push gateway (`org.wizardchat.android`)
+    public var appId: String
+    /// The device's token from the push service
+    public var pushkey: String
+    /// The gateway's `/_matrix/push/v1/notify` URL
+    public var gatewayUrl: String
+    public var appName: String
+    public var deviceName: String
+    public var lang: String
+
+    public init(appId: String, pushkey: String, gatewayUrl: String, appName: String, deviceName: String, lang: String) {
+        self.appId = appId
+        self.pushkey = pushkey
+        self.gatewayUrl = gatewayUrl
+        self.appName = appName
+        self.deviceName = deviceName
+        self.lang = lang
     }
 }
 
@@ -3361,6 +3388,21 @@ public final class WizardClient: Remote, @unchecked Sendable {
     @discardableResult
     public func watchNotifications(listener: @escaping @Sendable (Notification) -> Void) -> Subscription {
         watch("WizardClient.watchNotifications", [.listener(Notification.self, listener)])
+    }
+
+    /// Has the homeserver send this account's notifications to a push gateway.
+    public func setPusher(config: PusherConfig) async throws {
+        _ = try await call("WizardClient.setPusher", [.value(config)]) as Empty
+    }
+
+    public func removePusher(appId: String, pushkey: String) async throws {
+        _ = try await call("WizardClient.removePusher", [.value(appId), .value(pushkey)]) as Empty
+    }
+
+    /// The notification for a pushed event, fetched and decrypted without the sync running;
+    /// `null` when it shouldn't notify.
+    public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
+        try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
     }
 
     public func logout() async throws {
