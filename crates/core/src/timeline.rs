@@ -157,7 +157,7 @@ fn parse_item_key(key: &str) -> Result<TimelineEventItemId> {
     }
 }
 
-fn parse_event_id(id: &str) -> Result<OwnedEventId> {
+pub(crate) fn parse_event_id(id: &str) -> Result<OwnedEventId> {
     EventId::parse(id).map_err(|e| Error::InvalidId(e.to_string()))
 }
 

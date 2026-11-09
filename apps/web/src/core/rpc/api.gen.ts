@@ -507,6 +507,7 @@ export type MessageKind = 'text' | 'emote' | 'notice';
 export type Notification = {
   roomId: string;
   roomName: string | null;
+  roomAvatarUrl: string | null;
   eventId: string;
   sender: string;
   senderName: string | null;
@@ -518,6 +519,10 @@ export type Notification = {
    * The message hides a spoiler: show a placeholder instead of its text
    */
   spoiler: boolean;
+  /**
+   * Its keys haven't arrived yet: show a placeholder
+   */
+  encrypted: boolean;
   /**
    * Mentions and keywords: show more prominently
    */
@@ -596,6 +601,27 @@ export type PublicRoomsPage = {
    */
   next: string | null;
   total: number | null;
+};
+
+/**
+ * Where the homeserver sends this device's pushes
+ */
+export type PusherConfig = {
+  /**
+   * Identifies the app at the push gateway (`org.wizardchat.android`)
+   */
+  appId: string;
+  /**
+   * The device's token from the push service
+   */
+  pushkey: string;
+  /**
+   * The gateway's `/_matrix/push/v1/notify` URL
+   */
+  gatewayUrl: string;
+  appName: string;
+  deviceName: string;
+  lang: string;
 };
 
 export type QrLoginStatus =
@@ -2263,6 +2289,26 @@ export class WizardClient extends Remote {
    */
   watchNotifications(listener: (value: Notification) => void): Subscription {
     return runtime.watch('WizardClient.watchNotifications', this, [listener], Subscription);
+  }
+
+  /** Has the homeserver send this account's notifications to a push gateway. */
+  setPusher(config: PusherConfig): Promise<void> {
+    return runtime.call('WizardClient.setPusher', this, [config]) as Promise<void>;
+  }
+
+  removePusher(appId: string, pushkey: string): Promise<void> {
+    return runtime.call('WizardClient.removePusher', this, [appId, pushkey]) as Promise<void>;
+  }
+
+  /**
+   * The notification for a pushed event, fetched and decrypted without the sync running;
+   * `null` when it shouldn't notify.
+   */
+  pushedNotification(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('WizardClient.pushedNotification', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
   }
 
   logout(): Promise<void> {

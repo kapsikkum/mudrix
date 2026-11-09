@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.push.Push
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.CustomStatus
@@ -92,7 +93,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             while (true) {
                 val stored = SessionStore.active() ?: break
                 try {
-                    val client = WizardClient.restore(stored.session, stored.store)
+                    val client = SessionClients.restore(stored)
                     SessionStore.setActive(stored.session.userId)
                     start(client, stored)
                     return
@@ -336,6 +337,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             ?.let { SessionStore.removeStore(it.storeFolder) }
         SessionStore.save(stored)
         SessionStore.setActive(stored.session.userId)
+        SessionClients.add(client)
         reloadAccounts()
         isAddingAccount = false
         start(client, stored)
@@ -387,6 +389,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             roomList.start()
             encryption = runCatching { client.encryptionStatus() }.getOrNull()
             refreshProfile()
+            Push.register()
         }
         state = State.LoggedIn
     }
@@ -404,6 +407,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
     private suspend fun forget(stored: StoredSession) {
         close()
+        SessionClients.remove(stored.session.userId)
+        Push.forget(stored.session.userId)
         SessionStore.remove(stored.session.userId)
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()

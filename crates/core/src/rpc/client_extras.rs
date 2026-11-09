@@ -4,9 +4,9 @@ use serde_json::Value;
 
 use super::{Bytes, Handle, Listener, Obj, Subscription};
 use crate::{
-    CallMember, CallSession, IncomingCallEvent, Notification, QrLoginControl, QrLoginStatus,
-    ResolvedAlias, RoomSection, RoomTag, ServerFeatures, SfuConfig, SpaceNode, StateChange,
-    WizardClient,
+    CallMember, CallSession, IncomingCallEvent, Notification, PusherConfig, QrLoginControl,
+    QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures, SfuConfig, SpaceNode,
+    StateChange, WizardClient,
 };
 
 rpc_methods! {
@@ -174,6 +174,18 @@ rpc_methods! {
             Ok(listener.clone().watch(async move {
                 this.watch_notifications(|n| listener.emit(&n)).await
             }))
+        }
+
+        call fn setPusher(config: PusherConfig) -> () {
+            this.set_pusher(config).await
+        }
+
+        call fn removePusher(app_id: String, pushkey: String) -> () {
+            this.remove_pusher(app_id, pushkey).await
+        }
+
+        call fn pushedNotification(room_id: String, event_id: String) -> Option<Notification> {
+            this.pushed_notification(&room_id, &event_id).await
         }
 
         call fn logout() -> () {

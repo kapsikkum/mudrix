@@ -88,15 +88,22 @@ class MessageNotifier {
     }
 
     private fun notify(notification: Notification) {
-        val prefs = prefs ?: return
+        val roomList = roomList ?: return
+        val roomAvatar = roomList.room(notification.roomId)?.avatarUrl ?: notification.roomAvatarUrl
+        scope.launch { show(notification, roomList.client, roomAvatar) }
+    }
+
+    suspend fun show(notification: Notification, client: WizardClient, roomAvatar: String? = notification.roomAvatarUrl) {
+        val prefs = prefs ?: WizardApplication.instance.prefs
         if (!(prefs.notificationBanners || prefs.notificationSounds) || notification.roomId == activeRoomId) return
         if (!canPost()) return
+        createChannels()
         val sender = notification.senderName ?: notification.sender
         val title = notification.roomName ?: sender
-        var body = if (notification.isDirect || notification.roomName == null) notification.body else "$sender: ${notification.body}"
-        if (body.isEmpty()) body = L10n.format("common.newMessage")
+        val text = notification.body.ifEmpty { L10n.format("common.newMessage") }
+        val body = if (notification.isDirect || notification.roomName == null) text else "$sender: $text"
         val sound = prefs.notificationSounds && notification.sound
-        val userId = roomList?.client?.userId ?: return
+        val userId = client.userId ?: return
         val tag = "$userId|${notification.roomId}"
         val id = notification.eventId.hashCode()
 
@@ -120,24 +127,40 @@ class MessageNotifier {
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(if (notification.highlight) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_DEFAULT)
             .setSilent(!sound)
+            .setOnlyAlertOnce(true)
             .setAutoCancel(true)
             .setNumber(badge)
             .setContentIntent(openIntent(notification.roomId, userId))
             .addAction(reply)
             .addAction(markRead)
-        val client = roomList?.client ?: return
-        val roomAvatar = roomList?.room(notification.roomId)?.avatarUrl
-        scope.launch {
-            val avatar = if (notification.isDirect) {
-                roomAvatar ?: MemberDirectory.profile(notification.sender, notification.roomId, client).avatarUrl
-            } else {
-                roomAvatar
-            }
-            avatarBitmap(avatar, client)?.let(builder::setLargeIcon)
-            try {
-                manager.notify(tag, id, builder.build())
-            } catch (_: SecurityException) {
-            }
+        val avatar = if (notification.isDirect) {
+            roomAvatar ?: runCatching { MemberDirectory.profile(notification.sender, notification.roomId, client).avatarUrl }.getOrNull()
+        } else {
+            roomAvatar
+        }
+        avatarBitmap(avatar, client)?.let(builder::setLargeIcon)
+        try {
+            manager.notify(tag, id, builder.build())
+        } catch (_: SecurityException) {
+        }
+    }
+
+    fun showPlaceholder(userId: String, roomId: String, eventId: String) {
+        val prefs = prefs ?: WizardApplication.instance.prefs
+        if (!(prefs.notificationBanners || prefs.notificationSounds) || !canPost()) return
+        createChannels()
+        val sound = prefs.notificationSounds
+        val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
+            .setSmallIcon(smallIcon())
+            .setContentTitle(L10n.format("common.newMessage"))
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setSilent(!sound)
+            .setOnlyAlertOnce(true)
+            .setAutoCancel(true)
+            .setContentIntent(openIntent(roomId, userId))
+        try {
+            manager.notify("$userId|$roomId", eventId.hashCode(), builder.build())
+        } catch (_: SecurityException) {
         }
     }
 
