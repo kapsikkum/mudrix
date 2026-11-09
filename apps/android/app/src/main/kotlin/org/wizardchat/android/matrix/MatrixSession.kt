@@ -63,6 +63,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     private var lostTimer: Job? = null
     var encryption by mutableStateOf<EncryptionStatus?>(null)
         private set
+    var needsEncryptionSetup by mutableStateOf(false)
+        private set
 
     var client: WizardClient? = null
         private set
@@ -136,6 +138,22 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         this.stored = updated
         SessionStore.save(updated)
         reloadAccounts()
+    }
+
+    val excludesInsecureDevices: Boolean get() = stored?.excludeInsecureDevices ?: false
+
+    fun setExcludeInsecureDevices(exclude: Boolean) {
+        val updated = stored?.copy(excludeInsecureDevices = exclude) ?: return
+        stored = updated
+        SessionStore.save(updated)
+    }
+
+    suspend fun restart() {
+        val userId = stored?.session?.userId ?: return
+        close()
+        SessionClients.remove(userId)
+        state = State.Restoring
+        restore()
     }
 
     suspend fun retryRestore() {
@@ -359,6 +377,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         statusExpiry?.cancel()
         customStatus = null
         encryption = null
+        needsEncryptionSetup = false
         syncState = SyncState.idle
         runCatching { client?.stopSync() }
     }
@@ -374,7 +393,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         media = MediaLoader(client)
         subscriptions = listOf(
             client.watchSession { sessionChanged(it) },
-            client.watchEncryptionStatus { encryption = it },
+            client.watchEncryptionStatus {
+                encryption = it
+                checkIdentity(client, it)
+            },
         )
         scope.launch {
             // The sync state and room list come from the sync service, so start it first; offline
@@ -388,10 +410,20 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             subscriptions = subscriptions + client.watchSyncState { syncStateChanged(it) }
             roomList.start()
             encryption = runCatching { client.encryptionStatus() }.getOrNull()
+            checkIdentity(client, encryption)
             refreshProfile()
             Push.register()
         }
         state = State.LoggedIn
+    }
+
+    fun checkIdentity(client: WizardClient? = this.client, status: EncryptionStatus? = encryption) {
+        val userId = userId ?: return
+        if (client == null || status == null || status.recovery == "unknown") return
+        scope.launch {
+            val hasIdentity = runCatching { client.userTrust(userId).hasIdentity }.getOrNull() ?: return@launch
+            if (this@MatrixSession.client === client) needsEncryptionSetup = !hasIdentity
+        }
     }
 
     private fun sessionChanged(event: SessionEvent) {

@@ -25,6 +25,7 @@ final class MatrixSession: ObservableObject {
     private var lostTimer: Task<Void, Never>?
     private let pathMonitor = NWPathMonitor()
     @Published private(set) var encryption: EncryptionStatus?
+    @Published private(set) var needsEncryptionSetup = false
     @Published private(set) var accounts: [Account] = []
     @Published var isAddingAccount = false
 
@@ -272,6 +273,15 @@ final class MatrixSession: ObservableObject {
         await restore()
     }
 
+    func checkIdentity() {
+        guard let client, let userId, let status = encryption, status.recovery != "unknown" else { return }
+        Task { [weak self] in
+            guard let hasIdentity = try? await client.userTrust(userId: userId).hasIdentity,
+                  self?.client === client else { return }
+            self?.needsEncryptionSetup = !hasIdentity
+        }
+    }
+
     func logout() async {
         try? await client?.logout()
         if let stored { await forget(stored) }
@@ -358,6 +368,7 @@ final class MatrixSession: ObservableObject {
         statusExpiry?.cancel()
         customStatus = nil
         encryption = nil
+        needsEncryptionSetup = false
         syncState = .idle
         try? await client?.stopSync()
     }
@@ -375,7 +386,10 @@ final class MatrixSession: ObservableObject {
                 MainActor.assumeIsolated { self?.sessionChanged(event) }
             },
             client.watchEncryptionStatus { [weak self] status in
-                MainActor.assumeIsolated { self?.encryption = status }
+                MainActor.assumeIsolated {
+                    self?.encryption = status
+                    self?.checkIdentity()
+                }
             },
         ]
         Task { [weak self] in
@@ -393,6 +407,7 @@ final class MatrixSession: ObservableObject {
             })
             roomList?.start()
             encryption = try? await client.encryptionStatus()
+            checkIdentity()
             await refreshProfile()
         }
         Task { [weak self] in await self?.refreshProfile() }

@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -41,6 +42,8 @@ import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MatrixSession
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.ui.settings.AddAccountScreen
+import org.wizardchat.android.ui.settings.EncryptionSetupScreen
+import org.wizardchat.android.ui.settings.EncryptionSetupState
 import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.home.MainScreen
@@ -170,6 +173,8 @@ private fun Root() {
                     key(session.userId) { MainScreen(roomList) }
                 }
             }
+            val encryptionSetup = remember(session.userId) { EncryptionSetupState() }
+            if (session.needsEncryptionSetup || encryptionSetup.recoveryKey != null) EncryptionSetupScreen(encryptionSetup)
             if (session.isAddingAccount) AddAccountScreen()
         }
     }

@@ -12,7 +12,7 @@ struct StoredSession: Codable {
 
     var store: StoreConfig {
         StoreConfig(location: SessionStore.storePath(for: storeFolder).path, passphrase: passphrase,
-                    excludeInsecureDevices: excludeInsecureDevices)
+                    excludeInsecureDevices: excludeInsecureDevices, manualEncryptionSetup: true)
     }
 
     static func newStore() -> (folder: String, config: StoreConfig) {
@@ -21,7 +21,8 @@ struct StoredSession: Codable {
         let folder = UUID().uuidString
         let path = SessionStore.storePath(for: folder)
         try? FileManager.default.createDirectory(at: path, withIntermediateDirectories: true)
-        return (folder, StoreConfig(location: path.path, passphrase: Data(bytes).base64EncodedString()))
+        return (folder, StoreConfig(location: path.path, passphrase: Data(bytes).base64EncodedString(),
+                                    manualEncryptionSetup: true))
     }
 }
 

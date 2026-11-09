@@ -764,14 +764,10 @@ data class PublicRoomsPage(
     val total: Long? = null,
 )
 
-/** Where the homeserver sends this device's pushes */
 @Serializable
 data class PusherConfig(
-    /** Identifies the app at the push gateway (`org.wizardchat.android`) */
     val appId: String,
-    /** The device's token from the push service */
     val pushkey: String,
-    /** The gateway's `/_matrix/push/v1/notify` URL */
     val gatewayUrl: String,
     val appName: String,
     val deviceName: String,
@@ -1319,6 +1315,7 @@ data class StoreConfig(
     val passphrase: String? = null,
     /** Don't share keys with, or read messages from, devices their owner hasn't verified */
     val excludeInsecureDevices: Boolean? = null,
+    val manualEncryptionSetup: Boolean? = null,
 )
 
 /** The state of the background sync, as shown to the user. */
@@ -2369,7 +2366,6 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchNotifications(listener: (Notification) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
 
-    /** Has the homeserver send this account's notifications to a push gateway. */
     suspend fun setPusher(config: PusherConfig) {
         Runtime.callUnit("WizardClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
     }
@@ -2378,10 +2374,6 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         Runtime.callUnit("WizardClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
     }
 
-    /**
-     * The notification for a pushed event, fetched and decrypted without the sync running;
-     * `null` when it shouldn't notify.
-     */
     suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
         Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 

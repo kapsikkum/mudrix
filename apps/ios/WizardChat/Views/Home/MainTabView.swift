@@ -19,6 +19,7 @@ struct MainTabView: View {
     @State private var showInbox = false
     @State private var showExplore = false
     @State private var whatsNew: WhatsNew.Entry?
+    @StateObject private var encryptionSetup = EncryptionSetupModel()
 
     var body: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
@@ -63,6 +64,10 @@ struct MainTabView: View {
         }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
+        .fullScreenCover(isPresented: Binding(get: { session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil },
+                                              set: { _ in })) {
+            EncryptionSetupScreen(model: encryptionSetup)
+        }
         .environment(\.roomOpener, RoomOpener { id, isSpace in
             if isSpace { showSpace(id) } else { show(id) }
         })

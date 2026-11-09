@@ -66,6 +66,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     accessibility("settings.accessibility.title", "person-simple-circle"),
     language("settings.language.title", "globe-simple"),
     sessions("settings.sessions.title", "devices"),
+    encryption("settings.encryption.title", "lock-key"),
     developer("developer.title", "wrench"),
     about("settings.about.title", "info"),
 }
@@ -109,6 +110,7 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.accessibility -> AccessibilitySettings(pop)
             SettingsPageId.language -> LanguageSettings(pop)
             SettingsPageId.sessions -> SessionsSettings(pop)
+            SettingsPageId.encryption -> EncryptionSettings(pop)
             SettingsPageId.developer -> DeveloperSettings(pop)
             SettingsPageId.about -> AboutSettings(pop)
         }
@@ -169,7 +171,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
             }
             PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis), open)
             PageRows(listOf(SettingsPageId.voiceVideo, SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
-            PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
+            PageRows(listOf(SettingsPageId.sessions, SettingsPageId.encryption, SettingsPageId.developer, SettingsPageId.about), open)
             }
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))
         }

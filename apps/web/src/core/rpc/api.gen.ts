@@ -603,21 +603,9 @@ export type PublicRoomsPage = {
   total: number | null;
 };
 
-/**
- * Where the homeserver sends this device's pushes
- */
 export type PusherConfig = {
-  /**
-   * Identifies the app at the push gateway (`org.wizardchat.android`)
-   */
   appId: string;
-  /**
-   * The device's token from the push service
-   */
   pushkey: string;
-  /**
-   * The gateway's `/_matrix/push/v1/notify` URL
-   */
   gatewayUrl: string;
   appName: string;
   deviceName: string;
@@ -1112,6 +1100,7 @@ export type StoreConfig = {
    * Don't share keys with, or read messages from, devices their owner hasn't verified
    */
   excludeInsecureDevices?: boolean;
+  manualEncryptionSetup?: boolean;
 };
 
 /**
@@ -2291,7 +2280,6 @@ export class WizardClient extends Remote {
     return runtime.watch('WizardClient.watchNotifications', this, [listener], Subscription);
   }
 
-  /** Has the homeserver send this account's notifications to a push gateway. */
   setPusher(config: PusherConfig): Promise<void> {
     return runtime.call('WizardClient.setPusher', this, [config]) as Promise<void>;
   }
@@ -2300,10 +2288,6 @@ export class WizardClient extends Remote {
     return runtime.call('WizardClient.removePusher', this, [appId, pushkey]) as Promise<void>;
   }
 
-  /**
-   * The notification for a pushed event, fetched and decrypted without the sync running;
-   * `null` when it shouldn't notify.
-   */
   pushedNotification(roomId: string, eventId: string): Promise<Notification | null> {
     return runtime.call('WizardClient.pushedNotification', this, [
       roomId,

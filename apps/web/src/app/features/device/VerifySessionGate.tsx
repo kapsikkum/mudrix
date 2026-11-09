@@ -20,7 +20,8 @@ export function VerifySessionGate() {
 
   const deviceId = client?.session().deviceId ?? null;
   const needsGate = state.status === 'unverified' || state.status === 'no-identity';
-  if (!client || !needsGate || (deviceId && skippedDevice === deviceId)) return null;
+  const noIdentity = state.status === 'no-identity';
+  if (!client || !needsGate || (deviceId && skippedDevice === deviceId && !noIdentity)) return null;
 
   const skip = async () => {
     const ok = await confirm({
@@ -33,7 +34,6 @@ export function VerifySessionGate() {
     if (ok && deviceId) setSkippedDevice(deviceId);
   };
 
-  const noIdentity = state.status === 'no-identity';
   const cannotVerify = !noIdentity && !state.hasOtherVerifiedSession && !state.hasRecoveryKey;
 
   return (
@@ -106,10 +106,14 @@ export function VerifySessionGate() {
         </div>
 
         <div className={css.footer}>
-          <button type="button" className={css.footerLink} onClick={skip}>
-            {t('verification.session.skip')}
-          </button>
-          <span aria-hidden>·</span>
+          {!noIdentity && (
+            <>
+              <button type="button" className={css.footerLink} onClick={skip}>
+                {t('verification.session.skip')}
+              </button>
+              <span aria-hidden>·</span>
+            </>
+          )}
           <button type="button" className={css.footerLink} onClick={() => void logout()}>
             {t('settings.account.logout')}
           </button>

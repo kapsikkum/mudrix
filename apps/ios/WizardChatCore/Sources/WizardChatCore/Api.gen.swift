@@ -1204,13 +1204,9 @@ public struct PublicRoomsPage: Codable, Hashable, Sendable {
     }
 }
 
-/// Where the homeserver sends this device's pushes
 public struct PusherConfig: Codable, Hashable, Sendable {
-    /// Identifies the app at the push gateway (`org.wizardchat.android`)
     public var appId: String
-    /// The device's token from the push service
     public var pushkey: String
-    /// The gateway's `/_matrix/push/v1/notify` URL
     public var gatewayUrl: String
     public var appName: String
     public var deviceName: String
@@ -2075,11 +2071,14 @@ public struct StoreConfig: Codable, Hashable, Sendable {
     public var passphrase: String?
     /// Don't share keys with, or read messages from, devices their owner hasn't verified
     public var excludeInsecureDevices: Bool?
+    /// Leave setting up cross-signing and key backup to the app instead of doing it on sign-in
+    public var manualEncryptionSetup: Bool?
 
-    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil) {
+    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil, manualEncryptionSetup: Bool? = nil) {
         self.location = location
         self.passphrase = passphrase
         self.excludeInsecureDevices = excludeInsecureDevices
+        self.manualEncryptionSetup = manualEncryptionSetup
     }
 }
 
@@ -3390,7 +3389,6 @@ public final class WizardClient: Remote, @unchecked Sendable {
         watch("WizardClient.watchNotifications", [.listener(Notification.self, listener)])
     }
 
-    /// Has the homeserver send this account's notifications to a push gateway.
     public func setPusher(config: PusherConfig) async throws {
         _ = try await call("WizardClient.setPusher", [.value(config)]) as Empty
     }
@@ -3399,8 +3397,6 @@ public final class WizardClient: Remote, @unchecked Sendable {
         _ = try await call("WizardClient.removePusher", [.value(appId), .value(pushkey)]) as Empty
     }
 
-    /// The notification for a pushed event, fetched and decrypted without the sync running;
-    /// `null` when it shouldn't notify.
     public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
         try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
     }

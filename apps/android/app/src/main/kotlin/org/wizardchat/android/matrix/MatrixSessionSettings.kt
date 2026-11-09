@@ -85,7 +85,21 @@ suspend fun MatrixSession.recover(recoveryKey: String) {
 
 suspend fun MatrixSession.enableRecovery(): String = requireClient.enableRecovery()
 
+suspend fun MatrixSession.resetIdentity(password: String?, approve: (String) -> Unit) {
+    val client = requireClient
+    withPassword(password) { client.resetIdentityWithAuth(it, approve) }
+}
+
+suspend fun MatrixSession.cancelIdentityReset() {
+    runCatching { client?.cancelIdentityReset() }
+}
+
 suspend fun MatrixSession.resetRecoveryKey(): String = requireClient.resetRecoveryKey()
+
+suspend fun MatrixSession.hasEncryptionIdentity(): Boolean? {
+    val userId = userId ?: return null
+    return runCatching { client?.userTrust(userId)?.hasIdentity }.getOrNull()
+}
 
 suspend fun MatrixSession.createRoom(
     name: String,

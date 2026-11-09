@@ -160,12 +160,12 @@ private struct AccountSwitcher: View {
         Menu {
             Section {
                 ForEach(session.accounts) { account in
-                    Toggle(isOn: Binding(
-                        get: { account.userId == session.userId },
-                        set: { _ in Task { await session.switchAccount(to: account.userId) } }
-                    )) {
+                    Button {
+                        Task { await session.switchAccount(to: account.userId) }
+                    } label: {
                         Text(account.displayName ?? account.userId)
                         Text(account.userId)
+                        if account.userId == session.userId { Image(systemName: "checkmark") }
                     }
                 }
             }

@@ -110,9 +110,9 @@ impl WizardClient {
             builder
                 .handle_refresh_tokens()
                 .with_encryption_settings(EncryptionSettings {
-                    auto_enable_cross_signing: true,
+                    auto_enable_cross_signing: !store.manual_encryption_setup,
                     backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
-                    auto_enable_backups: true,
+                    auto_enable_backups: !store.manual_encryption_setup,
                 });
         let builder = if store.exclude_insecure_devices {
             builder

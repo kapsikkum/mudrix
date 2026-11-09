@@ -24,16 +24,22 @@ data class StoredSession(
     val passphrase: String,
     val displayName: String? = null,
     val avatarUrl: String? = null,
+    val excludeInsecureDevices: Boolean = false,
 ) {
     val store: StoreConfig
-        get() = StoreConfig(location = SessionStore.storePath(storeFolder).path, passphrase = passphrase)
+        get() = StoreConfig(
+            location = SessionStore.storePath(storeFolder).path,
+            passphrase = passphrase,
+            excludeInsecureDevices = excludeInsecureDevices,
+            manualEncryptionSetup = true,
+        )
 
     companion object {
         fun newStore(): Pair<String, StoreConfig> {
             val bytes = ByteArray(32).also { SecureRandom().nextBytes(it) }
             val folder = UUID.randomUUID().toString()
             val path = SessionStore.storePath(folder).apply { mkdirs() }
-            return folder to StoreConfig(location = path.path, passphrase = Base64.encodeToString(bytes, Base64.NO_WRAP))
+            return folder to StoreConfig(location = path.path, passphrase = Base64.encodeToString(bytes, Base64.NO_WRAP), manualEncryptionSetup = true)
         }
     }
 }
