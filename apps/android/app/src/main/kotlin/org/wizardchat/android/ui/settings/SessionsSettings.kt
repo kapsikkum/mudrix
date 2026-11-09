@@ -401,7 +401,7 @@ private fun RemoveDeviceSheet(device: DeviceInfo, onRemoved: suspend () -> Unit,
 }
 
 @Composable
-private fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
+internal fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var key by remember { mutableStateOf("") }

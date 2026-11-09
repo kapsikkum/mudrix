@@ -1,5 +1,8 @@
 package org.wizardchat.android.ui.settings
 
+import org.wizardchat.android.matrix.deviceId
+import org.wizardchat.android.LocalPrefs
+import androidx.compose.runtime.LaunchedEffect
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +22,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -208,10 +212,8 @@ fun EncryptionSetupScreen(state: EncryptionSetupState) {
                 val key = state.recoveryKey
                 if (key != null) {
                     RecoveryKeyContent(key) { state.recoveryKey = null }
-                } else {
-                    PhIcon("shield-check", size = WZ.SizeIcon.xl, tint = theme.accent)
-                    Text(tr("verification.session.setupTitle"), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
-                    Text(tr("verification.session.setupBody"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
+                } else if (session.needsEncryptionSetup) {
+                    SetupHeader(tr("verification.session.setupTitle"), tr("verification.session.setupBody"))
                     if (state.busy) {
                         Spinner()
                     } else {
@@ -219,9 +221,101 @@ fun EncryptionSetupScreen(state: EncryptionSetupState) {
                     }
                     state.error?.let { StatusText(it) }
                     BarTextButton(tr("settings.account.logout"), { scope.launch { session.logout() } }, enabled = !state.busy)
+                } else {
+                    VerifyContent(state)
                 }
             }
         }
         EncryptionSetupPrompts(state)
+    }
+}
+
+@Composable
+private fun SetupHeader(title: String, body: String) {
+    PhIcon("shield-check", size = WZ.SizeIcon.xl, tint = theme.accent)
+    Text(title, style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
+    Text(body, style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
+}
+
+@Composable
+private fun VerifyContent(state: EncryptionSetupState) {
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
+    val scope = rememberCoroutineScope()
+    var hasOtherVerifiedSession by remember { mutableStateOf(false) }
+    var verification by remember { mutableStateOf<VerificationModel?>(null) }
+    var showRecoveryKeyEntry by remember { mutableStateOf(false) }
+    var confirmReset by remember { mutableStateOf(false) }
+    var confirmSkip by remember { mutableStateOf(false) }
+    val recovery = session.encryption?.recovery
+    val hasRecoveryKey = recovery == "enabled" || recovery == "incomplete"
+    val cannotVerify = !hasOtherVerifiedSession && !hasRecoveryKey
+
+    LaunchedEffect(Unit) {
+        val devices = runCatching { session.requireClient.devices() }.getOrNull() ?: return@LaunchedEffect
+        hasOtherVerifiedSession = devices.any { !it.isCurrent && it.crossSignedByOwner }
+    }
+
+    SetupHeader(
+        tr("verification.session.title"),
+        tr(if (cannotVerify) "verification.session.noWayToVerify" else "verification.session.body"),
+    )
+    when {
+        state.busy -> Spinner()
+        cannotVerify -> PrimaryButton(tr("verification.session.resetAndSetUp"), { state.run(session, scope) })
+        else -> {
+            if (hasOtherVerifiedSession) {
+                PrimaryButton(tr("verification.session.useOtherDevice"), { verification = VerificationModel(VerificationModel.Start.OwnDevice) })
+            }
+            if (hasRecoveryKey) {
+                if (hasOtherVerifiedSession) {
+                    SecondaryButton(tr("verification.session.useRecoveryKey"), { showRecoveryKeyEntry = true })
+                } else {
+                    PrimaryButton(tr("verification.session.useRecoveryKey"), { showRecoveryKeyEntry = true })
+                }
+            }
+            TextButton(onClick = { confirmReset = true }) {
+                Text(tr("verification.session.reset"), style = wizardFont(WZ.FontSize.md), color = theme.danger)
+            }
+        }
+    }
+    state.error?.let { StatusText(it) }
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+        BarTextButton(tr("verification.session.skip"), { confirmSkip = true }, enabled = !state.busy)
+        Text("·", style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        BarTextButton(tr("settings.account.logout"), { scope.launch { session.logout() } }, enabled = !state.busy)
+    }
+
+    if (showRecoveryKeyEntry) RecoveryKeyEntrySheet { showRecoveryKeyEntry = false }
+    verification?.let { model -> VerificationSheet(model) { verification = null } }
+    if (confirmReset) {
+        AlertDialog(
+            onDismissRequest = { confirmReset = false },
+            containerColor = theme.bgTertiary,
+            title = { Text(tr("verification.setupOverwritesTitle"), style = wizardFont(WZ.FontSize.xl, FontWeight.SemiBold), color = theme.textPrimary) },
+            text = { Text(tr("verification.setupOverwritesConfirm"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted) },
+            confirmButton = {
+                BarTextButton(tr("settings.encryption.resetButton"), {
+                    confirmReset = false
+                    state.run(session, scope)
+                }, bold = true)
+            },
+            dismissButton = { BarTextButton(tr("common.cancel"), { confirmReset = false }) },
+        )
+    }
+    if (confirmSkip) {
+        AlertDialog(
+            onDismissRequest = { confirmSkip = false },
+            containerColor = theme.bgTertiary,
+            title = { Text(tr("verification.session.skipConfirmTitle"), style = wizardFont(WZ.FontSize.xl, FontWeight.SemiBold), color = theme.textPrimary) },
+            text = { Text(tr("verification.session.skipConfirmBody"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted) },
+            confirmButton = {
+                BarTextButton(tr("verification.session.skipConfirm"), {
+                    confirmSkip = false
+                    prefs.verifySkippedDevice = session.deviceId ?: ""
+                }, bold = true)
+            },
+            dismissButton = { BarTextButton(tr("common.cancel"), { confirmSkip = false }) },
+        )
     }
 }

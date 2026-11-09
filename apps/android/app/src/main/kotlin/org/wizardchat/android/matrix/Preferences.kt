@@ -47,6 +47,9 @@ class AppPreferences(context: Context) {
     }
     var developerMode by pref(defaults.getBoolean("developerMode", false)) { putBoolean("developerMode", it) }
     var pushToTalk by pref(defaults.getBoolean("pushToTalk", false)) { putBoolean("pushToTalk", it) }
+    var verifySkippedDevice by pref(defaults.getString("verifySkippedDevice", "") ?: "") {
+        putString("verifySkippedDevice", it)
+    }
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }

@@ -345,7 +345,7 @@ private struct RemoveDeviceSheet: View {
     }
 }
 
-private struct RecoveryKeyEntrySheet: View {
+struct RecoveryKeyEntrySheet: View {
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss

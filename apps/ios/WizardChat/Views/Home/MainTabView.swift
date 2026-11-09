@@ -20,6 +20,7 @@ struct MainTabView: View {
     @State private var showExplore = false
     @State private var whatsNew: WhatsNew.Entry?
     @StateObject private var encryptionSetup = EncryptionSetupModel()
+    @AppStorage(EncryptionSetupScreen.skippedKey) private var skippedVerificationDevice = ""
 
     var body: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
@@ -64,7 +65,10 @@ struct MainTabView: View {
         }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
-        .fullScreenCover(isPresented: Binding(get: { session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil },
+        .fullScreenCover(isPresented: Binding(get: {
+            session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil
+                || (session.needsVerification && skippedVerificationDevice != (session.deviceId ?? ""))
+        },
                                               set: { _ in })) {
             EncryptionSetupScreen(model: encryptionSetup)
         }

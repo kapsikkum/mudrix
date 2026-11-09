@@ -144,6 +144,18 @@ struct EncryptionSetupScreen: View {
     @ObservedObject var model: EncryptionSetupModel
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
+    @AppStorage(EncryptionSetupScreen.skippedKey) private var skippedDevice = ""
+    @State private var hasOtherVerifiedSession = false
+    @State private var verification: VerificationModel?
+    @State private var showRecoveryKeyEntry = false
+    @State private var confirmReset = false
+    @State private var confirmSkip = false
+
+    static let skippedKey = "verifySkippedDevice"
+
+    private var hasRecoveryKey: Bool {
+        session.encryption?.recovery == "enabled" || session.encryption?.recovery == "incomplete"
+    }
 
     var body: some View {
         ScrollView {
@@ -151,33 +163,14 @@ struct EncryptionSetupScreen: View {
                 Spacer(minLength: WZ.Space.space10)
                 if let key = model.recoveryKey {
                     RecoveryKeyView(recoveryKey: key) { model.recoveryKey = nil }
+                } else if session.needsEncryptionSetup {
+                    header(title: "verification.session.setupTitle", body: "verification.session.setupBody")
+                    primaryButton("verification.session.setupButton") { model.run(session) }
+                    footer(skippable: false)
                 } else {
-                    Image("ph-shield-check-regular")
-                        .font(.system(size: WZ.SizeIcon.xl))
-                        .foregroundStyle(theme.accent)
-                    Text(String(localized: "verification.session.setupTitle"))
-                        .font(.wizard(WZ.FontSize.xl, .bold))
-                        .multilineTextAlignment(.center)
-                    Text(String(localized: "verification.session.setupBody"))
-                        .font(.wizard(WZ.FontSize.md))
-                        .foregroundStyle(theme.textMuted)
-                        .multilineTextAlignment(.center)
-                    Button {
-                        model.run(session)
-                    } label: {
-                        HStack {
-                            if model.busy { ProgressView().tint(theme.textOnAccent) }
-                            Text(String(localized: "verification.session.setupButton"))
-                        }
-                    }
-                    .buttonStyle(PrimaryButtonStyle())
-                    .disabled(model.busy)
-                    if let error = model.error { StatusText(text: error) }
-                    Button(String(localized: "settings.account.logout")) { Task { await session.logout() } }
-                        .font(.wizard(WZ.FontSize.sm))
-                        .foregroundStyle(theme.textMuted)
-                        .disabled(model.busy)
+                    verify
                 }
+                if let error = model.error { StatusText(text: error) }
             }
             .padding(WZ.Space.space7)
             .frame(maxWidth: 480)
@@ -186,5 +179,104 @@ struct EncryptionSetupScreen: View {
         .background(theme.bgPrimary.ignoresSafeArea())
         .modifier(EncryptionSetupPrompts(model: model))
         .interactiveDismissDisabled()
+        .task(id: session.needsVerification) {
+            guard session.needsVerification,
+                  let devices = try? await session.requireClient.devices() else { return }
+            hasOtherVerifiedSession = devices.contains { !$0.isCurrent && $0.crossSignedByOwner }
+        }
+        .sheet(isPresented: $showRecoveryKeyEntry) { RecoveryKeyEntrySheet() }
+        .sheet(item: $verification) { VerificationSheet(model: $0) }
+        .confirmationDialog(String(localized: "verification.setupOverwritesTitle"), isPresented: $confirmReset, titleVisibility: .visible) {
+            Button(String(localized: "settings.encryption.resetButton"), role: .destructive) { model.run(session) }
+        } message: {
+            Text(String(localized: "verification.setupOverwritesConfirm"))
+        }
+        .confirmationDialog(String(localized: "verification.session.skipConfirmTitle"), isPresented: $confirmSkip, titleVisibility: .visible) {
+            Button(String(localized: "verification.session.skipConfirm"), role: .destructive) {
+                skippedDevice = session.deviceId ?? ""
+            }
+        } message: {
+            Text(String(localized: "verification.session.skipConfirmBody"))
+        }
+    }
+
+    @ViewBuilder
+    private var verify: some View {
+        let cannotVerify = !hasOtherVerifiedSession && !hasRecoveryKey
+        header(title: "verification.session.title",
+               body: cannotVerify ? "verification.session.noWayToVerify" : "verification.session.body")
+        if cannotVerify {
+            primaryButton("verification.session.resetAndSetUp") { model.run(session) }
+        } else {
+            if hasOtherVerifiedSession {
+                primaryButton("verification.session.useOtherDevice", icon: "ph-devices-regular") {
+                    verification = VerificationModel(.ownDevice)
+                }
+            }
+            if hasRecoveryKey {
+                if hasOtherVerifiedSession {
+                    recoveryKeyButton.buttonStyle(SecondaryButtonStyle())
+                } else {
+                    recoveryKeyButton.buttonStyle(PrimaryButtonStyle())
+                }
+            }
+            Button(String(localized: "verification.session.reset")) { confirmReset = true }
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.danger)
+                .disabled(model.busy)
+        }
+        footer(skippable: true)
+    }
+
+    private var recoveryKeyButton: some View {
+        Button {
+            showRecoveryKeyEntry = true
+        } label: {
+            Label(String(localized: "verification.session.useRecoveryKey"), image: "ph-key-regular")
+        }
+        .disabled(model.busy)
+    }
+
+    private func header(title: String, body: String) -> some View {
+        VStack(spacing: WZ.Space.space6) {
+            Image("ph-shield-check-regular")
+                .font(.system(size: WZ.SizeIcon.xl))
+                .foregroundStyle(theme.accent)
+            Text(String(localized: String.LocalizationValue(title)))
+                .font(.wizard(WZ.FontSize.xl, .bold))
+                .multilineTextAlignment(.center)
+            Text(String(localized: String.LocalizationValue(body)))
+                .font(.wizard(WZ.FontSize.md))
+                .foregroundStyle(theme.textMuted)
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    private func primaryButton(_ title: String, icon: String? = nil, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                if model.busy {
+                    ProgressView().tint(theme.textOnAccent)
+                } else if let icon {
+                    Image(icon)
+                }
+                Text(String(localized: String.LocalizationValue(title)))
+            }
+        }
+        .buttonStyle(PrimaryButtonStyle())
+        .disabled(model.busy)
+    }
+
+    private func footer(skippable: Bool) -> some View {
+        HStack(spacing: WZ.Space.space4) {
+            if skippable {
+                Button(String(localized: "verification.session.skip")) { confirmSkip = true }
+                Text(verbatim: "·")
+            }
+            Button(String(localized: "settings.account.logout")) { Task { await session.logout() } }
+        }
+        .font(.wizard(WZ.FontSize.sm))
+        .foregroundStyle(theme.textMuted)
+        .disabled(model.busy)
     }
 }

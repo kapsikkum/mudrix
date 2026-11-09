@@ -1,5 +1,6 @@
 package org.wizardchat.android
 
+import org.wizardchat.android.matrix.deviceId
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -174,7 +175,11 @@ private fun Root() {
                 }
             }
             val encryptionSetup = remember(session.userId) { EncryptionSetupState() }
-            if (session.needsEncryptionSetup || encryptionSetup.recoveryKey != null) EncryptionSetupScreen(encryptionSetup)
+            val prefs = LocalPrefs.current
+            val verifyPending = session.needsVerification && prefs.verifySkippedDevice != session.deviceId
+            if (session.needsEncryptionSetup || encryptionSetup.recoveryKey != null || verifyPending) {
+                EncryptionSetupScreen(encryptionSetup)
+            }
             if (session.isAddingAccount) AddAccountScreen()
         }
     }

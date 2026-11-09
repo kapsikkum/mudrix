@@ -26,6 +26,7 @@ final class MatrixSession: ObservableObject {
     private let pathMonitor = NWPathMonitor()
     @Published private(set) var encryption: EncryptionStatus?
     @Published private(set) var needsEncryptionSetup = false
+    @Published private(set) var needsVerification = false
     @Published private(set) var accounts: [Account] = []
     @Published var isAddingAccount = false
 
@@ -277,8 +278,9 @@ final class MatrixSession: ObservableObject {
         guard let client, let userId, let status = encryption, status.recovery != "unknown" else { return }
         Task { [weak self] in
             guard let hasIdentity = try? await client.userTrust(userId: userId).hasIdentity,
-                  self?.client === client else { return }
-            self?.needsEncryptionSetup = !hasIdentity
+                  let self, self.client === client else { return }
+            needsEncryptionSetup = !hasIdentity
+            needsVerification = hasIdentity && encryption?.deviceVerified == false
         }
     }
 
@@ -369,6 +371,7 @@ final class MatrixSession: ObservableObject {
         customStatus = nil
         encryption = nil
         needsEncryptionSetup = false
+        needsVerification = false
         syncState = .idle
         try? await client?.stopSync()
     }

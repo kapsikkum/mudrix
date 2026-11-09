@@ -65,6 +65,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         private set
     var needsEncryptionSetup by mutableStateOf(false)
         private set
+    var needsVerification by mutableStateOf(false)
+        private set
 
     var client: WizardClient? = null
         private set
@@ -378,6 +380,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         customStatus = null
         encryption = null
         needsEncryptionSetup = false
+        needsVerification = false
         syncState = SyncState.idle
         runCatching { client?.stopSync() }
     }
@@ -422,7 +425,9 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         if (client == null || status == null || status.recovery == "unknown") return
         scope.launch {
             val hasIdentity = runCatching { client.userTrust(userId).hasIdentity }.getOrNull() ?: return@launch
-            if (this@MatrixSession.client === client) needsEncryptionSetup = !hasIdentity
+            if (this@MatrixSession.client !== client) return@launch
+            needsEncryptionSetup = !hasIdentity
+            needsVerification = hasIdentity && encryption?.deviceVerified == false
         }
     }
 
