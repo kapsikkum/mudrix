@@ -517,6 +517,12 @@ export class CallMedia {
     await Promise.all([...this.connections.values()].map((c) => c.room.startAudio()));
   }
 
+  private resumeAudio = () => {
+    window.removeEventListener('pointerdown', this.resumeAudio);
+    window.removeEventListener('keydown', this.resumeAudio);
+    void this.startAudio().catch((error) => console.warn('[call] could not start audio', error));
+  };
+
   setUserVolume(userId: string, volume: number) {
     this.userVolumes.set(userId, Math.min(Math.max(volume, 0), 1));
     this.applyAudio();
@@ -667,7 +673,10 @@ export class CallMedia {
     for (const participant of room.remoteParticipants.values())
       for (const publication of participant.trackPublications.values())
         this.applySubscription(publication, participant);
-    if (this.keyProvider) await room.setE2EEEnabled(true);
+    if (this.keyProvider) {
+      await room.setE2EEEnabled(true);
+      this.keyProvider.reapplyLatest();
+    }
     this.scheduleUpdate();
     return connection;
   }
@@ -740,6 +749,11 @@ export class CallMedia {
       .on(RoomEvent.TrackUnsubscribed, (track) => {
         this.stopAudio(track);
         update();
+      })
+      .on(RoomEvent.AudioPlaybackStatusChanged, () => {
+        if (room.canPlaybackAudio) return;
+        window.addEventListener('pointerdown', this.resumeAudio);
+        window.addEventListener('keydown', this.resumeAudio);
       })
       .on(RoomEvent.DataReceived, (data, participant, _kind, topic, _encryption, identity) => {
         const from = participant?.identity ?? identity;
@@ -966,6 +980,8 @@ export class CallMedia {
     this.keyIssues.clear();
     this.stopKeyCheck();
     window.removeEventListener('online', this.onOnline);
+    window.removeEventListener('pointerdown', this.resumeAudio);
+    window.removeEventListener('keydown', this.resumeAudio);
     if (this.subscribeRetry) clearTimeout(this.subscribeRetry);
     this.subscribeRetry = undefined;
     if (this.micGraceTimer) clearTimeout(this.micGraceTimer);
