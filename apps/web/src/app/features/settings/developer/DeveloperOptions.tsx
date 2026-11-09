@@ -8,7 +8,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from '@phosphor-icons/react';
-import { developerModeAtom } from '@/app/store/atoms';
+import { developerModeAtom, slidingSyncAtom } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { CopyButton, IconButton } from '@/app/components/Button';
@@ -18,6 +18,7 @@ import * as css from '../Settings.css';
 export function DeveloperOptions() {
   const { t } = useTranslation();
   const [devModeEnabled, setDevModeEnabled] = useAtom(developerModeAtom);
+  const [slidingSync, setSlidingSync] = useAtom(slidingSyncAtom);
   const client = getMatrixClientOrNull();
   const [tokenVisible, setTokenVisible] = useState(false);
   const [tokenExpanded, setTokenExpanded] = useState(false);
@@ -52,6 +53,19 @@ export function DeveloperOptions() {
           checked={devModeEnabled}
           onChange={setDevModeEnabled}
         />
+        <ToggleRow
+          label={t('settings.developer.slidingSync')}
+          description={t('settings.developer.slidingSyncDescription')}
+          checked={slidingSync}
+          onChange={setSlidingSync}
+        />
+        <button
+          type="button"
+          className={css.actionBtnSecondary}
+          onClick={() => window.location.reload()}
+        >
+          {t('settings.developer.reload')}
+        </button>
       </div>
 
       {devModeEnabled && (

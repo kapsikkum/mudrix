@@ -65,6 +65,7 @@ export const DEFAULT_KEYBINDS: Keybinds = {
 };
 
 export interface Preferences {
+  slidingSync: boolean;
   typingIndicators: boolean;
   notificationSounds: boolean;
   /** Whether message sounds also play while the app is the window being looked at. */
@@ -163,6 +164,7 @@ export const messageLayoutMobileAtom = atomWithStorage<MessageLayout | null>(
 export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, DEFAULT_KEYBINDS);
 
 export const DEFAULT_PREFERENCES: Preferences = {
+  slidingSync: false,
   typingIndicators: true,
   notificationSounds: true,
   notificationSoundsWhenFocused: false,
@@ -236,6 +238,7 @@ function preferenceFieldAtom<K extends keyof Preferences>(key: K) {
   );
 }
 
+export const slidingSyncAtom = preferenceFieldAtom('slidingSync');
 export const typingIndicatorsAtom = preferenceFieldAtom('typingIndicators');
 export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');
 export const notificationSoundsWhenFocusedAtom = preferenceFieldAtom(

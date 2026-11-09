@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { LogoHover } from '@/app/components/AppLoading';
-import {
-  GithubLogoIcon,
-  DownloadSimpleIcon,
-  HeartStraightIcon,
-  SparkleIcon,
-} from '@phosphor-icons/react';
+import { GithubLogoIcon, DownloadSimpleIcon, SparkleIcon } from '@phosphor-icons/react';
 import { useSetAtom } from 'jotai';
 import { whatsNewOpenAtom } from '@/app/store/atoms';
 import { latestWhatsNew } from '@/app/features/whatsNew';
+import { isMobileDevice } from '@/util/desktop';
 import * as css from '../Settings.css';
 import { SOURCE_URL } from '@/const/links';
 import * as heroCss from './About.css';
 
-const DOWNLOAD_URL = `${SOURCE_URL}/releases/latest`;
-const LIBERAPAY_URL = 'https://liberapay.com/JPK/donate';
+const WIZARDCHAT_URL = 'https://gitlab.com/wizardchat/wizardchat-web';
+const DOWNLOAD_URL = 'https://github.com/kapsikkum/mudrix-desktop/releases/latest';
 
 export function About() {
   const { t } = useTranslation();
@@ -40,15 +36,17 @@ export function About() {
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>
-            <a
-              href={DOWNLOAD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={heroCss.downloadBtn}
-            >
-              <DownloadSimpleIcon size={16} />
-              {t('settings.about.downloadDesktop')}
-            </a>
+            {!isMobileDevice() && (
+              <a
+                href={DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={heroCss.downloadBtn}
+              >
+                <DownloadSimpleIcon size={16} />
+                {t('settings.about.downloadDesktop')}
+              </a>
+            )}
             <a
               href={SOURCE_URL}
               target="_blank"
@@ -56,17 +54,18 @@ export function About() {
               className={heroCss.sourceBtn}
             >
               <GithubLogoIcon size={16} />
-              {t('settings.about.viewSourceOnGitLab')}
+              {t('settings.about.viewSourceOnGitHub')}
             </a>
-            <a
-              href={LIBERAPAY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={heroCss.donateBtn}
-            >
-              <HeartStraightIcon size={16} />
-              {t('settings.about.donate')}
-            </a>
+            {hasWhatsNew && (
+              <button
+                type="button"
+                className={heroCss.sourceBtn}
+                onClick={() => setWhatsNewOpen(true)}
+              >
+                <SparkleIcon size={16} />
+                {t('whatsNew.title')}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -75,13 +74,27 @@ export function About() {
         <h3 className={css.sectionTitle}>{t('settings.about.credits')}</h3>
         <div className={css.settingRow}>
           <span className={css.settingLabel}>
+            Mudrix is a fork of{' '}
+            <a
+              href={WIZARDCHAT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={css.externalLink}
+            >
+              WizardChat
+            </a>{' '}
+            (AGPL-3.0).
+          </span>
+        </div>
+        <div className={css.settingRow}>
+          <span className={css.settingLabel}>
             <Trans
               i18nKey="settings.about.matrixSdk"
               components={{
                 sdkLink: (
                   // eslint-disable-next-line jsx-a11y/anchor-has-content
                   <a
-                    href="https://github.com/matrix-org/matrix-rust-sdk"
+                    href="https://github.com/matrix-org/matrix-js-sdk"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={css.externalLink}
@@ -109,19 +122,24 @@ export function About() {
             />
           </span>
         </div>
-      </div>
-
-      <div className={heroCss.footerLinks}>
-        {hasWhatsNew && (
-          <button
-            type="button"
-            className={heroCss.footerLink}
-            onClick={() => setWhatsNewOpen(true)}
-          >
-            <SparkleIcon size={14} />
-            {t('whatsNew.title')}
-          </button>
-        )}
+        <div className={css.settingRow}>
+          <span className={css.settingLabel}>
+            <Trans
+              i18nKey="settings.about.elementCall"
+              components={{
+                elementCallLink: (
+                  // eslint-disable-next-line jsx-a11y/anchor-has-content
+                  <a
+                    href="https://github.com/element-hq/element-call"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={css.externalLink}
+                  />
+                ),
+              }}
+            />
+          </span>
+        </div>
       </div>
     </div>
   );
