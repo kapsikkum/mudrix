@@ -21,7 +21,12 @@ import {
   XIcon,
   SpinnerGapIcon,
 } from '@phosphor-icons/react';
-import { mobileYouOpenAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
+import {
+  mobileYouOpenAtom,
+  settingsHighlightAtom,
+  settingsOpenAtom,
+  settingsPageAtom,
+} from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
 import {
   Avatar,
@@ -52,6 +57,14 @@ import {
   NarrowSettingsPage,
   type NarrowSettingsItem,
 } from '@/app/components/Settings/NarrowSettings';
+import {
+  SettingsSearchInput,
+  SettingsSearchResults,
+  useHighlightSetting,
+  useSettingsSearch,
+  type SettingsSearchResult,
+} from '@/app/components/Settings/SettingsSearch';
+import { SETTINGS_INDEX } from './searchIndex';
 import * as css from './Settings.css';
 
 function AccountPage() {
@@ -237,6 +250,12 @@ export function Settings() {
   targetPageRef.current = targetPage;
 
   const NAV = useSettingsNav();
+  const [query, setQuery] = useState('');
+  const results = useSettingsSearch(NAV, SETTINGS_INDEX, query);
+  const [highlight, setHighlight] = useAtom(settingsHighlightAtom);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const clearHighlight = useCallback(() => setHighlight(null), [setHighlight]);
+  useHighlightSetting(pageRef, open ? highlight : null, clearHighlight);
 
   const close = useCallback(() => setOpen(false), [setOpen]);
   const navigate = useNavigate();
@@ -244,15 +263,34 @@ export function Settings() {
     close();
     navigate('/welcome?add=1');
   };
+  const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
   const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
   const backToList = useCallback(() => setNarrowView('list'), []);
   const openPage = (page: SettingsPage) => {
     setActivePage(page);
     setNarrowView('page');
   };
+  const openResult = (result: SettingsSearchResult<SettingsPage>) => {
+    openPage(result.page);
+    setHighlight(result.pageLabel ? result.label : null);
+  };
+  const search = (className: string) => (
+    <SettingsSearchInput
+      className={className}
+      value={query}
+      onChange={setQuery}
+      onSubmit={() => results?.[0] && openResult(results[0])}
+    />
+  );
+  const page = (
+    <div ref={pageRef}>
+      <PageContent page={shownPage} />
+    </div>
+  );
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
+    if (open) setQuery('');
     if (open && !targetPageRef.current) {
       setActivePage('account');
       setNarrowView('list');
@@ -266,7 +304,6 @@ export function Settings() {
     setTargetPage(null);
   }, [open, targetPage, setTargetPage]);
 
-  const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
   const pageOnly = isNarrow && youTabOpen;
   const showPage = isNarrow && (pageOnly || narrowView === 'page');
 
@@ -277,8 +314,8 @@ export function Settings() {
       swipeBack={pageOnly}
       size="xl"
       zIndex={7000}
-      maxWidth="900px"
-      height="640px"
+      maxWidth="1080px"
+      height="800px"
       surface="primary"
       fullscreenOnMobile
       bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
@@ -291,7 +328,7 @@ export function Settings() {
             onBack={pageOnly ? close : backToList}
             onClose={pageOnly ? undefined : close}
           >
-            <PageContent page={shownPage} />
+            {page}
           </NarrowSettingsPage>
         ) : (
           <NarrowSettingsList
@@ -299,6 +336,10 @@ export function Settings() {
             items={NAV}
             onSelect={openPage}
             onClose={close}
+            search={search(css.navListSearch)}
+            results={
+              results && <SettingsSearchResults results={results} onSelect={openResult} narrow />
+            }
             footer={
               <div className={css.navListFooter}>
                 <AccountSwitcher onAddAccount={addAccount} />
@@ -310,22 +351,27 @@ export function Settings() {
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('settings.title')}</span>
-            {NAV.map((item) => {
-              const isActive = activePage === item.key;
-              return (
-                <div key={item.key}>
-                  {item.dividerBefore && <div className={css.navDivider} />}
-                  <button
-                    type="button"
-                    className={isActive ? css.navItemActive : css.navItem}
-                    onClick={() => setActivePage(item.key)}
-                  >
-                    <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                    <span className={css.navLabelText}>{item.label}</span>
-                  </button>
-                </div>
-              );
-            })}
+            {search(css.navSearch)}
+            {results ? (
+              <SettingsSearchResults results={results} onSelect={openResult} />
+            ) : (
+              NAV.map((item) => {
+                const isActive = activePage === item.key;
+                return (
+                  <div key={item.key}>
+                    {item.dividerBefore && <div className={css.navDivider} />}
+                    <button
+                      type="button"
+                      className={isActive ? css.navItemActive : css.navItem}
+                      onClick={() => setActivePage(item.key)}
+                    >
+                      <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                      <span className={css.navLabelText}>{item.label}</span>
+                    </button>
+                  </div>
+                );
+              })
+            )}
             <div className={css.navFooter}>
               <AccountSwitcher onAddAccount={addAccount} />
             </div>
@@ -340,7 +386,7 @@ export function Settings() {
             >
               <XIcon size={18} />
             </button>
-            <PageContent page={shownPage} />
+            {page}
           </div>
         </>
       )}

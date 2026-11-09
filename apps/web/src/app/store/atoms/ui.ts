@@ -261,6 +261,7 @@ export type SettingsPage =
   | 'encryption'
   | 'about';
 export const settingsPageAtom = atom<SettingsPage | null>(null);
+export const settingsHighlightAtom = atom<string | null>(null);
 
 export interface EmojiVerificationState {
   open: boolean;

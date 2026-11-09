@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useCallback } from 'react';
+import { useState, useLayoutEffect, useCallback, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
@@ -18,10 +18,21 @@ import { PermissionsPanel } from '@/app/features/room/roomsettings/Permissions';
 import { RoomPermissionsMatrix } from '@/app/features/room/roomsettings/RoomPermissionsMatrix';
 import { EmojiStickerPanel } from '@/app/features/room/roomsettings/EmojiStickerPanel';
 import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Settings/NarrowSettings';
+import {
+  SettingsSearchInput,
+  SettingsSearchResults,
+  useHighlightSetting,
+  useSettingsSearch,
+  type SettingsSearchResult,
+} from '@/app/components/Settings/SettingsSearch';
+import {
+  SPACE_SETTINGS_INDEX,
+  type SpaceSettingsTab,
+} from '@/app/features/room/roomsettings/searchIndex';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'members' | 'permissions' | 'emojis';
+type Tab = SpaceSettingsTab;
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
@@ -46,6 +57,13 @@ export function SpaceSettings() {
   const isNarrow = useMediaQuery('(max-width: 768px)');
   const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
   const backToList = useCallback(() => setNarrowView('list'), []);
+  const [query, setQuery] = useState('');
+  const [highlight, setHighlight] = useState<string | null>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const clearHighlight = useCallback(() => setHighlight(null), []);
+  useHighlightSetting(pageRef, highlight, clearHighlight);
+  const pages = NAV.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }));
+  const results = useSettingsSearch(pages, SPACE_SETTINGS_INDEX, query);
 
   const graph = useSpaceGraph();
   const details = useRoomDetails(spaceId);
@@ -53,6 +71,7 @@ export function SpaceSettings() {
 
   useLayoutEffect(() => {
     if (spaceId) {
+      setQuery('');
       setActiveTab('general');
       setNarrowView('list');
     }
@@ -67,15 +86,27 @@ export function SpaceSettings() {
     setActiveTab(tab);
     setNarrowView('page');
   };
+  const openResult = (result: SettingsSearchResult<Tab>) => {
+    openTab(result.page);
+    setHighlight(result.pageLabel ? result.label : null);
+  };
+  const search = (className: string) => (
+    <SettingsSearchInput
+      className={className}
+      value={query}
+      onChange={setQuery}
+      onSubmit={() => results?.[0] && openResult(results[0])}
+    />
+  );
   const panel = (
-    <>
+    <div ref={pageRef}>
       {activeTab === 'general' && <GeneralPanel spaceId={spaceId!} />}
       {activeTab === 'members' && <PermissionsPanel roomId={spaceId!} />}
       {activeTab === 'permissions' && space && <RoomPermissionsMatrix roomId={spaceId!} />}
       {activeTab === 'emojis' && space && client && (
         <EmojiStickerPanel roomId={spaceId!} client={client} />
       )}
-    </>
+    </div>
   );
 
   return (
@@ -84,8 +115,8 @@ export function SpaceSettings() {
       onClose={showPage ? backToList : close}
       size="xl"
       zIndex={7000}
-      maxWidth="900px"
-      height="640px"
+      maxWidth="1080px"
+      height="800px"
       surface="primary"
       fullscreenOnMobile
       bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
@@ -103,29 +134,38 @@ export function SpaceSettings() {
         ) : (
           <NarrowSettingsList
             title={space?.name ?? t('common.settings')}
-            items={NAV.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }))}
+            items={pages}
             onSelect={openTab}
             onClose={close}
+            search={search(css.navListSearch)}
+            results={
+              results && <SettingsSearchResults results={results} onSelect={openResult} narrow />
+            }
           />
         )
       ) : (
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('common.settings')}</span>
-            {NAV.map((item) => {
-              const isActive = activeTab === item.tab;
-              return (
-                <button
-                  key={item.tab}
-                  type="button"
-                  className={isActive ? css.navItemActive : css.navItem}
-                  onClick={() => setActiveTab(item.tab)}
-                >
-                  <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                  <span className={css.navLabelText}>{t(item.labelKey)}</span>
-                </button>
-              );
-            })}
+            {search(css.navSearch)}
+            {results ? (
+              <SettingsSearchResults results={results} onSelect={openResult} />
+            ) : (
+              NAV.map((item) => {
+                const isActive = activeTab === item.tab;
+                return (
+                  <button
+                    key={item.tab}
+                    type="button"
+                    className={isActive ? css.navItemActive : css.navItem}
+                    onClick={() => setActiveTab(item.tab)}
+                  >
+                    <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                    <span className={css.navLabelText}>{t(item.labelKey)}</span>
+                  </button>
+                );
+              })
+            )}
           </nav>
 
           <div className={css.content}>
