@@ -113,7 +113,9 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.room.RoomLinks
 import org.wizardchat.android.ui.tr
@@ -539,7 +541,7 @@ fun ComposerView(
                 }
                 Column(Modifier.weight(1f).floatingGlass(RoundedCornerShape(WZ.Radius.xl), theme.bgTertiary)) {
                     replyTo?.let { entry ->
-                        ContextBar("arrow-bend-up-left", L10n.format("composer.replyingToName", entry.senderName), entry.summary) {
+                        ContextBar("arrow-bend-up-left", L10n.format("composer.replyingToName", entry.senderName), entry.summary, entry.senderName to nameColor(entry.sender)) {
                             onReplyToChange(null)
                         }
                     }
@@ -766,7 +768,7 @@ private fun FormatButton(icon: String, label: String, tint: Color = theme.textPr
 }
 
 @Composable
-private fun ContextBar(icon: String, title: String, text: String, onClose: () -> Unit) {
+private fun ContextBar(icon: String, title: String, text: String, name: Pair<String, Color>? = null, onClose: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -777,7 +779,13 @@ private fun ContextBar(icon: String, title: String, text: String, onClose: () ->
     ) {
         PhIcon(icon, tint = theme.accent)
         Column(Modifier.weight(1f)) {
-            Text(title, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(
+                withNameColors(title, listOfNotNull(name)),
+                style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                color = theme.accent,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
             Text(text, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Box(Modifier.clip(CircleShape).clickable(onClick = onClose)) {

@@ -13,6 +13,7 @@ struct ComposerView: View {
     let onTyping: (Bool) -> Void
 
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     @State private var draft = ""
@@ -60,7 +61,8 @@ struct ComposerView: View {
                     if editing == nil { plusBubble }
                     VStack(spacing: WZ.Space.space0) {
                         if let replyTo { contextBar(icon: "ph-arrow-bend-up-left-regular",
-                                                    title: L10n.format("composer.replyingToName", "\(replyTo.senderName)"), text: replyTo.summary) {
+                                                    title: L10n.format("composer.replyingToName", "\(replyTo.senderName)"), text: replyTo.summary,
+                                                    name: (replyTo.senderName, theme.nameColor(replyTo.sender, colored: prefs.colorUsernames))) {
                             self.replyTo = nil
                         } }
                         if let editing { contextBar(icon: "ph-pencil-simple-regular", title: String(localized: "timeline.editing"), text: editing.summary) {
@@ -322,11 +324,12 @@ struct ComposerView: View {
         setCursor(draft.index(draft.startIndex, offsetBy: startOffset + replaced.count))
     }
 
-    private func contextBar(icon: String, title: String, text: String, onClose: @escaping () -> Void) -> some View {
+    private func contextBar(icon: String, title: String, text: String, name: (String, Color)? = nil,
+                            onClose: @escaping () -> Void) -> some View {
         HStack(spacing: WZ.Space.space4) {
             Image(icon).foregroundStyle(theme.accent)
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
-                Text(title).font(.wizard(WZ.FontSize.sm, .semibold)).foregroundStyle(theme.accent)
+                Text(withNameColors(title, name.map { [$0] } ?? [])).font(.wizard(WZ.FontSize.sm, .semibold)).foregroundStyle(theme.accent)
                 Text(text).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
             }
             .lineLimit(1)

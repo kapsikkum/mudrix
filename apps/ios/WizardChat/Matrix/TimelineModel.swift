@@ -109,6 +109,7 @@ struct ChatEntry: Identifiable {
         let eventId: String
         let senderName: String
         let text: String
+        var sender = ""
     }
 
     let id: String
@@ -188,6 +189,7 @@ final class TimelineModel: ObservableObject {
     @Published private(set) var isPaginating = false
     @Published private(set) var reachedStart = false
     @Published private(set) var typingNames: [String] = []
+    @Published private(set) var typingIds: [String] = []
     @Published var sendError: String?
     @Published private(set) var firstUnreadId: String?
     @Published private(set) var pinnedIds: Set<String> = []
@@ -234,6 +236,7 @@ final class TimelineModel: ObservableObject {
                 subscriptions.append(timeline.watchTyping { [weak self] users in
                     MainActor.assumeIsolated {
                         self?.typingNames = users.map { $0.displayName ?? Self.localpart($0.userId) }
+                        self?.typingIds = users.map(\.userId)
                     }
                 })
             }
@@ -767,7 +770,8 @@ final class TimelineModel: ObservableObject {
     private static func quote(_ reply: ReplyPreview) -> ChatEntry.ReplyQuote {
         switch reply {
         case .ready(let ready):
-            return .init(eventId: ready.eventId, senderName: ready.senderName ?? ready.sender, text: ready.summary)
+            return .init(eventId: ready.eventId, senderName: ready.senderName ?? ready.sender, text: ready.summary,
+                         sender: ready.sender)
         case .unavailable(let reply):
             return .init(eventId: reply.eventId, senderName: "", text: "")
         case .pending(let reply):

@@ -29,6 +29,7 @@ class AppPreferences(context: Context) {
     var chatFontSize by pref(defaults.getFloat("chatFontSize", DEFAULT_CHAT_FONT_SIZE)) { putFloat("chatFontSize", it) }
     var chatDensity by pref(enumPref("chatDensity", Density.default)) { putString("chatDensity", it.name) }
     var uiDensity by pref(enumPref("uiDensity", Density.default)) { putString("uiDensity", it.name) }
+    var colorUsernames by pref(defaults.getBoolean("colorUsernames", true), synced = true) { putBoolean("colorUsernames", it) }
     var prettifyLinks by pref(defaults.getBoolean("prettifyLinks", true)) { putBoolean("prettifyLinks", it) }
     var themedAppIcon by pref(defaults.getBoolean("themedAppIcon", false)) { putBoolean("themedAppIcon", it) }
     var showRoomAvatars by pref(defaults.getBoolean("showRoomAvatars", true)) { putBoolean("showRoomAvatars", it) }
@@ -78,6 +79,7 @@ class AppPreferences(context: Context) {
             "sendReadReceipts" to JsonPrimitive(sendReadReceipts),
             "sendTyping" to JsonPrimitive(typingIndicators),
             "notificationSound" to JsonPrimitive(notificationSounds),
+            "colorUsernames" to JsonPrimitive(colorUsernames),
         )
 
     fun applySynced(json: Map<String, JsonElement>) {
@@ -90,6 +92,7 @@ class AppPreferences(context: Context) {
             (json["sendReadReceipts"] as? JsonPrimitive)?.booleanOrNull?.let { if (it != sendReadReceipts) sendReadReceipts = it }
             (json["sendTyping"] as? JsonPrimitive)?.booleanOrNull?.let { if (it != typingIndicators) typingIndicators = it }
             (json["notificationSound"] as? JsonPrimitive)?.booleanOrNull?.let { if (it != notificationSounds) notificationSounds = it }
+            (json["colorUsernames"] as? JsonPrimitive)?.booleanOrNull?.let { if (it != colorUsernames) colorUsernames = it }
         } finally {
             isApplyingRemote = false
         }

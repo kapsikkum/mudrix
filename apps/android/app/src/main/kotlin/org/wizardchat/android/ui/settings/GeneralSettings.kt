@@ -68,6 +68,7 @@ import org.wizardchat.android.ui.room.MentionColors
 import org.wizardchat.android.ui.room.MessageText
 import org.wizardchat.android.ui.theme.ThemeSetting
 import org.wizardchat.android.ui.theme.WizardTheme
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -153,6 +154,8 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             SettingsDivider()
             PickerRow(tr("settings.appearance.density"), prefs.chatDensity, densityOptions(), { prefs.chatDensity = it })
             SettingsDivider()
+            ToggleRow(tr("settings.appearance.colorUsernames"), prefs.colorUsernames, { prefs.colorUsernames = it })
+            SettingsDivider()
             ToggleRow(
                 tr("settings.appearance.prettifyLinks"),
                 prefs.prettifyLinks,
@@ -212,6 +215,7 @@ private fun ChatPreview() {
             mention = mentionLabel(ownName),
             mentionsMe = true,
             isOwn = false,
+            senderId = "@merlin:wizardchat.org",
             timestamp = now - 120_000,
         )
         PreviewMessage(
@@ -220,6 +224,7 @@ private fun ChatPreview() {
             "settings.appearance.previewOwnMessage",
             mention = mentionLabel("Merlin"),
             mentionsMe = false,
+            senderId = session.userId ?: "@you:wizardchat.org",
             isOwn = true,
             timestamp = now - 60_000,
         )
@@ -236,6 +241,7 @@ private fun PreviewMessage(
     mention: String,
     mentionsMe: Boolean,
     isOwn: Boolean,
+    senderId: String,
     timestamp: Long,
 ) {
     val body = tr(textKey, mention)
@@ -267,7 +273,7 @@ private fun PreviewMessage(
                     sender,
                     Modifier.weight(1f, fill = false),
                     style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                    color = theme.accent,
+                    color = nameColor(senderId),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )

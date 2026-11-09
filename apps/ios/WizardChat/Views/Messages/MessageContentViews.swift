@@ -518,6 +518,7 @@ struct PollMessageView: View {
 
 struct ReplyQuoteView: View {
     let quote: ChatEntry.ReplyQuote
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
@@ -526,7 +527,7 @@ struct ReplyQuoteView: View {
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Text(quote.senderName)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
-                    .foregroundStyle(theme.accent)
+                    .foregroundStyle(theme.nameColor(quote.sender, colored: prefs.colorUsernames))
                 Text(quote.text.isEmpty ? String(localized: "timeline.originalMessage") : quote.text)
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)

@@ -169,7 +169,7 @@ data class ChatEntry(
         val id: String get() = key
     }
 
-    data class ReplyQuote(val eventId: String, val senderName: String, val text: String)
+    data class ReplyQuote(val eventId: String, val senderName: String, val text: String, val sender: String = "")
 
     val allowsActions: Boolean get() = kind !is Kind.Redacted && kind !is Kind.Undecryptable
     val canBeRepliedTo: Boolean get() = eventId != null && allowsActions
@@ -220,6 +220,8 @@ class TimelineModel(
         private set
     var typingNames by mutableStateOf<List<String>>(emptyList())
         private set
+    var typingIds by mutableStateOf<List<String>>(emptyList())
+        private set
     var sendError by mutableStateOf<String?>(null)
     var firstUnreadId by mutableStateOf<String?>(null)
         private set
@@ -256,6 +258,7 @@ class TimelineModel(
             if (kind == TimelineKind.Main) {
                 subscriptions += timeline.watchTyping { users ->
                     typingNames = users.map { it.displayName ?: localpart(it.userId) }
+                    typingIds = users.map { it.userId }
                 }
             }
         } catch (e: CancellationException) {
@@ -835,7 +838,7 @@ class TimelineModel(
         }
 
         private fun quote(reply: ReplyPreview): ChatEntry.ReplyQuote = when (reply) {
-            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary)
+            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary, reply.sender)
             is ReplyPreview.Unavailable -> ChatEntry.ReplyQuote(reply.eventId, "", "")
             is ReplyPreview.Pending -> ChatEntry.ReplyQuote(reply.eventId, "", "")
         }

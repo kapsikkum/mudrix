@@ -113,6 +113,7 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.composer.PackThumb
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -820,7 +821,7 @@ fun ReplyQuoteView(quote: ChatEntry.ReplyQuote) {
     ) {
         Box(Modifier.width(WZ.Space.space1).fillMaxHeight().background(theme.accent, CircleShape))
         Column {
-            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = nameColor(quote.sender), maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
                 quote.text.ifEmpty { tr("timeline.originalMessage") },
                 style = wizardFont(WZ.FontSize.sm),

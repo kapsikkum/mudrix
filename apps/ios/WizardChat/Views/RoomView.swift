@@ -177,7 +177,7 @@ struct RoomView: View {
                 if session.connectionLost {
                     OfflineStatus()
                 } else if prefs.typingIndicators && !timeline.typingNames.isEmpty {
-                    TypingIndicator(names: timeline.typingNames)
+                    TypingIndicator(names: timeline.typingNames, ids: timeline.typingIds)
                 }
                 ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing, threadRoot: threadRoot) { typing in
                     if prefs.typingIndicators { timeline.setTyping(typing) }
@@ -763,6 +763,7 @@ struct MessageRow: View {
     private var spacing: CGFloat { prefs.chatSpacing }
     private var isClassic: Bool { prefs.messageLayout == .classic }
     private var isCompact: Bool { prefs.messageLayout == .compact }
+    private var senderColor: Color { theme.nameColor(entry.sender, colored: prefs.colorUsernames) }
 
     private var isMessageText: Bool {
         if case .message = entry.kind { true } else { false }
@@ -797,7 +798,7 @@ struct MessageRow: View {
                                 .foregroundStyle(theme.textMuted)
                             Text(entry.senderName)
                                 .font(.wizard(WZ.FontSize.md * scale, .semibold))
-                                .foregroundStyle(theme.accent)
+                                .foregroundStyle(senderColor)
                                 .lineLimit(1)
                                 .onTapGesture { actions?.openProfile(entry.sender) }
                         }
@@ -806,7 +807,7 @@ struct MessageRow: View {
                     HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space4) {
                         Text(entry.senderName)
                             .font(.wizard(WZ.FontSize.md * scale, .semibold))
-                            .foregroundStyle(theme.accent)
+                            .foregroundStyle(senderColor)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
                         Text(entry.timestamp, format: .dateTime.hour().minute())
@@ -926,7 +927,7 @@ struct MessageRow: View {
             + Text(verbatim: "  ")
             + Text(entry.senderName)
             .font(.wizard(WZ.FontSize.md * scale, .semibold))
-            .foregroundColor(theme.accent)
+            .foregroundColor(senderColor)
             + Text(verbatim: "  ")
     }
 
@@ -1352,10 +1353,12 @@ private struct OfflineStatus: View {
 
 private struct TypingIndicator: View {
     let names: [String]
+    let ids: [String]
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
-        Text(text)
+        Text(withNameColors(text, Array(zip(names, ids.map { theme.nameColor($0, colored: prefs.colorUsernames) }))))
             .font(.wizard(WZ.FontSize.sm, .medium))
             .foregroundStyle(theme.textMuted)
             .lineLimit(1)

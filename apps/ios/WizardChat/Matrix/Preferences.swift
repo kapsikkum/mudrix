@@ -23,6 +23,7 @@ final class AppPreferences: ObservableObject {
     @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue) } }
     @Published var uiDensity: Density { didSet { save("uiDensity", uiDensity.rawValue) } }
     @Published var prettifyLinks: Bool { didSet { save("prettifyLinks", prettifyLinks) } }
+    @Published var colorUsernames: Bool { didSet { save("colorUsernames", colorUsernames); syncIfNeeded() } }
     @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon) } }
     @Published var showRoomAvatars: Bool { didSet { save("showRoomAvatars", showRoomAvatars) } }
     @Published var reducedMotion: ReducedMotion { didSet { save("reducedMotion", reducedMotion.rawValue) } }
@@ -48,6 +49,7 @@ final class AppPreferences: ObservableObject {
         chatDensity = Density(rawValue: d.string(forKey: "chatDensity") ?? "") ?? .default
         uiDensity = Density(rawValue: d.string(forKey: "uiDensity") ?? "") ?? .default
         prettifyLinks = d.object(forKey: "prettifyLinks") as? Bool ?? true
+        colorUsernames = d.object(forKey: "colorUsernames") as? Bool ?? true
         themedAppIcon = d.bool(forKey: "themedAppIcon")
         showRoomAvatars = d.object(forKey: "showRoomAvatars") as? Bool ?? true
         reducedMotion = ReducedMotion(rawValue: d.string(forKey: "reducedMotion") ?? "") ?? .system
@@ -91,6 +93,7 @@ final class AppPreferences: ObservableObject {
             "sendReadReceipts": .bool(sendReadReceipts),
             "sendTyping": .bool(typingIndicators),
             "notificationSound": .bool(notificationSounds),
+            "colorUsernames": .bool(colorUsernames),
         ]
     }
 
@@ -106,6 +109,7 @@ final class AppPreferences: ObservableObject {
         if case .bool(let value) = json["sendReadReceipts"], value != sendReadReceipts { sendReadReceipts = value }
         if case .bool(let value) = json["sendTyping"], value != typingIndicators { typingIndicators = value }
         if case .bool(let value) = json["notificationSound"], value != notificationSounds { notificationSounds = value }
+        if case .bool(let value) = json["colorUsernames"], value != colorUsernames { colorUsernames = value }
     }
 
     private func syncIfNeeded() {

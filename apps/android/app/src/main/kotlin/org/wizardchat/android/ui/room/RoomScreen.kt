@@ -140,7 +140,9 @@ import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.people.RoomInfoSheet
 import org.wizardchat.android.ui.people.UserProfileSheet
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.JoinCallBar
@@ -473,7 +475,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             if (LocalSession.current.connectionLost) {
                 OfflineStatus()
             } else if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
-                TypingIndicator(timeline.typingNames)
+                TypingIndicator(timeline.typingNames, timeline.typingIds)
             }
             ComposerView(
                 timeline = timeline,
@@ -961,7 +963,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                     entry.senderName,
                                     Modifier.clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
                                     style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                                    color = theme.accent,
+                                    color = nameColor(entry.sender),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
@@ -973,7 +975,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                 entry.senderName,
                                 Modifier.weight(1f, fill = false).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
                                 style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                                color = theme.accent,
+                                color = nameColor(entry.sender),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
@@ -1124,7 +1126,7 @@ private fun TextContent(
                     buildAnnotatedString {
                         withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(Formats.time(entry.timestamp)) }
                         append("  ")
-                        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = theme.accent)) { append(entry.senderName) }
+                        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = nameColor(entry.sender))) { append(entry.senderName) }
                     },
                     style = style,
                 )
@@ -1174,7 +1176,7 @@ private fun TextContent(
                 if (compact) {
                     withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(Formats.time(entry.timestamp)) }
                     append("  ")
-                    withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = theme.accent)) { append(entry.senderName) }
+                    withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = nameColor(entry.sender))) { append(entry.senderName) }
                     append("  ")
                 }
                 withStyle(SpanStyle(fontStyle = if (kind.isEmote) FontStyle.Italic else FontStyle.Normal)) { append(text) }
@@ -1529,13 +1531,17 @@ private fun OfflineStatus() {
 }
 
 @Composable
-private fun TypingIndicator(names: List<String>) {
+private fun TypingIndicator(names: List<String>, ids: List<String>) {
+    val colored = names.zip(ids).map { (name, id) -> name to nameColor(id) }
     Text(
-        when (names.size) {
-            1 -> tr("timeline.oneTyping", names[0])
-            2 -> tr("timeline.twoTyping", names[0], names[1])
-            else -> tr("timeline.typingMany")
-        },
+        withNameColors(
+            when (names.size) {
+                1 -> tr("timeline.oneTyping", names[0])
+                2 -> tr("timeline.twoTyping", names[0], names[1])
+                else -> tr("timeline.typingMany")
+            },
+            colored,
+        ),
         Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space8),
         style = wizardFont(WZ.FontSize.sm, FontWeight.Medium),
         color = theme.textMuted,

@@ -88,6 +88,8 @@ struct AppearanceSettings: View {
                 PickerRow(label: "settings.appearance.density", selection: $prefs.chatDensity,
                           options: [(.compact, "settings.appearance.densityCompact"), (.default, "settings.appearance.densityDefault"), (.spacious, "settings.appearance.densitySpacious")])
                 SettingsDivider()
+                ToggleRow(label: "settings.appearance.colorUsernames", isOn: $prefs.colorUsernames)
+                SettingsDivider()
                 ToggleRow(label: "settings.appearance.prettifyLinks",
                           note: "settings.appearance.prettifyLinksNote",
                           isOn: $prefs.prettifyLinks)
