@@ -75,8 +75,12 @@ async function openSettingsTab(page, port, tabName, width) {
   }
 
   if (tabName) {
-    const tab = page
-      .locator(`button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}")`)
+    const dialog = page.locator('[role="dialog"]').first();
+    const tabScope = (await dialog.isVisible().catch(() => false)) ? dialog : page;
+    const tab = tabScope
+      .locator(
+        `nav button:has-text("${tabName}"), [class*="mobileList"] button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}"), button:has-text("${tabName}")`
+      )
       .first();
     await tab.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await tab.isVisible().catch(() => false)) {
