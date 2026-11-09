@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { ArrowCounterClockwiseIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
-import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
-import { Tooltip } from '@/app/components/Tooltip';
-import { KeyCaps } from '@/app/components/KeyCaps';
+import { XIcon } from '@phosphor-icons/react';
+import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { ToggleRow } from '@/app/components/Toggle';
 import { Button } from '@/app/components/Button';
 import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
 import {
-  comboKeys,
-  heldModifierKeys,
+  formatCombo,
+  formatHeldModifiers,
   modifierOfCode,
   parseCombo,
   serializeCombo,
@@ -22,7 +20,7 @@ export function Keybinds() {
   const { t } = useTranslation();
   const [keybinds, setKeybinds] = useAtom(keybindsAtom);
   const [listening, setListening] = useState<KeybindAction | null>(null);
-  const [heldPreview, setHeldPreview] = useState<string[]>([]);
+  const [heldPreview, setHeldPreview] = useState('');
   const [isPushToTalk, setPushToTalk] = useAtom(pushToTalkEnabledAtom);
   const desktop = window.desktopAPI;
   const [pttPermission, setPttPermission] = useState<boolean | null>(null);
@@ -33,7 +31,7 @@ export function Keybinds() {
   }, [isPushToTalk, desktop]);
 
   const startListening = (action: KeybindAction) => {
-    setHeldPreview([]);
+    setHeldPreview('');
     setListening(action);
   };
 
@@ -41,7 +39,7 @@ export function Keybinds() {
     if (!listening) return;
     const save = (modifiers: Modifier[], code: string) => {
       setKeybinds((prev) => ({ ...prev, [listening]: serializeCombo({ modifiers, code }) }));
-      setHeldPreview([]);
+      setHeldPreview('');
       setListening(null);
     };
     const held = (e: KeyboardEvent, except: Modifier | null): Modifier[] =>
@@ -58,12 +56,12 @@ export function Keybinds() {
       if (e.repeat) return;
       const modifier = modifierOfCode(e.code);
       if (e.code === 'Escape' && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
-        setHeldPreview([]);
+        setHeldPreview('');
         setListening(null);
         return;
       }
       if (modifier) {
-        setHeldPreview(heldModifierKeys(e));
+        setHeldPreview(formatHeldModifiers(e));
         return;
       }
       save(held(e, null), e.code);
@@ -83,8 +81,13 @@ export function Keybinds() {
     };
   }, [listening, setKeybinds]);
 
-  const setBind = (action: KeybindAction, value: string) => {
-    setKeybinds((prev) => ({ ...prev, [action]: value }));
+  const clear = (action: KeybindAction) => {
+    setKeybinds((prev) => ({ ...prev, [action]: '' }));
+  };
+
+  const displayKey = (key: string) => {
+    const combo = parseCombo(key);
+    return combo ? formatCombo(combo) : t('settings.keybinds.clickToSet');
   };
 
   return (
@@ -127,7 +130,7 @@ export function Keybinds() {
           )}
           {listening && group.items.some((item) => item.editable && item.id === listening) && (
             <p className={css.keybindHint}>
-              <KeyCaps keys={['Esc']} size="sm" />
+              <kbd className={css.kbd}>Esc</kbd>
               {t('settings.keybinds.escToCancel')}
             </p>
           )}
@@ -139,11 +142,13 @@ export function Keybinds() {
                   {Array.isArray(item.keys) ? (
                     <span className={css.kbdStack}>
                       {item.keys.map((keys) => (
-                        <KeyCaps key={keys} keys={keys} />
+                        <kbd key={keys} className={css.kbd}>
+                          {keys}
+                        </kbd>
                       ))}
                     </span>
                   ) : (
-                    <KeyCaps keys={item.keys} />
+                    <kbd className={css.kbd}>{item.keys}</kbd>
                   )}
                 </div>
               );
@@ -151,63 +156,35 @@ export function Keybinds() {
 
             if (item.id === 'pushToTalk' && !isPushToTalk) return null;
             const current = keybinds[item.id] ?? '';
-            const combo = parseCombo(current);
-            const fallback = DEFAULT_KEYBINDS[item.id];
-            const isListening = listening === item.id;
-            let content: React.ReactNode;
-            if (isListening) {
-              content =
-                heldPreview.length > 0 ? (
-                  <KeyCaps keys={heldPreview} />
-                ) : (
-                  <span className={css.keybindPlaceholder}>{t('settings.keybinds.pressAKey')}</span>
-                );
-            } else {
-              content = combo ? (
-                <KeyCaps keys={comboKeys(combo)} />
-              ) : (
-                <span className={css.keybindPlaceholder}>{t('settings.keybinds.clickToSet')}</span>
-              );
-            }
             return (
               <div key={item.id} className={css.settingRow}>
                 <span className={css.settingLabel}>{t(item.labelKey)}</span>
                 <div className={css.flexRow}>
-                  {fallback && current !== fallback && (
-                    <Tooltip content={t('settings.keybinds.resetDefault')}>
-                      <button
-                        type="button"
-                        className={css.clearBtn}
-                        onClick={() => setBind(item.id, fallback)}
-                        aria-label={t('settings.keybinds.resetDefault')}
-                      >
-                        <ArrowCounterClockwiseIcon size={14} />
-                      </button>
-                    </Tooltip>
-                  )}
                   {current && (
-                    <Tooltip content={t('common.clear')}>
-                      <button
-                        type="button"
-                        className={css.clearBtn}
-                        onClick={() => setBind(item.id, '')}
-                        aria-label={t('common.clear')}
-                      >
-                        <XIcon size={14} />
-                      </button>
-                    </Tooltip>
+                    <button
+                      type="button"
+                      className={css.clearBtn}
+                      onClick={() => clear(item.id)}
+                      aria-label={t('common.clear')}
+                    >
+                      <XIcon size={14} />
+                    </button>
                   )}
                   <button
                     type="button"
                     className={[
                       'keybind-input',
-                      isListening ? css.keybindEditListening : css.keybindEdit,
+                      listening === item.id
+                        ? css.keybindBtnListening
+                        : current
+                          ? css.keybindBtnSet
+                          : css.keybindBtnEmpty,
                     ].join(' ')}
                     onClick={() => startListening(item.id)}
-                    aria-label={t('settings.keybinds.changeShortcut', { name: t(item.labelKey) })}
                   >
-                    <PencilSimpleIcon size={12} className={css.keybindEditIcon} />
-                    {content}
+                    {listening === item.id
+                      ? heldPreview || t('settings.keybinds.pressAKey')
+                      : displayKey(current)}
                   </button>
                 </div>
               </div>

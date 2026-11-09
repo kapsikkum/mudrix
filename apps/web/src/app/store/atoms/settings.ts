@@ -11,7 +11,6 @@ import { DEFAULT_THEME } from '@/theme/themes.css';
 import type { CustomTheme } from '@/theme/customThemes';
 import { DEFAULT_SOUND_PACK, type SoundKind } from '@/util/notificationSounds';
 import type { ThemeName } from '@/theme/themeTokens';
-import { MOD_MODIFIER } from '@/app/util/platform';
 import {
   STORAGE_KEY_THEME,
   STORAGE_KEY_CUSTOM_THEMES,
@@ -58,8 +57,8 @@ export interface Keybinds {
 }
 
 export const DEFAULT_KEYBINDS: Keybinds = {
-  toggleMute: `${MOD_MODIFIER}+Shift+KeyM`,
-  toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
+  toggleMute: '',
+  toggleDeafen: '',
   toggleVideo: '',
   disconnect: '',
   pushToTalk: '',

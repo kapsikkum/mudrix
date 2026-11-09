@@ -82,7 +82,7 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
     id: 'composer',
     labelKey: 'settings.keybinds.groupComposer',
     items: [
-      { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Esc' },
+      { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Escape' },
       { id: 'send', labelKey: 'settings.keybinds.send', keys: 'Enter' },
       { id: 'newLine', labelKey: 'settings.keybinds.newLine', keys: `${SHIFT_KEY} + Enter` },
       { id: 'bold', labelKey: 'settings.keybinds.bold', keys: `${MODIFIER_KEY} + B` },

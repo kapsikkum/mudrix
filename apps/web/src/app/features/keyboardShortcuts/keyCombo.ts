@@ -129,3 +129,11 @@ export function comboKeys(combo: KeyCombo): string[] {
 export function heldModifierKeys(e: KeyboardEvent): string[] {
   return heldModifiers(e).map((m) => MODIFIER_LABELS[m]);
 }
+
+export function formatCombo(combo: KeyCombo): string {
+  return comboKeys(combo).join(' + ');
+}
+
+export function formatHeldModifiers(e: KeyboardEvent): string {
+  return heldModifierKeys(e).join(' + ');
+}
