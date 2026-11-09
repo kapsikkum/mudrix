@@ -33,12 +33,14 @@ export type { UiDensity, UiScale } from '@/theme/uiDensity';
 export interface Keybinds {
   toggleMute: string;
   toggleDeafen: string;
+  toggleScreenShare?: string;
   pushToTalk: string;
 }
 
 export const DEFAULT_KEYBINDS: Keybinds = {
   toggleMute: `${MOD_MODIFIER}+Shift+KeyM`,
   toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
+  toggleScreenShare: `${MOD_MODIFIER}+Shift+KeyE`,
   pushToTalk: '',
 };
 

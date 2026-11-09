@@ -132,6 +132,12 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
         keys: '',
         editable: true,
       },
+      {
+        id: 'toggleScreenShare',
+        labelKey: 'settings.keybinds.toggleScreenShare',
+        keys: '',
+        editable: true,
+      },
     ],
   },
 ];

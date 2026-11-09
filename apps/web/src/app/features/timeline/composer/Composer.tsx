@@ -49,7 +49,7 @@ import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom
 import { IdentityWarning } from './IdentityWarning';
 import { ComposerTimelineContext, useSendTimeline } from './composerTimeline';
 import type { ReplyTarget } from './sendMessageContent';
-import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
+import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { isInCallAtom } from '@/app/store/atoms/call';
 import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Composer.css';
@@ -204,6 +204,7 @@ export function Composer({
         const bound = [
           keybinds.toggleMute,
           keybinds.toggleDeafen,
+          keybinds.toggleScreenShare ?? DEFAULT_KEYBINDS.toggleScreenShare ?? '',
           pushToTalk ? keybinds.pushToTalk : '',
         ];
         if (bound.some((combo) => matchesComboDown(e, parseCombo(combo)))) return;

@@ -31,8 +31,11 @@ interface DesktopAPI {
   requestAttention?: (on: boolean) => void;
   getPendingRoom?: () => Promise<string | null>;
   getAppVersion?: () => Promise<string>;
-  setPushToTalkKey?: (code: string | null) => Promise<'active' | 'no-permission' | 'unsupported'>;
-  onPushToTalk?: (cb: (pressed: boolean) => void) => () => void;
+  setGlobalKey?: (
+    id: string,
+    code: string | null
+  ) => Promise<'active' | 'taken' | 'no-permission' | 'unsupported'>;
+  onGlobalKey?: (cb: (id: string, down: boolean) => void) => () => void;
   /** Keeps the display on natively, as the webview's Wake Lock API isn't everywhere */
   setKeepAwake?: (on: boolean) => Promise<void>;
   getPushToTalkPermission?: () => Promise<boolean>;

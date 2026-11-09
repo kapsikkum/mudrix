@@ -1,9 +1,9 @@
 #![recursion_limit = "256"]
 
+mod global_keys;
 mod keep_awake;
 mod links;
 mod loopback;
-mod push_to_talk;
 mod rpc;
 mod screen_share;
 mod update;
@@ -73,9 +73,10 @@ pub fn run() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_notification::init())
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .manage(rpc::Core::new())
         .manage(links::Pending::default())
-        .manage(push_to_talk::PushToTalk::default())
+        .manage(global_keys::GlobalKeys::default())
         .manage(keep_awake::KeepAwake::default())
         .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
@@ -119,8 +120,8 @@ pub fn run() {
             links::show_notification,
             links::take_pending_room,
             links::take_deep_link,
-            push_to_talk::push_to_talk_set_key,
-            push_to_talk::push_to_talk_permission,
+            global_keys::global_key_set,
+            global_keys::global_keys_permission,
             keep_awake::keep_awake,
             update::update_ready,
             update::install_update,

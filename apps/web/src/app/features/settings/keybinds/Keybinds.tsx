@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { ArrowCounterClockwiseIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
-import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
+import {
+  DEFAULT_KEYBINDS,
+  globalKeyStatusAtom,
+  keybindsAtom,
+  pushToTalkEnabledAtom,
+} from '@/app/store/atoms';
 import { Tooltip } from '@/app/components/Tooltip';
 import { KeyCaps } from '@/app/components/KeyCaps';
 import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
 import {
   comboKeys,
   heldModifierKeys,
+  keybindCapture,
   modifierOfCode,
   parseCombo,
   serializeCombo,
@@ -22,6 +28,7 @@ export function Keybinds() {
   const [listening, setListening] = useState<KeybindAction | null>(null);
   const [heldPreview, setHeldPreview] = useState<string[]>([]);
   const isPushToTalk = useAtomValue(pushToTalkEnabledAtom);
+  const globalStatus = useAtomValue(globalKeyStatusAtom);
 
   const startListening = (action: KeybindAction) => {
     setHeldPreview([]);
@@ -30,6 +37,7 @@ export function Keybinds() {
 
   useEffect(() => {
     if (!listening) return;
+    keybindCapture.active = true;
     const save = (modifiers: Modifier[], code: string) => {
       setKeybinds((prev) => ({ ...prev, [listening]: serializeCombo({ modifiers, code }) }));
       setHeldPreview([]);
@@ -69,6 +77,7 @@ export function Keybinds() {
     window.addEventListener('keydown', onKeyDown, true);
     window.addEventListener('keyup', onKeyUp, true);
     return () => {
+      keybindCapture.active = false;
       window.removeEventListener('keydown', onKeyDown, true);
       window.removeEventListener('keyup', onKeyUp, true);
     };
@@ -110,7 +119,7 @@ export function Keybinds() {
             }
 
             if (item.id === 'pushToTalk' && !isPushToTalk) return null;
-            const current = keybinds[item.id] ?? '';
+            const current = keybinds[item.id] ?? DEFAULT_KEYBINDS[item.id] ?? '';
             const combo = parseCombo(current);
             const fallback = DEFAULT_KEYBINDS[item.id];
             const isListening = listening === item.id;
@@ -131,7 +140,14 @@ export function Keybinds() {
             }
             return (
               <div key={item.id} className={css.settingRow}>
-                <span className={css.settingLabel}>{t(item.labelKey)}</span>
+                <div className={css.settingInfo}>
+                  <span className={css.settingLabel}>{t(item.labelKey)}</span>
+                  {globalStatus[item.id] === 'taken' && (
+                    <span className={css.settingNote}>
+                      {t('settings.keybinds.takenByOtherApp')}
+                    </span>
+                  )}
+                </div>
                 <div className={css.flexRow}>
                   {fallback && current !== fallback && (
                     <Tooltip content={t('settings.keybinds.resetDefault')}>

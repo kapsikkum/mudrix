@@ -44,11 +44,14 @@ export const desktopApi: DesktopAPI = {
   setTitleBarTheme(background) {
     void invoke('set_background_color', { color: background }).catch(() => {});
   },
-  setPushToTalkKey: (code) => invoke('push_to_talk_set_key', { code }),
-  onPushToTalk: (listener) => onDesktopEvent<boolean>('push-to-talk', listener),
+  setGlobalKey: (id, code) => invoke('global_key_set', { id, code }),
+  onGlobalKey: (listener) =>
+    onDesktopEvent<{ id: string; down: boolean }>('global-key', ({ id, down }) =>
+      listener(id, down)
+    ),
   setKeepAwake: (on) => invoke('keep_awake', { on }),
-  getPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: false }),
-  requestPushToTalkPermission: () => invoke<boolean>('push_to_talk_permission', { prompt: true }),
+  getPushToTalkPermission: () => invoke<boolean>('global_keys_permission', { prompt: false }),
+  requestPushToTalkPermission: () => invoke<boolean>('global_keys_permission', { prompt: true }),
   onUpdateDownloaded(listener) {
     onDesktopEvent('update-downloaded', listener);
     void invoke<boolean>('update_ready').then((ready) => ready && listener());

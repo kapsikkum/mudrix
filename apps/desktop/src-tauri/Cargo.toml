@@ -24,6 +24,7 @@ tauri-plugin-deep-link = "2"
 device_query = "4"
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
 tauri-plugin-updater = "2"
+tauri-plugin-global-shortcut = "2"
 jpeg-encoder = { version = "0.7", features = ["simd"] }
 base64 = "0.22"
 keepawake = "0.6.1"

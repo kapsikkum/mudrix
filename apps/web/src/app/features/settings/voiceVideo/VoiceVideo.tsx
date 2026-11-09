@@ -113,7 +113,7 @@ function PushToTalk() {
         checked={enabled}
         onChange={setEnabled}
       />
-      {enabled && !desktop?.setPushToTalkKey && (
+      {enabled && !desktop?.setGlobalKey && (
         <p className={layoutCss.settingNote}>{t('settings.voiceVideo.pushToTalkBrowserHint')}</p>
       )}
       {enabled && permission === false && (

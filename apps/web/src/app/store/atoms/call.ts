@@ -175,3 +175,6 @@ export const pushToTalkModeAtom = atom(
   (get) => get(pushToTalkEnabledAtom) && !!get(keybindsAtom).pushToTalk
 );
 export const pushToTalkHeldAtom = atom(false);
+
+export type GlobalKeyStatus = 'active' | 'taken' | 'no-permission' | 'unsupported';
+export const globalKeyStatusAtom = atom<Partial<Record<string, GlobalKeyStatus>>>({});

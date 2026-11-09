@@ -129,3 +129,5 @@ export function comboKeys(combo: KeyCombo): string[] {
 export function heldModifierKeys(e: KeyboardEvent): string[] {
   return heldModifiers(e).map((m) => MODIFIER_LABELS[m]);
 }
+
+export const keybindCapture = { active: false };

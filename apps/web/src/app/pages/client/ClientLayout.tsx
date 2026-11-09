@@ -311,6 +311,7 @@ export function ClientLayout() {
   const hangupCall = callActions?.hangup;
   const callToggleMute = callActions?.toggleMute;
   const callToggleDeafen = callActions?.toggleDeafen;
+  const callToggleScreenShare = callActions?.toggleScreenshare;
 
   const placeCall = useCallback(
     async (roomId: string) => {
@@ -454,6 +455,7 @@ export function ClientLayout() {
   useVoiceKeybinds(isInCall, {
     toggleMute: callToggleMute ?? (() => {}),
     toggleDeafen: callToggleDeafen ?? (() => {}),
+    toggleScreenShare: callToggleScreenShare ?? (() => {}),
   });
 
   useClientNotifications();
