@@ -21,8 +21,6 @@ import {
 import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useGlobalVoiceState } from '@/app/features/voice/useGlobalVoice';
-import { DeviceControl } from '@/app/features/calls/DeviceMenu';
-import { PushToTalkDot } from '@/app/features/calls/PushToTalkDot';
 import { useCallSnapshot } from '@/app/features/calls/stage/useCallSnapshot';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useProfile } from '@/app/data';
@@ -159,38 +157,32 @@ export function UserPanel() {
             <EyeSlashIcon size={16} />
           </IconButton>
         )}
-        <DeviceControl kinds={['audioinput']} label={t('call.inputSettings')} variant="panel">
-          <IconButton
-            size="sm"
-            danger={micMuted}
-            tooltip={micTitle}
-            aria-label={micTitle}
-            onClick={toggleMic}
-          >
-            <PushToTalkDot>
-              <MicIcon size={16} />
-            </PushToTalkDot>
-          </IconButton>
-        </DeviceControl>
-        <DeviceControl kinds={['audiooutput']} label={t('call.outputSettings')} variant="panel">
-          <IconButton
-            size="sm"
-            danger={deafened}
-            tooltip={deafenTitle}
-            aria-label={deafenTitle}
-            onClick={toggleDeafen}
-          >
-            <span className={css.deafenStrike}>
-              <HeadphonesIcon size={16} />
-              {deafened && (
-                <span className={css.deafenStrikeSlash}>
-                  <span className={css.deafenStrikeOutline} />
-                  <span className={css.deafenStrikeCore} />
-                </span>
-              )}
-            </span>
-          </IconButton>
-        </DeviceControl>
+        <IconButton
+          size="sm"
+          danger={micMuted}
+          tooltip={micTitle}
+          aria-label={micTitle}
+          onClick={toggleMic}
+        >
+          <MicIcon size={16} />
+        </IconButton>
+        <IconButton
+          size="sm"
+          danger={deafened}
+          tooltip={deafenTitle}
+          aria-label={deafenTitle}
+          onClick={toggleDeafen}
+        >
+          <span className={css.deafenStrike}>
+            <HeadphonesIcon size={16} />
+            {deafened && (
+              <span className={css.deafenStrikeSlash}>
+                <span className={css.deafenStrikeOutline} />
+                <span className={css.deafenStrikeCore} />
+              </span>
+            )}
+          </span>
+        </IconButton>
         <IconButton
           size="sm"
           tooltip={t('settings.userSettings')}

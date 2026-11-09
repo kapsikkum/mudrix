@@ -15,6 +15,7 @@ import {
 import { useRoomDetails } from '@/app/data';
 import { useMobileListOpen } from './hooks/useMobileListOpen';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { Inbox } from '@/app/features/inbox';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { RoomSearchField } from '@/app/features/roomSearch';
@@ -86,6 +87,7 @@ export function MobileHeader() {
             </button>
             <UpdateButton />
             <EncryptionWarningButton />
+            {isMobile && !listOpen && <Inbox />}
           </div>
         </>
       )}

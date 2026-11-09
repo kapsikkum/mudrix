@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import { GitlabLogoSimpleIcon, SparkleIcon } from '@phosphor-icons/react';
+import { GithubLogoIcon, SparkleIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { whatsNewOpenAtom, whatsNewSeenAtom } from '@/app/store/atoms';
@@ -55,7 +55,7 @@ export function WhatsNewModal() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <GitlabLogoSimpleIcon size={16} />
+            <GithubLogoIcon size={16} />
             {t('whatsNew.fullChangelog')}
           </a>
           <Button variant="primary" onClick={close}>

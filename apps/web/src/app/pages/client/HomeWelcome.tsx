@@ -34,7 +34,7 @@ import {
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
 import { LogoHover } from '@/app/components/AppLoading';
-import { parentSpacesOf, useJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
+import { parentSpacesOf, useAllJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
 import { activityText } from '@/app/hooks/useExtendedProfile';
 import { useInvites, type Invite } from '@/app/features/inbox/useInvites';
 import { useMentions, type Mention } from '@/app/features/inbox/useMentions';
@@ -161,7 +161,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   const { data: profile } = useProfile(myId);
   const joinVoiceRoom = useJoinVoiceRoom(client);
   const entries = useRoomEntries();
-  const spaces = useJoinedSpaces();
+  const spaces = useAllJoinedSpaces();
   const graph = useSpaceGraph();
 
   const invites = useInvites();

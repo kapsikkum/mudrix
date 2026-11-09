@@ -1,6 +1,8 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 const noDrag = { WebkitAppRegion: 'no-drag' } as Record<string, string>;
 
@@ -8,13 +10,13 @@ export const backdrop = style({
   ...noDrag,
   position: 'fixed',
   inset: 0,
-  zIndex: 9000,
+  zIndex: zIndex.popover,
 });
 
 export const panel = style({
   ...noDrag,
   position: 'fixed',
-  zIndex: 9001,
+  zIndex: zIndex.popoverRaised,
   display: 'flex',
   flexDirection: 'column',
   maxHeight: 'min(560px, calc(100vh - 24px))',
@@ -49,7 +51,7 @@ export const input = style({
   background: 'none',
   outline: 'none',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   '::placeholder': { color: vars.color.textMuted },
 });
 
@@ -72,7 +74,7 @@ export const section = style({
 
 export const sectionTitle = style({
   padding: '6px 8px 4px',
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 700,
   color: vars.color.textPrimary,
 });
@@ -87,7 +89,7 @@ export const item = style({
   cursor: 'pointer',
   userSelect: 'none',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   transition: `background-color ${fast}`,
   selectors: {
     '&[data-highlighted="true"]': { backgroundColor: vars.color.bgHover },
@@ -112,7 +114,7 @@ export const itemText = style({
 
 export const itemMeta = style({
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
 });
 
 export const messageItem = style([item, { alignItems: 'flex-start', paddingTop: '6px' }]);
@@ -133,19 +135,19 @@ export const messageHead = style({
 
 export const messageSender = style({
   fontWeight: 600,
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
 });
 
 export const messageTime = style({
   marginLeft: 'auto',
   flexShrink: 0,
   color: vars.color.textMuted,
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
 });
 
 export const messageSnippet = style({
   color: vars.color.textSecondary,
-  fontSize: '0.84rem',
+  fontSize: fontSize.rem84,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -154,7 +156,7 @@ export const messageSnippet = style({
 export const sectionEmpty = style({
   padding: '6px 8px 8px',
   color: vars.color.textMuted,
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
 });
 
 export const footer = style({
@@ -165,8 +167,12 @@ export const footer = style({
   padding: '6px 12px',
   borderTop: `1px solid ${vars.color.border}`,
   color: vars.color.textMuted,
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
   flexShrink: 0,
+  '@media': {
+    // Keyboard hints mean nothing on a touch screen.
+    '(max-width: 768px), (pointer: coarse)': { display: 'none' },
+  },
 });
 
 export const footerHint = style({
@@ -175,14 +181,31 @@ export const footerHint = style({
   gap: '4px',
 });
 
+export const kbd = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minWidth: '16px',
+  padding: '1px 4px',
+  borderRadius: '3px',
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgTertiary,
+  fontSize: fontSize.rem68,
+  fontFamily: 'inherit',
+  color: vars.color.textSecondary,
+  '@media': {
+    '(max-width: 768px), (pointer: coarse)': { display: 'none' },
+  },
+});
+
 export const badge = style({
   flexShrink: 0,
   minWidth: '18px',
   padding: '1px 6px',
   borderRadius: '10px',
   backgroundColor: vars.color.accent,
-  color: '#fff',
-  fontSize: '0.72rem',
+  color: vars.color.onAccent,
+  fontSize: fontSize.rem72,
   fontWeight: 700,
   textAlign: 'center',
 });

@@ -77,6 +77,7 @@ import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButto
 import { SpacesList } from './SpacesList';
 import { MobileTabBar } from './MobileTabBar';
 import { useMobileListOpen } from './hooks/useMobileListOpen';
+import { isNativeApp } from '@/util/nativeApp';
 import { RoomListPanel } from './RoomListPanel';
 import { MembersSidebar } from './MembersSidebar';
 import * as sidebarCss from './MembersSidebar.css';
@@ -535,8 +536,8 @@ export function ClientLayout() {
   const youOpen = useAtomValue(mobileYouOpenAtom);
   const sidebarClass = [
     css.sidebar,
-    mobileListOpen || tabletDrawerOpen ? css.sidebarOpen : null,
-    sidebarView !== 'space' ? css.sidebarNoRail : null,
+    mobileListOpen || drawerOpen ? css.sidebarOpen : null,
+    isNativeApp() && sidebarView !== 'space' ? css.sidebarNoRail : null,
   ]
     .filter(Boolean)
     .join(' ');
@@ -544,21 +545,21 @@ export function ClientLayout() {
   return (
     <>
       <AccountSwitchGuard client={client} />
-      <MobileHeader />
 
       <CallContainerProvider>
         <div className={css.appFrame}>
+          <MobileHeader />
           {!isMobile && (
             <TitleBar
               start={
                 <button
                   type="button"
                   className={css.titleBarMenuBtn}
-                  aria-label={t('room.navigation')}
-                  aria-expanded={tabletDrawerOpen}
+                  aria-label={t('common.menu')}
+                  aria-expanded={drawerOpen}
                   onClick={() => setDrawerOpen((open) => !open)}
                 >
-                  <ListIcon size={18} />
+                  <ListIcon size={20} />
                 </button>
               }
               center={<TitleBarSearch />}
@@ -586,7 +587,7 @@ export function ClientLayout() {
               />
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
-            {tabletDrawerOpen && (
+            {drawerOpen && !mobileListOpen && (
               <div
                 className={css.panelDrawerOverlay}
                 role="presentation"

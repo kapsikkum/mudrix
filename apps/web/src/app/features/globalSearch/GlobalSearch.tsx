@@ -35,9 +35,7 @@ import {
   type RoomEntry,
 } from '@/app/features/roomSwitcher/roomEntries';
 import { useSwitchContext } from '@/app/pages/client/hooks/useContextNavigation';
-import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './GlobalSearch.css';
-import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 
 const ROOM_LIMIT = 6;
 const SPACE_LIMIT = 3;
@@ -78,7 +76,7 @@ function snippet(body: string, query: string): string {
   const flat = body.replace(/\s+/g, ' ');
   const idx = flat.toLowerCase().indexOf(query.toLowerCase());
   const start = Math.max(0, idx - 30);
-  return (start > 0 ? '...' : '') + flat.slice(start, start + 140);
+  return (start > 0 ? '…' : '') + flat.slice(start, start + 140);
 }
 
 function roomPath(entry: RoomEntry): string {
@@ -94,7 +92,6 @@ export function GlobalSearch() {
 
 function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
   const { t, i18n } = useTranslation();
-  const keyboardHints = useKeyboardHints();
   const navigate = useNavigate();
   const switchContext = useSwitchContext();
   const client = getMatrixClientOrNull();
@@ -124,7 +121,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           width: 'min(640px, calc(100vw - 32px))',
         });
       } else {
-        setPosition({ top: 'calc(8px + env(safe-area-inset-top))', left: 8, right: 8 });
+        setPosition({ top: 'calc(8px + var(--safe-top))', left: 8, right: 8 });
       }
     };
     place();
@@ -433,16 +430,16 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
               aria-expanded={flatItems.length > 0}
               aria-haspopup="listbox"
               aria-autocomplete="list"
-              aria-controls="global-search-results"
               aria-activedescendant={
                 flatItems.length > 0 && highlighted >= 0
                   ? `global-search-option-${highlighted}`
                   : undefined
               }
+              aria-controls="global-search-results"
               autoComplete="off"
               spellCheck={false}
             />
-            {keyboardHints && <KeyCaps keys={['Esc']} size="sm" />}
+            <kbd className={css.kbd}>Esc</kbd>
           </div>
         </div>
         <div className={css.body} ref={bodyRef} id="global-search-results" role="listbox">
@@ -458,28 +455,25 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           ))}
         </div>
         <div className={css.footer}>
-          {keyboardHints && (
-            <>
-              <span className={css.footerHint}>
-                <KeyCaps keys={['↑', '↓']} size="sm" />
-                {t('roomSwitcher.hintNavigate')}
-              </span>
-              <span className={css.footerHint}>
-                <KeyCaps keys={['↵']} size="sm" />
-                {t('roomSwitcher.hintOpen')}
-              </span>
-            </>
-          )}
           <span className={css.footerHint}>
-            <KeyCaps keys={['#']} size="sm" />
+            <kbd className={css.kbd}>↑</kbd>
+            <kbd className={css.kbd}>↓</kbd>
+            {t('roomSwitcher.hintNavigate')}
+          </span>
+          <span className={css.footerHint}>
+            <kbd className={css.kbd}>↵</kbd>
+            {t('roomSwitcher.hintOpen')}
+          </span>
+          <span className={css.footerHint}>
+            <kbd className={css.kbd}>#</kbd>
             {t('roomSwitcher.prefixRooms')}
           </span>
           <span className={css.footerHint}>
-            <KeyCaps keys={['@']} size="sm" />
+            <kbd className={css.kbd}>@</kbd>
             {t('roomSwitcher.prefixDms')}
           </span>
           <span className={css.footerHint}>
-            <KeyCaps keys={['*']} size="sm" />
+            <kbd className={css.kbd}>*</kbd>
             {t('roomSwitcher.prefixSpaces')}
           </span>
         </div>

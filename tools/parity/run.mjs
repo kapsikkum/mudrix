@@ -84,6 +84,16 @@ async function applyTheme(page, theme) {
     .locator('[class*="AppLoading_overlay"]')
     .waitFor({ state: 'detached', timeout: 20000 })
     .catch(() => {});
+  await page
+    .locator('button[aria-label="Mudrix Community"]')
+    .first()
+    .waitFor({ state: 'attached', timeout: 10000 })
+    .catch(() => {});
+  await page
+    .locator('text=/jump back in/i')
+    .first()
+    .waitFor({ state: 'visible', timeout: 15000 })
+    .catch(() => {});
   const gotItBtn = page.locator('button:has-text("Got it")').first();
   if (await gotItBtn.isVisible().catch(() => false)) {
     await gotItBtn.click({ timeout: 2000 }).catch(() => {});
@@ -160,7 +170,7 @@ async function captureAppScreens(appName, port, screens, seed, env, sessions) {
     const storeLocation = 'wizardchat-session-' + theo.user_id.replace(/[^a-zA-Z0-9]/g, '_');
     const storePassphrase = btoa('12345678901234567890123456789012');
 
-    const wnVersion = appName === 'old' ? '26.10.18' : '26.11.0';
+    const wnVersion = '26.10.18';
 
     await authCtx.addInitScript(
       ({ token, hs, userId, deviceId, storeLocation, storePassphrase, wnVersion }) => {
@@ -230,6 +240,17 @@ async function captureAppScreens(appName, port, screens, seed, env, sessions) {
       .locator('[class*="AppLoading_overlay"]')
       .waitFor({ state: 'detached', timeout: 30000 })
       .catch(() => {});
+    await page
+      .locator('button[aria-label="Big Space"]')
+      .first()
+      .waitFor({ state: 'attached', timeout: 20000 })
+      .catch(() => {});
+    await page
+      .locator('text=Design Review')
+      .first()
+      .waitFor({ state: 'visible', timeout: 15000 })
+      .catch(() => {});
+    await page.waitForTimeout(500);
     console.log(`[${appName}] Initial sync completed!`);
 
     // Dismiss any initial modal if present
@@ -314,7 +335,8 @@ async function main() {
   if (!newOk)
     throw new Error('New app is not running at http://localhost:5180! Start it with npm run dev.');
 
-  const screensToRun = filterScreenId ? SCREENS.filter((s) => s.id === filterScreenId) : SCREENS;
+  const filterIds = filterScreenId ? new Set(filterScreenId.split(',').map((s) => s.trim())) : null;
+  const screensToRun = filterIds ? SCREENS.filter((s) => filterIds.has(s.id)) : SCREENS;
 
   if (screensToRun.length === 0) {
     console.error(

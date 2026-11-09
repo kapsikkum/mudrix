@@ -40,18 +40,19 @@ export function DataSync({ client }: { client: WizardClient }) {
 
   useEffect(() => {
     let graphTimer: ReturnType<typeof setTimeout> | undefined;
+    const refreshGraphNow = () => {
+      clearTimeout(graphTimer);
+      void client
+        .spaceGraph()
+        .then(setGraph)
+        .catch(() => {});
+    };
     // The space graph comes from local state; refresh it shortly after rooms or spaces change
     const refreshGraph = () => {
       clearTimeout(graphTimer);
-      graphTimer = setTimeout(
-        () =>
-          void client
-            .spaceGraph()
-            .then(setGraph)
-            .catch(() => {}),
-        150
-      );
+      graphTimer = setTimeout(refreshGraphNow, 150);
     };
+    refreshGraphNow();
     const subscriptions = [
       client.watchSyncState(setSyncState),
       client.watchLoadState((state) => {
@@ -59,7 +60,7 @@ export function DataSync({ client }: { client: WizardClient }) {
       }),
       client.watchSpaces((diffs) => {
         setSpaces((spaces) => applyDiffs(spaces, diffs));
-        refreshGraph();
+        refreshGraphNow();
       }),
       client.watchRooms(5000, (diffs) => {
         setRooms((rooms) => applyDiffs(rooms, diffs));
@@ -79,6 +80,7 @@ export function DataSync({ client }: { client: WizardClient }) {
       client.watchStateChanges(({ roomId, eventType }) => {
         for (const queryKey of staleQueries(roomId, eventType))
           void queryClient.invalidateQueries({ queryKey });
+        if (eventType === 'm.space.child' || eventType === 'm.space.parent') refreshGraph();
         if (/^(im\.ponies\.room_emotes|m\.room\.image_pack|m\.space\.parent)$/.test(eventType))
           invalidateImagePacks();
         window.dispatchEvent(

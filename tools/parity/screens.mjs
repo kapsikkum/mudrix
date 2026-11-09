@@ -11,6 +11,15 @@ async function waitPageReady(page) {
     .locator('[class*="AppLoading_overlay"]')
     .waitFor({ state: 'detached', timeout: 20000 })
     .catch(() => {});
+  // On Home, the room list streams in after the overlay goes; wait for it before capturing
+  if (new URL(page.url()).pathname === '/') {
+    await page
+      .locator('text=/jump back in/i')
+      .first()
+      .waitFor({ state: 'visible', timeout: 15000 })
+      .catch(() => {});
+    await page.waitForTimeout(400);
+  }
 }
 
 async function closeDialog(page) {

@@ -59,6 +59,7 @@ import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { isNativeApp } from '@/util/nativeApp';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -166,7 +167,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const client = getMatrixClientOrNull();
   const rooms = useAllRooms();

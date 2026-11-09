@@ -1954,7 +1954,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
       <div ref={bottomDockRef} className={css.bottomDock}>
         <CallBar />
-        {!isMobile && <UserPanel />}
+        <UserPanel />
       </div>
       {voicePreviewId && client && (
         <VoiceJoinSheet
