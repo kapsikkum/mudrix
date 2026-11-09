@@ -3,6 +3,7 @@ export const STORAGE_KEY_CREDENTIALS = 'mx_credentials';
 export const STORAGE_KEY_ACCOUNTS = 'wz_accounts';
 export const STORAGE_KEY_ACTIVE_ACCOUNT = 'wz_active_account';
 export const STORAGE_KEY_DEVICE_ID_PREFIX = 'wz_device_id_';
+export const STORAGE_KEY_ACCOUNT_PROFILE = 'wz_account_profile';
 
 export const STORAGE_KEY_SSO_HOMESERVER_URL = 'wz_sso_hs_url';
 export const STORAGE_KEY_SSO_STATE = 'wz_sso_state';
