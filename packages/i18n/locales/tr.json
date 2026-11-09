@@ -1407,12 +1407,19 @@
       "timezone": "Saat dilimi",
       "timezoneHint": "Diğerlerinin profilinizde yerel saatinizi görmesini sağlar.",
       "extendedProfileUnsupported": "Ana sunucunuz genişletilmiş profilleri desteklemiyor, bu nedenle banner, biyografi, zamir ve saat dilimi kaydedilemez. Görünen ad ve avatar hâlâ çalışır. Sunucu yöneticinizden MSC4133 özelliğini etkinleştirmesini isteyin (Synapse: experimental_features.msc4133_enabled veya Matrix 1.16+).",
+      "banner": "Profil banner'ı",
+      "bannerHint": "Profil kartınızın üst kısmında gösterilir. 3:1 banner olarak kırpılır.",
+      "noBanner": "Banner yok",
+      "uploadBanner": "Banner yükle",
+      "changeBanner": "Banner'ı değiştir",
+      "bannerPosition": "Konum",
       "timezoneUnset": "Paylaşılmıyor",
       "timezoneBrowser": "{{tz}} (bu cihaz)",
       "profileSaved": "Profil kaydedildi",
       "aboutTitle": "Hakkımda",
       "styleNameplate": "İsim levhası",
-      "styleFrame": "Profil çerçevesi"
+      "styleFrame": "Profil çerçevesi",
+      "profileTitle": "Profil"
     },
     "appearance": {
       "title": "Görünüm",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "Oda listesi stili",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Modern",
-      "roomListStyleNote": "Matrix her odada bir avatar gösterir. Modern ise düz kanal satırları kullanır, bir alan içinde kanalları sıralamanıza ve sesli kanalları işaretlemenize izin verir."
+      "roomListStyleNote": "Matrix her odada bir avatar gösterir. Modern ise düz kanal satırları kullanır, bir alan içinde kanalları sıralamanıza ve sesli kanalları işaretlemenize izin verir.",
+      "profileEffects": "Profil efektleri",
+      "profileEffectsNote": "Diğer kişilerin profil kartlarında animasyonlu efektler gösterin. Sistem hareket azaltmayı tercih ettiğinde her zaman kapalıdır.",
+      "timelineDisplay": "Zaman çizelgesi",
+      "hideMembershipEvents": "Katılma ve ayrılmaları gizle",
+      "hideMembershipEventsNote": "İnsanlar katıldığında, ayrıldığında, atıldığında veya yasaklandığında mesaj göstermeyin.",
+      "hideProfileEvents": "Profil değişikliklerini gizle",
+      "hideProfileEventsNote": "İnsanlar görünen adlarını veya avatarlarını değiştirdiğinde mesaj göstermeyin.",
+      "themedAppIconNote": "Geçerli temanın uygulama simgesini kullan.",
+      "themedAppIconNoteNoArt": "Geçerli temanın kendi simgesi yok; simgesi olan temalarda (Parrot, Hallow) etkili olur.",
+      "systemAccent": "Sistem vurgu rengini kullan",
+      "systemAccentNote": "Vurgu rengini Windows, macOS veya Linux masaüstünden alır. Yalnızca masaüstü uygulamasında ve Carbon temasında."
     },
     "accessibility": {
       "title": "Erişilebilirlik",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "Sor",
       "youtubeEmbedsOn": "Göster",
       "youtubeEmbedsOff": "Gizle",
-      "youtubeEmbedsNote": "YouTube bağlantılarını oynatılabilir kartlar olarak göster. Oynatmak videoyu YouTube'dan yükler."
+      "youtubeEmbedsNote": "YouTube bağlantılarını oynatılabilir kartlar olarak göster. Oynatmak videoyu YouTube'dan yükler.",
+      "ignoredUsersNote": "Mesajları, davetleri ve DM’leri sizden gizlenir.",
+      "ignoredUsersEmpty": "Kimseyi yok saymıyorsunuz."
     },
     "language": {
       "title": "Dil",
@@ -1636,7 +1656,11 @@
       "imageCount_one": "{{count}} görsel",
       "imageCount_other": "{{count}} görsel",
       "gifs": "GIF'ler",
-      "gifProvider": "Tercih edilen GIF sağlayıcısı"
+      "gifProvider": "Tercih edilen GIF sağlayıcısı",
+      "searchPacks": "Paketlerde ara",
+      "subscribeAll": "Tümüne abone ol",
+      "unsubscribeAll": "Tüm aboneliklerden çık",
+      "noPacksMatch": "Aramanızla eşleşen paket yok."
     },
     "keybinds": {
       "title": "Tuş atamaları",
@@ -1693,7 +1717,37 @@
       "accountDataSaved": "Hesap verisi kaydedildi.",
       "accountDataSaveFailed": "Hesap verisi kaydedilemedi: {{error}}",
       "accountDataCount_one": "{{count}} olay türü",
-      "accountDataCount_other": "{{count}} olay türü"
+      "accountDataCount_other": "{{count}} olay türü",
+      "slidingSync": "Sliding sync (deneysel)",
+      "slidingSyncDescription": "Büyük hesaplarda daha hızlı açılış ve daha hafif senkronizasyon. Basitleştirilmiş sliding sync (MSC4186) destekleyen bir ana sunucu gerekir. Uygulamak için yeniden yükleyin.",
+      "reload": "Uygulamayı yeniden yükle",
+      "session": "Oturum",
+      "userId": "Kullanıcı kimliği",
+      "deviceId": "Cihaz kimliği",
+      "appVersion": "Uygulama sürümü",
+      "syncMode": "Senkronizasyon modu",
+      "syncClassic": "Klasik senkronizasyon",
+      "syncSliding": "Sliding sync",
+      "syncState": "Senkronizasyon durumu",
+      "rooms": "Odalar",
+      "roomsValue": "{{joined}} katıldı, {{invited}} davet",
+      "specVersion": "En son belirtim sürümü",
+      "encryption": "Şifreleme",
+      "crossSigning": "Çapraz imzalama",
+      "secretStorage": "Gizli depolama",
+      "keyBackup": "Anahtar yedeği",
+      "ready": "Hazır",
+      "notReady": "Hazır değil",
+      "cryptoUnavailable": "Şifreleme kullanılamıyor.",
+      "serverFeatures": "Sunucu özellikleri ({{count}})",
+      "tools": "Araçlar",
+      "copyDebugInfo": "Hata ayıklama bilgisini kopyala",
+      "clearMedia": "Medya önbelleğini temizle",
+      "clearMediaDone": "Medya önbelleği temizlendi",
+      "resetSyncCache": "Senkronizasyon önbelleğini sıfırla",
+      "resetSyncCacheAction": "Sıfırla",
+      "resetSyncCacheNote": "Yerel oda ve mesaj önbelleğini siler ve yeniden yükler. Şifreleme anahtarları ve ayarlar korunur.",
+      "resetSyncCacheConfirm": "Bu, odalarınızın ve mesajlarınızın yerel kopyasını siler ve uygulamayı yeniden yükler. Her şey sunucudan yeniden indirilir. Şifreleme anahtarlarına dokunulmaz."
     },
     "keyBackup": {
       "downloadKey": "İndir",
@@ -1718,7 +1772,39 @@
       "oldKeyWarningBody": "Eski anahtara bağlı mesajlar artık kurtarılamayabilir. Bu yeni anahtarı hemen kaydedin.",
       "storeKeyWarning": "Bu anahtarı güvenli bir yerde saklayın. Yeni cihazlarda şifreli mesajlara erişmek için buna ihtiyacınız olacak",
       "copyKey": "Kopyala",
-      "copied": "Kopyalandı!"
+      "copied": "Kopyalandı!",
+      "setupRecoveryKey": "Kurtarma anahtarı oluştur",
+      "setupIncomplete": "Şifrelemeyi ayarla",
+      "enterRecoveryKeyBtn": "Kurtarma anahtarını gir",
+      "resetEncryptionKeys": "Şifreleme anahtarlarını sıfırla",
+      "regenerateConfirm": "Bu işlem yeni bir kurtarma anahtarı oluşturacak, eskisini geçersiz kılacak ve anahtar yedeğinizin yerine geçecek. Yalnızca diğer cihazlarınızda bulunan Megolm anahtarları bu süreçte kaybolabilir. Devam edilsin mi?",
+      "regenerateConfirmNoRestore": "Mevcut yedek anahtarınız bu cihazda bulunmuyor, bu nedenle yalnızca mevcut yedekte saklanan tüm anahtarlar kalıcı olarak kaybolacak. Yine de devam edilsin mi?",
+      "regenerateBackupNotActive": "Yeni anahtar yedeği sunucuda etkin olarak doğrulanamadı.",
+      "invalidRecoveryKey": "Geçersiz kurtarma anahtarı. Lütfen doğru kopyaladığınızı kontrol edin.",
+      "couldNotGenerateKeyNew": "Yeni kurtarma anahtarı oluşturulamadı",
+      "restoreSuccess": "{{total}} oda anahtarından {{imported}} tanesi geri yüklendi.",
+      "restoreSuccessNoCSigning": "{{total}} oda anahtarından {{imported}} tanesi geri yüklendi. Çapraz imzalama yeniden kurulamadı — bu oturumu başka bir cihazdan doğrulamayı deneyin.",
+      "restoreFailed": "Yanlış şifre çözme anahtarı. Lütfen kurtarma anahtarınızı kontrol edip yeniden deneyin.",
+      "noSecretStorageFound": "Bu hesapta gizli depolama ayarlanmamış, bu nedenle girilecek bir kurtarma anahtarı yok.",
+      "restoreNoBackup": "Bu oturum doğrulanmış, ancak eski mesajları geri yüklemek için sunucuda anahtar yedeği yok.",
+      "restoreError": "Anahtarlar geri yüklenemedi: {{error}}",
+      "restoreFetching": "Anahtar yedeğiniz indiriliyor...",
+      "restoreProgress": "Anahtarlar geri yükleniyor: {{total}} tanesinden {{imported}} tanesi",
+      "restoreFromBackup": "Yedekten geri yükle",
+      "autoRestoreDone": "Oda anahtarları anahtar yedeğinizden geri yüklendi: {{imported}} tane.",
+      "statusTitle": "Anahtar yedeği",
+      "statusDescription": "Anahtar yedeği, mesaj anahtarlarınızı şifreli olarak sunucunuzda saklar. Yeni bir oturum, kurtarma anahtarınıza sahip olduğunda eski mesajlarınızı okuyabilir.",
+      "statusBackup": "Yedek",
+      "statusThisDevice": "Bu oturum",
+      "statusVersion": "Yedek sürümü",
+      "statusNoBackup": "Ayarlanmamış",
+      "statusActive": "Açık, geri yüklemeye hazır",
+      "statusLocked": "Mevcut, bu oturumda kilitli",
+      "statusNotTrusted": "Mevcut, ancak bu oturum tarafından güvenilmiyor",
+      "statusDeviceVerified": "Doğrulandı",
+      "statusDeviceUnverified": "Doğrulanmadı",
+      "regenerateFailed": "Yeniden oluşturma başarısız: {{error}}",
+      "autoPromptBanner": "Bu cihazda şifreli mesaj geçmişinizi geri yüklemek için kurtarma anahtarınızı girin veya başka bir oturumu kullanarak doğrulayın."
     },
     "sessions": {
       "title": "Oturumlar",
@@ -1756,7 +1842,13 @@
       "ssoCancelled": "SSO kimlik doğrulaması iptal edildi veya açılır pencere kapatıldı. Lütfen yeniden deneyin.",
       "authMethodUnsupported": "Ana sunucunuz burada desteklenmeyen bir kimlik doğrulama yöntemi gerektiriyor.",
       "verifyThisSession": "Bu oturum henüz doğrulanmadı, bu yüzden şifreli mesajlarının hepsini okuyamaz. Doğrula:",
-      "cannotVerifyThisSession": "Bu oturum doğrulanmadı ve onu doğrulayabilecek başka doğrulanmış bir cihaz veya kurtarma anahtarı yok. Sıfırdan başlamak için Şifreleme sekmesinden şifrelemeni sıfırla."
+      "cannotVerifyThisSession": "Bu oturum doğrulanmadı ve onu doğrulayabilecek başka doğrulanmış bir cihaz veya kurtarma anahtarı yok. Sıfırdan başlamak için Şifreleme sekmesinden şifrelemeni sıfırla.",
+      "verifyWithAnotherDevice": "Başka bir cihazla doğrula",
+      "ssoBrowserTitle": "Tarayıcınızda tamamlayın",
+      "ssoBrowserMessage": "Tarayıcınız oturum açma sayfasını açtı. Orada oturum açın, ardından buraya dönüp Bitti'ye basın.",
+      "ssoBrowserDone": "Bitti",
+      "excludeInsecure": "Güvenli olmayan oturumları hariç tut",
+      "excludeInsecureNote": "Açıkken, şifreli mesajlar doğrulanmamış oturumlarla paylaşılmaz ve doğrulanmamış oturumlardan gönderilen mesajlar hata olarak görünür. Oturumlarını doğrulamamış kişilerle sohbet edemeyebilirsiniz."
     },
     "about": {
       "title": "Hakkında",
@@ -1768,7 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> © Phosphor Icons tarafından olup MIT Lisansı koşullarına göre kullanılmaktadır.",
       "privacyPolicy": "Gizlilik politikası",
       "creditMatrix": "© The Matrix.org Foundation C.I.C. olup Apache License 2.0 sürümü koşulları altında kullanılmaktadır.",
-      "creditRoboto": "© Google olup Apache License 2.0 sürümü koşulları altında kullanılmaktadır."
+      "creditRoboto": "© Google olup Apache License 2.0 sürümü koşulları altında kullanılmaktadır.",
+      "updates": "Güncellemeler",
+      "includePrereleases": "Ön sürümleri dahil et",
+      "includePrereleasesNote": "Yayınlanmadan önce test sürümlerini (next, rc, beta) de al. Daha az kararlı olabilirler.",
+      "elementCall": "<elementCallLink>Element Call</elementCallLink> © New Vector Ltd (Element) tarafından olup GNU Affero Genel Kamu Lisansı v3.0 koşullarına göre kullanılmaktadır."
     },
     "encryption": {
       "title": "Şifreleme",
@@ -1996,7 +2092,10 @@
         "fingerprint": "Anahtar parmak izi",
         "fingerprintLabel": "İmza anahtarı parmak izi: {{fingerprint}}",
         "explain": "Mudrix bu anahtarı kaydedecek ve gelecekteki güncellemeleri buna göre doğrulayacaktır.",
-        "confirm": "Güven ve ekle"
+        "confirm": "Güven ve ekle",
+        "address": "Address",
+        "runCode_other": "{{count}} entegrasyon kod çalıştırıyor",
+        "runCode_one": "{{count}} entegrasyon kod çalıştırıyor"
       },
       "rejected": {
         "unsupported": "Mudrix’in bu sürümünde desteklenmiyor ({{error}}).",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "Komutlar",
           "inserts": "Komut yanıtlarını ekler",
-          "runsApi": "onayınızı ister, sonra «{{label}}» işlemini çalıştırır"
+          "runsApi": "onayınızı ister, sonra «{{label}}» işlemini çalıştırır",
+          "opensWidget": "Bir araç açar"
         },
         "api": {
           "title": "API istekleri",
@@ -2048,6 +2148,10 @@
           "sends": "ve şunu gönderir:",
           "sendsNothing": "Kişisel veri göndermez",
           "link": "Yanıttaki bir bağlantı mesaj kutunuza eklenebilir."
+        },
+        "widget": {
+          "title": "Kod çalıştıran bir araç aç",
+          "summary": "Oda üzerinde {{host}} kaynağından bir sayfa içeren pencere açar. O sayfa {{host}} kodudur."
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "Bunu yüklerseniz şunlara izin verilecektir:",
         "safety": "Depodan hiçbir şey çalıştırılmaz ve hiçbir yere hiçbir şey gönderilmez. Düğmeler yalnızca mesaj kutusuna metin yerleştirir; gönderip göndermeyeceğinizi siz seçersiniz. İstediğiniz zaman herhangi bir izni kapatabilir veya entegrasyonu kaldırabilirsiniz.",
         "safetyApi": "Depodan hiçbir şey çalıştırılmaz. Bu işlemlerden birini kullanıp tam olarak neyin gönderildiğini gösteren isteği onaylayana kadar hiçbir şey gönderilmez. İstediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz.",
-        "safetyDetails": "Depodan hiçbir şey çalıştırılmaz. Cihazınız yalnızca yukarıda adı geçen hizmetlerle iletişim kurar: eşleşen bağlantıların ayrıntılarını aramak için (yalnızca listelenen alanlar gösterilir) ve herhangi bir eylem için ancak siz onayladıktan sonra. Dilediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz."
+        "safetyDetails": "Depodan hiçbir şey çalıştırılmaz. Cihazınız yalnızca yukarıda adı geçen hizmetlerle iletişim kurar: eşleşen bağlantıların ayrıntılarını aramak için (yalnızca listelenen alanlar gösterilir) ve herhangi bir eylem için ancak siz onayladıktan sonra. Dilediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz.",
+        "safetyCode": "Aracı kendiniz açana kadar hiçbir şey çalıştırılmaz. İstediğiniz zaman herhangi bir izni kapatabilir veya kaldırabilirsiniz."
       },
       "hosts": {
         "title": "Bağlanabileceği sunucular",
         "none": "Hiçbir sunucuya bağlanmaz.",
         "note": "Diğer tüm adresler reddedilir. Çerez veya hesap bilgisi gönderilmez."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Kod çalıştırır"
+      },
+      "widget": {
+        "warning": {
+          "title": "Bu entegrasyon kod çalıştırır",
+          "source": "Kod {{host}} kaynağından gelir ve her açıldığında oradan yüklenir.",
+          "changes": "Yazarı, Mudrix size tekrar sormadan bunu istediği zaman değiştirebilir.",
+          "isolated": "Yalıtılmış bir çerçevede çalışır ve aşağıda izin verdiğiniz listelenenler dışında mesajlarınızı, anahtarlarınızı veya hesabınızı okuyamaz.",
+          "trust": "Yalnızca güvendiğiniz kişilerin entegrasyonlarını yükleyin."
+        },
+        "understand": "Bunun {{host}} kaynağından kod çalıştırdığını anlıyorum",
+        "refused": "Bu entegrasyon kullanılamaz: {{error}}",
+        "noAccess": "Yalnızca içerik görüntüleyebilir. Odalarınızda hiçbir şey okuyamaz veya gönderemez.",
+        "highAccess": "Yüksek erişim",
+        "events": {
+          "item": "Bu odada <mono>{{type}}</mono> türündeki etkinlikleri gönderin ve okuyun. Bunlar özel etkinliklerdir: odadaki diğer uygulamalar bunları görebilir, ancak çoğu sohbet uygulaması bunlar için hiçbir şey göstermez. Araç ayrıca oda kimliğini ve her etkinliği kimin gönderdiğini görür."
+        },
+        "fromLinks": "Kartlarındaki bir butondan {{host}} bağlantılarını bir pencerede açın. Bağlantıdaki sayfa {{host}} kodudur ve bağlantıyı paylaşan kişi bu ana bilgisayardaki hangi sayfayı seçeceğini belirler.",
+        "saveFiles": "Bu sayfanın cihazınıza dosya kaydetmesine izin ver",
+        "address": "Adresine eklendi: temanız ve diliniz.",
+        "addressExtra": "Ayrıca eklendi: {{values}}.",
+        "param": {
+          "room_id": "oda kimliği",
+          "user_id": "kullanıcı kimliğiniz",
+          "display_name": "görünen adınız"
+        },
+        "cap": {
+          "send": {
+            "message": "Açtığınız odada sizin adınıza mesaj gönderin. Ayrıca oda kimliğini de öğrenir."
+          },
+          "read": {
+            "messages": "Kimin gönderdiği dahil olmak üzere o odadaki mesajları okuyun",
+            "room": "O odanın adını ve konusunu okuyun"
+          },
+          "upload": {
+            "file": "Sizin adınıza medya depolama alanınıza dosya yükleyin (yalnızca seçtikleriniz değil, 25 MB'a kadar 20 dosya)"
+          },
+          "download": {
+            "file": "O odadaki mesajlardan dosya indirin"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Şifreleme anahtarları yedeği",
+      "description": "Uçtan uca şifreleme oda anahtarlarınızı parola korumalı bir dosyaya aktarın veya bu ya da başka bir Matrix istemcisinden dışa aktarılan anahtarları içe aktarın.",
+      "exportTitle": "Oda anahtarlarını dışa aktar",
+      "importTitle": "Oda anahtarlarını içe aktar",
+      "passphrase": "Parola cümlesi",
+      "confirmPassphrase": "Parola cümlesini onayla",
+      "passphraseMismatch": "Parola cümleleri eşleşmiyor.",
+      "exportBtn": "Anahtarları dışa aktar",
+      "importBtn": "Anahtarları içe aktar",
+      "chooseFile": "Anahtar dosyası",
+      "cryptoNotAvailable": "Şifreleme kullanılamıyor.",
+      "exportSuccess": "Oda anahtarları dışa aktarıldı. Dosyayı ve parola cümlesini güvenli tutun.",
+      "exportFailed": "Oda anahtarları dışa aktarılamadı: {{error}}",
+      "importSuccess": "{{count}} oda anahtarı içe aktarıldı.",
+      "importFailed": "Oda anahtarları içe aktarılamadı: {{error}}",
+      "error_format": "Bu, geçerli bir oda anahtarı dışa aktarımına benzemiyor.",
+      "error_version": "Bu anahtar dosyası desteklenmeyen bir sürüm kullanıyor.",
+      "error_password": "Parola cümlesi yanlış veya dosya bozuk.",
+      "error_rounds": "Bu anahtar dosyasında geçersiz anahtar türetme ayarları var."
+    },
+    "activity": {
+      "simultaneous": "Durumunun yanında gösterilir; yani bir oyun ve bir şarkı birlikte görünebilir.",
+      "detected": "Şu anda",
+      "hideThis": "Bunu asla paylaşma",
+      "title": "Etkinlik",
+      "share": "Ne oynadığımı veya dinlediğimi göster",
+      "shareNote": "Diğer kişiler bu bilgisayarda çalan oyunu veya müziği profilinizde ve üye listelerinde görür. Bu kapalıyken hiçbir şey denetlenmez.",
+      "games": "Oyunlar",
+      "music": "Müzik",
+      "musicNote": "Spotify gibi medya oynatıcılardan. Tarayıcılar asla paylaşılmaz.",
+      "nowPlaying": "Şu anda: {{name}} oynuyor",
+      "nowListening": "Şu anda: {{name}} dinliyor",
+      "nothing": "Şu anda bir şey algılanmadı",
+      "hiddenNote": "Gizlerseniz asla paylaşılmaz.",
+      "hiddenCount": "Paylaşımdan gizlenen: {{count}}",
+      "showAgain": "Hepsini yeniden göster",
+      "apps": {
+        "title": "Eklenen uygulamalar",
+        "note": "Oyun olarak tanımadığımız programları buraya ekleyebilirsin. Biri açıkken, verdiğin adla \"Oynuyor\" olarak görünür.",
+        "add": "Uygulama ekle",
+        "remove": "Kaldır"
+      },
+      "add": {
+        "title": "Uygulama ekle",
+        "note": "Önce programı aç, sonra listeden seç.",
+        "search": "Açık programlarda ara",
+        "loading": "Açık programlar aranıyor…",
+        "none": "Başka açık program bulunamadı",
+        "nameNote": "Nasıl görünsün? ({{exe}})",
+        "confirm": "Ekle"
+      }
+    },
+    "cosmetics": {
+      "title": "Kozmetikler",
+      "note": "Abone olduğun her şey: odalarından ve alanlarından avatar dekorasyonları, profil efektleri, isim plakaları ve profil çerçeveleri.",
+      "hint": "Burada seçtiğin paketler profilin için kullanılabilir olur.",
+      "empty": "Henüz hiçbirine abone değilsin.",
+      "kindPlural": {
+        "decoration": "Avatar dekorasyonları",
+        "effect": "Profil efektleri",
+        "nameplate": "İsim plakaları",
+        "profile_frame": "Profil çerçeveleri"
       }
     }
   },

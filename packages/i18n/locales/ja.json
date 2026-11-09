@@ -1407,12 +1407,19 @@
       "timezone": "タイムゾーン",
       "timezoneHint": "プロフィールに現地時刻を表示できるようにします。",
       "extendedProfileUnsupported": "お使いのホームサーバーは拡張プロフィールに対応していないため、バナー、自己紹介、代名詞、タイムゾーンは保存できません。表示名とアバターは引き続き使用できます。サーバー管理者に MSC4133 の有効化を依頼してください（Synapse: experimental_features.msc4133_enabled、または Matrix 1.16 以降）。",
+      "banner": "プロフィールのバナー",
+      "bannerHint": "プロフィールカードの上部に表示されます。3:1のバナーに切り抜かれます。",
+      "noBanner": "バナーなし",
+      "uploadBanner": "バナーをアップロード",
+      "changeBanner": "バナーを変更",
+      "bannerPosition": "位置",
       "timezoneUnset": "共有しない",
       "timezoneBrowser": "{{tz}}（このデバイス）",
       "profileSaved": "プロフィールを保存しました",
       "aboutTitle": "自己紹介",
       "styleNameplate": "ネームプレート",
-      "styleFrame": "プロフィールフレーム"
+      "styleFrame": "プロフィールフレーム",
+      "profileTitle": "プロフィール"
     },
     "appearance": {
       "title": "外観",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "ルームリストのスタイル",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "モダン",
-      "roomListStyleNote": "Matrixはすべてのルームにアバターを表示します。モダンはシンプルなチャンネル行を使い、スペース内でチャンネルを並べ替えたり、ボイスチャンネルに指定したりできます。"
+      "roomListStyleNote": "Matrixはすべてのルームにアバターを表示します。モダンはシンプルなチャンネル行を使い、スペース内でチャンネルを並べ替えたり、ボイスチャンネルに指定したりできます。",
+      "profileEffects": "プロフィールエフェクト",
+      "profileEffectsNote": "他のユーザーのプロフィールカードにアニメーションエフェクトを表示します。システムで視覚効果の軽減が指定されている場合は常にオフになります。",
+      "timelineDisplay": "タイムライン",
+      "hideMembershipEvents": "参加・退出を非表示",
+      "hideMembershipEventsNote": "メンバーの参加、退出、キック、BANのメッセージを表示しません。",
+      "hideProfileEvents": "プロフィールの変更を非表示",
+      "hideProfileEventsNote": "メンバーが表示名やアバターを変更したときのメッセージを表示しません。",
+      "themedAppIconNote": "現在のテーマに合わせたアプリアイコンを使います。",
+      "themedAppIconNoteNoArt": "現在のテーマには専用アイコンがありません。専用アイコンのあるテーマ（Parrot、Hallow）で有効になります。",
+      "systemAccent": "システムのアクセントカラーを使う",
+      "systemAccentNote": "Windows、macOS、Linuxデスクトップのアクセントカラーを使います。デスクトップアプリのCarbonテーマでのみ有効です。"
     },
     "accessibility": {
       "title": "アクセシビリティ",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "確認する",
       "youtubeEmbedsOn": "表示",
       "youtubeEmbedsOff": "非表示",
-      "youtubeEmbedsNote": "YouTubeのリンクを再生できるカードとして表示します。再生するとYouTubeから動画を読み込みます。"
+      "youtubeEmbedsNote": "YouTubeのリンクを再生できるカードとして表示します。再生するとYouTubeから動画を読み込みます。",
+      "ignoredUsersNote": "そのユーザーのメッセージ、招待、DMは表示されません。",
+      "ignoredUsersEmpty": "無視しているユーザーはいません。"
     },
     "language": {
       "title": "言語",
@@ -1636,7 +1656,11 @@
       "imageCount_one": "画像 {{count}} 件",
       "imageCount_other": "画像 {{count}} 件",
       "gifs": "GIF",
-      "gifProvider": "優先するGIFプロバイダー"
+      "gifProvider": "優先するGIFプロバイダー",
+      "searchPacks": "パックを検索",
+      "subscribeAll": "すべて購読",
+      "unsubscribeAll": "すべて購読解除",
+      "noPacksMatch": "検索に一致するパックはありません。"
     },
     "keybinds": {
       "title": "キーバインド",
@@ -1693,7 +1717,37 @@
       "accountDataSaved": "アカウントデータを保存しました。",
       "accountDataSaveFailed": "アカウントデータを保存できませんでした: {{error}}",
       "accountDataCount_one": "{{count}} 件のイベントタイプ",
-      "accountDataCount_other": "{{count}} 件のイベントタイプ"
+      "accountDataCount_other": "{{count}} 件のイベントタイプ",
+      "slidingSync": "Sliding sync(試験的)",
+      "slidingSyncDescription": "大規模なアカウントで起動が速くなり、同期も軽くなります。簡易 sliding sync(MSC4186)に対応したホームサーバーが必要です。適用するには再読み込みしてください。",
+      "reload": "アプリを再読み込み",
+      "session": "セッション",
+      "userId": "ユーザーID",
+      "deviceId": "デバイスID",
+      "appVersion": "アプリのバージョン",
+      "syncMode": "同期モード",
+      "syncClassic": "従来の同期",
+      "syncSliding": "Sliding sync",
+      "syncState": "同期の状態",
+      "rooms": "ルーム",
+      "roomsValue": "{{joined}}件参加、{{invited}}件招待",
+      "specVersion": "最新の仕様バージョン",
+      "encryption": "暗号化",
+      "crossSigning": "クロス署名",
+      "secretStorage": "シークレットストレージ",
+      "keyBackup": "キーバックアップ",
+      "ready": "準備完了",
+      "notReady": "未完了",
+      "cryptoUnavailable": "暗号化は利用できません。",
+      "serverFeatures": "サーバーの機能({{count}})",
+      "tools": "ツール",
+      "copyDebugInfo": "デバッグ情報をコピー",
+      "clearMedia": "メディアキャッシュを消去",
+      "clearMediaDone": "メディアキャッシュを消去しました",
+      "resetSyncCache": "同期キャッシュをリセット",
+      "resetSyncCacheAction": "リセット",
+      "resetSyncCacheNote": "ローカルのルームとメッセージのキャッシュを削除して再読み込みします。暗号鍵と設定は保持されます。",
+      "resetSyncCacheConfirm": "ルームとメッセージのローカルコピーを削除し、アプリを再読み込みします。すべてサーバーから再取得されます。暗号鍵には影響しません。"
     },
     "keyBackup": {
       "downloadKey": "ダウンロード",
@@ -1718,7 +1772,39 @@
       "oldKeyWarningBody": "古いキーに紐づくメッセージは復元できなくなる可能性があります。この新しいキーをすぐに保存してください。",
       "storeKeyWarning": "このキーは安全な場所に保管してください。新しいデバイスで暗号化されたメッセージにアクセスするために必要になります",
       "copyKey": "コピー",
-      "copied": "コピーしました！"
+      "copied": "コピーしました！",
+      "setupRecoveryKey": "リカバリーキーを設定",
+      "setupIncomplete": "暗号化を設定",
+      "enterRecoveryKeyBtn": "リカバリーキーを入力",
+      "resetEncryptionKeys": "暗号化キーをリセット",
+      "regenerateConfirm": "新しいリカバリーキーを作成し、古いキーを無効にして、鍵のバックアップを置き換えます。他のデバイスにのみ保存されているMegolmキーは失われる可能性があります。続行しますか？",
+      "regenerateConfirmNoRestore": "現在のバックアップキーはこのデバイスで利用できないため、既存のバックアップにのみ保存されているすべての鍵は完全に失われます。それでも続行しますか？",
+      "regenerateBackupNotActive": "新しい鍵のバックアップがサーバー上で有効であることを確認できませんでした。",
+      "invalidRecoveryKey": "リカバリーキーが無効です。正しくコピーしたか確認してください。",
+      "couldNotGenerateKeyNew": "新しいリカバリーキーを生成できませんでした",
+      "restoreSuccess": "{{total}} 件中 {{imported}} 件のルームキーを復元しました。",
+      "restoreSuccessNoCSigning": "{{total}} 件中 {{imported}} 件のルームキーを復元しました。クロス署名を再確立できませんでした。別のデバイスからこのセッションの認証を試してください。",
+      "restoreFailed": "復号キーが正しくありません。リカバリーキーを確認してもう一度お試しください。",
+      "noSecretStorageFound": "このアカウントではシークレットストレージが設定されていないため、入力するリカバリーキーがありません。",
+      "restoreNoBackup": "このセッションは認証されていますが、過去のメッセージを復元できる鍵のバックアップがサーバーにありません。",
+      "restoreError": "鍵を復元できませんでした: {{error}}",
+      "restoreFetching": "鍵のバックアップをダウンロード中...",
+      "restoreProgress": "鍵を復元中: {{total}} 件中 {{imported}} 件",
+      "restoreFromBackup": "バックアップから復元",
+      "autoRestoreDone": "鍵のバックアップから {{imported}} 件のルームキーを復元しました。",
+      "statusTitle": "鍵のバックアップ",
+      "statusDescription": "鍵のバックアップは、メッセージの鍵を暗号化した状態でサーバーに保存します。新しいセッションは、リカバリーキーがあれば過去のメッセージを読めるようになります。",
+      "statusBackup": "バックアップ",
+      "statusThisDevice": "このセッション",
+      "statusVersion": "バックアップのバージョン",
+      "statusNoBackup": "未設定",
+      "statusActive": "有効・復元可能",
+      "statusLocked": "存在します。このセッションではロックされています",
+      "statusNotTrusted": "存在しますが、このセッションでは信頼されていません",
+      "statusDeviceVerified": "認証済み",
+      "statusDeviceUnverified": "未認証",
+      "regenerateFailed": "再生成に失敗しました: {{error}}",
+      "autoPromptBanner": "リカバリーキーを入力して、このデバイスで暗号化されたメッセージの履歴を復元するか、別のセッションを使って認証してください。"
     },
     "sessions": {
       "title": "セッション",
@@ -1756,7 +1842,13 @@
       "ssoCancelled": "SSO認証がキャンセルされたか、ポップアップが閉じられました。もう一度お試しください。",
       "authMethodUnsupported": "お使いのホームサーバーは、ここではサポートされていない認証方法を必要としています。",
       "verifyThisSession": "このセッションはまだ検証されていないため、暗号化されたメッセージをすべて読むことはできません。検証してください:",
-      "cannotVerifyThisSession": "このセッションは検証されておらず、検証に使える他の検証済みデバイスやリカバリーキーもありません。暗号化タブで暗号化をリセットして、最初からやり直してください。"
+      "cannotVerifyThisSession": "このセッションは検証されておらず、検証に使える他の検証済みデバイスやリカバリーキーもありません。暗号化タブで暗号化をリセットして、最初からやり直してください。",
+      "verifyWithAnotherDevice": "別のデバイスで認証",
+      "ssoBrowserTitle": "ブラウザで完了してください",
+      "ssoBrowserMessage": "ブラウザでログイン画面が開きました。そちらでログイン後、ここに戻って「完了」を押してください。",
+      "ssoBrowserDone": "完了",
+      "excludeInsecure": "安全でないセッションを除外",
+      "excludeInsecureNote": "オンにすると、暗号化メッセージは未検証のセッションと共有されず、未検証のセッションから送信されたメッセージはエラーとして表示されます。セッションを検証していない相手とはチャットできなくなる場合があります。"
     },
     "about": {
       "title": "情報",
@@ -1768,7 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> は © Phosphor Icons によるもので、MIT License の条件に基づいて使用されています。",
       "privacyPolicy": "プライバシーポリシー",
       "creditMatrix": "は © The Matrix.org Foundation C.I.C. が著作権を有し、Apache License 2.0 の条件に基づいて使用されています。",
-      "creditRoboto": "は © Google が著作権を有し、Apache License 2.0 の条件に基づいて使用されています。"
+      "creditRoboto": "は © Google が著作権を有し、Apache License 2.0 の条件に基づいて使用されています。",
+      "updates": "アップデート",
+      "includePrereleases": "プレリリースを含める",
+      "includePrereleasesNote": "リリース前のテストビルド（next、rc、beta）も受け取ります。安定性が低い場合があります。",
+      "elementCall": "<elementCallLink>Element Call</elementCallLink> は © New Vector Ltd (Element) によるもので、GNU Affero General Public License v3.0 の条件に基づいて使用されています。"
     },
     "encryption": {
       "title": "暗号化",
@@ -1996,7 +2092,10 @@
         "fingerprint": "鍵のフィンガープリント",
         "fingerprintLabel": "署名鍵のフィンガープリント: {{fingerprint}}",
         "explain": "Mudrix はこの公開鍵を保存し、今後のアップデート検証に使用します。",
-        "confirm": "信頼して追加"
+        "confirm": "信頼して追加",
+        "address": "Address",
+        "runCode_other": "{{count}} 件の統合機能がコードを実行します",
+        "runCode_one": "{{count}} 件の統合機能がコードを実行します"
       },
       "rejected": {
         "unsupported": "このバージョンの Mudrix では対応していません ({{error}})。",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "コマンド",
           "inserts": "コマンドの実行結果を挿入します",
-          "runsApi": "確認を求めてから「{{label}}」を実行します"
+          "runsApi": "確認を求めてから「{{label}}」を実行します",
+          "opensWidget": "ウィジェットを開きます"
         },
         "api": {
           "title": "API リクエスト",
@@ -2048,6 +2148,10 @@
           "sends": "送信する内容:",
           "sendsNothing": "個人情報は送信しません",
           "link": "応答内のリンクをメッセージ入力欄に追加できます。"
+        },
+        "widget": {
+          "title": "コードを実行するウィジェットを開く",
+          "summary": "ルーム上に {{host}} のページをウィンドウとして開きます。そのページは {{host}} のコードです。"
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "インストールすると、以下の操作が許可されます:",
         "safety": "リポジトリから勝手にコードが実行されたり、どこかに送信されたりすることはありません。ボタンは入力欄にテキストを挿入するだけで、送信するかどうかはあなたが決定します。いつでも権限を無効化またはアンインストールできます。",
         "safetyApi": "リポジトリから勝手にコードが実行されることはありません。あなたがアクションを使用して確認するまで何も送信されず、何が送信されるかは事前に正確に表示されます。いつでも権限を無効化またはアンインストールできます。",
-        "safetyDetails": "リポジトリから実行されるものはありません。端末が接続するのは上記のサービスだけです。一致するリンクの詳細の取得（表示するのは記載された項目のみ）と、確認後に行うアクションに限られます。権限はいつでもオフにでき、アンインストールもできます。"
+        "safetyDetails": "リポジトリから実行されるものはありません。端末が接続するのは上記のサービスだけです。一致するリンクの詳細の取得（表示するのは記載された項目のみ）と、確認後に行うアクションに限られます。権限はいつでもオフにでき、アンインストールもできます。",
+        "safetyCode": "あなたがウィジェットを開くまで何も実行されません。いつでも権限を無効化またはアンインストールできます。"
       },
       "hosts": {
         "title": "接続できるサーバー",
         "none": "どのサーバーにも接続しません。",
         "note": "それ以外のアドレスは拒否されます。Cookie やアカウント情報は送信されません。"
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "コードを実行"
+      },
+      "widget": {
+        "warning": {
+          "title": "この統合機能はコードを実行します",
+          "source": "コードは {{host}} から提供され、開くたびにそこから読み込まれます。",
+          "changes": "開発者は Mudrix を通じた再確認なしにいつでもコードを変更できます。",
+          "isolated": "コードは隔離されたフレーム内で実行され、あなたが許可した以下の項目を除き、メッセージや暗号鍵、アカウント情報を読み取ることはできません。",
+          "trust": "信頼できる開発者の統合機能のみをインストールしてください。"
+        },
+        "understand": "{{host}} からコードが実行されることを理解しました",
+        "refused": "この統合機能は使用できません: {{error}}",
+        "noAccess": "表示のみを行うことができます。ルーム内のメッセージの読み取りや送信はできません。",
+        "highAccess": "高度なアクセス権",
+        "events": {
+          "item": "このルームで <mono>{{type}}</mono> タイプのイベントを送信・読み取ります。これらはカスタムイベントであり、ルーム内の他の対応アプリにも表示されますが、一般的なチャットアプリには何も表示されません。ウィジェットにはルーム ID と送信者も表示されます。"
+        },
+        "fromLinks": "カード上のボタンから {{host}} へのリンクをウィンドウで開きます。リンク先のページは {{host}} のコードであり、リンクを共有した人がどのページを開くかを指定します。",
+        "saveFiles": "そのページが端末にファイルを保存することを許可する",
+        "address": "アクセス先 URL に付加される情報: あなたのテーマと言語。",
+        "addressExtra": "追加で付加される情報: {{values}}。",
+        "param": {
+          "room_id": "ルーム ID",
+          "user_id": "あなたのユーザー ID",
+          "display_name": "あなたの表示名"
+        },
+        "cap": {
+          "send": {
+            "message": "ウィジェットを開いたルームで、あなたのアカウントとしてメッセージを送信します（ルーム ID も取得されます）。"
+          },
+          "read": {
+            "messages": "そのルームのメッセージ（送信者を含む）を読み取ります",
+            "room": "そのルームの名前とトピックを読み取ります"
+          },
+          "upload": {
+            "file": "あなたのアカウントとしてメディアストレージにファイルをアップロードします（最大 25MB のファイルを 20 件まで。選択したもの以外も含む）"
+          },
+          "download": {
+            "file": "そのルーム内のメッセージからファイルをダウンロードします"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "暗号化キーのバックアップ",
+      "description": "エンドツーエンド暗号化のルームキーをパスフレーズで保護されたファイルにエクスポートするか、このクライアントまたは他のMatrixクライアントでエクスポートされたファイルからキーをインポートします。",
+      "exportTitle": "ルームキーをエクスポート",
+      "importTitle": "ルームキーをインポート",
+      "passphrase": "パスフレーズ",
+      "confirmPassphrase": "パスフレーズ（確認）",
+      "passphraseMismatch": "パスフレーズが一致しません。",
+      "exportBtn": "キーをエクスポート",
+      "importBtn": "キーをインポート",
+      "chooseFile": "キーファイル",
+      "cryptoNotAvailable": "暗号機能は利用できません。",
+      "exportSuccess": "ルームキーをエクスポートしました。ファイルとパスフレーズは安全に保管してください。",
+      "exportFailed": "ルームキーをエクスポートできませんでした: {{error}}",
+      "importSuccess": "{{count}} 件のルームキーをインポートしました。",
+      "importFailed": "ルームキーをインポートできませんでした: {{error}}",
+      "error_format": "有効なルームキーのエクスポートファイルではないようです。",
+      "error_version": "このキーファイルは非対応のバージョンです。",
+      "error_password": "パスフレーズが正しくないか、ファイルが破損しています。",
+      "error_rounds": "このキーファイルの鍵導出設定が無効です。"
+    },
+    "activity": {
+      "simultaneous": "ステータスの横に表示されるので、ゲームと曲を同時に表示できます。",
+      "detected": "いま",
+      "hideThis": "今後は共有しない",
+      "title": "アクティビティ",
+      "share": "プレイ中のゲームや再生中の音楽を表示する",
+      "shareNote": "このパソコンで動いているゲームや音楽が、プロフィールやメンバー一覧で他の人に表示されます。オフの間は何も調べません。",
+      "games": "ゲーム",
+      "music": "音楽",
+      "musicNote": "Spotify などのメディアプレーヤーから取得します。ブラウザは共有されません。",
+      "nowPlaying": "今: {{name}} をプレイ中",
+      "nowListening": "今: {{name}} を再生中",
+      "nothing": "今は何も検出されていません",
+      "hiddenNote": "非表示にすると、共有されなくなります。",
+      "hiddenCount": "共有しない項目: {{count}} 件",
+      "showAgain": "すべて再び表示",
+      "apps": {
+        "title": "追加したアプリ",
+        "note": "ゲームとして認識されないプログラムをここで追加できます。開いている間は、付けた名前で「プレイ中」と表示されます。",
+        "add": "アプリを追加",
+        "remove": "削除"
+      },
+      "add": {
+        "title": "アプリを追加",
+        "note": "先にプログラムを開いてから、リストで選んでください。",
+        "search": "開いているプログラムを検索",
+        "loading": "開いているプログラムを検索中…",
+        "none": "ほかに開いているプログラムが見つかりません",
+        "nameNote": "どう表示しますか？（{{exe}}）",
+        "confirm": "追加"
+      }
+    },
+    "cosmetics": {
+      "title": "コスメティクス",
+      "note": "ルームやスペースから登録しているものすべて：アバターデコレーション、プロフィールエフェクト、ネームプレート、プロフィールフレーム。",
+      "hint": "ここで選んだパックがプロフィールで使えるようになります。",
+      "empty": "まだ登録していません。",
+      "kindPlural": {
+        "decoration": "アバターデコレーション",
+        "effect": "プロフィールエフェクト",
+        "nameplate": "ネームプレート",
+        "profile_frame": "プロフィールフレーム"
       }
     }
   },

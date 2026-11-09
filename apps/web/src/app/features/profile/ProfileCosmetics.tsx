@@ -23,6 +23,8 @@ import {
   type ProfileStatus,
 } from '@/util/profileCosmetics';
 import { builtinNameplateSrc, getBuiltinNameplate } from '@/util/builtinCosmetics';
+import { publicUrl } from '@/util/publicUrl';
+import { useNameplatePacks } from '@/app/hooks/useUserPacks';
 import { useRestartingSrc } from './useRestartingSrc';
 import * as css from './ProfileCard.css';
 
@@ -97,7 +99,7 @@ function HomeserverBadgeIcon({ software }: { software: HomeserverSoftware }) {
       >
         {known.logo ? (
           <img
-            src={`/assets/homeservers/${known.logo}`}
+            src={publicUrl(`assets/homeservers/${known.logo}`)}
             alt=""
             width={16}
             height={16}
@@ -314,11 +316,19 @@ export function useResolvedNameplate(
   client?: MatrixClient | null
 ): { src: string | undefined; palette?: string; active: boolean } {
   const c = client ?? getMatrixClientOrNull();
+  const packs = useNameplatePacks(c);
   const { url, palette } = ((): { url: string | null; palette?: string } => {
     if (!nameplate) return { url: null };
     if (typeof nameplate === 'object') return { url: nameplate.url, palette: nameplate.palette };
     const builtin = getBuiltinNameplate(nameplate);
     if (builtin) return { url: builtin.id, palette: builtin.palette };
+    for (const group of packs) {
+      for (const item of group.nameplates) {
+        if (item.id === nameplate || item.url === nameplate) {
+          return { url: item.url, palette: item.palette };
+        }
+      }
+    }
     return { url: nameplate };
   })();
   const src = useNameplateSrc(url, c);

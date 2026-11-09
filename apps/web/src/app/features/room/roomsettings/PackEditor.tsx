@@ -69,6 +69,15 @@ function shortcodeFromName(name: string): string {
   );
 }
 
+type UsageMode =
+  | 'emoticon'
+  | 'sticker'
+  | 'both'
+  | 'profile_decoration'
+  | 'profile_effect'
+  | 'nameplate'
+  | 'profile_frame';
+
 export function PackEditor({
   client,
   roomId: _roomId,
@@ -82,15 +91,24 @@ export function PackEditor({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [displayName, setDisplayName] = useState(pack.displayName);
-  const initialUsage =
-    pack.usage.includes('sticker') && pack.usage.includes('emoticon')
-      ? 'both'
-      : pack.usage.includes('sticker')
-        ? 'sticker'
-        : pack.usage.includes('emoticon')
-          ? 'emoticon'
-          : 'emoticon';
-  const [usageMode, setUsageMode] = useState<'emoticon' | 'sticker' | 'both'>(initialUsage);
+  const initialUsage: UsageMode = pack.usage.includes('profile_frame')
+    ? 'profile_frame'
+    : pack.usage.includes('nameplate')
+      ? 'nameplate'
+      : pack.usage.includes('profile_effect')
+        ? 'profile_effect'
+        : pack.usage.includes('profile_decoration') ||
+            pack.usage.includes('avatar_decoration') ||
+            pack.usage.includes('avatar_frame')
+          ? 'profile_decoration'
+          : pack.usage.includes('sticker') && pack.usage.includes('emoticon')
+            ? 'both'
+            : pack.usage.includes('sticker')
+              ? 'sticker'
+              : pack.usage.includes('emoticon')
+                ? 'emoticon'
+                : 'emoticon';
+  const [usageMode, setUsageMode] = useState<UsageMode>(initialUsage);
   const [images, setImages] = useState<Record<string, ImageEntry>>(pack.images);
   const [avatarUrl, setAvatarUrl] = useState(pack.avatarUrl);
   const [attribution, setAttribution] = useState(pack.attribution ?? '');
@@ -368,8 +386,12 @@ export function PackEditor({
               { value: 'emoticon', label: t('room.settings.emojis.usageEmoji') },
               { value: 'sticker', label: t('room.settings.emojis.usageSticker') },
               { value: 'both', label: t('room.settings.emojis.usageBoth') },
+              { value: 'profile_decoration', label: 'Avatar Decorations' },
+              { value: 'profile_effect', label: 'Profile Effects' },
+              { value: 'nameplate', label: 'Nameplates' },
+              { value: 'profile_frame', label: 'Profile Frames' },
             ]}
-            onChange={(v) => setUsageMode(v as 'emoticon' | 'sticker' | 'both')}
+            onChange={(v) => setUsageMode(v as UsageMode)}
           />
         </Field>
       </div>

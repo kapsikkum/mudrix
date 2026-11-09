@@ -1407,12 +1407,19 @@
       "timezone": "Fuso orario",
       "timezoneHint": "Permette agli altri di vedere la tua ora locale nel tuo profilo.",
       "extendedProfileUnsupported": "Il tuo homeserver non supporta i profili estesi, quindi banner, bio, pronomi e fuso orario non possono essere salvati. Nome visualizzato e avatar funzionano ancora. Chiedi all'amministratore del server di attivare MSC4133 (Synapse: experimental_features.msc4133_enabled, oppure Matrix 1.16+).",
+      "banner": "Banner del profilo",
+      "bannerHint": "Mostrato in cima alla tua scheda profilo. Ritagliato in un banner 3:1.",
+      "noBanner": "Nessun banner",
+      "uploadBanner": "Carica banner",
+      "changeBanner": "Cambia banner",
+      "bannerPosition": "Posizione",
       "timezoneUnset": "Non condiviso",
       "timezoneBrowser": "{{tz}} (questo dispositivo)",
       "profileSaved": "Profilo salvato",
       "aboutTitle": "Info su di me",
       "styleNameplate": "Targhetta del nome",
-      "styleFrame": "Cornice del profilo"
+      "styleFrame": "Cornice del profilo",
+      "profileTitle": "Profilo"
     },
     "appearance": {
       "title": "Aspetto",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "Stile dell'elenco stanze",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Moderno",
-      "roomListStyleNote": "Matrix mostra un avatar su ogni stanza. Moderno usa righe di canale semplici, ti permette di ordinare i canali all'interno di uno spazio e di segnare i canali vocali."
+      "roomListStyleNote": "Matrix mostra un avatar su ogni stanza. Moderno usa righe di canale semplici, ti permette di ordinare i canali all'interno di uno spazio e di segnare i canali vocali.",
+      "profileEffects": "Effetti profilo",
+      "profileEffectsNote": "Mostra effetti animati sulle schede profilo degli altri. Sono sempre disattivati quando il sistema richiede di ridurre il movimento.",
+      "timelineDisplay": "Timeline",
+      "hideMembershipEvents": "Nascondi ingressi e uscite",
+      "hideMembershipEventsNote": "Non mostrare i messaggi quando qualcuno entra, esce, viene espulso o bandito.",
+      "hideProfileEvents": "Nascondi modifiche al profilo",
+      "hideProfileEventsNote": "Non mostrare i messaggi quando qualcuno cambia nome visualizzato o avatar.",
+      "themedAppIconNote": "Usa l’icona dell’app del tema attuale.",
+      "themedAppIconNoteNoArt": "Il tema attuale non ha un’icona propria; ha effetto sui temi che ce l’hanno (Parrot, Hallow).",
+      "systemAccent": "Usa il colore di accento di sistema",
+      "systemAccentNote": "Prende il colore di accento da Windows, macOS o dal desktop Linux. Solo nell’app desktop e con il tema Carbon."
     },
     "accessibility": {
       "title": "Accessibilità",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "Chiedi",
       "youtubeEmbedsOn": "Mostra",
       "youtubeEmbedsOff": "Nascondi",
-      "youtubeEmbedsNote": "Mostra i link YouTube come schede riproducibili. La riproduzione carica il video da YouTube."
+      "youtubeEmbedsNote": "Mostra i link YouTube come schede riproducibili. La riproduzione carica il video da YouTube.",
+      "ignoredUsersNote": "I loro messaggi, inviti e DM ti vengono nascosti.",
+      "ignoredUsersEmpty": "Non stai ignorando nessuno."
     },
     "language": {
       "title": "Lingua",
@@ -1636,7 +1656,11 @@
       "imageCount_one": "{{count}} immagine",
       "imageCount_other": "{{count}} immagini",
       "gifs": "GIF",
-      "gifProvider": "Fornitore GIF preferito"
+      "gifProvider": "Fornitore GIF preferito",
+      "searchPacks": "Cerca pacchetti",
+      "subscribeAll": "Iscriviti a tutti",
+      "unsubscribeAll": "Annulla tutte le iscrizioni",
+      "noPacksMatch": "Nessun pacchetto corrisponde alla ricerca."
     },
     "keybinds": {
       "title": "Scorciatoie da tastiera",
@@ -1693,7 +1717,37 @@
       "accountDataSaved": "Dati dell'account salvati.",
       "accountDataSaveFailed": "Impossibile salvare i dati dell'account: {{error}}",
       "accountDataCount_one": "{{count}} tipo di evento",
-      "accountDataCount_other": "{{count}} tipi di evento"
+      "accountDataCount_other": "{{count}} tipi di evento",
+      "slidingSync": "Sliding sync (sperimentale)",
+      "slidingSyncDescription": "Avvio più rapido e sincronizzazione più leggera sugli account grandi. Richiede un homeserver con sliding sync semplificato (MSC4186). Ricarica per applicare.",
+      "reload": "Ricarica l'app",
+      "session": "Sessione",
+      "userId": "ID utente",
+      "deviceId": "ID dispositivo",
+      "appVersion": "Versione app",
+      "syncMode": "Modalità di sincronizzazione",
+      "syncClassic": "Sincronizzazione classica",
+      "syncSliding": "Sliding sync",
+      "syncState": "Stato di sincronizzazione",
+      "rooms": "Stanze",
+      "roomsValue": "{{joined}} entrate, {{invited}} inviti",
+      "specVersion": "Ultima versione della specifica",
+      "encryption": "Crittografia",
+      "crossSigning": "Firma incrociata",
+      "secretStorage": "Archivio segreto",
+      "keyBackup": "Backup delle chiavi",
+      "ready": "Pronto",
+      "notReady": "Non pronto",
+      "cryptoUnavailable": "La crittografia non è disponibile.",
+      "serverFeatures": "Funzioni del server ({{count}})",
+      "tools": "Strumenti",
+      "copyDebugInfo": "Copia info di debug",
+      "clearMedia": "Svuota cache multimediale",
+      "clearMediaDone": "Cache multimediale svuotata",
+      "resetSyncCache": "Reimposta cache di sincronizzazione",
+      "resetSyncCacheAction": "Reimposta",
+      "resetSyncCacheNote": "Elimina la cache locale di stanze e messaggi e ricarica. Chiavi di crittografia e impostazioni restano.",
+      "resetSyncCacheConfirm": "Questo elimina la copia locale di stanze e messaggi e ricarica l’app. Tutto viene riscaricato dal server. Le chiavi di crittografia non vengono toccate."
     },
     "keyBackup": {
       "downloadKey": "Scarica",
@@ -1718,7 +1772,39 @@
       "oldKeyWarningBody": "I messaggi legati alla vecchia chiave potrebbero non essere più recuperabili. Salva subito questa nuova chiave.",
       "storeKeyWarning": "Conserva questa chiave in un luogo sicuro. Ti servirà per accedere ai messaggi crittografati sui nuovi dispositivi",
       "copyKey": "Copia",
-      "copied": "Copiato!"
+      "copied": "Copiato!",
+      "setupRecoveryKey": "Configura chiave di recupero",
+      "setupIncomplete": "Configura la crittografia",
+      "enterRecoveryKeyBtn": "Inserisci chiave di recupero",
+      "resetEncryptionKeys": "Reimposta chiavi di crittografia",
+      "regenerateConfirm": "Verrà creata una nuova chiave di recupero, quella vecchia verrà invalidata e il backup delle chiavi sarà sostituito. Le chiavi Megolm presenti solo sugli altri tuoi dispositivi potrebbero andare perse. Continuare?",
+      "regenerateConfirmNoRestore": "La chiave di backup attuale non è disponibile su questo dispositivo, quindi tutte le chiavi memorizzate solo nel backup esistente andranno perse in modo permanente. Continuare comunque?",
+      "regenerateBackupNotActive": "Impossibile verificare che il nuovo backup delle chiavi sia attivo sul server.",
+      "invalidRecoveryKey": "Chiave di recupero non valida. Controlla di averla copiata correttamente.",
+      "couldNotGenerateKeyNew": "Impossibile generare una nuova chiave di recupero",
+      "restoreSuccess": "Ripristinate {{imported}} chiavi di stanza su {{total}}.",
+      "restoreSuccessNoCSigning": "Ripristinate {{imported}} chiavi di stanza su {{total}}. Non è stato possibile ristabilire la firma incrociata: prova a verificare questa sessione da un altro dispositivo.",
+      "restoreFailed": "Chiave di decifratura errata. Controlla la tua chiave di recupero e riprova.",
+      "noSecretStorageFound": "Lo spazio di archiviazione segreto non è configurato per questo account, quindi non c'è alcuna chiave di recupero da inserire.",
+      "restoreNoBackup": "Questa sessione è verificata, ma sul server non c'è alcun backup delle chiavi da cui ripristinare i messaggi precedenti.",
+      "restoreError": "Impossibile ripristinare le chiavi: {{error}}",
+      "restoreFetching": "Download del backup delle chiavi in corso...",
+      "restoreProgress": "Ripristino chiavi: {{imported}} di {{total}}",
+      "restoreFromBackup": "Ripristina dal backup",
+      "autoRestoreDone": "Ripristinate {{imported}} chiavi di stanza dal tuo backup delle chiavi.",
+      "statusTitle": "Backup delle chiavi",
+      "statusDescription": "Il backup delle chiavi conserva le tue chiavi dei messaggi, crittografate, sul tuo server. Una nuova sessione può leggere i tuoi messaggi precedenti una volta che dispone della tua chiave di recupero.",
+      "statusBackup": "Backup",
+      "statusThisDevice": "Questa sessione",
+      "statusVersion": "Versione del backup",
+      "statusNoBackup": "Non configurato",
+      "statusActive": "Attivo, pronto per il ripristino",
+      "statusLocked": "Presente, bloccato in questa sessione",
+      "statusNotTrusted": "Presente, ma non attendibile per questa sessione",
+      "statusDeviceVerified": "Verificata",
+      "statusDeviceUnverified": "Non verificata",
+      "regenerateFailed": "Rigenerazione non riuscita: {{error}}",
+      "autoPromptBanner": "Inserisci la tua chiave di recupero per ripristinare la cronologia dei messaggi crittografati su questo dispositivo, oppure verifica usando un'altra sessione."
     },
     "sessions": {
       "title": "Sessioni",
@@ -1756,7 +1842,13 @@
       "ssoCancelled": "L'autenticazione SSO è stata annullata o la finestra è stata chiusa. Riprova.",
       "authMethodUnsupported": "Il tuo homeserver richiede un metodo di autenticazione non supportato qui.",
       "verifyThisSession": "Questa sessione non è ancora verificata, quindi non può leggere tutti i tuoi messaggi cifrati. Verificala:",
-      "cannotVerifyThisSession": "Questa sessione non è verificata e non ci sono altri dispositivi verificati né chiavi di recupero con cui verificarla. Reimposta la cifratura nella scheda Cifratura per ricominciare da capo."
+      "cannotVerifyThisSession": "Questa sessione non è verificata e non ci sono altri dispositivi verificati né chiavi di recupero con cui verificarla. Reimposta la cifratura nella scheda Cifratura per ricominciare da capo.",
+      "verifyWithAnotherDevice": "Verifica con un altro dispositivo",
+      "ssoBrowserTitle": "Completa nel tuo browser",
+      "ssoBrowserMessage": "Il tuo browser ha aperto la pagina di accesso. Accedi lì, poi torna qui e premi Fine.",
+      "ssoBrowserDone": "Fine",
+      "excludeInsecure": "Escludi le sessioni non sicure",
+      "excludeInsecureNote": "Se attivo, i messaggi cifrati non vengono condivisi con le sessioni non verificate, e i messaggi inviati da sessioni non verificate vengono mostrati come errore. Potresti non riuscire a chattare con chi non ha verificato le proprie sessioni."
     },
     "about": {
       "title": "Informazioni",
@@ -1768,7 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> è © Phosphor Icons utilizzato secondo i termini della Licenza MIT.",
       "privacyPolicy": "Informativa sulla privacy",
       "creditMatrix": "è © The Matrix.org Foundation C.I.C. usato secondo i termini della licenza Apache, versione 2.0.",
-      "creditRoboto": "è © Google usato secondo i termini della licenza Apache, versione 2.0."
+      "creditRoboto": "è © Google usato secondo i termini della licenza Apache, versione 2.0.",
+      "updates": "Aggiornamenti",
+      "includePrereleases": "Includi le versioni preliminari",
+      "includePrereleasesNote": "Ricevi anche le versioni di prova (next, rc, beta) prima del rilascio. Possono essere meno stabili.",
+      "elementCall": "<elementCallLink>Element Call</elementCallLink> è © New Vector Ltd (Element), utilizzato secondo i termini della GNU Affero General Public License v3.0."
     },
     "encryption": {
       "title": "Crittografia",
@@ -1996,7 +2092,10 @@
         "fingerprint": "Impronta digitale della chiave",
         "fingerprintLabel": "Impronta della chiave di firma: {{fingerprint}}",
         "explain": "Mudrix salverà questa chiave e verificherà i futuri aggiornamenti su di essa.",
-        "confirm": "Fidati e aggiungi"
+        "confirm": "Fidati e aggiungi",
+        "address": "Address",
+        "runCode_other": "{{count}} integrazioni eseguono codice",
+        "runCode_one": "{{count}} integrazione esegue codice"
       },
       "rejected": {
         "unsupported": "Non supportato da questa versione di Mudrix ({{error}}).",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "Comandi",
           "inserts": "Inserisce risposte ai comandi",
-          "runsApi": "ti chiede conferma, poi esegue «{{label}}»"
+          "runsApi": "ti chiede conferma, poi esegue «{{label}}»",
+          "opensWidget": "Apre un widget"
         },
         "api": {
           "title": "Richieste API",
@@ -2048,6 +2148,10 @@
           "sends": "e invia:",
           "sendsNothing": "Non invia dati personali",
           "link": "Un link nella risposta può essere inserito nella casella del messaggio."
+        },
+        "widget": {
+          "title": "Aprire un widget che esegue codice",
+          "summary": "Apre una finestra sopra la stanza con una pagina da {{host}}. Quella pagina contiene codice da {{host}}."
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "Se installi questa integrazione, sarà autorizzata a:",
         "safety": "Nulla viene eseguito dal repository e nulla viene inviato da nessuna parte. I pulsanti inseriscono solo testo nella casella del messaggio; tu scegli se inviarlo. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento.",
         "safetyApi": "Nulla viene eseguito dal repository. Nulla viene inviato finché non usi una di queste azioni e confermi la richiesta, che mostra esattamente cosa viene inviato. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento.",
-        "safetyDetails": "Niente viene eseguito dal repository. Il tuo dispositivo contatta solo i servizi indicati sopra: per cercare i link corrispondenti (mostrando solo i campi elencati) e, per qualsiasi azione, solo dopo che l’hai confermata. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento."
+        "safetyDetails": "Niente viene eseguito dal repository. Il tuo dispositivo contatta solo i servizi indicati sopra: per cercare i link corrispondenti (mostrando solo i campi elencati) e, per qualsiasi azione, solo dopo che l’hai confermata. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento.",
+        "safetyCode": "Nulla viene eseguito finché non apri tu stesso il widget. Puoi disattivare qualsiasi permesso o disinstallare in qualsiasi momento."
       },
       "hosts": {
         "title": "Server che può contattare",
         "none": "Non contatta nessun server.",
         "note": "Ogni altro indirizzo viene rifiutato. Non vengono inviati cookie né dati dell'account."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Esegue codice"
+      },
+      "widget": {
+        "warning": {
+          "title": "Questa integrazione esegue codice",
+          "source": "Il codice proviene da {{host}} e viene caricato da lì ogni volta che viene aperto.",
+          "changes": "L'autore può modificarlo in qualsiasi momento senza che Mudrix te lo chieda di nuovo.",
+          "isolated": "Viene eseguito in un frame isolato e non può leggere i tuoi messaggi, chiavi o account, tranne tramite gli elementi approvati elencati sotto.",
+          "trust": "Installa solo integrazioni di persone di cui ti fidi."
+        },
+        "understand": "Comprendo che questo esegue codice da {{host}}",
+        "refused": "Questa integrazione non può essere utilizzata: {{error}}",
+        "noAccess": "Può solo mostrare contenuti. Non può leggere né inviare nulla nelle tue stanze.",
+        "highAccess": "Accesso elevato",
+        "events": {
+          "item": "Inviare e leggere eventi di tipo <mono>{{type}}</mono> in questa stanza. Sono eventi personalizzati: le altre app nella stanza possono vederli, ma la maggior parte delle app di chat non mostra nulla. Il widget vede anche l'ID della stanza e chi ha inviato ciascun evento."
+        },
+        "fromLinks": "Aprire link verso {{host}} in una finestra, da un pulsante sulle relative schede. La pagina collegata è codice da {{host}}, e chi condivide il link sceglie quale pagina su quell'host.",
+        "saveFiles": "Consenti a quella pagina di salvare file sul tuo dispositivo",
+        "address": "Aggiunti al suo indirizzo: tema e lingua.",
+        "addressExtra": "Aggiunti inoltre: {{values}}.",
+        "param": {
+          "room_id": "l'ID della stanza",
+          "user_id": "il tuo ID utente",
+          "display_name": "il tuo nome visualizzato"
+        },
+        "cap": {
+          "send": {
+            "message": "Inviare messaggi a tuo nome nella stanza in cui lo apri. Impara anche l'ID della stanza."
+          },
+          "read": {
+            "messages": "Leggere i messaggi in quella stanza, incluso chi li ha inviati",
+            "room": "Leggere il nome e l'argomento di quella stanza"
+          },
+          "upload": {
+            "file": "Caricare file nello spazio multimediale a tuo nome (fino a 20 file da 25 MB ciascuno, non solo quelli selezionati)"
+          },
+          "download": {
+            "file": "Scaricare file dai messaggi in quella stanza"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Backup delle chiavi di crittografia",
+      "description": "Esporta le chiavi delle stanze crittografate end-to-end in un file protetto da passphrase, oppure importa chiavi da un file esportato da questo o da un altro client Matrix.",
+      "exportTitle": "Esporta chiavi delle stanze",
+      "importTitle": "Importa chiavi delle stanze",
+      "passphrase": "Passphrase",
+      "confirmPassphrase": "Conferma passphrase",
+      "passphraseMismatch": "Le passphrase non corrispondono.",
+      "exportBtn": "Esporta chiavi",
+      "importBtn": "Importa chiavi",
+      "chooseFile": "File delle chiavi",
+      "cryptoNotAvailable": "La crittografia non è disponibile.",
+      "exportSuccess": "Chiavi delle stanze esportate. Conserva il file e la passphrase in un luogo sicuro.",
+      "exportFailed": "Impossibile esportare le chiavi delle stanze: {{error}}",
+      "importSuccess": "Importate {{count}} chiavi delle stanze.",
+      "importFailed": "Impossibile importare le chiavi delle stanze: {{error}}",
+      "error_format": "Non sembra un'esportazione valida di chiavi di stanza.",
+      "error_version": "Questo file di chiavi usa una versione non supportata.",
+      "error_password": "Passphrase errata, oppure il file è danneggiato.",
+      "error_rounds": "Questo file di chiavi contiene impostazioni di derivazione della chiave non valide."
+    },
+    "activity": {
+      "simultaneous": "Mostrato accanto al tuo stato, quindi possono comparire insieme un gioco e una canzone.",
+      "detected": "In questo momento",
+      "hideThis": "Non condividere mai",
+      "title": "Attività",
+      "share": "Mostra cosa sto giocando o ascoltando",
+      "shareNote": "Gli altri vedono il gioco o la musica in riproduzione su questo computer, sul tuo profilo e negli elenchi dei membri. Finché è disattivato, non viene controllato nulla.",
+      "games": "Giochi",
+      "music": "Musica",
+      "musicNote": "Da lettori multimediali come Spotify. I browser non vengono mai condivisi.",
+      "nowPlaying": "Adesso: sta giocando a {{name}}",
+      "nowListening": "Adesso: sta ascoltando {{name}}",
+      "nothing": "Al momento non viene rilevato nulla",
+      "hiddenNote": "Nascondilo e non verrà mai condiviso.",
+      "hiddenCount": "Esclusi dalla condivisione: {{count}}",
+      "showAgain": "Mostra di nuovo tutto",
+      "apps": {
+        "title": "Applicazioni aggiunte",
+        "note": "Qui puoi aggiungere i programmi che non riconosciamo come giochi. Finché è aperto, viene mostrato come «Sta giocando» con il nome che gli dai.",
+        "add": "Aggiungi un'applicazione",
+        "remove": "Rimuovi"
+      },
+      "add": {
+        "title": "Aggiungi un'applicazione",
+        "note": "Apri prima il programma, poi sceglilo dall'elenco.",
+        "search": "Cerca tra i programmi aperti",
+        "loading": "Ricerca dei programmi aperti…",
+        "none": "Nessun altro programma aperto trovato",
+        "nameNote": "Come deve essere mostrato? ({{exe}})",
+        "confirm": "Aggiungi"
+      }
+    },
+    "cosmetics": {
+      "title": "Cosmetici",
+      "note": "Tutto ciò a cui sei iscritto: decorazioni avatar, effetti profilo, targhette nome e cornici profilo delle tue stanze e dei tuoi spazi.",
+      "hint": "I pacchetti che scegli qui diventano disponibili per il tuo profilo.",
+      "empty": "Nessuna iscrizione per ora.",
+      "kindPlural": {
+        "decoration": "Decorazioni avatar",
+        "effect": "Effetti profilo",
+        "nameplate": "Targhette nome",
+        "profile_frame": "Cornici profilo"
       }
     }
   },

@@ -20,12 +20,15 @@ import {
   EraserIcon,
   SignOutIcon,
   ProhibitInsetIcon,
-  CameraIcon,
+  GearIcon,
   LinkSimpleIcon,
   DotsThreeVerticalIcon,
   ShieldCheckIcon,
+  PlusIcon,
+  CaretRightIcon,
   ClockIcon,
 } from '@phosphor-icons/react';
+import { Popover } from '@/app/components/Popover';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Select } from '@/app/components/Select';
 import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
@@ -45,10 +48,10 @@ import {
   settingsPageAtom,
 } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
-import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
-import { useUserStatusText } from '@/app/features/status/customStatus';
+import { getMatrixClient, getMatrixClientOrNull, logout, switchAccount } from '@/client/initMatrix';
+import { getActiveAccountId, listAccounts } from '@/client/accounts';
+import type { MatrixCredentials } from '@/client/types';
 import { useUserProfile } from '@/app/hooks/useUserProfile';
-import { AccountSwitcher } from '@/app/features/settings/AccountSwitcher';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useUserBanner, useUserBannerBlob } from '@/app/hooks/useUserBanner';
@@ -100,6 +103,7 @@ import {
 import { MutualRooms } from './MutualRooms';
 import { useMutualRooms, type MutualRoom } from '@/app/hooks/useMutualRooms';
 import { ActivityCards } from './ActivityCards';
+import { ProfileEffect } from './ProfileEffect';
 import { ProfileFrame } from './ProfileFrame';
 
 import { makeUserPermalink } from '@/util/matrix';
@@ -172,8 +176,6 @@ export function UserProfilePopup() {
   const syncReady = useSyncReady();
   const confirmDialog = useConfirm();
 
-  const statusText = useUserStatusText(client, profileState?.userId, true);
-
   const presence: PresenceState | undefined = (() => {
     if (!showPresence || !syncReady) return undefined;
     if (isOwn) return ownPresence;
@@ -182,9 +184,8 @@ export function UserProfilePopup() {
     return presenceMap[uid];
   })();
 
-  const dotPresenceRaw = effectiveDotPresence(presence, activeStatus?.mode);
-  const dotPresence: PresenceState | undefined =
-    dotPresenceRaw === 'dnd' ? 'unavailable' : dotPresenceRaw;
+  const dotPresence =
+    showPresence && syncReady ? effectiveDotPresence(presence, activeStatus?.mode) : undefined;
 
   const { rooms: mutualRooms, spaces: mutualSpaces } = useMutualRooms(
     client,
@@ -200,11 +201,42 @@ export function UserProfilePopup() {
   const contextMenu = useAtomValue(contextMenuAtom);
   const modMenuOpen = contextMenu?.opener === modMenuBtnRef.current;
   const [localPowerLevel, setLocalPowerLevel] = useState(profile?.powerLevel ?? 0);
+  const [accounts, setAccounts] = useState<MatrixCredentials[]>(() => listAccounts());
+  const [accountsOpen, setAccountsOpen] = useState(false);
+  const switchRowRef = useRef<HTMLButtonElement>(null);
+  const closeAccountsTimer = useRef<number | null>(null);
 
   // Sync local power level when profile changes (e.g. different user)
   useEffect(() => {
     if (profile) setLocalPowerLevel(profile.powerLevel ?? 0);
   }, [profile]);
+
+  useEffect(() => {
+    setIsExpanded(false);
+    setFullTab('info');
+    if (!profileState) {
+      setAccountsOpen(false);
+      return;
+    }
+    setAccounts(listAccounts());
+  }, [profileState]);
+
+  const handleLogoutAccount = useCallback(async (targetUserId: string) => {
+    await logout(targetUserId);
+    setAccounts(listAccounts());
+  }, []);
+
+  const cancelAccountsClose = useCallback(() => {
+    if (closeAccountsTimer.current !== null) {
+      window.clearTimeout(closeAccountsTimer.current);
+      closeAccountsTimer.current = null;
+    }
+  }, []);
+
+  const scheduleAccountsClose = useCallback(() => {
+    cancelAccountsClose();
+    closeAccountsTimer.current = window.setTimeout(() => setAccountsOpen(false), 200);
+  }, [cancelAccountsClose]);
 
   const handleClose = useCallback(() => {
     setProfileState(null);
@@ -217,7 +249,7 @@ export function UserProfilePopup() {
     scrollRef,
     onClose: handleClose,
   });
-  useBackToClose(isExpanded && isPhone, handleClose);
+  useBackToClose(!!profileState, handleClose);
 
   const [approving, setApproving] = useState(false);
   const [rejecting, setRejecting] = useState(false);
@@ -378,8 +410,14 @@ export function UserProfilePopup() {
 
   const handleAvatarClick = useCallback(async () => {
     if (!client) return;
-    if (isOwn && !ownAvatarMxc) {
-      avatarFileRef.current?.click();
+    if (isOwn) {
+      handleClose();
+      setSettingsPage('account');
+      setSettingsOpen(true);
+      return;
+    }
+    if (!isExpanded) {
+      setIsExpanded(true);
       return;
     }
     if (!ownAvatarMxc) return;
@@ -387,7 +425,16 @@ export function UserProfilePopup() {
     setAvatarLightboxOpen(true);
     const full = await fetchMediaBlobUrl(ownAvatarMxc, client);
     if (full) setAvatarSrc(full);
-  }, [client, isOwn, ownAvatarMxc, avatarBlob]);
+  }, [
+    client,
+    isExpanded,
+    isOwn,
+    ownAvatarMxc,
+    avatarBlob,
+    handleClose,
+    setSettingsPage,
+    setSettingsOpen,
+  ]);
 
   const handleAvatarFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -423,18 +470,9 @@ export function UserProfilePopup() {
   }, [client, profileState]);
 
   const handleBannerClick = useCallback(() => {
-    if (!client) return;
-    if (banner?.canModify) {
-      if (banner.mxc) {
-        setBannerLightboxOpen(true);
-      } else {
-        handleBannerEdit();
-      }
-      return;
-    }
-    if (!banner?.mxc) return;
+    if (!client || !banner?.mxc) return;
     setBannerLightboxOpen(true);
-  }, [banner, client, handleBannerEdit]);
+  }, [banner, client]);
 
   const handleBannerFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -498,8 +536,20 @@ export function UserProfilePopup() {
 
   useLayoutEffect(() => {
     if (!profileState || !popupRef.current || isExpanded) return;
+    if (window.matchMedia(PANEL_OVERLAY_QUERY).matches) {
+      popupRef.current.style.visibility = 'visible';
+      return;
+    }
     const anchor = profileState.anchorRect;
-    if (!anchor) return;
+    if (!anchor) {
+      Object.assign(popupRef.current.style, {
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        visibility: 'visible',
+      });
+      return;
+    }
     const virtualEl: VirtualElement = {
       getBoundingClientRect: () =>
         new DOMRect(anchor.left, anchor.top, anchor.width, anchor.height),
@@ -543,7 +593,7 @@ export function UserProfilePopup() {
   const canRedactAny =
     !isOwn && !isKnock && myPowerLevel >= redactThreshold && myPowerLevel > targetPowerLevel;
 
-  const bannerClickable = isOwn || !!banner?.mxc;
+  const bannerClickable = !!banner?.mxc;
 
   const accent = extFields?.accent ?? null;
   const washColor = bannerColor ?? accent;
@@ -558,6 +608,11 @@ export function UserProfilePopup() {
   } as React.CSSProperties;
 
   const hasModActions = canRedactAny || canKick || canBan;
+
+  const activeAccountId = getActiveAccountId();
+  const accountSwitcherEnabled = isOwn && profileState.source === 'userpanel';
+  const serverHost = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+  const localpart = (id: string) => id.replace(/^@/, '').split(':')[0];
 
   const openModMenu = () => {
     const items: ContextMenuItem[] = [];
@@ -617,6 +672,13 @@ export function UserProfilePopup() {
     { value: '0', label: t('room.members.member') },
   ];
 
+  const cosmetics = (
+    <>
+      {extFields?.profileEffect && <ProfileEffect effect={extFields.profileEffect} />}
+      {extFields?.profileFrame && <ProfileFrame frame={extFields.profileFrame} client={client} />}
+    </>
+  );
+
   return (
     <>
       {isExpanded ? (
@@ -632,7 +694,14 @@ export function UserProfilePopup() {
             <div
               key="full-profile-modal"
               className={css.fullModal}
-              style={popupStyle}
+              style={
+                washColor
+                  ? ({
+                      '--card-accent': washColor,
+                      borderColor: `color-mix(in srgb, var(--card-accent) 70%, ${vars.color.border})`,
+                    } as React.CSSProperties)
+                  : undefined
+              }
               onPointerDown={(e) => {
                 pressedOnMargin.current = e.target === e.currentTarget;
               }}
@@ -668,11 +737,6 @@ export function UserProfilePopup() {
                           />
                         )}
                         {accent && <div className={cardCss.coverTint} />}
-                        {banner?.canModify && (
-                          <div className={css.coverEdit}>
-                            <CameraIcon size={14} />
-                          </div>
-                        )}
                       </div>
 
                       <div className={css.topRow}>
@@ -695,7 +759,7 @@ export function UserProfilePopup() {
                               />
                               {isOwn && (
                                 <div className={css.avatarEdit}>
-                                  <CameraIcon size={16} />
+                                  <GearIcon size={16} />
                                 </div>
                               )}
                             </div>
@@ -791,9 +855,7 @@ export function UserProfilePopup() {
                         </div>
                       )}
                     </div>
-                    {!isPhone && extFields?.profileFrame && (
-                      <ProfileFrame frame={extFields.profileFrame} client={client} />
-                    )}
+                    {!isPhone && cosmetics}
                   </div>
 
                   <div className={css.fullModalRight}>
@@ -971,9 +1033,7 @@ export function UserProfilePopup() {
                     </div>
                   </div>
                 </div>
-                {isPhone && extFields?.profileFrame && (
-                  <ProfileFrame frame={extFields.profileFrame} client={client} />
-                )}
+                {isPhone && cosmetics}
               </div>
             </div>
           </FocusTrap>
@@ -982,14 +1042,12 @@ export function UserProfilePopup() {
         <>
           <div className={css.overlay} role="presentation" onClick={handleClose} />
           <div
+            key="compact-profile-popup"
             ref={popupRef}
             className={css.popup}
             style={popupStyle}
             onClick={(e) => e.stopPropagation()}
           >
-            {extFields?.profileFrame && (
-              <ProfileFrame frame={extFields.profileFrame} client={client} />
-            )}
             <div className={css.popupScroll}>
               <div
                 className={css.popoutCoverWrap}
@@ -1007,11 +1065,6 @@ export function UserProfilePopup() {
                   />
                 )}
                 {accent && <div className={cardCss.coverTint} />}
-                {banner?.canModify && (
-                  <div className={css.coverEdit}>
-                    <CameraIcon size={14} />
-                  </div>
-                )}
               </div>
 
               <div className={css.popoutAvatarRow}>
@@ -1037,24 +1090,14 @@ export function UserProfilePopup() {
                       />
                       {isOwn && (
                         <div className={css.avatarEdit}>
-                          <CameraIcon size={16} />
+                          <GearIcon size={20} />
                         </div>
                       )}
                     </div>
                   </Tooltip>
                 </DecoratedAvatar>
 
-                {statusText ? (
-                  <div className={css.statusSlot}>
-                    <Tooltip content={statusText}>
-                      <span className={css.status}>
-                        <span className={css.statusText}>{statusText}</span>
-                      </span>
-                    </Tooltip>
-                  </div>
-                ) : (
-                  <div style={{ flex: 1 }} />
-                )}
+                <div style={{ flex: 1 }} />
 
                 <div className={css.avatarActions}>
                   <CopyButton
@@ -1221,15 +1264,105 @@ export function UserProfilePopup() {
                   </>
                 )}
 
-                {isOwn && profileState.source === 'userpanel' && (
-                  <div className={css.accountSwitcherSlot}>
-                    <AccountSwitcher
-                      onAddAccount={() => {
-                        handleClose();
-                        navigate('/welcome?add=1');
-                      }}
-                    />
-                  </div>
+                {accountSwitcherEnabled && (
+                  <>
+                    <div className={css.bodyDivider} />
+                    <div className={css.accountsSection}>
+                      <button
+                        ref={switchRowRef}
+                        type="button"
+                        className={css.switchRow}
+                        aria-haspopup="menu"
+                        aria-expanded={accountsOpen}
+                        onMouseEnter={() => {
+                          cancelAccountsClose();
+                          setAccountsOpen(true);
+                        }}
+                        onMouseLeave={scheduleAccountsClose}
+                        onClick={() => {
+                          cancelAccountsClose();
+                          setAccountsOpen(true);
+                        }}
+                      >
+                        <span>{t('settings.accounts.switch')}</span>
+                        <CaretRightIcon size={14} />
+                      </button>
+
+                      <Popover
+                        open={accountsOpen}
+                        onClose={() => setAccountsOpen(false)}
+                        anchorRef={switchRowRef}
+                        placement="right-end"
+                      >
+                        <div
+                          className={css.accountsFlyout}
+                          onMouseEnter={cancelAccountsClose}
+                          onMouseLeave={scheduleAccountsClose}
+                        >
+                          {accounts.map((acc) => {
+                            const isActive = acc.userId === activeAccountId;
+                            return (
+                              <div
+                                key={acc.userId}
+                                className={`${css.accountRow}${isActive ? ` ${css.accountRowActive}` : ''}`}
+                                role={isActive ? undefined : 'button'}
+                                tabIndex={isActive ? undefined : 0}
+                                onClick={() => {
+                                  if (!isActive) void switchAccount(acc.userId);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (isActive) return;
+                                  if (e.key !== 'Enter' && e.key !== ' ') return;
+                                  e.preventDefault();
+                                  void switchAccount(acc.userId);
+                                }}
+                              >
+                                <Avatar
+                                  name={localpart(acc.userId)}
+                                  size="sm"
+                                  placeholder="logo"
+                                  mxcUrl={isActive ? profile?.avatarMxc : undefined}
+                                  client={isActive ? client : undefined}
+                                />
+                                <div className={css.accountMeta}>
+                                  <span className={css.accountName}>{localpart(acc.userId)}</span>
+                                  <span className={css.accountServer}>
+                                    {serverHost(acc.homeserverUrl)}
+                                  </span>
+                                </div>
+                                <Tooltip content={t('settings.account.logout')}>
+                                  <IconButton
+                                    size="xs"
+                                    danger
+                                    aria-label={t('settings.account.logout')}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      void handleLogoutAccount(acc.userId);
+                                    }}
+                                  >
+                                    <SignOutIcon size={14} />
+                                  </IconButton>
+                                </Tooltip>
+                              </div>
+                            );
+                          })}
+
+                          <div className={css.accountsDivider} />
+                          <Button
+                            variant="secondary"
+                            fullWidth
+                            onClick={() => {
+                              handleClose();
+                              navigate('/welcome?add=1');
+                            }}
+                          >
+                            <PlusIcon size={16} />
+                            {t('settings.accounts.add')}
+                          </Button>
+                        </div>
+                      </Popover>
+                    </div>
+                  </>
                 )}
                 {isKnock && canModerate && (
                   <div className={css.modActions}>
@@ -1243,7 +1376,7 @@ export function UserProfilePopup() {
                       {t('room.members.reject')}
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="success"
                       className={css.modActionBtn}
                       loading={approving}
                       onClick={handleApprove}
@@ -1320,6 +1453,11 @@ export function UserProfilePopup() {
                 )}
               </div>
             </div>
+
+            {extFields?.profileEffect && <ProfileEffect effect={extFields.profileEffect} />}
+            {extFields?.profileFrame && (
+              <ProfileFrame frame={extFields.profileFrame} client={client} />
+            )}
           </div>
         </>
       )}

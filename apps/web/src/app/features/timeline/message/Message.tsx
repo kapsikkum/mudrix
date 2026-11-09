@@ -106,6 +106,7 @@ import { EditMessageComposer } from './EditMessageComposer';
 import { ReplyMediaThumb, isReplyMediaEvent } from './ReplyMediaThumb';
 import { extractPollData } from './PollViewer';
 import * as css from '../Timeline.css';
+import { useExtendedProfile } from '@/app/hooks/useExtendedProfile';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { useRoomRolesContext } from '@/app/features/space/RoomRolesContext';
 import { builtinKeyOf, roleColorOf } from '@/app/features/space/spaceRoles';
@@ -234,6 +235,7 @@ export const Message = memo(function Message({
   const members = useLoadedMembers(roomId);
   const eventKey = entryEventId(event);
 
+  const { data: senderProfile } = useExtendedProfile(client, isGrouped ? null : senderId);
   const colorFor = useUsernameColor();
   const { roles: roomRoles, settings: roomSettings } = useRoomRolesContext();
   // A role's colour (a Modern space) replaces the name colour everyone gets by default.
@@ -244,7 +246,7 @@ export const Message = memo(function Message({
           senderId,
           builtinKeyOf(roomSettings, senderId, members.get(senderId)?.powerLevel ?? 0)
         )
-      : undefined) ?? colorFor(senderId);
+      : undefined) ?? colorFor(senderId, senderProfile?.accent);
   const senderNameStyle = useMemo(
     () => (senderColor ? { color: senderColor } : undefined),
     [senderColor]

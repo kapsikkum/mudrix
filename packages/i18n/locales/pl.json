@@ -1407,12 +1407,19 @@
       "timezone": "Strefa czasowa",
       "timezoneHint": "Pozwala innym zobaczyć Twój lokalny czas na Twoim profilu.",
       "extendedProfileUnsupported": "Twój serwer domowy nie obsługuje rozszerzonych profili, więc baner, opis, zaimki i strefa czasowa nie mogą zostać zapisane. Nazwa wyświetlana i awatar nadal działają. Poproś administratora serwera o włączenie MSC4133 (Synapse: experimental_features.msc4133_enabled lub Matrix 1.16+).",
+      "banner": "Baner profilu",
+      "bannerHint": "Wyświetlany u góry karty profilu. Przycinany do banera 3:1.",
+      "noBanner": "Brak banera",
+      "uploadBanner": "Prześlij baner",
+      "changeBanner": "Zmień baner",
+      "bannerPosition": "Pozycja",
       "timezoneUnset": "Nieudostępniana",
       "timezoneBrowser": "{{tz}} (to urządzenie)",
       "profileSaved": "Profil został zapisany",
       "aboutTitle": "O mnie",
       "styleNameplate": "Tabliczka z nazwą",
-      "styleFrame": "Ramka profilu"
+      "styleFrame": "Ramka profilu",
+      "profileTitle": "Profil"
     },
     "appearance": {
       "title": "Wygląd",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "Styl listy pokojów",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Nowoczesny",
-      "roomListStyleNote": "Matrix pokazuje awatar przy każdym pokoju. Nowoczesny używa zwykłych wierszy kanałów, pozwala ustalać kolejność kanałów w przestrzeni i oznaczać kanały głosowe."
+      "roomListStyleNote": "Matrix pokazuje awatar przy każdym pokoju. Nowoczesny używa zwykłych wierszy kanałów, pozwala ustalać kolejność kanałów w przestrzeni i oznaczać kanały głosowe.",
+      "profileEffects": "Efekty profilu",
+      "profileEffectsNote": "Pokazuj animowane efekty na kartach profili innych osób. Zawsze wyłączone, gdy system preferuje ograniczenie ruchu.",
+      "timelineDisplay": "Oś czasu",
+      "hideMembershipEvents": "Ukryj dołączenia i opuszczenia",
+      "hideMembershipEventsNote": "Nie pokazuj wiadomości, gdy ktoś dołącza, opuszcza, zostaje wyrzucony lub zbanowany.",
+      "hideProfileEvents": "Ukryj zmiany profilu",
+      "hideProfileEventsNote": "Nie pokazuj wiadomości, gdy ktoś zmienia nazwę wyświetlaną lub awatar.",
+      "themedAppIconNote": "Używaj ikony aplikacji pasującej do bieżącego motywu.",
+      "themedAppIconNoteNoArt": "Bieżący motyw nie ma własnej ikony; ustawienie działa w motywach, które ją mają (Parrot, Hallow).",
+      "systemAccent": "Używaj koloru akcentu systemu",
+      "systemAccentNote": "Pobiera kolor akcentu z Windows, macOS lub pulpitu Linux. Tylko w aplikacji desktopowej i z motywem Carbon."
     },
     "accessibility": {
       "title": "Dostępność",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "Pytaj",
       "youtubeEmbedsOn": "Pokazuj",
       "youtubeEmbedsOff": "Ukryj",
-      "youtubeEmbedsNote": "Pokazuj linki YouTube jako karty z odtwarzaniem. Odtworzenie wczytuje film z YouTube."
+      "youtubeEmbedsNote": "Pokazuj linki YouTube jako karty z odtwarzaniem. Odtworzenie wczytuje film z YouTube.",
+      "ignoredUsersNote": "Ich wiadomości, zaproszenia i wiadomości prywatne są przed tobą ukryte.",
+      "ignoredUsersEmpty": "Nikogo nie ignorujesz."
     },
     "language": {
       "title": "Język",
@@ -1636,7 +1656,11 @@
       "imageCount_one": "{{count}} obraz",
       "imageCount_other": "Obrazy: {{count}}",
       "gifs": "GIF-y",
-      "gifProvider": "Preferowany dostawca GIF-ów"
+      "gifProvider": "Preferowany dostawca GIF-ów",
+      "searchPacks": "Szukaj pakietów",
+      "subscribeAll": "Subskrybuj wszystkie",
+      "unsubscribeAll": "Anuluj subskrypcję wszystkich",
+      "noPacksMatch": "Żaden pakiet nie pasuje do wyszukiwania."
     },
     "keybinds": {
       "title": "Skróty klawiszowe",
@@ -1693,7 +1717,37 @@
       "accountDataSaved": "Zapisano dane konta.",
       "accountDataSaveFailed": "Nie udało się zapisać danych konta: {{error}}",
       "accountDataCount_one": "{{count}} typ zdarzenia",
-      "accountDataCount_other": "{{count}} typu zdarzeń"
+      "accountDataCount_other": "{{count}} typu zdarzeń",
+      "slidingSync": "Sliding sync (eksperymentalne)",
+      "slidingSyncDescription": "Szybszy start i lżejsza synchronizacja na dużych kontach. Wymaga serwera z uproszczonym sliding sync (MSC4186). Przeładuj, aby zastosować.",
+      "reload": "Przeładuj aplikację",
+      "session": "Sesja",
+      "userId": "ID użytkownika",
+      "deviceId": "ID urządzenia",
+      "appVersion": "Wersja aplikacji",
+      "syncMode": "Tryb synchronizacji",
+      "syncClassic": "Synchronizacja klasyczna",
+      "syncSliding": "Sliding sync",
+      "syncState": "Stan synchronizacji",
+      "rooms": "Pokoje",
+      "roomsValue": "{{joined}} dołączono, {{invited}} zaproszeń",
+      "specVersion": "Najnowsza wersja specyfikacji",
+      "encryption": "Szyfrowanie",
+      "crossSigning": "Podpisywanie krzyżowe",
+      "secretStorage": "Tajny magazyn",
+      "keyBackup": "Kopia zapasowa kluczy",
+      "ready": "Gotowe",
+      "notReady": "Niegotowe",
+      "cryptoUnavailable": "Szyfrowanie jest niedostępne.",
+      "serverFeatures": "Funkcje serwera ({{count}})",
+      "tools": "Narzędzia",
+      "copyDebugInfo": "Kopiuj informacje debugowania",
+      "clearMedia": "Wyczyść pamięć podręczną multimediów",
+      "clearMediaDone": "Wyczyszczono pamięć multimediów",
+      "resetSyncCache": "Zresetuj pamięć synchronizacji",
+      "resetSyncCacheAction": "Zresetuj",
+      "resetSyncCacheNote": "Usuwa lokalną pamięć podręczną pokoi i wiadomości i przeładowuje. Klucze szyfrowania i ustawienia zostają.",
+      "resetSyncCacheConfirm": "To usuwa lokalną kopię Twoich pokoi i wiadomości i przeładowuje aplikację. Wszystko zostanie pobrane ponownie z serwera. Klucze szyfrowania nie są ruszane."
     },
     "keyBackup": {
       "downloadKey": "Pobierz",
@@ -1718,7 +1772,39 @@
       "oldKeyWarningBody": "Wiadomości powiązane ze starym kluczem mogą już nie zostać odzyskane. Zapisz ten nowy klucz natychmiast.",
       "storeKeyWarning": "Przechowuj ten klucz w bezpiecznym miejscu. Będzie potrzebny do odczytu zaszyfrowanych wiadomości na nowych urządzeniach",
       "copyKey": "Kopiuj",
-      "copied": "Skopiowano!"
+      "copied": "Skopiowano!",
+      "setupRecoveryKey": "Skonfiguruj klucz odzyskiwania",
+      "setupIncomplete": "Skonfiguruj szyfrowanie",
+      "enterRecoveryKeyBtn": "Wpisz klucz odzyskiwania",
+      "resetEncryptionKeys": "Zresetuj klucze szyfrowania",
+      "regenerateConfirm": "To utworzy nowy klucz odzyskiwania, unieważni stary i zastąpi kopię kluczy. Klucze Megolm istniejące tylko na Twoich innych urządzeniach mogą zostać utracone. Kontynuować?",
+      "regenerateConfirmNoRestore": "Twój obecny klucz kopii zapasowej nie jest dostępny na tym urządzeniu, więc wszystkie klucze przechowywane tylko w istniejącej kopii zostaną trwale utracone. Mimo to kontynuować?",
+      "regenerateBackupNotActive": "Nowej kopii kluczy nie udało się zweryfikować jako aktywnej na serwerze.",
+      "invalidRecoveryKey": "Nieprawidłowy klucz odzyskiwania. Sprawdź, czy skopiowano go poprawnie.",
+      "couldNotGenerateKeyNew": "Nie udało się wygenerować nowego klucza odzyskiwania",
+      "restoreSuccess": "Przywrócono kluczy pokojów: {{imported}} z {{total}}.",
+      "restoreSuccessNoCSigning": "Przywrócono kluczy pokojów: {{imported}} z {{total}}. Nie udało się ponownie ustanowić podpisywania krzyżowego - spróbuj zweryfikować tę sesję z innego urządzenia.",
+      "restoreFailed": "Nieprawidłowy klucz deszyfrowania. Sprawdź klucz odzyskiwania i spróbuj ponownie.",
+      "noSecretStorageFound": "Bezpieczny magazyn nie jest skonfigurowany na tym koncie, więc nie ma klucza odzyskiwania do wpisania.",
+      "restoreNoBackup": "Ta sesja jest zweryfikowana, ale na serwerze nie ma kopii kluczy, z której można przywrócić starsze wiadomości.",
+      "restoreError": "Nie udało się przywrócić kluczy: {{error}}",
+      "restoreFetching": "Pobieranie kopii zapasowej kluczy...",
+      "restoreProgress": "Przywracanie kluczy: {{imported}} z {{total}}",
+      "restoreFromBackup": "Przywróć z kopii zapasowej",
+      "autoRestoreDone": "Przywrócono kluczy pokojów z kopii zapasowej: {{imported}}.",
+      "statusTitle": "Kopia kluczy",
+      "statusDescription": "Kopia kluczy przechowuje Twoje klucze wiadomości, zaszyfrowane, na Twoim serwerze. Nowa sesja może odczytać starsze wiadomości, gdy będzie miała Twój klucz odzyskiwania.",
+      "statusBackup": "Kopia zapasowa",
+      "statusThisDevice": "Ta sesja",
+      "statusVersion": "Wersja kopii zapasowej",
+      "statusNoBackup": "Nieskonfigurowana",
+      "statusActive": "Włączona, gotowa do przywrócenia",
+      "statusLocked": "Istnieje, zablokowana w tej sesji",
+      "statusNotTrusted": "Istnieje, ale nie jest zaufana przez tę sesję",
+      "statusDeviceVerified": "Zweryfikowana",
+      "statusDeviceUnverified": "Niezweryfikowana",
+      "regenerateFailed": "Ponowne generowanie nie powiodło się: {{error}}",
+      "autoPromptBanner": "Wpisz klucz odzyskiwania, aby przywrócić historię zaszyfrowanych wiadomości na tym urządzeniu, lub zweryfikuj się z innej sesji."
     },
     "sessions": {
       "title": "Sesje",
@@ -1756,7 +1842,13 @@
       "ssoCancelled": "Uwierzytelnianie SSO zostało anulowane lub okno zostało zamknięte. Spróbuj ponownie.",
       "authMethodUnsupported": "Twój serwer domowy wymaga metody uwierzytelniania, która nie jest tutaj obsługiwana.",
       "verifyThisSession": "Ta sesja nie jest jeszcze zweryfikowana, więc nie może czytać wszystkich Twoich zaszyfrowanych wiadomości. Zweryfikuj ją:",
-      "cannotVerifyThisSession": "Ta sesja nie jest zweryfikowana i nie ma innego zweryfikowanego urządzenia ani klucza odzyskiwania, którym można by ją zweryfikować. Zresetuj szyfrowanie w zakładce Szyfrowanie, aby zacząć od nowa."
+      "cannotVerifyThisSession": "Ta sesja nie jest zweryfikowana i nie ma innego zweryfikowanego urządzenia ani klucza odzyskiwania, którym można by ją zweryfikować. Zresetuj szyfrowanie w zakładce Szyfrowanie, aby zacząć od nowa.",
+      "verifyWithAnotherDevice": "Zweryfikuj za pomocą innego urządzenia",
+      "ssoBrowserTitle": "Dokończ w przeglądarce",
+      "ssoBrowserMessage": "Twoja przeglądarka otworzyła stronę logowania. Zaloguj się tam, a następnie wróć tutaj i naciśnij Gotowe.",
+      "ssoBrowserDone": "Gotowe",
+      "excludeInsecure": "Wyklucz niezabezpieczone sesje",
+      "excludeInsecureNote": "Gdy włączone, zaszyfrowane wiadomości nie są udostępniane niezweryfikowanym sesjom, a wiadomości wysłane z niezweryfikowanych sesji pokazują się jako błąd. Możesz nie móc rozmawiać z osobami, które nie zweryfikowały swoich sesji."
     },
     "about": {
       "title": "O aplikacji",
@@ -1768,7 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> jest © Phosphor Icons i jest używany na warunkach licencji MIT.",
       "privacyPolicy": "Polityka prywatności",
       "creditMatrix": "jest © The Matrix.org Foundation C.I.C. i jest używany na warunkach Apache License w wersji 2.0.",
-      "creditRoboto": "jest © Google i jest używany na warunkach Apache License w wersji 2.0."
+      "creditRoboto": "jest © Google i jest używany na warunkach Apache License w wersji 2.0.",
+      "updates": "Aktualizacje",
+      "includePrereleases": "Uwzględniaj wersje wstępne",
+      "includePrereleasesNote": "Otrzymuj też wersje testowe (next, rc, beta) przed wydaniem. Mogą być mniej stabilne.",
+      "elementCall": "<elementCallLink>Element Call</elementCallLink> jest © New Vector Ltd (Element) i jest używany na warunkach licencji GNU Affero General Public License w wersji 3.0."
     },
     "encryption": {
       "title": "Szyfrowanie",
@@ -1996,7 +2092,10 @@
         "fingerprint": "Odcisk palca klucza",
         "fingerprintLabel": "Odcisk klucza podpisu: {{fingerprint}}",
         "explain": "Mudrix zapisze ten klucz i będzie weryfikować na jego podstawie przyszłe aktualizacje.",
-        "confirm": "Zaufaj i dodaj"
+        "confirm": "Zaufaj i dodaj",
+        "address": "Address",
+        "runCode_other": "{{count}} integracji uruchamia kod",
+        "runCode_one": "{{count}} integracja uruchamia kod"
       },
       "rejected": {
         "unsupported": "Nieobsługiwane w tej wersji Mudrix ({{error}}).",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "Polecenia",
           "inserts": "Wstawia odpowiedzi poleceń",
-          "runsApi": "prosi o potwierdzenie, a potem uruchamia „{{label}}”"
+          "runsApi": "prosi o potwierdzenie, a potem uruchamia „{{label}}”",
+          "opensWidget": "Otwiera widżet"
         },
         "api": {
           "title": "Żądania API",
@@ -2048,6 +2148,10 @@
           "sends": "i wysyła:",
           "sendsNothing": "Nie wysyła danych osobowych",
           "link": "Link w odpowiedzi można dodać do Twojego pola wiadomości."
+        },
+        "widget": {
+          "title": "Otwórz widżet uruchamiający kod",
+          "summary": "Otwiera okno nad pokojem ze stroną z {{host}}. Ta strona zawiera kod z {{host}}."
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "Po zainstalowaniu integracja uzyska uprawnienia do:",
         "safety": "Nic z repozytorium nie jest uruchamiane ani nigdzie wysyłane. Przyciski jedynie wstawiają tekst do pola wiadomości; Ty decydujesz, czy go wysłać. Możesz w każdej chwili wyłączyć dowolne uprawnienie lub odinstalować integrację.",
         "safetyApi": "Nic z repozytorium nie jest uruchamiane. Nic nie zostanie wysłane, dopóki nie użyjesz jednej z tych akcji i nie potwierdzisz żądania, które dokładnie pokazuje treść. Możesz w każdej chwili wyłączyć dowolne uprawnienie lub odinstalować.",
-        "safetyDetails": "Nic z repozytorium nie jest uruchamiane. Urządzenie łączy się tylko z usługami wymienionymi powyżej: aby pobrać szczegóły pasujących linków (pokazywane są tylko wymienione pola) oraz przy każdej akcji dopiero po jej potwierdzeniu. W każdej chwili możesz wyłączyć dowolne uprawnienie lub odinstalować integrację."
+        "safetyDetails": "Nic z repozytorium nie jest uruchamiane. Urządzenie łączy się tylko z usługami wymienionymi powyżej: aby pobrać szczegóły pasujących linków (pokazywane są tylko wymienione pola) oraz przy każdej akcji dopiero po jej potwierdzeniu. W każdej chwili możesz wyłączyć dowolne uprawnienie lub odinstalować integrację.",
+        "safetyCode": "Nic nie zostanie uruchomione, dopóki sam nie otworzysz widżetu. Możesz w każdej chwili wyłączyć dowolne uprawnienie lub odinstalować."
       },
       "hosts": {
         "title": "Serwery, z którymi może się łączyć",
         "none": "Nie łączy się z żadnym serwerem.",
         "note": "Każdy inny adres jest odrzucany. Nie są wysyłane pliki cookie ani dane konta."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Uruchamia kod"
+      },
+      "widget": {
+        "warning": {
+          "title": "Ta integracja uruchamia kod",
+          "source": "Kod pochodzi z {{host}} i jest ładowany stamtąd przy każdym otwarciu.",
+          "changes": "Jego autor może go zmienić w dowolnym momencie bez ponownego pytania przez Mudrix.",
+          "isolated": "Działa w odizolowanej ramce i nie może odczytywać Twoich wiadomości, kluczy ani konta, z wyjątkiem wymienionych poniżej elementów, na które zezwolisz.",
+          "trust": "Instaluj tylko integracje od zaufanych osób."
+        },
+        "understand": "Rozumiem, że to uruchamia kod z {{host}}",
+        "refused": "Nie można użyć tej integracji: {{error}}",
+        "noAccess": "Może jedynie wyświetlać treści. Nie może niczego czytać ani wysyłać w Twoich pokojach.",
+        "highAccess": "Wysoki poziom dostępu",
+        "events": {
+          "item": "Wysyłanie i odczytywanie zdarzeń typu <mono>{{type}}</mono> w tym pokoju. Są to zdarzenia niestandardowe: inne aplikacje w pokoju mogą je widzieć, ale większość komunikatorów nic dla nich nie wyświetla. Widżet widzi także ID pokoju oraz to, kto wysłał każde zdarzenie."
+        },
+        "fromLinks": "Otwieraj linki do {{host}} w oknie, za pomocą przycisku na ich kartach. Strona pod linkiem to kod z {{host}}, a osoba udostępniająca link decyduje, która to strona na tym hoście.",
+        "saveFiles": "Zezwól tej stronie na zapisywanie plików na Twoim urządzeniu",
+        "address": "Dodane do adresu: Twój motyw i język.",
+        "addressExtra": "Dodano także: {{values}}.",
+        "param": {
+          "room_id": "ID pokoju",
+          "user_id": "Twój identyfikator użytkownika",
+          "display_name": "Twoja wyświetlana nazwa"
+        },
+        "cap": {
+          "send": {
+            "message": "Wysyłanie wiadomości w pokoju, w którym go otwierasz, jako Ty. Dowiaduje się także o ID pokoju."
+          },
+          "read": {
+            "messages": "Odczytywanie wiadomości w tym pokoju, w tym informacji o ich nadawcach",
+            "room": "Odczytywanie nazwy i tematu tego pokoju"
+          },
+          "upload": {
+            "file": "Przesyłanie plików do magazynu multimediów w Twoim imieniu (do 20 plików o rozmiarze 25 MB, nie tylko wybranych przez Ciebie)"
+          },
+          "download": {
+            "file": "Pobieranie plików z wiadomości w tym pokoju"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Kopia zapasowa kluczy szyfrowania",
+      "description": "Wyeksportuj klucze szyfrowania end-to-end pokojów do pliku chronionego hasłem albo zaimportuj klucze z pliku wyeksportowanego przez ten lub inny klient Matrix.",
+      "exportTitle": "Eksportuj klucze pokojów",
+      "importTitle": "Importuj klucze pokojów",
+      "passphrase": "Hasło",
+      "confirmPassphrase": "Potwierdź hasło",
+      "passphraseMismatch": "Hasła nie są takie same.",
+      "exportBtn": "Eksportuj klucze",
+      "importBtn": "Importuj klucze",
+      "chooseFile": "Plik kluczy",
+      "cryptoNotAvailable": "Szyfrowanie jest niedostępne.",
+      "exportSuccess": "Klucze pokojów zostały wyeksportowane. Przechowuj plik i hasło w bezpiecznym miejscu.",
+      "exportFailed": "Nie udało się wyeksportować kluczy pokojów: {{error}}",
+      "importSuccess": "Zaimportowano kluczy pokojów: {{count}}.",
+      "importFailed": "Nie udało się zaimportować kluczy pokojów: {{error}}",
+      "error_format": "To nie wygląda na prawidłowy eksport kluczy pokojów.",
+      "error_version": "Ten plik kluczy używa nieobsługiwanej wersji.",
+      "error_password": "Nieprawidłowe hasło lub plik jest uszkodzony.",
+      "error_rounds": "Ten plik kluczy ma nieprawidłowe ustawienia wyprowadzania kluczy."
+    },
+    "activity": {
+      "simultaneous": "Pokazywane obok Twojego statusu, więc gra i utwór mogą pojawić się jednocześnie.",
+      "detected": "W tej chwili",
+      "hideThis": "Nigdy nie udostępniaj",
+      "title": "Aktywność",
+      "share": "Pokazuj, w co gram i czego słucham",
+      "shareNote": "Inni widzą grę lub muzykę odtwarzaną na tym komputerze w twoim profilu i na listach członków. Dopóki ta opcja jest wyłączona, nic nie jest sprawdzane.",
+      "games": "Gry",
+      "music": "Muzyka",
+      "musicNote": "Z odtwarzaczy takich jak Spotify. Przeglądarki nigdy nie są udostępniane.",
+      "nowPlaying": "Teraz: gra w {{name}}",
+      "nowListening": "Teraz: słucha: {{name}}",
+      "nothing": "Nic teraz nie wykryto",
+      "hiddenNote": "Ukryj, a nigdy nie zostanie udostępnione.",
+      "hiddenCount": "Wykluczone z udostępniania: {{count}}",
+      "showAgain": "Pokaż wszystko ponownie",
+      "apps": {
+        "title": "Dodane aplikacje",
+        "note": "Tutaj możesz dodać programy, których nie rozpoznajemy jako gier. Gdy jeden z nich jest otwarty, pokazuje się jako „Gra” pod nazwą, którą mu nadasz.",
+        "add": "Dodaj aplikację",
+        "remove": "Usuń"
+      },
+      "add": {
+        "title": "Dodaj aplikację",
+        "note": "Najpierw otwórz program, a potem wybierz go z listy.",
+        "search": "Szukaj otwartych programów",
+        "loading": "Szukanie otwartych programów…",
+        "none": "Nie znaleziono innych otwartych programów",
+        "nameNote": "Jak ma się wyświetlać? ({{exe}})",
+        "confirm": "Dodaj"
+      }
+    },
+    "cosmetics": {
+      "title": "Kosmetyki",
+      "note": "Wszystko, co subskrybujesz: dekoracje awatara, efekty profilu, tabliczki z nazwą i ramki profilu z twoich pokoi i przestrzeni.",
+      "hint": "Paczki wybrane tutaj będą dostępne dla twojego profilu.",
+      "empty": "Nic jeszcze nie subskrybujesz.",
+      "kindPlural": {
+        "decoration": "Dekoracje awatara",
+        "effect": "Efekty profilu",
+        "nameplate": "Tabliczki z nazwą",
+        "profile_frame": "Ramki profilu"
       }
     }
   },

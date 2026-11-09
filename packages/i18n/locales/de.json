@@ -816,8 +816,8 @@
       "retry": "Erneut versuchen",
       "pause": "Aufnahme pausieren",
       "resume": "Aufnahme fortsetzen",
-      "cancel": "Aufnahme verwerfen",
       "stop": "Aufnahme beenden",
+      "cancel": "Aufnahme verwerfen",
       "send": "Sprachnachricht senden",
       "sendFailed": "Sprachnachricht konnte nicht gesendet werden: {{error}}",
       "playFailed": "Aufnahme konnte nicht abgespielt werden: {{error}}"
@@ -1407,12 +1407,19 @@
       "timezone": "Zeitzone",
       "timezoneHint": "Andere sehen in deinem Profil deine Ortszeit.",
       "extendedProfileUnsupported": "Dein Homeserver unterstützt keine erweiterten Profile, daher können Banner, Bio, Pronomen und Zeitzone nicht gespeichert werden. Anzeigename und Avatar funktionieren weiterhin. Bitte deine Server-Admins, MSC4133 zu aktivieren (Synapse: experimental_features.msc4133_enabled, oder Matrix 1.16+).",
+      "banner": "Profilbanner",
+      "bannerHint": "Wird oben auf deiner Profilkarte angezeigt. Wird auf ein 3:1-Banner zugeschnitten.",
+      "noBanner": "Kein Banner",
+      "uploadBanner": "Banner hochladen",
+      "changeBanner": "Banner ändern",
+      "bannerPosition": "Position",
       "timezoneUnset": "Nicht geteilt",
       "timezoneBrowser": "{{tz}} (dieses Gerät)",
       "profileSaved": "Profil gespeichert",
       "aboutTitle": "Über mich",
       "styleNameplate": "Namensschild",
-      "styleFrame": "Profilrahmen"
+      "styleFrame": "Profilrahmen",
+      "profileTitle": "Profil"
     },
     "appearance": {
       "title": "Erscheinungsbild",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "Raumlisten-Stil",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Modern",
-      "roomListStyleNote": "Matrix zeigt bei jedem Raum einen Avatar. Modern nutzt schlichte Kanalzeilen, erlaubt die Reihenfolge der Kanäle in einem Space und markierte Sprachkanäle."
+      "roomListStyleNote": "Matrix zeigt bei jedem Raum einen Avatar. Modern nutzt schlichte Kanalzeilen, erlaubt die Reihenfolge der Kanäle in einem Space und markierte Sprachkanäle.",
+      "profileEffects": "Profileffekte",
+      "profileEffectsNote": "Zeigt animierte Effekte auf den Profilkarten anderer Personen. Immer aus, wenn dein System reduzierte Bewegung bevorzugt.",
+      "timelineDisplay": "Zeitleiste",
+      "hideMembershipEvents": "Beitritte und Austritte ausblenden",
+      "hideMembershipEventsNote": "Keine Meldungen anzeigen, wenn Personen beitreten, gehen, gekickt oder gesperrt werden.",
+      "hideProfileEvents": "Profiländerungen ausblenden",
+      "hideProfileEventsNote": "Keine Meldungen anzeigen, wenn Personen Anzeigenamen oder Avatar ändern.",
+      "themedAppIconNote": "Das App-Symbol des aktuellen Designs verwenden.",
+      "themedAppIconNoteNoArt": "Das aktuelle Design hat kein eigenes Symbol; die Einstellung gilt für Designs mit eigenem Symbol (Parrot, Hallow).",
+      "systemAccent": "Systemakzentfarbe verwenden",
+      "systemAccentNote": "Übernimmt die Akzentfarbe von Windows, macOS oder deinem Linux-Desktop. Nur in der Desktop-App und im Carbon-Design."
     },
     "accessibility": {
       "title": "Barrierefreiheit",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "Fragen",
       "youtubeEmbedsOn": "Anzeigen",
       "youtubeEmbedsOff": "Ausblenden",
-      "youtubeEmbedsNote": "YouTube-Links als abspielbare Karten zeigen. Beim Abspielen wird das Video von YouTube geladen."
+      "youtubeEmbedsNote": "YouTube-Links als abspielbare Karten zeigen. Beim Abspielen wird das Video von YouTube geladen.",
+      "ignoredUsersNote": "Ihre Nachrichten, Einladungen und DMs werden vor dir verborgen.",
+      "ignoredUsersEmpty": "Du ignorierst niemanden."
     },
     "language": {
       "title": "Sprache",
@@ -1622,6 +1642,26 @@
       "chooseSounds": "Töne in Sprache & Audio wählen",
       "notificationBannersNoteTouch": "Benachrichtigungen auf diesem Gerät anzeigen."
     },
+    "emojisStickers": {
+      "title": "Emojis & Sticker",
+      "defaultPack": "Standard-Pack",
+      "defaultPackNote": "Dein persönliches Pack ist in jedem Raum verfügbar.",
+      "favoritePacks": "Favoriten-Packs",
+      "favoritePacksNote": "Wähle Emoji- und Sticker-Packs aus deinen Räumen, um sie in jedem Raum zu verwenden.",
+      "selectPacks": "Packs auswählen",
+      "noFavoritePacks": "Noch keine Favoriten-Packs.",
+      "removeFavorite": "Aus Favoriten entfernen",
+      "saveFailed": "Speichern fehlgeschlagen: {{error}}",
+      "noPacksFound": "Keine Packs gefunden.",
+      "imageCount_one": "{{count}} Bild",
+      "imageCount_other": "{{count}} Bilder",
+      "gifs": "GIFs",
+      "gifProvider": "Bevorzugter GIF-Anbieter",
+      "searchPacks": "Packs suchen",
+      "subscribeAll": "Alle abonnieren",
+      "unsubscribeAll": "Alle abbestellen",
+      "noPacksMatch": "Keine Packs entsprechen deiner Suche."
+    },
     "keybinds": {
       "title": "Tastenkürzel",
       "groupGeneral": "Allgemein",
@@ -1677,7 +1717,37 @@
       "accountDataSaved": "Kontodaten gespeichert.",
       "accountDataSaveFailed": "Kontodaten konnten nicht gespeichert werden: {{error}}",
       "accountDataCount_one": "{{count}} Ereignistyp",
-      "accountDataCount_other": "{{count}} Ereignistypen"
+      "accountDataCount_other": "{{count}} Ereignistypen",
+      "slidingSync": "Sliding Sync (experimentell)",
+      "slidingSyncDescription": "Schnellerer Start und leichteres Synchronisieren bei großen Konten. Erfordert einen Homeserver mit Simplified Sliding Sync (MSC4186). Zum Anwenden neu laden.",
+      "reload": "App neu laden",
+      "session": "Sitzung",
+      "userId": "Nutzer-ID",
+      "deviceId": "Geräte-ID",
+      "appVersion": "App-Version",
+      "syncMode": "Sync-Modus",
+      "syncClassic": "Klassischer Sync",
+      "syncSliding": "Sliding Sync",
+      "syncState": "Sync-Status",
+      "rooms": "Räume",
+      "roomsValue": "{{joined}} beigetreten, {{invited}} eingeladen",
+      "specVersion": "Neueste Spezifikationsversion",
+      "encryption": "Verschlüsselung",
+      "crossSigning": "Cross-Signing",
+      "secretStorage": "Geheimspeicher",
+      "keyBackup": "Schlüsselsicherung",
+      "ready": "Bereit",
+      "notReady": "Nicht bereit",
+      "cryptoUnavailable": "Verschlüsselung ist nicht verfügbar.",
+      "serverFeatures": "Server-Funktionen ({{count}})",
+      "tools": "Werkzeuge",
+      "copyDebugInfo": "Debug-Infos kopieren",
+      "clearMedia": "Medien-Cache leeren",
+      "clearMediaDone": "Medien-Cache geleert",
+      "resetSyncCache": "Sync-Cache zurücksetzen",
+      "resetSyncCacheAction": "Zurücksetzen",
+      "resetSyncCacheNote": "Löscht den lokalen Raum- und Nachrichten-Cache und lädt neu. Verschlüsselungsschlüssel und Einstellungen bleiben erhalten.",
+      "resetSyncCacheConfirm": "Dadurch wird die lokale Kopie deiner Räume und Nachrichten gelöscht und die App neu geladen. Alles wird erneut vom Server geladen. Verschlüsselungsschlüssel bleiben unberührt."
     },
     "keyBackup": {
       "downloadKey": "Herunterladen",
@@ -1702,7 +1772,39 @@
       "oldKeyWarningBody": "Nachrichten, die mit dem alten Schlüssel verknüpft sind, lassen sich möglicherweise nicht mehr wiederherstellen. Speichere diesen neuen Schlüssel sofort.",
       "storeKeyWarning": "Speichere diesen Schlüssel sicher ab. Du brauchst ihn, um auf verschlüsselte Nachrichten auf einem neuen Gerät zuzugreifen.",
       "copyKey": "Kopieren",
-      "copied": "Kopiert!"
+      "copied": "Kopiert!",
+      "setupRecoveryKey": "Wiederherstellungsschlüssel einrichten",
+      "setupIncomplete": "Verschlüsselung einrichten",
+      "enterRecoveryKeyBtn": "Wiederherstellungsschlüssel eingeben",
+      "resetEncryptionKeys": "Verschlüsselungsschlüssel zurücksetzen",
+      "regenerateConfirm": "Dies erstellt einen neuen Wiederherstellungsschlüssel, macht den alten ungültig und ersetzt dein Schlüssel-Backup. Megolm-Schlüssel, die es nur auf deinen anderen Geräten gibt, können dabei verloren gehen. Fortfahren?",
+      "regenerateConfirmNoRestore": "Der aktuelle Backup-Schlüssel ist auf diesem Gerät nicht verfügbar, daher gehen alle Schlüssel, die nur im vorhandenen Backup gespeichert sind, dauerhaft verloren. Trotzdem fortfahren?",
+      "regenerateBackupNotActive": "Das neue Schlüssel-Backup konnte auf dem Server nicht als aktiv bestätigt werden.",
+      "invalidRecoveryKey": "Ungültiger Wiederherstellungsschlüssel. Bitte prüfe, ob du ihn korrekt kopiert hast.",
+      "couldNotGenerateKeyNew": "Konnte neuen Wiederherstellungsschlüssel nicht generieren",
+      "restoreSuccess": "{{imported}} von {{total}} Raumschlüsseln wiederhergestellt.",
+      "restoreSuccessNoCSigning": "{{imported}} von {{total}} Raumschlüsseln wiederhergestellt. Cross-Signing konnte nicht wiederhergestellt werden — versuche, diese Sitzung von einem anderen Gerät aus zu verifizieren.",
+      "restoreFailed": "Der Wiederherstellungsschlüssel ist ungültig. Bitte versuche es erneut.",
+      "noSecretStorageFound": "Für dieses Konto ist kein sicherer Speicher eingerichtet, daher gibt es keinen Wiederherstellungsschlüssel zum Eingeben.",
+      "restoreNoBackup": "Diese Sitzung ist verifiziert, aber auf dem Server gibt es keine Schlüsselsicherung, aus der ältere Nachrichten wiederhergestellt werden könnten.",
+      "restoreError": "Schlüssel konnten nicht wiederhergestellt werden: {{error}}",
+      "restoreFetching": "Deine Schlüsselsicherung wird heruntergeladen...",
+      "restoreProgress": "Schlüssel werden wiederhergestellt: {{imported}} von {{total}}",
+      "restoreFromBackup": "Aus Sicherung wiederherstellen",
+      "autoRestoreDone": "{{imported}} Raumschlüssel aus deiner Schlüsselsicherung wiederhergestellt.",
+      "statusTitle": "Schlüsselsicherung",
+      "statusDescription": "Die Schlüsselsicherung speichert deine Nachrichtenschlüssel verschlüsselt auf deinem Server. Eine neue Sitzung kann deine älteren Nachrichten lesen, sobald sie deinen Wiederherstellungsschlüssel hat.",
+      "statusBackup": "Sicherung",
+      "statusThisDevice": "Diese Sitzung",
+      "statusVersion": "Sicherungsversion",
+      "statusNoBackup": "Nicht eingerichtet",
+      "statusActive": "An, bereit zur Wiederherstellung",
+      "statusLocked": "Vorhanden, in dieser Sitzung gesperrt",
+      "statusNotTrusted": "Vorhanden, aber von dieser Sitzung nicht als vertrauenswürdig eingestuft",
+      "statusDeviceVerified": "Verifiziert",
+      "statusDeviceUnverified": "Nicht verifiziert",
+      "regenerateFailed": "Neugenerierung fehlgeschlagen: {{error}}",
+      "autoPromptBanner": "Gib deinen Wiederherstellungsschlüssel ein, um deinen verschlüsselten Nachrichtenverlauf auf diesem Gerät wiederherzustellen, oder verifiziere dich über eine andere Sitzung."
     },
     "sessions": {
       "title": "Sitzungen",
@@ -1740,7 +1842,13 @@
       "ssoCancelled": "Die SSO-Authentifizierung wurde abgebrochen oder das Popup wurde geschlossen. Bitte versuche es erneut.",
       "authMethodUnsupported": "Dein Homeserver verlangt eine Authentifizierungsmethode, die hier nicht unterstützt wird.",
       "verifyThisSession": "Diese Sitzung ist noch nicht verifiziert und kann daher nicht alle deine verschlüsselten Nachrichten lesen. Verifiziere sie:",
-      "cannotVerifyThisSession": "Diese Sitzung ist nicht verifiziert, und es gibt kein anderes verifiziertes Gerät und keinen Wiederherstellungsschlüssel dafür. Setze deine Verschlüsselung im Tab Verschlüsselung zurück, um neu zu starten."
+      "cannotVerifyThisSession": "Diese Sitzung ist nicht verifiziert, und es gibt kein anderes verifiziertes Gerät und keinen Wiederherstellungsschlüssel dafür. Setze deine Verschlüsselung im Tab Verschlüsselung zurück, um neu zu starten.",
+      "verifyWithAnotherDevice": "Mit einem anderen Gerät verifizieren",
+      "ssoBrowserTitle": "Im Browser abschließen",
+      "ssoBrowserMessage": "Ihr Browser hat die Anmeldeseite geöffnet. Melden Sie sich dort an, kehren Sie dann hierher zurück und klicken Sie auf Fertig.",
+      "ssoBrowserDone": "Fertig",
+      "excludeInsecure": "Unsichere Sitzungen ausschließen",
+      "excludeInsecureNote": "Wenn aktiv, werden verschlüsselte Nachrichten nicht mit unverifizierten Sitzungen geteilt, und Nachrichten von unverifizierten Sitzungen werden als Fehler angezeigt. Mit Personen, die ihre Sitzungen nicht verifiziert haben, kannst du dann eventuell nicht schreiben."
     },
     "about": {
       "title": "Über",
@@ -1752,23 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> ist © Phosphor Icons und wird unter den Bedingungen der MIT License verwendet.",
       "privacyPolicy": "Datenschutzerklärung",
       "creditMatrix": "ist © The Matrix.org Foundation C.I.C. und wird unter den Bedingungen der Apache License, Version 2.0 verwendet.",
-      "creditRoboto": "ist © Google und wird unter den Bedingungen der Apache License, Version 2.0 verwendet."
-    },
-    "emojisStickers": {
-      "title": "Emojis & Sticker",
-      "defaultPack": "Standard-Pack",
-      "defaultPackNote": "Dein persönliches Pack ist in jedem Raum verfügbar.",
-      "favoritePacks": "Favoriten-Packs",
-      "favoritePacksNote": "Wähle Emoji- und Sticker-Packs aus deinen Räumen, um sie in jedem Raum zu verwenden.",
-      "selectPacks": "Packs auswählen",
-      "noFavoritePacks": "Noch keine Favoriten-Packs.",
-      "removeFavorite": "Aus Favoriten entfernen",
-      "saveFailed": "Speichern fehlgeschlagen: {{error}}",
-      "noPacksFound": "Keine Packs gefunden.",
-      "imageCount_one": "{{count}} Bild",
-      "imageCount_other": "{{count}} Bilder",
-      "gifs": "GIFs",
-      "gifProvider": "Bevorzugter GIF-Anbieter"
+      "creditRoboto": "ist © Google und wird unter den Bedingungen der Apache License, Version 2.0 verwendet.",
+      "updates": "Updates",
+      "includePrereleases": "Vorabversionen einbeziehen",
+      "includePrereleasesNote": "Testversionen (next, rc, beta) schon vor der Veröffentlichung erhalten. Sie können weniger stabil sein.",
+      "elementCall": "Der <elementCallLink>Element Call</elementCallLink> ist © New Vector Ltd (Element) und wird unter den Bedingungen der GNU Affero General Public License v3.0 verwendet."
     },
     "encryption": {
       "title": "Verschlüsselung",
@@ -1996,7 +2092,10 @@
         "fingerprint": "Schlüsselfingerabdruck",
         "fingerprintLabel": "Fingerabdruck des Signaturschlüssels: {{fingerprint}}",
         "explain": "Mudrix speichert diesen Schlüssel und überprüft künftige Aktualisierungen anhand dieses Schlüssels.",
-        "confirm": "Vertrauen und hinzufügen"
+        "confirm": "Vertrauen und hinzufügen",
+        "address": "Address",
+        "runCode_other": "{{count}} Integrationen führen Code aus",
+        "runCode_one": "{{count}} Integration führt Code aus"
       },
       "rejected": {
         "unsupported": "Wird von dieser Version von Mudrix nicht unterstützt ({{error}}).",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "Befehle",
           "inserts": "Fügt Befehlsantworten ein",
-          "runsApi": "fragt vor der Ausführung nach deiner Bestätigung und führt dann „{{label}}“ aus"
+          "runsApi": "fragt vor der Ausführung nach deiner Bestätigung und führt dann „{{label}}“ aus",
+          "opensWidget": "Öffnet ein Widget"
         },
         "api": {
           "title": "API-Anfragen",
@@ -2048,6 +2148,10 @@
           "sends": "und sendet:",
           "sendsNothing": "Sendet keine persönlichen Daten",
           "link": "Ein Link in der Antwort kann in Ihr Eingabefeld eingefügt werden."
+        },
+        "widget": {
+          "title": "Ein Widget öffnen, das Code ausführt",
+          "summary": "Öffnet ein Fenster über dem Raum mit einer Seite von {{host}}. Diese Seite enthält Code von {{host}}."
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "Wenn Sie dies installieren, ist Folgendes erlaubt:",
         "safety": "Nichts wird aus dem Repository ausgeführt und nichts irgendwohin gesendet. Schaltflächen fügen lediglich Text in das Eingabefeld ein; Sie entscheiden, ob Sie ihn absenden. Sie können jede Berechtigung jederzeit deaktivieren oder die Integration deinstallieren.",
         "safetyApi": "Nichts wird aus dem Repository ausgeführt. Nichts wird gesendet, bis Sie eine dieser Aktionen ausführen und die Anfrage bestätigen, in der genau angezeigt wird, was gesendet wird. Sie können jede Berechtigung jederzeit deaktivieren oder deinstallieren.",
-        "safetyDetails": "Aus dem Repository wird nichts ausgeführt. Dein Gerät kontaktiert nur die oben genannten Dienste: um Details zu passenden Links abzurufen (es werden nur die aufgeführten Felder angezeigt) und bei einer Aktion erst, nachdem du sie bestätigt hast. Du kannst jede Berechtigung jederzeit ausschalten oder die Integration deinstallieren."
+        "safetyDetails": "Aus dem Repository wird nichts ausgeführt. Dein Gerät kontaktiert nur die oben genannten Dienste: um Details zu passenden Links abzurufen (es werden nur die aufgeführten Felder angezeigt) und bei einer Aktion erst, nachdem du sie bestätigt hast. Du kannst jede Berechtigung jederzeit ausschalten oder die Integration deinstallieren.",
+        "safetyCode": "Nichts wird ausgeführt, bis Sie das Widget selbst öffnen. Sie können jede Berechtigung jederzeit deaktivieren oder deinstallieren."
       },
       "hosts": {
         "title": "Server, die sie kontaktieren darf",
         "none": "Sie kontaktiert keinen Server.",
         "note": "Alle anderen Adressen werden abgelehnt. Es werden keine Cookies oder Kontodaten gesendet."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Führt Code aus"
+      },
+      "widget": {
+        "warning": {
+          "title": "Diese Integration führt Code aus",
+          "source": "Der Code stammt von {{host}} und wird bei jedem Öffnen von dort geladen.",
+          "changes": "Der Autor kann ihn jederzeit ändern, ohne dass Mudrix Sie erneut fragt.",
+          "isolated": "Er wird in einem isolierten Frame ausgeführt und kann Ihre Nachrichten, Schlüssel oder Ihr Konto nicht einsehen, außer über die unten aufgeführten Dinge, die Sie erlauben.",
+          "trust": "Installieren Sie nur Integrationen von Personen, denen Sie vertrauen."
+        },
+        "understand": "Ich verstehe, dass dies Code von {{host}} ausführt",
+        "refused": "Diese Integration kann nicht verwendet werden: {{error}}",
+        "noAccess": "Sie kann nur Inhalte anzeigen. Sie kann in Ihren Räumen weder mitlesen noch Nachrichten senden.",
+        "highAccess": "Erweiterter Zugriff",
+        "events": {
+          "item": "Senden und Lesen von Ereignissen des Typs <mono>{{type}}</mono> in diesem Raum. Dies sind benutzerdefinierte Ereignisse: Andere Apps im Raum können sie sehen, die meisten Chat-Apps zeigen dafür nichts an. Das Widget sieht auch die Raum-ID und wer jedes Ereignis gesendet hat."
+        },
+        "fromLinks": "Links zu {{host}} in einem Fenster über eine Schaltfläche auf deren Karten öffnen. Die Seite unter dem Link ist Code von {{host}}, und die Person, die den Link geteilt hat, wählt die Seite auf diesem Host.",
+        "saveFiles": "Dieser Seite erlauben, Dateien auf Ihrem Gerät zu speichern",
+        "address": "Wird an die Adresse angehängt: Ihr Design und Ihre Sprache.",
+        "addressExtra": "Ebenfalls angehängt: {{values}}.",
+        "param": {
+          "room_id": "die Raum-ID",
+          "user_id": "Ihre Benutzer-ID",
+          "display_name": "Ihr Anzeigename"
+        },
+        "cap": {
+          "send": {
+            "message": "Nachrichten in dem Raum senden, in dem Sie es öffnen, in Ihrem Namen. Es erfährt auch die Raum-ID."
+          },
+          "read": {
+            "messages": "Nachrichten in diesem Raum lesen, einschließlich deren Absender",
+            "room": "Name und Thema dieses Raumes lesen"
+          },
+          "upload": {
+            "file": "Dateien in Ihrem Namen in Ihren Medienspeicher hochladen (bis zu 20 Dateien mit je 25 MB, nicht nur selbst ausgewählte)"
+          },
+          "download": {
+            "file": "Dateien aus Nachrichten in diesem Raum herunterladen"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Verschlüsselungsschlüssel sichern",
+      "description": "Exportiere deine Ende-zu-Ende-Raumschlüssel in eine passphrasegeschützte Datei oder importiere Schlüssel aus einer Datei, die von diesem oder einem anderen Matrix-Client exportiert wurde.",
+      "exportTitle": "Raumschlüssel exportieren",
+      "importTitle": "Raumschlüssel importieren",
+      "passphrase": "Passphrase",
+      "confirmPassphrase": "Passphrase bestätigen",
+      "passphraseMismatch": "Die Passphrasen stimmen nicht überein.",
+      "exportBtn": "Schlüssel exportieren",
+      "importBtn": "Schlüssel importieren",
+      "chooseFile": "Schlüsseldatei",
+      "cryptoNotAvailable": "Verschlüsselung ist nicht verfügbar.",
+      "exportSuccess": "Raumschlüssel exportiert. Bewahre Datei und Passphrase sicher auf.",
+      "exportFailed": "Raumschlüssel konnten nicht exportiert werden: {{error}}",
+      "importSuccess": "{{count}} Raumschlüssel importiert.",
+      "importFailed": "Raumschlüssel konnten nicht importiert werden: {{error}}",
+      "error_format": "Das scheint kein gültiger Raumschlüssel-Export zu sein.",
+      "error_version": "Diese Schlüsseldatei verwendet eine nicht unterstützte Version.",
+      "error_password": "Falsche Passphrase oder die Datei ist beschädigt.",
+      "error_rounds": "Diese Schlüsseldatei hat ungültige Schlüsselableitungs-Einstellungen."
+    },
+    "activity": {
+      "simultaneous": "Wird neben deinem Status angezeigt, ein Spiel und ein Song können also beide erscheinen.",
+      "detected": "Gerade jetzt",
+      "hideThis": "Nie teilen",
+      "title": "Aktivität",
+      "share": "Zeigen, was ich spiele oder höre",
+      "shareNote": "Andere sehen das Spiel oder die Musik, die auf diesem Computer läuft, in deinem Profil und in Mitgliederlisten. Solange das aus ist, wird nichts erfasst.",
+      "games": "Spiele",
+      "music": "Musik",
+      "musicNote": "Von Mediaplayern wie Spotify. Browser werden nie geteilt.",
+      "nowPlaying": "Gerade: spielt {{name}}",
+      "nowListening": "Gerade: hört {{name}}",
+      "nothing": "Gerade wird nichts erkannt",
+      "hiddenNote": "Wenn du es ausblendest, wird es nie geteilt.",
+      "hiddenCount": "Vom Teilen ausgeschlossen: {{count}}",
+      "showAgain": "Alle wieder zeigen",
+      "apps": {
+        "title": "Hinzugefügte Anwendungen",
+        "note": "Programme, die wir nicht als Spiele erkennen, kannst du hier hinzufügen. Solange eines geöffnet ist, wird es mit dem von dir vergebenen Namen als „Spielt“ angezeigt.",
+        "add": "Anwendung hinzufügen",
+        "remove": "Entfernen"
+      },
+      "add": {
+        "title": "Anwendung hinzufügen",
+        "note": "Öffne zuerst das Programm und wähle es dann aus der Liste.",
+        "search": "Geöffnete Programme durchsuchen",
+        "loading": "Suche nach geöffneten Programmen…",
+        "none": "Keine weiteren geöffneten Programme gefunden",
+        "nameNote": "Als was soll es angezeigt werden? ({{exe}})",
+        "confirm": "Hinzufügen"
+      }
+    },
+    "cosmetics": {
+      "title": "Kosmetik",
+      "note": "Alles, was du abonniert hast: Avatar-Dekorationen, Profileffekte, Namensschilder und Profilrahmen aus deinen Räumen und Spaces.",
+      "hint": "Pakete, die du hier auswählst, stehen für dein Profil zur Verfügung.",
+      "empty": "Noch nichts abonniert.",
+      "kindPlural": {
+        "decoration": "Avatar-Dekorationen",
+        "effect": "Profileffekte",
+        "nameplate": "Namensschilder",
+        "profile_frame": "Profilrahmen"
       }
     }
   },
@@ -2165,16 +2379,16 @@
     "offline": "Offline, verbinde neu..."
   },
   "loading": {
-    "messages": [
-      "Beschwöre die Magie...",
-      "Konsultiere die Kristallkugel...",
-      "Braue den Verbindungstrank...",
-      "Poliere das Zauberbuch...",
-      "Erwecke das Vertraute...",
-      "Kanalisiere die Matrix-Geister...",
-      "Lese die Runen...",
-      "Zeichne die arkanen Sigillen..."
-    ]
+    "messages": {
+      "0": "Beschwöre die Magie...",
+      "1": "Konsultiere die Kristallkugel...",
+      "2": "Braue den Verbindungstrank...",
+      "3": "Poliere das Zauberbuch...",
+      "4": "Erwecke das Vertraute...",
+      "5": "Kanalisiere die Matrix-Geister...",
+      "6": "Lese die Runen...",
+      "7": "Zeichne die arkanen Sigillen..."
+    }
   },
   "profile": {
     "unignoreReloadTitle": "Neu laden, um die Nachrichten anzuzeigen?",

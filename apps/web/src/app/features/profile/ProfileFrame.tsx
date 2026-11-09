@@ -3,6 +3,7 @@ import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { builtinFramePieces, getBuiltinFrame } from '@/util/builtinCosmetics';
+import { useProfileFramePacks } from '@/app/hooks/useUserPacks';
 import { type ProfileFrameId, type ProfileFramePiece } from '@/util/profileCosmetics';
 import * as css from './ProfileCard.css';
 
@@ -26,7 +27,7 @@ function FramePieceImg({
   onDims?: (dims: { width: number; height: number; pos: string }) => void;
 }) {
   const isMxc = piece.url.startsWith('mxc://');
-  const { src: blobUrl } = useMediaBlobUrl(client, isMxc ? piece.url : null);
+  const { src: blobUrl } = useMediaBlobUrl(client, isMxc ? piece.url : null, { queue: true });
   // Only mxc:// media or a built-in frame's own assets are ever loaded (a profile or pack must not
   // make clients fetch other hosts).
   const finalSrc = isMxc ? blobUrl : piece.staticSrc;
@@ -62,6 +63,7 @@ function FramePieceImg({
 
 export function ProfileFrame({ frame, client, layer = 'both' }: ProfileFrameProps) {
   const c = client ?? getMatrixClientOrNull();
+  const packs = useProfileFramePacks(c);
 
   const resolvedPieces = useMemo<ResolvedPiece[]>(() => {
     if (!frame) return [];
@@ -88,12 +90,22 @@ export function ProfileFrame({ frame, client, layer = 'both' }: ProfileFrameProp
           staticSrc: p.src,
         }));
       }
-      // Not a built-in: treat the string url as a single center piece
+      for (const group of packs) {
+        for (const item of group.frames) {
+          if (item.id === frame || item.url === frame) {
+            if (Array.isArray(item.pieces) && item.pieces.length > 0) {
+              return item.pieces;
+            }
+            return [{ layer: 'front', pos: 'center', url: item.url }];
+          }
+        }
+      }
+      // Not in local pack catalog: treat the string url as a single center piece
       return [{ layer: 'front', pos: 'center', url: frame }];
     }
 
     return [];
-  }, [frame]);
+  }, [frame, packs]);
 
   const frameKey = typeof frame === 'string' ? frame : frame?.url || '';
   const [dimsState, setDimsState] = useState<{

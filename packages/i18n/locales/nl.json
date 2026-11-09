@@ -1407,12 +1407,19 @@
       "timezone": "Tijdzone",
       "timezoneHint": "Hiermee kunnen anderen je lokale tijd op je profiel zien.",
       "extendedProfileUnsupported": "Je homeserver ondersteunt geen uitgebreide profielen, dus banner, bio, voornaamwoorden en tijdzone kunnen niet worden opgeslagen. Weergavenaam en avatar werken nog wel. Vraag je serverbeheerder om MSC4133 in te schakelen (Synapse: experimental_features.msc4133_enabled, of Matrix 1.16+).",
+      "banner": "Profielbanner",
+      "bannerHint": "Wordt bovenaan je profielkaart getoond. Wordt bijgesneden tot een banner van 3:1.",
+      "noBanner": "Geen banner",
+      "uploadBanner": "Banner uploaden",
+      "changeBanner": "Banner wijzigen",
+      "bannerPosition": "Positie",
       "timezoneUnset": "Niet gedeeld",
       "timezoneBrowser": "{{tz}} (dit apparaat)",
       "profileSaved": "Profiel opgeslagen",
       "aboutTitle": "Over mij",
       "styleNameplate": "Naamplaatje",
-      "styleFrame": "Profielkader"
+      "styleFrame": "Profielkader",
+      "profileTitle": "Profiel"
     },
     "appearance": {
       "title": "Weergave",
@@ -1511,7 +1518,18 @@
       "roomListStyle": "Stijl van de kamerlijst",
       "roomListStyleMatrix": "Matrix",
       "roomListStyleModern": "Modern",
-      "roomListStyleNote": "Matrix toont een avatar bij elke kamer. Modern gebruikt gewone kanaalrijen, laat je kanalen ordenen binnen een space en spraakkanalen markeren."
+      "roomListStyleNote": "Matrix toont een avatar bij elke kamer. Modern gebruikt gewone kanaalrijen, laat je kanalen ordenen binnen een space en spraakkanalen markeren.",
+      "profileEffects": "Profieleffecten",
+      "profileEffectsNote": "Toon geanimeerde effecten op de profielkaarten van andere mensen. Staat altijd uit als je systeem beweging wil beperken.",
+      "timelineDisplay": "Tijdlijn",
+      "hideMembershipEvents": "Deelnames en vertrekken verbergen",
+      "hideMembershipEventsNote": "Toon geen berichten wanneer mensen deelnemen, vertrekken, worden verwijderd of verbannen.",
+      "hideProfileEvents": "Profielwijzigingen verbergen",
+      "hideProfileEventsNote": "Toon geen berichten wanneer mensen hun weergavenaam of avatar wijzigen.",
+      "themedAppIconNote": "Gebruik het app-pictogram dat bij het huidige thema hoort.",
+      "themedAppIconNoteNoArt": "Het huidige thema heeft geen eigen pictogram; dit werkt bij thema’s die er wel een hebben (Parrot, Hallow).",
+      "systemAccent": "Systeemaccentkleur gebruiken",
+      "systemAccentNote": "Neemt de accentkleur over van Windows, macOS of je Linux-desktop. Alleen in de desktop-app en met het Carbon-thema."
     },
     "accessibility": {
       "title": "Toegankelijkheid",
@@ -1560,7 +1578,9 @@
       "youtubeEmbedsAsk": "Vragen",
       "youtubeEmbedsOn": "Tonen",
       "youtubeEmbedsOff": "Verbergen",
-      "youtubeEmbedsNote": "Toon YouTube-links als afspeelbare kaarten. Afspelen laadt de video van YouTube."
+      "youtubeEmbedsNote": "Toon YouTube-links als afspeelbare kaarten. Afspelen laadt de video van YouTube.",
+      "ignoredUsersNote": "Hun berichten, uitnodigingen en DM’s zijn voor jou verborgen.",
+      "ignoredUsersEmpty": "Je negeert niemand."
     },
     "language": {
       "title": "Taal",
@@ -1636,7 +1656,11 @@
       "imageCount_one": "{{count}} afbeelding",
       "imageCount_other": "{{count}} afbeeldingen",
       "gifs": "GIF's",
-      "gifProvider": "Voorkeur GIF-aanbieder"
+      "gifProvider": "Voorkeur GIF-aanbieder",
+      "searchPacks": "Pakketten zoeken",
+      "subscribeAll": "Alles abonneren",
+      "unsubscribeAll": "Alles opzeggen",
+      "noPacksMatch": "Geen pakketten die overeenkomen met je zoekopdracht."
     },
     "keybinds": {
       "title": "Sneltoetsen",
@@ -1693,7 +1717,37 @@
       "accountDataSaved": "Accountgegevens opgeslagen.",
       "accountDataSaveFailed": "Accountgegevens opslaan mislukt: {{error}}",
       "accountDataCount_one": "{{count}} gebeurtenistype",
-      "accountDataCount_other": "{{count}} gebeurtenistypen"
+      "accountDataCount_other": "{{count}} gebeurtenistypen",
+      "slidingSync": "Sliding sync (experimenteel)",
+      "slidingSyncDescription": "Snellere start en lichtere synchronisatie bij grote accounts. Vereist een homeserver met vereenvoudigde sliding sync (MSC4186). Herlaad om toe te passen.",
+      "reload": "App herladen",
+      "session": "Sessie",
+      "userId": "Gebruikers-ID",
+      "deviceId": "Apparaat-ID",
+      "appVersion": "App-versie",
+      "syncMode": "Synchronisatiemodus",
+      "syncClassic": "Klassieke synchronisatie",
+      "syncSliding": "Sliding sync",
+      "syncState": "Synchronisatiestatus",
+      "rooms": "Kamers",
+      "roomsValue": "{{joined}} lid, {{invited}} uitgenodigd",
+      "specVersion": "Nieuwste specificatieversie",
+      "encryption": "Versleuteling",
+      "crossSigning": "Cross-signing",
+      "secretStorage": "Geheime opslag",
+      "keyBackup": "Sleutelback-up",
+      "ready": "Gereed",
+      "notReady": "Niet gereed",
+      "cryptoUnavailable": "Versleuteling is niet beschikbaar.",
+      "serverFeatures": "Serverfuncties ({{count}})",
+      "tools": "Hulpmiddelen",
+      "copyDebugInfo": "Debuginfo kopiëren",
+      "clearMedia": "Mediacache wissen",
+      "clearMediaDone": "Mediacache gewist",
+      "resetSyncCache": "Synchronisatiecache resetten",
+      "resetSyncCacheAction": "Resetten",
+      "resetSyncCacheNote": "Verwijdert de lokale kamer- en berichtencache en herlaadt. Versleutelingssleutels en instellingen blijven behouden.",
+      "resetSyncCacheConfirm": "Dit verwijdert de lokale kopie van je kamers en berichten en herlaadt de app. Alles wordt opnieuw van de server gehaald. Versleutelingssleutels blijven onaangeroerd."
     },
     "keyBackup": {
       "downloadKey": "Downloaden",
@@ -1718,7 +1772,39 @@
       "oldKeyWarningBody": "Berichten die aan de oude sleutel zijn gekoppeld, kunnen mogelijk niet meer worden hersteld. Sla deze nieuwe sleutel meteen op.",
       "storeKeyWarning": "Bewaar deze sleutel veilig. Je hebt hem nodig om versleutelde berichten op nieuwe apparaten te openen",
       "copyKey": "Kopiëren",
-      "copied": "Gekopieerd!"
+      "copied": "Gekopieerd!",
+      "setupRecoveryKey": "Herstelsleutel instellen",
+      "setupIncomplete": "Versleuteling instellen",
+      "enterRecoveryKeyBtn": "Herstelsleutel invoeren",
+      "resetEncryptionKeys": "Versleutelingssleutels resetten",
+      "regenerateConfirm": "Hiermee wordt een nieuwe herstelsleutel aangemaakt, wordt de oude ongeldig gemaakt en wordt je sleutelback-up vervangen. Megolm-sleutels die alleen op je andere apparaten bestaan, kunnen hierbij verloren gaan. Doorgaan?",
+      "regenerateConfirmNoRestore": "Je huidige back-upsleutel is niet beschikbaar op dit apparaat, dus alle sleutels die alleen in de bestaande back-up zijn opgeslagen, gaan permanent verloren. Toch doorgaan?",
+      "regenerateBackupNotActive": "De nieuwe sleutelback-up kon op de server niet als actief worden geverifieerd.",
+      "invalidRecoveryKey": "Ongeldige herstelsleutel. Controleer of je hem correct hebt gekopieerd.",
+      "couldNotGenerateKeyNew": "Nieuwe herstelsleutel kon niet worden gegenereerd",
+      "restoreSuccess": "{{imported}} van {{total}} kamersleutels hersteld.",
+      "restoreSuccessNoCSigning": "{{imported}} van {{total}} kamersleutels hersteld. Kruiselingse ondertekening kon niet opnieuw worden ingesteld. Probeer deze sessie vanaf een ander apparaat te verifiëren.",
+      "restoreFailed": "Onjuiste ontsleutelingssleutel. Controleer je herstelsleutel en probeer het opnieuw.",
+      "noSecretStorageFound": "Geheime opslag is niet ingesteld voor dit account, dus er is geen herstelsleutel om in te voeren.",
+      "restoreNoBackup": "Deze sessie is geverifieerd, maar er is geen sleutelback-up op de server om oudere berichten uit te herstellen.",
+      "restoreError": "Sleutels konden niet worden hersteld: {{error}}",
+      "restoreFetching": "Je sleutelback-up wordt gedownload...",
+      "restoreProgress": "Sleutels herstellen: {{imported}} van {{total}}",
+      "restoreFromBackup": "Herstellen uit back-up",
+      "autoRestoreDone": "{{imported}} kamersleutels hersteld uit je sleutelback-up.",
+      "statusTitle": "Sleutelback-up",
+      "statusDescription": "Met een sleutelback-up worden je berichtsleutels versleuteld op je server opgeslagen. Een nieuwe sessie kan je oudere berichten lezen zodra ze je herstelsleutel heeft.",
+      "statusBackup": "Back-up",
+      "statusThisDevice": "Deze sessie",
+      "statusVersion": "Back-upversie",
+      "statusNoBackup": "Niet ingesteld",
+      "statusActive": "Aan, klaar om te herstellen",
+      "statusLocked": "Bestaat, vergrendeld in deze sessie",
+      "statusNotTrusted": "Bestaat, maar wordt niet vertrouwd door deze sessie",
+      "statusDeviceVerified": "Geverifieerd",
+      "statusDeviceUnverified": "Niet geverifieerd",
+      "regenerateFailed": "Opnieuw genereren mislukt: {{error}}",
+      "autoPromptBanner": "Voer je herstelsleutel in om je versleutelde berichtengeschiedenis op dit apparaat te herstellen, of verifieer met een andere sessie."
     },
     "sessions": {
       "title": "Sessies",
@@ -1756,7 +1842,13 @@
       "ssoCancelled": "SSO-authenticatie is geannuleerd of het pop-upvenster is gesloten. Probeer het opnieuw.",
       "authMethodUnsupported": "Je homeserver vereist een authenticatiemethode die hier niet wordt ondersteund.",
       "verifyThisSession": "Deze sessie is nog niet geverifieerd, dus hij kan niet al je versleutelde berichten lezen. Verifieer hem:",
-      "cannotVerifyThisSession": "Deze sessie is niet geverifieerd en er is geen ander geverifieerd apparaat of herstelsleutel om hem mee te verifiëren. Reset je versleuteling op het tabblad Versleuteling om opnieuw te beginnen."
+      "cannotVerifyThisSession": "Deze sessie is niet geverifieerd en er is geen ander geverifieerd apparaat of herstelsleutel om hem mee te verifiëren. Reset je versleuteling op het tabblad Versleuteling om opnieuw te beginnen.",
+      "verifyWithAnotherDevice": "Verifiëren met een ander apparaat",
+      "ssoBrowserTitle": "Afronden in je browser",
+      "ssoBrowserMessage": "Je browser heeft de aanmeldpagina geopend. Meld je daar aan, kom dan hier terug en druk op Klaar.",
+      "ssoBrowserDone": "Klaar",
+      "excludeInsecure": "Onveilige sessies uitsluiten",
+      "excludeInsecureNote": "Als dit aan staat, worden versleutelde berichten niet gedeeld met niet-geverifieerde sessies en worden berichten die vanuit niet-geverifieerde sessies zijn verstuurd als fout getoond. Mogelijk kun je niet chatten met mensen die hun sessies niet hebben geverifieerd."
     },
     "about": {
       "title": "Over",
@@ -1768,7 +1860,11 @@
       "phosphorIcons": "<phosphorLink>Phosphor Icons</phosphorLink> is © Phosphor Icons en wordt gebruikt onder de voorwaarden van de MIT-licentie.",
       "privacyPolicy": "Privacybeleid",
       "creditMatrix": "is © The Matrix.org Foundation C.I.C. en wordt gebruikt onder de voorwaarden van de Apache License, versie 2.0.",
-      "creditRoboto": "is © Google en wordt gebruikt onder de voorwaarden van de Apache License, versie 2.0."
+      "creditRoboto": "is © Google en wordt gebruikt onder de voorwaarden van de Apache License, versie 2.0.",
+      "updates": "Updates",
+      "includePrereleases": "Voorlopige versies meenemen",
+      "includePrereleasesNote": "Krijg ook testversies (next, rc, beta) voordat ze uitkomen. Ze kunnen minder stabiel zijn.",
+      "elementCall": "De <elementCallLink>Element Call</elementCallLink> is © New Vector Ltd (Element) en wordt gebruikt onder de voorwaarden van de GNU Affero General Public License v3.0."
     },
     "encryption": {
       "title": "Versleuteling",
@@ -1996,7 +2092,10 @@
         "fingerprint": "Vingerafdruk van sleutel",
         "fingerprintLabel": "Vingerafdruk van de ondertekeningssleutel: {{fingerprint}}",
         "explain": "Mudrix slaat deze sleutel op en controleert toekomstige updates aan de hand hiervan.",
-        "confirm": "Vertrouwen en toevoegen"
+        "confirm": "Vertrouwen en toevoegen",
+        "address": "Address",
+        "runCode_other": "{{count}} integraties voeren code uit",
+        "runCode_one": "{{count}} integratie voert code uit"
       },
       "rejected": {
         "unsupported": "Wordt niet ondersteund door deze versie van Mudrix ({{error}}).",
@@ -2040,7 +2139,8 @@
         "commands": {
           "title": "Commando's",
           "inserts": "Voegt commando-antwoorden in",
-          "runsApi": "vraagt om bevestiging en voert dan «{{label}}» uit"
+          "runsApi": "vraagt om bevestiging en voert dan «{{label}}» uit",
+          "opensWidget": "Opent een widget"
         },
         "api": {
           "title": "API-verzoeken",
@@ -2048,6 +2148,10 @@
           "sends": "en verstuurt:",
           "sendsNothing": "Verstuurt geen persoonlijke gegevens",
           "link": "Een link in het antwoord kan aan je berichtveld worden toegevoegd."
+        },
+        "widget": {
+          "title": "Open een widget die code uitvoert",
+          "summary": "Opent een venster over de kamer met een pagina van {{host}}. Die pagina is code van {{host}}."
         }
       },
       "consent": {
@@ -2055,12 +2159,122 @@
         "intro": "Als je dit installeert, krijgt het toestemming om:",
         "safety": "Er wordt niets uitgevoerd vanuit de opslagplaats en er wordt niets ergens naartoe gestuurd. Knoppen plaatsen alleen tekst in het invoerveld; jij kiest of je het verzendt. Je kunt elke machtiging op elk gewenst moment uitschakelen of de integratie verwijderen.",
         "safetyApi": "Er wordt niets uitgevoerd vanuit de opslagplaats. Er wordt niets verzonden totdat je een van deze acties gebruikt en het verzoek bevestigt, waarin precies staat wat er wordt verstuurd. Je kunt elke machtiging op elk gewenst moment uitschakelen of verwijderen.",
-        "safetyDetails": "Er wordt niets uitgevoerd vanuit de opslagplaats. Je apparaat neemt alleen contact op met de hierboven genoemde diensten: om passende links op te zoeken (alleen de genoemde velden worden getoond) en, bij een actie, pas nadat je die hebt bevestigd. Je kunt elke machtiging op elk moment uitschakelen of de integratie verwijderen."
+        "safetyDetails": "Er wordt niets uitgevoerd vanuit de opslagplaats. Je apparaat neemt alleen contact op met de hierboven genoemde diensten: om passende links op te zoeken (alleen de genoemde velden worden getoond) en, bij een actie, pas nadat je die hebt bevestigd. Je kunt elke machtiging op elk moment uitschakelen of de integratie verwijderen.",
+        "safetyCode": "Er wordt niets uitgevoerd totdat je de widget zelf opent. Je kunt elke machtiging op elk gewenst moment uitschakelen of verwijderen."
       },
       "hosts": {
         "title": "Servers die het mag benaderen",
         "none": "Het benadert geen enkele server.",
         "note": "Elk ander adres wordt geweigerd. Er worden geen cookies of accountgegevens verstuurd."
+      },
+      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "badge": {
+        "runsCode": "Voert code uit"
+      },
+      "widget": {
+        "warning": {
+          "title": "Deze integratie voert code uit",
+          "source": "De code is afkomstig van {{host}} en wordt daar elke keer geladen wanneer deze geopend wordt.",
+          "changes": "De maker kan deze op elk moment wijzigen zonder dat Mudrix je opnieuw om toestemming vraagt.",
+          "isolated": "Het draait in een geïsoleerd frame en kan je berichten, sleutels of account niet lezen, behalve via de hieronder vermelde zaken die je toestaat.",
+          "trust": "Installeer alleen integraties van mensen die je vertrouwt."
+        },
+        "understand": "Ik begrijp dat dit code van {{host}} uitvoert",
+        "refused": "Deze integratie kan niet worden gebruikt: {{error}}",
+        "noAccess": "Kan alleen inhoud weergeven. Kan niets lezen of versturen in je kamers.",
+        "highAccess": "Hoge toegang",
+        "events": {
+          "item": "Verstuur en lees gebeurtenissen van het type <mono>{{type}}</mono> in deze kamer. Dit zijn aangepaste gebeurtenissen: andere apps in de kamer kunnen ze zien, maar de meeste chat-apps tonen er niets van. De widget ziet ook het kamer-ID en wie elke gebeurtenis heeft verzonden."
+        },
+        "fromLinks": "Open links naar {{host}} in een venster, via een knop op de kaarten. De pagina achter de link is code van {{host}}, en degene die de link deelde kiest welke pagina op die host.",
+        "saveFiles": "Sta die pagina toe om bestanden op je apparaat op te slaan",
+        "address": "Toegevoegd aan het adres: je thema en taal.",
+        "addressExtra": "Ook toegevoegd: {{values}}.",
+        "param": {
+          "room_id": "het kamer-ID",
+          "user_id": "je gebruikers-ID",
+          "display_name": "je weergavenaam"
+        },
+        "cap": {
+          "send": {
+            "message": "Verstuur berichten in de kamer waarin je de widget opent, namens jou. Het leert ook het kamer-ID."
+          },
+          "read": {
+            "messages": "Lees de berichten in die kamer, inclusief wie ze heeft verzonden",
+            "room": "Lees de naam en het onderwerp van die kamer"
+          },
+          "upload": {
+            "file": "Upload bestanden naar je mediaopslag namens jou (tot 20 bestanden van 25 MB, niet alleen door jou geselecteerde bestanden)"
+          },
+          "download": {
+            "file": "Download bestanden van berichten in die kamer"
+          }
+        }
+      }
+    },
+    "roomKeys": {
+      "title": "Back-up van versleutelingssleutels",
+      "description": "Exporteer je end-to-end-versleutelingssleutels voor kamers naar een met een wachtzin beveiligd bestand, of importeer sleutels uit een bestand dat met deze of een andere Matrix-client is geëxporteerd.",
+      "exportTitle": "Kamersleutels exporteren",
+      "importTitle": "Kamersleutels importeren",
+      "passphrase": "Wachtzin",
+      "confirmPassphrase": "Wachtzin bevestigen",
+      "passphraseMismatch": "Wachtzinnen komen niet overeen.",
+      "exportBtn": "Sleutels exporteren",
+      "importBtn": "Sleutels importeren",
+      "chooseFile": "Sleutelbestand",
+      "cryptoNotAvailable": "Versleuteling is niet beschikbaar.",
+      "exportSuccess": "Kamersleutels geëxporteerd. Bewaar het bestand en de wachtzin veilig.",
+      "exportFailed": "Kamersleutels konden niet worden geëxporteerd: {{error}}",
+      "importSuccess": "{{count}} kamersleutels geïmporteerd.",
+      "importFailed": "Kamersleutels konden niet worden geïmporteerd: {{error}}",
+      "error_format": "Dit lijkt niet op een geldige export van kamersleutels.",
+      "error_version": "Dit sleutelbestand gebruikt een niet-ondersteunde versie.",
+      "error_password": "Onjuiste wachtzin, of het bestand is beschadigd.",
+      "error_rounds": "Dit sleutelbestand heeft ongeldige instellingen voor sleutelafleiding."
+    },
+    "activity": {
+      "simultaneous": "Wordt naast je status getoond, dus een game en een nummer kunnen allebei verschijnen.",
+      "detected": "Op dit moment",
+      "hideThis": "Nooit delen",
+      "title": "Activiteit",
+      "share": "Laten zien wat ik speel of beluister",
+      "shareNote": "Anderen zien de game of muziek die op deze computer speelt, op je profiel en in ledenlijsten. Zolang dit uit staat, wordt er niets bekeken.",
+      "games": "Games",
+      "music": "Muziek",
+      "musicNote": "Van mediaspelers zoals Spotify. Browsers worden nooit gedeeld.",
+      "nowPlaying": "Nu: speelt {{name}}",
+      "nowListening": "Nu: luistert naar {{name}}",
+      "nothing": "Op dit moment niets gedetecteerd",
+      "hiddenNote": "Verberg het en het wordt nooit gedeeld.",
+      "hiddenCount": "Van delen uitgesloten: {{count}}",
+      "showAgain": "Alles weer tonen",
+      "apps": {
+        "title": "Toegevoegde toepassingen",
+        "note": "Programma's die we niet als game herkennen kun je hier toevoegen. Zolang er een open is, verschijnt het als \"Speelt\" met de naam die je opgeeft.",
+        "add": "Toepassing toevoegen",
+        "remove": "Verwijderen"
+      },
+      "add": {
+        "title": "Toepassing toevoegen",
+        "note": "Open eerst het programma en kies het dan uit de lijst.",
+        "search": "Open programma's zoeken",
+        "loading": "Zoeken naar open programma's…",
+        "none": "Geen andere open programma's gevonden",
+        "nameNote": "Hoe moet het worden getoond? ({{exe}})",
+        "confirm": "Toevoegen"
+      }
+    },
+    "cosmetics": {
+      "title": "Cosmetica",
+      "note": "Alles waarop je bent geabonneerd: avatardecoraties, profieleffecten, naamplaatjes en profielframes uit je kamers en spaces.",
+      "hint": "Packs die je hier kiest zijn beschikbaar voor je profiel.",
+      "empty": "Nog nergens op geabonneerd.",
+      "kindPlural": {
+        "decoration": "Avatardecoraties",
+        "effect": "Profieleffecten",
+        "nameplate": "Naamplaatjes",
+        "profile_frame": "Profielframes"
       }
     }
   },

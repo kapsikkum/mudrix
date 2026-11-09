@@ -1,5 +1,6 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useAtom, useAtomValue, useStore } from 'jotai';
+import { selectAtom } from 'jotai/utils';
 import { useTranslation } from 'react-i18next';
 import {
   GearIcon,
@@ -22,7 +23,11 @@ import {
   favouriteRoomsAtom,
   currentSpaceIdAtom,
   sidebarViewAtom,
+  presenceMapAtom,
+  presenceVisibleAtom,
 } from '@/app/store/atoms';
+import { useInViewOnce, useListCosmetics } from '@/app/features/profile/ListCosmetics';
+import { effectiveDotPresence } from '@/util/profileCosmetics';
 import { HOME_SPACE, getRoomSectionTag } from '@/app/features/room/roomSections';
 import { usePrompt } from '@/app/hooks/usePrompt';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
@@ -329,6 +334,20 @@ export const DmListItem = memo(function DmListItem({
   const client = getMatrixClientOrNull();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
 
+  // DM rows only: the partner's decoration, custom status and presence. The profile request
+  // waits until the row has been on screen once; the query is shared and cached per user.
+  const showPresence = useAtomValue(presenceVisibleAtom);
+  const partnerPresenceAtom = useMemo(
+    () => selectAtom(presenceMapAtom, (m) => m[entry.partnerId]),
+    [entry.partnerId]
+  );
+  const partnerPresence = useAtomValue(partnerPresenceAtom);
+  const [observeRow, rowSeen] = useInViewOnce<HTMLDivElement>();
+  const { decoration, nameplate, status } = useListCosmetics(client, entry.partnerId, rowSeen);
+  const dotPresence = showPresence
+    ? effectiveDotPresence(partnerPresence, status?.mode)
+    : undefined;
+
   const handleClick = useCallback(() => {
     onSelect(entry.roomId, true);
   }, [onSelect, entry.roomId]);
@@ -392,6 +411,13 @@ export const DmListItem = memo(function DmListItem({
       hasActiveCall={hasActiveCall}
       isInCall={isInCall}
       isMuted={level === 'mute'}
+      decoration={decoration}
+      nameplate={nameplate}
+      fixedHeight
+      presence={dotPresence}
+      statusEmoji={status?.emoji}
+      statusText={status?.text}
+      rowRef={observeRow}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
       onMenuClick={handleContextMenu}
