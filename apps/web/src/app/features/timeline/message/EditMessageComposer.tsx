@@ -31,7 +31,8 @@ import {
   fromMarkdown,
   type MentionResolver,
 } from '@/app/features/timeline/composer/editor/fromMarkdown';
-import { toMarkdown } from '@/app/features/timeline/composer/editor/toMarkdown';
+import { toMarkdown, withPlainRoomLinks } from '@/app/features/timeline/composer/editor/toMarkdown';
+import { parseMatrixToUrl } from '@/util/matrixTo';
 import { buildTextContent } from '@/app/features/timeline/composer/editor/buildTextContent';
 import { applyInlineMarkdown } from '@/app/features/timeline/composer/editor/applyMarkdown';
 import { insertEmoji } from '@/app/features/timeline/composer/editor/insertEmoji';
@@ -77,6 +78,18 @@ function buildMentionResolver(
     }
   }
 
+  const rooms: NonNullable<MentionResolver['rooms']> = [];
+  if (typeof formattedBody === 'string' && formattedBody.includes('matrix.to/#/')) {
+    const doc = new DOMParser().parseFromString(formattedBody, 'text/html');
+    for (const a of doc.querySelectorAll('a[href]')) {
+      const url = a.getAttribute('href') ?? '';
+      const label = a.textContent ?? '';
+      const target = parseMatrixToUrl(url);
+      if (target?.kind !== 'room' || target.eventId || !label) continue;
+      rooms.push({ token: label, url, name: label.replace(/^#/, '') });
+    }
+  }
+
   const mentioned = original.mentions?.userIds;
   if (Array.isArray(mentioned)) {
     for (const userId of mentioned) {
@@ -86,7 +99,7 @@ function buildMentionResolver(
   }
 
   tokens.sort((a, b) => b.token.length - a.token.length);
-  return tokens.length > 0 ? { tokens } : undefined;
+  return tokens.length > 0 || rooms.length > 0 ? { tokens, rooms } : undefined;
 }
 
 export function EditMessageComposer({ client, editState, onClose }: EditMessageComposerProps) {
@@ -223,7 +236,7 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
       const { markdown } = toMarkdown(value);
       const newBody = markdown.trim();
       const isCaption = isCaptionMsgtype(editState.msgtype);
-      if ((!newBody && !isCaption) || newBody === editState.body) {
+      if ((!newBody && !isCaption) || withPlainRoomLinks(newBody) === editState.body) {
         onClose();
         return;
       }

@@ -23,6 +23,7 @@ struct ComposerView: View {
     private var packs: [ImagePack] { packStore.packs }
     @State private var usedEmotes: [String: PackImage] = [:]
     @State private var mentions: [String: String] = [:]
+    @State private var roomLinks: [String: String] = [:]
     @State private var members: [Member] = []
     @State private var pickerTab: MediaPicker.Tab?
     @State private var showPhotos = false
@@ -533,6 +534,7 @@ struct ComposerView: View {
         case emoji(Emoji)
         case custom(PackImage)
         case command(String, String)
+        case room(name: String, avatarUrl: String?, detail: String?, link: String)
 
         var id: String {
             switch self {
@@ -540,6 +542,7 @@ struct ComposerView: View {
             case .emoji(let emoji): return "e\(emoji.u)"
             case .custom(let image): return "c\(image.id)"
             case .command(let name, _): return "/\(name)"
+            case .room(_, _, _, let link): return "r\(link)"
             }
         }
     }
@@ -561,6 +564,27 @@ struct ComposerView: View {
             return members.filter {
                 ($0.displayName ?? "").localizedCaseInsensitiveContains(query) || $0.userId.localizedCaseInsensitiveContains(query)
             }.prefix(6).map { .member($0) }
+        }
+        if token.hasPrefix("#"), !token.dropFirst().contains("#") {
+            let query = String(token.dropFirst())
+            let roomList = session.roomList
+            let rooms: [Suggestion] = (roomList?.joinedRooms ?? [])
+                .filter { !$0.isDirect && !$0.isInvite && !$0.isTombstoned }
+                .map { .room(name: $0.displayName, avatarUrl: $0.avatarUrl,
+                             detail: $0.isSpace ? String(localized: "explore.typeSpace") : $0.canonicalAlias,
+                             link: RoomLinks.link($0)) }
+            let joinedIds = Set((roomList?.joinedRooms ?? []).map(\.id))
+            let spaces: [Suggestion] = (roomList?.allSpaces ?? []).filter { !joinedIds.contains($0.id) }
+                .map { .room(name: $0.name, avatarUrl: $0.avatarUrl, detail: String(localized: "explore.typeSpace"),
+                             link: RoomLinks.link($0)) }
+            let matches = (rooms + spaces).filter {
+                guard case .room(let name, _, let detail, _) = $0 else { return false }
+                return query.isEmpty || name.localizedCaseInsensitiveContains(query)
+                    || (detail?.localizedCaseInsensitiveContains(query) ?? false)
+            }
+            let starting = matches.filter { if case .room(let name, _, _, _) = $0 { return name.lowercased().hasPrefix(query.lowercased()) } else { return false } }
+            let rest = matches.filter { item in !starting.contains { $0.id == item.id } }
+            return Array((starting + rest).prefix(6))
         }
         if token.hasPrefix(":"), token.count >= 3, !token.dropFirst().contains(":") {
             let query = String(token.dropFirst())
@@ -590,6 +614,10 @@ struct ComposerView: View {
                         case .custom(let image):
                             PackThumb(url: image.url).frame(width: WZ.Space.space8, height: WZ.Space.space8)
                             Text(":\(image.shortcode):").font(.wizard(WZ.FontSize.md))
+                        case .room(let name, let avatarUrl, let detail, _):
+                            AvatarView(name: name, url: avatarUrl, size: WZ.SizeAvatar.sm)
+                            Text(name).font(.wizard(WZ.FontSize.md, .medium))
+                            if let detail { Text(detail).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted) }
                         case .command(let name, let description):
                             Text("/\(name)").font(.wizard(WZ.FontSize.md, .semibold)).frame(minWidth: WZ.SizeAvatar.xl, alignment: .leading)
                             Text(LocalizedStringKey(description)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
@@ -624,6 +652,10 @@ struct ComposerView: View {
             let name = member.displayName.map { "@" + $0 } ?? member.userId
             mentions[name] = member.userId
             draft += name + " "
+        case .room(let name, _, _, let link):
+            let label = "#" + name
+            roomLinks[label] = link
+            draft += label + " "
         case .emoji(let emoji):
             draft += emoji.u + " "
         case .custom(let image):
@@ -671,13 +703,20 @@ struct ComposerView: View {
         await send(text.hasPrefix("//") ? String(text.dropFirst()) : text, replyTo: reply)
     }
 
-    private func send(_ text: String, replyTo: String?) async {
-        let html = await Self.richHtml(text, emotes: usedEmotes, mentions: mentions, client: session.client)
+    private func send(_ message: String, replyTo: String?) async {
+        let links = roomLinks.filter { message.contains($0.key) }.sorted { $0.key.count > $1.key.count }
+        let text = links.reduce(message) { body, entry in
+            body.replacingOccurrences(of: entry.key, with: RoomLinks.target(entry.value) ?? entry.value)
+        }
+        let html = await Self.richHtml(text, emotes: usedEmotes, mentions: mentions, client: session.client,
+                                       roomLinks: Dictionary(links.map { (RoomLinks.target($0.value) ?? $0.value, $0.value) },
+                                                             uniquingKeysWith: { first, _ in first }))
         // Always set (even empty) so legacy push rules don't fire
         let userIds = mentions.filter { text.contains($0.key) && $0.value != session.userId }.map(\.value)
         let room = text.range(of: #"(^|\s)@room\b"#, options: .regularExpression) != nil
         usedEmotes = [:]
         mentions = [:]
+        roomLinks = [:]
         await timeline.send(text, html: html, replyTo: replyTo,
                             mentions: Mentions(userIds: Array(Set(userIds)).sorted(), room: room ? true : nil))
     }
@@ -685,10 +724,11 @@ struct ComposerView: View {
     /// Builds HTML only when the message has custom emoji or mentions (otherwise the core turns
     /// the Markdown into HTML); its Markdown is rendered first so formatting isn't lost.
     static func richHtml(_ text: String, emotes: [String: PackImage], mentions: [String: String],
-                         client: WizardClient?) async -> String? {
+                         client: WizardClient?, roomLinks: [String: String] = [:]) async -> String? {
         let usedEmotes = emotes.filter { text.contains(":\($0.key):") }
         let usedMentions = mentions.filter { text.contains($0.key) }
-        guard !usedEmotes.isEmpty || !usedMentions.isEmpty else { return nil }
+        let usedRooms = roomLinks.filter { text.contains($0.key) }
+        guard !usedEmotes.isEmpty || !usedMentions.isEmpty || !usedRooms.isEmpty else { return nil }
         let markdown = (try? await client?.markdownToHtml(body: text)) ?? nil
         var html = markdown ?? text.replacingOccurrences(of: "&", with: "&amp;")
             .replacingOccurrences(of: "<", with: "&lt;").replacingOccurrences(of: ">", with: "&gt;")
@@ -698,6 +738,11 @@ struct ComposerView: View {
             let escaped = name.replacingOccurrences(of: "&", with: "&amp;")
                 .replacingOccurrences(of: "<", with: "&lt;").replacingOccurrences(of: ">", with: "&gt;")
             html = html.replacingOccurrences(of: escaped, with: "<a href=\"https://matrix.to/#/\(userId)\">\(escaped)</a>")
+        }
+        for (label, link) in usedRooms.sorted(by: { $0.key.count > $1.key.count }) {
+            let escaped = label.replacingOccurrences(of: "&", with: "&amp;")
+                .replacingOccurrences(of: "<", with: "&lt;").replacingOccurrences(of: ">", with: "&gt;")
+            html = html.replacingOccurrences(of: escaped, with: "<a href=\"\(link)\">\(escaped)</a>")
         }
         for (code, image) in usedEmotes {
             html = html.replacingOccurrences(

@@ -10,8 +10,10 @@ import type {
   LinkElement,
   MentionElement,
   RoomMentionElement,
+  RoomLinkElement,
   EmoticonElement,
 } from './types';
+import { parseMatrixToUrl } from '@/util/matrixTo';
 
 type Segment = { kind: 'code'; lang: string; lines: string[] } | { kind: 'node'; node: Descendant };
 
@@ -86,6 +88,17 @@ function numberedItem(node: Descendant): ListItemElement | null {
   return el.type === 'list-item' && el.listType === 'numbered' ? el : null;
 }
 
+export function roomLinkText(url: string): string {
+  const target = parseMatrixToUrl(url);
+  return target?.kind === 'room' ? target.roomIdOrAlias : url;
+}
+
+const ROOM_LINK_MD_RE = /\[#[^\]]+\]\((https:\/\/matrix\.to\/#\/[#!][^)\s]+)\)/g;
+
+export function withPlainRoomLinks(markdown: string): string {
+  return markdown.replace(ROOM_LINK_MD_RE, (_, url: string) => roomLinkText(url));
+}
+
 export function toMarkdown(nodes: Descendant[]): { markdown: string } {
   const lines: string[] = [];
   let number = 0;
@@ -157,6 +170,11 @@ function serializeBlock(el: CustomElement): string {
     case 'room-mention': {
       const rm = el as RoomMentionElement;
       return rm.label;
+    }
+
+    case 'room-link': {
+      const r = el as RoomLinkElement;
+      return `[#${r.name.replace(/[[\]]/g, '')}](${r.url})`;
     }
 
     case 'emoticon': {
@@ -340,6 +358,14 @@ function serializeBlockHtml(el: CustomElement): { html: string; custom: boolean 
       const label = escapeHtml(rm.label);
       return {
         html: label,
+        custom: false,
+      };
+    }
+
+    case 'room-link': {
+      const r = el as RoomLinkElement;
+      return {
+        html: `<a href="${escapeHtml(r.url)}">${escapeHtml(roomLinkText(r.url))}</a>`,
         custom: false,
       };
     }

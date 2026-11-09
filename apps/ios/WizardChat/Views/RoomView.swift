@@ -68,6 +68,7 @@ struct RoomView: View {
     @State private var selectingText: IdentifiedString?
     @State private var linkPreviews: LinkPreviewLoader?
     @EnvironmentObject private var session: MatrixSession
+    @Environment(\.roomOpener) private var roomOpener
     @EnvironmentObject private var calls: CallManager
     @State private var profileUserId: String?
     @State private var highlightedId: String?
@@ -329,6 +330,10 @@ struct RoomView: View {
             endPoll: { entry in Task { await timeline.endPoll(entry) } },
             roomId: room.id,
             openProfile: { profileUserId = $0 },
+            openRoomLink: { link in Task { await RoomLinks.open(link, session: session, opener: roomOpener) } },
+            roomName: { [roomList = session.roomList] link in
+                MainActor.assumeIsolated { RoomLinks.knownName(link, roomList: roomList) }
+            },
             pinnedIds: timeline.pinnedIds,
             canPin: canPin,
             canRedactOthers: canRedactOthers,
@@ -933,7 +938,8 @@ struct MessageRow: View {
                 if isCompact { compactPrefix }
                 RichBlocksView(blocks: entry.rich ?? [], style: RichStyle(
                     mentions: entry.mentions, revealSpoilers: spoilersRevealed || entry.spoilers.isEmpty,
-                    prettifyLinks: prefs.prettifyLinks, scale: scale, theme: theme))
+                    prettifyLinks: prefs.prettifyLinks, scale: scale, theme: theme,
+                    roomName: actions?.roomName ?? { _ in nil }))
                 if entry.isEdited {
                     Text(String(localized: "timeline.edited"))
                         .font(.wizard(WZ.FontSize.xs * scale))
@@ -942,6 +948,10 @@ struct MessageRow: View {
             }
             .foregroundStyle(isNotice ? theme.textMuted : theme.textPrimary)
             .environment(\.openURL, OpenURLAction { url in
+                if RoomLinks.target(url.absoluteString) != nil, let actions {
+                    actions.openRoomLink(url.absoluteString)
+                    return .handled
+                }
                 guard let userId = MessageText.mentionedUser(url) else { return .systemAction }
                 actions?.openProfile(userId)
                 return .handled
@@ -961,6 +971,10 @@ struct MessageRow: View {
                 .font(.wizard(WZ.FontSize.xs * scale))
                 .foregroundColor(theme.textMuted))
                 .environment(\.openURL, OpenURLAction { url in
+                    if RoomLinks.target(url.absoluteString) != nil, let actions {
+                        actions.openRoomLink(url.absoluteString)
+                        return .handled
+                    }
                     guard let userId = MessageText.mentionedUser(url) else { return .systemAction }
                     actions?.openProfile(userId)
                     return .handled
@@ -1096,6 +1110,8 @@ struct MessageActions {
     let endPoll: (ChatEntry) -> Void
     let roomId: String
     let openProfile: (String) -> Void
+    var openRoomLink: (String) -> Void = { _ in }
+    var roomName: (String) -> String? = { _ in nil }
     var pinnedIds: Set<String> = []
     var canPin = false
     var canRedactOthers = false
@@ -1203,6 +1219,7 @@ struct RichStyle {
     let prettifyLinks: Bool
     let scale: CGFloat
     let theme: WizardTheme
+    var roomName: (String) -> String? = { _ in nil }
 }
 
 /// A formatted message as the web shows it: paragraphs, headings, quotes, lists and code blocks
@@ -1286,6 +1303,17 @@ extension MessageText {
             if span.underline { part.underlineStyle = .single }
             if span.code { part.backgroundColor = theme.fill }
             if let link = span.link, let url = URL(string: link) { part.link = url }
+            if span.mention == nil, let link = span.link, RoomLinks.target(link) != nil {
+                if let name = style.roomName(link) {
+                    part = AttributedString("#" + name)
+                } else if !span.text.hasPrefix("#"), !span.text.hasPrefix("!") {
+                    part = AttributedString("#" + span.text)
+                }
+                part.foregroundColor = theme.accent
+                part.backgroundColor = theme.accent.opacity(0.18)
+                part.inlinePresentationIntent = .stronglyEmphasized
+                part.link = URL(string: link) ?? URL(string: link.replacingOccurrences(of: "#/#", with: "#/%23"))
+            }
             if let userId = span.mention {
                 let isOwn = style.mentions.contains { $0.userId == userId && $0.isOwn }
                 let color = isOwn ? theme.mention : theme.accent

@@ -163,6 +163,7 @@ class MessageActions(
     val endPoll: (ChatEntry) -> Unit,
     val roomId: String,
     val openProfile: (String) -> Unit,
+    val openRoomLink: ((String) -> Unit)? = null,
     val pinnedIds: Set<String> = emptySet(),
     val canPin: Boolean = false,
     val canRedactOthers: Boolean = false,
@@ -375,6 +376,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         endPoll = { entry -> scope.launch { timeline.endPoll(entry) } },
         roomId = room.id,
         openProfile = { profileUserId = it },
+        openRoomLink = { url -> scope.launch { RoomLinks.open(url, session, session.roomList, navigator) } },
         pinnedIds = timeline.pinnedIds,
         canPin = canPin,
         canRedactOthers = canRedactOthers,
@@ -1055,7 +1057,12 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
                 Modifier
             },
         ) {
-            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark, onMention = actions?.openProfile)
+            TextContent(
+                entry,
+                linkOnAccent = isClassic && entry.isOwn && theme.isDark,
+                onMention = actions?.openProfile,
+                onRoomLink = actions?.openRoomLink,
+            )
         }
         return
     }
@@ -1088,7 +1095,13 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
 }
 
 @Composable
-private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((String) -> Unit)?) {
+private fun TextContent(
+    entry: ChatEntry,
+    linkOnAccent: Boolean,
+    onMention: ((String) -> Unit)?,
+    onRoomLink: ((String) -> Unit)? = null,
+) {
+    val session = LocalSession.current
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     var spoilersRevealed by remember { mutableStateOf(false) }
@@ -1128,6 +1141,8 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, onMention: ((St
                     prettifyLinks = prefs.prettifyLinks,
                     scale = scale,
                     onMention = onMention,
+                    onRoomLink = onRoomLink,
+                    roomName = { RoomLinks.knownName(it, session.roomList) },
                     codeBackground = theme.fill,
                     cover = theme.textMuted,
                 ),
@@ -1194,6 +1209,8 @@ private data class RichStyle(
     val prettifyLinks: Boolean,
     val scale: Float,
     val onMention: ((String) -> Unit)?,
+    val onRoomLink: ((String) -> Unit)? = null,
+    val roomName: (String) -> String? = { null },
     val codeBackground: Color,
     val cover: Color,
 )
@@ -1284,6 +1301,14 @@ private fun richText(spans: List<RichSpan>, style: RichStyle): AnnotatedString =
                     },
                 )
                 append(span.text)
+                pop()
+            }
+            link != null && RoomLinks.target(link) != null -> {
+                val pill = TextLinkStyles(style.mentionColors.pill(isOwn = false))
+                val onRoomLink = style.onRoomLink
+                pushLink(if (onRoomLink != null) LinkAnnotation.Clickable(link, pill) { onRoomLink(link) } else LinkAnnotation.Url(link, pill))
+                val name = style.roomName(link)
+                append(if (name != null) "#$name" else if (span.text.startsWith("#") || span.text.startsWith("!")) span.text else "#${span.text}")
                 pop()
             }
             link != null -> {

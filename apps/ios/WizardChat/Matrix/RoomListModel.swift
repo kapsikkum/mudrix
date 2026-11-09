@@ -50,6 +50,8 @@ final class RoomListModel: ObservableObject {
     /// Notification settings just picked here, shown until the room list catches up (as on the web)
     @Published private var notificationOverrides: [String: NotificationMode?] = [:]
     @Published private(set) var spaces: [SpaceSummary] = []
+    /// Every joined space, subspaces included
+    @Published private(set) var allSpaces: [SpaceSummary] = []
     @Published private(set) var spaceRooms: [String: Set<String>] = [:]
     @Published private(set) var isLoaded = false
     @Published private(set) var sections: [RoomSection] = []
@@ -98,6 +100,12 @@ final class RoomListModel: ObservableObject {
                     diffs.forEach { $0.apply(to: &self.spaces) }
                     self.spacesReceived = true
                     self.refreshGraph()
+                }
+            },
+            client.watchAllSpaces { [weak self] diffs in
+                MainActor.assumeIsolated {
+                    guard let self else { return }
+                    diffs.forEach { $0.apply(to: &self.allSpaces) }
                 }
             },
         ]

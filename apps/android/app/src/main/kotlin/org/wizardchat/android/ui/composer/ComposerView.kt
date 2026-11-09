@@ -115,6 +115,7 @@ import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
+import org.wizardchat.android.ui.room.RoomLinks
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.Member
 import org.wizardchat.core.PackImage
@@ -131,6 +132,7 @@ data class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo
 
 private sealed interface Suggestion {
     data class MemberItem(val member: Member) : Suggestion
+    data class RoomItem(val name: String, val avatarUrl: String?, val detail: String?, val link: String) : Suggestion
     data class EmojiItem(val emoji: Emoji) : Suggestion
     data class Custom(val image: PackImage) : Suggestion
     data class Command(val name: String, val description: String) : Suggestion
@@ -164,6 +166,7 @@ fun ComposerView(
     val packStore = remember { PacksStore() }
     val usedEmotes = remember { HashMap<String, PackImage>() }
     val mentions = remember { HashMap<String, String>() }
+    val roomLinks = remember { HashMap<String, String>() }
     var members by remember { mutableStateOf(listOf<Member>()) }
     var pickerTab by remember { mutableStateOf<MediaPickerTab?>(null) }
     var plusMenu by remember { mutableStateOf(false) }
@@ -267,6 +270,20 @@ fun ComposerView(
                 (it.displayName ?: "").contains(query, ignoreCase = true) || it.userId.contains(query, ignoreCase = true)
             }.take(6).map { Suggestion.MemberItem(it) }
         }
+        currentToken.startsWith("#") && !currentToken.drop(1).contains("#") -> {
+            val query = currentToken.drop(1)
+            val roomList = session.roomList
+            val rooms = roomList?.joinedRooms.orEmpty()
+                .filter { !it.isDirect && !it.isInvite && !it.isTombstoned }
+                .map { Suggestion.RoomItem(it.displayName, it.avatarUrl, if (it.isSpace) tr("explore.typeSpace") else it.canonicalAlias, RoomLinks.link(it)) }
+            val spaces = roomList?.allSpaces.orEmpty()
+                .filter { space -> rooms.none { it.link.contains(space.id) } }
+                .map { Suggestion.RoomItem(it.name, it.avatarUrl, tr("explore.typeSpace"), RoomLinks.link(it)) }
+            (rooms + spaces)
+                .filter { it.name.contains(query, ignoreCase = true) || it.detail?.contains(query, ignoreCase = true) == true }
+                .sortedByDescending { it.name.startsWith(query, ignoreCase = true) }
+                .take(6)
+        }
         currentToken.startsWith(":") && currentToken.length >= 3 && !currentToken.drop(1).contains(":") -> {
             val query = currentToken.drop(1)
             val custom = packStore.packs.flatMap { pack -> pack.images.filter { it.emoticon && it.shortcode.contains(query, ignoreCase = true) } }
@@ -289,6 +306,11 @@ fun ComposerView(
                 val name = suggestion.member.displayName ?: suggestion.member.userId
                 mentions[name] = suggestion.member.userId
                 setDraft("$base$name ")
+            }
+            is Suggestion.RoomItem -> {
+                val label = "#${suggestion.name}"
+                roomLinks[label] = suggestion.link
+                setDraft("$base$label ")
             }
             is Suggestion.EmojiItem -> setDraft("$base${suggestion.emoji.e} ")
             is Suggestion.Custom -> {
@@ -328,10 +350,13 @@ fun ComposerView(
     }
 
     suspend fun send(message: String, reply: String?) {
-        val html = richHtml(message, usedEmotes, mentions, timeline.client)
+        val links = roomLinks.filterKeys { message.contains(it) }.entries.sortedByDescending { it.key.length }
+        val body = links.fold(message) { text, (label, link) -> text.replace(label, RoomLinks.target(link) ?: link) }
+        val html = richHtml(body, usedEmotes, mentions, timeline.client, links.associate { (_, link) -> (RoomLinks.target(link) ?: link) to link })
         usedEmotes.clear()
         mentions.clear()
-        timeline.send(message, html = html, replyTo = reply)
+        roomLinks.clear()
+        timeline.send(body, html = html, replyTo = reply)
     }
 
     suspend fun submit() {
@@ -620,14 +645,24 @@ fun ComposerView(
  * HTML only when the message has custom emoji or mentions (otherwise the core turns the Markdown
  * into HTML); its Markdown is rendered first so formatting isn't lost.
  */
-internal suspend fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Map<String, String>, client: WizardClient): String? {
+internal suspend fun richHtml(
+    text: String,
+    emotes: Map<String, PackImage>,
+    mentions: Map<String, String>,
+    client: WizardClient,
+    roomLinks: Map<String, String> = emptyMap(),
+): String? {
     val usedEmotes = emotes.filter { text.contains(":${it.key}:") }
     val usedMentions = mentions.filter { text.contains(it.key) }
-    if (usedEmotes.isEmpty() && usedMentions.isEmpty()) return null
+    val usedRooms = roomLinks.filter { text.contains(it.key) }
+    if (usedEmotes.isEmpty() && usedMentions.isEmpty() && usedRooms.isEmpty()) return null
     var html = runCatching { client.markdownToHtml(text) }.getOrNull()
         ?: text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
     for ((name, userId) in usedMentions) {
         html = html.replace(name, "<a href=\"https://matrix.to/#/$userId\">$name</a>")
+    }
+    for ((label, link) in usedRooms.entries.sortedByDescending { it.key.length }) {
+        html = html.replace(label, "<a href=\"$link\">$label</a>")
     }
     for ((code, image) in usedEmotes) {
         html = html.replace(
@@ -850,6 +885,26 @@ private fun SuggestionList(suggestions: List<Suggestion>, onPick: (Suggestion) -
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
+                    }
+                    is Suggestion.RoomItem -> {
+                        Avatar(suggestion.name, suggestion.avatarUrl, WZ.SizeAvatar.sm)
+                        Text(
+                            suggestion.name,
+                            style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        suggestion.detail?.let {
+                            Text(
+                                it,
+                                Modifier.weight(1f, fill = false),
+                                style = wizardFont(WZ.FontSize.sm),
+                                color = theme.textMuted,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
                     is Suggestion.EmojiItem -> {
                         Box(Modifier.widthIn(min = WZ.Space.space8), contentAlignment = Alignment.Center) {

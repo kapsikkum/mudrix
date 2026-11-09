@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { atom, getDefaultStore, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtomValue, useSetAtom, useStore } from 'jotai';
 import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import type {
   Member,
@@ -64,22 +64,28 @@ export const useKnockedRoomIds = () => useAtomValue(knockedRoomIdsAtom);
 /** Hides a room or space right after leaving it */
 export const useMarkRoomLeft = () => useSetAtom(markRoomLeftAtom);
 
-const allSpacesAtom = atom<SpaceSummary[]>([]);
-let allSpacesWatch: { client: WizardClient; users: number; cancel: () => void } | null = null;
+export const allJoinedSpacesAtom = atom<SpaceSummary[]>([]);
+const allSpacesAtom = allJoinedSpacesAtom;
+let allSpacesWatch: {
+  client: WizardClient;
+  store: ReturnType<typeof useStore>;
+  users: number;
+  cancel: () => void;
+} | null = null;
 
 /** Every joined space, subspaces included, live */
 export function useAllJoinedSpaces(): SpaceSummary[] {
+  const store = useStore();
   useEffect(() => {
     const client = getMatrixClientOrNull();
     if (!client) return;
-    const store = getDefaultStore();
-    if (allSpacesWatch?.client !== client) {
+    if (allSpacesWatch?.client !== client || allSpacesWatch.store !== store) {
       allSpacesWatch?.cancel();
       store.set(allSpacesAtom, []);
       const subscription = client.watchAllSpaces((diffs) =>
         store.set(allSpacesAtom, (spaces) => applyDiffs(spaces, diffs))
       );
-      allSpacesWatch = { client, users: 0, cancel: () => subscription.cancel() };
+      allSpacesWatch = { client, store, users: 0, cancel: () => subscription.cancel() };
     }
     const watch = allSpacesWatch;
     watch.users++;
@@ -90,7 +96,7 @@ export function useAllJoinedSpaces(): SpaceSummary[] {
         allSpacesWatch = null;
       }
     };
-  }, []);
+  }, [store]);
   return useAtomValue(allSpacesAtom);
 }
 export const useSpaceGraph = () => useAtomValue(spaceGraphAtom);

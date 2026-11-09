@@ -1,5 +1,6 @@
 import { marked, Renderer } from 'marked';
 import DOMPurify from 'dompurify';
+import { parseMatrixToUrl } from './matrixTo';
 
 // Set before each parse call to pass current user context into the renderer.
 let currentMyUserId: string | null = null;
@@ -156,15 +157,37 @@ DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   }
 });
 
+function roomPillLabel(href: string, text: string): string | null {
+  const target = parseMatrixToUrl(href);
+  if (target?.kind !== 'room' || target.eventId) return null;
+  const label = text.trim();
+  if (!label || label === href || /^https?:\/\//.test(label)) {
+    return target.roomIdOrAlias.startsWith('#') ? target.roomIdOrAlias : null;
+  }
+  return label.startsWith('#') || label.startsWith('!') ? label : `#${label}`;
+}
+
+function isRoomLink(href: string): boolean {
+  const target = parseMatrixToUrl(href);
+  return target?.kind === 'room' && !target.eventId;
+}
+
 function applyMentionPills(html: string, myUserId?: string): string {
-  if (!html.includes('matrix.to/#/@')) return html;
+  if (!html.includes('matrix.to/#/')) return html;
 
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
 
   tmp.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
     const href = a.getAttribute('href') ?? '';
-    if (!href.startsWith('https://matrix.to/#/@')) return;
+    if (!href.startsWith('https://matrix.to/#/@')) {
+      const label = roomPillLabel(href, a.textContent ?? '');
+      if (label) {
+        a.className = 'mention-pill room-pill';
+        a.textContent = label;
+      }
+      return;
+    }
 
     const userId = href.slice('https://matrix.to/#/'.length);
     const displayName = a.textContent ?? userId;
@@ -190,7 +213,7 @@ function prettifyAnchors(html: string): string {
   tmp.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
     const href = a.getAttribute('href') ?? '';
     // Skip mention-pill links (already handled by applyMentionPills)
-    if (href.startsWith('https://matrix.to/#/@')) return;
+    if (href.startsWith('https://matrix.to/#/@') || isRoomLink(href)) return;
 
     const pretty = prettifyUrl(href);
     if (!pretty || pretty === a.textContent) return;

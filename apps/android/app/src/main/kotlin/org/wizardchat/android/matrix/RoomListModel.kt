@@ -43,6 +43,9 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         private set
     var spaces by mutableStateOf(listOf<SpaceSummary>())
         private set
+    var allSpaces by mutableStateOf(listOf<SpaceSummary>())
+        private set
+    private val allSpaceList = mutableListOf<SpaceSummary>()
     var spaceRooms by mutableStateOf(mapOf<String, Set<String>>())
         private set
     var isLoaded by mutableStateOf(false)
@@ -75,6 +78,10 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
                 diffs.forEach { it.applyTo(spaceList) }
                 spaces = spaceList.toList()
                 refreshGraph()
+            },
+            client.watchAllSpaces { diffs ->
+                diffs.forEach { it.applyTo(allSpaceList) }
+                allSpaces = allSpaceList.toList()
             },
         )
     }

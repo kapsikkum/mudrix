@@ -35,7 +35,10 @@ export function useRichEditor({ client, roomId, onEscape, disableCommands }: Use
     for (const [child] of Node.nodes(node)) {
       if (
         Element.isElement(child) &&
-        (child.type === 'emoticon' || child.type === 'mention' || child.type === 'room-mention')
+        (child.type === 'emoticon' ||
+          child.type === 'mention' ||
+          child.type === 'room-mention' ||
+          child.type === 'room-link')
       ) {
         return false;
       }

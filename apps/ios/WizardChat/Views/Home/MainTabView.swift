@@ -63,6 +63,9 @@ struct MainTabView: View {
         }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
+        .environment(\.roomOpener, RoomOpener { id, isSpace in
+            if isSpace { showSpace(id) } else { show(id) }
+        })
         .onOpenURL { url in
             guard url.scheme == "wizardchat" else { return }
             Task { await ShareSender.sendPending(roomList: roomList, notifier: notifier) }
