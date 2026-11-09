@@ -53,6 +53,13 @@ export interface RoomMentionElement {
   children: [{ text: '' }];
 }
 
+export interface RoomLinkElement {
+  type: 'room-link';
+  url: string;
+  name: string;
+  children: [{ text: '' }];
+}
+
 export interface EmoticonElement {
   type: 'emoticon';
   mxcUrl: string;
@@ -77,6 +84,7 @@ export type CustomElement =
   | LinkElement
   | MentionElement
   | RoomMentionElement
+  | RoomLinkElement
   | EmoticonElement;
 
 export type CustomText = FormattedText;
@@ -89,27 +97,16 @@ export const emptyDocument = (): ParagraphElement[] => [
 
 export function withMentions(editor: CustomEditor): CustomEditor {
   const { isInline, isVoid, markableVoid } = editor;
-
-  editor.isInline = (el) =>
+  const pill = (el: unknown) =>
     Element.isElement(el) &&
     (el.type === 'mention' ||
       el.type === 'room-mention' ||
-      el.type === 'link' ||
-      el.type === 'emoticon')
-      ? true
-      : isInline(el);
+      el.type === 'room-link' ||
+      el.type === 'emoticon');
 
-  editor.isVoid = (el) =>
-    Element.isElement(el) &&
-    (el.type === 'mention' || el.type === 'room-mention' || el.type === 'emoticon')
-      ? true
-      : isVoid(el);
-
-  editor.markableVoid = (el) =>
-    Element.isElement(el) &&
-    (el.type === 'mention' || el.type === 'room-mention' || el.type === 'emoticon')
-      ? true
-      : markableVoid(el);
+  editor.isInline = (el) => pill(el) || (el.type === 'link' ? true : isInline(el));
+  editor.isVoid = (el) => pill(el) || isVoid(el);
+  editor.markableVoid = (el) => pill(el) || markableVoid(el);
 
   return editor;
 }

@@ -1,14 +1,20 @@
 import { useState, useCallback, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import type { WizardClient } from '@wizardchat/core';
-import { useMembers, useRoom } from '@/app/data';
+import { useAllJoinedSpaces, useAllRooms, useMembers, useRoom } from '@/app/data';
+import { makeRoomPermalink } from '@/util/matrix';
 import { Editor, Transforms, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { emojiFrequencyAtom } from '@/app/store/atoms';
 import emojibaseData from 'emojibase-data/en/data.json';
 import emojibaseShortcodes from 'emojibase-data/en/shortcodes/emojibase.json';
 import { getCommandSuggestions } from './composer/commands';
-import type { CustomEditor, MentionElement, RoomMentionElement } from './composer/editor/types';
+import type {
+  CustomEditor,
+  MentionElement,
+  RoomLinkElement,
+  RoomMentionElement,
+} from './composer/editor/types';
 
 interface EmojiEntry {
   id: string;
@@ -50,7 +56,7 @@ function getEmojiList(): EmojiEntry[] {
 
 const MAX_TRACKED = 100;
 
-export type AutocompleteMode = 'emoji' | 'mention' | 'command';
+export type AutocompleteMode = 'emoji' | 'mention' | 'room' | 'command';
 
 export interface EmojiSuggestion {
   kind: 'emoji';
@@ -71,6 +77,16 @@ export interface RoomMentionSuggestion {
   roomAvatarMxc: string | null;
 }
 
+export interface RoomLinkSuggestion {
+  kind: 'room-link';
+  roomId: string;
+  name: string;
+  alias: string | null;
+  avatarMxc: string | null;
+  isSpace: boolean;
+  url: string;
+}
+
 export interface CommandSuggestion {
   kind: 'command';
   command: string;
@@ -78,7 +94,11 @@ export interface CommandSuggestion {
 }
 
 export type Suggestion =
-  EmojiSuggestion | MentionSuggestion | RoomMentionSuggestion | CommandSuggestion;
+  | EmojiSuggestion
+  | MentionSuggestion
+  | RoomMentionSuggestion
+  | RoomLinkSuggestion
+  | CommandSuggestion;
 
 const ROOM_MENTION_OPTIONS = ['@room', '@everyone', '@all'];
 
@@ -110,6 +130,12 @@ export function useAutocomplete(
   roomRef.current = room;
   const membersRef = useRef(roomMembers);
   membersRef.current = roomMembers;
+  const allRooms = useAllRooms();
+  const allSpaces = useAllJoinedSpaces();
+  const allRoomsRef = useRef(allRooms);
+  allRoomsRef.current = allRooms;
+  const allSpacesRef = useRef(allSpaces);
+  allSpacesRef.current = allSpaces;
   const [state, setState] = useState<AutocompleteState>(CLOSED);
   const freq = useAtomValue(emojiFrequencyAtom);
   const setFreq = useSetAtom(emojiFrequencyAtom);
@@ -252,6 +278,67 @@ export function useAutocomplete(
         }
       }
 
+      const roomMatch = textBefore.match(/(?:^|\s)#([^\s#]*)$/);
+      if (roomMatch) {
+        const query = roomMatch[1].toLowerCase();
+        const triggerCharOffset = textBefore.lastIndexOf('#');
+        const triggerRange: Range = {
+          anchor: pointAtOffset(editor, blockPath as number[], triggerCharOffset, cursor),
+          focus: cursor,
+        };
+        const rooms = allRoomsRef.current
+          .filter((r) => !r.isInvite && !r.isDirect && !r.isTombstoned)
+          .map((r) => ({
+            id: r.id,
+            name: r.name || r.canonicalAlias || r.id,
+            alias: r.canonicalAlias ?? null,
+            avatarMxc: r.avatarUrl ?? null,
+            isSpace: r.isSpace,
+            lastActivity: r.lastActivity ?? 0,
+          }));
+        const spaces = allSpacesRef.current
+          .filter((s) => !rooms.some((r) => r.id === s.id))
+          .map((s) => ({
+            id: s.id,
+            name: s.name || s.id,
+            alias: null,
+            avatarMxc: s.avatarUrl ?? null,
+            isSpace: true,
+            lastActivity: 0,
+          }));
+        const results = [...rooms, ...spaces]
+          .filter(
+            (r) =>
+              r.name.toLowerCase().includes(query) || (r.alias ?? '').toLowerCase().includes(query)
+          )
+          .sort((a, b) => {
+            const aStarts = a.name.toLowerCase().startsWith(query);
+            const bStarts = b.name.toLowerCase().startsWith(query);
+            if (aStarts !== bStarts) return aStarts ? -1 : 1;
+            return b.lastActivity - a.lastActivity;
+          })
+          .slice(0, 20)
+          .map((r): RoomLinkSuggestion => ({
+            kind: 'room-link',
+            roomId: r.id,
+            name: r.name,
+            alias: r.alias,
+            avatarMxc: r.avatarMxc,
+            isSpace: r.isSpace,
+            url: makeRoomPermalink({ id: r.id, canonicalAlias: r.alias }),
+          }));
+        if (results.length > 0) {
+          setState({
+            open: true,
+            mode: 'room',
+            suggestions: results,
+            selectedIndex: 0,
+            triggerRange,
+          });
+          return;
+        }
+      }
+
       // Command /query
       const commandMatch = textBefore.match(/^\/([\w-]*)$/);
       if (commandMatch && !disableCommands) {
@@ -324,6 +411,18 @@ export function useAutocomplete(
       } else if (suggestion.kind === 'command') {
         Transforms.select(editor, state.triggerRange);
         Transforms.insertText(editor, '/' + suggestion.command + ' ');
+      } else if (suggestion.kind === 'room-link') {
+        Transforms.select(editor, state.triggerRange);
+        Transforms.delete(editor);
+        const roomLinkNode: RoomLinkElement = {
+          type: 'room-link',
+          url: suggestion.url,
+          name: suggestion.name,
+          children: [{ text: '' }],
+        };
+        Transforms.insertNodes(editor, roomLinkNode);
+        Transforms.move(editor, { unit: 'offset' });
+        Transforms.insertText(editor, ' ');
       } else if (suggestion.kind === 'room-mention') {
         Transforms.select(editor, state.triggerRange);
         Transforms.delete(editor);

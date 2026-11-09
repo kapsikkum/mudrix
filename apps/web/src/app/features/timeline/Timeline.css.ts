@@ -1620,6 +1620,15 @@ globalStyle('.mention-pill:focus-visible', {
   outlineOffset: '1px',
 });
 
+globalStyle('a.mention-pill.room-pill', {
+  color: vars.color.accent,
+  textDecoration: 'none',
+});
+
+globalStyle('a.mention-pill.room-pill:hover', {
+  textDecoration: 'underline',
+});
+
 globalStyle('.mention-pill-self', {
   backgroundColor: `color-mix(in srgb, ${vars.color.mention} 18%, transparent)`,
   color: vars.color.mention,

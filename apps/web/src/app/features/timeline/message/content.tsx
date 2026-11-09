@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { watchRoomPills } from '../roomPills';
 import { useTranslation } from 'react-i18next';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useStore } from 'jotai';
 import type {
   MediaInfo,
   RoomTimeline,
@@ -315,6 +316,12 @@ function RichHtml({
         });
     }
   }, [html, client, revealedSpoilers]);
+
+  const store = useStore();
+  useEffect(() => {
+    const root = wrapRef.current;
+    return root ? watchRoomPills(root, store) : undefined;
+  }, [html, revealedSpoilers, store]);
 
   return (
     <span ref={wrapRef} className={className} onClick={onClick} onKeyDown={onKeyDown}>

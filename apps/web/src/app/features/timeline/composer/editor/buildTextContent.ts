@@ -1,5 +1,5 @@
 import type { Descendant } from 'slate';
-import { toMarkdown, toHtml } from './toMarkdown';
+import { toMarkdown, toHtml, withPlainRoomLinks } from './toMarkdown';
 import { collectMentionedUserIds, hasRoomMention, roomMentionsInBody } from './mentions';
 
 export interface BuiltTextContent {
@@ -15,7 +15,7 @@ export function buildTextContent(
   options?: { forceFormatted?: boolean; myId?: string }
 ): BuiltTextContent {
   const { markdown } = toMarkdown(value);
-  const body = markdown.trim();
+  const body = withPlainRoomLinks(markdown.trim());
   const { html: formattedBody, hasCustomContent } = toHtml(value);
   const mentionedUserIds = collectMentionedUserIds(value, options?.myId);
   const roomMentioned = hasRoomMention(value) || roomMentionsInBody(body);

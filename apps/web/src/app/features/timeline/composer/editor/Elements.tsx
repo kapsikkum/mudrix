@@ -1,8 +1,10 @@
 import { createContext, useContext } from 'react';
+import { useStore } from 'jotai';
 import type { RenderElementProps, RenderLeafProps } from 'slate-react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import type { CustomElement, CustomText, EmoticonElement, RoomMentionElement } from './types';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
+import { knownRoomName } from '../../roomPills';
 import * as css from './Elements.css';
 
 export const MatrixClientContext = createContext<MatrixClient | null>(null);
@@ -10,6 +12,7 @@ export const MatrixClientContext = createContext<MatrixClient | null>(null);
 export function Element({ attributes, children, element }: RenderElementProps) {
   const el = element as CustomElement;
   const client = useContext(MatrixClientContext);
+  const store = useStore();
 
   switch (el.type) {
     case 'block-quote':
@@ -78,6 +81,14 @@ export function Element({ attributes, children, element }: RenderElementProps) {
         </span>
       );
     }
+
+    case 'room-link':
+      return (
+        <span {...attributes} contentEditable={false} className="mention-pill room-pill">
+          #{knownRoomName(el.url, store) ?? el.name}
+          {children}
+        </span>
+      );
 
     case 'emoticon': {
       const e = el as EmoticonElement;

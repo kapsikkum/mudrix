@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom, useStore } from 'jotai';
 import type { WizardClient } from '@wizardchat/core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -256,12 +256,13 @@ function SpaceSectionView({
   const cachedRoomsRef = useRef<SpaceRoomEntry[]>(section.rooms);
 
   const queryClient = useQueryClient();
+  const store = useStore();
   const fetchRooms = useCallback(
     (force = false) => {
       if (isRoot || !client || !section.spaceId) return;
       const subSpaceId = section.spaceId;
       const apply = (summaryMap: Map<string, RoomSummary>) => {
-        const { rooms, subSpaces } = splitHierarchyLevel(subSpaceId, summaryMap, client, 'Unknown');
+        const { rooms, subSpaces } = splitHierarchyLevel(subSpaceId, summaryMap, store, 'Unknown');
         cachedRoomsRef.current = rooms;
         setLocalRooms(rooms);
         // Nested sub-spaces are promoted to their own sections so they are
@@ -278,7 +279,7 @@ function SpaceSectionView({
         .catch(() => {})
         .finally(() => setIsFetching(false));
     },
-    [isRoot, section.spaceId, client, onSubSpacesFound, queryClient]
+    [isRoot, section.spaceId, client, onSubSpacesFound, queryClient, store]
   );
 
   const sectionChildren = useMemo(
