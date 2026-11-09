@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Security
 import WizardChatCore
 
@@ -51,6 +52,16 @@ enum SessionStore {
             state.accounts.append(stored)
         }
         if state.active == nil { state.active = stored.session.userId }
+        write(state)
+    }
+
+    static func updateProfile(_ userId: String, displayName: String?, avatarUrl: String?) {
+        var state = read()
+        guard let index = state.accounts.firstIndex(where: { $0.session.userId == userId }),
+              state.accounts[index].displayName != displayName || state.accounts[index].avatarUrl != avatarUrl
+        else { return }
+        state.accounts[index].displayName = displayName
+        state.accounts[index].avatarUrl = avatarUrl
         write(state)
     }
 
@@ -116,6 +127,26 @@ enum SessionStore {
             kSecAttrAccount as String: account,
         ]
         SecItemDelete(query as CFDictionary)
+    }
+
+    /// A copy of the account's own avatar, saved while it's active: the switcher can't always reach
+    /// another account's server, and it's removed with the account's store
+    private static func avatarFile(_ userId: String) -> URL? {
+        guard let folder = all().first(where: { $0.session.userId == userId })?.storeFolder else { return nil }
+        return storePath(for: folder).appendingPathComponent("account-avatar.png")
+    }
+
+    static func savedAvatar(_ userId: String) -> UIImage? {
+        avatarFile(userId).flatMap { UIImage(contentsOfFile: $0.path) }
+    }
+
+    static func saveAvatar(_ image: UIImage?, for userId: String) {
+        guard let file = avatarFile(userId) else { return }
+        if let data = image?.pngData() {
+            try? data.write(to: file, options: .atomic)
+        } else {
+            try? FileManager.default.removeItem(at: file)
+        }
     }
 
     static func storePath(for folder: String) -> URL {

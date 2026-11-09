@@ -40,8 +40,16 @@ struct MainTabView: View {
         .modifier(MinimizeTabBarOnScroll())
         .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
         .task(id: "\(session.avatarUrl ?? "")|\(session.displayName ?? session.userId ?? "")") {
-            profileIcon = await Self.tabIcon(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
-                                             media: session.media, theme: theme)
+            profileIcon = await AvatarImage.circular(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
+                                                     media: session.media, theme: theme, side: WZ.SizeIcon.xl)
+            // Saved for the account switcher, which can't always reach this account's server
+            if let userId = session.userId {
+                if let url = session.avatarUrl {
+                    if let own = await session.media?.thumbnail(url) { SessionStore.saveAvatar(own, for: userId) }
+                } else {
+                    SessionStore.saveAvatar(nil, for: userId)
+                }
+            }
         }
         .overlay(alignment: .top) {
             CopyToastView().padding(.top, WZ.Space.space2)
@@ -143,27 +151,6 @@ struct MainTabView: View {
     /// The avatar as a tab bar image (tab items only take images): the picture, or the same
     /// coloured fallback avatars show everywhere else
     @MainActor
-    private static func tabIcon(_ url: String?, name: String, media: MediaLoader?, theme: WizardTheme) async -> UIImage? {
-        let side = WZ.SizeIcon.xl
-        var image: UIImage?
-        if let url, let media {
-            image = media.cachedThumbnail(url)
-            if image == nil { image = await media.thumbnail(url, size: 96) }
-        }
-        guard let image else {
-            let renderer = ImageRenderer(content: AvatarView(name: name, url: nil, size: side).environment(\.theme, theme))
-            renderer.scale = UITraitCollection.current.displayScale
-            return renderer.uiImage?.withRenderingMode(.alwaysOriginal)
-        }
-        let rendered = UIGraphicsImageRenderer(size: CGSize(width: side, height: side)).image { _ in
-            UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: side, height: side)).addClip()
-            let scale = max(side / image.size.width, side / image.size.height)
-            let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
-            image.draw(in: CGRect(x: (side - size.width) / 2, y: (side - size.height) / 2, width: size.width, height: size.height))
-        }
-        return rendered.withRenderingMode(.alwaysOriginal)
-    }
-
     private var totalUnread: Int {
         roomList.joinedRooms.reduce(0) { $0 + Int($1.unreadCount) }
     }

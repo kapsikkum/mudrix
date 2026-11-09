@@ -131,6 +131,16 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         restore()
     }
 
+    suspend fun refreshAccountProfiles() {
+        val client = client ?: return
+        for (account in accounts) {
+            if (account.userId == userId) continue
+            val profile = runCatching { client.userProfile(account.userId) }.getOrNull() ?: continue
+            SessionStore.updateProfile(account.userId, profile.displayName, profile.avatarUrl)
+        }
+        reloadAccounts()
+    }
+
     fun setProfile(displayName: String?, avatarUrl: String?) {
         this.displayName = displayName
         this.avatarUrl = avatarUrl

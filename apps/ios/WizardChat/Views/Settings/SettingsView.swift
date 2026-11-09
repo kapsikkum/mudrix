@@ -155,6 +155,7 @@ private struct AccountSwitcher: View {
     let onLogout: () -> Void
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
+    @State private var avatars: [String: UIImage] = [:]
 
     var body: some View {
         Menu {
@@ -165,7 +166,7 @@ private struct AccountSwitcher: View {
                     } label: {
                         Text(account.displayName ?? account.userId)
                         Text(account.userId)
-                        if account.userId == session.userId { Image(systemName: "checkmark") }
+                        if let avatar = avatars[account.userId] { Image(uiImage: avatar) }
                     }
                 }
             }
@@ -195,6 +196,52 @@ private struct AccountSwitcher: View {
             .contentShape(Rectangle())
         }
         .listRowBackground(theme.groupedRow)
+        .task { await session.refreshAccountProfiles() }
+        .task(id: "\(session.userId ?? "")|\(session.accounts.map { "\($0.userId)\($0.avatarUrl ?? "")" })") { await loadAvatars() }
+    }
+
+    private func loadAvatars() async {
+        var first: [String: UIImage] = [:]
+        for account in session.accounts {
+            if let image = await AvatarImage.circular(nil, name: account.displayName ?? account.userId, media: nil,
+                                                      theme: theme, side: WZ.SizeAvatar.sm,
+                                                      fallback: SessionStore.savedAvatar(account.userId)) {
+                first[account.userId] = mark(image, for: account.userId)
+            }
+        }
+        avatars = first
+        // Another account's server isn't always reachable from this one, so its saved copy stays
+        // unless a fresh picture arrives
+        await withTaskGroup(of: Void.self) { group in
+            for account in session.accounts {
+                guard let url = account.avatarUrl else { continue }
+                group.addTask { @MainActor in
+                    guard let picture = await session.media?.thumbnail(url), !Task.isCancelled else { return }
+                    if account.userId == session.userId { SessionStore.saveAvatar(picture, for: account.userId) }
+                    avatars[account.userId] = mark(AvatarImage.circle(picture, side: WZ.SizeAvatar.sm), for: account.userId)
+                }
+            }
+        }
+    }
+
+    private func mark(_ image: UIImage, for userId: String) -> UIImage {
+        userId == session.userId ? checked(image) : image
+    }
+
+    private func checked(_ avatar: UIImage) -> UIImage {
+        let side = avatar.size.width
+        let badge = side * 0.5
+        let rect = CGRect(x: side - badge, y: side - badge, width: badge, height: badge)
+        return UIGraphicsImageRenderer(size: avatar.size).image { _ in
+            avatar.draw(at: .zero)
+            UIColor(theme.accent).setFill()
+            UIBezierPath(ovalIn: rect).fill()
+            let config = UIImage.SymbolConfiguration(pointSize: badge * 0.55, weight: .bold)
+            if let mark = UIImage(systemName: "checkmark", withConfiguration: config)?
+                .withTintColor(UIColor(theme.textOnAccent), renderingMode: .alwaysOriginal) {
+                mark.draw(at: CGPoint(x: rect.midX - mark.size.width / 2, y: rect.midY - mark.size.height / 2))
+            }
+        }.withRenderingMode(.alwaysOriginal)
     }
 }
 

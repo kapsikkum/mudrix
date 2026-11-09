@@ -88,12 +88,13 @@ fun Avatar(
     size: Dp = WZ.SizeAvatar.md,
     cornerRadius: Dp? = null,
     modifier: Modifier = Modifier,
+    fallback: Bitmap? = null,
 ) {
     val media = LocalMedia.current
-    var image by remember(url) { mutableStateOf<Bitmap?>(url?.let { media?.cachedThumbnail(it) }) }
+    var image by remember(url, fallback) { mutableStateOf(url?.let { media?.cachedThumbnail(it) } ?: fallback) }
     LaunchedEffect(url, media) {
         if (url == null || media == null) {
-            image = null
+            image = fallback
             return@LaunchedEffect
         }
         media.thumbnail(url, (size.value * 3).toInt())?.let { image = it }

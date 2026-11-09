@@ -76,6 +76,31 @@ object SessionStore {
     }
 
     @Synchronized
+    fun updateProfile(userId: String, displayName: String?, avatarUrl: String?) {
+        val stored = all().firstOrNull { it.session.userId == userId } ?: return
+        if (stored.displayName == displayName && stored.avatarUrl == avatarUrl) return
+        save(stored.copy(displayName = displayName, avatarUrl = avatarUrl))
+    }
+
+    private fun avatarFile(userId: String): java.io.File? =
+        all().firstOrNull { it.session.userId == userId }?.let { File(storePath(it.storeFolder), "account-avatar.png") }
+
+    fun savedAvatar(userId: String): android.graphics.Bitmap? =
+        avatarFile(userId)?.takeIf { it.exists() }?.let { android.graphics.BitmapFactory.decodeFile(it.path) }
+
+    fun saveAvatar(image: android.graphics.Bitmap?, userId: String) {
+        val file = avatarFile(userId) ?: return
+        if (image == null) {
+            file.delete()
+            return
+        }
+        runCatching {
+            file.parentFile?.mkdirs()
+            file.outputStream().use { image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+        }
+    }
+
+    @Synchronized
     fun setActive(userId: String) {
         val state = read()
         if (state.accounts.any { it.session.userId == userId }) write(state.copy(active = userId))

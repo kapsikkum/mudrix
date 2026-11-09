@@ -91,6 +91,15 @@ final class MatrixSession: ObservableObject {
         }
     }
 
+    func refreshAccountProfiles() async {
+        guard let client else { return }
+        for account in accounts where account.userId != userId {
+            guard let profile = try? await client.userProfile(userId: account.userId) else { continue }
+            SessionStore.updateProfile(account.userId, displayName: profile.displayName, avatarUrl: profile.avatarUrl)
+        }
+        reloadAccounts()
+    }
+
     func switchAccount(to userId: String) async {
         guard userId != self.userId, !isRestoring, accounts.contains(where: { $0.userId == userId }) else { return }
         await close()

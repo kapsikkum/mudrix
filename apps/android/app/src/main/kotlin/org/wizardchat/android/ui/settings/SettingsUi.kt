@@ -1,5 +1,7 @@
 package org.wizardchat.android.ui.settings
 
+import androidx.compose.runtime.LaunchedEffect
+import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -183,6 +185,7 @@ private fun AccountSwitcher(onLogout: () -> Unit) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var open by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { session.refreshAccountProfiles() }
     Box {
         Row(
             Modifier
@@ -207,7 +210,10 @@ private fun AccountSwitcher(onLogout: () -> Unit) {
                             Text(account.userId, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                         }
                     },
-                    leadingIcon = { Avatar(account.displayName ?: account.userId, account.avatarUrl, size = WZ.SizeAvatar.sm) },
+                    leadingIcon = {
+                        val saved = remember(account.userId) { SessionStore.savedAvatar(account.userId) }
+                        Avatar(account.displayName ?: account.userId, account.avatarUrl, size = WZ.SizeAvatar.sm, fallback = saved)
+                    },
                     trailingIcon = if (isOpen) {
                         { PhIcon("check", tint = theme.accent) }
                     } else {

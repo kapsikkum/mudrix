@@ -1,5 +1,8 @@
 package org.wizardchat.android.ui.home
 
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -166,6 +169,16 @@ fun MainScreen(roomList: RoomListModel) {
             push = { route -> paths[tab] = paths[tab].orEmpty() + route },
             pop = { paths[tab] = paths[tab].orEmpty().dropLast(1) },
         )
+    }
+
+    LaunchedEffect(session.userId, session.avatarUrl, session.media) {
+        val userId = session.userId ?: return@LaunchedEffect
+        val url = session.avatarUrl
+        if (url == null) {
+            SessionStore.saveAvatar(null, userId)
+        } else {
+            session.media?.thumbnail(url)?.let { withContext(Dispatchers.IO) { SessionStore.saveAvatar(it, userId) } }
+        }
     }
 
     LaunchedEffect(session.client) {
