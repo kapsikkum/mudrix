@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed (monochrome) launcher icon: the same mound, shaded by alpha only -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group android:scaleX="0.17" android:scaleY="0.17" android:translateX="19.57" android:translateY="16.60">
+        <path android:fillColor="#C1000000" android:pathData="M60,200 L130,120 L125,205 Z" />
+        <path android:fillColor="#D3000000" android:pathData="M130,120 L210,140 L125,205 Z" />
+        <path android:fillColor="#EA000000" android:pathData="M130,120 L210,55 L210,140 Z" />
+        <path android:fillColor="#CB000000" android:pathData="M210,55 L280,100 L210,140 Z" />
+        <path android:fillColor="#B5000000" android:pathData="M280,100 L285,195 L210,140 Z" />
+        <path android:fillColor="#A8000000" android:pathData="M280,100 L340,180 L285,195 Z" />
+        <path android:fillColor="#9D000000" android:pathData="M340,180 L365,270 L285,195 Z" />
+        <path android:fillColor="#B5000000" android:pathData="M40,290 L60,200 L125,205 Z" />
+        <path android:fillColor="#AC000000" android:pathData="M40,290 L125,205 L105,285 Z" />
+        <path android:fillColor="#BC000000" android:pathData="M125,205 L210,140 L200,260 Z" />
+        <path android:fillColor="#AD000000" android:pathData="M210,140 L285,195 L200,260 Z" />
+        <path android:fillColor="#AB000000" android:pathData="M125,205 L200,260 L105,285 Z" />
+        <path android:fillColor="#A1000000" android:pathData="M285,195 L300,285 L200,260 Z" />
+        <path android:fillColor="#9A000000" android:pathData="M285,195 L365,270 L300,285 Z" />
+        <path android:fillColor="#95000000" android:pathData="M365,270 L330,330 L300,285 Z" />
+        <path android:fillColor="#8C000000" android:pathData="M330,330 L180,340 L300,285 Z" />
+        <path android:fillColor="#99000000" android:pathData="M300,285 L180,340 L200,260 Z" />
+        <path android:fillColor="#A2000000" android:pathData="M200,260 L180,340 L105,285 Z" />
+        <path android:fillColor="#98000000" android:pathData="M105,285 L180,340 L95,320 Z" />
+        <path android:fillColor="#A2000000" android:pathData="M40,290 L105,285 L95,320 Z" />
+        <path android:fillColor="#8F000000" android:pathData="M95,320 L180,340 L90,385 Z" />
+        <path android:fillColor="#FF000000" android:pathData="M185,92 L212,68 L208,108 Z" />
+    </group>
+</vector>

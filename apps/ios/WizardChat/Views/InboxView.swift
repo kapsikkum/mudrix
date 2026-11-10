@@ -52,18 +52,6 @@ struct InboxView: View {
                     } else {
                         Section {
                             ForEach(roomList.mentionRooms) { room in mentionRow(room) }
-                        case .threads:
-                            InboxThreadsList(roomList: roomList) { roomId, rootId in
-                                notifier.threadToOpen = (roomId, rootId)
-                                onOpenRoom(roomId)
-                                dismiss()
-                            }
-                        case .saved:
-                            InboxSavedList(roomList: roomList) { roomId, eventId in
-                                notifier.eventToFocus = (roomId, eventId)
-                                onOpenRoom(roomId)
-                                dismiss()
-                            }
                         }
                         Section {
                             Button {
@@ -73,6 +61,18 @@ struct InboxView: View {
                                     .foregroundStyle(theme.control)
                             }
                         }
+                    }
+                case .threads:
+                    InboxThreadsList(roomList: roomList) { roomId, rootId in
+                        notifier.threadToOpen = (roomId, rootId)
+                        onOpenRoom(roomId)
+                        dismiss()
+                    }
+                case .saved:
+                    InboxSavedList(roomList: roomList) { roomId, eventId in
+                        notifier.eventToFocus = (roomId, eventId)
+                        onOpenRoom(roomId)
+                        dismiss()
                     }
                 }
             }

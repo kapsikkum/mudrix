@@ -20,38 +20,43 @@ import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.tokens.WZ
 
-/** Settings > Voice & Audio: sound effects, microphone processing and the soundboard on this device */
+// The Mudrix-only sections of Settings > Voice & Video (`VoiceVideoSettings` lays them out):
+// microphone processing, sound effects, the soundboard and moving people between voice rooms.
+
+/** Microphone processing, applied to the next call */
 @Composable
-internal fun VoiceSettings(onBack: () -> Unit) {
+internal fun VoiceProcessingSection() {
     val prefs = LocalPrefs.current
-    SettingsPage(tr("settings.voice.title"), onBack) {
-        SoundEffectsSection()
-        SettingsSection(tr("settings.voice.inputTitle"), tr("settings.voice.processingNote")) {
-            ToggleRow(
-                tr("settings.voice.noiseSuppression"),
-                prefs.noiseSuppression,
-                { prefs.noiseSuppression = it },
-                note = tr("settings.voice.noiseSuppressionNote"),
-            )
-            SettingsDivider()
-            ToggleRow(
-                tr("settings.voice.echoCancellation"),
-                prefs.echoCancellation,
-                { prefs.echoCancellation = it },
-                note = tr("settings.voice.echoCancellationNote"),
-            )
-            SettingsDivider()
-            ToggleRow(
-                tr("settings.voice.autoGainControl"),
-                prefs.autoGainControl,
-                { prefs.autoGainControl = it },
-                note = tr("settings.voice.autoGainControlNote"),
-            )
-        }
-        SoundboardSection()
-        SettingsSection(null, tr("settings.voice.allowMovesNote")) {
-            ToggleRow(tr("settings.voice.allowMoves"), prefs.allowVoiceMoves, { prefs.allowVoiceMoves = it })
-        }
+    SettingsSection(tr("settings.voice.inputTitle"), tr("settings.voice.processingNote")) {
+        ToggleRow(
+            tr("settings.voice.noiseSuppression"),
+            prefs.noiseSuppression,
+            { prefs.noiseSuppression = it },
+            note = tr("settings.voice.noiseSuppressionNote"),
+        )
+        SettingsDivider()
+        ToggleRow(
+            tr("settings.voice.echoCancellation"),
+            prefs.echoCancellation,
+            { prefs.echoCancellation = it },
+            note = tr("settings.voice.echoCancellationNote"),
+        )
+        SettingsDivider()
+        ToggleRow(
+            tr("settings.voice.autoGainControl"),
+            prefs.autoGainControl,
+            { prefs.autoGainControl = it },
+            note = tr("settings.voice.autoGainControlNote"),
+        )
+    }
+}
+
+/** Whether other people may move you between voice rooms */
+@Composable
+internal fun VoiceMovesSection() {
+    val prefs = LocalPrefs.current
+    SettingsSection(null, tr("settings.voice.allowMovesNote")) {
+        ToggleRow(tr("settings.voice.allowMoves"), prefs.allowVoiceMoves, { prefs.allowVoiceMoves = it })
     }
 }
 
@@ -63,8 +68,9 @@ private fun packOptions(): List<Pair<String, String>> =
         }
     }
 
+/** Sound pack, volume and per-sound overrides for messages and calls */
 @Composable
-private fun SoundEffectsSection() {
+internal fun SoundEffectsSection() {
     val prefs = LocalPrefs.current
     val overrides = prefs.soundOverrides
     val mainPack: SoundPack = SoundPacks.get(prefs.notificationSoundPack)
@@ -103,7 +109,7 @@ private fun SoundEffectsSection() {
 }
 
 @Composable
-private fun SoundboardSection() {
+internal fun SoundboardSection() {
     val prefs = LocalPrefs.current
     SettingsSection(tr("settings.voice.soundboardTitle")) {
         ToggleRow(

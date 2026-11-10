@@ -550,6 +550,13 @@ internal fun AboutSettings(onBack: () -> Unit) {
             }
             SettingsItem {
                 LabelButton(
+                    tr("settings.downloadMudrixForDesktop"),
+                    "download-simple",
+                    { uriHandler.openUri("https://github.com/kapsikkum/mudrix/releases/latest") },
+                )
+            }
+            SettingsItem {
+                LabelButton(
                     tr("settings.about.viewSourceOnGitHub"),
                     "code",
                     { uriHandler.openUri("https://github.com/kapsikkum/mudrix") },
@@ -569,7 +576,7 @@ internal fun AboutSettings(onBack: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space7),
         ) {
             if (whatsNew != null) FooterLink(tr("whatsNew.title"), "sparkle") { showWhatsNew = true }
-            FooterLink(tr("settings.about.privacyPolicy"), "shield-check") { uriHandler.openUri("https://wizardchat.org/privacy/") }
+            FooterLink(tr("settings.about.privacyPolicy"), "shield-check") { uriHandler.openUri("https://github.com/kapsikkum/mudrix") }
         }
     }
     if (showWhatsNew && whatsNew != null) WhatsNewSheet(whatsNew) { showWhatsNew = false }

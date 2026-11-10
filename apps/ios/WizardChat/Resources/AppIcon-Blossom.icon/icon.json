@@ -1,6 +1,6 @@
 {
   "fill": {
-    "solid": "display-p3:1.00000,1.00000,1.00000,1.00000"
+    "solid": "display-p3:0.10196,0.10588,0.11765,1.00000"
   },
   "groups": [
     {
@@ -21,7 +21,7 @@
           "name": "logo",
           "position": {
             "scale": 2,
-            "translation-in-points": [0, -42]
+            "translation-in-points": [0, 0]
           }
         }
       ],

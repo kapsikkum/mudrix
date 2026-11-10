@@ -9,6 +9,7 @@ extension DeviceInfo: @retroactive Identifiable {
 
 struct SessionsSettings: View {
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @Environment(\.openURL) private var openURL
 
@@ -81,7 +82,8 @@ struct SessionsSettings: View {
             Button(String(localized: "common.copy")) { UIPasteboard.general.string = newRecoveryKey }
             Button(String(localized: "common.done"), role: .cancel) {}
         } message: {
-            Text(L10n.format("settings.encryption.recoveryKeySaveHint", newRecoveryKey ?? ""))
+            // Streamer mode keeps the key off the screen; Copy still puts it on the clipboard
+            Text(L10n.format("settings.encryption.recoveryKeySaveHint", prefs.streamerModeActive ? "••••" : (newRecoveryKey ?? "")))
         }
     }
 
