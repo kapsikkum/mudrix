@@ -38,6 +38,17 @@ async function waitRoomLoaded(page, roomId, name) {
       { timeout: 20000 }
     )
     .catch(() => {});
+  // On wide layouts the room list sits next to the room: wait until it has listed the room too
+  // (name shown in the header and in the list), so the sidebar is not captured half-loaded.
+  if (name && (page.viewportSize()?.width ?? 0) >= 800) {
+    await page
+      .waitForFunction(
+        (roomName) => document.body.innerText.split(roomName).length - 1 >= 2,
+        name,
+        { timeout: 5000 }
+      )
+      .catch(() => {});
+  }
 }
 
 /** Opens `path` (a /r/ or /space/ route) and retries once if the app did not end up on it. */
@@ -208,6 +219,22 @@ async function openSpaceSettingsTab(page, port, spaceId, tabName, name) {
   }
 }
 
+function timelineScreen(id, title, display) {
+  return {
+    id,
+    title,
+    requiresAuth: true,
+    noRawId: true,
+    display,
+    navigate: async (page, { seed, port, names }) => {
+      await gotoRoom(page, port, seed.rooms.general, names?.general);
+      await waitTimelineLoaded(page);
+      await page.waitForTimeout(600);
+    },
+    cleanup: closeDialog,
+  };
+}
+
 export const SCREENS = [
   // --- Unauthenticated auth screens ---
   {
@@ -281,21 +308,29 @@ export const SCREENS = [
   },
 
   // --- Timeline & Chat ---
-  {
-    id: 'timeline',
-    title: 'Timeline: Room general messages',
-    requiresAuth: true,
-    navigate: async (page, { seed, port, names }) => {
-      await gotoRoom(page, port, seed.rooms.general, names?.general);
-      await waitTimelineLoaded(page);
-      await page.waitForTimeout(600);
-    },
-    cleanup: closeDialog,
-  },
+  // Display modes (Settings > Appearance). Both apps take them from the account's settings event
+  // plus localStorage, which run.mjs sets before the screen is opened (`display`).
+  //   messageLayout: modern | classic (shown as "Bubble") | compact
+  //   chatDensity:   compact | default | spacious     chatFontSize: 12 14 15 16 18 20 24
+  timelineScreen('timeline-modern', 'Timeline: Modern layout (default)', {}),
+  timelineScreen('timeline-bubble', 'Timeline: Bubble layout (messageLayout=classic)', {
+    messageLayout: 'classic',
+  }),
+  timelineScreen('timeline-compact', 'Timeline: Compact layout', { messageLayout: 'compact' }),
+  timelineScreen('timeline-density-compact', 'Timeline: Modern, chat density compact', {
+    chatDensity: 'compact',
+  }),
+  timelineScreen('timeline-density-spacious', 'Timeline: Modern, chat density spacious', {
+    chatDensity: 'spacious',
+  }),
+  timelineScreen('timeline-font-large', 'Timeline: Modern, chat text size 20', {
+    chatFontSize: 20,
+  }),
   {
     id: 'composer',
     title: 'Composer: Input & formatting bar',
     requiresAuth: true,
+    noRawId: true,
     navigate: async (page, { seed, port, names }) => {
       await gotoRoom(page, port, seed.rooms.general, names?.general);
       await waitTimelineLoaded(page);
@@ -312,6 +347,7 @@ export const SCREENS = [
     id: 'profile-popup',
     title: 'Profile: User popup card',
     requiresAuth: true,
+    noRawId: true,
     navigate: async (page, { seed, port, width, names }) => {
       await gotoRoom(page, port, seed.rooms.general, names?.general);
       await waitTimelineLoaded(page);
