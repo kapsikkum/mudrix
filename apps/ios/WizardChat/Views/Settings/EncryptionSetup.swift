@@ -98,6 +98,7 @@ struct RecoveryKeyView: View {
     var replaced = false
     let onDone: () -> Void
     @Environment(\.theme) private var theme
+    @EnvironmentObject private var prefs: AppPreferences
     @State private var saved = false
 
     var body: some View {
@@ -112,7 +113,8 @@ struct RecoveryKeyView: View {
                 .font(.wizard(WZ.FontSize.md))
                 .foregroundStyle(theme.textMuted)
                 .multilineTextAlignment(.center)
-            Text(recoveryKey)
+            // Streamer mode keeps the key off the screen; Copy and Share still hand it over
+            Text(prefs.streamerModeActive ? "••••" : recoveryKey)
                 .font(.system(size: WZ.FontSize.md, design: .monospaced))
                 .textSelection(.enabled)
                 .multilineTextAlignment(.center)

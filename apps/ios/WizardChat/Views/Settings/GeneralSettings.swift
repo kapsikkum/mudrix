@@ -370,6 +370,12 @@ struct AboutSettings: View {
             .padding(.vertical, WZ.Space.space4)
             .listRowSeparator(.hidden)
 
+            Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
+                Label(String(localized: "settings.downloadMudrixForDesktop"), image: "ph-download-simple-regular")
+            }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
+
             Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
                 Label(String(localized: "settings.about.viewSourceOnGitHub"), image: "ph-code-regular")
             }
@@ -391,6 +397,9 @@ struct AboutSettings: View {
                         Label(String(localized: "whatsNew.title"), image: "ph-sparkle-regular")
                     }
                     .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                }
+                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
+                    Label(String(localized: "settings.about.privacyPolicy"), image: "ph-shield-check-regular")
                 }
             }
             .labelStyle(FooterLinkLabelStyle())
