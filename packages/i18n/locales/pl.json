@@ -2869,7 +2869,9 @@
     "fullChangelog": "Pełny dziennik zmian na GitLabie",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Jasne",
+    "titleVersion": "Co nowego w {{version}}"
   },
   "desktopPicker": {
     "title": "Udostępnij ekran",

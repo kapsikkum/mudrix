@@ -2869,7 +2869,9 @@
     "fullChangelog": "Full changelog on GitLab",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Got it",
+    "titleVersion": "What's new in {{version}}"
   },
   "desktopPicker": {
     "title": "Share your screen",

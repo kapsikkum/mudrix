@@ -2869,7 +2869,9 @@
     "fullChangelog": "Volledige changelog op GitLab",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Begrepen",
+    "titleVersion": "Wat is er nieuw in {{version}}"
   },
   "desktopPicker": {
     "title": "Scherm delen",

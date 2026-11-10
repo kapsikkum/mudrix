@@ -2869,7 +2869,9 @@
     "fullChangelog": "Journal des modifications complet sur GitLab",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Compris",
+    "titleVersion": "Nouveautés de la version {{version}}"
   },
   "desktopPicker": {
     "title": "Partager l'écran",

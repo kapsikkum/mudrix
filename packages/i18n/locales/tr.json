@@ -2869,7 +2869,9 @@
     "fullChangelog": "GitLab'daki tam değişiklik günlüğü",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Anladım",
+    "titleVersion": "{{version}} sürümündeki yenilikler"
   },
   "desktopPicker": {
     "title": "Ekranını paylaş",

@@ -2869,7 +2869,9 @@
     "fullChangelog": "GitLabで変更履歴をすべて見る",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "わかりました",
+    "titleVersion": "{{version}} の新機能"
   },
   "desktopPicker": {
     "title": "画面を共有",

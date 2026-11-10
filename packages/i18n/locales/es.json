@@ -2869,7 +2869,9 @@
     "fullChangelog": "Registro de cambios completo en GitLab",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Entendido",
+    "titleVersion": "Novedades de {{version}}"
   },
   "desktopPicker": {
     "title": "Compartir pantalla",

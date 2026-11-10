@@ -2869,7 +2869,9 @@
     "fullChangelog": "Полный список изменений на GitLab",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website"
+    "website": "Website",
+    "gotIt": "Понятно",
+    "titleVersion": "Что нового в {{version}}"
   },
   "desktopPicker": {
     "title": "Демонстрация экрана",

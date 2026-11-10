@@ -1,4 +1,4 @@
-const files = import.meta.glob('@whatsnew/26.10.*.md', {
+const files = import.meta.glob('@whatsnew/*.md', {
   query: '?raw',
   import: 'default',
   eager: true,
