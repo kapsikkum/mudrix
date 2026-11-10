@@ -26,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
@@ -33,11 +34,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.displayName
+import org.wizardchat.android.matrix.memberProfile
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.ConfirmDialog
@@ -45,6 +48,7 @@ import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
@@ -104,6 +108,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
     var originalName by remember { mutableStateOf("") }
     var originalTopic by remember { mutableStateOf("") }
     var avatarUrl by remember { mutableStateOf<String?>(null) }
+    var hasCustomAvatar by remember { mutableStateOf(false) }
+    var confirmResetAvatar by remember { mutableStateOf(false) }
     var memberCount by remember { mutableStateOf(0L) }
     var encrypted by remember { mutableStateOf(false) }
     var isFavourite by remember { mutableStateOf(false) }
@@ -114,6 +120,9 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
     var canInvite by remember { mutableStateOf(false) }
     var canPin by remember { mutableStateOf(false) }
     var canManageWidgets by remember { mutableStateOf(false) }
+    var canEnableEncryption by remember { mutableStateOf(false) }
+    var isPublic by remember { mutableStateOf(false) }
+    var confirmEncryption by remember { mutableStateOf(false) }
     var bridges by remember { mutableStateOf<List<RoomBridge>>(emptyList()) }
     var pinnedCount by remember { mutableStateOf(0) }
     var showInvite by remember { mutableStateOf(false) }
@@ -135,7 +144,15 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             originalTopic = topic
             loaded = true
         }
-        avatarUrl = info?.avatarUrl ?: room.avatarUrl
+        val custom = info?.avatarUrl
+        hasCustomAvatar = custom != null
+        val partner = room.dmUserId
+        avatarUrl = when {
+            custom != null -> custom
+            room.isDirect && partner != null -> session.memberProfile(partner, room.id).avatarUrl ?: room.dmUserAvatar
+            info == null -> room.avatarUrl
+            else -> null
+        }
         alias = info?.canonicalAlias
         pinnedCount = info?.pinnedEventIds?.size ?: 0
         isFavourite = info?.isFavourite ?: room.isFavourite
@@ -148,7 +165,9 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             canInvite = permissions.invite
             canPin = permissions.pin
             canManageWidgets = permissions.manageWidgets
+            canEnableEncryption = permissions.enableEncryption
         }
+        isPublic = info?.isPublic ?: false
         bridges = loadBridges(session, room.id)
     }
 
@@ -177,6 +196,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                 client.setRoomAvatar(room.id, jpeg, "image/jpeg")
                 delay(500)
                 avatarUrl = runCatching { client.roomDetails(room.id) }.getOrNull()?.avatarUrl
+                hasCustomAvatar = avatarUrl != null
             } catch (e: Exception) {
                 error = errorText(e)
             } finally {
@@ -211,7 +231,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
             } else {
             SheetPage {
                 SheetBar(
-                    tr(if (room.isDirect) "room.conversation" else "room.roomInfo"),
+                    tr(if (room.isDirect) "room.info.conversation" else "room.info.title"),
                     trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) },
                 )
                 FormList(Modifier.weight(1f)) {
@@ -222,6 +242,9 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                         ) {
                             AvatarWithBadge(room.displayName, avatarUrl, canEditAvatar, saving, pickAvatar)
+                            if (room.isDirect && canEditAvatar && hasCustomAvatar) {
+                                BarTextButton(tr("room.settings.general.resetAvatar"), { confirmResetAvatar = true }, enabled = !saving)
+                            }
                             Text(
                                 name.ifEmpty { room.displayName },
                                 style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
@@ -229,15 +252,6 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                                 textAlign = TextAlign.Center,
                             )
                             alias?.let { Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textMuted) }
-                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                                val color = if (encrypted) theme.success else theme.textMuted
-                                PhIcon(if (encrypted) "lock" else "lock-open", size = WZ.SizeIcon.sm, tint = color)
-                                Text(
-                                    tr(if (encrypted) "room.encryptedLabel" else "room.notEncrypted"),
-                                    style = wizardFont(WZ.FontSize.sm, FontWeight.Medium),
-                                    color = color,
-                                )
-                            }
                         }
                     }
 
@@ -245,14 +259,24 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                         item {
                             GroupedSection(header = tr("settings.about.title")) {
                                 if (canEditName) {
-                                    FormField(name, { name = it }, tr("dialogs.name"))
-                                    RowDivider()
+                                    LabeledFormField(tr("common.name")) { FormField(name, { name = it }, tr("common.name"), horizontalPadding = 0.dp, verticalPadding = WZ.Space.space1) }
                                 }
+                                if (canEditName && canEditTopic) RowDivider()
                                 if (canEditTopic) {
-                                    FormField(topic, { topic = it }, tr("room.topic"), maxLines = 4)
-                                    RowDivider()
+                                    LabeledFormField(tr("room.topic")) {
+                                        FormField(topic, { topic = it }, tr("room.topicPlaceholder"), maxLines = 4, horizontalPadding = 0.dp, verticalPadding = WZ.Space.space1)
+                                    }
                                 }
-                                ActionRow(tr("common.save"), null, ::save, enabled = !saving && hasChanges)
+                            }
+                        }
+                        if (hasChanges) {
+                            item {
+                                PrimaryButton(
+                                    tr("common.save"),
+                                    ::save,
+                                    Modifier.padding(horizontal = WZ.Space.space6),
+                                    enabled = !saving,
+                                )
                             }
                         }
                     } else if (topic.isNotEmpty()) {
@@ -264,6 +288,18 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                                     style = wizardFont(WZ.FontSize.lg),
                                     color = theme.textPrimary,
                                 )
+                            }
+                        }
+                    }
+
+                    item {
+                        GroupedSection {
+                            GroupedRow(
+                                tr("room.settings.general.e2ee"),
+                                Modifier.alpha(if (encrypted || canEnableEncryption) 1f else WZ.Opacity.disabled),
+                                subtitle = tr(if (encrypted) "room.settings.general.encryptionEnabledNote" else "room.settings.general.encryptionNote"),
+                            ) {
+                                WizardSwitch(encrypted, { if (it && canEnableEncryption && !saving) confirmEncryption = true })
                             }
                         }
                     }
@@ -283,7 +319,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                                 RowDivider()
                                 NavRow(tr("room.settings.emojis.title"), "smiley", { push(PeoplePage.Packs(room.id)) })
                                 RowDivider()
-                                NavRow(tr("widgets.title"), "puzzle-piece", { push(PeoplePage.Widgets(canManageWidgets)) })
+                                NavRow(tr("room.settings.widgets.title"), "puzzle-piece", { push(PeoplePage.Widgets(canManageWidgets)) })
                                 if (bridges.isNotEmpty()) {
                                     RowDivider()
                                     NavRow(tr("room.settings.bridges.title"), "plugs-connected", { push(PeoplePage.Bridges) }, value = "${bridges.size}")
@@ -291,10 +327,10 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             }
                             if (canInvite) {
                                 RowDivider()
-                                ActionRow(tr("room.invitePeople"), "user-plus", { showInvite = true })
+                                ActionRow(tr("room.members.invite"), "user-plus", { showInvite = true })
                             }
                             RowDivider()
-                            CopyRow(tr("room.copyRoomLink"), "link-simple", "https://matrix.to/#/${alias ?: room.id}")
+                            CopyRow(tr("room.info.copyLink"), "link-simple", "https://matrix.to/#/${alias ?: room.id}")
                             RowDivider()
                             ToggleRow(tr("room.favourite"), isFavourite, { value ->
                                 isFavourite = value
@@ -306,7 +342,7 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                     item {
                         GroupedSection {
                             ActionRow(
-                                tr(if (room.isDirect) "room.leaveConversation" else "room.leaveRoom"),
+                                tr(if (room.isDirect) "room.info.leaveConversation" else "room.leaveRoom"),
                                 "sign-out",
                                 { confirmLeave = true },
                                 theme.danger,
@@ -317,9 +353,53 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                 }
             }
 
+            if (confirmEncryption) {
+                val confirm = tr("room.settings.general.encryptionConfirm")
+                ConfirmDialog(
+                    title = tr("room.settings.general.e2ee"),
+                    confirmLabel = tr("common.confirm"),
+                    message = if (isPublic) tr("room.settings.general.encryptionPublicRoomWarning") + "\n\n" + confirm else confirm,
+                    onConfirm = {
+                        scope.launch {
+                            saving = true
+                            try {
+                                client.enableEncryption(room.id)
+                                encrypted = true
+                            } catch (e: Exception) {
+                                error = L10n.format("room.settings.general.encryptionEnableFailed", errorText(e))
+                            } finally {
+                                saving = false
+                            }
+                        }
+                    },
+                    onDismiss = { confirmEncryption = false },
+                )
+            }
+            if (confirmResetAvatar) {
+                ConfirmDialog(
+                    title = tr("room.dm.resetAvatarConfirm", room.dmUserName ?: room.displayName),
+                    confirmLabel = tr("room.settings.general.resetAvatar"),
+                    onConfirm = {
+                        scope.launch {
+                            saving = true
+                            try {
+                                client.removeRoomAvatar(room.id)
+                                hasCustomAvatar = false
+                                val partner = room.dmUserId
+                                avatarUrl = if (partner != null) session.memberProfile(partner, room.id).avatarUrl ?: room.dmUserAvatar else null
+                            } catch (e: Exception) {
+                                error = errorText(e)
+                            } finally {
+                                saving = false
+                            }
+                        }
+                    },
+                    onDismiss = { confirmResetAvatar = false },
+                )
+            }
             if (confirmLeave) {
                 ConfirmDialog(
-                    title = L10n.format("room.leaveNamed2", room.displayName),
+                    title = L10n.format("room.info.leaveConfirm", room.displayName),
                     confirmLabel = tr("common.leave"),
                     onConfirm = {
                         scope.launch {
@@ -339,12 +419,20 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
 }
 
 @Composable
+private fun LabeledFormField(label: String, field: @Composable () -> Unit) {
+    Column(Modifier.padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4)) {
+        Text(label, style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = theme.textMuted)
+        field()
+    }
+}
+
+@Composable
 private fun RoomAvatar(name: String, url: String?, canEdit: Boolean, onPick: () -> Unit, cornerRadius: Dp?) {
     if (!canEdit) {
         Avatar(name, url, WZ.SizeAvatar.xl, cornerRadius)
         return
     }
-    val label = tr("room.changeRoomPicture")
+    val label = tr("room.info.changePicture")
     Box(
         Modifier
             .clip(if (cornerRadius == null) CircleShape else RoundedCornerShape(cornerRadius))

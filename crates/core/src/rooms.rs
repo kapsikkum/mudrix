@@ -33,6 +33,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::{Error, ListDiff, Result, WizardClient};
+use matrix_sdk::notification_settings::RoomNotificationMode;
 
 /// What a room list row needs, without touching the SDK.
 #[derive(Clone, Debug, Serialize)]
@@ -61,8 +62,12 @@ pub struct RoomSummary {
     pub member_count: u64,
     /// The room's own notification setting, if it has one: `all`, `mentions` or `mute`
     pub notification_mode: Option<crate::NotificationMode>,
-    /// Users in the room's call, oldest first (a user appears once per device)
+    /// Users in the room's call, oldest first, once each
     pub call_participants: Vec<String>,
+    /// This device is in the room's call
+    pub in_call: bool,
+    /// The user is in the room's call on another device, not on this one
+    pub in_call_elsewhere: bool,
     /// Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
     /// "5 min ago"
     pub last_activity: Option<u64>,
@@ -95,6 +100,7 @@ pub(crate) struct RoomExtras {
     dm_user_avatar: Option<String>,
     unread: Option<UnreadCounts>,
     last_activity: Option<u64>,
+    call: crate::calls::RoomCallState,
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -139,11 +145,11 @@ impl RoomSummary {
             is_voice: room
                 .room_type()
                 .is_some_and(|t| t.to_string() == crate::calls::VOICE_ROOM_TYPE),
-            call_participants: room
-                .active_room_call_participants()
-                .iter()
-                .map(ToString::to_string)
-                .collect(),
+            call_participants: extras
+                .map(|e| e.call.participants.clone())
+                .unwrap_or_default(),
+            in_call: extras.is_some_and(|e| e.call.joined),
+            in_call_elsewhere: extras.is_some_and(|e| e.call.joined_elsewhere),
             last_activity: extras
                 .and_then(|e| e.last_activity)
                 .or_else(|| room.latest_event_timestamp().map(|ts| u64::from(ts.0))),
@@ -339,15 +345,90 @@ impl WizardClient {
             Diffs(Vec<eyeball_im::VectorDiff<RoomListItem>>),
             Filter(RoomFilter),
             SpacesChanged,
+            Tick,
+            PushRules,
         }
+        // The SDK updates a room's notification mode without telling the room list, so a change
+        // from another device would only show after the room's next event
+        let settings = self.notification_settings().await;
+        let rule_changes = stream::unfold(settings.subscribe_to_changes(), |mut changes| async {
+            loop {
+                match changes.recv().await {
+                    Ok(()) => return Some((Update::PushRules, changes)),
+                    Err(tokio::sync::broadcast::error::RecvError::Lagged(_)) => continue,
+                    Err(tokio::sync::broadcast::error::RecvError::Closed) => return None,
+                }
+            }
+        });
+        // Call memberships also run out without a new event, so rooms in a call are checked
+        // again now and then
+        let ticks = stream::unfold((), |_| async {
+            matrix_sdk::sleep::sleep(std::time::Duration::from_secs(30)).await;
+            Some((Update::Tick, ()))
+        });
         let updates = stream::select(
             stream::select(entries.map(Update::Diffs), filters.map(Update::Filter)),
-            space_changes.map(|_| Update::SpacesChanged),
+            stream::select(
+                space_changes.map(|_| Update::SpacesChanged),
+                stream::select(ticks, rule_changes),
+            ),
         );
         pin_mut!(updates);
+        let mut shown: eyeball_im::Vector<RoomListItem> = eyeball_im::Vector::new();
+        let mut in_call: HashMap<OwnedRoomId, crate::calls::RoomCallState> = HashMap::new();
+        // The notification mode each room was last sent with. The SDK updates its cached mode
+        // before the change reaches us, so that cache can't tell what the app still shows.
+        let mut sent_modes: HashMap<OwnedRoomId, Option<RoomNotificationMode>> = HashMap::new();
         while let Some(update) = updates.next().await {
             match update {
+                Update::PushRules => {
+                    let mut changed = Vec::new();
+                    for (index, item) in shown.iter().enumerate() {
+                        let mode = settings
+                            .get_user_defined_room_notification_mode(item.room_id())
+                            .await;
+                        if sent_modes.get(item.room_id()) == Some(&mode) {
+                            continue;
+                        }
+                        match mode {
+                            Some(mode) => item.update_cached_user_defined_notification_mode(mode),
+                            None => item.clear_user_defined_notification_mode(),
+                        }
+                        sent_modes.insert(item.room_id().to_owned(), mode);
+                        let extras = room_extras(item).await;
+                        changed.push(ListDiff::Set {
+                            index,
+                            value: RoomSummary::with_extras(item, Some(&extras)),
+                        });
+                    }
+                    if !changed.is_empty() {
+                        on_update(changed);
+                    }
+                }
+                Update::Tick => {
+                    let mut changed = Vec::new();
+                    for (index, item) in shown.iter().enumerate() {
+                        let Some(before) = in_call.get(item.room_id()) else {
+                            continue;
+                        };
+                        if crate::calls::room_call_state(item).await != *before {
+                            let extras = room_extras(item).await;
+                            in_call.insert(item.room_id().to_owned(), extras.call.clone());
+                            changed.push(ListDiff::Set {
+                                index,
+                                value: RoomSummary::with_extras(item, Some(&extras)),
+                            });
+                        }
+                    }
+                    in_call.retain(|_, call| !call.participants.is_empty());
+                    if !changed.is_empty() {
+                        on_update(changed);
+                    }
+                }
                 Update::Diffs(diffs) => {
+                    for diff in &diffs {
+                        diff.clone().apply(&mut shown);
+                    }
                     let rooms: Vec<Room> = diffs
                         .iter()
                         .flat_map(|diff| match diff {
@@ -361,6 +442,12 @@ impl WizardClient {
                             _ => Vec::new(),
                         })
                         .collect();
+                    for room in &rooms {
+                        sent_modes.insert(
+                            room.room_id().to_owned(),
+                            room.cached_user_defined_notification_mode(),
+                        );
+                    }
                     let extras: HashMap<OwnedRoomId, RoomExtras> =
                         stream::iter(rooms)
                             .map(|room| async move {
@@ -369,6 +456,13 @@ impl WizardClient {
                             .buffer_unordered(16)
                             .collect()
                             .await;
+                    for (room_id, extras) in &extras {
+                        if extras.call.participants.is_empty() {
+                            in_call.remove(room_id);
+                        } else {
+                            in_call.insert(room_id.clone(), extras.call.clone());
+                        }
+                    }
                     on_update(
                         diffs
                             .into_iter()
@@ -874,6 +968,7 @@ pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     }
     extras.dm_user_id = partner;
     extras.unread = unread_counts(room).await;
+    extras.call = crate::calls::room_call_state(room).await;
     if let Ok((cache, _handles)) = room.event_cache().await {
         extras.last_activity = cache
             .rfind_map_event_in_memory_by(|event| event.timestamp())

@@ -1,8 +1,10 @@
 package org.wizardchat.android
 
+import org.wizardchat.android.matrix.deviceId
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -41,6 +43,8 @@ import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.MatrixSession
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.ui.settings.AddAccountScreen
+import org.wizardchat.android.ui.settings.EncryptionSetupScreen
+import org.wizardchat.android.ui.settings.EncryptionSetupState
 import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.home.MainScreen
@@ -70,6 +74,11 @@ class MainActivity : AppCompatActivity() {
                     SystemBarStyle.light(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT)
                 }
                 enableEdgeToEdge(style, style)
+            }
+            val inCall = CallManager.shared.isInCall
+            LaunchedEffect(inCall) {
+                if (inCall) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
                 WizardThemeRoot(resolved) { Root() }
@@ -166,6 +175,12 @@ private fun Root() {
                 CompositionLocalProvider(LocalMedia provides session.media) {
                     key(session.userId) { MainScreen(roomList) }
                 }
+            }
+            val encryptionSetup = remember(session.userId) { EncryptionSetupState() }
+            val prefs = LocalPrefs.current
+            val verifyPending = session.needsVerification && prefs.verifySkippedDevice != session.deviceId
+            if (session.needsEncryptionSetup || encryptionSetup.recoveryKey != null || verifyPending) {
+                EncryptionSetupScreen(encryptionSetup)
             }
             if (session.isAddingAccount) AddAccountScreen()
         }

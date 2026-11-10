@@ -38,10 +38,17 @@ interface DesktopAPI {
     roomUrl?: string;
   }) => Promise<boolean>;
   onOpenRoom?: (cb: (url: string) => void) => void;
+  /** Flashes the taskbar entry or bounces the dock icon until the window is focused or `false` */
+  requestAttention?: (on: boolean) => void;
   getPendingRoom?: () => Promise<string | null>;
   getAppVersion?: () => Promise<string>;
-  setPushToTalkKey?: (code: string | null) => Promise<'active' | 'no-permission' | 'unsupported'>;
-  onPushToTalk?: (cb: (pressed: boolean) => void) => () => void;
+  setGlobalKey?: (
+    id: string,
+    code: string | null
+  ) => Promise<'active' | 'taken' | 'no-permission' | 'unsupported'>;
+  onGlobalKey?: (cb: (id: string, down: boolean) => void) => () => void;
+  /** Keeps the display on natively, as the webview's Wake Lock API isn't everywhere */
+  setKeepAwake?: (on: boolean) => Promise<void>;
   getPushToTalkPermission?: () => Promise<boolean>;
   requestPushToTalkPermission?: () => Promise<boolean>;
   getDesktopSources?: (options: {

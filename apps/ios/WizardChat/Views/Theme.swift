@@ -92,6 +92,25 @@ struct WizardTheme {
     var presenceAway: Color { colors.presenceAway }
     var presenceBusy: Color { colors.presenceBusy }
     var presenceOffline: Color { colors.presenceOffline }
+    var roleFounder: Color { colors.roleFounder }
+    var roleAdmin: Color { colors.roleAdmin }
+    var roleModerator: Color { colors.roleModerator }
+    var roleMember: Color { colors.roleMember }
+    var usernameColors: [Color] {
+        [colors.usernameC1, colors.usernameC2, colors.usernameC3, colors.usernameC4,
+         colors.usernameC5, colors.usernameC6, colors.usernameC7, colors.usernameC8]
+    }
+
+    func usernameColor(_ userId: String) -> Color {
+        var hash: Int32 = 0
+        for unit in userId.utf16 { hash = hash &* 31 &+ Int32(unit) }
+        return usernameColors[Int(abs(Int64(hash)) % Int64(usernameColors.count))]
+    }
+
+    func nameColor(_ userId: String?, colored: Bool) -> Color {
+        guard colored, let userId, !userId.isEmpty else { return textPrimary }
+        return usernameColor(userId)
+    }
 
     static let radiusSm = WZ.Radius.sm
     static let radiusMd = WZ.Radius.md
@@ -177,4 +196,15 @@ enum FontRegistry {
             button.setTitleTextAttributes([.font: roboto("Roboto-Regular", 17, .body)], for: state)
         }
     }
+}
+
+func withNameColors(_ text: String, _ names: [(String, Color)]) -> AttributedString {
+    var result = AttributedString(text)
+    var searchStart = result.startIndex
+    for (name, color) in names where !name.isEmpty {
+        guard let range = result[searchStart...].range(of: name) else { continue }
+        result[range].foregroundColor = color
+        searchStart = range.upperBound
+    }
+    return result
 }

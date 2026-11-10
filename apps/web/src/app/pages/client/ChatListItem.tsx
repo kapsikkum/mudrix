@@ -13,7 +13,6 @@ import { RoomVoiceParticipants } from '@/app/features/voice/VoiceParticipants';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useTouchUi } from '@/app/hooks/useUiDensitySync';
 import { isMenuOpenKey, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
-import type { CallMember } from '@wizardchat/core';
 import * as css from './ChatListItem.css';
 import { vars } from '@/theme/vars.css';
 
@@ -26,13 +25,22 @@ function formatElapsed(ms: number): string {
 }
 
 /** Time since the first person joined the call. */
-function CallTimer({ members }: { members: CallMember[] }) {
-  const since = Math.min(...members.map((m) => m.joinedAt));
+function CallTimer({ roomId }: { roomId: string }) {
+  const client = getMatrixClientOrNull();
+  const [since, setSince] = useState<number | null>(null);
+  useEffect(() => {
+    if (!client) return undefined;
+    const subscription = client.watchCallMembers(roomId, (members) =>
+      setSince(members.length > 0 ? Math.min(...members.map((m) => m.joinedAt)) : null)
+    );
+    return () => subscription.cancel();
+  }, [client, roomId]);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+  if (since === null) return null;
   return <span className={css.callTimer}>{formatElapsed(now - since)}</span>;
 }
 
@@ -51,7 +59,8 @@ interface ChatListItemProps {
   isMuted?: boolean;
   showTypeBadge?: boolean;
   hideAvatar?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
+  /** People in the voice channel can be dragged to another channel */
   canMoveVoiceUsers?: boolean;
   compactVoice?: boolean;
   onClick: () => void;
@@ -196,16 +205,16 @@ export function ChatListItem({
 
         <span className={css.itemBadges}>
           {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
-            <CallTimer members={voiceMembers} />
+            <CallTimer roomId={roomId} />
           )}
           {hasActiveCall && (
-            <span className={css.callBadge} title={t('voice.joinCall')}>
+            <span className={css.callBadge} title={t('call.joinCall')}>
               <PhoneIcon size={14} weight="fill" />
             </span>
           )}
 
           {isMuted && (
-            <span className={css.mutedBadge} title={t('notifLevel.mute')}>
+            <span className={css.mutedBadge} title={t('room.notifications.mute')}>
               <BellSlashIcon size={13} />
             </span>
           )}
@@ -237,7 +246,7 @@ export function ChatListItem({
       {/* Voice participants list: only mounted for rooms that actually have a voice room */}
       {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
         <RoomVoiceParticipants
-          members={voiceMembers}
+          userIds={voiceMembers}
           roomId={roomId}
           compact={compactVoice}
           draggable={canMoveVoiceUsers}

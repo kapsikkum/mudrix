@@ -13,6 +13,8 @@ struct RoomInfoView: View {
     @State private var name = ""
     @State private var topic = ""
     @State private var avatarUrl: String?
+    @State private var hasCustomAvatar = false
+    @State private var confirmResetAvatar = false
     @State private var memberCount = 0
     @State private var encrypted = false
     @State private var isFavourite = false
@@ -23,6 +25,9 @@ struct RoomInfoView: View {
     @State private var canInvite = false
     @State private var canPin = false
     @State private var canManageWidgets = false
+    @State private var canEnableEncryption = false
+    @State private var isPublic = false
+    @State private var confirmEncryption = false
     @State private var bridges: [RoomBridge] = []
     @State private var pinnedCount = 0
     @State private var showInvite = false
@@ -34,19 +39,22 @@ struct RoomInfoView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
                         avatar
+                        if room.isDirect && canEditAvatar && hasCustomAvatar {
+                            Button(String(localized: "room.settings.general.resetAvatar")) { confirmResetAvatar = true }
+                                .font(.wizard(WZ.FontSize.sm, .semibold))
+                                .buttonStyle(.plain)
+                                .foregroundStyle(theme.control)
+                                .disabled(saving)
+                        }
                         Text(name.isEmpty ? room.displayName : name)
                             .font(.wizard(WZ.FontSize.xxl, .bold))
                             .foregroundStyle(theme.textPrimary)
                             .multilineTextAlignment(.center)
                         if let alias { Text(alias).font(.wizard(WZ.FontSize.md)).foregroundStyle(theme.textMuted) }
-                        Label(encrypted ? String(localized: "room.encryptedLabel") : String(localized: "room.notEncrypted"),
-                              image: encrypted ? "ph-lock-regular" : "ph-lock-open-regular")
-                            .font(.wizard(WZ.FontSize.sm, .medium))
-                            .foregroundStyle(encrypted ? theme.success : theme.textMuted)
                     }
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
@@ -54,13 +62,48 @@ struct RoomInfoView: View {
 
                 if canEditName || canEditTopic {
                     Section(String(localized: "settings.about.title")) {
-                        if canEditName { TextField(String(localized: "dialogs.name"), text: $name) }
-                        if canEditTopic { TextField(String(localized: "room.topic"), text: $topic, axis: .vertical).lineLimit(1...4) }
-                        Button(String(localized: "common.save")) { Task { await save() } }
-                            .disabled(saving || !hasChanges)
+                        if canEditName {
+                            labeledField(String(localized: "common.name")) {
+                                TextField(String(localized: "common.name"), text: $name)
+                            }
+                        }
+                        if canEditTopic {
+                            labeledField(String(localized: "room.topic")) {
+                                TextField(String(localized: "room.topicPlaceholder"), text: $topic, axis: .vertical).lineLimit(1...4)
+                            }
+                        }
+                    }
+                    if hasChanges {
+                        Section {
+                            Button { Task { await save() } } label: {
+                                Text(String(localized: "common.save"))
+                                    .font(.wizard(WZ.FontSize.lg, .semibold))
+                                    .foregroundStyle(theme.textOnAccent)
+                                    .frame(maxWidth: .infinity, minHeight: WZ.Space.space11)
+                                    .background(theme.accent, in: Capsule())
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(saving)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets())
+                        }
                     }
                 } else if !topic.isEmpty {
                     Section(String(localized: "room.topic")) { Text(topic).foregroundStyle(theme.textPrimary) }
+                }
+
+                Section {
+                    Toggle(isOn: Binding(get: { encrypted }, set: { if $0 { confirmEncryption = true } })) {
+                        VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                            Text(String(localized: "room.settings.general.e2ee")).foregroundStyle(theme.textPrimary)
+                            Text(encrypted ? String(localized: "room.settings.general.encryptionEnabledNote")
+                                           : String(localized: "room.settings.general.encryptionNote"))
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
+                        }
+                    }
+                    .tint(theme.accent)
+                    .disabled(encrypted || !canEnableEncryption || saving)
                 }
 
                 Section {
@@ -105,7 +148,7 @@ struct RoomInfoView: View {
                         NavigationLink {
                             RoomWidgetsView(roomId: room.id, client: client, canManage: canManageWidgets)
                         } label: {
-                            Label(String(localized: "widgets.title"), image: "ph-puzzle-piece-regular")
+                            Label(String(localized: "room.settings.widgets.title"), image: "ph-puzzle-piece-regular")
                         }
                         if !bridges.isEmpty {
                             NavigationLink {
@@ -118,9 +161,9 @@ struct RoomInfoView: View {
                         }
                     }
                     if canInvite {
-                        Button { showInvite = true } label: { Label(String(localized: "room.invitePeople"), image: "ph-user-plus-regular") }
+                        Button { showInvite = true } label: { Label(String(localized: "room.members.invite"), image: "ph-user-plus-regular") }
                     }
-                    CopyButton(title: "room.copyRoomLink", image: "ph-link-simple-regular",
+                    CopyButton(title: "room.info.copyLink", image: "ph-link-simple-regular",
                                value: "https://matrix.to/#/\(alias ?? room.id)")
                     Toggle(isOn: Binding(get: { isFavourite }, set: { value in
                         isFavourite = value
@@ -132,7 +175,7 @@ struct RoomInfoView: View {
 
                 Section {
                     Button(role: .destructive) { confirmLeave = true } label: {
-                        Label(room.isDirect ? String(localized: "room.leaveConversation") : String(localized: "room.leaveRoom"),
+                        Label(room.isDirect ? String(localized: "room.info.leaveConversation") : String(localized: "room.leaveRoom"),
                               image: "ph-sign-out-regular")
                             .foregroundStyle(theme.danger)
                     }
@@ -143,17 +186,33 @@ struct RoomInfoView: View {
                 }
             }
             .tint(theme.control)
-            .navigationTitle(room.isDirect ? String(localized: "room.conversation") : String(localized: "room.roomInfo"))
+            .navigationTitle(room.isDirect ? String(localized: "room.info.conversation") : String(localized: "room.info.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
             }
-            .confirmationDialog(L10n.format("room.leaveNamed2", "\(room.displayName)"), isPresented: $confirmLeave, titleVisibility: .visible) {
+            .confirmationDialog(L10n.format("room.info.leaveConfirm", "\(room.displayName)"), isPresented: $confirmLeave, titleVisibility: .visible) {
                 Button(String(localized: "common.leave"), role: .destructive) {
                     Task {
                         try? await client.leave(roomId: room.id)
                         dismiss()
                     }
+                }
+            }
+            .alert(String(localized: "room.settings.general.e2ee"), isPresented: $confirmEncryption) {
+                Button(String(localized: "common.cancel"), role: .cancel) {}
+                Button(String(localized: "common.confirm"), role: .destructive) {
+                    Task { await enableEncryption() }
+                }
+            } message: {
+                Text(isPublic
+                     ? String(localized: "room.settings.general.encryptionPublicRoomWarning") + "\n\n" + String(localized: "room.settings.general.encryptionConfirm")
+                     : String(localized: "room.settings.general.encryptionConfirm"))
+            }
+            .confirmationDialog(L10n.format("room.dm.resetAvatarConfirm", room.dmUserName ?? room.displayName),
+                                isPresented: $confirmResetAvatar, titleVisibility: .visible) {
+                Button(String(localized: "room.settings.general.resetAvatar"), role: .destructive) {
+                    Task { await resetAvatar() }
                 }
             }
             .sheet(isPresented: $showInvite) {
@@ -175,14 +234,14 @@ struct RoomInfoView: View {
                 picture.overlay(alignment: .bottomTrailing) {
                     Image(saving ? "ph-hourglass-regular" : "ph-camera-regular")
                         .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                        .foregroundStyle(theme.textOnAccent)
+                        .foregroundStyle(theme.accent)
                         .frame(width: WZ.Space.space9, height: WZ.Space.space9)
-                        .background(theme.accent, in: Circle())
+                        .background(theme.bgTertiary, in: Circle())
                         .overlay(Circle().stroke(theme.bgSecondary, lineWidth: WZ.BorderWidth.thick))
                 }
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "room.changeRoomPicture"))
+            .accessibilityLabel(String(localized: "room.info.changePicture"))
         } else {
             picture
         }
@@ -201,7 +260,14 @@ struct RoomInfoView: View {
             originalTopic = topic
             loaded = true
         }
-        avatarUrl = info?.avatarUrl ?? room.avatarUrl
+        hasCustomAvatar = info?.avatarUrl != nil
+        if let custom = info?.avatarUrl {
+            avatarUrl = custom
+        } else if room.isDirect, let partner = room.dmUserId {
+            avatarUrl = await session.memberProfile(partner, in: room.id).avatarUrl ?? room.dmUserAvatar
+        } else {
+            avatarUrl = info == nil ? room.avatarUrl : nil
+        }
         alias = info?.canonicalAlias
         pinnedCount = info?.pinnedEventIds.count ?? 0
         isFavourite = info?.isFavourite ?? room.isFavourite
@@ -214,7 +280,9 @@ struct RoomInfoView: View {
             canInvite = permissions.invite
             canPin = permissions.pin
             canManageWidgets = permissions.manageWidgets
+            canEnableEncryption = permissions.enableEncryption
         }
+        isPublic = info?.isPublic ?? false
         bridges = await RoomBridge.load(client: client, roomId: room.id)
     }
 
@@ -243,6 +311,42 @@ struct RoomInfoView: View {
             try await client.setRoomAvatar(roomId: room.id, data: jpeg, mimetype: "image/jpeg")
             try? await Task.sleep(for: .milliseconds(500))
             avatarUrl = (try? await client.roomDetails(roomId: room.id))?.avatarUrl
+            hasCustomAvatar = avatarUrl != nil
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
+    private func enableEncryption() async {
+        saving = true
+        defer { saving = false }
+        do {
+            try await client.enableEncryption(roomId: room.id)
+            encrypted = true
+        } catch {
+            self.error = L10n.format("room.settings.general.encryptionEnableFailed", error.localizedDescription)
+        }
+    }
+
+    private func labeledField<Field: View>(_ label: String, @ViewBuilder field: () -> Field) -> some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space1) {
+            Text(label).font(.wizard(WZ.FontSize.sm, .medium)).foregroundStyle(theme.textMuted)
+            field().foregroundStyle(theme.textPrimary)
+        }
+        .padding(.vertical, WZ.Space.space1)
+    }
+
+    private func resetAvatar() async {
+        saving = true
+        defer { saving = false }
+        do {
+            try await client.removeRoomAvatar(roomId: room.id)
+            hasCustomAvatar = false
+            if let partner = room.dmUserId {
+                avatarUrl = await session.memberProfile(partner, in: room.id).avatarUrl ?? room.dmUserAvatar
+            } else {
+                avatarUrl = nil
+            }
         } catch {
             self.error = error.localizedDescription
         }
@@ -251,6 +355,12 @@ struct RoomInfoView: View {
 
 struct CreateRoomView: View {
     var spaceId: String?
+    /// Set to create a space instead of a room; gets the new space
+    var onSpaceCreated: ((String) -> Void)?
+    /// Replaces Cancel with Back
+    var onBack: (() -> Void)?
+
+    enum Access: Hashable { case spaceMembers, invite, `public` }
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
@@ -259,31 +369,55 @@ struct CreateRoomView: View {
     @State private var name = ""
     @State private var topic = ""
     @State private var isVoice = false
-    @State private var isPublic = false
+    @State private var access: Access
     @State private var encrypted = true
+    @State private var federate = true
     @State private var alias = ""
+    @State private var foundersVersion: String?
+    @State private var founders: [UserResult] = []
+    @State private var pickingFounders = false
     @State private var busy = false
     @State private var error: String?
 
+    init(spaceId: String? = nil, onSpaceCreated: ((String) -> Void)? = nil, onBack: (() -> Void)? = nil) {
+        self.spaceId = spaceId
+        self.onSpaceCreated = onSpaceCreated
+        self.onBack = onBack
+        _access = State(initialValue: spaceId == nil ? .invite : .spaceMembers)
+    }
+
+    private var isSpace: Bool { onSpaceCreated != nil }
+    private var accessOptions: [Access] { spaceId == nil ? [.invite, .public] : [.spaceMembers, .invite, .public] }
+
     var body: some View {
         NavigationStack {
-            Form {
+            ThemedForm {
                 Section {
-                    TextField(String(localized: "dialogs.name"), text: $name)
-                    TextField(String(localized: "dialogs.topic"), text: $topic, axis: .vertical).lineLimit(1...3)
+                    TextField(String(localized: "common.name"), text: $name)
+                    TextField(String(localized: "room.create.topicOptional"), text: $topic, axis: .vertical).lineLimit(1...3)
+                }
+                if !isSpace {
+                Section {
+                    optionRow(String(localized: "room.create.typeChat"), note: String(localized: "room.create.typeChatNote"),
+                              icon: "ph-hash-straight-regular", selected: !isVoice) { isVoice = false }
+                    optionRow(String(localized: "room.create.typeVoice"), note: String(localized: "room.create.typeVoiceNote"),
+                              icon: "ph-speaker-high-regular", selected: isVoice) { isVoice = true }
+                } header: {
+                    Text(String(localized: "room.create.type"))
+                }
                 }
                 Section {
-                    Picker(String(localized: "room.type"), selection: $isVoice) {
-                        Label(String(localized: "room.text"), image: "ph-hash-straight-regular").tag(false)
-                        Label(String(localized: "room.voice"), image: "ph-speaker-high-fill").tag(true)
+                    ForEach(accessOptions, id: \.self) { option in
+                        optionRow(label(option), note: hint(option), icon: icon(option), selected: access == option) {
+                            access = option
+                            encrypted = option != .public
+                        }
                     }
-                    .pickerStyle(.segmented)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
+                } header: {
+                    Text(String(localized: isSpace ? "space.create.access" : "room.create.access"))
                 }
-                Section {
-                    Toggle(String(localized: "room.settings.security.accessPublic"), isOn: $isPublic)
-                    if isPublic {
+                if access == .public {
+                    Section {
                         HStack(spacing: WZ.Space.space1) {
                             Text("#").foregroundStyle(theme.textMuted)
                             TextField("address", text: $alias)
@@ -291,23 +425,51 @@ struct CreateRoomView: View {
                                 .autocorrectionDisabled()
                             Text(":\(server)").foregroundStyle(theme.textMuted).lineLimit(1)
                         }
-                    } else {
-                        Toggle(String(localized: "room.create.e2ee"), isOn: $encrypted)
+                    } header: {
+                        Text(String(localized: isSpace ? "space.create.roomAddress" : "room.create.roomAddress"))
                     }
-                } footer: {
-                    Text(isPublic
-                         ? String(localized: "room.anyoneCanFindAnd")
-                         : String(localized: "room.onlyPeopleWhoAre"))
+                }
+                Section {
+                    if access != .public && !isSpace {
+                        toggleRow(String(localized: "room.create.e2ee"), note: String(localized: "room.create.e2eeNote"), isOn: $encrypted)
+                    }
+                    toggleRow(String(localized: "room.create.federation"), note: String(localized: "room.create.federationNote"), isOn: $federate)
+                }
+                if foundersVersion != nil {
+                    Section {
+                        founderRow(name: session.displayName ?? session.userId ?? "", userId: session.userId ?? "",
+                                   avatarUrl: session.avatarUrl, onRemove: nil)
+                        ForEach(founders, id: \.userId) { founder in
+                            founderRow(name: founder.displayName ?? founder.userId, userId: founder.userId,
+                                       avatarUrl: founder.avatarUrl) {
+                                founders.removeAll { $0.userId == founder.userId }
+                            }
+                        }
+                        Button { pickingFounders = true } label: {
+                            Label(String(localized: "common.add"), image: "ph-user-plus-regular")
+                        }
+                    } header: {
+                        Text(String(localized: "room.create.founders"))
+                    } footer: {
+                        Text(String(localized: "room.create.foundersNote"))
+                    }
                 }
                 if let error {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
             .tint(theme.control)
-            .navigationTitle(spaceId == nil ? String(localized: "rooms.newRoom") : String(localized: "room.newRoomInSpace"))
+            .navigationTitle(isSpace ? String(localized: "space.create.title")
+                             : spaceId == nil ? String(localized: "nav.newRoom") : String(localized: "space.newRoom"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button(String(localized: "common.cancel")) { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) {
+                    if let onBack {
+                        Button(String(localized: "common.back"), action: onBack)
+                    } else {
+                        Button(String(localized: "common.cancel")) { dismiss() }
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     if busy { ProgressView() } else {
                         Button(String(localized: "common.create")) { Task { await create() } }
@@ -315,6 +477,96 @@ struct CreateRoomView: View {
                     }
                 }
             }
+            .task { foundersVersion = await session.foundersRoomVersion() }
+            .sheet(isPresented: $pickingFounders) {
+                UserPickerView(mode: .select(title: String(localized: "room.create.founders"),
+                                             exclude: [session.userId ?? ""] + founders.map(\.userId)) { picked in
+                    founders += picked.filter { new in !founders.contains { $0.userId == new.userId } }
+                })
+            }
+        }
+    }
+
+    /// A choice with its explanation right under it, ticked when selected
+    private func optionRow(_ title: String, note: String, icon: String, selected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: WZ.Space.space5) {
+                Image(icon)
+                    .font(.system(size: WZ.SizeIcon.md))
+                    .foregroundStyle(theme.textPrimary)
+                    .frame(width: WZ.SizeIcon.lg)
+                VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                    Text(title).foregroundStyle(theme.textPrimary)
+                    Text(note).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                }
+                Spacer(minLength: WZ.Space.space4)
+                if selected {
+                    Image("ph-check-bold")
+                        .font(.system(size: WZ.SizeIcon.md))
+                        .foregroundStyle(theme.accent)
+                }
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    private func toggleRow(_ title: String, note: String, isOn: Binding<Bool>) -> some View {
+        Toggle(isOn: isOn) {
+            VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                Text(title).foregroundStyle(theme.textPrimary)
+                Text(note).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+            }
+        }
+        // The form's tint is the white control colour, meant for its buttons
+        .tint(theme.accent)
+    }
+
+    private func founderRow(name: String, userId: String, avatarUrl: String?, onRemove: (() -> Void)?) -> some View {
+        HStack(spacing: WZ.Space.space5) {
+            AvatarView(name: name, url: avatarUrl, size: WZ.SizeAvatar.sm)
+            VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                Text(name).foregroundStyle(theme.textPrimary)
+                Text(userId).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+            }
+            .lineLimit(1)
+            Spacer()
+            if let onRemove {
+                Button(action: onRemove) {
+                    Image("ph-x-regular")
+                        .font(.system(size: WZ.SizeIcon.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(width: WZ.Size.touchTarget, height: WZ.Size.touchTarget)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(String(localized: "common.remove"))
+            }
+        }
+    }
+
+    private func label(_ option: Access) -> String {
+        switch option {
+        case .spaceMembers: String(localized: "room.create.accessStandard")
+        case .invite: String(localized: isSpace ? "space.create.accessInvite" : "room.create.accessInvite")
+        case .public: String(localized: isSpace ? "space.create.public" : "room.create.accessPublic")
+        }
+    }
+
+    private func icon(_ option: Access) -> String {
+        switch option {
+        case .spaceMembers: "ph-users-regular"
+        case .invite: "ph-lock-regular"
+        case .public: "ph-globe-simple-regular"
+        }
+    }
+
+    private func hint(_ option: Access) -> String {
+        switch option {
+        case .spaceMembers: String(localized: "room.create.accessStandardNote")
+        case .invite: String(localized: "room.create.accessInviteNote")
+        case .public: String(localized: isSpace ? "space.create.accessPublicNote" : "room.create.accessPublicNote")
         }
     }
 
@@ -327,10 +579,12 @@ struct CreateRoomView: View {
             let roomId = try await session.createRoom(
                 name: name.trimmingCharacters(in: .whitespaces),
                 topic: topic.isEmpty ? nil : topic,
-                isPublic: isPublic, encrypted: encrypted, isVoice: isVoice,
-                alias: alias.isEmpty ? nil : alias, spaceId: spaceId)
+                isPublic: access == .public, encrypted: encrypted, isVoice: isVoice,
+                alias: alias.isEmpty ? nil : alias, spaceId: spaceId, federate: federate,
+                spaceMembers: access == .spaceMembers, founders: founders.map(\.userId), roomVersion: foundersVersion,
+                isSpace: isSpace)
             dismiss()
-            openRoom(roomId, notifier: notifier)
+            if let onSpaceCreated { onSpaceCreated(roomId) } else { openRoom(roomId, notifier: notifier) }
         } catch {
             self.error = error.localizedDescription
         }

@@ -370,7 +370,7 @@ export function CallLayer({ client }: Props) {
               type="button"
               className={css.headerButton}
               onClick={() => showPresentation('tile')}
-              aria-label={t('voice.minimizeCall')}
+              aria-label={t('call.minimize')}
             >
               <CaretDownIcon size={20} />
             </button>
@@ -433,6 +433,7 @@ export function CallLayer({ client }: Props) {
           callerName={ui.incoming.callerName}
           callerId={ui.incoming.callerId}
           voiceOnly={ui.incoming.voiceOnly}
+          roomName={ui.incoming.roomName}
           client={client}
           onAccept={() => accept(ui.incoming!)}
           onDecline={decline}

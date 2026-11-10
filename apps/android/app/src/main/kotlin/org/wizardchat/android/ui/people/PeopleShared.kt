@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -177,8 +178,8 @@ internal fun NavRow(title: String, icon: String, onClick: () -> Unit, value: Str
 
 /** A row with a switch */
 @Composable
-internal fun ToggleRow(title: String, checked: Boolean, onChange: (Boolean) -> Unit, icon: String? = null) {
-    GroupedRow(title, icon = icon, iconTint = theme.accent, onClick = { onChange(!checked) }) {
+internal fun ToggleRow(title: String, checked: Boolean, onChange: (Boolean) -> Unit, icon: String? = null, subtitle: String? = null) {
+    GroupedRow(title, icon = icon, iconTint = theme.accent, subtitle = subtitle, onClick = { onChange(!checked) }) {
         WizardSwitch(checked, onChange)
     }
 }
@@ -202,7 +203,7 @@ internal fun WizardSwitch(checked: Boolean, onChange: (Boolean) -> Unit) {
 @Composable
 internal fun CopyRow(title: String, icon: String, value: String) {
     var copied by remember { mutableStateOf(false) }
-    val copiedText = tr("security.copied")
+    val copiedText = tr("common.copied")
     LaunchedEffect(copied) {
         if (copied) {
             delay(1600)
@@ -229,6 +230,7 @@ internal fun FormField(
     maxLines: Int = 1,
     plain: Boolean = false,
     horizontalPadding: Dp = WZ.Space.space5,
+    verticalPadding: Dp = WZ.Space.space5,
     onSubmit: (() -> Unit)? = null,
 ) {
     BasicTextField(
@@ -236,8 +238,8 @@ internal fun FormField(
         onValueChange,
         modifier
             .fillMaxWidth()
-            .heightIn(min = WZ.Space.space11)
-            .padding(horizontal = horizontalPadding, vertical = WZ.Space.space5),
+            .heightIn(min = if (verticalPadding == WZ.Space.space5) WZ.Space.space11 else 0.dp)
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding),
         textStyle = wizardFont(WZ.FontSize.lg).copy(color = theme.textPrimary),
         singleLine = maxLines == 1,
         maxLines = maxLines,
@@ -284,20 +286,20 @@ internal fun EmptyState(title: String, icon: String, modifier: Modifier = Modifi
 /** The small role capsule next to admins, moderators and creators */
 @Composable
 internal fun RoleBadge(level: Long) {
-    val key = when {
-        level == Long.MAX_VALUE -> "room.creator"
-        level >= 100 -> "profile.roleAdmin"
-        level >= 50 -> "profile.roleModerator"
-        else -> return
+    val (key, color) = when {
+        level == Long.MAX_VALUE -> "room.members.founder" to theme.roleFounder
+        level >= 100 -> "room.members.admin" to theme.roleAdmin
+        level >= 50 -> "room.members.moderator" to theme.roleModerator
+        else -> "room.members.member" to theme.roleMember
     }
     Text(
         tr(key),
         Modifier
             .clip(CircleShape)
-            .background(theme.accent.copy(alpha = 0.15f))
+            .background(color.copy(alpha = 0.15f))
             .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
         style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
-        color = theme.accent,
+        color = color,
     )
 }
 
@@ -305,10 +307,10 @@ internal fun RoleBadge(level: Long) {
 @Composable
 internal fun CameraBadge(saving: Boolean, size: Dp, modifier: Modifier = Modifier) {
     Box(
-        modifier.size(size).clip(CircleShape).background(theme.accent),
+        modifier.size(size).clip(CircleShape).background(theme.bgTertiary),
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon(if (saving) "hourglass" else "camera", size = WZ.SizeIcon.xs, tint = theme.textOnAccent)
+        PhIcon(if (saving) "hourglass" else "camera", size = WZ.SizeIcon.xs, tint = theme.accent)
     }
 }
 

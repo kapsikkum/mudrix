@@ -26,10 +26,11 @@ struct RoomListScreen: View {
     @State private var deleting: RoomSection?
     @State private var sectionName = ""
     @State private var sectionError: String?
+    @State private var collapsed = Set(UserDefaults.standard.stringArray(forKey: "roomList.collapsed") ?? [])
 
     private var title: String {
         switch selection {
-        case .home: return String(localized: "room.home")
+        case .home: return String(localized: "nav.home")
         case .dms: return String(localized: "room.dm.directMessages")
         case .space(let id): return roomList.space(id: id)?.name ?? String(localized: "explore.typeSpace")
         }
@@ -83,7 +84,7 @@ struct RoomListScreen: View {
                     SkeletonRow().listRowBackground(Color.clear).listRowSeparator(.hidden)
                 }
             } else if groups.allSatisfy({ $0.rooms.isEmpty }) {
-                Text(search.isEmpty ? emptyText : "home.noMatches")
+                Text(search.isEmpty ? emptyText : "nav.noMatches")
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
                     .frame(maxWidth: .infinity)
@@ -99,20 +100,24 @@ struct RoomListScreen: View {
             } else {
                 ForEach(groups) { group in
                     Section {
-                        ForEach(group.rooms) { roomRow($0) }
-                            .onMove(perform: canReorder(group) ? { moveRooms(group, from: $0, to: $1) } : nil)
+                        if !isCollapsed(group) || reordering {
+                            ForEach(group.rooms) { roomRow($0) }
+                                .onMove(perform: canReorder(group) ? { moveRooms(group, from: $0, to: $1) } : nil)
+                        }
                     } header: {
                         groupHeader(group, in: groups)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
                     }
                 }
             }
         }
         .environment(\.editMode, .constant(reordering ? .active : .inactive))
         .listStyle(.plain)
+        .listSectionSpacing(0)
+        .environment(\.defaultMinListHeaderHeight, 0)
         .scrollContentBackground(.hidden)
         .background(theme.bgPrimary.ignoresSafeArea())
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.large)
+        .modifier(RootTitle(title: title, isRoot: spaceId == nil))
         // Under the title: iOS 26 would otherwise put it at the bottom, behind the tab island.
         // Typing searches everything, not just this list.
         .overlay {
@@ -121,26 +126,26 @@ struct RoomListScreen: View {
             }
         }
         .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: Text(String(localized: "home.searchRoomsPeopleMessages")))
+                    prompt: Text(String(localized: "nav.searchPlaceholder")))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newMessage"), icon: "ph-note-pencil-regular") }
+                    Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
                     if selection != .dms {
-                        Button { showNewRoom = true } label: { Label(menu: String(localized: "rooms.newRoom"), icon: "ph-hash-straight-regular") }
+                        Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
                     }
                     if selection != .dms {
                         Button { startNewSection(for: nil) } label: { Label(menu: String(localized: "room.sections.new"), icon: "ph-list-bullets-regular") }
-                        Button { reordering = true } label: { Label(menu: String(localized: "home.reorderRooms"), icon: "ph-caret-up-down-regular") }
+                        Button { reordering = true } label: { Label(menu: String(localized: "nav.reorderRooms"), icon: "ph-caret-up-down-regular") }
                     }
                     if spaceId != nil {
                         Divider()
-                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "home.spaceSettings"), icon: "ph-gear-regular") }
+                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "space.settingsTitle"), icon: "ph-gear-regular") }
                     }
                 } label: {
                     Image("ph-plus-regular")
                 }
-                .accessibilityLabel(String(localized: "home.new"))
+                .accessibilityLabel(String(localized: "nav.new"))
             }
             if reordering {
                 ToolbarItem(placement: .confirmationAction) {
@@ -188,7 +193,7 @@ struct RoomListScreen: View {
             Button(String(localized: "common.close"), role: .cancel) {}
         }
         .confirmationDialog(
-            L10n.format("room.leaveNamed2", leaving?.displayName ?? ""),
+            L10n.format("room.info.leaveConfirm", leaving?.displayName ?? ""),
             isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }),
             titleVisibility: .visible
         ) {
@@ -222,7 +227,8 @@ struct RoomListScreen: View {
     private func roomRow(_ room: RoomSummary, modern: Bool = false) -> some View {
         NavigationLink(value: Route.room(room.id)) {
             RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
-                    isVoice: modern ? isVoice(room) : nil)
+                    isVoice: modern ? isVoice(room) : nil,
+                    muted: roomList.notificationMode(of: room) == .mute)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
         .listRowBackground(theme.bgPrimary)
@@ -232,19 +238,35 @@ struct RoomListScreen: View {
             Button {
                 Task { await roomList.setRead(room, read: unread) }
             } label: {
-                Label(unread ? String(localized: "common.markRead") : String(localized: "home.markAsUnread"),
+                Label(unread ? String(localized: "common.markRead") : String(localized: "nav.markAsUnread"),
                       image: unread ? "ph-envelope-open-regular" : "ph-envelope-simple-regular")
             }
-            .tint(theme.control)
+            // Swipe actions always draw their icon white, so this needs a darker neutral
+            .tint(theme.textMuted)
         }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { leaving = room } label: {
                 Label(String(localized: "common.leave"), image: "ph-sign-out-regular")
             }
+            .tint(theme.danger)
         }
         .contextMenu {
             Button { Task { await roomList.setRead(room, read: true) } } label: {
                 Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+            }
+            Menu {
+                Picker(selection: Binding(get: { roomList.notificationMode(of: room) },
+                                          set: { mode in Task { await roomList.setNotificationMode(room, mode) } })) {
+                    Label(menu: String(localized: "room.notifications.default"), icon: "ph-bell-regular").tag(NotificationMode?.none)
+                    Label(menu: String(localized: "room.notifications.all"), icon: "ph-bell-ringing-regular").tag(NotificationMode?.some(.all))
+                    Label(menu: String(localized: "room.notifications.mentions"), icon: "ph-bell-simple-regular").tag(NotificationMode?.some(.mentions))
+                    Label(menu: String(localized: "room.notifications.mute"), icon: "ph-bell-slash-regular").tag(NotificationMode?.some(.mute))
+                } label: {
+                    EmptyView()
+                }
+                .pickerStyle(.inline)
+            } label: {
+                Label(menu: String(localized: "room.notifications.title"), icon: "ph-bell-regular")
             }
             Button {
                 sectionTask { try await roomList.client.setFavourite(roomId: room.id, favourite: !room.isFavourite) }
@@ -295,16 +317,35 @@ struct RoomListScreen: View {
     private func groupHeader(_ group: RoomGroup, in groups: [RoomGroup]) -> some View {
         let anchors = groups.filter { if case .favourites = $0.kind { false } else { true } }.map(\.id)
         let index = anchors.firstIndex(of: group.id)
-        HStack {
-            Text(groupTitle(group).uppercased())
-                .font(.wizard(WZ.FontSize.xs, .semibold))
-                .foregroundStyle(theme.textMuted)
-            Spacer()
+        let closed = isCollapsed(group) && !reordering
+        HStack(spacing: WZ.Space.space0) {
+            HStack(spacing: WZ.Space.space3) {
+                Image("ph-caret-right-bold")
+                    .font(.system(size: WZ.SizeIcon.xs))
+                    .foregroundStyle(theme.textMuted)
+                    .rotationEffect(.degrees(closed ? 0 : 90))
+                    .frame(width: WZ.SizeIcon.md)
+                Text(groupTitle(group))
+                    .font(.wizard(WZ.FontSize.md, .semibold))
+                    .foregroundStyle(theme.textSecondary)
+                    .lineLimit(1)
+                if closed { collapsedBadge(group) }
+                Spacer(minLength: WZ.Space.space4)
+            }
+            .frame(maxWidth: .infinity, minHeight: WZ.SizeControl.sm + WZ.Space.space1, alignment: .leading)
+            .contentShape(Rectangle())
+            .onTapGesture { if !reordering { toggle(group) } }
+            .sensoryFeedback(.selection, trigger: closed)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(groupTitle(group))
+            .accessibilityHint(String(localized: closed ? "common.expand" : "common.collapse"))
+            .accessibilityAddTraits([.isHeader, .isButton])
+            .accessibilityAction { if !reordering { toggle(group) } }
             if let index, anchors.count > 1 || group.isSection {
                 Menu {
                     if case .section(let section) = group.kind {
                         Button { renaming = section; sectionName = section.name } label: {
-                            Label(menu: String(localized: "room.sections.rename"), icon: "ph-pencil-simple-regular")
+                            Label(menu: String(localized: "common.rename"), icon: "ph-pencil-simple-regular")
                         }
                     }
                     Button { moveGroup(group, by: -1, in: groups) } label: {
@@ -325,18 +366,42 @@ struct RoomListScreen: View {
                     Image("ph-dots-three-bold")
                         .font(.system(size: WZ.SizeIcon.sm))
                         .foregroundStyle(theme.textMuted)
-                        .frame(width: WZ.Size.touchTarget, height: WZ.SizeControl.sm)
+                        .frame(width: WZ.Size.touchTarget, height: WZ.SizeControl.sm + WZ.Space.space1)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityLabel(String(localized: "room.sections.options"))
             }
         }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private func collapsedBadge(_ group: RoomGroup) -> some View {
+        let unread = group.rooms.reduce(0) { $0 + max($1.unreadCount, $1.mentionCount) }
+        if unread > 0 {
+            UnreadBadge(count: unread, isMention: group.rooms.contains { $0.mentionCount > 0 })
+        }
+    }
+
+    private func collapseKey(_ group: RoomGroup) -> String {
+        "\(roomList.sectionContext(selection))::\(group.id)"
+    }
+
+    private func isCollapsed(_ group: RoomGroup) -> Bool { collapsed.contains(collapseKey(group)) }
+
+    private func toggle(_ group: RoomGroup) {
+        let key = collapseKey(group)
+        withAnimation(.snappy(duration: WZ.MotionDuration.normal)) {
+            if collapsed.contains(key) { collapsed.remove(key) } else { collapsed.insert(key) }
+        }
+        UserDefaults.standard.set(Array(collapsed), forKey: "roomList.collapsed")
     }
 
     private func groupTitle(_ group: RoomGroup) -> String {
         switch group.kind {
-        case .favourites: String(localized: "room.favourites")
+        case .favourites: String(localized: "nav.favourites")
         case .section(let section): section.name
-        case .rooms: String(localized: "room.title")
+        case .rooms: String(localized: "nav.rooms")
         }
     }
 
@@ -400,8 +465,8 @@ struct RoomListScreen: View {
 
     private var emptyText: LocalizedStringKey {
         switch selection {
-        case .dms: return "home.noDirectMessagesYet"
-        default: return "home.noRoomsHereYet"
+        case .dms: return "nav.noDirectMessagesYet"
+        default: return "nav.noRoomsHereYet"
         }
     }
 }
@@ -434,6 +499,7 @@ struct RoomRow: View {
     let showsHashIcon: Bool
     /// Overrides `room.isVoice` (Modern spaces also treat rooms flagged as voice channels in their state as voice)
     var isVoice: Bool?
+    var muted = false
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
@@ -442,7 +508,7 @@ struct RoomRow: View {
     private var inCall: Bool { voice && !room.callParticipants.isEmpty }
 
     private func typeIcon(size: CGFloat) -> some View {
-        Icon(voice ? "speaker-high" : "hash-straight", voice ? .fill : .bold, size: size)
+        Icon(voice ? "speaker-high" : "hash-straight", voice ? .regular : .bold, size: size)
             .foregroundStyle(inCall ? theme.success : theme.textMuted)
     }
     private var hasUnread: Bool { room.unreadCount > 0 || room.mentionCount > 0 }
@@ -456,7 +522,7 @@ struct RoomRow: View {
             } else {
                 AvatarView(name: room.displayName, url: room.avatarUrl, size: avatarSize)
                     .overlay(alignment: .bottomTrailing) {
-                        if !room.isDirect {
+                        if !room.isDirect || inCall {
                             typeIcon(size: WZ.SizeIcon.xs)
                                 .frame(width: WZ.Space.space7, height: WZ.Space.space7)
                                 .background(theme.bgPrimary, in: Circle())
@@ -475,6 +541,12 @@ struct RoomRow: View {
                 }
             }
             Spacer(minLength: 6)
+            if muted {
+                Image("ph-bell-slash-regular")
+                    .font(.system(size: WZ.SizeIcon.sm))
+                    .foregroundStyle(theme.textMuted)
+                    .accessibilityLabel(String(localized: "room.notifications.mute"))
+            }
             if room.mentionCount > 0 {
                 UnreadBadge(count: room.mentionCount, isMention: true)
             } else if room.unreadCount > 0 {
@@ -496,5 +568,18 @@ struct SkeletonRow: View {
         }
         .padding(.vertical, WZ.Space.space3)
         .shimmer()
+    }
+}
+
+private struct RootTitle: ViewModifier {
+    let title: String
+    let isRoot: Bool
+
+    func body(content: Content) -> some View {
+        if isRoot {
+            content.tabTitle(title)
+        } else {
+            content.navigationTitle(title).navigationBarTitleDisplayMode(.large)
+        }
     }
 }

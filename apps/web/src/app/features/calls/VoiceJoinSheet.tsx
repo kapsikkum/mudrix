@@ -5,8 +5,7 @@ import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Popover } from '@/app/components/Popover/Popover';
 import { Avatar } from '@/app/components/Avatar';
 import { useRoom } from '@/app/data';
-import { formatUserId } from '@/util/matrix';
-import { useCallMemberships, uniqueMembers } from './useCallMemberships';
+import { useMemberLookup } from './useMemberLookup';
 import * as css from './VoiceJoinSheet.css';
 
 interface Props {
@@ -21,7 +20,8 @@ export function VoiceJoinSheet({ client, roomId, onJoin, onClose }: Props) {
   const { t } = useTranslation();
   const anchorRef = useRef<HTMLElement | null>(null);
   const room = useRoom(roomId);
-  const members = uniqueMembers(useCallMemberships(client, [roomId]).get(roomId) ?? []);
+  const lookup = useMemberLookup(roomId);
+  const members = room?.callParticipants ?? [];
 
   return (
     <Popover open onClose={onClose} anchorRef={anchorRef} role="dialog" className={css.sheet}>
@@ -34,13 +34,13 @@ export function VoiceJoinSheet({ client, roomId, onJoin, onClose }: Props) {
       </div>
       {members.length > 0 && (
         <ul className={css.list}>
-          {members.map((m) => {
-            const name = m.displayName ?? formatUserId(m.userId);
+          {members.map((userId) => {
+            const { name, avatarUrl } = lookup(userId);
             return (
-              <li key={m.userId} className={css.row}>
+              <li key={userId} className={css.row}>
                 <Avatar
                   name={name}
-                  mxcUrl={m.avatarUrl ?? null}
+                  mxcUrl={avatarUrl}
                   client={client}
                   size="sm"
                   placeholder="logo"

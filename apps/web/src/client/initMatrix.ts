@@ -134,7 +134,10 @@ function storedSessionIsNewer(current: WizardClient): boolean {
 
 async function restore(credentials: MatrixCredentials): Promise<WizardClient> {
   if (client) await endSession();
-  const restored = await WizardClient.restore(credentials.session, credentials.store);
+  const restored = await WizardClient.restore(credentials.session, {
+    ...credentials.store,
+    manualEncryptionSetup: true,
+  });
   client = restored;
   setActive(credentials.userId);
   setStoredUserId(credentials.userId);

@@ -169,6 +169,10 @@ rpc_methods! {
             this.edit_text(&item_key, &body).await
         }
 
+        call fn editCaption(item_key: String, caption: String, html: Option<String>, mentions: Option<MentionsInput>) -> () {
+            this.edit_caption(&item_key, &caption, html.as_deref(), mentions).await
+        }
+
         call fn redact(item_key: String, reason: Option<String>) -> () {
             this.redact(&item_key, reason.as_deref()).await
         }

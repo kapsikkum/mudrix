@@ -14,6 +14,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import org.wizardchat.android.matrix.AppPreferences
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import org.wizardchat.android.LocalPrefs
 import org.wizardchat.tokens.WZ
 
 /**
@@ -82,11 +86,20 @@ class WizardTheme(val colors: WZ.ThemeColors, val isDark: Boolean) {
     val presenceAway get() = colors.presenceAway
     val presenceBusy get() = colors.presenceBusy
     val presenceOffline get() = colors.presenceOffline
+    val roleFounder get() = colors.roleFounder
+    val roleAdmin get() = colors.roleAdmin
+    val roleModerator get() = colors.roleModerator
+    val roleMember get() = colors.roleMember
     val usernameColors
         get() = listOf(
             colors.usernameC1, colors.usernameC2, colors.usernameC3, colors.usernameC4,
             colors.usernameC5, colors.usernameC6, colors.usernameC7, colors.usernameC8,
         )
+    fun usernameColor(userId: String): Color {
+        var hash = 0
+        for (char in userId) hash = 31 * hash + char.code
+        return usernameColors[kotlin.math.abs(hash % usernameColors.size)]
+    }
     val logo get() = listOf(colors.logoP0, colors.logoP1, colors.logoP2, colors.logoP3, colors.logoP4, colors.logoP5)
 
     val fill get() = bgHover
@@ -104,6 +117,21 @@ val LocalTheme = staticCompositionLocalOf { WizardTheme.default }
 /** The current theme */
 val theme: WizardTheme
     @Composable get() = LocalTheme.current
+
+@Composable
+fun nameColor(userId: String?): Color =
+    if (LocalPrefs.current.colorUsernames && !userId.isNullOrEmpty()) theme.usernameColor(userId) else theme.textPrimary
+
+fun withNameColors(text: String, names: List<Pair<String, Color>>): AnnotatedString = buildAnnotatedString {
+    append(text)
+    var from = 0
+    for ((name, color) in names) {
+        if (name.isEmpty()) continue
+        val start = text.indexOf(name, from).takeIf { it >= 0 } ?: continue
+        addStyle(SpanStyle(color = color), start, start + name.length)
+        from = start + name.length
+    }
+}
 
 /** Text in the app font (Roboto, Android's own) at a token size */
 fun wizardFont(size: TextUnit, weight: FontWeight = FontWeight.Normal) = TextStyle(fontSize = size, fontWeight = weight)

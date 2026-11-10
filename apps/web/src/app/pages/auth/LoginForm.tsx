@@ -98,7 +98,7 @@ export function LoginForm({
 
   const handleLogin = async () => {
     if (!identifier || !password) {
-      setStatus(t('welcome.fillAllFields'));
+      setStatus(t('auth.fillAllFields'));
       return;
     }
     if (capabilities?.discoveryStatus === DiscoveryStatus.NotMatrix) {
@@ -151,14 +151,14 @@ export function LoginForm({
 
   return (
     <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.login')}</h2>
+      <h2 className={css.formTitle}>{t('auth.login')}</h2>
 
       <ServerPicker hs={hs} label={t('welcome.serverLabelLogin')} {...picker} />
 
       {isChecking ? (
         <div className={css.checkingServer}>
           <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
@@ -170,14 +170,14 @@ export function LoginForm({
               onClick={handleOidc}
               disabled={oidcLoading}
             >
-              {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
+              {oidcLoading ? t('auth.redirecting') : t('auth.oidcLogin')}
             </Button>
           )}
 
           {oidcMetadata && qrAvailable && (
             <Button fullWidth size="lg" variant="secondary" onClick={() => setQrOpen(true)}>
               <QrCodeIcon size={18} />
-              {t('qrLogin.signInTitle')}
+              {t('auth.qr.signInTitle')}
             </Button>
           )}
           {qrOpen && (
@@ -192,8 +192,8 @@ export function LoginForm({
             <>
               <Input
                 type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
+                placeholder={t('auth.username')}
+                aria-label={t('auth.username')}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
@@ -201,8 +201,8 @@ export function LoginForm({
               {idHint && <p className={css.switchText}>{idHint}</p>}
               <Input
                 type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
+                placeholder={t('auth.password')}
+                aria-label={t('auth.password')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -212,7 +212,7 @@ export function LoginForm({
 
               <p className={css.switchText}>
                 <button type="button" className={css.switchLink} onClick={handleForgotPassword}>
-                  {t('welcome.forgotPassword')}
+                  {t('auth.forgotPassword')}
                 </button>
               </p>
 
@@ -223,7 +223,7 @@ export function LoginForm({
                 onClick={handleLogin}
                 disabled={loading}
               >
-                {loading ? t('welcome.loggingIn') : t('welcome.login')}
+                {loading ? t('auth.loggingIn') : t('auth.login')}
               </Button>
             </>
           )}
@@ -233,7 +233,7 @@ export function LoginForm({
               {hasPassword && <div className={css.divider}>{t('common.or')}</div>}
               {idps.length === 0 ? (
                 <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
-                  {t('welcome.ssoLogin')}
+                  {t('common.continueWithSso')}
                 </Button>
               ) : (
                 idps.map((idp) => {
@@ -246,7 +246,7 @@ export function LoginForm({
                       onClick={() => handleSso(idp.id)}
                     >
                       {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
-                      {t('welcome.continueWithIdp', { name: idp.name })}
+                      {t('auth.continueWithIdp', { name: idp.name })}
                     </Button>
                   );
                 })
@@ -255,7 +255,7 @@ export function LoginForm({
           )}
 
           {!capabilitiesLoading && !hasPassword && !hasSso && !oidcMetadata && (
-            <p className={css.statusText}>{t('welcome.noLoginMethod')}</p>
+            <p className={css.statusText}>{t('auth.noLoginMethod')}</p>
           )}
         </>
       )}
@@ -263,9 +263,9 @@ export function LoginForm({
       {status && <p className={css.statusText}>{status}</p>}
 
       <p className={css.switchText}>
-        {t('welcome.noAccount')}{' '}
+        {t('auth.noAccount')}{' '}
         <button type="button" className={css.switchLink} onClick={onShowRegister}>
-          {t('welcome.register')}
+          {t('auth.register')}
         </button>
       </p>
 

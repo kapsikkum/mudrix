@@ -1,6 +1,13 @@
 import type { MediaInfo } from '@wizardchat/core';
 import { markdownToHtml, plainTextToHtml } from '@/util/markdownToHtml';
-import { entryBody, entryEventId, entryHtml, entryText, type EventEntry } from './entry';
+import {
+  entryBody,
+  entryEventId,
+  entryHtml,
+  entryMedia,
+  entryText,
+  type EventEntry,
+} from './entry';
 
 export interface ReplyContent {
   eventId: string;
@@ -26,8 +33,27 @@ export function extractReplyMxcUrl(event: EventEntry): string | undefined {
   return undefined;
 }
 
+const CAPTION_MSGTYPES = new Set(['m.image', 'm.video', 'm.audio', 'm.file']);
+
+export function isCaptionMsgtype(msgtype: string): boolean {
+  return CAPTION_MSGTYPES.has(msgtype);
+}
+
+export function isCaptionEditable(event: EventEntry): boolean {
+  const { type } = event.content;
+  if (type !== 'image' && type !== 'video' && type !== 'audio' && type !== 'file') return false;
+  return !event.content.media.voice;
+}
+
 export function isEditableEvent(event: EventEntry): boolean {
-  return entryText(event) !== null;
+  return entryText(event) !== null || isCaptionEditable(event);
+}
+
+export function editableBody(event: EventEntry): string {
+  const text = entryText(event);
+  if (text) return text.body;
+  const media = entryMedia(event);
+  return media ? (getMediaCaption(media) ?? '') : '';
 }
 
 export function stripReplyFallback(body: string): string {

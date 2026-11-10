@@ -1,3 +1,4 @@
+import { isVoiceSoundEnabled } from '@/app/features/voice/voiceSounds';
 /**
  * Sound packs: a set of sounds for messages, calls and voice rooms. The files live in
  * `packages/sounds/raw` (flat, shared with the native apps) and are served at /assets/sounds/.
@@ -260,6 +261,8 @@ function playUrl(url: string, volume: number): void {
 /** The URL and volume a sound would play with now, or null when it is off. */
 function activeSound(kind: SoundKind): { url: string; volume: number } | null {
   if (GATED_KINDS.has(kind) && !active.enabled) return null;
+  // The per-sound switches in Settings > Voice & Video
+  if (!isVoiceSoundEnabled(kind)) return null;
   const pack = resolveSoundPack(kind, active.pack, active.overrides);
   if (!pack) return null;
   const url = getSoundUrl(pack, kind);

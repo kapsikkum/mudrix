@@ -1,5 +1,7 @@
 package org.wizardchat.android.matrix
 
+import android.net.ConnectivityManager
+import android.net.Network
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -8,18 +10,22 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.push.Push
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
+import org.wizardchat.core.CustomStatus
 import org.wizardchat.core.EncryptionStatus
 import org.wizardchat.core.IdentityProvider
 import org.wizardchat.core.LoginIdentifier
-import org.wizardchat.core.CustomStatus
-import org.wizardchat.core.Presence
 import org.wizardchat.core.PendingLogin
+import org.wizardchat.core.Presence
 import org.wizardchat.core.ServerInfo
 import org.wizardchat.core.SessionEvent
 import org.wizardchat.core.StoreConfig
@@ -53,7 +59,15 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     var isAddingAccount by mutableStateOf(false)
     var syncState by mutableStateOf(SyncState.idle)
         private set
+    var connectionLost by mutableStateOf(false)
+        private set
+    private var networkAvailable = true
+    private var lostTimer: Job? = null
     var encryption by mutableStateOf<EncryptionStatus?>(null)
+        private set
+    var needsEncryptionSetup by mutableStateOf(false)
+        private set
+    var needsVerification by mutableStateOf(false)
         private set
 
     var client: WizardClient? = null
@@ -93,7 +107,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             while (true) {
                 val stored = SessionStore.active() ?: break
                 try {
-                    val client = WizardClient.restore(stored.session, stored.store)
+                    val client = SessionClients.restore(stored)
                     SessionStore.setActive(stored.session.userId)
                     start(client, stored)
                     return
@@ -127,6 +141,16 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         restore()
     }
 
+    suspend fun refreshAccountProfiles() {
+        val client = client ?: return
+        for (account in accounts) {
+            if (account.userId == userId) continue
+            val profile = runCatching { client.userProfile(account.userId) }.getOrNull() ?: continue
+            SessionStore.updateProfile(account.userId, profile.displayName, profile.avatarUrl)
+        }
+        reloadAccounts()
+    }
+
     fun setProfile(displayName: String?, avatarUrl: String?) {
         this.displayName = displayName
         this.avatarUrl = avatarUrl
@@ -136,6 +160,22 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         this.stored = updated
         SessionStore.save(updated)
         reloadAccounts()
+    }
+
+    val excludesInsecureDevices: Boolean get() = stored?.excludeInsecureDevices ?: false
+
+    fun setExcludeInsecureDevices(exclude: Boolean) {
+        val updated = stored?.copy(excludeInsecureDevices = exclude) ?: return
+        stored = updated
+        SessionStore.save(updated)
+    }
+
+    suspend fun restart() {
+        val userId = stored?.session?.userId ?: return
+        close()
+        SessionClients.remove(userId)
+        state = State.Restoring
+        restore()
     }
 
     suspend fun retryRestore() {
@@ -220,9 +260,51 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         runCatching { client.startSync() }
     }
 
+    init {
+        val manager = WizardApplication.instance.getSystemService(ConnectivityManager::class.java)
+        networkAvailable = manager?.activeNetwork != null
+        manager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                scope.launch { networkChanged(true) }
+            }
+
+            override fun onLost(network: Network) {
+                scope.launch { networkChanged(false) }
+            }
+        })
+    }
+
+    private fun networkChanged(available: Boolean) {
+        val regained = available && !networkAvailable
+        networkAvailable = available
+        updateConnection()
+        val client = client ?: return
+        if (regained && (syncState == SyncState.error || syncState == SyncState.offline)) {
+            scope.launch { runCatching { client.startSync() } }
+        }
+    }
+
+    private fun updateConnection() {
+        val loggedIn = state == State.LoggedIn
+        val lost = loggedIn && (!networkAvailable || syncState in listOf(SyncState.offline, SyncState.error, SyncState.terminated))
+        if (lost) {
+            if (connectionLost || lostTimer != null) return
+            lostTimer = scope.launch {
+                delay(2000)
+                connectionLost = true
+                lostTimer = null
+            }
+        } else if (syncState == SyncState.running || !loggedIn) {
+            lostTimer?.cancel()
+            lostTimer = null
+            connectionLost = false
+        }
+    }
+
     /** Sync stops on network errors; try again after a moment */
     private fun syncStateChanged(state: SyncState) {
         syncState = state
+        updateConnection()
         val client = client ?: return
         if (state != SyncState.error && state != SyncState.offline) return
         if (!ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
@@ -286,12 +368,14 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             ?.let { SessionStore.removeStore(it.storeFolder) }
         SessionStore.save(stored)
         SessionStore.setActive(stored.session.userId)
+        SessionClients.add(client)
         reloadAccounts()
         isAddingAccount = false
         start(client, stored)
     }
 
     private suspend fun close() {
+        CallManager.shared.signedOut()
         subscriptions.forEach { it.cancel() }
         subscriptions = emptyList()
         roomList?.stop()
@@ -306,6 +390,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         statusExpiry?.cancel()
         customStatus = null
         encryption = null
+        needsEncryptionSetup = false
+        needsVerification = false
         syncState = SyncState.idle
         runCatching { client?.stopSync() }
     }
@@ -323,7 +409,10 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         uploadLimitKnown = false
         subscriptions = listOf(
             client.watchSession { sessionChanged(it) },
-            client.watchEncryptionStatus { encryption = it },
+            client.watchEncryptionStatus {
+                encryption = it
+                checkIdentity(client, it)
+            },
         )
         scope.launch {
             // The sync state and room list come from the sync service, so start it first; offline
@@ -337,6 +426,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
             subscriptions = subscriptions + client.watchSyncState { syncStateChanged(it) }
             roomList.start()
             encryption = runCatching { client.encryptionStatus() }.getOrNull()
+            checkIdentity(client, encryption)
             refreshProfile()
             // The core asks the authenticated media config first and the legacy one only when the server lacks it
             runCatching { client.serverCapabilities().uploadSize }.getOrNull()?.takeIf { it > 0 }?.let {
@@ -345,8 +435,20 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                     uploadLimitKnown = true
                 }
             }
+            Push.register()
         }
         state = State.LoggedIn
+    }
+
+    fun checkIdentity(client: WizardClient? = this.client, status: EncryptionStatus? = encryption) {
+        val userId = userId ?: return
+        if (client == null || status == null || status.recovery == "unknown") return
+        scope.launch {
+            val hasIdentity = runCatching { client.userTrust(userId).hasIdentity }.getOrNull() ?: return@launch
+            if (this@MatrixSession.client !== client) return@launch
+            needsEncryptionSetup = !hasIdentity
+            needsVerification = hasIdentity && encryption?.deviceVerified == false
+        }
     }
 
     private fun sessionChanged(event: SessionEvent) {
@@ -362,6 +464,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
     private suspend fun forget(stored: StoredSession) {
         close()
+        SessionClients.remove(stored.session.userId)
+        Push.forget(stored.session.userId)
         SessionStore.remove(stored.session.userId)
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()

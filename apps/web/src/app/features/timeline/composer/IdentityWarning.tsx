@@ -68,7 +68,7 @@ export function IdentityWarning({ client, roomId }: { client: MatrixClient; room
     try {
       await client.acknowledgeIdentity(current.userId);
     } catch (err) {
-      toast.error(t('identityWarning.failed', { error: getErrorMessage(err) }));
+      toast.error(t('verification.identityWarning.failed', { error: getErrorMessage(err) }));
     } finally {
       setBusy(false);
     }
@@ -78,8 +78,8 @@ export function IdentityWarning({ client, roomId }: { client: MatrixClient; room
 
   const text =
     current.kind === 'verified'
-      ? t('identityWarning.verifiedReset', { name: current.name })
-      : t('identityWarning.reset', { name: current.name });
+      ? t('verification.identityWarning.verifiedReset', { name: current.name })
+      : t('verification.identityWarning.reset', { name: current.name });
 
   return (
     <div className={css.identityStrip} role="status">
@@ -93,7 +93,7 @@ export function IdentityWarning({ client, roomId }: { client: MatrixClient; room
         loading={busy}
         onClick={resolve}
       >
-        {current.kind === 'verified' ? t('identityWarning.withdraw') : t('common.ok')}
+        {current.kind === 'verified' ? t('verification.identityWarning.withdraw') : t('common.ok')}
       </Button>
     </div>
   );

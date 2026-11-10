@@ -45,21 +45,19 @@ export function AccountDataExplorer({ client }: { client: MatrixClient }) {
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? <CaretUpIcon size={14} /> : <CaretDownIcon size={14} />}
-        {t('settings.developer.accountData')}
+        {t('developer.accountData.title')}
       </button>
       {expanded && (
         <div className={css.panel}>
           <div className={css.toolbar}>
-            <span className={css.count}>
-              {t('settings.developer.accountDataCount', { count: types.length })}
-            </span>
+            <span className={css.count}>{t('developer.typeCount', { count: types.length })}</span>
             <Button variant="secondary" size="sm" onClick={() => setEditing('')}>
               <PlusIcon size={14} />
-              {t('settings.developer.accountDataAdd')}
+              {t('common.add')}
             </Button>
           </div>
           {types.length === 0 ? (
-            <div className={settingsCss.noResults}>{t('settings.developer.accountDataEmpty')}</div>
+            <div className={settingsCss.noResults}>{t('developer.accountData.empty')}</div>
           ) : (
             <div className={css.list}>
               {types.map((type) => (
@@ -133,7 +131,7 @@ function AccountDataEditor({
     if (value && typeof value === 'object' && !Array.isArray(value)) {
       parsed = value as Record<string, unknown>;
     } else {
-      jsonError = t('settings.developer.accountDataNotObject');
+      jsonError = t('developer.notObject');
     }
   } catch (err) {
     jsonError = getErrorMessage(err);
@@ -147,10 +145,10 @@ function AccountDataEditor({
     setSaving(true);
     try {
       await client.setAccountData(targetType, parsed);
-      toast.success(t('settings.developer.accountDataSaved'));
+      toast.success(t('developer.accountData.saved'));
       onClose();
     } catch (err) {
-      toast.error(t('settings.developer.accountDataSaveFailed', { error: getErrorMessage(err) }));
+      toast.error(t('developer.accountData.saveFailed', { error: getErrorMessage(err) }));
     } finally {
       setSaving(false);
     }
@@ -161,7 +159,7 @@ function AccountDataEditor({
       open
       onClose={onClose}
       size="lg"
-      title={isNew ? t('settings.developer.accountDataNew') : t('settings.developer.accountData')}
+      title={isNew ? t('developer.accountData.new') : t('developer.accountData.title')}
       titleIcon={<CodeIcon size={18} />}
       footer={
         <>
@@ -176,7 +174,7 @@ function AccountDataEditor({
     >
       {isNew ? (
         <Input
-          label={t('settings.developer.accountDataType')}
+          label={t('developer.eventType')}
           placeholder="org.example.setting"
           value={newType}
           onChange={(e) => setNewType(e.target.value)}
@@ -189,7 +187,7 @@ function AccountDataEditor({
         </div>
       )}
       <Textarea
-        label={t('settings.developer.accountDataContent')}
+        label={t('developer.content')}
         className={css.jsonEditor}
         value={json}
         onChange={(e) => setJson(e.target.value)}

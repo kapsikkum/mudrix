@@ -15,7 +15,7 @@ struct QrSignInSheet: View {
         NavigationStack {
             Group {
                 if let mode {
-                    QrAttemptView(mode: mode, showSteps: ["qrLogin.signInStep1", "qrLogin.signInStep2", "qrLogin.signInStep3"],
+                    QrAttemptView(mode: mode, showSteps: ["auth.qr.signInStep1", "auth.qr.signInStep2", "auth.qr.signInStep3"],
                                   doneText: nil,
                                   switchMode: { self.mode = mode == .scan ? .show : .scan }, onClose: { dismiss() }) { scanned, control, listener in
                         try await session.loginWithQr(server: server, scanned: scanned, control: control, listener: listener)
@@ -41,7 +41,7 @@ struct QrSignInSheet: View {
         VStack(spacing: WZ.Space.space6) {
             ScrollView {
                 VStack(spacing: WZ.Space.space6) {
-                    QrHeader(icon: "ph-devices-regular", title: "qrLogin.scanIntroTitle", note: "qrLogin.scanIntroNote")
+                    QrHeader(icon: "ph-devices-regular", title: "auth.qr.scanIntroTitle", note: "auth.qr.scanIntroNote")
                     VStack(alignment: .leading, spacing: WZ.Space.space5) {
                         ForEach(Array(introSteps.enumerated()), id: \.offset) { index, step in
                             HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space4) {
@@ -62,7 +62,7 @@ struct QrSignInSheet: View {
                 .padding(.top, WZ.Space.space6)
             }
             .scrollBounceBehavior(.basedOnSize)
-            Button(String(localized: "qrLogin.readyToScan")) { mode = .scan }
+            Button(String(localized: "auth.qr.readyToScan")) { mode = .scan }
                 .buttonStyle(PrimaryButtonStyle())
         }
         .font(.wizard(WZ.FontSize.md))
@@ -71,7 +71,7 @@ struct QrSignInSheet: View {
     }
 
     private var introSteps: [String.LocalizationValue] {
-        ["qrLogin.scanStep1", "qrLogin.scanStep2", "qrLogin.scanStep3", "qrLogin.scanStep4"]
+        ["auth.qr.scanStep1", "auth.qr.scanStep2", "auth.qr.scanStep3", "auth.qr.scanStep4"]
     }
 }
 
@@ -82,13 +82,13 @@ struct LinkDeviceSheet: View {
 
     var body: some View {
         NavigationStack {
-            QrAttemptView(mode: mode, showSteps: ["qrLogin.linkStep1", "qrLogin.linkStep2", "qrLogin.linkStep3"],
-                          doneText: String(localized: "qrLogin.linkDone"),
+            QrAttemptView(mode: mode, showSteps: ["auth.qr.linkStep1", "auth.qr.linkStep2", "auth.qr.linkStep3"],
+                          doneText: String(localized: "auth.qr.linkDone"),
                           switchMode: { mode = mode == .scan ? .show : .scan }, onClose: { dismiss() }) { scanned, control, listener in
                 try await session.linkDevice(scanned: scanned, control: control, listener: listener)
             }
             .id(mode)
-            .navigationTitle(String(localized: "qrLogin.linkTitle"))
+            .navigationTitle(String(localized: "auth.qr.linkTitle"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -133,7 +133,7 @@ private struct QrAttemptView: View {
     private var scanner: some View {
         ScrollView {
             VStack(spacing: WZ.Space.space7) {
-                QrHeader(icon: "ph-camera-regular", title: "qrLogin.scanTitle")
+                QrHeader(icon: "ph-camera-regular", title: "auth.qr.scanTitle")
                 QrScannerView { bytes in
                     scanned = true
                     Task { await start(bytes) }
@@ -152,7 +152,7 @@ private struct QrAttemptView: View {
     }
 
     private var switchButton: some View {
-        Button(String(localized: mode == .scan ? "qrLogin.showQrInstead" : "qrLogin.scanQrInstead"), action: switchMode)
+        Button(String(localized: mode == .scan ? "auth.qr.showQrInstead" : "auth.qr.scanQrInstead"), action: switchMode)
             .buttonStyle(SecondaryButtonStyle())
     }
 
@@ -301,7 +301,7 @@ private struct QrFlowView: View {
                         .frame(maxWidth: WZ.Size.sidebar)
                         .padding(WZ.Space.space4)
                         .background(.white, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
-                        .accessibilityLabel(String(localized: "qrLogin.qrLabel"))
+                        .accessibilityLabel(String(localized: "auth.qr.qrLabel"))
                     VStack(alignment: .leading, spacing: WZ.Space.space3) {
                         ForEach(Array(qrSteps.enumerated()), id: \.offset) { index, step in
                             Text(verbatim: "\(index + 1). \(String(localized: step))")
@@ -309,7 +309,7 @@ private struct QrFlowView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 case .enterCode:
-                    Text(String(localized: "qrLogin.enterCode")).multilineTextAlignment(.center)
+                    Text(String(localized: "auth.qr.enterCode")).multilineTextAlignment(.center)
                     TextField("", text: $flow.code)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.center)
@@ -320,9 +320,9 @@ private struct QrFlowView: View {
                             flow.code = String(value.filter(\.isNumber).prefix(2))
                             flow.codeError = false
                         }
-                    if flow.codeError { StatusText(text: String(localized: "qrLogin.codeMismatch")) }
+                    if flow.codeError { StatusText(text: String(localized: "auth.qr.codeMismatch")) }
                     HStack(spacing: WZ.Space.space4) {
-                        Button(String(localized: "qrLogin.decline")) { flow.cancel(); onClose() }
+                        Button(String(localized: "common.decline")) { flow.cancel(); onClose() }
                             .buttonStyle(SecondaryButtonStyle())
                         Button(String(localized: "common.continue")) { flow.sendCode() }
                             .buttonStyle(PrimaryButtonStyle())
@@ -330,23 +330,23 @@ private struct QrFlowView: View {
                     }
                 case .showCode(let check, let approval):
                     if let check {
-                        Text(String(localized: "qrLogin.showCode")).multilineTextAlignment(.center)
+                        Text(String(localized: "auth.qr.showCode")).multilineTextAlignment(.center)
                         Text(check).font(.wizard(WZ.FontSize.display, .bold)).foregroundStyle(theme.accent)
                     }
                     if let approval {
-                        Text(String(localized: "qrLogin.showApprovalCode")).multilineTextAlignment(.center)
+                        Text(String(localized: "auth.qr.showApprovalCode")).multilineTextAlignment(.center)
                         Text(approval)
                             .font(.wizard(WZ.FontSize.display, .bold))
                             .monospaced()
                             .foregroundStyle(theme.accent)
                             .textSelection(.enabled)
                     }
-                    Text(String(localized: "qrLogin.waitingForApproval")).multilineTextAlignment(.center)
+                    Text(String(localized: "auth.qr.waitingForApproval")).multilineTextAlignment(.center)
                     ProgressView().tint(theme.accent)
                 case .approve(let url):
-                    Text(String(localized: "qrLogin.approveInBrowser")).multilineTextAlignment(.center)
+                    Text(String(localized: "auth.qr.approveInBrowser")).multilineTextAlignment(.center)
                     ProgressView().tint(theme.accent)
-                    Button(String(localized: "qrLogin.openApproval")) { openURL(url) }
+                    Button(String(localized: "auth.qr.openApproval")) { openURL(url) }
                         .buttonStyle(SecondaryButtonStyle())
                         .onAppear { openURL(url) }
                 case .done:
@@ -428,7 +428,7 @@ struct QrScannerView: UIViewControllerRepresentable {
 
         private func showDenied() {
             let label = UILabel()
-            label.text = String(localized: "qrLogin.cameraDenied")
+            label.text = String(localized: "auth.qr.cameraDenied")
             label.textColor = .white
             label.numberOfLines = 0
             label.textAlignment = .center

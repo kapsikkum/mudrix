@@ -23,9 +23,15 @@ export type CallView = 'hidden' | 'docked' | 'tile' | 'fullscreen';
 
 export interface IncomingCall {
   roomId: string;
+  /** The ring event, to decline */
+  eventId: string;
   callerId: string;
   callerName: string;
   voiceOnly: boolean;
+  /** Ring audibly (DMs and small rooms); otherwise it's a quiet "call started" notice */
+  ring: boolean;
+  /** Set for group rooms, which name the room too */
+  roomName: string | null;
 }
 
 export interface CallUiState {
@@ -136,7 +142,12 @@ export const callEffectiveViewAtom = atom<CallView>((get) => {
 export interface CallActions {
   start: (
     roomId: string,
-    opts?: { voiceOnly?: boolean; presentation?: CallPresentation }
+    opts?: {
+      voiceOnly?: boolean;
+      presentation?: CallPresentation;
+      /** Starting a call, not joining or answering one; the core skips it for running calls */
+      ring?: boolean;
+    }
   ) => Promise<void>;
   hangup: () => void;
   toggleMute: () => void;
@@ -187,3 +198,6 @@ export const pushToTalkModeAtom = atom(
   (get) => get(pushToTalkEnabledAtom) && !!get(keybindsAtom).pushToTalk
 );
 export const pushToTalkHeldAtom = atom(false);
+
+export type GlobalKeyStatus = 'active' | 'taken' | 'no-permission' | 'unsupported';
+export const globalKeyStatusAtom = atom<Partial<Record<string, GlobalKeyStatus>>>({});

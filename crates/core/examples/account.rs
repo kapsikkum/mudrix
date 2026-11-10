@@ -17,6 +17,7 @@ fn store(name: &str) -> StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some("account-test".into()),
         exclude_insecure_devices: false,
+        manual_encryption_setup: false,
     }
 }
 

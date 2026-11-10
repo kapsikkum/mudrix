@@ -234,7 +234,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
     {
       id: 'space',
       icon: <StackIcon size={22} />,
-      title: t('room.space.chooseCreateJoin'),
+      title: t('space.chooseCreateJoin'),
       description: t('timeline.home.spaceDesc'),
       onClick: () => setCreateSpaceOpen({ open: true }),
     },
@@ -262,7 +262,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
     setup.push({
       id: 'encryption',
       icon: notSetUp ? <LockKeyIcon size={20} /> : <ShieldWarningIcon size={20} />,
-      title: notSetUp ? t('verifySession.setupButton') : t('verifySession.title'),
+      title: notSetUp ? t('verification.session.setupButton') : t('verification.session.title'),
       description: t('timeline.home.encryptionDesc'),
       onClick: () => openSettings(notSetUp ? 'encryption' : 'sessions'),
       warning: true,
@@ -320,7 +320,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
           </div>
           <div className={css.heroText}>
             <h1 className={css.title}>{greeting}</h1>
-            <p className={css.tagline}>{t('welcome.tagline')}</p>
+            <p className={css.tagline}>{t('auth.tagline')}</p>
           </div>
         </header>
 
@@ -539,7 +539,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                           else void joinVoiceRoom(room.roomId);
                         }}
                       >
-                        {room.includesMe ? t('home.open') : t('home.join')}
+                        {room.includesMe ? t('common.open') : t('common.join')}
                       </Button>
                     </li>
                   ))}

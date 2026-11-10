@@ -77,7 +77,7 @@ fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
                 CardRow(tr("timeline.home.profileTitle"), null, tr("timeline.home.profileDesc"), 0, false, icon = "camera") { sheet = SetupSheet.account }
             }
             if (needsVerification) {
-                CardRow(tr("verifySession.title"), null, tr("timeline.home.encryptionDesc"), 0, false, icon = "shield-warning", warning = true) { sheet = SetupSheet.sessions }
+                CardRow(tr("verification.session.title"), null, tr("timeline.home.encryptionDesc"), 0, false, icon = "shield-warning", warning = true) { sheet = SetupSheet.sessions }
             }
         }
         if ((invites.isNotEmpty() || mentions.isNotEmpty()) && onOpenInbox != null) {

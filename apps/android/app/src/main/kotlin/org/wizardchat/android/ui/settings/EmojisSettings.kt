@@ -49,6 +49,7 @@ import kotlinx.serialization.json.contentOrNull
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ImagePacks
+import org.wizardchat.android.matrix.MatrixSession
 import org.wizardchat.android.matrix.accountDataJSON
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.setAccountDataJSON
@@ -74,7 +75,7 @@ import org.wizardchat.tokens.WZ
 private const val USER_PACK_TYPE = "im.ponies.user_emotes"
 private val EMOTE_ROOMS_TYPES = listOf("im.ponies.emote_rooms", "m.image_pack.rooms")
 
-private data class Favorite(val roomId: String, val stateKey: String)
+private data class Favorite(val roomId: String, val stateKey: String, val name: String? = null)
 
 private val JsonObject.images: JsonObject get() = this["images"] as? JsonObject ?: JsonObject(emptyMap())
 
@@ -105,12 +106,11 @@ internal fun EmojisSettings(onBack: () -> Unit) {
             val rooms = session.accountDataJSON(type)?.get("rooms") as? JsonObject ?: continue
             for ((roomId, keys) in rooms) {
                 for (key in (keys as? JsonObject)?.keys.orEmpty()) {
-                    val favorite = Favorite(roomId, key)
-                    if (favorite !in result) result += favorite
+                    if (result.none { it.roomId == roomId && it.stateKey == key }) result += Favorite(roomId, key)
                 }
             }
         }
-        favorites = result
+        favorites = result.map { it.copy(name = session.packName(it.roomId, it.stateKey)) }
     }
 
     suspend fun save(content: JsonObject) {
@@ -119,7 +119,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
             pack = content
             ImagePacks.forget()
         } catch (failure: Exception) {
-            error = L10n.format("settings.failedToSave", failure.text)
+            error = L10n.format("common.saveFailed", failure.text)
         }
     }
 
@@ -135,7 +135,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
             }
             reload()
         } catch (failure: Exception) {
-            error = L10n.format("settings.failedToSave", failure.text)
+            error = L10n.format("common.saveFailed", failure.text)
         }
     }
 
@@ -185,7 +185,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
         SettingsSection(tr("settings.emojisStickers.defaultPack"), tr("settings.emojisStickers.defaultPackNote")) {
             SettingsItem(verticalArrangement = Arrangement.spacedBy(WZ.Space.space5)) {
                 Text(
-                    if (images.size == 1) tr("settings.oneImage") else tr("settings.images", images.size),
+                    trPlural("settings.emojisStickers.imageCount", images.size, images.size),
                     style = wizardFont(WZ.FontSize.sm),
                     color = theme.textMuted,
                 )
@@ -205,7 +205,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
                         )
                     }
                 }
-                Text(tr("settings.longPressAnImage"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                Text(tr("settings.emojisStickers.imageActionsHint"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
         }
 
@@ -223,7 +223,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
                 ) {
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
                         Text(
-                            favorite.stateKey.ifEmpty { roomName(favorite.roomId) },
+                            favorite.name ?: favorite.stateKey.ifEmpty { roomName(favorite.roomId) },
                             style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
                             color = theme.textPrimary,
                             maxLines = 1,
@@ -237,7 +237,7 @@ internal fun EmojisSettings(onBack: () -> Unit) {
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
-                    IconAction("star", tr("settings.emojisStickers.removeFavorite"), tint = theme.textMuted) {
+                    IconAction("star", tr("settings.emojisStickers.removeFavorite"), PhWeight.fill) {
                         scope.launch { setFavorite(favorite.roomId, favorite.stateKey, false) }
                     }
                 }
@@ -299,7 +299,7 @@ private fun ImageGrid(images: List<Pair<String, String>>, onRemove: (String) -> 
                                     ) {
                                         PhIcon("plus", size = WZ.SizeIcon.md, tint = theme.textMuted)
                                     }
-                                    Text(tr("settings.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
+                                    Text(tr("settings.emojisStickers.upload"), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
                                 }
                             } else {
                                 var menuOpen by remember { mutableStateOf(false) }
@@ -345,6 +345,14 @@ private fun PackImageThumb(url: String) {
     ) {
         image?.let { Image(it.asImageBitmap(), null, Modifier.size(WZ.Space.space11), contentScale = ContentScale.Fit) }
     }
+}
+
+private suspend fun MatrixSession.packName(roomId: String, stateKey: String): String? {
+    for (type in listOf("im.ponies.room_emotes", "m.room.image_pack")) {
+        val content = stateEvents(type, roomId).firstOrNull { it.first == stateKey }?.second ?: continue
+        (content["pack"] as? JsonObject)?.string("display_name")?.takeIf { it.isNotEmpty() }?.let { return it }
+    }
+    return null
 }
 
 private data class FoundPack(val roomId: String, val roomName: String, val stateKey: String, val name: String, val count: Int) {

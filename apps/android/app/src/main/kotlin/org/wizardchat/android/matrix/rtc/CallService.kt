@@ -12,11 +12,14 @@ import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.WizardApplication
@@ -52,7 +55,7 @@ class CallNotificationController {
     private var shown: CallActivityState? = null
     private var lastUpdate = 0L
     private var pending: Job? = null
-    private val scope = MainScope()
+    private val scope = MainScope() + CoroutineExceptionHandler { _, error -> Log.w("WZCALL", "call notification failed", error) }
     private val context: Context get() = WizardApplication.instance
 
     fun start(roomName: String, isDirect: Boolean, state: CallActivityState) {
@@ -166,7 +169,7 @@ class CallService : Service() {
         private fun placeholder(context: Context): Notification {
             ensureChannel(context)
             return NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(PhIcons.id("phone", PhWeight.fill))
+                .setSmallIcon(PhIcons.id("phone", PhWeight.regular))
                 .setContentTitle(L10n.format("call.wizardchatCall"))
                 .setSilent(true)
                 .build()
@@ -186,7 +189,7 @@ class CallService : Service() {
                 PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             }
             return NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(PhIcons.id("phone", PhWeight.fill))
+                .setSmallIcon(PhIcons.id("phone", PhWeight.regular))
                 .setContentTitle(controller.roomName)
                 .setContentText(status)
                 .setContentIntent(open)
@@ -201,12 +204,12 @@ class CallService : Service() {
                 .setUsesChronometer(!state.ringing)
                 .addAction(
                     PhIcons.id(if (state.micMuted) "microphone-slash" else "microphone"),
-                    L10n.format(if (state.micMuted) "voice.unmute" else "voice.mute"),
+                    L10n.format(if (state.micMuted) "call.unmute" else "call.mute"),
                     action(context, ACTION_TOGGLE_MIC, 1),
                 )
                 .addAction(
-                    PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", if (state.deafened) PhWeight.regular else PhWeight.fill),
-                    L10n.format(if (state.deafened) "voice.undeafen" else "voice.deafen"),
+                    PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", PhWeight.regular),
+                    L10n.format(if (state.deafened) "call.undeafen" else "call.deafen"),
                     action(context, ACTION_TOGGLE_DEAFEN, 2),
                 )
                 .addAction(PhIcons.id("phone-x"), L10n.format("common.leave"), action(context, ACTION_LEAVE, 3))

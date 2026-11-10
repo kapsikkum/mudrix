@@ -82,7 +82,7 @@ fn notification_error(error: impl std::fmt::Display) -> Error {
 
 impl WizardClient {
     /// One shared instance, so changes made here are visible before the next sync
-    async fn notification_settings(&self) -> NotificationSettings {
+    pub(crate) async fn notification_settings(&self) -> NotificationSettings {
         if let Some(settings) = self.notifications.lock().unwrap().clone() {
             return settings;
         }

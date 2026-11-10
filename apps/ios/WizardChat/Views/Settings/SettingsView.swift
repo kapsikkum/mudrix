@@ -5,14 +5,18 @@ struct SettingsView: View {
     /// Changes when the You tab is tapped again, to go back to the list
     var popToRoot = 0
     @State private var path: [Page] = []
+    @State private var search = ""
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, media, integrations, emojis, notifications, voice, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, media, integrations, emojis, notifications, voice, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
 
-        var title: LocalizedStringKey {
+        var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
+        var name: String { NSLocalizedString(titleKey, comment: "") }
+
+        var titleKey: String {
             switch self {
             case .account: return "settings.account.title"
             case .privacy: return "settings.privacy.title"
@@ -21,12 +25,13 @@ struct SettingsView: View {
             case .emojis: return "room.settings.emojis.title"
             case .notifications: return "settings.notifications.title"
             case .voice: return "settings.voice.title"
+            case .voiceVideo: return "settings.voiceVideo.title"
             case .appearance: return "settings.appearance.title"
             case .accessibility: return "settings.accessibility.title"
             case .language: return "settings.language.title"
             case .sessions: return "settings.sessions.title"
             case .encryption: return "settings.encryption.title"
-            case .developer: return "settings.developer.title"
+            case .developer: return "developer.title"
             case .about: return "settings.about.title"
             }
         }
@@ -40,6 +45,7 @@ struct SettingsView: View {
             case .emojis: return "ph-smiley-sticker-regular"
             case .notifications: return "ph-bell-regular"
             case .voice: return "ph-speaker-high-regular"
+            case .voiceVideo: return "ph-microphone-regular"
             case .appearance: return "ph-palette-regular"
             case .accessibility: return "ph-person-simple-circle-regular"
             case .language: return "ph-globe-simple-regular"
@@ -54,6 +60,16 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if !search.trimmingCharacters(in: .whitespaces).isEmpty {
+                    let matches = Page.allCases.filter { $0.name.localizedCaseInsensitiveContains(search.trimmingCharacters(in: .whitespaces)) }
+                    Section {
+                        if matches.isEmpty {
+                            Text(String(localized: "nav.noMatches")).foregroundStyle(theme.textMuted)
+                        }
+                        ForEach(matches) { pageRow($0) }
+                    }
+                    .listRowBackground(theme.groupedRow)
+                } else {
                 Section {
                     NavigationLink(value: Page.account) {
                         HStack(spacing: WZ.Space.space5) {
@@ -81,10 +97,11 @@ struct SettingsView: View {
                     ForEach([Page.privacy, .media, .integrations, .notifications, .voice, .emojis]) { pageRow($0) }
                 }
                 Section {
-                    ForEach([Page.appearance, .accessibility, .language]) { pageRow($0) }
+                    ForEach([Page.voiceVideo, .appearance, .accessibility, .language]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.sessions, .encryption, .developer, .about]) { pageRow($0) }
+                }
                 }
 
             }
@@ -92,7 +109,9 @@ struct SettingsView: View {
             .scrollContentBackground(.hidden)
             .listRowBackground(theme.groupedRow)
             .background(theme.groupedBackground.ignoresSafeArea())
-            .navigationTitle(String(localized: "common.settings"))
+            .modifier(SettingsTitle(isTab: isTab))
+            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
+                        prompt: Text(String(localized: "settings.search")))
             .toolbar {
                 if !isTab {
                     ToolbarItem(placement: .confirmationAction) {
@@ -110,6 +129,7 @@ struct SettingsView: View {
                 case .emojis: EmojisSettings()
                 case .notifications: NotificationSettingsPage()
                 case .voice: VoiceSettings()
+                case .voiceVideo: VoiceVideoSettings()
                 case .appearance: AppearanceSettings()
                 case .accessibility: AccessibilitySettings()
                 case .language: LanguageSettings()
@@ -144,17 +164,18 @@ private struct AccountSwitcher: View {
     let onLogout: () -> Void
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
+    @State private var avatars: [String: UIImage] = [:]
 
     var body: some View {
         Menu {
             Section {
                 ForEach(session.accounts) { account in
-                    Toggle(isOn: Binding(
-                        get: { account.userId == session.userId },
-                        set: { _ in Task { await session.switchAccount(to: account.userId) } }
-                    )) {
+                    Button {
+                        Task { await session.switchAccount(to: account.userId) }
+                    } label: {
                         Text(account.displayName ?? account.userId)
                         Text(account.userId)
+                        if let avatar = avatars[account.userId] { Image(uiImage: avatar) }
                     }
                 }
             }
@@ -184,6 +205,52 @@ private struct AccountSwitcher: View {
             .contentShape(Rectangle())
         }
         .listRowBackground(theme.groupedRow)
+        .task { await session.refreshAccountProfiles() }
+        .task(id: "\(session.userId ?? "")|\(session.accounts.map { "\($0.userId)\($0.avatarUrl ?? "")" })") { await loadAvatars() }
+    }
+
+    private func loadAvatars() async {
+        var first: [String: UIImage] = [:]
+        for account in session.accounts {
+            if let image = await AvatarImage.circular(nil, name: account.displayName ?? account.userId, media: nil,
+                                                      theme: theme, side: WZ.SizeAvatar.sm,
+                                                      fallback: SessionStore.savedAvatar(account.userId)) {
+                first[account.userId] = mark(image, for: account.userId)
+            }
+        }
+        avatars = first
+        // Another account's server isn't always reachable from this one, so its saved copy stays
+        // unless a fresh picture arrives
+        await withTaskGroup(of: Void.self) { group in
+            for account in session.accounts {
+                guard let url = account.avatarUrl else { continue }
+                group.addTask { @MainActor in
+                    guard let picture = await session.media?.thumbnail(url), !Task.isCancelled else { return }
+                    if account.userId == session.userId { SessionStore.saveAvatar(picture, for: account.userId) }
+                    avatars[account.userId] = mark(AvatarImage.circle(picture, side: WZ.SizeAvatar.sm), for: account.userId)
+                }
+            }
+        }
+    }
+
+    private func mark(_ image: UIImage, for userId: String) -> UIImage {
+        userId == session.userId ? checked(image) : image
+    }
+
+    private func checked(_ avatar: UIImage) -> UIImage {
+        let side = avatar.size.width
+        let badge = side * 0.5
+        let rect = CGRect(x: side - badge, y: side - badge, width: badge, height: badge)
+        return UIGraphicsImageRenderer(size: avatar.size).image { _ in
+            avatar.draw(at: .zero)
+            UIColor(theme.accent).setFill()
+            UIBezierPath(ovalIn: rect).fill()
+            let config = UIImage.SymbolConfiguration(pointSize: badge * 0.55, weight: .bold)
+            if let mark = UIImage(systemName: "checkmark", withConfiguration: config)?
+                .withTintColor(UIColor(theme.textOnAccent), renderingMode: .alwaysOriginal) {
+                mark.draw(at: CGPoint(x: rect.midX - mark.size.width / 2, y: rect.midY - mark.size.height / 2))
+            }
+        }.withRenderingMode(.alwaysOriginal)
     }
 }
 
@@ -318,6 +385,28 @@ struct ToggleRow: View {
     }
 }
 
+struct CheckRow: View {
+    let label: LocalizedStringKey
+    @Binding var isOn: Bool
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button { isOn.toggle() } label: {
+            HStack {
+                RowLabel(label: label)
+                Spacer(minLength: WZ.Space.space5)
+                Image("ph-check-bold")
+                    .font(.system(size: WZ.SizeIcon.sm, weight: .bold))
+                    .foregroundStyle(theme.accent)
+                    .opacity(isOn ? 1 : 0)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
+    }
+}
+
 struct PickerRow<Value: Hashable>: View {
     let label: LocalizedStringKey
     var note: LocalizedStringKey?
@@ -392,5 +481,17 @@ struct StatusText: View {
             .font(.wizard(WZ.FontSize.sm))
             .foregroundStyle(isError ? theme.error : theme.success)
             .listRowBackground(Color.clear)
+    }
+}
+
+private struct SettingsTitle: ViewModifier {
+    let isTab: Bool
+
+    func body(content: Content) -> some View {
+        if isTab {
+            content.tabTitle(String(localized: "common.settings"))
+        } else {
+            content.navigationTitle(String(localized: "common.settings"))
+        }
     }
 }

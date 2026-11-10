@@ -61,15 +61,15 @@ internal fun AccountDataSheet(onDismiss: () -> Unit) {
                 AccountDataEditor(type.ifEmpty { null }, onBack = { editing = null }, onSaved = { load() })
             } else {
                 SheetTopBar(
-                    tr("settings.developer.accountData"),
+                    tr("developer.accountData.title"),
                     leading = { BarTextButton(tr("common.done"), onDismiss) },
-                    trailing = { BarTextButton(tr("settings.developer.accountDataAdd"), { editing = "" }, bold = true) },
+                    trailing = { BarTextButton(tr("common.add"), { editing = "" }, bold = true) },
                 )
                 LazyColumn(Modifier.fillMaxWidth().weight(1f).navigationBarsPadding()) {
                     if (loaded) {
                         item {
                             Text(
-                                L10n.plural("settings.developer.accountDataCount", types.size, types.size),
+                                L10n.plural("developer.typeCount", types.size, types.size),
                                 Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
                                 style = wizardFont(WZ.FontSize.sm),
                                 color = theme.textMuted,
@@ -77,7 +77,7 @@ internal fun AccountDataSheet(onDismiss: () -> Unit) {
                         }
                     }
                     if (loaded && types.isEmpty()) {
-                        item { Text(tr("settings.developer.accountDataEmpty"), Modifier.padding(WZ.Space.space6), color = theme.textMuted) }
+                        item { Text(tr("developer.accountData.empty"), Modifier.padding(WZ.Space.space6), color = theme.textMuted) }
                     }
                     items(types, key = { it }) { item ->
                         Text(
@@ -115,24 +115,24 @@ private fun AccountDataEditor(type: String?, onBack: () -> Unit, onSaved: suspen
         val eventType = type ?: newType.trim()
         val value = runCatching { Json.parseToJsonElement(text) }.getOrNull()
         if (value !is JsonObject) {
-            status = L10n.format("settings.developer.accountDataNotObject") to true
+            status = L10n.format("developer.notObject") to true
             return
         }
         saving = true
         scope.launch {
             runCatching { session.requireClient.setAccountData(eventType, value) }
                 .onSuccess {
-                    status = L10n.format("settings.developer.accountDataSaved") to false
+                    status = L10n.format("developer.accountData.saved") to false
                     onSaved()
                     if (type == null) onBack()
                 }
-                .onFailure { status = L10n.format("settings.developer.accountDataSaveFailed", it.message ?: "") to true }
+                .onFailure { status = L10n.format("developer.accountData.saveFailed", it.message ?: "") to true }
             saving = false
         }
     }
 
     SheetTopBar(
-        type ?: tr("settings.developer.accountDataNew"),
+        type ?: tr("developer.accountData.new"),
         leading = { BarTextButton(tr("common.back"), onBack) },
         trailing = {
             BarTextButton(tr("common.save"), ::save, enabled = !saving && (type != null || newType.isNotBlank()), bold = true)
@@ -143,10 +143,10 @@ private fun AccountDataEditor(type: String?, onBack: () -> Unit, onSaved: suspen
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
         if (type == null) {
-            Text(tr("settings.developer.accountDataType"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+            Text(tr("developer.eventType"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             WizardTextField(newType, { newType = it }, "m.example")
         }
-        Text(tr("settings.developer.accountDataContent"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        Text(tr("developer.content"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         TextField(
             text,
             { text = it },

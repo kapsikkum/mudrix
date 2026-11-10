@@ -219,10 +219,13 @@ export const roleDot = style({
   flexShrink: 0,
 });
 
-export const roleAdminDot = style([roleDot, { backgroundColor: '#ef4444' }]);
-export const roleModeratorDot = style([roleDot, { backgroundColor: '#eab308' }]);
-export const roleMemberDot = style([roleDot, { backgroundColor: '#3b82f6' }]);
-export const roleFounderDot = style([roleDot, { backgroundColor: '#a855f7' }]);
+export const roleAdminDot = style([roleDot, { backgroundColor: 'var(--wz-color-role-admin)' }]);
+export const roleModeratorDot = style([
+  roleDot,
+  { backgroundColor: 'var(--wz-color-role-moderator)' },
+]);
+export const roleMemberDot = style([roleDot, { backgroundColor: 'var(--wz-color-role-member)' }]);
+export const roleFounderDot = style([roleDot, { backgroundColor: 'var(--wz-color-role-founder)' }]);
 
 export const roleAdmin = style([roleBadge]);
 export const roleModerator = style([roleBadge]);

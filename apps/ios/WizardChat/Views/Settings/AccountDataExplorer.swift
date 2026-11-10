@@ -12,7 +12,7 @@ struct AccountDataExplorer: View {
         List {
             Section {
                 if loaded && types.isEmpty {
-                    Text(String(localized: "settings.developer.accountDataEmpty")).foregroundStyle(theme.textMuted)
+                    Text(String(localized: "developer.accountData.empty")).foregroundStyle(theme.textMuted)
                 }
                 ForEach(types, id: \.self) { type in
                     NavigationLink {
@@ -22,17 +22,17 @@ struct AccountDataExplorer: View {
                     }
                 }
             } header: {
-                if loaded { Text(L10n.format("settings.developer.accountDataCount", types.count)) }
+                if loaded { Text(L10n.format("developer.typeCount", types.count)) }
             }
             .listRowBackground(theme.groupedRow)
         }
         .scrollContentBackground(.hidden)
         .background(theme.groupedBackground.ignoresSafeArea())
-        .navigationTitle(String(localized: "settings.developer.accountData"))
+        .navigationTitle(String(localized: "developer.accountData.title"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(String(localized: "settings.developer.accountDataAdd")) { adding = true }
+                Button(String(localized: "common.add")) { adding = true }
             }
         }
         .navigationDestination(isPresented: $adding) {
@@ -60,16 +60,16 @@ private struct AccountDataEditor: View {
     @State private var saving = false
 
     var body: some View {
-        Form {
+        ThemedForm {
             if type == nil {
-                Section(String(localized: "settings.developer.accountDataType")) {
+                Section(String(localized: "developer.eventType")) {
                     TextField("m.example", text: $newType)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .font(.system(size: WZ.FontSize.sm, design: .monospaced))
                 }
             }
-            Section(String(localized: "settings.developer.accountDataContent")) {
+            Section(String(localized: "developer.content")) {
                 TextEditor(text: $text)
                     .font(.system(size: WZ.FontSize.sm, design: .monospaced))
                     .textInputAutocapitalization(.never)
@@ -80,7 +80,7 @@ private struct AccountDataEditor: View {
                 StatusText(text: status.0, isError: status.1)
             }
         }
-        .navigationTitle(type ?? String(localized: "settings.developer.accountDataNew"))
+        .navigationTitle(type ?? String(localized: "developer.accountData.new"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
@@ -102,18 +102,18 @@ private struct AccountDataEditor: View {
         let eventType = type ?? newType.trimmingCharacters(in: .whitespaces)
         guard let data = text.data(using: .utf8),
               let value = try? JSONDecoder().decode(JSONValue.self, from: data), case .object = value else {
-            status = (String(localized: "settings.developer.accountDataNotObject"), true)
+            status = (String(localized: "developer.notObject"), true)
             return
         }
         saving = true
         defer { saving = false }
         do {
             try await session.client?.setAccountData(eventType: eventType, content: value)
-            status = (String(localized: "settings.developer.accountDataSaved"), false)
+            status = (String(localized: "developer.accountData.saved"), false)
             await onSaved()
             if type == nil { dismiss() }
         } catch {
-            status = (L10n.format("settings.developer.accountDataSaveFailed", error.localizedDescription), true)
+            status = (L10n.format("developer.accountData.saveFailed", error.localizedDescription), true)
         }
     }
 

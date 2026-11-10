@@ -77,7 +77,7 @@ export function AccountSwitchGuard({ client }: Props) {
             : t('auth.signedOutElsewhereMessage')}
         </p>
         <Button variant="primary" onClick={() => window.location.replace('/')}>
-          {t('auth.reloadNow')}
+          {t('common.reloadNow')}
         </Button>
       </div>
     </div>

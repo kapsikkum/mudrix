@@ -7,17 +7,17 @@ enum RoleLevel: Int64, CaseIterable, Identifiable {
 
     var title: LocalizedStringKey {
         switch self {
-        case .member: return "profile.roleMember"
-        case .moderator: return "profile.roleModerator"
-        case .admin: return "profile.roleAdmin"
+        case .member: return "room.members.member"
+        case .moderator: return "room.members.moderator"
+        case .admin: return "room.members.admin"
         }
     }
 
     var whoTitle: LocalizedStringKey {
         switch self {
-        case .member: return "room.everyone"
-        case .moderator: return "room.moderators"
-        case .admin: return "room.admins"
+        case .member: return "room.members.everyone"
+        case .moderator: return "room.members.moderators"
+        case .admin: return "room.members.admins"
         }
     }
 }
@@ -87,10 +87,10 @@ struct RoleMenu: View {
         }
         .alert(confirmTitle, isPresented: Binding(get: { confirmLevel != nil }, set: { if !$0 { confirmLevel = nil } }),
                presenting: confirmLevel) { level in
-            Button(String(localized: "room.changeRole"), role: .destructive) { Task { await set(level) } }
+            Button(String(localized: "room.members.changeRole"), role: .destructive) { Task { await set(level) } }
             Button(String(localized: "common.cancel"), role: .cancel) {}
         } message: { _ in
-            Text(isSelf ? String(localized: "room.selfDemoteWarning") : String(localized: "room.equalLevelWarning"))
+            Text(isSelf ? String(localized: "room.members.selfDemoteWarning") : String(localized: "room.members.equalLevelWarning"))
         }
         if let error {
             Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
@@ -98,16 +98,16 @@ struct RoleMenu: View {
     }
 
     private var confirmTitle: String {
-        isSelf ? String(localized: "room.lowerYourOwnRole") : String(localized: "room.giveThemYourLevel")
+        isSelf ? String(localized: "room.members.selfDemoteTitle") : String(localized: "room.members.equalLevelTitle")
     }
 
     static func name(for level: Int64) -> LocalizedStringKey {
         switch level {
-        case .max: return "room.creator"
-        case 100...: return "profile.roleAdmin"
-        case 50..<100: return "profile.roleModerator"
-        case 0: return "profile.roleMember"
-        default: return LocalizedStringKey(L10n.format("room.customLevel", "\(level)"))
+        case .max: return "room.members.owner"
+        case 100...: return "room.members.admin"
+        case 50..<100: return "room.members.moderator"
+        case 0: return "room.members.member"
+        default: return LocalizedStringKey(L10n.format("room.members.customLevel", "\(level)"))
         }
     }
 
@@ -144,21 +144,21 @@ struct RolesPermissionsView: View {
 
     private let permissions: [Permission] = [
         .init(id: "send", title: "room.settings.permissions.rows.send_message", icon: "ph-chat-circle-regular", key: "events_default", fallback: 0),
-        .init(id: "invite", title: "room.invitePeople", icon: "ph-user-plus-regular", key: "invite", fallback: 0),
-        .init(id: "kick", title: "room.removePeople", icon: "ph-user-minus-regular", key: "kick", fallback: 50),
-        .init(id: "ban", title: "room.banPeople", icon: "ph-prohibit-regular", key: "ban", fallback: 50),
-        .init(id: "redact", title: "room.deleteOthersMessages", icon: "ph-trash-regular", key: "redact", fallback: 50),
-        .init(id: "name", title: "room.changeName", icon: "ph-text-aa-regular", key: "events", event: "m.room.name", fallback: 50),
+        .init(id: "invite", title: "room.members.invite", icon: "ph-user-plus-regular", key: "invite", fallback: 0),
+        .init(id: "kick", title: "room.settings.permissions.removePeople", icon: "ph-user-minus-regular", key: "kick", fallback: 50),
+        .init(id: "ban", title: "room.settings.permissions.banPeople", icon: "ph-prohibit-regular", key: "ban", fallback: 50),
+        .init(id: "redact", title: "room.settings.permissions.deleteOthersMessages", icon: "ph-trash-regular", key: "redact", fallback: 50),
+        .init(id: "name", title: "room.settings.permissions.changeName", icon: "ph-text-aa-regular", key: "events", event: "m.room.name", fallback: 50),
         .init(id: "topic", title: "room.settings.permissions.rows.change_topic", icon: "ph-text-align-left-regular", key: "events", event: "m.room.topic", fallback: 50),
-        .init(id: "avatar", title: "room.changePicture", icon: "ph-image-regular", key: "events", event: "m.room.avatar", fallback: 50),
+        .init(id: "avatar", title: "room.settings.permissions.changePicture", icon: "ph-image-regular", key: "events", event: "m.room.avatar", fallback: 50),
         .init(id: "state", title: "room.settings.permissions.rows.other_state_events", icon: "ph-gear-regular", key: "state_default", fallback: 50),
     ]
 
     var body: some View {
-        Form {
+        ThemedForm {
             Section {
                 if staff.isEmpty {
-                    Text(String(localized: "room.noAdminsOrModerators")).foregroundStyle(theme.textMuted)
+                    Text(String(localized: "room.members.noAdminsOrModerators")).foregroundStyle(theme.textMuted)
                 }
                 ForEach(staff, id: \.userId) { member in
                     Button { selected = member.userId } label: {
@@ -177,7 +177,7 @@ struct RolesPermissionsView: View {
             } header: {
                 Text(String(localized: "room.settings.permissions.groups.roles"))
             } footer: {
-                Text(String(localized: "room.changeSomeoneSRole"))
+                Text(String(localized: "room.members.changeRoleHint"))
             }
 
             if let levels {
@@ -186,10 +186,10 @@ struct RolesPermissionsView: View {
                         permissionRow(permission, current: value(of: permission, in: levels))
                     }
                 } header: {
-                    Text(String(localized: "room.permissions"))
+                    Text(String(localized: "room.settings.permissions.sectionTitle"))
                 } footer: {
                     if !rights.canEditLevels {
-                        Text(String(localized: "room.onlyPeopleAllowedTo"))
+                        Text(String(localized: "room.settings.permissions.editHint"))
                     }
                 }
             }

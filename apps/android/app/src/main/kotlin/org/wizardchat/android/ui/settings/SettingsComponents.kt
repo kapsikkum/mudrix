@@ -36,6 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,13 +52,13 @@ import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.RowDivider
+import org.wizardchat.android.ui.SheetTopBar
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardTopBar
 import org.wizardchat.android.ui.copyToClipboard
 import org.wizardchat.android.ui.sensitive
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
-import org.wizardchat.android.ui.SheetTopBar
 import org.wizardchat.android.ui.tr
 import org.wizardchat.tokens.WZ
 
@@ -197,6 +201,17 @@ internal fun WizardSwitch(checked: Boolean, onCheckedChange: (Boolean) -> Unit, 
             disabledUncheckedTrackColor = theme.fill,
         ),
     )
+}
+
+@Composable
+internal fun CheckRow(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    RowFrame(
+        Modifier.semantics { selected = checked; role = Role.Checkbox },
+        onClick = { onCheckedChange(!checked) },
+    ) {
+        RowLabel(label, null, Modifier.weight(1f))
+        PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.sm, tint = if (checked) theme.accent else Color.Transparent)
+    }
 }
 
 /** A menu picker with its current choice at the end */

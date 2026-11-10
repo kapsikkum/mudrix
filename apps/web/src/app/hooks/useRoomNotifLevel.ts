@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import type { NotificationMode } from '@wizardchat/core';
 import { roomNotifLevelAtom } from '@/app/store/atoms/notifications';
@@ -20,7 +20,18 @@ export function useRoomNotifLevel(roomId: string) {
   const overrides = useAtomValue(roomNotifLevelAtom);
   const setOverrides = useSetAtom(roomNotifLevelAtom);
   const room = useRoom(roomId);
-  const level: NotifLevel = overrides[roomId] ?? toNotifLevel(room?.notificationMode);
+  const fromRoom = toNotifLevel(room?.notificationMode);
+  const override = overrides[roomId];
+  const level: NotifLevel = override ?? fromRoom;
+
+  useEffect(() => {
+    if (override === undefined || override !== fromRoom) return;
+    setOverrides((prev) => {
+      const next = { ...prev };
+      delete next[roomId];
+      return next;
+    });
+  }, [override, fromRoom, roomId, setOverrides]);
 
   const setLevel = useCallback(
     async (newLevel: NotifLevel) => {

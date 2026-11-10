@@ -52,7 +52,7 @@ struct SpaceChannelsView: View {
     }
 
     private func categoryName(_ category: SpaceModern.Category) -> String {
-        category.spaceId.flatMap { roomList.space(id: $0)?.name } ?? String(localized: "room.title")
+        category.spaceId.flatMap { roomList.space(id: $0)?.name } ?? String(localized: "nav.rooms")
     }
 
     private func categoryHeader(_ category: SpaceModern.Category) -> some View {

@@ -50,7 +50,7 @@ struct ActiveNowSection: View {
         let cards = cards
         if !cards.isEmpty {
             VStack(alignment: .leading, spacing: WZ.Space.space3) {
-                Text(String(localized: "home.activeNow"))
+                Text(String(localized: "nav.activeNow"))
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .foregroundStyle(theme.textMuted)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -70,7 +70,7 @@ struct ActiveNowSection: View {
         return VStack(alignment: .leading, spacing: WZ.Space.space4) {
             VStack(alignment: .leading, spacing: WZ.Space.space1) {
                 HStack(spacing: WZ.Space.space2) {
-                    Image("ph-speaker-high-fill")
+                    Image("ph-speaker-high-regular")
                         .font(.system(size: WZ.SizeIcon.xs))
                         .foregroundStyle(theme.success)
                     Text(card.room.displayName)
@@ -91,14 +91,14 @@ struct ActiveNowSection: View {
                                  roomId: card.room.id, known: person.known)
                 }
                 if card.people.count > shown.count {
-                    Text(L10n.format("home.morePeople", card.people.count - shown.count))
+                    Text(L10n.format("nav.morePeople", card.people.count - shown.count))
                         .font(.wizard(WZ.FontSize.xs))
                         .foregroundStyle(theme.textMuted)
                 }
             }
             Spacer(minLength: WZ.Space.space0)
             NavigationLink(value: Route.room(card.room.id)) {
-                Text(String(localized: card.includesMe ? "home.open" : "home.join"))
+                Text(String(localized: card.includesMe ? "common.open" : "common.join"))
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .foregroundStyle(card.includesMe ? theme.textPrimary : theme.textOnAccent)
                     .frame(maxWidth: .infinity, minHeight: WZ.SizeControl.md)

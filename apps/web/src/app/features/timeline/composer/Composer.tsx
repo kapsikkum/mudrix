@@ -53,7 +53,7 @@ import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom
 import { IdentityWarning } from './IdentityWarning';
 import { ComposerTimelineContext, useSendTimeline } from './composerTimeline';
 import type { ReplyTarget } from './sendMessageContent';
-import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
+import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { isInCallAtom } from '@/app/store/atoms/call';
 import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Composer.css';
@@ -238,6 +238,7 @@ export function Composer({
         const bound = [
           keybinds.toggleMute,
           keybinds.toggleDeafen,
+          keybinds.toggleScreenShare ?? DEFAULT_KEYBINDS.toggleScreenShare ?? '',
           pushToTalk ? keybinds.pushToTalk : '',
         ];
         if (bound.some((combo) => matchesComboDown(e, parseCombo(combo)))) return;
@@ -418,11 +419,11 @@ export function Composer({
                 />
               ) : (
                 <>
-                  <Tooltip content={t('composer.emoji')}>
+                  <Tooltip content={t('common.emoji')}>
                     <button
                       type="button"
                       className={emojiActive ? css.emojiBtnActive : css.emojiBtn}
-                      aria-label={t('composer.emoji')}
+                      aria-label={t('common.emoji')}
                       aria-pressed={emojiActive}
                       onClick={() => {
                         if (emojiActive) {
@@ -477,11 +478,11 @@ export function Composer({
                         </button>
                       </Tooltip>
 
-                      <Tooltip content={t('composer.moreOptions')}>
+                      <Tooltip content={t('common.moreOptions')}>
                         <button
                           type="button"
                           className={moreOpen ? css.moreBtnActive : css.moreBtn}
-                          aria-label={t('composer.moreOptions')}
+                          aria-label={t('common.moreOptions')}
                           aria-haspopup="menu"
                           aria-expanded={moreOpen}
                           onClick={openMoreMenu}

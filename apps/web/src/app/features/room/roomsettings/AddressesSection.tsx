@@ -106,7 +106,7 @@ export function AddressesSection({ aliases }: { aliases: RoomAliases }) {
           <IconButton
             size="sm"
             onClick={() => remove(alias)}
-            aria-label={t('room.settings.addresses.removeAddress')}
+            aria-label={t('common.remove')}
             disabled={!canEdit}
           >
             <TrashIcon size={14} />

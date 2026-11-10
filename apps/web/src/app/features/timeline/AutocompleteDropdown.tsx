@@ -74,7 +74,9 @@ export function AutocompleteDropdown({
       ? t('common.emoji')
       : state.mode === 'command'
         ? t('common.commands')
-        : t('common.members');
+        : state.mode === 'room'
+          ? t('nav.rooms')
+          : t('common.members');
 
   const dropdown = (
     <div
@@ -114,6 +116,23 @@ export function AutocompleteDropdown({
               <div key={suggestion.command} className={itemClass} {...optionProps}>
                 <span className={css.emojiName}>/{suggestion.command}</span>
                 <span className={css.mentionId}>{suggestion.description(t)}</span>
+              </div>
+            );
+          }
+
+          if (suggestion.kind === 'room-link') {
+            return (
+              <div key={suggestion.roomId} className={itemClass} {...optionProps}>
+                <Avatar
+                  name={suggestion.name}
+                  mxcUrl={suggestion.avatarMxc}
+                  client={client}
+                  size="sm"
+                />
+                <span className={css.mentionName}>{suggestion.name}</span>
+                <span className={css.mentionId}>
+                  {suggestion.isSpace ? t('explore.typeSpace') : (suggestion.alias ?? '')}
+                </span>
               </div>
             );
           }

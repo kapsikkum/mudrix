@@ -1,4 +1,4 @@
-# Contributing
+# Working on the codebase
 
 Mudrix is a fork of WizardChat's Rust-core rewrite (see the README). User-visible text, ids and docs say Mudrix; code
 identifiers mostly still say WizardChat, see [Internal names left as-is](#internal-names-left-as-is).

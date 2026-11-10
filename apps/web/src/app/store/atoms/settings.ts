@@ -54,6 +54,7 @@ export interface Keybinds {
   toggleDeafen: string;
   toggleVideo: string;
   disconnect: string;
+  toggleScreenShare?: string;
   pushToTalk: string;
 }
 
@@ -62,6 +63,7 @@ export const DEFAULT_KEYBINDS: Keybinds = {
   toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
   toggleVideo: '',
   disconnect: '',
+  toggleScreenShare: `${MOD_MODIFIER}+Shift+KeyE`,
   pushToTalk: '',
 };
 
@@ -139,6 +141,7 @@ export interface Preferences {
   soundboardMutedUsers: string[];
   /** Let people who manage a space move me from one of its voice channels to another. */
   allowVoiceMoves: boolean;
+  voiceSounds: Partial<Record<string, boolean>>;
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
@@ -214,6 +217,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   soundboardVolume: 70,
   soundboardMutedUsers: [],
   allowVoiceMoves: true,
+  voiceSounds: {},
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -326,6 +330,7 @@ export const effectiveThemeAtom = atom<ThemeName>((get) => {
   if (!get(followSystemThemeAtom)) return get(themeAtom);
   return get(systemPrefersDarkAtom) ? get(systemDarkThemeAtom) : get(systemLightThemeAtom);
 });
+export const voiceSoundsAtom = preferenceFieldAtom('voiceSounds');
 
 const rawStringStorage = {
   getItem: (key: string, init: string) => localStorage.getItem(key) ?? init,

@@ -232,13 +232,13 @@ export function TextFileCard({
               <ArrowsOutSimpleIcon size={18} />
             </button>
           </Tooltip>
-          <Tooltip content={t('mediaLightbox.download')}>
+          <Tooltip content={t('common.download')}>
             <button
               type="button"
               className={css.textFileAction}
               onClick={handleDownload}
               disabled={busy}
-              aria-label={t('mediaLightbox.download')}
+              aria-label={t('common.download')}
             >
               <DownloadSimpleIcon size={18} />
             </button>

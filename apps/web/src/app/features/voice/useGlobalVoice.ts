@@ -9,12 +9,14 @@ export function useGlobalVoiceState() {
   const [deafened, setDeafened] = useAtom(deafenedAtom);
 
   const joined = ui.phase === 'joined';
+  // While joining, the call's media already exists and was created with the old preference
+  const inCall = ui.roomId !== null && !!actions;
   const liveMicMuted = joined ? ui.isMuted : micMuted || deafened;
   const liveDeafened = joined ? ui.isDeafened : deafened;
 
   const toggleMic = () => {
-    if (joined) {
-      actions?.toggleMute();
+    if (inCall) {
+      actions.toggleMute();
       return;
     }
     if (liveMicMuted) {
@@ -26,7 +28,7 @@ export function useGlobalVoiceState() {
   };
 
   const toggleDeafen = () => {
-    if (joined) actions?.toggleDeafen();
+    if (inCall) actions.toggleDeafen();
     else setDeafened(!deafened);
   };
 

@@ -1,5 +1,8 @@
 package org.wizardchat.android.ui.home
 
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -80,6 +83,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.CallBar
+import org.wizardchat.android.ui.voice.CallErrorBanner
 import org.wizardchat.android.ui.voice.DMCallScreen
 import org.wizardchat.android.ui.voice.IncomingCallBanner
 import org.wizardchat.android.ui.voice.VoiceRoomScreen
@@ -175,6 +179,16 @@ fun MainScreen(roomList: RoomListModel) {
         )
     }
 
+    LaunchedEffect(session.userId, session.avatarUrl, session.media) {
+        val userId = session.userId ?: return@LaunchedEffect
+        val url = session.avatarUrl
+        if (url == null) {
+            SessionStore.saveAvatar(null, userId)
+        } else {
+            session.media?.thumbnail(url)?.let { withContext(Dispatchers.IO) { SessionStore.saveAvatar(it, userId) } }
+        }
+    }
+
     LaunchedEffect(session.client) {
         val client = session.client ?: return@LaunchedEffect
         syncer = SettingsSyncer(client, prefs, this).also { it.start() }
@@ -194,12 +208,10 @@ fun MainScreen(roomList: RoomListModel) {
     LaunchedEffect(session.client, prefs.showPresence) {
         if (session.client != null) session.applyPresence(prefs.showPresence)
     }
-    // Signed out: MainScreen goes away
+    // Also runs when the activity is recreated (rotation), so calls end on sign-out instead (MatrixSession)
     DisposableEffect(Unit) {
         onDispose {
             notifier.stop()
-            calls.stopWatchingIncoming()
-            calls.leave()
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
             SavedMessages.shared.stop()
@@ -274,6 +286,7 @@ fun MainScreen(roomList: RoomListModel) {
                 ConnectionBanner(Modifier.padding(top = WZ.Space.space1))
                 CopyToastView(Modifier.padding(top = WZ.Space.space2))
                 IncomingCallBanner(Modifier.padding(top = WZ.Space.space2))
+                CallErrorBanner(Modifier.padding(top = WZ.Space.space2))
             }
         }
 
@@ -364,8 +377,8 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
     }
     Surface(modifier.fillMaxWidth(), shape = CircleShape, color = theme.bgTertiary.copy(alpha = 0.96f), shadowElevation = 8.dp) {
         Row(Modifier.padding(WZ.Space.space2)) {
-            TabItem(Tab.home, selected, tr("room.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
-            TabItem(Tab.dms, selected, tr("roomSwitcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
+            TabItem(Tab.home, selected, tr("nav.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
+            TabItem(Tab.dms, selected, tr("search.switcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
             TabItem(Tab.spaces, selected, tr("room.settings.permissions.groups.spaces"), "stack", spacesUnread, onSelect)
             val isSelected = selected == Tab.me
             Column(
@@ -385,7 +398,7 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
                     WZ.SizeAvatar.sm,
                     modifier = Modifier.border(WZ.BorderWidth.thick, if (isSelected) theme.accent else androidx.compose.ui.graphics.Color.Transparent, CircleShape),
                 )
-                Text(tr("mobileNav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
+                Text(tr("nav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
             }
         }
     }

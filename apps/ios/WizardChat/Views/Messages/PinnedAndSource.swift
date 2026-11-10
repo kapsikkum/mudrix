@@ -18,7 +18,7 @@ struct PinnedMessagesView: View {
     private var messages: [ChatEntry] {
         timeline.entries.filter {
             switch $0.kind {
-            case .dateDivider, .system: return false
+            case .dateDivider, .system, .call: return false
             default: return true
             }
         }
@@ -45,7 +45,7 @@ struct PinnedMessagesView: View {
             .background(theme.bgSecondary)
             .overlay {
                 if messages.isEmpty {
-                    ContentUnavailableView(String(localized: "pins.empty"), image: "ph-push-pin-regular",
+                    ContentUnavailableView(String(localized: "timeline.pinnedEmpty"), image: "ph-push-pin-regular",
                                            description: Text(String(localized: "timeline.pinImportantMessagesFrom")))
                 }
             }
