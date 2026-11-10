@@ -264,6 +264,8 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                                 onLeave = { leaving = room },
                                 onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                                 onMoveToSection = { movingRoom = room },
+                                notificationMode = roomList.notificationMode(room),
+                                onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                                 reorder = null,
                             )
                         }
