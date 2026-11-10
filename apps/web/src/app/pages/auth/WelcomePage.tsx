@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ArrowLeftIcon, GlobeSimpleIcon } from '@phosphor-icons/react';
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -8,16 +8,22 @@ import { RegisterForm } from './RegisterForm';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { initialHomeserver, rememberHomeserver, useHomeserver } from './useHomeserver';
 import { LogoHover } from '@/app/components/AppLoading';
+import { Button } from '@/app/components/Button';
 import { Select } from '@/app/components/Select';
 import { TitleBar } from '@/app/components/TitleBar';
 import { isDesktop } from '@/bridge/desktop';
 import { loadCredentials, loadCore } from '@/client/initMatrix';
 import { languageAtom } from '@/app/store/atoms';
 import { SUPPORTED_LANGUAGES } from '@/i18n/languages';
-import { SOURCE_URL } from '@/const/links';
 import * as css from './WelcomePage.css';
 
 type View = 'login' | 'register' | 'reset';
+
+const TITLES: Record<View, [string, string]> = {
+  login: ['welcome.title', 'welcome.tagline'],
+  register: ['welcome.registerTitle', 'welcome.registerSubtitle'],
+  reset: ['welcome.resetTitle', 'welcome.resetSubtitle'],
+};
 
 export function WelcomePage() {
   const [searchParams] = useSearchParams();
@@ -33,7 +39,9 @@ export function WelcomePage() {
 
 function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
   const { t, i18n } = useTranslation();
-  const [view, setView] = useState<View>('login');
+  const [view, setViewState] = useState<View>('login');
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const switched = useRef(false);
   const navigate = useNavigate();
   const setLanguage = useSetAtom(languageAtom);
   const { homeserver } = useParams<{ homeserver?: string }>();
@@ -70,6 +78,18 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
   // Always the address in the box, never the stale server's: that is where the password goes.
   const effectiveServerUrl = hs.baseUrl;
 
+  // After switching between sign in / sign up / reset, put focus (and the screen reader) on
+  // the new heading, as a page change would.
+  useEffect(() => {
+    if (switched.current) titleRef.current?.focus({ preventScroll: false });
+  }, [view]);
+
+  const setView = (next: View) => {
+    switched.current = true;
+    setViewState(next);
+  };
+  const [titleKey, subtitleKey] = TITLES[view];
+
   const goBack = () => {
     if (((window.history.state as { idx?: number } | null)?.idx ?? 0) > 0) navigate(-1);
     else navigate('/', { replace: true });
@@ -80,84 +100,63 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
     navigate('/', { replace: true });
   };
 
+  const form = {
+    hs,
+    picker,
+    serverUrl: effectiveServerUrl,
+    capabilities,
+    capabilitiesLoading,
+  };
+
   return (
     <div className={css.page}>
       {isDesktop && <TitleBar fixed />}
-      {canGoBack && (
-        <button type="button" className={css.backButton} onClick={goBack}>
-          <ArrowLeftIcon size={16} />
-          {t('common.back')}
-        </button>
-      )}
-      <div className={css.container}>
-        <LogoHover size={72} />
-        <h1 className={css.title}>{t('auth.title')}</h1>
-        <p className={css.tagline}>{t('auth.tagline')}</p>
-
-        {view === 'login' ? (
-          <LoginForm
-            onSuccess={done}
-            onShowRegister={() => setView('register')}
-            onShowReset={() => setView('reset')}
-            hs={hs}
-            picker={picker}
-            serverUrl={effectiveServerUrl}
-            capabilities={capabilities}
-            capabilitiesLoading={capabilitiesLoading}
-          />
-        ) : view === 'register' ? (
-          <RegisterForm
-            onSuccess={done}
-            onShowLogin={() => setView('login')}
-            hs={hs}
-            picker={picker}
-            serverUrl={effectiveServerUrl}
-            capabilities={capabilities}
-            capabilitiesLoading={capabilitiesLoading}
-          />
-        ) : (
-          <ResetPasswordForm
-            onBackToLogin={() => setView('login')}
-            hs={hs}
-            picker={picker}
-            serverUrl={effectiveServerUrl}
-            capabilities={capabilities}
-            capabilitiesLoading={capabilitiesLoading}
-          />
+      <div className={css.column}>
+        {canGoBack && (
+          <Button variant="ghost" size="sm" className={css.back} onClick={goBack}>
+            <ArrowLeftIcon size={14} aria-hidden />
+            {t('common.back')}
+          </Button>
         )}
+        <main className={css.card}>
+          <header className={css.header}>
+            <LogoHover size={64} />
+            <h1 ref={titleRef} tabIndex={-1} className={css.title}>
+              {t(titleKey)}
+            </h1>
+            <p className={css.subtitle}>{t(subtitleKey)}</p>
+          </header>
 
-        <Select
-          icon={<GlobeSimpleIcon size={16} weight="regular" />}
-          aria-label={t('settings.language.languageDisplay')}
-          value={i18n.language}
-          options={SUPPORTED_LANGUAGES.map(({ code, labelKey }) => ({
-            value: code,
-            label: t(labelKey),
-          }))}
-          onChange={handleLanguageChange}
-        />
+          <div key={view} className={css.view}>
+            {view === 'login' ? (
+              <LoginForm
+                {...form}
+                onSuccess={done}
+                onShowRegister={() => setView('register')}
+                onShowReset={() => setView('reset')}
+              />
+            ) : view === 'register' ? (
+              <RegisterForm {...form} onSuccess={done} onShowLogin={() => setView('login')} />
+            ) : (
+              <ResetPasswordForm {...form} onBackToLogin={() => setView('login')} />
+            )}
+          </div>
+        </main>
+
+        <footer className={css.footer}>
+          <Select
+            icon={<GlobeSimpleIcon size={16} weight="regular" />}
+            aria-label={t('settings.language.languageDisplay')}
+            value={i18n.language}
+            options={SUPPORTED_LANGUAGES.map(({ code, labelKey }) => ({
+              value: code,
+              label: t(labelKey),
+            }))}
+            onChange={handleLanguageChange}
+          />
+          <span>v{version}</span>
+        </footer>
       </div>
-      <footer className={css.footer}>
-        <a href={SOURCE_URL} target="_blank" rel="noopener noreferrer" className={css.footerLink}>
-          {t('auth.sourceCode')}
-        </a>
-        <a
-          href={`${SOURCE_URL}/releases/tag/v${version}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={css.footerLink}
-        >
-          v{version}
-        </a>
-        <a
-          href="https://matrix.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={css.footerLink}
-        >
-          {t('auth.poweredByMatrix')}
-        </a>
-      </footer>
     </div>
   );
 }

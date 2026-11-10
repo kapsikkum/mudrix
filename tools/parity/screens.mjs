@@ -243,6 +243,11 @@ export const SCREENS = [
     requiresAuth: false,
     navigate: async (page, { port }) => {
       await page.goto(`http://localhost:${port}/welcome`);
+      await page
+        .locator('input[name="username"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 8000 })
+        .catch(() => {});
       await page.waitForTimeout(600);
     },
   },
@@ -252,6 +257,11 @@ export const SCREENS = [
     requiresAuth: false,
     navigate: async (page, { port }) => {
       await page.goto(`http://localhost:${port}/welcome`);
+      await page
+        .locator('input[name="username"]')
+        .first()
+        .waitFor({ state: 'visible', timeout: 8000 })
+        .catch(() => {});
       await page.waitForTimeout(500);
       const changeBtn = page.locator('button:has-text("Change")').first();
       if (await changeBtn.isVisible().catch(() => false)) {
@@ -267,7 +277,9 @@ export const SCREENS = [
     navigate: async (page, { port }) => {
       await page.goto(`http://localhost:${port}/welcome`);
       await page.waitForTimeout(600);
-      const userInp = page.locator('input[type="text"]').first();
+      // The new app checks the server first and shows the form after it answers.
+      const userInp = page.locator('input[name="username"]').first();
+      await userInp.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
       if (await userInp.isVisible().catch(() => false)) {
         await userInp.fill('theo');
         await page.locator('input[type="password"]').fill('mudrix-test-password');

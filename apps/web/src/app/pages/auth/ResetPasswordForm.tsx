@@ -1,19 +1,18 @@
-import { useState } from 'react';
-import { CheckIcon, XIcon } from '@phosphor-icons/react';
+import { useRef, useState, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { vars } from '@/theme/vars.css';
 import { getErrorMessage } from '@/util/error';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
-import { checkPassword, isPasswordValid, type PasswordValidity } from '@/util/password';
+import { checkPassword, isPasswordValid } from '@/util/password';
 import { generateClientSecret } from '@/util/clientSecret';
 import {
   requestPasswordReset,
   completePasswordReset,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
-import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
+import { Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
+import { AuthField } from './AuthField';
+import { PasswordChecklist } from './PasswordChecklist';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
@@ -42,16 +41,21 @@ export function ResetPasswordForm({
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [status, setStatus] = useState('');
-  const [statusType, setStatusType] = useState<'error' | 'success'>('error');
+  const [errors, setErrors] = useState<Partial<Record<'email' | 'password' | 'confirm', string>>>(
+    {}
+  );
+  const [formError, setFormError] = useState('');
+  const [info, setInfo] = useState('');
   const [loading, setLoading] = useState(false);
-  const [pwdValidity, setPwdValidity] = useState(() => checkPassword(''));
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
+  const confirmRef = useRef<HTMLInputElement>(null);
 
-  // Persist these during the flow
+  // Persist these during flow
   const [clientSecret] = useState(generateClientSecret);
   const [sid, setSid] = useState('');
 
-  // Check if this server uses delegated auth (OIDC/MAS)
+  // Check if server uses delegated auth (OIDC/MAS)
   const isDelegatedAuth = capabilities?.delegatedAuth && capabilities.accountManagementUri;
   const isChecking = capabilitiesLoading && !capabilities;
 
@@ -61,222 +65,245 @@ export function ResetPasswordForm({
     }
   };
 
-  const handleRequestReset = async () => {
+  const handleRequestReset = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (loading) return;
     if (!email.trim()) {
-      setStatus(t('auth.emailRequired'));
-      setStatusType('error');
+      setErrors({ email: t('welcome.emailRequired') });
+      emailRef.current?.focus();
       return;
     }
 
     setLoading(true);
-    setStatus('');
+    setFormError('');
     try {
       const requestSid = await requestPasswordReset(serverUrl, email.trim(), clientSecret);
       setSid(requestSid);
       setStep('password');
-      setStatus(t('auth.resetLinkSent'));
-      setStatusType('success');
+      setInfo(t('welcome.resetLinkSent', { email: email.trim() }));
     } catch (err) {
       // Check for 404/M_UNRECOGNIZED (password reset not supported)
-      const isNotSupported = matrixErrcode(err) === 'M_UNRECOGNIZED';
-
-      if (isNotSupported && isDelegatedAuth) {
-        setStatus(t('auth.resetNotSupported'));
-      } else if (isNotSupported) {
-        setStatus(t('auth.resetNotSupported'));
+      if (matrixErrcode(err) === 'M_UNRECOGNIZED') {
+        setFormError(t('welcome.resetNotSupported'));
+      } else if (matrixErrcode(err) === 'M_THREEPID_NOT_FOUND') {
+        setErrors({ email: t('welcome.resetEmailUnknown', { server: hs.host }) });
+        emailRef.current?.focus();
       } else {
-        setStatus(getErrorMessage(err));
+        setFormError(getErrorMessage(err));
       }
-      setStatusType('error');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCompleteReset = async () => {
-    if (!newPassword || !confirmPassword) {
-      setStatus(t('auth.fillAllFields'));
-      setStatusType('error');
-      return;
+  const handleCompleteReset = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (loading) return;
+    const next: typeof errors = {};
+    if (!newPassword) next.password = t('welcome.passwordRequired');
+    else if (!isPasswordValid(checkPassword(newPassword))) {
+      next.password = t('welcome.passwordTooWeak');
     }
-    if (newPassword !== confirmPassword) {
-      setStatus(t('common.passwordMismatch'));
-      setStatusType('error');
-      return;
+    if (newPassword && confirmPassword !== newPassword) {
+      next.confirm = t('welcome.passwordMismatch');
     }
-    if (!isPasswordValid(pwdValidity)) {
-      setStatus(t('auth.passwordRequirements.title'));
-      setStatusType('error');
+    setErrors(next);
+    if (next.password || next.confirm) {
+      (next.password ? pwRef : confirmRef).current?.focus();
       return;
     }
 
     setLoading(true);
-    setStatus('');
+    setFormError('');
     try {
       await completePasswordReset(serverUrl, sid, clientSecret, newPassword);
       setStep('done');
-      setStatus(t('auth.resetSuccess'));
-      setStatusType('success');
+      setInfo('');
     } catch (err) {
-      const errMsg = getErrorMessage(err);
-      // Check for common password reset errors
+      // Check common password reset errors
       if (matrixErrcode(err) === 'M_UNAUTHORIZED') {
-        setStatus(t('auth.resetClickLinkFirst'));
+        setFormError(t('welcome.resetClickLinkFirst'));
       } else {
-        setStatus(errMsg);
+        setFormError(getErrorMessage(err));
       }
-      setStatusType('error');
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('auth.resetTitle')}</h2>
+  const serverPicker = (
+    <ServerPicker
+      hs={hs}
+      label={t('welcome.serverLabelReset')}
+      open={picker.open && step === 'email'}
+      onOpenChange={picker.onOpenChange}
+      onAddressEntered={() => emailRef.current?.focus()}
+      disabled={step !== 'email'}
+    />
+  );
 
-      <ServerPicker
-        hs={hs}
-        label={t('welcome.serverLabelReset')}
-        {...picker}
-        disabled={step !== 'email'}
-      />
+  const backLink = (
+    <p className={css.altText}>
+      <button type="button" className={css.inlineLink} onClick={onBackToLogin}>
+        {t('welcome.backToLogin')}
+      </button>
+    </p>
+  );
 
-      {isChecking ? (
+  if (isChecking) {
+    return (
+      <div className={css.form}>
+        {serverPicker}
         <div className={css.checkingServer}>
           <Spinner size="sm" />
           <span>{t('auth.checkingServer')}</span>
         </div>
-      ) : (
-        <>
-          {isDelegatedAuth ? (
-            <>
-              <p className={css.infoText}>{t('auth.resetDelegatedInfo')}</p>
-              <Button fullWidth size="lg" variant="primary" onClick={handleOpenAccountPortal}>
-                {t('auth.resetOpenAccountPortal')}
-              </Button>
-            </>
-          ) : (
-            <>
-              {step === 'email' && (
-                <>
-                  <p className={css.infoText}>{t('auth.resetEmailPrompt')}</p>
-                  <Input
-                    type="email"
-                    placeholder={t('auth.emailPlaceholder')}
-                    aria-label="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={loading}
-                    onKeyDown={(e) => e.key === 'Enter' && handleRequestReset()}
-                  />
-                  <Button
-                    fullWidth
-                    size="lg"
-                    variant="primary"
-                    onClick={handleRequestReset}
-                    disabled={loading}
-                  >
-                    {loading ? t('auth.sending') : t('auth.resetSendCode')}
-                  </Button>
-                </>
-              )}
+      </div>
+    );
+  }
 
-              {step === 'password' && (
-                <>
-                  <p className={css.infoText}>{t('auth.resetCheckEmail')}</p>
-                  <Input
-                    type="password"
-                    placeholder={t('auth.password')}
-                    aria-label={t('auth.password')}
-                    value={newPassword}
-                    onChange={(e) => {
-                      setNewPassword(e.target.value);
-                      setPwdValidity(checkPassword(e.target.value));
-                    }}
-                    autoComplete="new-password"
-                    showPasswordToggle
-                    disabled={loading}
-                  />
-                  <Input
-                    type="password"
-                    placeholder={t('auth.confirmPassword')}
-                    aria-label={t('auth.confirmPassword')}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    autoComplete="new-password"
-                    showPasswordToggle
-                    disabled={loading}
-                    onKeyDown={(e) => e.key === 'Enter' && handleCompleteReset()}
-                  />
+  if (isDelegatedAuth && step === 'email') {
+    return (
+      <div className={css.form}>
+        {serverPicker}
+        <p className={css.note}>{t('welcome.resetDelegatedInfo')}</p>
+        <Button
+          fullWidth
+          size="lg"
+          variant="primary"
+          className={css.submit}
+          onClick={handleOpenAccountPortal}
+        >
+          {t('welcome.resetOpenAccountPortal')}
+        </Button>
+        {backLink}
+      </div>
+    );
+  }
 
-                  <div className={css.passwordReqs}>
-                    <p>{t('auth.passwordRequirements.title')}</p>
-                    <ul>
-                      {(
-                        [
-                          ['length', t('auth.passwordRequirements.length')],
-                          ['uppercase', t('auth.passwordRequirements.uppercase')],
-                          ['lowercase', t('auth.passwordRequirements.lowercase')],
-                          ['number', t('auth.passwordRequirements.number')],
-                          ['special', t('auth.passwordRequirements.special')],
-                        ] as [keyof PasswordValidity, string][]
-                      ).map(([key, label]) => {
-                        const met = pwdValidity[key];
-                        return (
-                          <li key={key} className={css.reqItem}>
-                            {met ? (
-                              <CheckIcon size={14} weight="bold" color={vars.color.success} />
-                            ) : (
-                              <XIcon size={14} weight="bold" color={vars.color.error} />
-                            )}
-                            {label}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+  if (step === 'done') {
+    return (
+      <div className={css.form}>
+        <p className={css.formSuccess} role="status">
+          {t('welcome.resetSuccess')}
+        </p>
+        <Button
+          fullWidth
+          size="lg"
+          variant="primary"
+          className={css.submit}
+          onClick={onBackToLogin}
+        >
+          {t('welcome.backToLogin')}
+        </Button>
+      </div>
+    );
+  }
 
-                  <Button
-                    fullWidth
-                    size="lg"
-                    variant="primary"
-                    onClick={handleCompleteReset}
-                    disabled={loading}
-                  >
-                    {loading ? t('auth.resetting') : t('auth.resetComplete')}
-                  </Button>
-                </>
-              )}
+  if (step === 'password') {
+    return (
+      <form
+        className={css.form}
+        onSubmit={handleCompleteReset}
+        noValidate
+        aria-label={t('welcome.resetTitle')}
+      >
+        {serverPicker}
+        <p className={css.note} role="status">
+          {info}
+        </p>
+        <AuthField
+          ref={pwRef}
+          label={t('welcome.newPassword')}
+          showRequired
+          name="new-password"
+          type="password"
+          autoComplete="new-password"
+          showPasswordToggle
+          value={newPassword}
+          onChange={(e) => {
+            setNewPassword(e.target.value);
+            setErrors((p) => ({ ...p, password: undefined }));
+          }}
+          error={errors.password}
+        />
+        <PasswordChecklist password={newPassword} />
+        <AuthField
+          ref={confirmRef}
+          label={t('welcome.confirmPassword')}
+          showRequired
+          name="confirm-password"
+          type="password"
+          autoComplete="new-password"
+          enterKeyHint="go"
+          showPasswordToggle
+          value={confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            setErrors((p) => ({ ...p, confirm: undefined }));
+          }}
+          error={errors.confirm}
+        />
+        <div className={css.formError} role="alert">
+          {formError}
+        </div>
+        <Button
+          type="submit"
+          fullWidth
+          size="lg"
+          variant="primary"
+          className={css.submit}
+          loading={loading}
+          spinnerWhileLoading
+        >
+          {loading ? t('welcome.resetting') : t('welcome.resetComplete')}
+        </Button>
+        {backLink}
+      </form>
+    );
+  }
 
-              {step === 'done' && (
-                <>
-                  <p className={css.statusSuccess}>{t('auth.resetSuccess')}</p>
-                  <Button fullWidth size="lg" variant="primary" onClick={onBackToLogin}>
-                    {t('auth.backToLogin')}
-                  </Button>
-                </>
-              )}
-            </>
-          )}
-
-          {status && (
-            <p className={statusType === 'success' ? css.statusSuccess : css.statusText}>
-              {status}
-            </p>
-          )}
-
-          {!loading && step !== 'done' && (
-            <p className={css.switchText}>
-              <button type="button" className={css.switchLink} onClick={onBackToLogin}>
-                {t('auth.backToLogin')}
-              </button>
-            </p>
-          )}
-        </>
-      )}
-
-      {loading && <SpinnerOverlay />}
-    </div>
+  return (
+    <form
+      className={css.form}
+      onSubmit={handleRequestReset}
+      noValidate
+      aria-label={t('welcome.resetTitle')}
+    >
+      {serverPicker}
+      <p className={css.note}>{t('welcome.resetEmailPrompt')}</p>
+      <AuthField
+        ref={emailRef}
+        label={t('welcome.email')}
+        showRequired
+        name="email"
+        type="email"
+        inputMode="email"
+        autoComplete="email"
+        enterKeyHint="send"
+        placeholder={t('welcome.emailPlaceholder')}
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setErrors({});
+        }}
+        error={errors.email}
+      />
+      <div className={css.formError} role="alert">
+        {formError}
+      </div>
+      <Button
+        type="submit"
+        fullWidth
+        size="lg"
+        variant="primary"
+        className={css.submit}
+        loading={loading}
+        spinnerWhileLoading
+      >
+        {loading ? t('welcome.sending') : t('welcome.resetSendCode')}
+      </Button>
+      {backLink}
+    </form>
   );
 }
