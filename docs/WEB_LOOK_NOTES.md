@@ -58,3 +58,18 @@ This document tracks visual differences between the new web client (`apps/web`) 
   - Achieves **1.32% diff (TARGET MET < 2%)** on tablet across all themes.
 - **Call Stage & Soundboard (`call-stage`, `call-soundboard`)**:
   - The local Tuwunel test server environment lacks a TURN/STUN media server (`/_matrix/client/v3/voip/turnServer` returns 404), preventing live WebRTC audio/video call connection. In the absence of an active call connection, both apps fall back to the underlying view.
+
+---
+
+## 5. Login Screen Text & Mobile Room Header
+
+- **Login screen text**:
+  - The tagline already reads "Simple, Secure, Muddy" (`welcome.tagline`); no change was needed.
+  - `welcome.identifier` and `welcome.loginTitle` were missing from every locale, so the label rendered as the raw key (uppercased by CSS). Added both, plus `loginSubmit` ("Log In"), `idPreview` ("Logging in as {{id}}") and the old `noAccount` ("Need an account?"), with translations copied from `mudrix-web`.
+  - The "{{software}} detected" line already works: `ServerPicker` shows "Name version detected" when discovery returns `software`, and falls back to "Matrix homeserver detected" otherwise (for example when the server does not report its software).
+  - The "Logging in as" hint is restored for plain usernames and full Matrix ids. The old "That account is on another server" hint (`idOtherServer`/`idSwitch`) is not restored: it needs extra logic.
+  - Still missing in the new `en.json` (raw keys can show): `welcome.registerTitle`, `registerSubtitle`, `resetSubtitle`, `checkingUsername`, `usernameInvalid`, `passwordRules.*`, `passwordStrength.*`, `passwordsDoNotMatch`, `passwordTooWeak`. Out of scope for this pass.
+- **Mobile room header showing the raw room id**:
+  - Not fixed. Desktop and mobile use the same `RoomHeader`, which shows `room?.name ?? roomId` from `useRoom(roomId)`. There is no separate mobile name source to switch to, so the raw id means `useRoom` returned nothing yet (room data not loaded when the screenshot was taken). Fixing it needs a look at the data layer, which is beyond a text/style change.
+- **Room and space settings Cosmetics tab**:
+  - The old `EmojiStickerPanel` has a `scope` prop backed by a much larger cosmetic pack implementation (`CosmeticPackPreview`, `packContent.ts`). The new panel has no cosmetic pack support, so the tab currently renders the plain emoji/sticker panel. Porting the cosmetic scope is new logic and was not done.
