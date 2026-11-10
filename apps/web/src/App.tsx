@@ -30,6 +30,7 @@ import { ErrorBoundary } from '@/app/components/ErrorBoundary/ErrorBoundary';
 import { useReducedMotionSync } from '@/app/hooks/useReducedMotion';
 import { useChatDisplaySync } from '@/app/hooks/useChatDisplaySync';
 import { useUiDensitySync } from '@/app/hooks/useUiDensitySync';
+import { useMessageLayout } from '@/app/hooks/useMessageLayout';
 import { STORAGE_KEY_PENDING_LINK } from '@/const/storageKeys';
 
 function MatrixToLink() {
@@ -44,6 +45,7 @@ export function App() {
   const themedAppIcon = useAtomValue(themedAppIconAtom);
   const uiZoom = useAtomValue(uiZoomAtom);
   const messageSendAnimation = useAtomValue(messageSendAnimationAtom);
+  const messageLayout = useMessageLayout();
   const timeFormat = useAtomValue(timeFormatAtom);
   const dateFormat = useAtomValue(dateFormatAtom);
   const emojiStyle = useAtomValue(emojiStyleAtom);
@@ -73,6 +75,11 @@ export function App() {
     const zoom = Number.isFinite(uiZoom) ? Math.min(Math.max(uiZoom, 75), 150) : 100;
     document.documentElement.style.fontSize = zoom === 100 ? '' : `${(16 * zoom) / 100}px`;
   }, [uiZoom]);
+
+  useEffect(() => {
+    document.documentElement.toggleAttribute('data-compact-layout', messageLayout === 'compact');
+    document.documentElement.toggleAttribute('data-bubble-layout', messageLayout === 'classic');
+  }, [messageLayout]);
 
   useEffect(() => {
     document.documentElement.toggleAttribute('data-no-send-anim', !messageSendAnimation);

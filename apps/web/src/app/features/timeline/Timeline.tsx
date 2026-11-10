@@ -978,6 +978,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return out;
   }, [items, receiptMap, client]);
 
+  // Your latest message that has actually been sent: the bubble layout marks it Sent until read.
+  const lastOwnEventId = useMemo(() => {
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+      const it = items[i];
+      if (it.isOwn && !it.isSending && !it.isFailed) return it.eventId || null;
+    }
+    return null;
+  }, [items]);
+
   const renderMessage = (timelineItem: TimelineItem, opts: { index?: number } = {}) => {
     const eventId = timelineItem.eventId;
     const isActiveMatch =
@@ -1015,6 +1024,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       senderName: timelineItem.senderName,
       senderAvatar: timelineItem.senderAvatar,
       isGrouped: isSearching ? false : timelineItem.isGrouped,
+      isLastOwn: !!eventId && eventId === lastOwnEventId,
       variant: layout,
       isSystemMessage: timelineItem.isSystemMessage,
       isEdited: timelineItem.isEdited,

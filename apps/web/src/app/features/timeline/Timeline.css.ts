@@ -2,6 +2,7 @@ import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { CHAT_SCALE_VAR, chatSize, chatSpace } from './chatDisplay';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
+import { fontSize } from '@/theme/typeScale';
 import { fast, fadeInUp, scaleIn } from '@/theme/animations.css';
 import { TYPING_INDICATOR_BAND_HEIGHT } from './composer/TypingIndicator.css';
 
@@ -294,10 +295,15 @@ export const msgContentGrouped = style([
 ]);
 
 // Classic variant: same baseline structure, message content rendered inside bubbles.
+// Bubble layout (Signal-style): incoming bubbles are a light tint of the theme accent on the
+// theme's raised surface, outgoing ones a deepened accent with white text and sit on the right.
+const BUBBLE_OTHER_BG = `color-mix(in srgb, ${vars.color.accent} 14%, ${vars.color.bgTertiary})`;
+const BUBBLE_OWN_BG = `color-mix(in srgb, ${vars.color.accent} 78%, #000)`;
 const msgBubbleBase = {
-  backgroundColor: vars.color.msgOtherBg,
-  padding: '7px 12px',
-  borderRadius: '12px',
+  backgroundColor: BUBBLE_OTHER_BG,
+  padding: '8px 14px',
+  borderRadius: '18px',
+  maxWidth: 'min(78%, 620px)',
 };
 
 export const msgContentClassic = style([
@@ -306,21 +312,23 @@ export const msgContentClassic = style([
   { display: 'inline-block', alignSelf: 'flex-start' },
 ]);
 
-export const msgContentClassicOwn = style([
-  msgContentClassic,
-  { backgroundColor: vars.color.msgMineBg },
-]);
+const ownBubble = {
+  backgroundColor: BUBBLE_OWN_BG,
+  color: vars.color.onAccent,
+  alignSelf: 'flex-end',
+};
 
+export const msgContentClassicOwn = style([msgContentClassic, ownBubble]);
+
+// Grouped bubbles stack their content and the time (right-aligned underneath) instead of wrapping
+// in a row, so the time never lands beside an image or on a different side from bubble to bubble.
 export const msgContentClassicGrouped = style([
   msgContentGrouped,
   msgBubbleBase,
-  { alignSelf: 'flex-start' },
+  { alignSelf: 'flex-start', flexDirection: 'column', alignItems: 'stretch', gap: '2px' },
 ]);
 
-export const msgContentClassicGroupedOwn = style([
-  msgContentClassicGrouped,
-  { backgroundColor: vars.color.msgMineBg },
-]);
+export const msgContentClassicGroupedOwn = style([msgContentClassicGrouped, ownBubble]);
 
 // Marks the current user's rows; only styled in the Bubble layout (root attribute).
 export const msgRowOwn = style({});
@@ -2366,3 +2374,88 @@ globalStyle(`${compactLine} ${emojiOnly}`, { fontSize: 'inherit', lineHeight: 'i
 
 globalStyle(`${compactBlock} ${mediaBox}`, { maxWidth: '240px' });
 globalStyle(`${compactBlock} ${stickerBox}`, { width: '112px' });
+
+// Bubble layout (root attribute): your messages sit on the right without avatar or name, the time
+// is always visible, and receipts / the Sent marker sit under the bubble.
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgAvatarCol}`, { display: 'none' });
+globalStyle(`:root[data-bubble-layout] ${msgSender}`, { fontSize: fontSize.rem80 });
+globalStyle(`:root[data-bubble-layout] ${msgTime}`, { fontSize: fontSize.rem66, opacity: 1 });
+globalStyle(`:root[data-bubble-layout] ${msgAvatarCol}`, { width: '24px' });
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgMeta}`, { justifyContent: 'flex-end' });
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgBody}`, {
+  alignItems: 'flex-end',
+  paddingRight: '16px',
+});
+globalStyle(
+  `:root[data-bubble-layout] ${msgContentClassicOwn} a, :root[data-bubble-layout] ${msgContentClassicGroupedOwn} a`,
+  {
+    color: 'inherit',
+    textDecoration: 'underline',
+  }
+);
+globalStyle(`:root[data-bubble-layout] ${msgBody}`, { gap: '2px' });
+
+export const bubbleStatusRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  alignSelf: 'flex-start',
+  gap: '4px',
+  marginTop: '2px',
+  padding: '0 6px',
+  fontSize: fontSize.rem66,
+  color: vars.color.textMuted,
+});
+export const bubbleStatusRowOwn = style({ alignSelf: 'flex-end' });
+globalStyle(`:root[data-bubble-layout] ${bubbleStatusRow} ${readReceiptRow}`, {
+  width: 'auto',
+  minHeight: 0,
+});
+
+export const bubbleGroupedTime = style({
+  display: 'block',
+  alignSelf: 'flex-end',
+  textAlign: 'right',
+  fontSize: fontSize.rem66,
+  opacity: 0.65,
+  marginTop: 2,
+});
+
+// Your own replies sit on the right, so their quote hugs the right edge with the accent bar on its
+// right side instead of floating at the far left of the row.
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${replyQuote}`, {
+  width: 'auto',
+  maxWidth: 'min(78%, 620px)',
+  alignSelf: 'flex-end',
+  textAlign: 'right',
+  borderLeft: 'none',
+  borderRight: `3px solid ${vars.color.accent}`,
+  paddingLeft: 0,
+  paddingRight: '8px',
+});
+
+// Bubbles with media get more room (the bubble grows toward the middle of the screen) and the media
+// is capped to the bubble's inner width so it never pokes out of the rounded edge.
+globalStyle(
+  bubbleClasses
+    .map(
+      (c) =>
+        `:root[data-bubble-layout] ${c}:has(${mediaBox}, ${stickerBox}, ${mediaWrap}, ${gallery})`
+    )
+    .join(', '),
+  { maxWidth: 'min(90%, 620px)' }
+);
+globalStyle(
+  bubbleClasses
+    .flatMap((c) => [
+      `:root[data-bubble-layout] ${c} ${mediaBox}`,
+      `:root[data-bubble-layout] ${c} ${mediaWrap}`,
+      `:root[data-bubble-layout] ${c} ${gallery}`,
+    ])
+    .join(', '),
+  { maxWidth: '100%' }
+);
+// Media boxes carry a fixed pixel size inline; when the bubble is narrower the box shrinks and its
+// height follows the aspect ratio rather than being squashed.
+globalStyle(bubbleClasses.map((c) => `:root[data-bubble-layout] ${c} ${mediaBox}`).join(', '), {
+  height: 'auto !important',
+});

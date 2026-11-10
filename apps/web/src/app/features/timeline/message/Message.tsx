@@ -2,7 +2,13 @@ import { memo, useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import type { RoomTimeline, WizardClient as MatrixClient } from '@wizardchat/core';
-import { SmileyIcon, WarningIcon, ChatDotsIcon, ArrowBendUpLeftIcon } from '@phosphor-icons/react';
+import {
+  SmileyIcon,
+  WarningIcon,
+  ChatDotsIcon,
+  ArrowBendUpLeftIcon,
+  CheckIcon,
+} from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Avatar } from '@/app/components/Avatar';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
@@ -131,6 +137,8 @@ export interface MessageProps {
   senderName: string;
   senderAvatar: string | null;
   isGrouped: boolean;
+  /** Your latest sent message: the bubble layout marks it Sent until someone has read it. */
+  isLastOwn?: boolean;
   variant: MessageLayout;
   isSystemMessage: boolean;
   isEdited: boolean;
@@ -177,6 +185,7 @@ export const Message = memo(function Message({
   senderName,
   senderAvatar,
   isGrouped,
+  isLastOwn = false,
   variant,
   isSystemMessage,
   isEdited,
@@ -977,6 +986,26 @@ export const Message = memo(function Message({
     </div>
   );
 
+  // Bubble layout: Signal/Telegram-style status under the bubble. Who has read up to a message shows
+  // under it; your latest message that nobody has read yet says Sent.
+  const bubbleStatus =
+    variant === 'classic' &&
+    (receiptUsers.length > 0 || (isOwn && isLastOwn && !isSending && !isFailed)) ? (
+      <div className={[css.bubbleStatusRow, isOwn ? css.bubbleStatusRowOwn : null].join(' ')}>
+        {receiptUsers.length > 0 ? (
+          <>
+            {readReceiptBar}
+            {isOwn && <span>{t('timeline.seen', { defaultValue: 'Seen' })}</span>}
+          </>
+        ) : (
+          <>
+            <CheckIcon size={11} weight="bold" />
+            <span>{t('timeline.sent', { defaultValue: 'Sent' })}</span>
+          </>
+        )}
+      </div>
+    ) : null;
+
   const failedUI = showFailedUI && (
     <div className={css.sendFailedRow}>
       <WarningIcon size={14} className={css.sendFailedIcon} />
@@ -1061,6 +1090,7 @@ export const Message = memo(function Message({
   const rowClass = [
     isCompact ? css.msgRowCompact : isGrouped ? css.msgRowGrouped : css.msgRow,
     showActions ? css.msgRowActive : null,
+    isOwn ? css.msgRowOwn : null,
     isSending ? css.msgSending : null,
     isFailed ? css.msgFailed : null,
   ]
@@ -1137,7 +1167,7 @@ export const Message = memo(function Message({
                   name={senderName}
                   mxcUrl={senderAvatar}
                   client={client}
-                  size="sm"
+                  size={variant === 'classic' ? 'xs' : 'sm'}
                   placeholder="logo"
                 />
               </button>
@@ -1232,6 +1262,9 @@ export const Message = memo(function Message({
           ) : !isEditing ? (
             <div className={contentClass}>
               {messageContent}
+              {isGrouped && variant === 'classic' && (
+                <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
+              )}
               {isGrouped && isEdited && (
                 <span
                   className={
@@ -1280,11 +1313,13 @@ export const Message = memo(function Message({
               </button>
             </Tooltip>
           )}
+
+          {!isEditing && bubbleStatus}
         </div>
         {!isEditing && actionToolbar}
       </div>
 
-      {readReceiptBar}
+      {variant !== 'classic' && readReceiptBar}
 
       <ReadReceiptsPopover
         client={client}
