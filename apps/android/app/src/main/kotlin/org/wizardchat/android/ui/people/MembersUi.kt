@@ -117,7 +117,7 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                     }
                 }
                 groups.forEach { (id, title, list) ->
-                    lazyGroupedSection(id, "$title — ${list.size}", list, { it.userId }) { member ->
+                    lazyGroupedSection(id, "$title  ${list.size}", list, { it.userId }) { member ->
                         MemberRow(
                             member,
                             roomRoles.colorOf(member.userId),
