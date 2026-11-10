@@ -225,15 +225,15 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       Icon: SmileyStickerIcon,
     },
     { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
-    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
+    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
+    { key: 'voice-video', label: t('settings.voiceVideo.title'), Icon: HeadphonesIcon },
     {
-      key: 'voice-video',
-      label: t('settings.voiceVideo.title'),
-      Icon: HeadphonesIcon,
+      key: 'appearance',
+      label: t('settings.appearance.title'),
+      Icon: PaletteIcon,
       dividerBefore: true,
     },
-    { key: 'appearance', label: t('settings.appearance.title'), Icon: PaletteIcon },
     {
       key: 'accessibility',
       label: t('settings.accessibility.title'),
@@ -446,7 +446,7 @@ export function Settings() {
             </div>
           </nav>
 
-          <div className={css.content} ref={setScrollerEl}>
+          <div className={css.content}>
             <button
               type="button"
               className={css.closeBtn}
@@ -455,7 +455,9 @@ export function Settings() {
             >
               <XIcon size={18} />
             </button>
-            {page}
+            <div className={css.scroller} ref={setScrollerEl}>
+              {page}
+            </div>
           </div>
         </>
       )}
