@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { ArrowCounterClockwiseIcon, PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
+import { ArrowCounterClockwiseIcon, XIcon } from '@phosphor-icons/react';
 import {
   DEFAULT_KEYBINDS,
   globalKeyStatusAtom,
@@ -9,7 +9,6 @@ import {
   pushToTalkEnabledAtom,
 } from '@/app/store/atoms';
 import { Tooltip } from '@/app/components/Tooltip';
-import { KeyCaps } from '@/app/components/KeyCaps';
 import { SHORTCUT_GROUPS, type KeybindAction } from '@/app/features/keyboardShortcuts/shortcuts';
 import {
   comboKeys,
@@ -96,7 +95,7 @@ export function Keybinds() {
           <h3 className={css.sectionTitle}>{t(group.labelKey)}</h3>
           {listening && group.items.some((item) => item.editable && item.id === listening) && (
             <p className={css.keybindHint}>
-              <KeyCaps keys={['Esc']} size="sm" />
+              <kbd className={css.kbd}>Esc</kbd>
               {t('settings.keybinds.escToCancel')}
             </p>
           )}
@@ -108,11 +107,13 @@ export function Keybinds() {
                   {Array.isArray(item.keys) ? (
                     <span className={css.kbdStack}>
                       {item.keys.map((keys) => (
-                        <KeyCaps key={keys} keys={keys} />
+                        <kbd key={keys} className={css.kbd}>
+                          {keys}
+                        </kbd>
                       ))}
                     </span>
                   ) : (
-                    <KeyCaps keys={item.keys} />
+                    <kbd className={css.kbd}>{item.keys}</kbd>
                   )}
                 </div>
               );
@@ -126,17 +127,9 @@ export function Keybinds() {
             let content: React.ReactNode;
             if (isListening) {
               content =
-                heldPreview.length > 0 ? (
-                  <KeyCaps keys={heldPreview} />
-                ) : (
-                  <span className={css.keybindPlaceholder}>{t('settings.keybinds.pressAKey')}</span>
-                );
+                heldPreview.length > 0 ? heldPreview.join(' + ') : t('settings.keybinds.pressAKey');
             } else {
-              content = combo ? (
-                <KeyCaps keys={comboKeys(combo)} />
-              ) : (
-                <span className={css.keybindPlaceholder}>{t('settings.keybinds.clickToSet')}</span>
-              );
+              content = combo ? comboKeys(combo).join(' + ') : t('settings.keybinds.clickToSet');
             }
             return (
               <div key={item.id} className={css.settingRow}>
@@ -177,12 +170,15 @@ export function Keybinds() {
                     type="button"
                     className={[
                       'keybind-input',
-                      isListening ? css.keybindEditListening : css.keybindEdit,
+                      isListening
+                        ? css.keybindBtnListening
+                        : combo
+                          ? css.keybindBtnSet
+                          : css.keybindBtnEmpty,
                     ].join(' ')}
                     onClick={() => startListening(item.id)}
                     aria-label={t('settings.keybinds.changeShortcut', { name: t(item.labelKey) })}
                   >
-                    <PencilSimpleIcon size={12} className={css.keybindEditIcon} />
                     {content}
                   </button>
                 </div>

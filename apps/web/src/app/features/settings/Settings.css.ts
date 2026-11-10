@@ -355,6 +355,7 @@ export const navFooter = style({
 export const navLogout = style([
   navItem,
   {
+    marginTop: '8px',
     justifyContent: 'center',
     color: vars.color.error,
     ':hover': { color: vars.color.error },

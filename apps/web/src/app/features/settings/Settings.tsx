@@ -25,7 +25,9 @@ import {
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
+  SignOutIcon,
 } from '@phosphor-icons/react';
+import { logout } from '@/client/initMatrix';
 import {
   mobileYouOpenAtom,
   settingsHighlightAtom,
@@ -81,17 +83,17 @@ function AccountPage() {
   const { t } = useTranslation();
   const { canChangePassword, canChangeThreePids, accountManagementUrl, loading } =
     useAccountManagement();
+  const profileExtras = (
+    <div className={css.section}>
+      <ExtendedProfile />
+    </div>
+  );
   const statusSection = (
     <>
       <div className={css.divider} />
       <div className={css.section}>
         <h3 className={css.sectionTitle}>{t('status.title')}</h3>
         <StatusSettings />
-      </div>
-      <div className={css.divider} />
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('settings.account.aboutTitle')}</h3>
-        <ExtendedProfile />
       </div>
     </>
   );
@@ -101,6 +103,7 @@ function AccountPage() {
       <div>
         <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
         <div className={css.section}>
+          <h3 className={css.sectionTitle}>{t('settings.account.profileTitle')}</h3>
           <div className={css.avatarRow}>
             <div className={css.profileFields}>
               <DisplayName />
@@ -109,6 +112,8 @@ function AccountPage() {
             <Avatar />
           </div>
         </div>
+        <div className={css.divider} />
+        {profileExtras}
         {statusSection}
         <div className={css.divider} />
         <div className={css.section}>
@@ -131,6 +136,7 @@ function AccountPage() {
     <div>
       <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
       <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('settings.account.profileTitle')}</h3>
         <div className={css.avatarRow}>
           <div className={css.profileFields}>
             <DisplayName />
@@ -139,6 +145,7 @@ function AccountPage() {
           <Avatar />
         </div>
       </div>
+      {profileExtras}
       {statusSection}
       {loading ? (
         <div className={css.actions}>
@@ -388,7 +395,6 @@ export function Settings() {
           <NarrowSettingsPage
             title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
             onBack={pageOnly ? close : backToList}
-            onClose={pageOnly ? undefined : close}
           >
             {page}
           </NarrowSettingsPage>
@@ -443,6 +449,15 @@ export function Settings() {
             )}
             <div className={css.navFooter}>
               <AccountSwitcher onAddAccount={addAccount} />
+              <button
+                type="button"
+                className={css.navLogout}
+                onClick={() => void logout()}
+                aria-label={t('settings.account.logout')}
+              >
+                <SignOutIcon size={16} />
+                <span className={css.navLabelText}>{t('settings.account.logout')}</span>
+              </button>
             </div>
           </nav>
 

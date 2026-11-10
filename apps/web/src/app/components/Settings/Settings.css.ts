@@ -458,7 +458,8 @@ export const navListTitle = style({
 
 export const navListDivider = style({
   height: '1px',
-  margin: '8px 16px',
+  flexShrink: 0,
+  margin: '8px 20px',
   backgroundColor: vars.color.border,
 });
 
@@ -467,7 +468,7 @@ export const navRow = style({
   alignItems: 'center',
   gap: '14px',
   width: '100%',
-  minHeight: '52px',
+  minHeight: '56px',
   padding: '0 16px',
   border: 'none',
   background: 'none',

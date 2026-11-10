@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowsOutSimpleIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
+import { ArrowsOutSimpleIcon, CodeIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
 import type { MediaSource, WizardClient } from '@wizardchat/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
@@ -218,7 +218,7 @@ export function TextFileCard({
               disabled={busy}
               aria-label={t('common.copy')}
             >
-              <CopyIcon size={18} />
+              <CodeIcon size={18} />
             </button>
           </Tooltip>
           <Tooltip content={t('common.expand')}>
