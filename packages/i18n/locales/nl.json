@@ -122,7 +122,7 @@
     "password": "Wachtwoord",
     "confirmPassword": "Wachtwoord bevestigen",
     "registerSubmit": "Account aanmaken",
-    "noAccount": "Heb je nog geen account?",
+    "noAccount": "Nog geen account?",
     "haveAccount": "Al een account?",
     "ssoLogin": "Doorgaan met SSO",
     "continueWithIdp": "Doorgaan met {{name}}",
@@ -208,7 +208,11 @@
     "errWrongEmail": "Dat e-mailadres en wachtwoord horen niet bij een account op {{server}}.",
     "errNoEmailLogin": "Deze server ondersteunt inloggen met e-mail of telefoonnummer niet. Gebruik je gebruikersnaam.",
     "idEmail": "Inloggen met je e-mailadres.",
-    "idPhone": "Inloggen met je telefoonnummer."
+    "idPhone": "Inloggen met je telefoonnummer.",
+    "identifier": "Gebruikersnaam",
+    "loginTitle": "Inloggen",
+    "loginSubmit": "Inloggen",
+    "idPreview": "Inloggen als {{id}}"
   },
   "room": {
     "reorderFailed": "Kon de nieuwe volgorde niet opslaan: {{error}}",

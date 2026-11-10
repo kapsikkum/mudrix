@@ -77,7 +77,11 @@ export function LoginForm({
       ? t('welcome.idEmail')
       : identifier?.kind === 'phone'
         ? t('welcome.idPhone')
-        : '';
+        : identifier?.kind === 'mxid'
+          ? t('welcome.idPreview', { id: identifier.user })
+          : identifier?.kind === 'user' && hs.serverName && !identifier.user.includes(':')
+            ? t('welcome.idPreview', { id: `@${identifier.user}:${hs.serverName}` })
+            : '';
 
   const loginErrorMessage = (err: unknown): string => {
     const code = errorCode(err);
@@ -213,7 +217,7 @@ export function LoginForm({
             spinnerWhileLoading
             disabled={loading}
           >
-            {loading ? t('welcome.loggingIn') : t('welcome.login')}
+            {loading ? t('welcome.loggingIn') : t('welcome.loginSubmit')}
           </Button>
 
           <p className={css.altText}>

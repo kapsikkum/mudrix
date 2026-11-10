@@ -122,7 +122,7 @@
     "password": "Parola",
     "confirmPassword": "Parolayı onayla",
     "registerSubmit": "Hesap oluştur",
-    "noAccount": "Hesabın yok mu?",
+    "noAccount": "Hesabınız yok mu?",
     "haveAccount": "Zaten hesabınız var mı?",
     "ssoLogin": "SSO ile devam et",
     "continueWithIdp": "{{name}} ile devam et",
@@ -208,7 +208,11 @@
     "errWrongEmail": "Bu e-posta ve parola, {{server}} üzerindeki hiçbir hesapla eşleşmiyor.",
     "errNoEmailLogin": "Bu sunucu e-posta veya telefon numarasıyla girişi desteklemiyor. Bunun yerine kullanıcı adınızı kullanın.",
     "idEmail": "E-posta adresinizle giriş yapılıyor.",
-    "idPhone": "Telefon numaranızla giriş yapılıyor."
+    "idPhone": "Telefon numaranızla giriş yapılıyor.",
+    "identifier": "Kullanıcı adı",
+    "loginTitle": "Giriş yap",
+    "loginSubmit": "Giriş yap",
+    "idPreview": "{{id}} olarak giriş yapılıyor"
   },
   "room": {
     "reorderFailed": "Yeni sıra kaydedilemedi: {{error}}",

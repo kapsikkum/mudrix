@@ -208,7 +208,11 @@
     "errWrongEmail": "E-Mail-Adresse und Passwort passen zu keinem Konto auf {{server}}.",
     "errNoEmailLogin": "Dieser Server erlaubt keine Anmeldung per E-Mail oder Telefonnummer. Nutze stattdessen deinen Benutzernamen.",
     "idEmail": "Anmeldung mit deiner E-Mail-Adresse.",
-    "idPhone": "Anmeldung mit deiner Telefonnummer."
+    "idPhone": "Anmeldung mit deiner Telefonnummer.",
+    "identifier": "Benutzername",
+    "loginTitle": "Anmelden",
+    "loginSubmit": "Anmelden",
+    "idPreview": "Anmeldung als {{id}}"
   },
   "room": {
     "reorderFailed": "Neue Reihenfolge konnte nicht gespeichert werden: {{error}}",

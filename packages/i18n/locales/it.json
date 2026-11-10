@@ -208,7 +208,11 @@
     "errWrongEmail": "Questa email e questa password non corrispondono a nessun account su {{server}}.",
     "errNoEmailLogin": "Questo server non permette l'accesso con email o numero di telefono. Usa invece il tuo nome utente.",
     "idEmail": "Accesso con il tuo indirizzo email.",
-    "idPhone": "Accesso con il tuo numero di telefono."
+    "idPhone": "Accesso con il tuo numero di telefono.",
+    "identifier": "Nome utente",
+    "loginTitle": "Accedi",
+    "loginSubmit": "Accedi",
+    "idPreview": "Accesso come {{id}}"
   },
   "room": {
     "reorderFailed": "Impossibile salvare il nuovo ordine: {{error}}",

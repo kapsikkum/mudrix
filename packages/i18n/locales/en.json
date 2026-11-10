@@ -122,7 +122,7 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "registerSubmit": "Create Account",
-    "noAccount": "Don't have an account?",
+    "noAccount": "Need an account?",
     "haveAccount": "Already have an account?",
     "ssoLogin": "Continue with SSO",
     "continueWithIdp": "Continue with {{name}}",
@@ -208,7 +208,11 @@
     "errWrongEmail": "That email and password don't match an account on {{server}}.",
     "errNoEmailLogin": "This server can't log in by email or phone number. Use your username instead.",
     "idEmail": "Logging in with your email address.",
-    "idPhone": "Logging in with your phone number."
+    "idPhone": "Logging in with your phone number.",
+    "identifier": "Username",
+    "loginTitle": "Log in",
+    "loginSubmit": "Log In",
+    "idPreview": "Logging in as {{id}}"
   },
   "room": {
     "reorderFailed": "Couldn't save the new order: {{error}}",

@@ -208,7 +208,11 @@
     "errWrongEmail": "Ten e-mail i hasło nie pasują do żadnego konta na {{server}}.",
     "errNoEmailLogin": "Ten serwer nie obsługuje logowania przez e-mail ani numer telefonu. Użyj nazwy użytkownika.",
     "idEmail": "Logowanie za pomocą adresu e-mail.",
-    "idPhone": "Logowanie za pomocą numeru telefonu."
+    "idPhone": "Logowanie za pomocą numeru telefonu.",
+    "identifier": "Nazwa użytkownika",
+    "loginTitle": "Zaloguj się",
+    "loginSubmit": "Zaloguj się",
+    "idPreview": "Logowanie jako {{id}}"
   },
   "room": {
     "reorderFailed": "Nie udało się zapisać nowej kolejności: {{error}}",

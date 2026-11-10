@@ -208,7 +208,11 @@
     "errWrongEmail": "Ese correo y esa contraseña no coinciden con ninguna cuenta de {{server}}.",
     "errNoEmailLogin": "Este servidor no permite iniciar sesión con correo o teléfono. Usa tu nombre de usuario.",
     "idEmail": "Iniciando sesión con tu correo electrónico.",
-    "idPhone": "Iniciando sesión con tu número de teléfono."
+    "idPhone": "Iniciando sesión con tu número de teléfono.",
+    "identifier": "Nombre de usuario",
+    "loginTitle": "Iniciar sesión",
+    "loginSubmit": "Iniciar sesión",
+    "idPreview": "Iniciando sesión como {{id}}"
   },
   "room": {
     "reorderFailed": "No se pudo guardar el nuevo orden: {{error}}",
