@@ -1,0 +1,22 @@
+# Places where the string "wizardchat" (any case) is allowed to appear, for tools/ci/branding-gate.mjs.
+#
+# Format:  <path glob> [:: <regex matched case-insensitively against the offending line/value>]
+#   glob: * (no slash), ** (any depth), ? and {a,b}; paths are relative to the repo root with forward slashes.
+# Every entry needs a reason: a "# why" line directly above it (covers the entries below it up to the next
+# blank line) or an inline " # why" at the end of the line. Keep entries as narrow as you can.
+
+# AGPL attribution and trademark notice about the upstream project. Required wording, not leftover branding.
+README.md :: based on wizardchat
+README.md :: fork of \[WizardChat\]
+README.md :: come from WizardChat, \(c\)
+README.md :: say WizardChat
+README.md :: \(c\) WizardChat
+README.md :: WizardChat name, and Mudrix is not the official WizardChat app
+
+# CODEBASE.md is the register of the internal names deliberately left as upstream's ("Internal names left as-is"),
+# so it names them all. It is the same kind of upstream-discussing doc as the ones the gate skips by default.
+docs/CODEBASE.md
+
+# CI.md quotes the exact commands the workflows run, and those still use the unrenamed workspace, scheme and binary
+# names. Remove this entry together with the rename (the commands in the doc change then anyway).
+docs/CI.md
