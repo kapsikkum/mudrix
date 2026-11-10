@@ -23,6 +23,21 @@ val keystoreProperties = Properties().apply {
     if (file.exists()) file.inputStream().use { load(it) }
 }
 
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+// Build-time keys (docs/SECRETS.md): a Gradle property, then an environment variable, then
+// apps/android/local.properties (git-ignored). Empty when none is set, which turns the feature off.
+fun buildSecret(name: String): String =
+    (providers.gradleProperty(name).orNull
+        ?: providers.environmentVariable(name).orNull
+        ?: localProperties.getProperty(name)
+        ?: "").trim()
+
+fun String.asBuildConfigString(): String = "\"" + replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
 android {
     namespace = "org.wizardchat.android"
     compileSdk = 36
@@ -33,6 +48,10 @@ android {
         targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersion
+
+        buildConfigField("String", "GIPHY_API_KEY", buildSecret("GIPHY_API_KEY").asBuildConfigString())
+        // Empty means push notifications are not registered (docs/SECRETS.md)
+        buildConfigField("String", "PUSH_GATEWAY_URL", buildSecret("PUSH_GATEWAY_URL").asBuildConfigString())
     }
 
     // gplay pushes through Firebase; fdroid has no Google code (UnifiedPush comes later)
