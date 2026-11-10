@@ -5,3 +5,5 @@ WZ_BUNDLE_PREFIX = chat.mudrix
 WZ_APP_GROUP = group.$(WZ_BUNDLE_PREFIX).mobile
 
 #include? "Local.xcconfig"
+// Build-time API keys (see Secrets.example.xcconfig); the file is optional
+#include? "Secrets.xcconfig"
