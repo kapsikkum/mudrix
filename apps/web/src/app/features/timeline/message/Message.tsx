@@ -855,16 +855,6 @@ export const Message = memo(function Message({
       />
     );
 
-  const isCompact = variant === 'compact';
-  const isCompactInline =
-    !(galleryEvents != null && galleryEvents.length >= 2) &&
-    (isRedacted ||
-      isUndecryptable ||
-      isDecrypting ||
-      contentType === 'text' ||
-      contentType === 'notice' ||
-      contentType === 'emote');
-
   const showEncryptedBanner = isDecrypting || isUndecryptable;
   const showFailedUI = isFailed && !isEdited && !isRedacted;
   const actionToolbar = showActions && !isRedacted && !showEncryptedBanner && !showFailedUI && (
@@ -1039,15 +1029,11 @@ export const Message = memo(function Message({
           height={24}
           alt={displayReply.body || ''}
           placeholder="none"
-          style={{
-            height: '1.4em',
-            width: 'auto',
-            verticalAlign: 'middle',
-            display: 'inline',
-          }}
+          className={css.replyImage}
         />
       ) : (
         <span
+          className={css.replyText}
           dangerouslySetInnerHTML={{
             __html: displayReply.formattedBody
               ? markdownToHtml(displayReply.formattedBody, myId, true, false, true)
@@ -1088,7 +1074,7 @@ export const Message = memo(function Message({
         : css.msgContent;
 
   const rowClass = [
-    isCompact ? css.msgRowCompact : isGrouped ? css.msgRowGrouped : css.msgRow,
+    isGrouped ? css.msgRowGrouped : css.msgRow,
     showActions ? css.msgRowActive : null,
     isOwn ? css.msgRowOwn : null,
     isSending ? css.msgSending : null,
@@ -1143,40 +1129,37 @@ export const Message = memo(function Message({
                 size="xs"
                 placeholder="logo"
               />
-              <strong style={{ color: colorFor(displayReply.senderId) }}>@{replyName}</strong>{' '}
-              {replyBody}
+              <strong>@{replyName}</strong> {replyBody}
             </button>
           </div>
         )}
-        {!isCompact && (
-          <div className={css.msgAvatarCol}>
-            {!isGrouped && (
-              <button
-                type="button"
-                onClick={handleOpenProfile}
-                aria-label={senderName}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  lineHeight: 0,
-                }}
-              >
-                <Avatar
-                  name={senderName}
-                  mxcUrl={senderAvatar}
-                  client={client}
-                  size={variant === 'classic' ? 'xs' : 'sm'}
-                  placeholder="logo"
-                />
-              </button>
-            )}
-          </div>
-        )}
+        <div className={css.msgAvatarCol}>
+          {!isGrouped && (
+            <button
+              type="button"
+              onClick={handleOpenProfile}
+              aria-label={senderName}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                lineHeight: 0,
+              }}
+            >
+              <Avatar
+                name={senderName}
+                mxcUrl={senderAvatar}
+                client={client}
+                size={variant === 'classic' ? 'xs' : 'sm'}
+                placeholder="logo"
+              />
+            </button>
+          )}
+        </div>
 
-        <div className={isCompact ? css.compactBody : css.msgBody}>
-          {!isGrouped && !isCompact ? (
+        <div className={css.msgBody}>
+          {!isGrouped ? (
             <div className={css.msgMeta}>
               <button
                 type="button"
@@ -1197,7 +1180,7 @@ export const Message = memo(function Message({
               className={css.replyQuote}
               onClick={() => onJumpToEvent?.(displayReply.eventId)}
             >
-              <strong style={{ color: colorFor(displayReply.senderId) }}>
+              <strong>
                 {members.get(displayReply.senderId)?.displayName ??
                   displayReply.senderName ??
                   formatUserId(displayReply.senderId)}
@@ -1207,52 +1190,7 @@ export const Message = memo(function Message({
             </button>
           )}
 
-          {isCompact ? (
-            <>
-              <div className={css.compactLine}>
-                <span className={css.compactHeader}>
-                  <span
-                    className={css.compactTime}
-                    title={new Date(ts).toLocaleString(i18n.language)}
-                  >
-                    {formatTime(ts, i18n.language)}
-                  </span>
-                  <button
-                    type="button"
-                    className={css.msgSender}
-                    style={senderNameStyle}
-                    onClick={handleOpenProfile}
-                  >
-                    {senderName}
-                  </button>
-                </span>
-                {!isEditing && isCompactInline && (
-                  <div className={css.compactText}>
-                    {messageContent}
-                    {isEdited && (
-                      <span className={css.editedMarkerGroupedClassic}>
-                        {' '}
-                        {t('timeline.edited')}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              {isEditing && !isPollEvent && editState ? (
-                <>
-                  {isCaptionEvent && <div className={css.compactBlock}>{messageContent}</div>}
-                  <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
-                </>
-              ) : !isEditing && !isCompactInline ? (
-                <div className={css.compactBlock}>
-                  {messageContent}
-                  {isEdited && (
-                    <span className={css.editedMarkerGroupedClassic}> {t('timeline.edited')}</span>
-                  )}
-                </div>
-              ) : null}
-            </>
-          ) : isEditing && !isPollEvent ? (
+          {isEditing && !isPollEvent ? (
             editState ? (
               <>
                 {isCaptionEvent && <div className={contentClass}>{messageContent}</div>}

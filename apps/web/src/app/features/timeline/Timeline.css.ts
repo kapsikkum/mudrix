@@ -1138,9 +1138,37 @@ export const replyQuote = style({
   fontSize: chatSize(0.95),
   borderRadius: '2px',
   cursor: 'pointer',
+  // One line with an ellipsis, like Discord, whatever the quoted message looks like.
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   ':hover': {
     color: vars.color.textPrimary,
   },
+});
+
+// The quoted text arrives as rendered HTML (paragraphs, line breaks, lists). Flatten it to a single
+// inline run so it can be cut off with an ellipsis.
+export const replyText = style({
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+globalStyle(`${replyText} *`, {
+  display: 'inline',
+  whiteSpace: 'nowrap',
+  margin: 0,
+  padding: 0,
+});
+globalStyle(`${replyText} br`, { display: 'none' });
+
+// A reply quote's image thumbnail, sized to the line of text it sits in.
+export const replyImage = style({
+  height: '1.4em',
+  width: 'auto',
+  verticalAlign: 'middle',
+  display: 'inline',
 });
 
 export const replyMediaRow = style({
@@ -2303,77 +2331,65 @@ export const chatDropZone = style({
   backdropFilter: 'blur(3px)',
 });
 
-const COMPACT_TIME_WIDTH = chatSize(3.4);
-const COMPACT_GAP = '8px';
-const COMPACT_INDENT = `calc(${COMPACT_TIME_WIDTH} + ${COMPACT_GAP})`;
-
-export const msgRowCompact = style([
-  msgRow,
-  { paddingTop: chatSpace(1), paddingBottom: chatSpace(1) },
-]);
-
-export const compactBody = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-  flex: 1,
-  minWidth: 0,
-  paddingLeft: COMPACT_INDENT,
-  paddingRight: '12px',
+// Compact layout (Discord-style), toggled via the root attribute: no avatars, the time sits in a
+// right-aligned gutter on the left, and the sender name and message text flow inline after it.
+// Spacing follows the message spacing setting like the other layouts, just from a tighter base.
+globalStyle(`:root[data-compact-layout] ${msgRow}`, {
+  paddingTop: chatSpace(2),
+  paddingBottom: chatSpace(0.5),
 });
-
-export const compactLine = style({
-  display: 'flow-root',
-  minWidth: 0,
-  color: vars.color.textPrimary,
-  fontSize: chatSize(0.95),
-  lineHeight: '1.55',
-  wordBreak: 'break-word',
+globalStyle(`:root[data-compact-layout] ${msgRowGrouped}`, {
+  paddingTop: chatSpace(0.5),
+  paddingBottom: chatSpace(0.5),
 });
-
-export const compactHeader = style({
-  float: 'left',
+globalStyle(`:root[data-compact-layout] ${msgAvatarCol}`, { display: 'none' });
+globalStyle(`:root[data-compact-layout] ${msgHoverRegion}`, { gap: '0' });
+globalStyle(`:root[data-compact-layout] ${msgBody}`, {
   display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   alignItems: 'baseline',
-  gap: COMPACT_GAP,
-  marginLeft: `calc(-1 * ${COMPACT_INDENT})`,
-  marginRight: '6px',
-  whiteSpace: 'nowrap',
+  position: 'relative',
+  paddingLeft: '76px',
+  paddingRight: '8px',
 });
-
-globalStyle(`${compactLine} ${compactHeader} > *`, { lineHeight: 'inherit' });
-
-export const compactTime = style({
-  width: COMPACT_TIME_WIDTH,
-  flexShrink: 0,
-  textAlign: 'right',
-  color: vars.color.textMuted,
-  fontSize: chatSize(0.72),
-  fontVariantNumeric: 'tabular-nums',
-});
-
-export const compactText = style({
+// Everything except the name and the text (replies, reactions, threads, ...) takes its own line.
+globalStyle(`:root[data-compact-layout] ${msgBody} > *`, { flex: '0 0 100%' });
+globalStyle(`:root[data-compact-layout] ${msgBody} > ${msgMeta}`, { flex: '0 0 auto' });
+globalStyle(`:root[data-compact-layout] ${msgBody} > ${msgContent}`, {
+  flex: '1 1 0',
+  minWidth: 0,
   display: 'block',
-  minWidth: 0,
 });
-
-export const compactBlock = style({
-  minWidth: 0,
-  color: vars.color.textPrimary,
-  fontSize: chatSize(0.95),
-  lineHeight: '1.55',
+globalStyle(`:root[data-compact-layout] ${msgMeta}`, {
+  display: 'block',
+  marginBottom: '0',
+  marginRight: '6px',
 });
-
+globalStyle(`:root[data-compact-layout] ${msgTime}`, {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  width: '64px',
+  textAlign: 'right',
+  opacity: 1,
+  fontSize: fontSize.rem68,
+  lineHeight: 'calc(0.95rem * 1.375)',
+});
+globalStyle(`:root[data-compact-layout] ${msgSender}`, { fontSize: fontSize.rem95 });
+globalStyle(`:root[data-compact-layout] ${msgContent}`, { lineHeight: '1.375' });
+// The edit box takes its own full-width line under the name instead of squeezing in beside it.
+globalStyle(`:root[data-compact-layout] ${editContainer}`, { maxWidth: '100%', marginTop: '4px' });
+// Media and other block content goes on the line below the author, aligned with the name.
 globalStyle(
-  `${compactText} ${codeBlock}, ${compactText} pre, ${compactText} blockquote, ${compactText} table, ${compactText} ul, ${compactText} ol`,
-  { clear: 'left' }
+  `:root[data-compact-layout] ${msgBody} > ${msgContent}:has(${mediaBox}, ${stickerBox}, ${mediaWrap}, ${mediaError}, ${gallery}, ${fileCard}, ${locationMsg}, pre, blockquote, table, ul, ol, video, audio)`,
+  { flex: '0 0 100%' }
 );
-globalStyle(`${compactText} > div > :not(:first-child)`, { clear: 'left' });
-
-globalStyle(`${compactLine} ${emojiOnly}`, { fontSize: 'inherit', lineHeight: 'inherit' });
-
-globalStyle(`${compactBlock} ${mediaBox}`, { maxWidth: '240px' });
-globalStyle(`${compactBlock} ${stickerBox}`, { width: '112px' });
+// Emoji-only messages keep the normal text size.
+globalStyle(`:root[data-compact-layout] ${emojiOnly}`, {
+  fontSize: 'inherit',
+  lineHeight: 'inherit',
+});
 
 // Bubble layout (root attribute): your messages sit on the right without avatar or name, the time
 // is always visible, and receipts / the Sent marker sit under the bubble.
