@@ -134,19 +134,28 @@ async function openSpaceSettingsTab(page, port, spaceId, tabName) {
     await page.waitForTimeout(300);
   }
   const spaceSettingsBtn = page
-    .locator('button:has-text("Space Settings"), [role="menuitem"]:has-text("Space Settings")')
+    .locator('button:has-text("Settings"), [role="menuitem"]:has-text("Settings")')
     .first();
   if (await spaceSettingsBtn.isVisible().catch(() => false)) {
     await spaceSettingsBtn.click(CLICK_OPTS).catch(() => {});
+    await page
+      .locator('[role="dialog"]')
+      .waitFor({ state: 'visible', timeout: 5000 })
+      .catch(() => {});
     await page.waitForTimeout(500);
   }
   if (tabName) {
-    const tab = page
-      .locator(`button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}")`)
+    const dialog = page.locator('[role="dialog"]').first();
+    const tabScope = (await dialog.isVisible().catch(() => false)) ? dialog : page;
+    const tab = tabScope
+      .locator(
+        `nav button:has-text("${tabName}"), [class*="mobileList"] button:has-text("${tabName}"), [role="tab"]:has-text("${tabName}"), button:has-text("${tabName}")`
+      )
       .first();
+    await tab.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     if (await tab.isVisible().catch(() => false)) {
       await tab.click(CLICK_OPTS).catch(() => {});
-      await page.waitForTimeout(400);
+      await page.waitForTimeout(500);
     }
   }
 }
