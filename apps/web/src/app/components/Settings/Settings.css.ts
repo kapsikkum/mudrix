@@ -594,6 +594,10 @@ globalStyle(`${narrowPage} ${panelTitle}`, { display: 'none' });
 
 export const navSearch = style({
   padding: '0 2px 6px',
+  '@media': {
+    // The nav collapses to an icon rail here; there is no room for the field.
+    [PANEL_OVERLAY_QUERY]: { display: 'none' },
+  },
 });
 
 export const navListSearch = style({

@@ -17,6 +17,7 @@ import { roomSettingsRoomIdAtom, roomSettingsTabAtom, developerModeAtom } from '
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { powerLevelOf, useRoom, useRoomSettings, useUserId } from '@/app/data';
 import { Dialog } from '@/app/components/Dialog/Dialog';
+import { zIndex } from '@/theme/zIndex';
 import { GeneralPanel } from './General';
 import { PermissionsPanel } from './Permissions';
 import { RoomPermissionsMatrix } from './RoomPermissionsMatrix';
@@ -158,9 +159,9 @@ export function RoomSettings() {
       open={Boolean(roomId)}
       onClose={showPage ? backToList : close}
       size="xl"
-      zIndex={7000}
-      maxWidth="1080px"
-      height="800px"
+      zIndex={zIndex.modal}
+      maxWidth="900px"
+      height="640px"
       surface="primary"
       fullscreenOnMobile
       bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
