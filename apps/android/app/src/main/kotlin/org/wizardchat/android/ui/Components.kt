@@ -79,7 +79,6 @@ import org.wizardchat.android.ui.theme.WizardTheme
 import org.wizardchat.android.ui.theme.hueColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
-import org.wizardchat.core.SyncState
 import org.wizardchat.tokens.WZ
 
 @Composable
@@ -89,16 +88,17 @@ fun Avatar(
     size: Dp = WZ.SizeAvatar.md,
     cornerRadius: Dp? = null,
     modifier: Modifier = Modifier,
+    fallback: Bitmap? = null,
 ) {
     val media = LocalMedia.current
-    var image by remember(url) { mutableStateOf<Bitmap?>(url?.let { media?.cachedThumbnail(it) }) }
+    var image by remember(url, fallback) { mutableStateOf(url?.let { media?.cachedThumbnail(it) } ?: fallback) }
     val imageBitmap = remember(image) { image?.asImageBitmap() }
     LaunchedEffect(url, media) {
         if (url == null || media == null) {
-            image = null
+            image = fallback
             return@LaunchedEffect
         }
-        if (image == null) image = media.thumbnail(url, (size.value * 3).toInt())
+        media.thumbnail(url, (size.value * 3).toInt())?.let { image = it }
     }
     val shape: Shape = if (cornerRadius == null) CircleShape else RoundedCornerShape(cornerRadius)
     Box(
@@ -121,16 +121,19 @@ fun Avatar(
 fun WizardMark(color: Color, modifier: Modifier = Modifier) {
     Canvas(modifier) {
         val scale = minOf(this.size.width, this.size.height) / 400f
-        logoPolygons.forEach { points ->
-            val path = Path().apply {
-                moveTo(points[0].x * scale, points[0].y * scale)
-                points.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
-                close()
-            }
-            drawPath(path, color)
+        val path = Path().apply {
+            moveTo(logoOutline[0].x * scale, logoOutline[0].y * scale)
+            logoOutline.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
+            close()
         }
+        drawPath(path, color)
     }
 }
+
+// The polygons' outline as one path, so a single-colour mark has no seams between them
+private val logoOutline = listOf(
+    0 to 280, 100 to 230, 200 to 70, 300 to 0, 260 to 75, 300 to 230, 400 to 280, 300 to 320, 100 to 320,
+).map { (x, y) -> Offset(x.toFloat(), y + 40f) }
 
 private val logoPolygons = listOf(
     listOf(0 to 280, 100 to 320, 200 to 270, 100 to 230),
@@ -327,7 +330,7 @@ object CopyToast {
     internal val stamp get() = shownAt
 }
 
-fun copyToClipboard(text: String, message: String = L10n.format("security.copied")) {
+fun copyToClipboard(text: String, message: String = L10n.format("common.copied")) {
     val clipboard = WizardApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(null, text))
     CopyToast.show(message)
@@ -360,12 +363,11 @@ fun CopyToastView(modifier: Modifier = Modifier) {
 @Composable
 fun ConnectionBanner(modifier: Modifier = Modifier) {
     val session = LocalSession.current
-    val offline = session.syncState == SyncState.offline || session.syncState == SyncState.error
-    AnimatedVisibility(offline, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
+    AnimatedVisibility(session.connectionLost, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
         Row(
             Modifier
                 .clip(CircleShape)
-                .background(Color(0xFFFF9500))
+                .background(theme.warningColor)
                 .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
@@ -460,9 +462,9 @@ fun VerificationBanner(onVerify: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
-        PhIcon("shield-check", size = WZ.SizeIcon.lg, tint = theme.warningColor)
+        PhIcon("shield-warning", size = WZ.SizeIcon.lg, tint = theme.danger)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            Text(tr("verifySession.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+            Text(tr("verification.session.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
             Text(tr("common.useAnotherDeviceOr"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         Box(

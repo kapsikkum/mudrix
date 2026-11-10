@@ -69,7 +69,6 @@ import { Composer } from './composer';
 import { RoomHeader } from './RoomHeader';
 import { getErrorMessage } from '@/util/error';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
-import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import * as css from './Timeline.css';
 import { scrollBehavior } from '@/app/hooks/useReducedMotion';
 
@@ -206,25 +205,21 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const isInCall = useAtomValue(isInCallAtom);
   const callActiveInRoom = callUi.roomId === roomId && isInCall;
 
-  const callMemberships = useCallMemberships(client, [roomId]);
-  const othersInCall = (() => {
-    const members = callMemberships.get(roomId);
-    if (!members) return false;
-    const myId = client.userId();
-    return uniqueMembers(members).some((m) => m.userId !== myId);
-  })();
+  const room = useRoom(roomId);
+  const myUserId = client.userId();
+  const othersInCall = !!room?.callParticipants.some((userId) => userId !== myUserId);
+  const inCallElsewhere = !!room?.inCallElsewhere;
 
   const handleStartCall = useCallback(
-    async (targetRoomId: string) => {
+    async (targetRoomId: string, ring: boolean) => {
       if (isInCall && callUi.roomId === targetRoomId) {
         return;
       }
-      await callActions?.start(targetRoomId, { voiceOnly: true, presentation: 'room' });
+      await callActions?.start(targetRoomId, { voiceOnly: true, presentation: 'room', ring });
     },
     [isInCall, callUi.roomId, callActions]
   );
 
-  const room = useRoom(roomId);
   const receiptMap = useRoomReceipts(client, roomId, entries);
   const members = useLoadedMembers(roomId);
 
@@ -938,10 +933,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
         const gid = entryEventId(e);
         if (gid) indexOfEvent.set(gid, i);
       });
-      it.callSession?.events.forEach((e) => {
-        const cid = entryEventId(e);
-        if (cid) indexOfEvent.set(cid, i);
-      });
     });
 
     const readers = new Map<string, { user: ReceiptUser; pos: number }>();
@@ -1011,16 +1002,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
         }
       }
     }
-    if (timelineItem.callSession) {
-      for (const callEvent of timelineItem.callSession.events) {
-        const callEventId = entryEventId(callEvent);
-        if (callEventId === eventId) continue;
-        const callReceipts = effectiveReceiptMap.get(callEventId);
-        if (callReceipts && callReceipts !== receiptUsers) {
-          receiptUsers = [...receiptUsers, ...callReceipts];
-        }
-      }
-    }
 
     const animateIn = isLive && !timelineItem.isOwn;
     const itemClass = isActiveMatch ? css.searchMatchActive : animateIn ? css.msgLive : undefined;
@@ -1049,7 +1030,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       sendError: timelineItem.sendError,
       optimisticBody: timelineItem.optimisticBody,
       galleryEvents: timelineItem.galleryEvents,
-      callSession: timelineItem.callSession,
       client,
       searchQuery: isSearching ? search.query : '',
       receiptUsers,
@@ -1191,7 +1171,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                     onClick={handleJoinReplacement}
                     disabled={joiningReplacement}
                   >
-                    {joiningReplacement ? t('explore.joining') : t('explore.join')}
+                    {joiningReplacement ? t('explore.joining') : t('common.join')}
                   </button>
                 )}
               </div>
@@ -1205,6 +1185,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                 onStartCall={handleStartCall}
                 callActive={callActiveInRoom}
                 othersInCall={othersInCall}
+                inCallElsewhere={inCallElsewhere}
               />
             )}
 

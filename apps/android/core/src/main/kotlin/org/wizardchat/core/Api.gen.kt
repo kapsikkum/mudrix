@@ -72,7 +72,7 @@ sealed interface CallEvent {
         /** Base64 */
         val key: String,
     ) : CallEvent
-    /** The person rung declined */
+    /** Everyone rung declined (`user_id` is the last of them) */
     @Serializable
     data class Declined(
         val user_id: String,
@@ -121,6 +121,23 @@ sealed interface CallEvent {
     }
 }
 
+@Serializable
+data class CallHistoryView(
+    val outcome: CallOutcome,
+    /** Milliseconds since the Unix epoch */
+    val startedAt: Long,
+    val endedAt: Long? = null,
+    val startedBy: String,
+    /** Everyone who joined, in the order they joined */
+    val participants: List<CallParticipantView>,
+    val video: Boolean,
+    /** The call rang (a DM or small room) */
+    val rang: Boolean,
+    val declinedBy: List<String>,
+    /** The call started before the loaded part of the timeline */
+    val partial: Boolean,
+)
+
 /** One device in a room's call */
 @Serializable
 data class CallMember(
@@ -137,6 +154,22 @@ data class CallMember(
     /** Reactions and raised hands refer to this event */
     val membershipEventId: String? = null,
     /** The name to show, with the user ID added when others in the room share it */
+    val displayName: String? = null,
+    val avatarUrl: String? = null,
+)
+
+@Serializable
+enum class CallOutcome {
+    @SerialName("ongoing") ongoing,
+    @SerialName("ended") ended,
+    @SerialName("missed") missed,
+    @SerialName("declined") declined,
+    @SerialName("unanswered") unanswered,
+}
+
+@Serializable
+data class CallParticipantView(
+    val userId: String,
     val displayName: String? = null,
     val avatarUrl: String? = null,
 )
@@ -237,16 +270,22 @@ sealed interface EntryContent {
     data class Text(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Notice(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Emote(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Image(
@@ -318,6 +357,13 @@ sealed interface EntryContent {
         val content: JsonElement,
         val prevContent: JsonElement? = null,
     ) : EntryContent
+    /** A call, shown on the first of its events */
+    @Serializable
+    data class Call(
+        val call: CallHistoryView,
+    ) : EntryContent
+    /** One of a call's other events: shown as part of its `call` */
+    data object CallPart : EntryContent
     data object Other : EntryContent
 
     object Serializer : JsonUnionSerializer<EntryContent>("EntryContent") {
@@ -338,6 +384,8 @@ sealed interface EntryContent {
             "membership" -> CoreJson.decodeFromJsonElement(Membership.serializer(), json)
             "profileChange" -> CoreJson.decodeFromJsonElement(ProfileChange.serializer(), json)
             "state" -> CoreJson.decodeFromJsonElement(State.serializer(), json)
+            "call" -> CoreJson.decodeFromJsonElement(Call.serializer(), json)
+            "callPart" -> CallPart
             "other" -> Other
             else -> throw SerializationException("Unknown EntryContent $tag")
         }
@@ -359,6 +407,8 @@ sealed interface EntryContent {
             is Membership -> tagged(CoreJson.encodeToJsonElement(Membership.serializer(), value), "type", "membership")
             is ProfileChange -> tagged(CoreJson.encodeToJsonElement(ProfileChange.serializer(), value), "type", "profileChange")
             is State -> tagged(CoreJson.encodeToJsonElement(State.serializer(), value), "type", "state")
+            is Call -> tagged(CoreJson.encodeToJsonElement(Call.serializer(), value), "type", "call")
+            CallPart -> tagged(JsonObject(emptyMap()), "type", "callPart")
             Other -> tagged(JsonObject(emptyMap()), "type", "other")
         }
     }
@@ -403,21 +453,52 @@ data class IdentityProvider(
     val icon: String? = null,
 )
 
-/** Someone calling, from a ring or notification event, or a caller's new membership in a direct chat */
+/**
+ * Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+ * in the call
+ */
 @Serializable
 data class IncomingCall(
     val roomId: String,
     val roomName: String? = null,
-    /** The ring or notification event to decline; empty when only the membership is known so far */
+    /** The ring or notification event to decline */
     val eventId: String,
     val sender: String,
     val senderName: String? = null,
-    /** Ring audibly (direct chats), or just show a notification */
+    /** Ring audibly (DMs and rooms up to 10 members), or just show a notification */
     val ring: Boolean,
     val intent: String? = null,
     /** Milliseconds since the Unix epoch */
     val expiresAt: Long,
 )
+
+@Serializable(with = IncomingCallEvent.Serializer::class)
+sealed interface IncomingCallEvent {
+    /** Someone is calling; a later ring in the same room replaces this one */
+    @Serializable
+    data class Ringing(
+        val call: IncomingCall,
+    ) : IncomingCallEvent
+    /** The ring in the call's room is over */
+    @Serializable
+    data class Ended(
+        val call: IncomingCall,
+        val reason: RingEnd,
+    ) : IncomingCallEvent
+
+    object Serializer : JsonUnionSerializer<IncomingCallEvent>("IncomingCallEvent") {
+        override fun read(json: JsonElement): IncomingCallEvent = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "ringing" -> CoreJson.decodeFromJsonElement(Ringing.serializer(), json)
+            "ended" -> CoreJson.decodeFromJsonElement(Ended.serializer(), json)
+            else -> throw SerializationException("Unknown IncomingCallEvent $tag")
+        }
+
+        override fun write(value: IncomingCallEvent): JsonElement = when (value) {
+            is Ringing -> tagged(CoreJson.encodeToJsonElement(Ringing.serializer(), value), "type", "ringing")
+            is Ended -> tagged(CoreJson.encodeToJsonElement(Ended.serializer(), value), "type", "ended")
+        }
+    }
+}
 
 /** Who invited the user to a room */
 @Serializable
@@ -649,6 +730,7 @@ enum class MessageKind {
 data class Notification(
     val roomId: String,
     val roomName: String? = null,
+    val roomAvatarUrl: String? = null,
     val eventId: String,
     val sender: String,
     val senderName: String? = null,
@@ -656,6 +738,8 @@ data class Notification(
     val body: String,
     /** The message hides a spoiler: show a placeholder instead of its text */
     val spoiler: Boolean,
+    /** Its keys haven't arrived yet: show a placeholder */
+    val encrypted: Boolean,
     /** Mentions and keywords: show more prominently */
     val highlight: Boolean,
     val sound: Boolean,
@@ -743,6 +827,16 @@ data class PublicRoomsPage(
     /** Pass back to load more */
     val next: String? = null,
     val total: Long? = null,
+)
+
+@Serializable
+data class PusherConfig(
+    val appId: String,
+    val pushkey: String,
+    val gatewayUrl: String,
+    val appName: String,
+    val deviceName: String,
+    val lang: String,
 )
 
 @Serializable(with = QrLoginStatus.Serializer::class)
@@ -871,6 +965,84 @@ data class ResolvedAlias(
     val servers: List<String>,
 )
 
+@Serializable(with = RichBlock.Serializer::class)
+sealed interface RichBlock {
+    @Serializable
+    data class Paragraph(
+        val spans: List<RichSpan>,
+    ) : RichBlock
+    @Serializable
+    data class Heading(
+        /** 1 to 6 */
+        val level: Long,
+        val spans: List<RichSpan>,
+    ) : RichBlock
+    @Serializable
+    data class Quote(
+        val blocks: List<RichBlock>,
+    ) : RichBlock
+    /** A bulleted or numbered list (not `List`: Kotlin's would be shadowed) */
+    @Serializable
+    data class ItemList(
+        val ordered: Boolean,
+        /** The first number of an ordered list */
+        val start: Long,
+        val items: List<List<RichBlock>>,
+    ) : RichBlock
+    /** A code block, its text as written */
+    @Serializable
+    data class Code(
+        val text: String,
+    ) : RichBlock
+    data object Rule : RichBlock
+
+    object Serializer : JsonUnionSerializer<RichBlock>("RichBlock") {
+        override fun read(json: JsonElement): RichBlock = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "paragraph" -> CoreJson.decodeFromJsonElement(Paragraph.serializer(), json)
+            "heading" -> CoreJson.decodeFromJsonElement(Heading.serializer(), json)
+            "quote" -> CoreJson.decodeFromJsonElement(Quote.serializer(), json)
+            "itemList" -> CoreJson.decodeFromJsonElement(ItemList.serializer(), json)
+            "code" -> CoreJson.decodeFromJsonElement(Code.serializer(), json)
+            "rule" -> Rule
+            else -> throw SerializationException("Unknown RichBlock $tag")
+        }
+
+        override fun write(value: RichBlock): JsonElement = when (value) {
+            is Paragraph -> tagged(CoreJson.encodeToJsonElement(Paragraph.serializer(), value), "type", "paragraph")
+            is Heading -> tagged(CoreJson.encodeToJsonElement(Heading.serializer(), value), "type", "heading")
+            is Quote -> tagged(CoreJson.encodeToJsonElement(Quote.serializer(), value), "type", "quote")
+            is ItemList -> tagged(CoreJson.encodeToJsonElement(ItemList.serializer(), value), "type", "itemList")
+            is Code -> tagged(CoreJson.encodeToJsonElement(Code.serializer(), value), "type", "code")
+            Rule -> tagged(JsonObject(emptyMap()), "type", "rule")
+        }
+    }
+}
+
+/** A run of text with one style */
+@Serializable
+data class RichSpan(
+    val text: String,
+    val bold: Boolean,
+    val italic: Boolean,
+    val strike: Boolean,
+    val underline: Boolean,
+    /** Inline code */
+    val code: Boolean,
+    val link: String? = null,
+    /** A mentioned user's ID; `text` is "@name", as the plain body shows mentions */
+    val mention: String? = null,
+    val spoiler: Boolean,
+)
+
+/** Why a ring stopped */
+@Serializable
+enum class RingEnd {
+    @SerialName("answered") answered,
+    @SerialName("declined") declined,
+    @SerialName("callerLeft") callerLeft,
+    @SerialName("expired") expired,
+}
+
 @Serializable
 data class RoomDetails(
     val id: String,
@@ -939,6 +1111,7 @@ data class RoomPermissions(
     val changePermissions: Boolean,
     val pin: Boolean,
     val manageWidgets: Boolean,
+    val enableEncryption: Boolean,
 )
 
 /** A user-made section of the room list */
@@ -1009,8 +1182,12 @@ data class RoomSummary(
     val memberCount: Long,
     /** The room's own notification setting, if it has one: `all`, `mentions` or `mute` */
     val notificationMode: NotificationMode? = null,
-    /** Users in the room's call, oldest first (a user appears once per device) */
+    /** Users in the room's call, oldest first, once each */
     val callParticipants: List<String>,
+    /** This device is in the room's call */
+    val inCall: Boolean,
+    /** The user is in the room's call on another device, not on this one */
+    val inCallElsewhere: Boolean,
     /**
      * Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
      * "5 min ago"
@@ -1225,6 +1402,7 @@ data class StoreConfig(
     val passphrase: String? = null,
     /** Don't share keys with, or read messages from, devices their owner hasn't verified */
     val excludeInsecureDevices: Boolean? = null,
+    val manualEncryptionSetup: Boolean? = null,
 )
 
 /** The state of the background sync, as shown to the user. */
@@ -2138,6 +2316,10 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun stateEventsOfTypes(roomId: String, eventTypes: List<String>): List<List<JsonElement>> =
         Runtime.call("WizardClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
 
+    /** Every current state event of the room in full, for exploring it. */
+    suspend fun roomState(roomId: String): List<JsonElement> =
+        Runtime.call("WizardClient.roomState", handle, listOf(Arg.value<String>(roomId)))
+
     suspend fun setStateEvent(roomId: String, eventType: String, stateKey: String, content: JsonElement) {
         Runtime.callUnit("WizardClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
     }
@@ -2285,6 +2467,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun uploadEncryptedMedia(data: Bytes): JsonElement =
         Runtime.call("WizardClient.uploadEncryptedMedia", handle, listOf(Arg.bytes(data)))
 
+    /**
+     * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+     * mentions and custom emoji to it, which plain Markdown sending can't.
+     */
+    suspend fun markdownToHtml(body: String): String? =
+        Runtime.call("WizardClient.markdownToHtml", handle, listOf(Arg.value<String>(body)))
+
     /** The LiveKit service the homeserver offers for calls, if any */
     suspend fun rtcServiceUrl(): String? =
         Runtime.call("WizardClient.rtcServiceUrl", handle, listOf())
@@ -2311,11 +2500,12 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun joinCall(roomId: String, video: Boolean, ring: Boolean, serviceUrl: String? = null): CallSession =
         Runtime.call("WizardClient.joinCall", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(video), Arg.value<Boolean>(ring), Arg.value<String?>(serviceUrl)))
 
-    fun watchIncomingCalls(listener: (IncomingCall) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCall>(listener)), ::Subscription)
-
-    fun watchCallsHandledElsewhere(listener: (String) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchCallsHandledElsewhere", handle, listOf(Arg.listener<String>(listener)), ::Subscription)
+    /**
+     * Rings as they start and end: answered or declined on one of the user's devices, the
+     * caller left, or it expired.
+     */
+    fun watchIncomingCalls(listener: (IncomingCallEvent) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCallEvent>(listener)), ::Subscription)
 
     suspend fun declineCall(roomId: String, eventId: String) {
         Runtime.callUnit("WizardClient.declineCall", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
@@ -2327,6 +2517,17 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      */
     fun watchNotifications(listener: (Notification) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
+
+    suspend fun setPusher(config: PusherConfig) {
+        Runtime.callUnit("WizardClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
+    }
+
+    suspend fun removePusher(appId: String, pushkey: String) {
+        Runtime.callUnit("WizardClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
+    }
+
+    suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
+        Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     suspend fun logout() {
         Runtime.callUnit("WizardClient.logout", handle, listOf())
@@ -2543,6 +2744,10 @@ class RoomTimeline(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun editText(itemKey: String, body: String) {
         Runtime.callUnit("RoomTimeline.editText", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(body)))
+    }
+
+    suspend fun editCaption(itemKey: String, caption: String, html: String? = null, mentions: Mentions? = null) {
+        Runtime.callUnit("RoomTimeline.editCaption", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(caption), Arg.value<String?>(html), Arg.value<Mentions?>(mentions)))
     }
 
     suspend fun redact(itemKey: String, reason: String? = null) {

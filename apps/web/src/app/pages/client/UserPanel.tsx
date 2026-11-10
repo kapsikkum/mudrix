@@ -77,8 +77,8 @@ export function UserPanel() {
   }, [userId, setProfile]);
 
   const MicIcon = micMuted ? MicrophoneSlashIcon : MicrophoneIcon;
-  const micTitle = micMuted ? t('voice.unmute') : t('voice.mute');
-  const deafenTitle = deafened ? t('voice.undeafen') : t('voice.deafen');
+  const micTitle = micMuted ? t('call.unmute') : t('call.mute');
+  const deafenTitle = deafened ? t('call.undeafen') : t('call.deafen');
 
   const syncReady = useSyncReady();
   const hasPresence = showPresence && syncReady;
@@ -185,8 +185,8 @@ export function UserPanel() {
         </IconButton>
         <IconButton
           size="sm"
-          tooltip={t('settings.userSettings')}
-          aria-label={t('settings.userSettings')}
+          tooltip={t('settings.title')}
+          aria-label={t('settings.title')}
           onClick={() => setSettingsOpen(true)}
         >
           <GearIcon size={16} />

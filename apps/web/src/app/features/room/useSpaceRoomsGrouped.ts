@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { getDefaultStore } from 'jotai';
+import type { useStore } from 'jotai';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import type { RoomSummary as CoreRoomSummary, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSummary as CoreRoomSummary, SpaceNode } from '@wizardchat/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import {
   childrenOf,
@@ -183,10 +183,9 @@ function splitLevel(
 export function splitHierarchyLevel(
   parentId: string,
   summaryMap: Map<string, RoomSummary>,
-  _client: WizardClient,
+  store: ReturnType<typeof useStore>,
   unknownLabel: string
 ): { rooms: SpaceRoomEntry[]; subSpaces: SpaceSection[] } {
-  const store = getDefaultStore();
   return splitLevel(
     parentId,
     summaryMap,

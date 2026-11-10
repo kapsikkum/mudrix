@@ -44,14 +44,14 @@ export function MobileHeader() {
   if (inRoomView && !searchingRoom) return null;
 
   const listTitle = youOpen
-    ? t('settings.userSettings')
+    ? t('settings.title')
     : inboxOpen
       ? t('inbox.title')
       : sidebarView === 'dms'
         ? t('room.dm.directMessages')
         : sidebarView === 'space'
-          ? (spaceDetails?.name ?? t('mobileNav.spaces'))
-          : t('room.home');
+          ? (spaceDetails?.name ?? t('nav.spaces'))
+          : t('nav.home');
 
   return (
     <div className={css.mobileHeader}>
@@ -81,7 +81,7 @@ export function MobileHeader() {
               type="button"
               className={css.mobileActionBtn}
               onClick={() => openGlobalSearch(true)}
-              aria-label={t('roomSwitcher.title')}
+              aria-label={t('search.switcher.title')}
             >
               <MagnifyingGlassIcon size={16} />
             </button>

@@ -22,7 +22,7 @@ import org.wizardchat.android.ui.theme.CustomTheme
 import org.wizardchat.android.ui.theme.CustomThemes
 import org.wizardchat.android.ui.theme.Themes
 
-enum class MessageLayout { modern, classic }
+enum class MessageLayout { modern, classic, compact }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
 enum class MediaVisibility { always, private, never }
@@ -131,6 +131,7 @@ class AppPreferences(context: Context) {
     var chatFontSize by pref(defaults.getFloat("chatFontSize", DEFAULT_CHAT_FONT_SIZE), numberCodec("chatFontSize", 8f..40f)) { putFloat("chatFontSize", it) }
     var chatDensity by pref(enumPref("chatDensity", Density.default), enumCodec<Density>("chatDensity")) { putString("chatDensity", it.name) }
     var uiDensity by pref(enumPref("uiDensity", Density.default), enumCodec<Density>("uiDensity")) { putString("uiDensity", it.name) }
+    var colorUsernames by pref(defaults.getBoolean("colorUsernames", true), boolCodec("colorUsernames")) { putBoolean("colorUsernames", it) }
     var prettifyLinks by pref(defaults.getBoolean("prettifyLinks", true), boolCodec("prettifyLinks")) { putBoolean("prettifyLinks", it) }
     /** Show images sent together as one gallery; off shows every image as its own message */
     var groupImages by pref(defaults.getBoolean("groupImages", true), boolCodec("groupImages")) { putBoolean("groupImages", it) }
@@ -248,6 +249,10 @@ class AppPreferences(context: Context) {
         applyLanguage(it)
     }
     var developerMode by pref(defaults.getBoolean("developerMode", false)) { putBoolean("developerMode", it) }
+    var pushToTalk by pref(defaults.getBoolean("pushToTalk", false)) { putBoolean("pushToTalk", it) }
+    var verifySkippedDevice by pref(defaults.getString("verifySkippedDevice", "") ?: "") {
+        putString("verifySkippedDevice", it)
+    }
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }

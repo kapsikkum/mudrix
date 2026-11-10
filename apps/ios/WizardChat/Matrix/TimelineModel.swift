@@ -36,7 +36,24 @@ struct ChatEntry: Identifiable, Equatable {
         /// The core's reason, for the explanation and for whether trying again can help
         case undecryptable(reason: String)
         case system(String)
+        case call(CallHistoryView)
         case dateDivider(Date)
+    }
+
+    var editableMedia: MediaContent? {
+        switch kind {
+        case .image(let media), .video(let media), .file(let media): return media
+        case .audio(let media, let isVoice, _): return isVoice ? nil : media
+        default: return nil
+        }
+    }
+
+    var editableText: String? {
+        if case .message(let body, _, _) = kind { return body }
+        guard let media = editableMedia else { return nil }
+        guard let caption = media.caption, !caption.trimmingCharacters(in: .whitespaces).isEmpty,
+              caption != media.filename else { return "" }
+        return caption
     }
 
     enum ContentType: Hashable {
@@ -98,6 +115,7 @@ struct ChatEntry: Identifiable, Equatable {
         let eventId: String
         let senderName: String
         let text: String
+        var sender = ""
     }
 
     let id: String
@@ -118,10 +136,17 @@ struct ChatEntry: Identifiable, Equatable {
     var sendFailed = false
     var replyTo: ReplyQuote?
     var isEditable = false
-    var canBeRepliedTo: Bool { eventId != nil }
+    var allowsActions: Bool {
+        switch kind {
+        case .redacted, .undecryptable: false
+        default: true
+        }
+    }
+    var canBeRepliedTo: Bool { eventId != nil && allowsActions }
     var isGrouped = false
     var spoilers: [String] = []
     var mentions: [MessageMention] = []
+    var rich: [RichBlock]?
     var mediaSpoiler: String?
     var galleryItems: [ChatEntry] = []
     var thread: ThreadSummaryView?
@@ -158,7 +183,7 @@ struct ChatEntry: Identifiable, Equatable {
 
     var isContent: Bool {
         switch kind {
-        case .system, .dateDivider: return false
+        case .system, .call, .dateDivider: return false
         default: return true
         }
     }
@@ -170,6 +195,7 @@ final class TimelineModel: ObservableObject {
     @Published private(set) var isPaginating = false
     @Published private(set) var reachedStart = false
     @Published private(set) var typingNames: [String] = []
+    @Published private(set) var typingIds: [String] = []
     @Published var sendError: String?
     @Published private(set) var firstUnreadId: String?
     @Published private(set) var pinnedIds: Set<String> = []
@@ -223,6 +249,7 @@ final class TimelineModel: ObservableObject {
                 subscriptions.append(timeline.watchTyping { [weak self] users in
                     MainActor.assumeIsolated {
                         self?.typingNames = users.map { $0.displayName ?? Self.localpart($0.userId) }
+                        self?.typingIds = users.map(\.userId)
                     }
                 })
             }
@@ -331,7 +358,11 @@ final class TimelineModel: ObservableObject {
 
     func edit(_ entry: ChatEntry, newText: String) async {
         guard let timeline, let itemKey = entry.itemKey else { return }
-        await report { try await timeline.editText(itemKey: itemKey, body: newText) }
+        if entry.editableMedia != nil {
+            await report { try await timeline.editCaption(itemKey: itemKey, caption: newText) }
+        } else {
+            await report { try await timeline.editText(itemKey: itemKey, body: newText) }
+        }
     }
 
     func redact(_ entry: ChatEntry) async {
@@ -404,6 +435,11 @@ final class TimelineModel: ObservableObject {
                     guard let self, let index = self.uploads.firstIndex(where: { $0.id == id }) else { return }
                     self.uploads[index].progress = fraction
                 }
+            }
+            if type.conforms(to: .movie), let frame = await MediaMetadata.videoFrame(at: url),
+               let source = try? await timeline.uploadFile(data: frame.data, mimetype: "image/jpeg", listener: { _ in }) {
+                file.thumbnail = UploadedThumbnail(source: source, mimetype: "image/jpeg", width: frame.width,
+                                                   height: frame.height, size: frame.data.count)
             }
             try await timeline.sendUploaded(file: file)
         }
@@ -649,15 +685,18 @@ final class TimelineModel: ObservableObject {
         var contentType: ChatEntry.ContentType?
         var spoilers: [String] = []
         var mentions: [MessageMention] = []
+        var rich: [RichBlock]?
         var mediaSpoiler: String?
         switch event.content {
         case .text(let text):
+            rich = text.rich
             let mentioned = Self.mentionText(text.html, ownUserId: ownUserId)
             kind = .message(body: mentioned?.text ?? text.body, isEmote: false, isNotice: false)
             contentType = .text
             spoilers = Self.spoilers(in: text.html)
             mentions = mentioned?.mentions ?? []
         case .notice(let notice):
+            rich = notice.rich
             let mentioned = Self.mentionText(notice.html, ownUserId: ownUserId)
             kind = .message(body: mentioned?.text ?? notice.body, isEmote: false, isNotice: true)
             contentType = .notice
@@ -706,6 +745,8 @@ final class TimelineModel: ObservableObject {
         case .membership(let membership):
             guard let text = describe(membership, sender: event.senderName ?? event.sender) else { return nil }
             kind = .system(text)
+        case .call(let call):
+            kind = .call(call.call)
         default:
             return nil
         }
@@ -727,6 +768,7 @@ final class TimelineModel: ObservableObject {
         entry.sendFailed = event.sendState == .failed
         entry.spoilers = spoilers
         entry.mentions = mentions
+        entry.rich = rich
         entry.mediaSpoiler = mediaSpoiler
         entry.isEditable = event.isEditable
         entry.thread = event.thread
@@ -840,7 +882,8 @@ final class TimelineModel: ObservableObject {
     private static func quote(_ reply: ReplyPreview) -> ChatEntry.ReplyQuote {
         switch reply {
         case .ready(let ready):
-            return .init(eventId: ready.eventId, senderName: ready.senderName ?? ready.sender, text: ready.summary)
+            return .init(eventId: ready.eventId, senderName: ready.senderName ?? ready.sender, text: ready.summary,
+                         sender: ready.sender)
         case .unavailable(let reply):
             return .init(eventId: reply.eventId, senderName: "", text: "")
         case .pending(let reply):

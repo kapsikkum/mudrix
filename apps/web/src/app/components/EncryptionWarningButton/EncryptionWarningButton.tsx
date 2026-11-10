@@ -14,7 +14,7 @@ export function EncryptionWarningButton() {
   if (status !== 'no-identity' && status !== 'unverified') return null;
 
   const notSetUp = status === 'no-identity';
-  const label = notSetUp ? t('verifySession.setupButton') : t('verifySession.title');
+  const label = notSetUp ? t('verification.session.setupButton') : t('verification.session.title');
 
   const handleClick = () => {
     setSettingsPage(notSetUp ? 'encryption' : 'sessions');

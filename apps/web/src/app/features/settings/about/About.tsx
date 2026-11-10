@@ -3,21 +3,20 @@ import { Trans, useTranslation } from 'react-i18next';
 import { LogoHover } from '@/app/components/AppLoading';
 import { GithubLogoIcon, DownloadSimpleIcon, SparkleIcon } from '@phosphor-icons/react';
 import { useSetAtom } from 'jotai';
-import { whatsNewOpenAtom } from '@/app/store/atoms';
+import { getAppsOpenAtom, whatsNewOpenAtom } from '@/app/store/atoms';
 import { latestWhatsNew } from '@/app/features/whatsNew';
-import { isMobileDevice } from '@/util/desktop';
 import * as css from '../Settings.css';
 import { SOURCE_URL } from '@/const/links';
 import * as heroCss from './About.css';
 
 const WIZARDCHAT_URL = 'https://gitlab.com/wizardchat/wizardchat-web';
-const DOWNLOAD_URL = 'https://github.com/kapsikkum/mudrix-desktop/releases/latest';
 
 export function About() {
   const { t } = useTranslation();
   // APP_VERSION is injected by Vite define (typed in src/vite-env.d.ts)
   const [version, setVersion] = useState(import.meta.env.APP_VERSION ?? 'unknown');
   const setWhatsNewOpen = useSetAtom(whatsNewOpenAtom);
+  const setGetAppsOpen = useSetAtom(getAppsOpenAtom);
   const hasWhatsNew = !!latestWhatsNew('en');
 
   useEffect(() => {
@@ -36,17 +35,14 @@ export function About() {
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>
-            {!isMobileDevice() && (
-              <a
-                href={DOWNLOAD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={heroCss.downloadBtn}
-              >
-                <DownloadSimpleIcon size={16} />
-                {t('settings.about.downloadDesktop')}
-              </a>
-            )}
+            <button
+              type="button"
+              className={heroCss.downloadBtn}
+              onClick={() => setGetAppsOpen(true)}
+            >
+              <DownloadSimpleIcon size={16} />
+              {t('getApps.title')}
+            </button>
             <a
               href={SOURCE_URL}
               target="_blank"
@@ -94,7 +90,7 @@ export function About() {
                 sdkLink: (
                   // eslint-disable-next-line jsx-a11y/anchor-has-content
                   <a
-                    href="https://github.com/matrix-org/matrix-js-sdk"
+                    href="https://github.com/matrix-org/matrix-rust-sdk"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={css.externalLink}

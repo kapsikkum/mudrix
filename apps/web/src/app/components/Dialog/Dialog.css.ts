@@ -88,6 +88,18 @@ export const title = style({
   gap: '8px',
 });
 
+export const titleGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  minWidth: 0,
+});
+
+export const subtitle = style({
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
+});
+
 export const titleIcon = style({
   display: 'flex',
   alignItems: 'center',

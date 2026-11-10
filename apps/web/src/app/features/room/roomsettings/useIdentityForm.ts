@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { JoinRule } from '@wizardchat/core';
 import { useTranslation } from 'react-i18next';
-import { refreshRoomSettings, useClient, useRoomDetails, useRoomSettings } from '@/app/data';
+import {
+  refreshRoomSettings,
+  useClient,
+  useRoom,
+  useRoomDetails,
+  useRoomSettings,
+} from '@/app/data';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useToast } from '@/app/hooks/useToast';
@@ -38,11 +44,15 @@ export function useIdentityForm({ roomId, restrictedAllowRoomId }: Options) {
 
   const { data: settings } = useRoomSettings(roomId);
   const details = useRoomDetails(roomId);
+  const summary = useRoom(roomId);
+  const isDm = !!summary?.isDirect;
   const refresh = () => refreshRoomSettings(queryClient, roomId);
 
   const currentName: string = details?.name ?? settings?.name ?? '';
   const currentTopic: string = details?.topic ?? settings?.topic ?? '';
   const currentAvatarMxc: string | null = details?.avatarUrl ?? settings?.avatarUrl ?? null;
+  // A DM without its own avatar shows the other person's, as the room list does
+  const shownAvatarMxc = currentAvatarMxc ?? (isDm ? (summary?.dmUserAvatar ?? null) : null);
   const currentJoinRule: string = settings?.joinRule ?? 'invite';
 
   const can = useCanSendState(roomId);
@@ -88,11 +98,20 @@ export function useIdentityForm({ roomId, restrictedAllowRoomId }: Options) {
   };
 
   const handleRemoveAvatar = async () => {
-    const ok = await confirmDialog({
-      title: t('common.removeAvatar'),
-      message: t('common.removeAvatarConfirm'),
-      danger: true,
-    });
+    const ok = await confirmDialog(
+      isDm
+        ? {
+            title: t('room.settings.general.resetAvatar'),
+            message: t('room.dm.resetAvatarConfirm', {
+              name: summary?.dmUserName ?? summary?.dmUserId ?? currentName,
+            }),
+          }
+        : {
+            title: t('common.removeAvatar'),
+            message: t('common.removeAvatarConfirm'),
+            danger: true,
+          }
+    );
     if (!ok) return;
     try {
       await client.removeRoomAvatar(roomId);
@@ -141,6 +160,8 @@ export function useIdentityForm({ roomId, restrictedAllowRoomId }: Options) {
   return {
     fileRef,
     currentAvatarMxc,
+    shownAvatarMxc,
+    isDm,
     currentName,
     name,
     setName,

@@ -1,4 +1,5 @@
 import Foundation
+import Network
 import UIKit
 import WizardChatCore
 
@@ -19,7 +20,13 @@ final class MatrixSession: ObservableObject {
     private var presenceVisible = true
     private var statusExpiry: Task<Void, Never>?
     @Published private(set) var syncState: SyncState = .idle
+    @Published private(set) var connectionLost = false
+    private var networkAvailable = true
+    private var lostTimer: Task<Void, Never>?
+    private let pathMonitor = NWPathMonitor()
     @Published private(set) var encryption: EncryptionStatus?
+    @Published private(set) var needsEncryptionSetup = false
+    @Published private(set) var needsVerification = false
     @Published private(set) var accounts: [Account] = []
     @Published var isAddingAccount = false
 
@@ -88,6 +95,15 @@ final class MatrixSession: ObservableObject {
         accounts = SessionStore.all().map {
             Account(userId: $0.session.userId, displayName: $0.displayName, avatarUrl: $0.avatarUrl)
         }
+    }
+
+    func refreshAccountProfiles() async {
+        guard let client else { return }
+        for account in accounts where account.userId != userId {
+            guard let profile = try? await client.userProfile(userId: account.userId) else { continue }
+            SessionStore.updateProfile(account.userId, displayName: profile.displayName, avatarUrl: profile.avatarUrl)
+        }
+        reloadAccounts()
     }
 
     func switchAccount(to userId: String) async {
@@ -201,9 +217,43 @@ final class MatrixSession: ObservableObject {
         try? await client.startSync()
     }
 
+    init() {
+        pathMonitor.pathUpdateHandler = { [weak self] path in
+            Task { @MainActor in self?.networkChanged(path.status == .satisfied) }
+        }
+        pathMonitor.start(queue: .global(qos: .utility))
+    }
+
+    private func networkChanged(_ available: Bool) {
+        let regained = available && !networkAvailable
+        networkAvailable = available
+        updateConnection()
+        if regained, syncState == .error || syncState == .offline, let client {
+            Task { try? await client.startSync() }
+        }
+    }
+
+    private func updateConnection() {
+        let lost = state == .loggedIn && (!networkAvailable || [.offline, .error, .terminated].contains(syncState))
+        if lost {
+            guard !connectionLost, lostTimer == nil else { return }
+            lostTimer = Task {
+                try? await Task.sleep(for: .seconds(2))
+                guard !Task.isCancelled else { return }
+                connectionLost = true
+                lostTimer = nil
+            }
+        } else if syncState == .running || state != .loggedIn {
+            lostTimer?.cancel()
+            lostTimer = nil
+            connectionLost = false
+        }
+    }
+
     /// Sync stops on network errors; try again after a moment
     private func syncStateChanged(_ state: SyncState) {
         syncState = state
+        updateConnection()
         guard state == .error || state == .offline, let client else { return }
         guard UIApplication.shared.applicationState != .background else { return }
         Task {
@@ -237,6 +287,16 @@ final class MatrixSession: ObservableObject {
         await close()
         state = .restoring
         await restore()
+    }
+
+    func checkIdentity() {
+        guard let client, let userId, let status = encryption, status.recovery != "unknown" else { return }
+        Task { [weak self] in
+            guard let hasIdentity = try? await client.userTrust(userId: userId).hasIdentity,
+                  let self, self.client === client else { return }
+            needsEncryptionSetup = !hasIdentity
+            needsVerification = hasIdentity && encryption?.deviceVerified == false
+        }
     }
 
     func logout() async {
@@ -312,6 +372,8 @@ final class MatrixSession: ObservableObject {
         statusExpiry?.cancel()
         customStatus = nil
         encryption = nil
+        needsEncryptionSetup = false
+        needsVerification = false
         syncState = .idle
         try? await client?.stopSync()
     }
@@ -330,7 +392,10 @@ final class MatrixSession: ObservableObject {
                 MainActor.assumeIsolated { self?.sessionChanged(event) }
             },
             client.watchEncryptionStatus { [weak self] status in
-                MainActor.assumeIsolated { self?.encryption = status }
+                MainActor.assumeIsolated {
+                    self?.encryption = status
+                    self?.checkIdentity()
+                }
             },
         ]
         Task { [weak self] in
@@ -352,6 +417,7 @@ final class MatrixSession: ObservableObject {
             if let size = (try? await client.serverCapabilities())?.uploadSize, size > 0, self.client === client {
                 uploadLimit = Int64(size)
             }
+            checkIdentity()
             await refreshProfile()
         }
         Task { [weak self] in await self?.refreshProfile() }
@@ -382,6 +448,6 @@ final class MatrixSession: ObservableObject {
 
 extension WizardError {
     static let notSignedIn = WizardError(code: "notSignedIn", message: String(localized: "common.somethingWentWrong"))
-    static let invalidLoginUrl = WizardError(code: "homeserver", message: String(localized: "welcome.oidcLoginFailed"))
+    static let invalidLoginUrl = WizardError(code: "homeserver", message: String(localized: "auth.oidcLoginFailed"))
     static let noPendingLogin = WizardError(code: "expired", message: String(localized: "auth.popupClosed"))
 }

@@ -58,7 +58,7 @@ fun PinnedMessagesScreen(room: RoomSummary, client: WizardClient, canPin: Boolea
     LaunchedEffect(timeline) { timeline.start() }
     val scope = rememberCoroutineScope()
     val messages = timeline.entries
-        .filter { it.kind !is ChatEntry.Kind.DateDivider && it.kind !is ChatEntry.Kind.System }
+        .filter { it.kind !is ChatEntry.Kind.DateDivider && it.kind !is ChatEntry.Kind.System && it.kind !is ChatEntry.Kind.Call }
         .map { it.copy(isGrouped = false) }
         .asReversed()
 
@@ -98,7 +98,7 @@ fun PinnedMessagesScreen(room: RoomSummary, client: WizardClient, canPin: Boolea
             }
             if (messages.isEmpty()) {
                 EmptyState(
-                    tr("pins.empty"),
+                    tr("timeline.pinnedEmpty"),
                     "push-pin",
                     Modifier.align(Alignment.Center),
                     description = tr("timeline.pinImportantMessagesFrom"),

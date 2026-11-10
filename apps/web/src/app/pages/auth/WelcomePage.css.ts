@@ -1,3 +1,4 @@
+import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fontSize } from '@/theme/typeScale';
@@ -493,3 +494,286 @@ export const doneButton = style([
     '@media': { [TOUCH]: { padding: '10px 8px', margin: '-10px -8px' } },
   },
 ]);
+
+const linkLike = {
+  color: vars.color.accent,
+  cursor: 'pointer',
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  font: 'inherit',
+  ':hover': { textDecoration: 'underline' },
+} as const;
+
+export const container = style({
+  width: '100%',
+  maxWidth: '420px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '16px',
+  backgroundColor: vars.color.bgSecondary,
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.color.border}`,
+  padding: '40px 32px',
+  margin: 'auto 0',
+  '@media': {
+    '(max-width: 768px)': {
+      order: 1,
+    },
+  },
+});
+
+export const logo = style({
+  width: '72px',
+  height: '72px',
+  objectFit: 'contain',
+});
+
+export const tagline = style({
+  color: vars.color.textMuted,
+  fontSize: '0.9rem',
+  textAlign: 'center',
+  marginBottom: '8px',
+});
+
+export const footerLink = style({
+  fontSize: '0.8rem',
+  color: vars.color.textMuted,
+  textDecoration: 'none',
+  ':hover': {
+    color: vars.color.textPrimary,
+  },
+});
+
+export const formSection = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+});
+
+export const formTitle = style({
+  fontSize: '1.1rem',
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+});
+
+export const serverGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+});
+
+export const checkingServer = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '10px',
+  minHeight: '120px',
+  color: vars.color.textMuted,
+  fontSize: '0.9rem',
+});
+
+export const statusSuccess = style([statusText, { color: vars.color.success }]);
+
+export const infoText = style({
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
+  textAlign: 'center',
+  minHeight: '20px',
+});
+
+export const switchText = style({
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
+  textAlign: 'center',
+});
+
+export const switchLink = style({
+  color: vars.color.accent,
+  cursor: 'pointer',
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  font: 'inherit',
+  ':hover': {
+    textDecoration: 'underline',
+  },
+});
+
+export const serverLabelRow = style({
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  gap: '8px',
+  minHeight: '18px',
+});
+
+export const serverLabel = style({
+  fontSize: '0.78rem',
+  fontWeight: 700,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  color: vars.color.textMuted,
+});
+
+export const serverDone = style({
+  ...linkLike,
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  padding: '4px 6px',
+  margin: '-4px -6px',
+  '@media': { [TOUCH]: { padding: '10px 8px', margin: '-10px -8px' } },
+});
+
+export const serverChange = style({
+  flexShrink: 0,
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  minHeight: '36px',
+  padding: '0 12px',
+  borderRadius: vars.radius.sm,
+  border: `1px solid ${vars.color.accent}`,
+  background: 'none',
+  color: vars.color.accent,
+  font: 'inherit',
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  whiteSpace: 'nowrap',
+  cursor: 'pointer',
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':disabled': { opacity: 0.5, cursor: 'default' },
+  '@media': { [TOUCH]: { minHeight: '44px' } },
+});
+
+export const serverPresets = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '6px',
+});
+
+export const serverPreset = style({
+  minHeight: '32px',
+  padding: '0 12px',
+  borderRadius: '999px',
+  border: `1px solid ${vars.color.border}`,
+  backgroundColor: vars.color.bgSecondary,
+  color: vars.color.textPrimary,
+  font: 'inherit',
+  fontSize: '0.82rem',
+  cursor: 'pointer',
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':disabled': { opacity: 0.5, cursor: 'default' },
+  selectors: {
+    '&[aria-pressed="true"]': {
+      borderColor: vars.color.accent,
+      backgroundColor: `rgba(${vars.color.accentRgb}, 0.15)`,
+    },
+  },
+  '@media': { [TOUCH]: { minHeight: '40px', padding: '0 14px' } },
+});
+
+/**
+ * The status line under the server address: one line, always present, so the answer arriving
+ * (or changing) never moves anything. Long text is cut with an ellipsis (full text in `title`).
+ */
+export const serverStatus = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  height: '18px',
+  minWidth: 0,
+  fontSize: '0.8rem',
+  lineHeight: '18px',
+  color: vars.color.textMuted,
+  transition: 'opacity 150ms',
+});
+export const serverStatusStale = style({ opacity: 0.55 });
+export const serverStatusOk = style({ color: vars.color.success });
+export const serverStatusBad = style({ color: vars.color.error });
+
+export const serverStatusText = style({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  minWidth: 0,
+});
+
+/** The fixed-size slot at the start of the status line: a dot, or a spinner while checking. */
+export const serverStatusMark = style({
+  flexShrink: 0,
+  width: '10px',
+  height: '10px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+export const serverDot = style({
+  width: '8px',
+  height: '8px',
+  borderRadius: '50%',
+  backgroundColor: 'currentColor',
+});
+export const serverSpinner = style({
+  width: '10px',
+  height: '10px',
+  borderRadius: '50%',
+  border: '2px solid currentColor',
+  borderRightColor: 'transparent',
+  animation: `${spin} 700ms linear infinite`,
+  '@media': { [NO_MOTION]: { animation: `${spin} 2s linear infinite` } },
+});
+
+export const serverRetry = style({ ...linkLike, flexShrink: 0, fontSize: '0.8rem' });
+
+/** Read by screen readers, not shown. */
+export const serverSrOnly = style({
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+});
+
+export const backButton = style({
+  position: 'absolute',
+  top: '24px',
+  left: '24px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  padding: '8px 12px',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  background: 'none',
+  color: vars.color.textMuted,
+  fontSize: '0.9rem',
+  fontWeight: 500,
+  cursor: 'pointer',
+  ':hover': {
+    color: vars.color.textPrimary,
+    backgroundColor: vars.color.bgHover,
+  },
+  ':focus-visible': {
+    outline: `2px solid ${vars.color.accent}`,
+    outlineOffset: '2px',
+  },
+  selectors: {
+    'html.desktop &': {
+      top: `${24 + TITLE_BAR_HEIGHT}px`,
+    },
+  },
+  '@media': {
+    '(max-width: 768px)': {
+      position: 'static',
+      alignSelf: 'flex-start',
+      marginLeft: '-12px',
+    },
+  },
+});

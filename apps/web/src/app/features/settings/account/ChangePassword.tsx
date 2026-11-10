@@ -58,7 +58,7 @@ export function ChangePassword() {
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError(t('settings.account.passwordsDoNotMatch'));
+      setError(t('common.passwordMismatch'));
       return;
     }
 

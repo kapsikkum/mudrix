@@ -25,7 +25,7 @@ import {
   settingsPageAtom,
 } from '@/app/store/atoms';
 import { commandActionsAtom } from '@/app/store/atoms/call';
-import type { CallPresentation, SidebarView } from '@/app/store/atoms';
+import type { SidebarView } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
@@ -335,19 +335,15 @@ export function ClientLayout() {
   const callToggleMute = callActions?.toggleMute;
   const callToggleDeafen = callActions?.toggleDeafen;
   const callToggleVideo = callActions?.toggleVideo;
-
-  const startCallInRoom = useCallback(
-    async (roomId: string, presentation: CallPresentation) => {
-      if (!client || !startCall) return;
-      if (!roomsById.has(roomId)) return;
-      await startCall(roomId, { voiceOnly: true, presentation });
-    },
-    [client, startCall, roomsById]
-  );
+  const callToggleScreenShare = callActions?.toggleScreenshare;
 
   const placeCall = useCallback(
-    (roomId: string) => startCallInRoom(roomId, 'room'),
-    [startCallInRoom]
+    async (roomId: string) => {
+      if (!client || !startCall) return;
+      if (!roomsById.has(roomId)) return;
+      await startCall(roomId, { voiceOnly: true, presentation: 'room', ring: true });
+    },
+    [client, startCall, roomsById]
   );
 
   const joinVoiceRoom = useJoinVoiceRoom(client);
@@ -485,6 +481,7 @@ export function ClientLayout() {
     toggleDeafen: callToggleDeafen ?? (() => {}),
     toggleVideo: callToggleVideo ?? (() => {}),
     disconnect: hangupCall ?? (() => {}),
+    toggleScreenShare: callToggleScreenShare ?? (() => {}),
   });
 
   useClientNotifications();
@@ -556,7 +553,7 @@ export function ClientLayout() {
                   type="button"
                   className={css.titleBarMenuBtn}
                   aria-label={t('common.menu')}
-                  aria-expanded={drawerOpen}
+                  aria-expanded={tabletDrawerOpen}
                   onClick={() => setDrawerOpen((open) => !open)}
                 >
                   <ListIcon size={20} />
@@ -575,7 +572,7 @@ export function ClientLayout() {
           <div className={css.appShell}>
             {/* Sidebar: spaces column + room list panel */}
             <nav
-              aria-label={t('room.navigation')}
+              aria-label={t('nav.title')}
               className={sidebarClass}
               data-swipe-back-reveal
               {...{ [SWIPE_DRAWER_ATTR]: 'left' }}

@@ -30,6 +30,9 @@ apps/android/.kotlin/
 apps/android/build/
 apps/android/*/build/
 apps/android/local.properties
+apps/android/keystore.properties
+*.jks
+*.keystore
 apps/android/core/src/main/jniLibs/
 
 # Android Studio's own project state

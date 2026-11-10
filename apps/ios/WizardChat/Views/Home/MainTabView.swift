@@ -20,11 +20,13 @@ struct MainTabView: View {
     @State private var showInbox = false
     @State private var showExplore = false
     @State private var whatsNew: WhatsNew.Entry?
+    @StateObject private var encryptionSetup = EncryptionSetupModel()
+    @AppStorage(EncryptionSetupScreen.skippedKey) private var skippedVerificationDevice = ""
 
     var body: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
-            tabItem(.home, title: "room.home", icon: "house", unread: roomList.unreadState(of: .home))
-            tabItem(.dms, title: "roomSwitcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
+            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
             tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
             SwiftUI.Tab(value: Tab.me) {
                 tabContent(.me).tint(theme.control)
@@ -32,21 +34,33 @@ struct MainTabView: View {
                 Group {
                     if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
                 }
-                .accessibilityLabel(String(localized: "mobileNav.you"))
+                .accessibilityLabel(String(localized: "nav.you"))
             }
         }
         .tint(theme.accent)
         .modifier(MinimizeTabBarOnScroll())
-        .task(id: session.avatarUrl) { profileIcon = await Self.tabIcon(session.avatarUrl, media: session.media) }
+        .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
+        .task(id: "\(session.avatarUrl ?? "")|\(session.displayName ?? session.userId ?? "")") {
+            profileIcon = await AvatarImage.circular(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
+                                                     media: session.media, theme: theme, side: WZ.SizeIcon.xl)
+            // Saved for the account switcher, which can't always reach this account's server
+            if let userId = session.userId {
+                if let url = session.avatarUrl {
+                    if let own = await session.media?.thumbnail(url) { SessionStore.saveAvatar(own, for: userId) }
+                } else {
+                    SessionStore.saveAvatar(nil, for: userId)
+                }
+            }
+        }
         .overlay(alignment: .top) {
             CopyToastView().padding(.top, WZ.Space.space2)
         }
         .overlay(alignment: .top) {
             ConnectionBanner().padding(.top, WZ.Space.space1)
         }
-        .animation(.spring(duration: WZ.MotionDuration.slow), value: session.syncState == .offline || session.syncState == .error)
+        .animation(.spring(duration: WZ.MotionDuration.slow), value: session.connectionLost)
         .overlay(alignment: .top) {
-            if let call = calls.incoming {
+            if let call = calls.incoming, calls.incomingCallId == nil {
                 IncomingCallBanner(call: call)
                     .padding(.top, WZ.Space.space2)
                     .transition(.move(edge: .top).combined(with: .opacity))
@@ -54,8 +68,22 @@ struct MainTabView: View {
         }
         .animation(.spring(duration: WZ.MotionDuration.slow), value: calls.incoming)
         .fullScreenCover(isPresented: $calls.showCallScreen) { DMCallScreen() }
+        .alert(calls.alert ?? "", isPresented: Binding(get: { calls.alert != nil && !calls.showCallScreen },
+                                                       set: { if !$0 { calls.alert = nil } })) {
+            Button(String(localized: "common.ok"), role: .cancel) {}
+        }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
+        .fullScreenCover(isPresented: Binding(get: {
+            session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil
+                || (session.needsVerification && skippedVerificationDevice != (session.deviceId ?? ""))
+        },
+                                              set: { _ in })) {
+            EncryptionSetupScreen(model: encryptionSetup)
+        }
+        .environment(\.roomOpener, RoomOpener { id, isSpace in
+            if isSpace { showSpace(id) } else { show(id) }
+        })
         .onOpenURL { url in
             guard url.scheme == "mudrix" else { return }
             sendShared()
@@ -121,21 +149,9 @@ struct MainTabView: View {
     }
 
     /// The tab bar takes only an image and tints it, so the avatar is drawn round and kept in colour
-    private static func tabIcon(_ url: String?, media: MediaLoader?) async -> UIImage? {
-        guard let url, let media else { return nil }
-        var image = media.cachedThumbnail(url)
-        if image == nil { image = await media.thumbnail(url, size: 96) }
-        guard let image else { return nil }
-        let side = WZ.SizeIcon.xl
-        let rendered = UIGraphicsImageRenderer(size: CGSize(width: side, height: side)).image { _ in
-            UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: side, height: side)).addClip()
-            let scale = max(side / image.size.width, side / image.size.height)
-            let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
-            image.draw(in: CGRect(x: (side - size.width) / 2, y: (side - size.height) / 2, width: size.width, height: size.height))
-        }
-        return rendered.withRenderingMode(.alwaysOriginal)
-    }
-
+    /// The avatar as a tab bar image (tab items only take images): the picture, or the same
+    /// coloured fallback avatars show everywhere else
+    @MainActor
     private var totalUnread: Int {
         roomList.joinedRooms.reduce(0) { $0 + Int($1.unreadCount) }
     }
@@ -145,6 +161,7 @@ struct MainTabView: View {
         switch item {
         case .me:
             SettingsView(isTab: true, popToRoot: settingsPopToRoot)
+                .safeAreaInset(edge: .bottom) { callBar(in: item) }
         default:
             NavigationStack(path: binding(for: item)) {
                 Group {
@@ -161,7 +178,7 @@ struct MainTabView: View {
                         Group {
                             if let room = roomList.room(id: id) {
                                 if room.isVoice, case .room = route {
-                                    VoiceRoomView(room: room) { paths[item, default: []].append(.chat(id)) }
+                                    VoiceRoomView(room: room, client: roomList.client) { paths[item, default: []].append(.chat(id)) }
                                 } else {
                                     RoomView(room: room, client: roomList.client).roomRoles(for: room.id).id(room.id)
                                 }
@@ -179,13 +196,15 @@ struct MainTabView: View {
         }
     }
 
+    private func openCall() {
+        if calls.room?.isDirect == true { calls.showCallScreen = true }
+        else if let id = calls.room?.id { show(id) }
+    }
+
     @ViewBuilder
     private func callBar(in item: Tab) -> some View {
-        if showsCallBar(in: item) {
-            CallBar {
-                if calls.room?.isDirect == true { calls.showCallScreen = true }
-                else if let id = calls.room?.id { show(id) }
-            }
+        if !CallAccessoryModifier.supported, showsCallBar(in: item) {
+            CallBar(onOpen: openCall)
             .padding(.horizontal, WZ.Space.space6)
             .padding(.bottom, WZ.Space.space2)
             .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -241,6 +260,24 @@ struct MainTabView: View {
         notifier.roomToOpen = nil
         showInbox = false; showCreateSpace = false; showExplore = false
         show(roomId)
+    }
+}
+
+private struct CallAccessoryModifier: ViewModifier {
+    let show: Bool
+    let onOpen: () -> Void
+
+    static var supported: Bool {
+        if #available(iOS 26.1, *) { return true }
+        return false
+    }
+
+    func body(content: Content) -> some View {
+        if #available(iOS 26.1, *) {
+            content.tabViewBottomAccessory(isEnabled: show) { CallAccessory(onOpen: onOpen) }
+        } else {
+            content
+        }
     }
 }
 

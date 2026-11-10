@@ -3,6 +3,8 @@ import type { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { KeyCaps } from '@/app/components/KeyCaps';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   ArrowRightIcon,
@@ -92,6 +94,7 @@ export function GlobalSearch() {
 
 function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
   const { t, i18n } = useTranslation();
+  const keyboardHints = useKeyboardHints();
   const navigate = useNavigate();
   const switchContext = useSwitchContext();
   const client = getMatrixClientOrNull();
@@ -150,7 +153,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       {
         kind: 'place',
         key: 'place:home',
-        label: t('room.home'),
+        label: t('nav.home'),
         icon: <HouseIcon size={16} />,
         run: () => switchContext('home', null),
       },
@@ -171,7 +174,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       {
         kind: 'place',
         key: 'place:settings',
-        label: t('settings.userSettings'),
+        label: t('settings.title'),
         icon: <GearIcon size={16} />,
         run: () => setSettingsOpen(true),
       },
@@ -181,10 +184,10 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
 
     if (!text && !prefix) {
       return [
-        { key: 'places', title: t('globalSearch.places'), items: places },
+        { key: 'places', title: t('search.global.places'), items: places },
         {
           key: 'recent',
-          title: t('globalSearch.recent'),
+          title: t('search.global.recent'),
           items: asItems([...entries].sort(byActivity).slice(0, RECENT_LIMIT)),
         },
       ];
@@ -194,13 +197,13 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       const kind = prefix === '#' ? 'room' : prefix === '@' ? 'dm' : 'space';
       const scoped = entries.filter((e) => e.kind === kind);
       const list = text ? rankByName(scoped, text) : [...scoped].sort(byActivity);
-      const title = kind === 'space' ? t('globalSearch.spaces') : t('globalSearch.roomsAndDms');
+      const title = kind === 'space' ? t('search.global.spaces') : t('search.global.roomsAndDms');
       return [
         {
           key: kind,
           title,
           items: asItems(list.slice(0, SCOPED_LIMIT)),
-          empty: t('globalSearch.noResults'),
+          empty: t('common.noResults'),
         },
       ];
     }
@@ -210,7 +213,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       (p) => p.kind === 'place' && p.label.toLowerCase().includes(text)
     );
     if (matchingPlaces.length > 0) {
-      result.push({ key: 'places', title: t('globalSearch.places'), items: matchingPlaces });
+      result.push({ key: 'places', title: t('search.global.places'), items: matchingPlaces });
     }
     const rooms = rankByName(
       entries.filter((e) => e.kind !== 'space'),
@@ -223,14 +226,14 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
     if (rooms.length > 0) {
       result.push({
         key: 'rooms',
-        title: t('globalSearch.roomsAndDms'),
+        title: t('search.global.roomsAndDms'),
         items: asItems(rooms.slice(0, ROOM_LIMIT)),
       });
     }
     if (spaces.length > 0) {
       result.push({
         key: 'spaces',
-        title: t('globalSearch.spaces'),
+        title: t('search.global.spaces'),
         items: asItems(spaces.slice(0, SPACE_LIMIT)),
       });
     }
@@ -244,13 +247,13 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       if (total > 0) items.push({ kind: 'showAll', key: 'showAll', total });
       result.push({
         key: 'messages',
-        title: t('globalSearch.messagesIn', { room: messageRoomName }),
+        title: t('search.global.messagesIn', { room: messageRoomName }),
         items,
-        empty: t('globalSearch.noMessages'),
+        empty: t('search.global.noMessages'),
       });
     }
     if (result.length === 0) {
-      result.push({ key: 'none', title: '', items: [], empty: t('globalSearch.noResults') });
+      result.push({ key: 'none', title: '', items: [], empty: t('common.noResults') });
     }
     return result;
   }, [
@@ -405,7 +408,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           <ArrowRightIcon size={16} />
         </span>
         <span className={css.itemText}>
-          {t('globalSearch.showAll', { count: item.total, room: messageRoomName })}
+          {t('search.global.showAll', { count: item.total, room: messageRoomName })}
         </span>
       </div>
     );
@@ -455,26 +458,29 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           ))}
         </div>
         <div className={css.footer}>
+          {keyboardHints && (
+            <>
+              <span className={css.footerHint}>
+                <KeyCaps keys={['↑', '↓']} size="sm" />
+                {t('common.navigate')}
+              </span>
+              <span className={css.footerHint}>
+                <KeyCaps keys={['↵']} size="sm" />
+                {t('search.switcher.hintOpen')}
+              </span>
+            </>
+          )}
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>↑</kbd>
-            <kbd className={css.kbd}>↓</kbd>
-            {t('roomSwitcher.hintNavigate')}
+            <KeyCaps keys={['#']} size="sm" />
+            {t('search.switcher.prefixRooms')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>↵</kbd>
-            {t('roomSwitcher.hintOpen')}
+            <KeyCaps keys={['@']} size="sm" />
+            {t('search.switcher.prefixDms')}
           </span>
           <span className={css.footerHint}>
-            <kbd className={css.kbd}>#</kbd>
-            {t('roomSwitcher.prefixRooms')}
-          </span>
-          <span className={css.footerHint}>
-            <kbd className={css.kbd}>@</kbd>
-            {t('roomSwitcher.prefixDms')}
-          </span>
-          <span className={css.footerHint}>
-            <kbd className={css.kbd}>*</kbd>
-            {t('roomSwitcher.prefixSpaces')}
+            <KeyCaps keys={['*']} size="sm" />
+            {t('search.switcher.prefixSpaces')}
           </span>
         </div>
       </div>

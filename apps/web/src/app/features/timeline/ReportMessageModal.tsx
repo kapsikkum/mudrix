@@ -37,7 +37,7 @@ export function ReportMessageModal() {
 
       <textarea
         className={css.reasonInput}
-        placeholder={t('timeline.reportReasonPlaceholder')}
+        placeholder={t('common.reasonOptional')}
         aria-label={t('timeline.reportReasonLabel')}
         value={reason}
         onChange={(e) => setReason(e.target.value)}

@@ -12,7 +12,6 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import { useQueries } from '@tanstack/react-query';
-import type { CallMember } from '@wizardchat/core';
 import { useTranslation } from 'react-i18next';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -51,7 +50,6 @@ import {
   leavingCallRoomIdAtom,
   pendingCallRoomIdAtom,
 } from '@/app/store/atoms/call';
-import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import { computeParticipantsBlockHeight } from '@/app/features/voice/participantSize';
 import { useTouchUi, useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
 import { Avatar } from '@/app/components/Avatar';
@@ -596,7 +594,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       if (!client) return;
       openContextMenu(e, [
         {
-          label: t('room.sections.rename'),
+          label: t('common.rename'),
           icon: <PencilSimpleIcon size={14} />,
           onClick: async () => {
             const name = (
@@ -731,7 +729,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           kind: 'space',
           roomId: spaceFavKey,
           categoryKey: spaceFavKey,
-          name: t('room.favourites'),
+          name: t('nav.favourites'),
           avatarMxc: null,
           hasNotif: favHasNotif,
           hasMention: favHasMention,
@@ -849,7 +847,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   );
   const voiceRoomIds = isSpaceView ? spaceVoiceRoomIds : homeVoiceRoomIds;
 
-  const membershipRoomIds = useMemo(() => {
+  const listedRoomIds = useMemo(() => {
     if (isDmView) return dms.map((d) => d.roomId);
     if (isSpaceView) {
       return spaceItemsBase
@@ -859,85 +857,42 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     return homeRooms.map((r) => r.roomId);
   }, [isDmView, isSpaceView, spaceItemsBase, dms, homeRooms]);
 
-  const serverMemberships = useCallMemberships(client, membershipRoomIds);
-
   const pendingCallRoomId = useAtomValue(pendingCallRoomIdAtom);
   const joiningRoomId = pendingCallRoomId ?? (callUi.phase !== 'idle' ? callUi.roomId : null);
   const myUserId = client?.userId() ?? null;
-  const myDeviceId = client?.session().deviceId ?? null;
   const [leavingRoomId, setLeavingRoomId] = useAtom(leavingCallRoomIdAtom);
-  const leavingStillListed =
-    !!leavingRoomId &&
-    (serverMemberships.get(leavingRoomId) ?? []).some(
-      (m) => m.userId === myUserId && m.deviceId === myDeviceId
-    );
+  const leavingStillListed = !!leavingRoomId && !!roomsById.get(leavingRoomId)?.inCall;
 
   useEffect(() => {
-    if (leavingRoomId && membershipRoomIds.includes(leavingRoomId) && !leavingStillListed) {
-      setLeavingRoomId(null);
-    }
-  }, [leavingRoomId, leavingStillListed, membershipRoomIds, setLeavingRoomId]);
+    if (leavingRoomId && !leavingStillListed) setLeavingRoomId(null);
+  }, [leavingRoomId, leavingStillListed, setLeavingRoomId]);
 
-  const membershipsMap = useMemo(() => {
-    let map = serverMemberships;
-    if (leavingRoomId && leavingStillListed) {
-      const members = (map.get(leavingRoomId) ?? []).filter(
-        (m) => !(m.userId === myUserId && m.deviceId === myDeviceId)
-      );
-      map = new Map(map).set(leavingRoomId, members);
+  // Our own join and leave show right away, before the membership change syncs
+  const callParticipantsByRoom = useMemo(() => {
+    const map = new Map<string, string[]>();
+    for (const roomId of listedRoomIds) {
+      const room = roomsById.get(roomId);
+      if (!room) continue;
+      let userIds = room.callParticipants;
+      if (roomId === leavingRoomId && leavingStillListed) {
+        userIds = userIds.filter((userId) => userId !== myUserId);
+      }
+      if (roomId === joiningRoomId && myUserId && room.isVoice && !userIds.includes(myUserId)) {
+        userIds = [...userIds, myUserId];
+      }
+      if (userIds.length > 0) map.set(roomId, userIds);
     }
-    if (!joiningRoomId || !myUserId || !voiceRoomIds.includes(joiningRoomId)) return map;
-    const members = map.get(joiningRoomId) ?? [];
-    if (members.some((m) => m.userId === myUserId)) return map;
-    const self: CallMember = {
-      userId: myUserId,
-      deviceId: myDeviceId ?? '',
-      identity: `${myUserId}:${myDeviceId ?? ''}`,
-      serviceUrl: null,
-      intent: null,
-      joinedAt: Date.now(),
-      isOwnDevice: true,
-      membershipEventId: null,
-      displayName: null,
-      avatarUrl: null,
-    };
-    return new Map(map).set(joiningRoomId, [...members, self]);
-  }, [
-    serverMemberships,
-    leavingRoomId,
-    leavingStillListed,
-    joiningRoomId,
-    myUserId,
-    myDeviceId,
-    voiceRoomIds,
-  ]);
+    return map;
+  }, [listedRoomIds, roomsById, leavingRoomId, leavingStillListed, joiningRoomId, myUserId]);
 
   const participantCounts = useMemo(() => {
     const map = new Map<string, number>();
     for (const roomId of voiceRoomIds) {
-      const members = membershipsMap.get(roomId);
-      if (!members) continue;
-      const count = uniqueMembers(members).length;
+      const count = callParticipantsByRoom.get(roomId)?.length ?? 0;
       if (count > 0) map.set(roomId, count);
     }
     return map;
-  }, [membershipsMap, voiceRoomIds]);
-
-  const activeCallRoomIds = useMemo(() => {
-    const active = new Set<string>();
-    for (const [roomId, members] of membershipsMap) {
-      if (uniqueMembers(members).length > 0) active.add(roomId);
-    }
-    return active;
-  }, [membershipsMap]);
-
-  const voiceMembersByRoom = useMemo(() => {
-    const map = new Map<string, CallMember[]>();
-    for (const [roomId, members] of membershipsMap) {
-      if (uniqueMembers(members).length > 0) map.set(roomId, members);
-    }
-    return map;
-  }, [membershipsMap]);
+  }, [callParticipantsByRoom, voiceRoomIds]);
 
   const getRoomEntryHeight = useCallback(
     (entry: RoomEntry, compact?: boolean) => {
@@ -991,7 +946,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       items.push({
         kind: 'header',
         itemKey,
-        label: itemKey === HOME_FAVOURITES_CATEGORY ? t('room.favourites') : t('room.title'),
+        label: itemKey === HOME_FAVOURITES_CATEGORY ? t('nav.favourites') : t('nav.rooms'),
         hasNotif,
         hasMention,
         showAdd: itemKey === HOME_ROOMS_CATEGORY,
@@ -1300,7 +1255,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
       save.catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [client, spaceGraph, toast, t]
@@ -1341,7 +1296,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       if (!client) return;
       const node = spaceGraph.find((s) => s.spaceId === parentId);
       saveSpaceChildrenOrder(client, node, orderedIds, movedId).catch((err: unknown) =>
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }))
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }))
       );
     },
     [client, spaceGraph, toast, t]
@@ -1399,7 +1354,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
   const renderReorderOverlay = (roomId: string) => {
     if (roomId === roomsHeaderId) {
-      return <HomeCategoryHeader label={t('room.title')} isClosed={false} onToggle={noop} />;
+      return <HomeCategoryHeader label={t('nav.rooms')} isClosed={false} onToggle={noop} />;
     }
     if (roomId.startsWith('sec:')) {
       const tag = roomId.slice('sec:'.length);
@@ -1420,9 +1375,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       <RoomListItem
         entry={entry}
         isActive={currentRoomId === roomId}
-        hasActiveCall={activeCallRoomIds.has(roomId) && !entry.hasVoiceRoom}
+        hasActiveCall={callParticipantsByRoom.has(roomId) && !entry.hasVoiceRoom}
         isInCall={callUi.roomId === roomId}
-        voiceMembers={voiceMembersByRoom.get(roomId)}
+        voiceMembers={callParticipantsByRoom.get(roomId)}
         onSelect={noop}
         onOpenChat={noop}
         onOpenChatOnly={noop}
@@ -1653,8 +1608,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const headerLabel = isDmView
     ? t('room.dm.directMessages')
     : isSpaceContext
-      ? (currentSpaceDetails?.name ?? currentSpaceEntry?.name ?? t('room.home'))
-      : t('room.home');
+      ? (currentSpaceDetails?.name ?? currentSpaceEntry?.name ?? t('nav.home'))
+      : t('nav.home');
 
   const renderSpaceList = () => {
     return (
@@ -1733,10 +1688,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         entry={item.item.entry}
                         isActive={currentRoomId === item.item.roomId}
                         hasActiveCall={
-                          activeCallRoomIds.has(item.item.roomId) && !item.item.entry.hasVoiceRoom
+                          callParticipantsByRoom.has(item.item.roomId) &&
+                          !item.item.entry.hasVoiceRoom
                         }
                         isInCall={callUi.roomId === item.item.roomId}
-                        voiceMembers={voiceMembersByRoom.get(item.item.roomId)}
+                        voiceMembers={callParticipantsByRoom.get(item.item.roomId)}
                         canMoveVoiceUsers={canMoveVoiceUsersFrom(item.item.roomId)}
                         compactVoice={item.compact}
                         onSelect={selectRoom}
@@ -1827,10 +1783,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         entry={item.entry}
                         isActive={currentRoomId === item.entry.roomId}
                         hasActiveCall={
-                          activeCallRoomIds.has(item.entry.roomId) && !item.entry.hasVoiceRoom
+                          callParticipantsByRoom.has(item.entry.roomId) && !item.entry.hasVoiceRoom
                         }
                         isInCall={callUi.roomId === item.entry.roomId}
-                        voiceMembers={voiceMembersByRoom.get(item.entry.roomId)}
+                        voiceMembers={callParticipantsByRoom.get(item.entry.roomId)}
                         canMoveVoiceUsers={canMoveVoiceUsersFrom(item.entry.roomId)}
                         compactVoice={item.compact}
                         onSelect={selectRoom}
@@ -1852,7 +1808,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     if (dms.length === 0) {
       return (
         <div ref={roomListRef} className={css.roomList}>
-          <div className={css.emptyList}>{t('room.noDms')}</div>
+          <div className={css.emptyList}>{t('nav.noDms')}</div>
         </div>
       );
     }
@@ -1876,7 +1832,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                 <DmListItem
                   entry={entry}
                   isActive={currentRoomId === entry.roomId}
-                  hasActiveCall={activeCallRoomIds.has(entry.roomId)}
+                  hasActiveCall={callParticipantsByRoom.has(entry.roomId)}
                   isInCall={callUi.roomId === entry.roomId}
                   onSelect={selectRoom}
                 />
@@ -1945,7 +1901,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           }}
         >
           <HouseIcon size={18} weight={currentRoomId === null ? 'fill' : 'regular'} />
-          <span className={css.homeLinkLabel}>{t('room.home')}</span>
+          <span className={css.homeLinkLabel}>{t('nav.home')}</span>
         </button>
       )}
 

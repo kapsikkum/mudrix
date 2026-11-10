@@ -1,5 +1,5 @@
 import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
-import { globalStyle, style } from '@vanilla-extract/css';
+import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
@@ -591,3 +591,58 @@ export const narrowPage = style({
   color: vars.color.textPrimary,
 });
 globalStyle(`${narrowPage} ${panelTitle}`, { display: 'none' });
+
+export const navSearch = style({
+  padding: '0 2px 6px',
+});
+
+export const navListSearch = style({
+  padding: '0 16px 8px',
+});
+
+export const navNoMatches = style({
+  padding: '8px 12px',
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
+});
+
+export const navListNoMatches = style({
+  padding: '12px 16px',
+  color: vars.color.textMuted,
+});
+
+export const navResult = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '1px',
+  minWidth: 0,
+  textAlign: 'left',
+});
+
+export const navResultPage = style({
+  fontSize: '0.75rem',
+  fontWeight: 400,
+  color: vars.color.textMuted,
+});
+
+const highlightFlash = keyframes({
+  '0%, 50%': { backgroundColor: `rgba(${vars.color.accentRgb}, 0.16)` },
+  '100%': { backgroundColor: 'transparent' },
+});
+
+export const searchHighlight = style({
+  position: 'relative',
+  isolation: 'isolate',
+  selectors: {
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: '0 -12px',
+      zIndex: -1,
+      pointerEvents: 'none',
+      borderRadius: vars.radius.sm,
+      animation: `${highlightFlash} 2s ease-out forwards`,
+    },
+  },
+});

@@ -24,16 +24,22 @@ data class StoredSession(
     val passphrase: String,
     val displayName: String? = null,
     val avatarUrl: String? = null,
+    val excludeInsecureDevices: Boolean = false,
 ) {
     val store: StoreConfig
-        get() = StoreConfig(location = SessionStore.storePath(storeFolder).path, passphrase = passphrase)
+        get() = StoreConfig(
+            location = SessionStore.storePath(storeFolder).path,
+            passphrase = passphrase,
+            excludeInsecureDevices = excludeInsecureDevices,
+            manualEncryptionSetup = true,
+        )
 
     companion object {
         fun newStore(): Pair<String, StoreConfig> {
             val bytes = ByteArray(32).also { SecureRandom().nextBytes(it) }
             val folder = UUID.randomUUID().toString()
             val path = SessionStore.storePath(folder).apply { mkdirs() }
-            return folder to StoreConfig(location = path.path, passphrase = Base64.encodeToString(bytes, Base64.NO_WRAP))
+            return folder to StoreConfig(location = path.path, passphrase = Base64.encodeToString(bytes, Base64.NO_WRAP), manualEncryptionSetup = true)
         }
     }
 }
@@ -67,6 +73,31 @@ object SessionStore {
             state.accounts.map { if (it.session.userId == stored.session.userId) stored else it }
         }
         write(StoredAccounts(state.active ?: stored.session.userId, accounts))
+    }
+
+    @Synchronized
+    fun updateProfile(userId: String, displayName: String?, avatarUrl: String?) {
+        val stored = all().firstOrNull { it.session.userId == userId } ?: return
+        if (stored.displayName == displayName && stored.avatarUrl == avatarUrl) return
+        save(stored.copy(displayName = displayName, avatarUrl = avatarUrl))
+    }
+
+    private fun avatarFile(userId: String): java.io.File? =
+        all().firstOrNull { it.session.userId == userId }?.let { File(storePath(it.storeFolder), "account-avatar.png") }
+
+    fun savedAvatar(userId: String): android.graphics.Bitmap? =
+        avatarFile(userId)?.takeIf { it.exists() }?.let { android.graphics.BitmapFactory.decodeFile(it.path) }
+
+    fun saveAvatar(image: android.graphics.Bitmap?, userId: String) {
+        val file = avatarFile(userId) ?: return
+        if (image == null) {
+            file.delete()
+            return
+        }
+        runCatching {
+            file.parentFile?.mkdirs()
+            file.outputStream().use { image.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it) }
+        }
     }
 
     @Synchronized

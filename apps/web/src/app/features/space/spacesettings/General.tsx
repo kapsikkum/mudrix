@@ -32,8 +32,8 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
 
       <IdentitySection
         form={identity}
-        nameLabel={t('room.space.name')}
-        namePlaceholder={t('room.space.namePlaceholder')}
+        nameLabel={t('space.name')}
+        namePlaceholder={t('space.namePlaceholder')}
       />
 
       <div className={css.divider} />
@@ -64,7 +64,7 @@ export function GeneralPanel({ spaceId }: GeneralPanelProps) {
           <div className={css.divider} />
 
           <div className={css.section}>
-            <h3 className={css.sectionTitle}>{t('room.space.settings.general.spaceId')}</h3>
+            <h3 className={css.sectionTitle}>{t('space.settings.general.spaceId')}</h3>
             <div className={css.tokenRow}>
               <code className={css.tokenField}>{spaceId}</code>
               <CopyButton text={spaceId} />

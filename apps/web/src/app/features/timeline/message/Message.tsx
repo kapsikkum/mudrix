@@ -17,8 +17,7 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { isThreadInfoUnread } from '@/app/hooks/useHasUnreadThreads';
-import { CallSessionDisplay } from './callEvents';
-import type { CallSessionSummary } from './callSessions';
+import { CallHistoryDisplay } from './callEvents';
 import { SystemMessageDisplay } from './systemMessages';
 import {
   buildReactionMap,
@@ -87,7 +86,12 @@ function formatReactors(names: string[]): string {
   return `${shown} and ${others} others`;
 }
 
-import { buildReplyContent, isEditableEvent, type ReplyContent } from './textContent';
+import {
+  buildReplyContent,
+  isCaptionEditable,
+  isEditableEvent,
+  type ReplyContent,
+} from './textContent';
 import { ReceiptAvatar } from './receiptAvatar';
 import { ReadReceiptsPopover, useReadReceiptsPopover } from './readReceiptsPopover';
 import { ReactorsSheet } from './ReactorsSheet';
@@ -142,7 +146,6 @@ export interface MessageProps {
   sendError?: string | null;
   optimisticBody?: string | null;
   galleryEvents?: MatrixEvent[] | null;
-  callSession?: CallSessionSummary | null;
   client: MatrixClient;
   searchQuery?: string;
   receiptUsers?: ReceiptUser[];
@@ -188,7 +191,6 @@ export const Message = memo(function Message({
   isFailed = false,
   optimisticBody = null,
   galleryEvents = null,
-  callSession = null,
   client,
   searchQuery = '',
   receiptUsers = [],
@@ -305,7 +307,10 @@ export const Message = memo(function Message({
   const myId = client.userId() ?? '';
   const isPollEvent = contentType === 'poll';
   const poll = event.content.type === 'poll' ? event.content.poll : null;
-  const canEditMessageType = isEditableEvent(event) || isPollEvent;
+  const isCaptionEvent = isCaptionEditable(event);
+  const canEditMessageType =
+    (isEditableEvent(event) && !(isCaptionEvent && (galleryEvents?.length ?? 0) >= 2)) ||
+    isPollEvent;
 
   const pollData = useMemo(() => {
     if (!isPollEvent) return null;
@@ -784,8 +789,8 @@ export const Message = memo(function Message({
     touchFirst && !isRedacted && !isDecrypting && !isUndecryptable && !isFailed && !isSending;
   useSwipeToReply(msgRowRef, swipeContentRef, swipeIconRef, () => onReply(event), canSwipeReply);
 
-  if (callSession) {
-    return <CallSessionDisplay session={callSession} client={client} roomId={roomId} />;
+  if (event.content.type === 'call') {
+    return <CallHistoryDisplay call={event.content.call} client={client} roomId={roomId} />;
   }
 
   if (isSystemMessage) {
@@ -811,6 +816,7 @@ export const Message = memo(function Message({
         event={event}
         client={client}
         timeline={timeline}
+        hideCaption={isEditing}
         mediaSrc={mediaSrc}
         thumbnailSrc={thumbnailSrc}
         isDecrypting={isFileDecrypting}
@@ -1203,7 +1209,10 @@ export const Message = memo(function Message({
                 )}
               </div>
               {isEditing && !isPollEvent && editState ? (
-                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+                <>
+                  {isCaptionEvent && <div className={css.compactBlock}>{messageContent}</div>}
+                  <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+                </>
               ) : !isEditing && !isCompactInline ? (
                 <div className={css.compactBlock}>
                   {messageContent}
@@ -1215,7 +1224,10 @@ export const Message = memo(function Message({
             </>
           ) : isEditing && !isPollEvent ? (
             editState ? (
-              <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              <>
+                {isCaptionEvent && <div className={contentClass}>{messageContent}</div>}
+                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              </>
             ) : null
           ) : !isEditing ? (
             <div className={contentClass}>

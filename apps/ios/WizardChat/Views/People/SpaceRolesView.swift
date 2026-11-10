@@ -137,8 +137,8 @@ struct SpaceRolesView: View {
     static func builtinName(_ key: SpaceModern.Builtin) -> String {
         switch key {
         case .founder: return String(localized: "room.members.founder")
-        case .admin: return String(localized: "room.admins")
-        case .moderator: return String(localized: "room.moderators")
+        case .admin: return String(localized: "room.members.admins")
+        case .moderator: return String(localized: "room.members.moderators")
         case .member: return String(localized: "common.members")
         }
     }

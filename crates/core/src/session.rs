@@ -35,4 +35,7 @@ pub struct StoreConfig {
     #[serde(default)]
     #[cfg_attr(feature = "typegen", specta(optional))]
     pub exclude_insecure_devices: bool,
+    #[serde(default)]
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    pub manual_encryption_setup: bool,
 }

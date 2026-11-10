@@ -1,5 +1,6 @@
 package org.wizardchat.android.ui.voice
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
@@ -93,7 +94,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 item(span = full) {
                     Box(contentAlignment = Alignment.Center) {
                         IconLabel(
-                            tr("voice.statusReconnecting"),
+                            tr("call.statusReconnecting"),
                             "wifi-slash",
                             color = theme.warningColor,
                             size = WZ.FontSize.sm,
@@ -114,8 +115,8 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                     ParticipantTile(
                         room.id,
                         participant,
-                        onTap = { if (!participant.isLocal) volumeFor = participant.userId },
-                        onLongPress = { if (!participant.isLocal) showMenu = true },
+                        onTap = { if (!participant.isLocal && !participant.isOwnOtherDevice) volumeFor = participant.userId },
+                        onLongPress = { if (!participant.isLocal && !participant.isOwnOtherDevice) showMenu = true },
                     )
                     WizardMenu(
                         showMenu,
@@ -143,7 +144,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
             ) {
                 Spinner()
-                Text(tr("voice.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                Text(tr("call.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
             }
         }
     }
@@ -156,14 +157,19 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
 @Composable
 private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, onTap: () -> Unit, onLongPress: () -> Unit) {
     val profile = rememberMemberProfile(participant.userId, roomId)
-    val name = profile.name ?: participant.userId
+    val name = participant.displayName ?: profile.name ?: participant.userId
+    val avatarUrl = participant.avatarUrl ?: profile.avatarUrl
     val shape = RoundedCornerShape(WZ.Radius.xl)
     val ring by animateColorAsState(
         if (participant.speaking) theme.success else Color.Transparent,
         tween(WZ.MotionDuration.fast),
         label = "speaking",
     )
-    val hint = if (participant.isLocal) "" else tr("voice.tapToChangeTheir")
+    val hint = if (participant.isLocal || participant.isOwnOtherDevice) "" else tr("call.volumeHint")
+    val label = when {
+        participant.isOwnOtherDevice -> tr("call.ownOtherDevice", name)
+        else -> name
+    }
 
     Box(
         Modifier
@@ -173,14 +179,14 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
             .background(theme.fill)
             .border(WZ.BorderWidth.thick, ring, shape)
             .combinedClickable(onClick = onTap, onLongClick = onLongPress)
-            .semantics { contentDescription = listOf(name, hint).filter { it.isNotEmpty() }.joinToString(", ") },
+            .semantics { contentDescription = listOf(label, hint).filter { it.isNotEmpty() }.joinToString(", ") },
         contentAlignment = Alignment.Center,
     ) {
         val camera = participant.cameraTrack
         if (camera != null) {
             CallVideoView(camera, participant.connection, fill = true, mirror = participant.isLocal, Modifier.fillMaxSize())
         } else {
-            Avatar(name, profile.avatarUrl, WZ.SizeAvatar.lg, modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f))
+            Avatar(name, avatarUrl, WZ.SizeAvatar.lg, modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f))
         }
         AnimatedContent(
             participant.reaction,
@@ -221,7 +227,7 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
                 )
             }
             Text(
-                if (participant.isLocal) tr("voice.userYou", name) else name,
+                label,
                 Modifier.weight(1f, fill = false),
                 style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                 color = theme.textPrimary,
@@ -235,12 +241,13 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
 
 @Composable
 private fun ScreenShareTile(roomId: String, participant: CallParticipantInfo, track: VideoTrack) {
-    val name = rememberMemberProfile(participant.userId, roomId).name ?: participant.userId
+    val profile = rememberMemberProfile(participant.userId, roomId)
+    val name = participant.displayName ?: profile.name ?: participant.userId
     val shape = RoundedCornerShape(WZ.Radius.xl)
     Box(Modifier.fillMaxWidth().aspectRatio(16f / 9f).clip(shape).background(theme.bgTertiary)) {
         CallVideoView(track, participant.connection, fill = false, mirror = false, Modifier.fillMaxSize())
         IconLabel(
-            tr("voice.userScreen", name),
+            tr("call.userScreen", name),
             "monitor-arrow-up",
             color = theme.textPrimary,
             size = WZ.FontSize.sm,
@@ -291,7 +298,7 @@ private fun VolumeSheet(roomId: String, userId: String) {
                     modifier = Modifier.weight(1f),
                     colors = SliderDefaults.colors(thumbColor = theme.accent, activeTrackColor = theme.accent, inactiveTrackColor = theme.fill),
                 )
-                PhIcon("speaker-high", PhWeight.fill, tint = theme.textMuted)
+                PhIcon("speaker-high", PhWeight.regular, tint = theme.textMuted)
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -312,20 +319,28 @@ internal fun CallVideoView(track: VideoTrack, connection: LiveKitRoom?, fill: Bo
     key(room) {
         val attached = remember { arrayOfNulls<VideoTrack>(1) }
         AndroidView(
-            factory = { context -> TextureViewRenderer(context).also(room::initVideoRenderer) },
+            factory = { context ->
+                TextureViewRenderer(context).also { view ->
+                    runCatching { room.initVideoRenderer(view) }.onFailure { Log.w("WZCALL", "video view setup failed", it) }
+                }
+            },
             update = { view ->
                 view.setScalingType(if (fill) RendererCommon.ScalingType.SCALE_ASPECT_FILL else RendererCommon.ScalingType.SCALE_ASPECT_FIT)
                 view.setMirror(mirror)
                 if (attached[0] !== track) {
-                    attached[0]?.removeRenderer(view)
-                    track.addRenderer(view)
+                    runCatching {
+                        attached[0]?.removeRenderer(view)
+                        track.addRenderer(view)
+                    }.onFailure { Log.w("WZCALL", "attaching video failed", it) }
                     attached[0] = track
                 }
             },
             onRelease = { view ->
-                attached[0]?.removeRenderer(view)
+                runCatching {
+                    attached[0]?.removeRenderer(view)
+                    view.release()
+                }
                 attached[0] = null
-                view.release()
             },
             modifier = modifier,
         )

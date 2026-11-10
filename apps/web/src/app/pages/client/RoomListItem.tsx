@@ -46,7 +46,6 @@ import { makeRoomPermalink } from '@/util/matrix';
 import { roomSectionsAtom, roomTagNamesAtom, useRoom } from '@/app/data';
 import type { RoomEntry } from '@/app/features/room/useRooms';
 import type { DmEntry } from '@/app/hooks/useDms';
-import type { CallMember } from '@wizardchat/core';
 
 function notifMenuItems(
   level: NotifLevel,
@@ -54,10 +53,14 @@ function notifMenuItems(
   t: (key: string) => string
 ) {
   const options: { value: NotifLevel; label: string; icon: React.ReactNode }[] = [
-    { value: 'default', label: t('notifLevel.default'), icon: <BellIcon size={14} /> },
-    { value: 'all', label: t('notifLevel.all'), icon: <BellRingingIcon size={14} /> },
-    { value: 'mentions', label: t('notifLevel.mentions'), icon: <BellSimpleIcon size={14} /> },
-    { value: 'mute', label: t('notifLevel.mute'), icon: <BellSlashIcon size={14} /> },
+    { value: 'default', label: t('room.notifications.default'), icon: <BellIcon size={14} /> },
+    { value: 'all', label: t('room.notifications.all'), icon: <BellRingingIcon size={14} /> },
+    {
+      value: 'mentions',
+      label: t('room.notifications.mentions'),
+      icon: <BellSimpleIcon size={14} />,
+    },
+    { value: 'mute', label: t('room.notifications.mute'), icon: <BellSlashIcon size={14} /> },
   ];
   return options.map((opt) => ({
     label: opt.label,
@@ -85,7 +88,7 @@ interface RoomListItemProps {
   isActive: boolean;
   hasActiveCall?: boolean;
   isInCall?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
   /** People in the voice channel can be dragged to another channel */
   canMoveVoiceUsers?: boolean;
   compactVoice?: boolean;
@@ -277,9 +280,10 @@ export const RoomListItem = memo(function RoomListItem({
       handleCopyLink,
       handleToggleFavourite,
       sectionMenu,
-      onOpenChat,
       onOpenChatOnly,
       entry.hasVoiceRoom,
+      entry.unreadCount,
+      entry.hasNotif,
       favourite,
       t,
       level,
@@ -333,6 +337,7 @@ export const DmListItem = memo(function DmListItem({
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const client = getMatrixClientOrNull();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
+  const [, setRoomSettings] = useAtom(roomSettingsRoomIdAtom);
 
   // DM rows only: the partner's decoration, custom status and presence. The profile request
   // waits until the row has been on screen once; the query is shared and cached per user.
@@ -371,6 +376,16 @@ export const DmListItem = memo(function DmListItem({
           label: '',
           onClick: () => {},
         },
+        {
+          label: t('common.settings'),
+          icon: <GearIcon size={14} />,
+          onClick: () => setRoomSettings(entry.roomId),
+        },
+        {
+          divider: true,
+          label: '',
+          onClick: () => {},
+        },
         notifMenuItem(level, setLevel, t),
         {
           divider: true,
@@ -388,6 +403,7 @@ export const DmListItem = memo(function DmListItem({
     [
       openContextMenu,
       roomActions,
+      setRoomSettings,
       entry.roomId,
       entry.partnerName,
       entry.unreadCount,
@@ -403,7 +419,7 @@ export const DmListItem = memo(function DmListItem({
     <ChatListItem
       name={entry.partnerName}
       roomId={entry.roomId}
-      avatarMxc={entry.partnerAvatarMxc}
+      avatarMxc={entry.avatarMxc}
       avatarPlaceholder="logo"
       isActive={isActive}
       unread={entry.unreadCount}

@@ -115,7 +115,7 @@ export function InviteAutocompleteDropdown({
         })}
 
       {!hasDirectory && !state.loading && (
-        <div className={css.emptyRow}>{t('invite.noResults')}</div>
+        <div className={css.emptyRow}>{t('common.noResults')}</div>
       )}
 
       {!hasDirectory && state.loading && (

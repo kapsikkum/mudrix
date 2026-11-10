@@ -1,17 +1,19 @@
 import { useState } from 'react';
+import { CheckIcon, XIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
+import { vars } from '@/theme/vars.css';
 import { getErrorMessage } from '@/util/error';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
-import { checkPassword, isPasswordValid } from '@/util/password';
+import { checkPassword, isPasswordValid, type PasswordValidity } from '@/util/password';
 import { generateClientSecret } from '@/util/clientSecret';
 import {
   requestPasswordReset,
   completePasswordReset,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
+import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { AuthField } from './AuthField';
-import { PasswordChecklist } from './PasswordChecklist';
+import { Input } from '@/app/components/Input';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
@@ -22,9 +24,9 @@ interface Props {
   onBackToLogin: () => void;
   hs: Homeserver;
   picker: ServerPickerState;
-  serverUrl?: string;
-  capabilities?: AuthCapabilities | null;
-  capabilitiesLoading?: boolean;
+  serverUrl: string;
+  capabilities: AuthCapabilities | null;
+  capabilitiesLoading: boolean;
 }
 
 export function ResetPasswordForm({
@@ -43,29 +45,25 @@ export function ResetPasswordForm({
   const [status, setStatus] = useState('');
   const [statusType, setStatusType] = useState<'error' | 'success'>('error');
   const [loading, setLoading] = useState(false);
-
-  const resolvedServerUrl = serverUrl ?? hs.baseUrl;
-  const resolvedCaps =
-    capabilities !== undefined ? capabilities : (hs.current ?? (hs.checking ? hs.methods : null));
-  const resolvedLoading = capabilitiesLoading !== undefined ? capabilitiesLoading : hs.checking;
+  const [pwdValidity, setPwdValidity] = useState(() => checkPassword(''));
 
   // Persist these during the flow
   const [clientSecret] = useState(generateClientSecret);
   const [sid, setSid] = useState('');
 
   // Check if this server uses delegated auth (OIDC/MAS)
-  const isDelegatedAuth = resolvedCaps?.delegatedAuth && resolvedCaps.accountManagementUri;
-  const isChecking = resolvedLoading && !resolvedCaps;
+  const isDelegatedAuth = capabilities?.delegatedAuth && capabilities.accountManagementUri;
+  const isChecking = capabilitiesLoading && !capabilities;
 
   const handleOpenAccountPortal = () => {
-    if (resolvedCaps?.accountManagementUri) {
-      window.open(resolvedCaps.accountManagementUri, '_blank', 'noopener');
+    if (capabilities?.accountManagementUri) {
+      window.open(capabilities.accountManagementUri, '_blank', 'noopener');
     }
   };
 
   const handleRequestReset = async () => {
     if (!email.trim()) {
-      setStatus(t('welcome.emailRequired'));
+      setStatus(t('auth.emailRequired'));
       setStatusType('error');
       return;
     }
@@ -73,15 +71,19 @@ export function ResetPasswordForm({
     setLoading(true);
     setStatus('');
     try {
-      const requestSid = await requestPasswordReset(resolvedServerUrl, email.trim(), clientSecret);
+      const requestSid = await requestPasswordReset(serverUrl, email.trim(), clientSecret);
       setSid(requestSid);
       setStep('password');
-      setStatus(t('welcome.resetLinkSent'));
+      setStatus(t('auth.resetLinkSent'));
       setStatusType('success');
     } catch (err) {
+      // Check for 404/M_UNRECOGNIZED (password reset not supported)
       const isNotSupported = matrixErrcode(err) === 'M_UNRECOGNIZED';
-      if (isNotSupported) {
-        setStatus(t('welcome.resetNotSupported'));
+
+      if (isNotSupported && isDelegatedAuth) {
+        setStatus(t('auth.resetNotSupported'));
+      } else if (isNotSupported) {
+        setStatus(t('auth.resetNotSupported'));
       } else {
         setStatus(getErrorMessage(err));
       }
@@ -93,17 +95,17 @@ export function ResetPasswordForm({
 
   const handleCompleteReset = async () => {
     if (!newPassword || !confirmPassword) {
-      setStatus(t('welcome.fillAllFields'));
+      setStatus(t('auth.fillAllFields'));
       setStatusType('error');
       return;
     }
     if (newPassword !== confirmPassword) {
-      setStatus(t('welcome.passwordsDoNotMatch'));
+      setStatus(t('common.passwordMismatch'));
       setStatusType('error');
       return;
     }
-    if (!isPasswordValid(checkPassword(newPassword))) {
-      setStatus(t('welcome.passwordTooWeak'));
+    if (!isPasswordValid(pwdValidity)) {
+      setStatus(t('auth.passwordRequirements.title'));
       setStatusType('error');
       return;
     }
@@ -111,12 +113,18 @@ export function ResetPasswordForm({
     setLoading(true);
     setStatus('');
     try {
-      await completePasswordReset(resolvedServerUrl, sid, clientSecret, newPassword);
+      await completePasswordReset(serverUrl, sid, clientSecret, newPassword);
       setStep('done');
-      setStatus(t('welcome.resetSuccess'));
+      setStatus(t('auth.resetSuccess'));
       setStatusType('success');
     } catch (err) {
-      setStatus(getErrorMessage(err));
+      const errMsg = getErrorMessage(err);
+      // Check for common password reset errors
+      if (matrixErrcode(err) === 'M_UNAUTHORIZED') {
+        setStatus(t('auth.resetClickLinkFirst'));
+      } else {
+        setStatus(errMsg);
+      }
       setStatusType('error');
     } finally {
       setLoading(false);
@@ -124,124 +132,128 @@ export function ResetPasswordForm({
   };
 
   return (
-    <form
-      className={css.form}
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (step === 'email') void handleRequestReset();
-        else if (step === 'password') void handleCompleteReset();
-      }}
-      noValidate
-      aria-label={t('welcome.resetTitle')}
-    >
-      <ServerPicker hs={hs} label={t('welcome.serverLabelReset')} {...picker} />
+    <div className={css.formSection}>
+      <h2 className={css.formTitle}>{t('auth.resetTitle')}</h2>
+
+      <ServerPicker
+        hs={hs}
+        label={t('welcome.serverLabelReset')}
+        {...picker}
+        disabled={step !== 'email'}
+      />
 
       {isChecking ? (
-        <div className={css.status} aria-busy="true">
-          <span className={css.statusMark} aria-hidden>
-            <span className={css.spinner} />
-          </span>
-          <span className={css.statusText}>{t('welcome.checkingServer')}</span>
+        <div className={css.checkingServer}>
+          <Spinner size="sm" />
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
           {isDelegatedAuth ? (
             <>
-              <p className={css.note}>{t('welcome.resetDelegatedInfo')}</p>
-              <Button
-                fullWidth
-                size="lg"
-                variant="primary"
-                className={css.submit}
-                onClick={handleOpenAccountPortal}
-              >
-                {t('welcome.resetOpenAccountPortal')}
+              <p className={css.infoText}>{t('auth.resetDelegatedInfo')}</p>
+              <Button fullWidth size="lg" variant="primary" onClick={handleOpenAccountPortal}>
+                {t('auth.resetOpenAccountPortal')}
               </Button>
             </>
           ) : (
             <>
               {step === 'email' && (
                 <>
-                  <p className={css.note}>{t('welcome.resetEmailPrompt')}</p>
-                  <AuthField
-                    label="Email"
+                  <p className={css.infoText}>{t('auth.resetEmailPrompt')}</p>
+                  <Input
                     type="email"
-                    placeholder={t('welcome.emailPlaceholder')}
+                    placeholder={t('auth.emailPlaceholder')}
+                    aria-label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
-                    onKeyDown={(e) => e.key === 'Enter' && void handleRequestReset()}
-                    showRequired
+                    onKeyDown={(e) => e.key === 'Enter' && handleRequestReset()}
                   />
                   <Button
-                    type="submit"
                     fullWidth
                     size="lg"
                     variant="primary"
-                    className={css.submit}
+                    onClick={handleRequestReset}
                     disabled={loading}
-                    loading={loading}
-                    spinnerWhileLoading
                   >
-                    {loading ? t('welcome.sending') : t('welcome.resetSendCode')}
+                    {loading ? t('auth.sending') : t('auth.resetSendCode')}
                   </Button>
                 </>
               )}
 
               {step === 'password' && (
                 <>
-                  <p className={css.note}>{t('welcome.resetCheckEmail')}</p>
-                  <AuthField
-                    label={t('welcome.password')}
+                  <p className={css.infoText}>{t('auth.resetCheckEmail')}</p>
+                  <Input
                     type="password"
+                    placeholder={t('auth.password')}
+                    aria-label={t('auth.password')}
                     value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                      setPwdValidity(checkPassword(e.target.value));
+                    }}
                     autoComplete="new-password"
                     showPasswordToggle
                     disabled={loading}
-                    showRequired
                   />
-                  <AuthField
-                    label={t('welcome.confirmPassword')}
+                  <Input
                     type="password"
+                    placeholder={t('auth.confirmPassword')}
+                    aria-label={t('auth.confirmPassword')}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     autoComplete="new-password"
                     showPasswordToggle
                     disabled={loading}
-                    onKeyDown={(e) => e.key === 'Enter' && void handleCompleteReset()}
-                    showRequired
+                    onKeyDown={(e) => e.key === 'Enter' && handleCompleteReset()}
                   />
 
-                  <PasswordChecklist password={newPassword} />
+                  <div className={css.passwordReqs}>
+                    <p>{t('auth.passwordRequirements.title')}</p>
+                    <ul>
+                      {(
+                        [
+                          ['length', t('auth.passwordRequirements.length')],
+                          ['uppercase', t('auth.passwordRequirements.uppercase')],
+                          ['lowercase', t('auth.passwordRequirements.lowercase')],
+                          ['number', t('auth.passwordRequirements.number')],
+                          ['special', t('auth.passwordRequirements.special')],
+                        ] as [keyof PasswordValidity, string][]
+                      ).map(([key, label]) => {
+                        const met = pwdValidity[key];
+                        return (
+                          <li key={key} className={css.reqItem}>
+                            {met ? (
+                              <CheckIcon size={14} weight="bold" color={vars.color.success} />
+                            ) : (
+                              <XIcon size={14} weight="bold" color={vars.color.error} />
+                            )}
+                            {label}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
 
                   <Button
-                    type="submit"
                     fullWidth
                     size="lg"
                     variant="primary"
-                    className={css.submit}
+                    onClick={handleCompleteReset}
                     disabled={loading}
-                    loading={loading}
-                    spinnerWhileLoading
                   >
-                    {loading ? t('welcome.resetting') : t('welcome.resetComplete')}
+                    {loading ? t('auth.resetting') : t('auth.resetComplete')}
                   </Button>
                 </>
               )}
 
               {step === 'done' && (
                 <>
-                  <p className={css.formSuccess}>{t('welcome.resetSuccess')}</p>
-                  <Button
-                    type="button"
-                    fullWidth
-                    size="lg"
-                    variant="primary"
-                    className={css.submit}
-                    onClick={onBackToLogin}
-                  >
-                    {t('welcome.backToLogin')}
+                  <p className={css.statusSuccess}>{t('auth.resetSuccess')}</p>
+                  <Button fullWidth size="lg" variant="primary" onClick={onBackToLogin}>
+                    {t('auth.backToLogin')}
                   </Button>
                 </>
               )}
@@ -249,23 +261,22 @@ export function ResetPasswordForm({
           )}
 
           {status && (
-            <div
-              className={statusType === 'success' ? css.formSuccess : css.formError}
-              role="alert"
-            >
+            <p className={statusType === 'success' ? css.statusSuccess : css.statusText}>
               {status}
-            </div>
+            </p>
           )}
 
           {!loading && step !== 'done' && (
-            <p className={css.altText}>
-              <button type="button" className={css.inlineLink} onClick={onBackToLogin}>
-                {t('welcome.backToLogin')}
+            <p className={css.switchText}>
+              <button type="button" className={css.switchLink} onClick={onBackToLogin}>
+                {t('auth.backToLogin')}
               </button>
             </p>
           )}
         </>
       )}
-    </form>
+
+      {loading && <SpinnerOverlay />}
+    </div>
   );
 }

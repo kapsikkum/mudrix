@@ -1,6 +1,7 @@
 package org.wizardchat.android.matrix
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
@@ -13,6 +14,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
 import org.wizardchat.core.ListDiff
+import org.wizardchat.core.NotificationMode
 import org.wizardchat.core.RoomSection
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.SpaceSummary
@@ -20,7 +22,8 @@ import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
 
 val RoomSummary.displayName: String get() = name ?: canonicalAlias ?: id
-val RoomSummary.unreadCount: Int get() = if (markedUnread) maxOf(unreadMessages.toInt(), 1) else unreadMessages.toInt()
+/** Messages that notify under the room's notification setting (as on the web), or 1 when marked unread */
+val RoomSummary.unreadCount: Int get() = if (unreadNotifications > 0) unreadNotifications.toInt() else if (markedUnread) 1 else 0
 val RoomSummary.mentionCount: Int get() = unreadMentions.toInt()
 
 sealed interface SidebarSelection {
@@ -40,6 +43,9 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         private set
     var spaces by mutableStateOf(listOf<SpaceSummary>())
         private set
+    var allSpaces by mutableStateOf(listOf<SpaceSummary>())
+        private set
+    private val allSpaceList = mutableListOf<SpaceSummary>()
     var spaceRooms by mutableStateOf(mapOf<String, Set<String>>())
         private set
     var isLoaded by mutableStateOf(false)
@@ -84,6 +90,10 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
                 spaces = spaceList.toList()
                 refreshGraph()
             },
+            client.watchAllSpaces { diffs ->
+                diffs.forEach { it.applyTo(allSpaceList) }
+                allSpaces = allSpaceList.toList()
+            },
         )
     }
 
@@ -98,6 +108,20 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     suspend fun accept(invite: RoomSummary) = client.acceptInvite(invite.id)
 
     suspend fun decline(invite: RoomSummary) = client.declineInvite(invite.id)
+
+    private val notificationOverrides = mutableStateMapOf<String, NotificationMode?>()
+
+    fun notificationMode(room: RoomSummary): NotificationMode? =
+        if (room.id in notificationOverrides) notificationOverrides[room.id] else room.notificationMode
+
+    suspend fun setNotificationMode(room: RoomSummary, mode: NotificationMode?) {
+        val had = room.id in notificationOverrides
+        val previous = notificationOverrides[room.id]
+        notificationOverrides[room.id] = mode
+        runCatching { client.setRoomNotificationMode(room.id, mode) }.onFailure {
+            if (had) notificationOverrides[room.id] = previous else notificationOverrides.remove(room.id)
+        }
+    }
 
     suspend fun setRead(room: RoomSummary, read: Boolean) {
         if (read) runCatching { client.timeline(room.id).markAsRead() }
@@ -219,6 +243,11 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     private fun apply(diffs: List<ListDiff<RoomSummary>>) {
         diffs.forEach { it.applyTo(rooms) }
         joinedRooms = rooms.filter { !it.isInvite }
+        joinedRooms.forEach { room ->
+            if (room.id in notificationOverrides && notificationOverrides[room.id] == room.notificationMode) {
+                notificationOverrides.remove(room.id)
+            }
+        }
         invites = rooms.filter { it.isInvite }
         mentionRooms = joinedRooms.filter { it.mentionCount > 0 }
         isLoaded = true

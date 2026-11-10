@@ -48,7 +48,7 @@ export function FavoritePacks({ client, kind = 'emoji', title, note, empty }: Pr
         );
         await saveFavoritePacks(client, next);
       } catch (err) {
-        toast.error(t('settings.emojisStickers.saveFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
       } finally {
         setRemoving(false);
       }
@@ -61,7 +61,7 @@ export function FavoritePacks({ client, kind = 'emoji', title, note, empty }: Pr
       try {
         await saveFavoritePacks(client, favorites);
       } catch (err) {
-        toast.error(t('settings.emojisStickers.saveFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
       }
     },
     [client, toast, t]

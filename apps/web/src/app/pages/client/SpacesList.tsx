@@ -5,6 +5,7 @@ import {
   ChatCircleIcon,
   PlusIcon,
   CompassIcon,
+  DownloadSimpleIcon,
   SpeakerHighIcon,
 } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -32,6 +33,7 @@ import {
   spaceSettingsRoomIdAtom,
   createSpaceOpenAtom,
   exploreOpenAtom,
+  getAppsOpenAtom,
   pinnedSubSpacesAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
@@ -166,6 +168,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [, setSpaceSettings] = useAtom(spaceSettingsRoomIdAtom);
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
+  const [getAppsOpen, openGetApps] = useAtom(getAppsOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
@@ -345,7 +348,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       const updates = planSpaceReorder(reorderedIds, currentOrders, String(active.id));
       saveSpaceBarOrders(client, updates).catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [orderedSpaces, client, toast, t]
@@ -361,14 +364,14 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       {!isMobile && (
         <>
           {/* Home button */}
-          <Tooltip placement="right" content={t('room.home')}>
+          <Tooltip placement="right" content={t('nav.home')}>
             <button
               type="button"
               className={sidebarView === 'home' ? css.spaceBarBtnActive : css.spaceBarBtn}
               style={{
                 color: sidebarView !== 'home' && homeHasNotif ? vars.color.textPrimary : undefined,
               }}
-              aria-label={t('room.home')}
+              aria-label={t('nav.home')}
               onClick={() => {
                 // Home always lands on the dashboard; its room list sits beside it. On a phone,
                 // switching from another tab keeps the drawer open so a Home room can be picked.
@@ -477,11 +480,11 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
             <div className={css.spacesStickyBottom}>
               {orderedSpaces.length > 0 && <div className={css.spacesSeparator} />}
               {/* Create / Join Space button */}
-              <Tooltip placement="right" content={t('room.space.add')}>
+              <Tooltip placement="right" content={t('space.add')}>
                 <button
                   type="button"
                   className={createSpaceOpen.open ? css.spaceBarBtnActive : css.spaceBarBtn}
-                  aria-label={t('room.space.create.title')}
+                  aria-label={t('space.create.title')}
                   onClick={() => setCreateSpaceOpen({ open: true })}
                 >
                   <span className={css.spacePill} />
@@ -498,6 +501,17 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
                 >
                   <span className={css.spacePill} />
                   <CompassIcon size={20} weight={exploreOpen ? 'fill' : 'regular'} />
+                </button>
+              </Tooltip>
+              <Tooltip placement="right" content={t('getApps.title')}>
+                <button
+                  type="button"
+                  className={getAppsOpen ? css.spaceBarBtnActive : css.spaceBarBtn}
+                  aria-label={t('getApps.title')}
+                  onClick={() => openGetApps(true)}
+                >
+                  <span className={css.spacePill} />
+                  <DownloadSimpleIcon size={20} weight={getAppsOpen ? 'bold' : 'regular'} />
                 </button>
               </Tooltip>
             </div>

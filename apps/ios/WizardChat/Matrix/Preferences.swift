@@ -3,7 +3,7 @@ import SwiftUI
 import UIKit
 import WizardChatCore
 
-enum MessageLayout: String, CaseIterable { case modern, classic }
+enum MessageLayout: String, CaseIterable { case modern, classic, compact }
 enum Density: String, CaseIterable { case compact, `default`, spacious }
 enum ReducedMotion: String, CaseIterable { case system, on, off }
 enum MediaVisibility: String, CaseIterable { case always, `private`, never }
@@ -91,6 +91,7 @@ final class AppPreferences: ObservableObject {
     @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue); syncIfNeeded() } }
     @Published var uiDensity: Density { didSet { save("uiDensity", uiDensity.rawValue); syncIfNeeded() } }
     @Published var prettifyLinks: Bool { didSet { save("prettifyLinks", prettifyLinks); syncIfNeeded() } }
+    @Published var colorUsernames: Bool { didSet { save("colorUsernames", colorUsernames); syncIfNeeded() } }
     /// Show images sent together as one gallery; off shows every image as its own message
     @Published var groupImages: Bool { didSet { save("groupImages", groupImages); syncIfNeeded() } }
     @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon); syncIfNeeded() } }
@@ -158,6 +159,7 @@ final class AppPreferences: ObservableObject {
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
+    @Published var pushToTalk: Bool { didSet { save("pushToTalk", pushToTalk) } }
 
     /// Called after a synced setting changed on this device
     var onSyncedSettingsChange: (() -> Void)?
@@ -199,6 +201,7 @@ final class AppPreferences: ObservableObject {
         uiDensity = Self.stored(d, "uiDensity", .default)
         prettifyLinks = d.object(forKey: "prettifyLinks") as? Bool ?? true
         groupImages = d.object(forKey: "groupImages") as? Bool ?? true
+        colorUsernames = d.object(forKey: "colorUsernames") as? Bool ?? true
         themedAppIcon = d.bool(forKey: "themedAppIcon")
         showRoomAvatars = d.object(forKey: "showRoomAvatars") as? Bool ?? true
         reducedMotion = Self.stored(d, "reducedMotion", .system)
@@ -246,6 +249,7 @@ final class AppPreferences: ObservableObject {
         soundboardMutedUsers = d.stringArray(forKey: "soundboardMutedUsers") ?? []
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
+        pushToTalk = d.bool(forKey: "pushToTalk")
         developerMode = d.bool(forKey: "developerMode")
 
         registerSynced()
@@ -322,6 +326,7 @@ final class AppPreferences: ObservableObject {
             enumKey("chatDensity", \.chatDensity),
             enumKey("uiDensity", \.uiDensity),
             boolKey("prettifyLinks", \.prettifyLinks),
+            boolKey("colorUsernames", \.colorUsernames),
             boolKey("groupImages", \.groupImages),
             boolKey("themedAppIcon", \.themedAppIcon),
             boolKey("showRoomAvatars", \.showRoomAvatars),

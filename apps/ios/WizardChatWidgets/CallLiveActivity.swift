@@ -82,7 +82,7 @@ struct CallLiveActivity: Widget {
         } else if state.othersSpeaking {
             Image("ph-waveform-regular").foregroundStyle(Self.green)
         } else {
-            Image("ph-phone-fill").foregroundStyle(Self.green)
+            Image("ph-phone-regular").foregroundStyle(Self.green)
         }
     }
 
@@ -116,13 +116,13 @@ private struct CallButtons: View {
                     .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)
             }
             .tint(state.micMuted ? Self.red : .white.opacity(0.18))
-            .accessibilityLabel(state.micMuted ? String(localized: "voice.unmute") : String(localized: "voice.mute"))
+            .accessibilityLabel(state.micMuted ? String(localized: "call.unmute") : String(localized: "call.mute"))
             Button(intent: ToggleDeafenIntent()) {
-                Image(state.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-fill")
+                Image(state.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-regular")
                     .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)
             }
             .tint(state.deafened ? Self.red : .white.opacity(0.18))
-            .accessibilityLabel(state.deafened ? String(localized: "voice.undeafen") : String(localized: "voice.deafen"))
+            .accessibilityLabel(state.deafened ? String(localized: "call.undeafen") : String(localized: "call.deafen"))
             Button(intent: LeaveCallIntent()) {
                 Image("ph-phone-x-regular")
                     .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)

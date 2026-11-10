@@ -9,7 +9,8 @@ enum MediaMetadata {
               let props = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
               let width = props[kCGImagePropertyPixelWidth] as? CGFloat,
               let height = props[kCGImagePropertyPixelHeight] as? CGFloat else { return nil }
-        return CGSize(width: width, height: height)
+        let orientation = props[kCGImagePropertyOrientation] as? UInt32 ?? 1
+        return (5...8).contains(orientation) ? CGSize(width: height, height: width) : CGSize(width: width, height: height)
     }
 
     static func video(at url: URL) async -> (duration: TimeInterval?, size: CGSize?) {
@@ -23,6 +24,15 @@ enum MediaMetadata {
             size = CGSize(width: abs(rect.width), height: abs(rect.height))
         }
         return (duration, size)
+    }
+
+    static func videoFrame(at url: URL, maxSize: CGFloat = 800) async -> (data: Data, width: Int, height: Int)? {
+        let generator = AVAssetImageGenerator(asset: AVURLAsset(url: url))
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: maxSize, height: maxSize)
+        guard let frame = try? await generator.image(at: .zero).image,
+              let data = UIImage(cgImage: frame).jpegData(compressionQuality: 0.8) else { return nil }
+        return (data, frame.width, frame.height)
     }
 
     static func duration(at url: URL) async -> TimeInterval? {

@@ -16,7 +16,7 @@ struct CallStageView: View {
         ScrollView {
             VStack(spacing: WZ.Space.space5) {
                 if calls.reconnecting {
-                    Label(String(localized: "voice.statusReconnecting"), image: "ph-wifi-slash-regular")
+                    Label(String(localized: "call.statusReconnecting"), image: "ph-wifi-slash-regular")
                         .font(.wizard(WZ.FontSize.sm, .semibold))
                         .foregroundStyle(theme.warningColor)
                 }
@@ -41,7 +41,7 @@ struct CallStageView: View {
         }
         .overlay {
             if calls.state == .joining {
-                ProgressView(String(localized: "voice.statusConnecting"))
+                ProgressView(String(localized: "call.statusConnecting"))
                     .tint(theme.accent)
                     .padding(WZ.Space.space7)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
@@ -59,7 +59,7 @@ struct CallStageView: View {
             calls.toggleLocalMute(participant.userId)
         } label: {
             participant.locallyMuted
-                ? Label(String(localized: "call.unmuteForMe"), image: "ph-speaker-high-fill")
+                ? Label(String(localized: "call.unmuteForMe"), image: "ph-speaker-high-regular")
                 : Label(String(localized: "call.muteForMe"), image: "ph-speaker-slash-regular")
         }
         Button { volumeFor = participant } label: { Label(String(localized: "call.volume"), image: "ph-sliders-regular") }
@@ -73,6 +73,12 @@ private struct ParticipantTile: View {
     @Environment(\.theme) private var theme
     @State private var name: String?
     @State private var avatarUrl: String?
+
+    private var label: String {
+        let name = name ?? participant.userId
+        if participant.isOwnOtherDevice { return L10n.format("call.ownOtherDevice", name) }
+        return name
+    }
 
     var body: some View {
         ZStack {
@@ -112,7 +118,7 @@ private struct ParticipantTile: View {
                         .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
                         .foregroundStyle(theme.danger)
                 }
-                Text(participant.isLocal ? L10n.format("voice.userYou", "\(name ?? participant.userId)") : name ?? participant.userId)
+                Text(label)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .lineLimit(1)
                 if !participant.connected {
@@ -128,7 +134,7 @@ private struct ParticipantTile: View {
         .animation(.spring(duration: WZ.MotionDuration.slow), value: participant.reaction)
         .animation(.easeOut(duration: WZ.MotionDuration.fast), value: participant.speaking)
         .accessibilityElement(children: .combine)
-        .accessibilityHint(participant.isLocal ? "" : String(localized: "voice.tapToChangeTheir"))
+        .accessibilityHint(participant.isLocal ? "" : String(localized: "call.volumeHint"))
         .task(id: participant.userId) {
             let profile = await session.memberProfile(participant.userId, in: roomId)
             name = profile.name
@@ -151,7 +157,7 @@ private struct ScreenShareTile: View {
             .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             .overlay(alignment: .bottomLeading) {
-                Label(L10n.format("voice.userScreen", "\(name ?? participant.userId)"), image: "ph-monitor-arrow-up-regular")
+                Label(L10n.format("call.userScreen", "\(name ?? participant.userId)"), image: "ph-monitor-arrow-up-regular")
                     .font(.wizard(WZ.FontSize.sm, .semibold))
                     .foregroundStyle(theme.textPrimary)
                     .padding(.horizontal, WZ.Space.space4)
@@ -196,7 +202,7 @@ private struct VolumeSheet: View {
                     Slider(value: Binding(get: { participant?.volume ?? 1 },
                                           set: { calls.setVolume($0, for: userId) }), in: 0...2)
                         .tint(theme.accent)
-                    Image("ph-speaker-high-fill").foregroundStyle(theme.textMuted)
+                    Image("ph-speaker-high-regular").foregroundStyle(theme.textMuted)
                 }
             }
             Toggle(String(localized: "call.muteForMe"), isOn: Binding(get: { participant?.locallyMuted ?? false },

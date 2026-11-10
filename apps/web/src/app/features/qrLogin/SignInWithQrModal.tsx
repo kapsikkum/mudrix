@@ -131,18 +131,18 @@ export function SignInWithQrModal({
       case 'showQr':
         return (
           <>
-            <QrCode data={phase.code} label={t('qrLogin.qrLabel')} />
+            <QrCode data={phase.code} label={t('auth.qr.qrLabel')} />
             <ol className={css.steps}>
-              <li>{t('qrLogin.signInStep1')}</li>
-              <li>{t('qrLogin.signInStep2')}</li>
-              <li>{t('qrLogin.signInStep3')}</li>
+              <li>{t('auth.qr.signInStep1')}</li>
+              <li>{t('auth.qr.signInStep2')}</li>
+              <li>{t('auth.qr.signInStep3')}</li>
             </ol>
           </>
         );
       case 'enterCheckCode':
         return (
           <>
-            <p className={css.text}>{t('qrLogin.enterCode')}</p>
+            <p className={css.text}>{t('auth.qr.enterCode')}</p>
             <Input
               className={css.codeInput}
               inputMode="numeric"
@@ -155,8 +155,8 @@ export function SignInWithQrModal({
               onKeyDown={(e) => {
                 if (e.key === 'Enter') void sendCheckCode();
               }}
-              error={codeError ? t('qrLogin.codeMismatch') : undefined}
-              aria-label={t('qrLogin.enterCode')}
+              error={codeError ? t('auth.qr.codeMismatch') : undefined}
+              aria-label={t('auth.qr.enterCode')}
               data-dialog-autofocus
             />
           </>
@@ -164,9 +164,9 @@ export function SignInWithQrModal({
       case 'showCheckCode':
         return (
           <>
-            <p className={css.text}>{t('qrLogin.showCode')}</p>
+            <p className={css.text}>{t('auth.qr.showCode')}</p>
             <span className={css.checkCode}>{phase.checkCode}</span>
-            <p className={css.text}>{t('qrLogin.waitingForApproval')}</p>
+            <p className={css.text}>{t('auth.qr.waitingForApproval')}</p>
           </>
         );
       case 'waitingForApproval':
@@ -174,17 +174,17 @@ export function SignInWithQrModal({
           <>
             {phase.checkCode && (
               <>
-                <p className={css.text}>{t('qrLogin.showCode')}</p>
+                <p className={css.text}>{t('auth.qr.showCode')}</p>
                 <span className={css.checkCode}>{phase.checkCode}</span>
               </>
             )}
             {phase.userCode && (
               <>
-                <p className={css.text}>{t('qrLogin.showApprovalCode')}</p>
+                <p className={css.text}>{t('auth.qr.showApprovalCode')}</p>
                 <span className={css.checkCode}>{phase.userCode}</span>
               </>
             )}
-            <p className={css.text}>{t('qrLogin.waitingForApproval')}</p>
+            <p className={css.text}>{t('auth.qr.waitingForApproval')}</p>
           </>
         );
       case 'error':
@@ -197,7 +197,7 @@ export function SignInWithQrModal({
       open
       onClose={onClose}
       size="sm"
-      title={t('qrLogin.signInTitle')}
+      title={t('auth.qr.signInTitle')}
       titleIcon={<QrCodeIcon size={18} />}
       footer={
         phase.kind === 'enterCheckCode' ? (

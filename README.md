@@ -87,7 +87,8 @@ disabled.
 
 - [Development](docs/DEVELOPMENT.md): setting up, running the apps, checks
 - [Building](docs/BUILDING.md) and [releasing](RELEASING.md)
-- [Contributing](docs/CONTRIBUTING.md): where code goes, the conventions and the internal names that still say WizardChat
+- [Working on the codebase](docs/CODEBASE.md): where code goes, the conventions and the internal names that still say WizardChat
+- [Contributing](CONTRIBUTING.md): reporting bugs, suggesting features and contributing code
 - [Branding and artwork](docs/BRANDING.md)
 
 ## Based on WizardChat

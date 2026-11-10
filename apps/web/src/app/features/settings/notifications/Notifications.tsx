@@ -238,7 +238,7 @@ export function Notifications() {
             onClick={handleAddKeyword}
           >
             <PlusIcon size={14} />
-            {t('settings.notifications.addKeyword')}
+            {t('common.add')}
           </button>
         </div>
 

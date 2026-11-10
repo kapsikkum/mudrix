@@ -1,6 +1,7 @@
 package org.wizardchat.android.ui.room
 
 import android.content.ActivityNotFoundException
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +10,9 @@ import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.animation.AnimatedVisibility
@@ -77,6 +81,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -93,11 +98,13 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import java.io.File
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
@@ -115,6 +122,7 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.composer.PackThumb
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -190,6 +198,28 @@ internal fun shareFile(context: Context, file: File, mimetype: String) {
     } catch (_: Exception) {
         CopyToast.show(L10n.format("common.somethingWentWrong"))
     }
+}
+
+internal suspend fun saveToPhotos(context: Context, file: File, mimetype: String) {
+    val saved = withContext(Dispatchers.IO) {
+        runCatching {
+            val values = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, file.name)
+                put(MediaStore.Images.Media.MIME_TYPE, mimetype)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/WizardChat")
+                    put(MediaStore.Images.Media.IS_PENDING, 1)
+                }
+            }
+            val resolver = context.contentResolver
+            val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values) ?: error("insert failed")
+            resolver.openOutputStream(uri)?.use { out -> file.inputStream().use { it.copyTo(out) } }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                resolver.update(uri, ContentValues().apply { put(MediaStore.Images.Media.IS_PENDING, 0) }, null, null)
+            }
+        }.isSuccess
+    }
+    CopyToast.show(L10n.format(if (saved) "common.savedToPhotos" else "common.somethingWentWrong"))
 }
 
 /** Shows a playing GIF/WebP drawable */
@@ -842,7 +872,7 @@ fun ReplyQuoteView(quote: ChatEntry.ReplyQuote) {
     ) {
         Box(Modifier.width(WZ.Space.space1).fillMaxHeight().background(theme.accent, CircleShape))
         Column {
-            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = nameColor(quote.sender), maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
                 quote.text.ifEmpty { tr("timeline.originalMessage") },
                 style = wizardFont(WZ.FontSize.sm),
@@ -1011,13 +1041,14 @@ fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> 
         thread.latestUndecryptable -> tr("timeline.couldNotDecrypt")
         else -> null
     }
-    val hint = tr("thread.openThread")
+    val hint = tr("timeline.openThread")
     Row(
         Modifier
             .widthIn(max = WZ.Size.panel)
             .clip(RoundedCornerShape(WZ.Radius.lg))
             .background(theme.fill)
-            .clickable(onClickLabel = hint, onClick = onOpen)
+            .messageTap(onClick = onOpen)
+            .semantics { onClick(label = hint) { onOpen(); true } }
             .padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space3),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),

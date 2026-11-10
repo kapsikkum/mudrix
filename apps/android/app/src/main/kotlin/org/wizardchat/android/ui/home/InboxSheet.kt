@@ -1,6 +1,7 @@
 package org.wizardchat.android.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,13 +12,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.RoomListModel
@@ -43,11 +41,13 @@ import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.ui.Avatar
-import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
+import org.wizardchat.android.ui.GroupedRow
+import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.SheetTopBar
 import org.wizardchat.android.ui.UnreadBadge
 import org.wizardchat.android.ui.WizardSheet
@@ -102,20 +102,7 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
     WizardSheet(onDismiss) {
         SheetTopBar(
             tr("inbox.title"),
-            leading = {
-                if (tab == InboxTab.mentions && roomList.mentionRooms.isNotEmpty()) {
-                    BarButton("check-circle", tr("common.markAllRead"), {
-                        scope.launch { roomList.markAsRead(roomList.mentionRooms) }
-                    }, weight = PhWeight.fill)
-                }
-            },
             trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) },
-            titleContent = {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                    PhIcon("tray", tint = theme.textPrimary)
-                    Text(tr("inbox.title"), style = wizardFont(WZ.FontSize.lg, FontWeight.Bold), color = theme.textPrimary)
-                }
-            },
         )
         Column(Modifier.fillMaxWidth().background(theme.bgSecondary)) {
             Row(
@@ -128,35 +115,54 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
                 TabButton(tr("inbox.tabSaved"), SavedMessages.shared.items.size, tab == InboxTab.saved) { tab = InboxTab.saved }
             }
             errorMessage?.let {
-                Text(it, Modifier.padding(WZ.Space.space5), style = wizardFont(WZ.FontSize.sm), color = theme.error)
+                Text(it, Modifier.padding(horizontal = WZ.Space.space8, vertical = WZ.Space.space3), style = wizardFont(WZ.FontSize.sm), color = theme.error)
             }
             LazyColumn(
                 Modifier.weight(1f, fill = false),
-                contentPadding = PaddingValues(WZ.Space.space3),
-                verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+                contentPadding = PaddingValues(vertical = WZ.Space.space3),
+                verticalArrangement = Arrangement.spacedBy(WZ.Space.space6),
             ) {
                 when (tab) {
-                    InboxTab.invites -> {
-                        if (roomList.invites.isEmpty()) item(key = "empty") { Empty(tr("inbox.emptyInvites")) }
-                        items(roomList.invites, key = { it.id }) { invite ->
-                            LaunchedEffect(invite.id) {
-                                val info = runCatching { session.client?.inviteInfo(invite.id) }.getOrNull()
-                                if (info != null) inviters[invite.id] = info.inviterName ?: info.inviterId
+                    InboxTab.invites -> item(key = "invites") {
+                        if (roomList.invites.isEmpty()) {
+                            Empty(tr("inbox.emptyInvites"), "tray")
+                        } else {
+                            GroupedSection {
+                                roomList.invites.forEachIndexed { index, invite ->
+                                    if (index > 0) RowDivider()
+                                    LaunchedEffect(invite.id) {
+                                        val info = runCatching { session.client?.inviteInfo(invite.id) }.getOrNull()
+                                        if (info != null) inviters[invite.id] = info.inviterName ?: info.inviterId
+                                    }
+                                    InviteRow(invite, inviters[invite.id], busyId == invite.id, { accept(invite) }, { decline(invite) })
+                                }
                             }
-                            InviteRow(invite, inviters[invite.id] ?: "someone", busyId == invite.id, { accept(invite) }, { decline(invite) })
                         }
                     }
-                    InboxTab.mentions -> {
-                        if (roomList.mentionRooms.isEmpty()) item(key = "empty") { Empty(tr("inbox.emptyMentions")) }
-                        items(roomList.mentionRooms, key = { it.id }) { room ->
-                            MentionRow(
-                                room,
-                                onOpen = {
-                                    onOpenRoom(room.id)
-                                    onDismiss()
-                                },
-                                onMarkRead = { scope.launch { roomList.markAsRead(listOf(room)) } },
-                            )
+                    InboxTab.mentions -> item(key = "mentions") {
+                        if (roomList.mentionRooms.isEmpty()) {
+                            Empty(tr("inbox.emptyMentions"), "bell")
+                        } else {
+                            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space6)) {
+                                GroupedSection {
+                                    roomList.mentionRooms.forEachIndexed { index, room ->
+                                        if (index > 0) RowDivider()
+                                        MentionRow(
+                                            room,
+                                            onOpen = {
+                                                onOpenRoom(room.id)
+                                                onDismiss()
+                                            },
+                                            onMarkRead = { scope.launch { roomList.markAsRead(listOf(room)) } },
+                                        )
+                                    }
+                                }
+                                GroupedSection {
+                                    GroupedRow(tr("common.markAllRead"), icon = "check-circle", onClick = {
+                                        scope.launch { roomList.markAsRead(roomList.mentionRooms) }
+                                    })
+                                }
+                            }
                         }
                     }
                     InboxTab.threads -> item(key = "threads") { InboxThreads(roomList, onDismiss) }
@@ -168,104 +174,142 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
     }
 }
 
+/** Two equal halves, the active one raised, each with its count */
 @Composable
-private fun TabButton(title: String, count: Int, isActive: Boolean, onClick: () -> Unit) {
+private fun Tabs(selected: InboxTab, invites: Int, mentions: Int, onSelect: (InboxTab) -> Unit) {
     Row(
         Modifier
-            .height(WZ.Space.space9)
-            .clip(RoundedCornerShape(WZ.Radius.sm))
-            .background(if (isActive) theme.bgActive else Color.Transparent)
-            .clickable(onClick = onClick)
-            .padding(horizontal = WZ.Space.space4),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+            .fillMaxWidth()
+            .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3)
+            .clip(CircleShape)
+            .background(theme.fill)
+            .padding(WZ.Space.space1),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
     ) {
-        Text(title, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = if (isActive) theme.textPrimary else theme.textMuted)
+        TabButton(tr("inbox.tabInvites"), invites, selected == InboxTab.invites) { onSelect(InboxTab.invites) }
+        TabButton(tr("inbox.tabMentions"), mentions, selected == InboxTab.mentions) { onSelect(InboxTab.mentions) }
+    }
+}
+
+@Composable
+private fun androidx.compose.foundation.layout.RowScope.TabButton(title: String, count: Int, isActive: Boolean, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .weight(1f)
+            .height(WZ.Space.space10)
+            .clip(CircleShape)
+            .background(if (isActive) theme.bgTertiary else Color.Transparent)
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3, Alignment.CenterHorizontally),
+    ) {
+        Text(
+            title,
+            style = wizardFont(WZ.FontSize.md, if (isActive) FontWeight.SemiBold else FontWeight.Normal),
+            color = if (isActive) theme.textPrimary else theme.textMuted,
+        )
         if (count > 0) {
             Text(
                 if (count > 99) "99+" else "$count",
                 Modifier
                     .clip(CircleShape)
-                    .background(if (isActive) theme.accent else theme.bgTertiary)
+                    .background(if (isActive) theme.accent else theme.textMuted)
                     .padding(horizontal = WZ.Space.space3),
                 style = wizardFont(WZ.FontSize.xs, FontWeight.Bold),
-                color = if (isActive) theme.textOnAccent else theme.textMuted,
+                color = theme.textOnAccent,
             )
         }
     }
 }
 
 @Composable
-private fun Empty(text: String) {
-    Text(
-        text,
+private fun Empty(text: String, icon: String) {
+    Column(
         Modifier.fillMaxWidth().padding(vertical = WZ.Space.space10),
-        style = wizardFont(WZ.FontSize.md),
-        color = theme.textMuted,
-        textAlign = TextAlign.Center,
-    )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+    ) {
+        PhIcon(icon, size = WZ.SizeIcon.xl, tint = theme.textMuted)
+        Text(text, style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
+    }
 }
 
+/** The room's avatar with the same type badge the room list shows */
 @Composable
-private fun SmallButton(text: String, background: Color, color: Color, enabled: Boolean, onClick: () -> Unit) {
-    Box(
-        Modifier
-            .height(WZ.Space.space8)
-            .clip(RoundedCornerShape(WZ.Radius.sm))
-            .background(background)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = WZ.Space.space4),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = color)
+private fun RoomAvatar(room: RoomSummary) {
+    Box {
+        Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
+        if (!room.isDirect) {
+            Box(
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .offset(WZ.Space.space2, WZ.Space.space2)
+                    .size(WZ.Space.space7)
+                    .clip(CircleShape)
+                    .background(theme.bgPrimary)
+                    .border(WZ.BorderWidth.thin, theme.border, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                PhIcon(
+                    if (room.isSpace) "stack" else if (room.isVoice) "speaker-high" else "hash-straight",
+                    if (room.isSpace || room.isVoice) PhWeight.regular else PhWeight.bold,
+                    size = WZ.SizeIcon.xs,
+                    tint = theme.textMuted,
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun InviteRow(invite: RoomSummary, inviterName: String, busy: Boolean, onAccept: () -> Unit, onDecline: () -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().alpha(if (busy) 0.5f else 1f).padding(WZ.Space.space4),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+private fun RoundButton(icon: String, label: String, background: Color, tint: Color, enabled: Boolean, onClick: () -> Unit) {
+    Box(
+        Modifier.size(WZ.Space.space10).clip(CircleShape).background(background).clickable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.Center,
     ) {
-        Avatar(invite.displayName, invite.avatarUrl, WZ.SizeAvatar.sm)
+        PhIcon(icon, PhWeight.bold, size = WZ.SizeIcon.sm, tint = tint, contentDescription = label)
+    }
+}
+
+@Composable
+private fun InviteRow(invite: RoomSummary, inviterName: String?, busy: Boolean, onAccept: () -> Unit, onDecline: () -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().alpha(if (busy) 0.5f else 1f).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+    ) {
+        RoomAvatar(invite)
         Column(Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                if (invite.isDirect) {
-                    Text("@", style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textMuted)
-                } else {
-                    PhIcon("hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
-                }
+            Text(
+                invite.displayName,
+                style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                color = theme.textPrimary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            inviterName?.let {
                 Text(
-                    invite.displayName,
-                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                    color = theme.textPrimary,
+                    tr("inbox.invitedBy", it),
+                    style = wizardFont(WZ.FontSize.sm),
+                    color = theme.textMuted,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-            Text(
-                tr("inbox.invitedByName", inviterName),
-                style = wizardFont(WZ.FontSize.sm),
-                color = theme.textMuted,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
         }
-        Spacer(Modifier.width(4.dp))
-        SmallButton(tr("common.accept"), theme.accent, theme.textOnAccent, !busy, onAccept)
-        SmallButton(tr("common.decline"), theme.bgTertiary, theme.textPrimary, !busy, onDecline)
+        RoundButton("x", tr("common.decline"), theme.fill, theme.textPrimary, !busy, onDecline)
+        RoundButton("check", tr("common.accept"), theme.accent, theme.textOnAccent, !busy, onAccept)
     }
 }
 
 @Composable
 private fun MentionRow(room: RoomSummary, onOpen: () -> Unit, onMarkRead: () -> Unit) {
     Row(
-        Modifier.fillMaxWidth().clickable(onClick = onOpen).padding(WZ.Space.space4),
+        Modifier.fillMaxWidth().clickable(onClick = onOpen).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
-        Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.sm)
+        RoomAvatar(room)
         Column(Modifier.weight(1f)) {
             Text(
                 room.displayName,
@@ -281,13 +325,7 @@ private fun MentionRow(room: RoomSummary, onOpen: () -> Unit, onMarkRead: () -> 
                 maxLines = 1,
             )
         }
-        Spacer(Modifier.width(4.dp))
         UnreadBadge(room.mentionCount, isMention = true)
-        Box(
-            Modifier.size(WZ.Space.space8).clip(CircleShape).clickable(onClick = onMarkRead),
-            contentAlignment = Alignment.Center,
-        ) {
-            PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted, contentDescription = tr("common.markRead"))
-        }
+        RoundButton("check", tr("common.markRead"), theme.fill, theme.textMuted, true, onMarkRead)
     }
 }

@@ -4,12 +4,12 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@/app/components/Tooltip';
 import { MicrophoneSlashIcon, VideoCameraIcon } from '@phosphor-icons/react';
-import type { CallMember } from '@wizardchat/core';
 import { useProfile, useRoom } from '@/app/data';
 import type { VoiceParticipant } from '@/app/features/calls/types';
 import { userProfileAtom } from '@/app/store/atoms';
 import { callUiAtom } from '@/app/store/atoms/call';
-import { useCallLiveState, uniqueMembers } from '@/app/features/calls/useCallParticipants';
+import { useCallLiveState } from '@/app/features/calls/useCallParticipants';
+import { useMemberLookup } from '@/app/features/calls/useMemberLookup';
 import { Avatar } from '@/app/components/Avatar';
 import {
   SoundboardMutedBadge,
@@ -18,7 +18,6 @@ import {
 import { UserCallMenu, type UserMenuAnchor } from '@/app/features/calls/stage/UserCallMenu';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useTouchUi } from '@/app/hooks/useUiDensitySync';
-import { formatUserId } from '@/util/matrix';
 import * as css from './VoiceParticipants.css';
 
 function ParticipantRow({
@@ -181,7 +180,7 @@ function CompactParticipants({
         </Tooltip>
       ))}
       {rest > 0 && (
-        <span className={css.compactMore} aria-label={t('voice.moreParticipants', { count: rest })}>
+        <span className={css.compactMore} aria-label={t('call.moreParticipants', { count: rest })}>
           +{rest}
         </span>
       )}
@@ -222,35 +221,38 @@ export function VoiceParticipants({
 }
 
 export function RoomVoiceParticipants({
-  members,
+  userIds,
   roomId,
   compact,
   draggable,
 }: {
-  members: CallMember[];
+  userIds: string[];
   roomId: string;
   compact?: boolean;
   draggable?: boolean;
 }) {
+  const { t } = useTranslation();
   const callUi = useAtomValue(callUiAtom);
   const client = getMatrixClientOrNull();
+  const room = useRoom(roomId);
+  const lookup = useMemberLookup(roomId);
   const liveState = useCallLiveState(roomId);
   const localInCall = callUi.roomId === roomId;
   const ownProfile = useProfile(client?.userId()).data;
+  const ownOtherDevice = !!room?.inCallElsewhere;
 
   const participants = useMemo<VoiceParticipant[]>(() => {
     const myUserId = client?.userId();
 
-    return uniqueMembers(members).map((member) => {
-      const live = liveState.get(member.userId);
-      const isLocal = member.userId === myUserId;
+    return userIds.map((userId) => {
+      const live = liveState.get(userId);
+      const isLocal = userId === myUserId;
+      const member = lookup(userId);
+      const name = (isLocal ? ownProfile?.displayName : null) ?? member.name;
 
       return {
-        userId: member.userId,
-        name:
-          member.displayName ??
-          (isLocal ? ownProfile?.displayName : null) ??
-          formatUserId(member.userId),
+        userId,
+        name: isLocal && ownOtherDevice ? t('call.ownOtherDevice', { name }) : name,
         mxcAvatar: member.avatarUrl ?? (isLocal ? (ownProfile?.avatarUrl ?? null) : null),
         muted: localInCall ? (live ? live.muted : isLocal ? callUi.isMuted : false) : false,
         videoMuted: localInCall
@@ -264,7 +266,18 @@ export function RoomVoiceParticipants({
         speaking: localInCall ? (live?.speaking ?? false) : false,
       };
     });
-  }, [members, client, ownProfile, liveState, localInCall, callUi.isMuted, callUi.isVideoMuted]);
+  }, [
+    userIds,
+    client,
+    lookup,
+    ownProfile,
+    ownOtherDevice,
+    liveState,
+    localInCall,
+    callUi.isMuted,
+    callUi.isVideoMuted,
+    t,
+  ]);
 
   if (participants.length === 0) return null;
 

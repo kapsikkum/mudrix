@@ -10,7 +10,7 @@ struct SlashCommand {
     static let all: [SlashCommand] = [
         .init(name: "me", description: String(localized: "timeline.commands.me.description")),
         .init(name: "notice", description: String(localized: "timeline.commands.notice.description")),
-        .init(name: "spoiler", description: String(localized: "composer.sendASpoilerMessage")),
+        .init(name: "spoiler", description: String(localized: "timeline.commands.spoiler.description")),
         .init(name: "join", description: String(localized: "timeline.commands.join.description")),
         .init(name: "part", description: String(localized: "timeline.commands.part.description")),
         .init(name: "invite", description: String(localized: "timeline.commands.invite.description")),

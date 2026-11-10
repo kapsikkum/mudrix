@@ -334,7 +334,7 @@ private fun WatchPlayer(watch: WatchTogether, state: WatchState, starterName: St
             )
             if (failed) {
                 Text(
-                    tr("voice.videoUnplayable"),
+                    tr("call.watchTogether.videoUnplayable"),
                     Modifier.padding(WZ.Space.space6),
                     style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
                     color = theme.textOnAccent,
@@ -344,7 +344,7 @@ private fun WatchPlayer(watch: WatchTogether, state: WatchState, starterName: St
         }
         Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4), verticalAlignment = Alignment.CenterVertically) {
             IconLabel(
-                tr("voice.startedBy", starterName),
+                tr("call.watchTogether.startedBy", starterName),
                 "youtube-logo",
                 color = theme.textMuted,
                 size = WZ.FontSize.sm,
@@ -355,14 +355,14 @@ private fun WatchPlayer(watch: WatchTogether, state: WatchState, starterName: St
             SmallButton("arrow-square-out", tr("call.watchTogether.openOnYouTube")) {
                 runCatching { uriHandler.openUri(WatchTogether.watchUrl(state.videoId, state.expectedPosition())) }
             }
-            SmallButton("eye-slash", tr("voice.stopWatchingJustYou")) { watch.watchingVideoId = null }
-            SmallButton("x", tr("voice.stopForEveryone"), tint = theme.danger) { confirmStop = true }
+            SmallButton("eye-slash", tr("call.watchTogether.stopJustMe")) { watch.watchingVideoId = null }
+            SmallButton("x", tr("call.watchTogether.stopForEveryone"), tint = theme.danger) { confirmStop = true }
         }
     }
     if (confirmStop) {
         ConfirmDialog(
-            title = tr("voice.stopWatchingTogetherFor"),
-            confirmLabel = tr("voice.stopForEveryone"),
+            title = tr("call.watchTogether.stopConfirm"),
+            confirmLabel = tr("call.watchTogether.stopForEveryone"),
             onConfirm = { watch.stop() },
             onDismiss = { confirmStop = false },
         )
@@ -381,10 +381,10 @@ private fun WatchInvite(watch: WatchTogether, state: WatchState, starterName: St
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalAlignment = Alignment.CenterVertically) {
             PhIcon("youtube-logo", PhWeight.fill, size = WZ.SizeIcon.md, tint = theme.textPrimary)
-            Text(tr("voice.isWatchingAYoutube", starterName), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+            Text(tr("call.watchTogether.isWatching", starterName), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
         }
         if (!watch.consent) {
-            Text(tr("voice.watchingLoadsTheVideo"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+            Text(tr("call.watchTogether.consentNote"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         LabelButton(
             tr("call.watchTogether.watch"),
@@ -454,7 +454,7 @@ internal fun WatchTogetherStartSheet(watch: WatchTogether, onDismiss: () -> Unit
                         invalid = false
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("https://www.youtube.com/watch?v=…", color = theme.textMuted, style = wizardFont(WZ.FontSize.lg)) },
+                    placeholder = { Text("https://www.youtube.com/watch?v=...", color = theme.textMuted, style = wizardFont(WZ.FontSize.lg)) },
                     textStyle = wizardFont(WZ.FontSize.lg).copy(color = theme.textPrimary),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, autoCorrectEnabled = false, imeAction = ImeAction.Go),
@@ -470,7 +470,7 @@ internal fun WatchTogetherStartSheet(watch: WatchTogether, onDismiss: () -> Unit
                 if (canPaste) {
                     RowDivider()
                     GroupedRow(
-                        tr("voice.pasteLink"),
+                        tr("call.watchTogether.pasteLink"),
                         icon = "clipboard-text",
                         iconTint = theme.accent,
                         titleColor = theme.accent,
@@ -484,7 +484,7 @@ internal fun WatchTogetherStartSheet(watch: WatchTogether, onDismiss: () -> Unit
                 }
             }
             Text(
-                if (invalid) tr("voice.notYoutubeLink") else tr("voice.everyoneInTheCall"),
+                if (invalid) tr("call.watchTogether.invalidLink") else tr("call.watchTogether.joinNote"),
                 Modifier.padding(start = WZ.Space.space6 + WZ.Space.space5, end = WZ.Space.space6 + WZ.Space.space5, top = WZ.Space.space3),
                 style = wizardFont(WZ.FontSize.sm),
                 color = if (invalid) theme.error else theme.textMuted,

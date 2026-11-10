@@ -39,9 +39,10 @@ interface RoomHeaderProps {
   client: MatrixClient;
   roomId: string;
   onJumpToEvent?: (eventId: string) => void;
-  onStartCall?: (roomId: string) => void;
+  onStartCall?: (roomId: string, ring: boolean) => void;
   callActive?: boolean;
   othersInCall?: boolean;
+  inCallElsewhere?: boolean;
 }
 
 export function RoomHeader({
@@ -51,6 +52,7 @@ export function RoomHeader({
   onStartCall,
   callActive = false,
   othersInCall = false,
+  inCallElsewhere = false,
 }: RoomHeaderProps) {
   const { t } = useTranslation();
   const toggleMembersPanel = useSetAtom(membersPanelOpenAtom);
@@ -91,15 +93,28 @@ export function RoomHeader({
   const { openContextMenu } = useContextMenu();
   const [, setShowJumpToDate] = useState(false);
   const isVoice = isVoiceRoom(room);
-  const callLive = callActive || othersInCall;
+  const joinsRunningCall = othersInCall || inCallElsewhere;
+  const callLive = callActive || joinsRunningCall;
   const callDisabled = callActive || isVoice || !canJoinCall;
   const callLabel = isVoice
     ? t('room.joinVoice')
     : callActive
-      ? t('voice.callActive')
-      : othersInCall
-        ? t('voice.joinCall')
-        : t('voice.startCall');
+      ? t('call.callActive')
+      : inCallElsewhere
+        ? t('call.joinHere')
+        : othersInCall
+          ? t('call.joinCall')
+          : t('call.startCall');
+  const callTooltip =
+    inCallElsewhere && !callActive && !isVoice ? (
+      <>
+        {t('call.inCallElsewhere')}
+        <br />
+        {callLabel}
+      </>
+    ) : (
+      callLabel
+    );
   const hasLeftHeaderActions =
     (callSupported && onStartCall !== undefined) || onJumpToEvent !== undefined;
 
@@ -204,12 +219,12 @@ export function RoomHeader({
 
         {/* Call button - available in DM and group rooms */}
         {callSupported && onStartCall && (
-          <Tooltip content={callLabel}>
+          <Tooltip content={callTooltip}>
             <button
               type="button"
               className={callLive ? css.headerBtnActive : css.headerBtn}
               aria-label={callLabel}
-              onClick={() => onStartCall(roomId)}
+              onClick={() => onStartCall(roomId, !joinsRunningCall)}
               disabled={callDisabled}
             >
               <PhoneIcon size={16} weight={callLive ? 'fill' : 'regular'} />

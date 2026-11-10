@@ -12,6 +12,8 @@ interface Props {
   name: string;
   mxc: string | null;
   speaking: boolean;
+  /** False while they are still joining: the picture is dimmed */
+  connected?: boolean;
 }
 
 /**
@@ -19,7 +21,7 @@ interface Props {
  * while they speak. Animated pictures and decorations stand on their first frame and only play
  * while that person speaks.
  */
-export function TileAvatar({ client, userId, name, mxc, speaking }: Props) {
+export function TileAvatar({ client, userId, name, mxc, speaking, connected = true }: Props) {
   const { src: avatarSrc } = useMediaBlobUrl(client, mxc, {
     width: 256,
     height: 256,
@@ -36,7 +38,7 @@ export function TileAvatar({ client, userId, name, mxc, speaking }: Props) {
 
   return (
     <div className={css.avatarLayer} aria-hidden="true">
-      <div className={css.avatarWrap}>
+      <div className={connected ? css.avatarWrap : `${css.avatarWrap} ${css.connecting}`}>
         <div className={speaking ? css.avatarCircleSpeaking : css.avatarCircle}>
           {avatar ? (
             <img className={css.avatarImg} src={avatar} alt="" draggable={false} />

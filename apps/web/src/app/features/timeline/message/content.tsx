@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { watchRoomPills } from '../roomPills';
 import { useTranslation } from 'react-i18next';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useStore } from 'jotai';
 import type {
   MediaInfo,
   RoomTimeline,
@@ -329,6 +330,12 @@ function RichHtml({
     }
   }, [html, client, revealedSpoilers]);
 
+  const store = useStore();
+  useEffect(() => {
+    const root = wrapRef.current;
+    return root ? watchRoomPills(root, store) : undefined;
+  }, [html, revealedSpoilers, store]);
+
   return (
     <span ref={wrapRef} className={className} onClick={onClick} onKeyDown={onKeyDown}>
       {segments.map((seg, i) => {
@@ -492,6 +499,7 @@ interface MessageContentProps {
   mediaCover?: MediaCover | null;
   onRevealMedia?: () => void;
   videoLoad?: ManualVideoLoad | null;
+  hideCaption?: boolean;
 }
 
 /** "Preview" button for PDF and text attachments, with its modal. */
@@ -556,6 +564,7 @@ export function MessageContent({
   mediaCover = null,
   onRevealMedia,
   videoLoad = null,
+  hideCaption = false,
 }: MessageContentProps) {
   const { t } = useTranslation();
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
@@ -609,6 +618,7 @@ export function MessageContent({
 
   const renderCaptionHtml = useCallback(
     (media: MediaInfo): string | undefined => {
+      if (hideCaption) return undefined;
       const caption = getMediaCaption(media);
       if (caption === undefined) return undefined;
       const captionContent: Record<string, unknown> = media.captionHtml
@@ -616,7 +626,7 @@ export function MessageContent({
         : { body: caption };
       return renderRichTextHtml(captionContent, imagePacks, myId, prettifyLinks);
     },
-    [myId, prettifyLinks, imagePacks]
+    [myId, prettifyLinks, imagePacks, hideCaption]
   );
 
   if (isRedacted) {
@@ -941,12 +951,12 @@ export function MessageContent({
           {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
         </span>
         <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
-        <Tooltip content={t('mediaLightbox.download')}>
+        <Tooltip content={t('common.download')}>
           <a
             href={src}
             download={filename}
             className={css.fileDownload}
-            aria-label={t('mediaLightbox.download')}
+            aria-label={t('common.download')}
           >
             <DownloadSimpleIcon size={16} />
           </a>

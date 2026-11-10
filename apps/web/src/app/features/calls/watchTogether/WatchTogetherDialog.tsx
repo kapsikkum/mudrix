@@ -61,7 +61,7 @@ export function WatchTogetherDialog() {
       <div className={css.dialogBody}>
         <Input
           label={t('call.watchTogether.linkLabel')}
-          placeholder="https://www.youtube.com/watch?v=…"
+          placeholder="https://www.youtube.com/watch?v=..."
           value={link}
           onChange={(e) => {
             setLink(e.target.value);
