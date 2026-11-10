@@ -560,6 +560,14 @@
         "choose": "Escolha um espaço…",
         "none": "Esta sala não está em nenhum espaço.",
         "title": "Espaços"
+      },
+      "cosmetics": {
+        "title": "Cosméticos",
+        "description": "Pacotes de decorações de avatar, efeitos de perfil, placas de nome e molduras de perfil. Os membros podem se inscrever nas próprias configurações.",
+        "noPacks": "Ainda não há pacotes de cosméticos.",
+        "items": "Itens: {{count}}",
+        "preview": "Pré-visualizar",
+        "previewEmpty": "Este pacote está vazio."
       }
     },
     "space": {

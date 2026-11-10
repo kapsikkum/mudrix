@@ -560,6 +560,14 @@
         "choose": "Space auswählen …",
         "none": "Dieser Raum gehört zu keinem Space.",
         "title": "Spaces"
+      },
+      "cosmetics": {
+        "title": "Kosmetik",
+        "description": "Pakete mit Avatar-Dekorationen, Profileffekten, Namensschildern und Profilrahmen. Mitglieder können sie in ihren eigenen Einstellungen abonnieren.",
+        "noPacks": "Noch keine Kosmetik-Pakete.",
+        "items": "Elemente: {{count}}",
+        "preview": "Vorschau",
+        "previewEmpty": "Dieses Paket ist leer."
       }
     },
     "space": {

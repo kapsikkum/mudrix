@@ -1098,8 +1098,8 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
             </div>
           )}
           {!isLoading && (
-            <>
-              {rootSection && (
+            <div className={css.sectionList}>
+              {rootSection && !(rootSection.rooms.length === 0 && subspaceSections.length > 0) && (
                 <SpaceSectionView
                   key={rootSection.categoryKey}
                   section={rootSection}
@@ -1140,7 +1140,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
                   onSubSpacesFound={handleSubSpacesFound}
                 />
               ))}
-            </>
+            </div>
           )}
         </div>
       </div>

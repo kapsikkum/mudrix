@@ -7,6 +7,7 @@ import {
   UsersIcon,
   ShieldIcon,
   SmileyStickerIcon,
+  SparkleIcon,
   ClockCounterClockwiseIcon,
   XIcon,
   type Icon as PhosphorIcon,
@@ -25,7 +26,7 @@ import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Setting
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'audit';
+type Tab = 'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'cosmetics' | 'audit';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
@@ -44,6 +45,11 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     tab: 'emojis',
     labelKey: 'room.settings.emojis.title',
     Icon: SmileyStickerIcon,
+  },
+  {
+    tab: 'cosmetics',
+    labelKey: 'room.settings.cosmetics.title',
+    Icon: SparkleIcon,
   },
   {
     tab: 'audit',
@@ -104,6 +110,7 @@ export function RoomSettings() {
       {shownTab === 'permissions' && room && <RoomPermissionsMatrix roomId={roomId!} />}
       {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
       {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+      {shownTab === 'cosmetics' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
       {shownTab === 'audit' && <AuditLogPanel roomId={roomId!} />}
     </>
   );

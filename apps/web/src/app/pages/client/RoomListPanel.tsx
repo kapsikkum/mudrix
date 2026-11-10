@@ -1890,6 +1890,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
   return (
     <div className={css.roomListPanel}>
+      {isSpaceView && spaceBanner && (
+        <SpaceBannerView client={client} banner={spaceBanner} className={bannerCss.headerBanner} />
+      )}
       <header className={css.roomHeader}>
         <Tooltip content={headerLabel}>
           <h2 className={css.roomHeaderTitle}>
@@ -1930,10 +1933,6 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           )}
         </div>
       </header>
-
-      {isSpaceView && spaceBanner && (
-        <SpaceBannerView client={client} banner={spaceBanner} className={bannerCss.headerBanner} />
-      )}
 
       {!isDmView && !isSpaceView && (
         <button

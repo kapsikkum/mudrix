@@ -560,6 +560,14 @@
         "choose": "Choose a space…",
         "none": "This room is not in any space.",
         "title": "Spaces"
+      },
+      "cosmetics": {
+        "title": "Cosmetics",
+        "description": "Packs of avatar decorations, profile effects, nameplates and profile frames. Members can subscribe to them in their own settings.",
+        "noPacks": "No cosmetic packs yet.",
+        "items": "Items: {{count}}",
+        "preview": "Preview",
+        "previewEmpty": "This pack has no items."
       }
     },
     "space": {

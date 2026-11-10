@@ -560,6 +560,14 @@
         "choose": "Kies een space…",
         "none": "Deze kamer zit in geen enkele space.",
         "title": "Spaces"
+      },
+      "cosmetics": {
+        "title": "Cosmetica",
+        "description": "Packs met avatardecoraties, profieleffecten, naamplaatjes en profielframes. Leden kunnen zich erop abonneren in hun eigen instellingen.",
+        "noPacks": "Nog geen cosmeticapacks.",
+        "items": "Items: {{count}}",
+        "preview": "Voorbeeld",
+        "previewEmpty": "Deze pack is leeg."
       }
     },
     "space": {
