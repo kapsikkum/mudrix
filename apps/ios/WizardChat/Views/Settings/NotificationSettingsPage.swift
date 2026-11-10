@@ -21,7 +21,7 @@ struct NotificationSettingsPage: View {
                 ToggleRow(label: "settings.notifications.soundsWhenFocused", note: "settings.notifications.soundsWhenFocusedNote",
                           isOn: $prefs.notificationSoundsWhenFocused)
                 SettingsDivider()
-                NavigationLink(value: SettingsView.Page.voice) {
+                NavigationLink(value: SettingsView.Page.voiceVideo) {
                     Text(String(localized: "settings.notifications.chooseSounds"))
                 }
                 SettingsDivider()
