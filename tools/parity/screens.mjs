@@ -22,6 +22,49 @@ async function waitPageReady(page) {
   }
 }
 
+/** Waits until the app is in the room (URL) and shows its name, not the raw room ID. */
+async function waitRoomLoaded(page, roomId, name) {
+  await page
+    .waitForURL((u) => decodeURIComponent(u.pathname).includes(roomId), { timeout: 15000 })
+    .catch(() => {});
+  await page
+    .waitForFunction(
+      (roomName) => {
+        const text = document.body.innerText;
+        const rawId = /![A-Za-z0-9]{10,}:[\w.-]+/.test(text);
+        return !rawId && (!roomName || text.includes(roomName));
+      },
+      name,
+      { timeout: 20000 }
+    )
+    .catch(() => {});
+}
+
+/** Opens `path` (a /r/ or /space/ route) and retries once if the app did not end up on it. */
+async function gotoRoute(page, port, path, roomId, name) {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    await page.goto(`http://localhost:${port}${path}`);
+    await waitPageReady(page);
+    await closeDialog(page);
+    await waitRoomLoaded(page, roomId, name);
+    if (decodeURIComponent(new URL(page.url()).pathname).includes(roomId)) return;
+  }
+}
+
+const gotoRoom = (page, port, roomId, name) =>
+  gotoRoute(page, port, `/r/${encodeURIComponent(roomId)}`, roomId, name);
+
+const gotoSpace = (page, port, spaceId, name) =>
+  gotoRoute(page, port, `/space/${encodeURIComponent(spaceId)}`, spaceId, name);
+
+async function waitTimelineLoaded(page) {
+  await page
+    .locator('[class*="msgSender"]')
+    .first()
+    .waitFor({ state: 'visible', timeout: 15000 })
+    .catch(() => {});
+}
+
 async function closeDialog(page) {
   try {
     const gotIt = page.locator('button:has-text("Got it")').first();
@@ -99,10 +142,8 @@ async function openSettingsTab(page, port, tabName, width) {
   }
 }
 
-async function openRoomSettingsTab(page, port, roomId, tabName) {
-  await page.goto(`http://localhost:${port}/r/${encodeURIComponent(roomId)}`);
-  await waitPageReady(page);
-  await closeDialog(page);
+async function openRoomSettingsTab(page, port, roomId, tabName, name) {
+  await gotoRoom(page, port, roomId, name);
   const lockBtn = page.locator('button[aria-label*="encrypted" i]').first();
   await lockBtn.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
   if (await lockBtn.isVisible().catch(() => false)) {
@@ -124,10 +165,8 @@ async function openRoomSettingsTab(page, port, roomId, tabName) {
   }
 }
 
-async function openSpaceSettingsTab(page, port, spaceId, tabName) {
-  await page.goto(`http://localhost:${port}/space/${encodeURIComponent(spaceId)}`);
-  await waitPageReady(page);
-  await closeDialog(page);
+async function openSpaceSettingsTab(page, port, spaceId, tabName, name) {
+  await gotoSpace(page, port, spaceId, name);
   const spaceHeader = page.locator('button:has-text("Mud Club")').first();
   if (await spaceHeader.isVisible().catch(() => false)) {
     await spaceHeader.click(CLICK_OPTS).catch(() => {});
@@ -136,6 +175,7 @@ async function openSpaceSettingsTab(page, port, spaceId, tabName) {
   const spaceSettingsBtn = page
     .locator('button:has-text("Settings"), [role="menuitem"]:has-text("Settings")')
     .first();
+  await spaceSettingsBtn.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
   if (await spaceSettingsBtn.isVisible().catch(() => false)) {
     await spaceSettingsBtn.click(CLICK_OPTS).catch(() => {});
     await page
@@ -156,6 +196,14 @@ async function openSpaceSettingsTab(page, port, spaceId, tabName) {
     if (await tab.isVisible().catch(() => false)) {
       await tab.click(CLICK_OPTS).catch(() => {});
       await page.waitForTimeout(500);
+      if (tabName === 'Roles') {
+        // Member counts fill in after the member list has loaded
+        await page
+          .getByText(/[1-9]\d* members?/)
+          .first()
+          .waitFor({ state: 'visible', timeout: 8000 })
+          .catch(() => {});
+      }
     }
   }
 }
@@ -226,9 +274,8 @@ export const SCREENS = [
     id: 'room-list-modern',
     title: 'Room List: Modern space layout (Mud Club)',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await page.goto(`http://localhost:${port}/space/${encodeURIComponent(seed.rooms.space)}`);
-      await waitPageReady(page);
+    navigate: async (page, { seed, port, names }) => {
+      await gotoSpace(page, port, seed.rooms.space, names?.space);
     },
     cleanup: closeDialog,
   },
@@ -238,15 +285,9 @@ export const SCREENS = [
     id: 'timeline',
     title: 'Timeline: Room general messages',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
-      await waitPageReady(page);
-      await closeDialog(page);
-      await page
-        .locator('[class*="msgSender"]')
-        .first()
-        .waitFor({ state: 'visible', timeout: 15000 })
-        .catch(() => {});
+    navigate: async (page, { seed, port, names }) => {
+      await gotoRoom(page, port, seed.rooms.general, names?.general);
+      await waitTimelineLoaded(page);
       await page.waitForTimeout(600);
     },
     cleanup: closeDialog,
@@ -255,16 +296,11 @@ export const SCREENS = [
     id: 'composer',
     title: 'Composer: Input & formatting bar',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
-      await waitPageReady(page);
-      await closeDialog(page);
-      await page
-        .locator('[class*="msgSender"]')
-        .first()
-        .waitFor({ state: 'visible', timeout: 15000 })
-        .catch(() => {});
+    navigate: async (page, { seed, port, names }) => {
+      await gotoRoom(page, port, seed.rooms.general, names?.general);
+      await waitTimelineLoaded(page);
       const composer = page.locator('textarea, [contenteditable="true"]').last();
+      await composer.waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
       if (await composer.isVisible().catch(() => false)) {
         await composer.focus().catch(() => {});
         await page.waitForTimeout(300);
@@ -276,15 +312,9 @@ export const SCREENS = [
     id: 'profile-popup',
     title: 'Profile: User popup card',
     requiresAuth: true,
-    navigate: async (page, { seed, port, width }) => {
-      await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.general)}`);
-      await waitPageReady(page);
-      await closeDialog(page);
-      await page
-        .locator('[class*="msgSender"]')
-        .first()
-        .waitFor({ state: 'visible', timeout: 15000 })
-        .catch(() => {});
+    navigate: async (page, { seed, port, width, names }) => {
+      await gotoRoom(page, port, seed.rooms.general, names?.general);
+      await waitTimelineLoaded(page);
       if (width && width > 500) {
         const juno = page.locator('aside').getByText('Juno', { exact: true }).first();
         await juno.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
@@ -487,8 +517,8 @@ export const SCREENS = [
     id: 'room-settings-general',
     title: 'Room Settings: General',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openRoomSettingsTab(page, port, seed.rooms.general);
+    navigate: async (page, { seed, port, names }) => {
+      await openRoomSettingsTab(page, port, seed.rooms.general, undefined, names?.general);
     },
     cleanup: closeDialog,
   },
@@ -496,8 +526,8 @@ export const SCREENS = [
     id: 'room-settings-roles',
     title: 'Room Settings: Roles',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openRoomSettingsTab(page, port, seed.rooms.general, 'Roles');
+    navigate: async (page, { seed, port, names }) => {
+      await openRoomSettingsTab(page, port, seed.rooms.general, 'Roles', names?.general);
     },
     cleanup: closeDialog,
   },
@@ -505,8 +535,8 @@ export const SCREENS = [
     id: 'room-settings-audit-log',
     title: 'Room Settings: Audit Log',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openRoomSettingsTab(page, port, seed.rooms.general, 'Audit Log');
+    navigate: async (page, { seed, port, names }) => {
+      await openRoomSettingsTab(page, port, seed.rooms.general, 'Audit Log', names?.general);
     },
     cleanup: closeDialog,
   },
@@ -516,8 +546,8 @@ export const SCREENS = [
     id: 'space-settings-channels',
     title: 'Space Settings: Channels & Categories',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Channels');
+    navigate: async (page, { seed, port, names }) => {
+      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Channels', names?.space);
     },
     cleanup: closeDialog,
   },
@@ -525,8 +555,8 @@ export const SCREENS = [
     id: 'space-settings-roles',
     title: 'Space Settings: Roles',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Roles');
+    navigate: async (page, { seed, port, names }) => {
+      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Roles', names?.space);
     },
     cleanup: closeDialog,
   },
@@ -534,8 +564,8 @@ export const SCREENS = [
     id: 'space-settings-audit-log',
     title: 'Space Settings: Audit Log',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Audit Log');
+    navigate: async (page, { seed, port, names }) => {
+      await openSpaceSettingsTab(page, port, seed.rooms.space, 'Audit Log', names?.space);
     },
     cleanup: closeDialog,
   },
@@ -545,9 +575,9 @@ export const SCREENS = [
     id: 'call-stage',
     title: 'Call: Voice room Hangout stage',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.voice)}`);
-      await waitPageReady(page);
+    notMeaningful: 'no call connects on the test server',
+    navigate: async (page, { seed, port, names }) => {
+      await gotoRoom(page, port, seed.rooms.voice, names?.voice);
     },
     cleanup: closeDialog,
   },
@@ -555,9 +585,9 @@ export const SCREENS = [
     id: 'call-soundboard',
     title: 'Call: Soundboard modal/popover',
     requiresAuth: true,
-    navigate: async (page, { seed, port }) => {
-      await page.goto(`http://localhost:${port}/r/${encodeURIComponent(seed.rooms.voice)}`);
-      await waitPageReady(page);
+    notMeaningful: 'no call connects on the test server',
+    navigate: async (page, { seed, port, names }) => {
+      await gotoRoom(page, port, seed.rooms.voice, names?.voice);
       const soundboardBtn = page
         .locator('button[aria-label*="Soundboard"], button:has-text("Soundboard")')
         .first();
