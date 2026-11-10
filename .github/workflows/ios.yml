@@ -52,7 +52,7 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: '0'
-  XCODE_VERSION: ${{ inputs.xcode-version || '16.4' }}
+  XCODE_VERSION: ${{ inputs.xcode-version || '26' }}
   RUN_TESTS: ${{ github.event_name == 'workflow_dispatch' && !inputs.run-tests && 'false' || 'true' }}
 
 defaults:
@@ -63,8 +63,8 @@ defaults:
 jobs:
   build:
     name: Simulator build + tests (unsigned)
-    # macos-15 = Apple silicon, Xcode 16.x (iOS 18 SDK). Pinned instead of macos-latest so the image doesn't change under us.
-    runs-on: macos-15
+    # macos-26 = Apple silicon, Xcode 26 (needed for the Icon Composer .icon app icons). Pinned instead of macos-latest so the image doesn't change under us.
+    runs-on: macos-26
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4

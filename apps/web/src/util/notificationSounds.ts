@@ -1,4 +1,4 @@
-import { isVoiceSoundEnabled } from '@/app/features/voice/voiceSounds';
+import { isVoiceSoundEnabled } from '../app/features/voice/voiceSounds';
 /**
  * Sound packs: a set of sounds for messages, calls and voice rooms. The files live in
  * `packages/sounds/raw` (flat, shared with the native apps) and are served at /assets/sounds/.
