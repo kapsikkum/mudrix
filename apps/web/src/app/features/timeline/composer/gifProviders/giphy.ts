@@ -8,10 +8,8 @@ import {
 
 const GIPHY_API = 'https://api.giphy.com/v1/gifs';
 
-/** The key this app ships with; a build can bring its own with VITE_GIPHY_API_KEY. */
-const DEFAULT_GIPHY_API_KEY = 'TGnndTV82UWqYITMnla1ZOiPBJBesE7x';
-export const GIPHY_API_KEY =
-  (import.meta.env.VITE_GIPHY_API_KEY ?? '').trim() || DEFAULT_GIPHY_API_KEY;
+/** API key embedded at build time (VITE_GIPHY_API_KEY). Empty means GIPHY is not configured. */
+export const GIPHY_API_KEY = (import.meta.env.VITE_GIPHY_API_KEY ?? '').trim();
 const LIMIT = 30;
 
 interface GiphyImage {

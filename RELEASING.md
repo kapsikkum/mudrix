@@ -103,7 +103,8 @@ No secret values belong in this repository or in this file.
   prefix come from `apps/ios/Config/Signing.xcconfig` (still the upstream team id, see
   [docs/BRANDING.md](docs/BRANDING.md)); use `Local.xcconfig` for your own Apple account.
 - Optional build-time keys for the GIF pickers (`VITE_GIPHY_API_KEY`, `VITE_KLIPY_API_KEY`) end up in the web bundle,
-  so they are visible to anyone who loads the app.
+  so they are visible to anyone who loads the app. The names every platform uses, and the repository secrets CI maps to
+  them, are in [docs/SECRETS.md](docs/SECRETS.md).
 
 ## Hosted web client (not set up)
 
