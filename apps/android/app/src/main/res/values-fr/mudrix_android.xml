@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Impossible de signaler le salon : %1$s</string>
     <string name="mobile_reportRoom_sent">Salon signalé</string>
     <string name="mobile_reportRoom_title">Signaler ce salon ?</string>
+    <string name="mobile_systemAccentNote">Reprend la couleur d\'accent de votre fond d\'écran (Material You).</string>
 </resources>

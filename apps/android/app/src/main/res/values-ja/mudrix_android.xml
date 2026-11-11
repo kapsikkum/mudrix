@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">ルームを報告できませんでした: %1$s</string>
     <string name="mobile_reportRoom_sent">ルームを報告しました</string>
     <string name="mobile_reportRoom_title">このルームを報告しますか？</string>
+    <string name="mobile_systemAccentNote">壁紙からアクセントカラーを取得します（Material You）。</string>
 </resources>

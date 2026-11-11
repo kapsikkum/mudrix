@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Nie udało się zgłosić pokoju: %1$s</string>
     <string name="mobile_reportRoom_sent">Pokój zgłoszony</string>
     <string name="mobile_reportRoom_title">Zgłosić ten pokój?</string>
+    <string name="mobile_systemAccentNote">Pobiera kolor wyróżnienia z tapety (Material You).</string>
 </resources>

@@ -197,6 +197,15 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 { prefs.groupImages = it },
                 note = tr("settings.appearance.groupImagesNote"),
             )
+            if (android.os.Build.VERSION.SDK_INT >= 31) {
+                SettingsDivider()
+                ToggleRow(
+                    tr("settings.appearance.systemAccent"),
+                    prefs.useSystemAccent,
+                    { prefs.useSystemAccent = it },
+                    note = tr("mobile.systemAccentNote"),
+                )
+            }
             SettingsDivider()
             ToggleRow(
                 tr("settings.appearance.hideMembershipEvents"),

@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Не удалось отправить жалобу: %1$s</string>
     <string name="mobile_reportRoom_sent">Жалоба отправлена</string>
     <string name="mobile_reportRoom_title">Пожаловаться на эту комнату?</string>
+    <string name="mobile_systemAccentNote">Берёт акцентный цвет из обоев (Material You).</string>
 </resources>

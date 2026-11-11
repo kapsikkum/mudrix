@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Impossibile segnalare la stanza: %1$s</string>
     <string name="mobile_reportRoom_sent">Stanza segnalata</string>
     <string name="mobile_reportRoom_title">Segnalare questa stanza?</string>
+    <string name="mobile_systemAccentNote">Prende il colore d\'accento dallo sfondo (Material You).</string>
 </resources>

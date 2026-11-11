@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Falha ao denunciar a sala: %1$s</string>
     <string name="mobile_reportRoom_sent">Sala denunciada</string>
     <string name="mobile_reportRoom_title">Denunciar esta sala?</string>
+    <string name="mobile_systemAccentNote">Usa a cor de destaque do seu papel de parede (Material You).</string>
 </resources>

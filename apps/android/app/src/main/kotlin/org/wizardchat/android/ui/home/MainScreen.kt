@@ -291,6 +291,7 @@ fun MainScreen(roomList: RoomListModel) {
                 CopyToastView(Modifier.padding(top = WZ.Space.space2))
                 IncomingCallBanner(Modifier.padding(top = WZ.Space.space2))
                 CallErrorBanner(Modifier.padding(top = WZ.Space.space2))
+                org.wizardchat.android.ui.voice.AloneNotice(Modifier.padding(top = WZ.Space.space2), show = !calls.showCallScreen)
             }
         }
 

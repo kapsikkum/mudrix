@@ -250,6 +250,8 @@ class AppPreferences(context: Context) {
     ) { putBoolean("keepAlive", it) }
     /** Shares the song playing on the phone as the profile's "listening to" (needs Notification access) */
     var shareListening by pref(defaults.getBoolean("shareListening", false)) { putBoolean("shareListening", it) }
+    /** The accent colour comes from the wallpaper (Material You, Android 12+) instead of the theme */
+    var useSystemAccent by pref(defaults.getBoolean("useSystemAccent", false), boolCodec("useSystemAccent")) { putBoolean("useSystemAccent", it) }
     var presenceChoice by pref(enumPref("presenceChoice", PresenceChoice.auto)) { putString("presenceChoice", it.name) }
     var hideMembershipEvents by pref(defaults.getBoolean("hideMembershipEvents", false), boolCodec("hideMembershipEvents")) {
         putBoolean("hideMembershipEvents", it)

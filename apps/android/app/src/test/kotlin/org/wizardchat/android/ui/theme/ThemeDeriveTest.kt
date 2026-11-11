@@ -48,6 +48,16 @@ class ThemeDeriveTest {
     }
 
     @Test
+    fun anotherAccentRederivesWhatFollowsTheAccent() {
+        val base = ThemeDerive.build(dark)
+        val c = ThemeDerive.withAccent(base, "#ff0000", light = false)
+        assertEquals(web("#ff0000"), hex(c.accentDefault))
+        assertEquals(web("#d10000"), hex(c.accentHover))
+        assertEquals(web("#ff000026"), hex(c.accentSoft))
+        assertEquals(hex(base.bgApp), hex(c.bgApp))
+    }
+
+    @Test
     fun lightSpecMatchesTheWeb() {
         val c = ThemeDerive.build(light)
         assertTrue(ThemeDerive.isLightColor(light.bgPrimary))

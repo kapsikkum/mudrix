@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Oda bildirilemedi: %1$s</string>
     <string name="mobile_reportRoom_sent">Oda bildirildi</string>
     <string name="mobile_reportRoom_title">Bu oda bildirilsin mi?</string>
+    <string name="mobile_systemAccentNote">Vurgu rengini duvar kâğıdından alır (Material You).</string>
 </resources>

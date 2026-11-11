@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Kamer melden mislukt: %1$s</string>
     <string name="mobile_reportRoom_sent">Kamer gemeld</string>
     <string name="mobile_reportRoom_title">Deze kamer melden?</string>
+    <string name="mobile_systemAccentNote">Neemt de accentkleur over van je achtergrond (Material You).</string>
 </resources>

@@ -192,5 +192,17 @@ fun hueColor(name: String): Color {
 fun rememberAppTheme(prefs: AppPreferences): WizardTheme {
     val name = prefs.effectiveThemeName(isSystemInDarkTheme())
     val customs = prefs.customThemes
-    return remember(name, customs) { Themes.resolve(name, customs) }
+    val base = remember(name, customs) { Themes.resolve(name, customs) }
+    // Material You (Android 12+): the accent follows the wallpaper
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val dark = base.isDark
+    val systemAccent = if (prefs.useSystemAccent && android.os.Build.VERSION.SDK_INT >= 31) {
+        val scheme = if (dark) androidx.compose.material3.dynamicDarkColorScheme(context) else androidx.compose.material3.dynamicLightColorScheme(context)
+        ThemeDerive.hexOf(scheme.primary)
+    } else {
+        null
+    }
+    return remember(base, systemAccent) {
+        if (systemAccent == null) base else WizardTheme(ThemeDerive.withAccent(base.colors, systemAccent, light = !dark), dark)
+    }
 }

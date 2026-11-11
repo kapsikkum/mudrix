@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Failed to report room: %1$s</string>
     <string name="mobile_reportRoom_sent">Room reported</string>
     <string name="mobile_reportRoom_title">Report this room?</string>
+    <string name="mobile_systemAccentNote">Takes the accent colour from your wallpaper (Material You).</string>
 </resources>

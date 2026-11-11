@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">Raum konnte nicht gemeldet werden: %1$s</string>
     <string name="mobile_reportRoom_sent">Raum gemeldet</string>
     <string name="mobile_reportRoom_title">Diesen Raum melden?</string>
+    <string name="mobile_systemAccentNote">Übernimmt die Akzentfarbe von deinem Hintergrundbild (Material You).</string>
 </resources>

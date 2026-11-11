@@ -25,4 +25,5 @@
     <string name="mobile_reportRoom_failed">No se pudo denunciar la sala: %1$s</string>
     <string name="mobile_reportRoom_sent">Sala denunciada</string>
     <string name="mobile_reportRoom_title">¿Denunciar esta sala?</string>
+    <string name="mobile_systemAccentNote">Toma el color de énfasis de tu fondo de pantalla (Material You).</string>
 </resources>
