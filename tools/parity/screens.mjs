@@ -315,6 +315,7 @@ export const SCREENS = [
     requiresAuth: true,
     navigate: async (page, { seed, port, names }) => {
       await gotoSpace(page, port, seed.rooms.space, names?.space);
+      await page.waitForTimeout(8000);
     },
     cleanup: closeDialog,
   },
@@ -458,6 +459,30 @@ export const SCREENS = [
     requiresAuth: true,
     navigate: async (page, { port, width }) => {
       await openSettingsTab(page, port, 'Voice', width);
+    },
+    cleanup: closeDialog,
+  },
+  {
+    id: 'new-voice-video',
+    title: 'Settings: Voice & Video (new app only)',
+    requiresAuth: true,
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'Voice & Video', width);
+    },
+    cleanup: closeDialog,
+  },
+  {
+    id: 'new-get-apps',
+    title: 'Get the apps dialog (new app only)',
+    requiresAuth: true,
+    navigate: async (page, { port, width }) => {
+      await openSettingsTab(page, port, 'About', width);
+      await page
+        .getByRole('button', { name: /Get the apps/i })
+        .first()
+        .click(CLICK_OPTS)
+        .catch(() => {});
+      await page.waitForTimeout(500);
     },
     cleanup: closeDialog,
   },

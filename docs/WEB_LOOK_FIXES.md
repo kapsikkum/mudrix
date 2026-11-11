@@ -153,3 +153,58 @@ Looks that depend on logic the new app does not have. The visual shell is in pla
 - Server software name and version in the server picker status line ("Tuwunel 1.9.4 detected"): the new `discoverAuthCapabilities` result has no software field, so the line reads "Matrix homeserver detected".
 - Register form: a taken / invalid username is shown under the form (not under the username field as in the old app), because the error handling in `RegisterForm` keeps the new single status line.
 - Login: "That account is on another server, switch" (`welcome.idOtherServer`, `welcome.idSwitch`) and signing in to the other server from the id are not wired up.
+
+## 8. Summary after the look pass (new app only re-captured; old captures unchanged except where noted)
+
+Diff % per width, worst first. The old-app captures are from the first run; the harness now seeds the new app's What's New version so the dialog does not cover the home page. Remaining differences are mostly content (D1-D8 and the Needs behaviour list), the unread / space-order data on the home page behind every modal, and the extra upstream settings entries (search field, Voice & Video, Encryption, Switch accounts).
+
+| Screen                    | 1440 |  820 |  390 |
+| :------------------------ | ---: | ---: | ---: |
+| space-settings-audit-log  | 2.58 | 3.25 | 6.13 |
+| home                      | 2.66 | 0.78 | 4.92 |
+| room-list-classic         | 2.66 | 0.78 | 4.92 |
+| explore                   | 0.33 | 0.39 | 4.92 |
+| settings-activity         | 1.59 | 2.01 | 3.15 |
+| call-soundboard           | 3.02 | 0.72 | 0.00 |
+| space-settings-channels   | 2.06 | 2.40 | 2.45 |
+| settings-about            | 2.37 | 1.63 | 1.53 |
+| search                    | 1.16 | 0.40 | 2.10 |
+| settings-account          | 1.59 | 2.01 | 1.39 |
+| room-settings-audit-log   | 1.38 | 1.71 | 1.17 |
+| room-settings-general     | 1.38 | 1.70 | 1.17 |
+| settings-appearance       | 1.34 | 1.58 | 0.49 |
+| auth-server               | 0.61 | 0.82 | 1.56 |
+| settings-keybinds         | 1.23 | 1.53 | 0.02 |
+| settings-notifications    | 1.21 | 1.51 | 0.00 |
+| settings-media            | 1.18 | 1.47 | 0.00 |
+| settings-integrations     | 1.18 | 1.46 | 0.00 |
+| settings-privacy          | 1.18 | 1.46 | 0.00 |
+| settings-voice            | 1.13 | 1.40 | 0.00 |
+| settings-developer        | 1.10 | 1.36 | 0.00 |
+| inbox                     | 1.27 | 0.14 | 0.01 |
+| room-settings-roles       | 0.85 | 1.00 | 1.17 |
+| space-settings-roles      | 0.98 | 1.08 | 0.01 |
+| timeline-density-spacious | 0.17 | 0.39 | 1.03 |
+| auth-login                | 0.49 | 0.66 | 1.01 |
+| room-list-modern          | 0.88 | 0.99 | 0.95 |
+| auth-welcome              | 0.41 | 0.55 | 0.84 |
+| profile-popup             | 0.73 | 0.81 | 0.08 |
+| call-stage                | 0.53 | 0.73 | 0.00 |
+| timeline-modern           | 0.43 | 0.66 | 0.37 |
+| profile-cosmetics         | 0.48 | 0.58 | 0.00 |
+| timeline-compact          | 0.14 | 0.38 | 0.56 |
+| timeline-font-large       | 0.31 | 0.42 | 0.49 |
+| timeline-bubble           | 0.44 | 0.34 | 0.40 |
+| composer                  | 0.21 | 0.43 | 0.17 |
+| timeline-density-compact  | 0.23 | 0.22 | 0.31 |
+
+Notes on what is left over 2%:
+
+- `space-settings-audit-log` 390 and `space-settings-channels`: the old capture shows the General page (the old rail has no Audit log tab); the new capture is the Audit log page. Different screens, not a look issue.
+- `home` / `room-list-classic` / `explore` / `search` (390): jump-back-in rooms, unread pills and the verify card differ (D1, D2); `explore` at 390 is a fallback shot of home.
+- `room-list-modern`: the space overview shows the same children, but with new-app Join / + buttons per section and a different left list order (see the Join-button finding below).
+- `settings-about`: new nav entries and the account switcher shift the nav column; the page itself matches.
+- `settings-activity`: not reachable on phones in the old app (fallback shot).
+- `call-soundboard` / `call-stage`: not meaningful.
+- Not done: L11 (home list row structure at 390) beyond what the other items changed; L10's header unread dot / red shield (data driven); the harness cannot reach the room state explorer, so it was not restyled.
+- New upstream UI (item 10): the settings search field, Voice & Video tab and Get-the-apps dialog already use the shared Settings / Dialog / Button primitives and tokens (checked on `new-voice-video` and `new-get-apps`, harness-only screens without an old counterpart); the Get-the-apps buttons now use `onAccent` instead of a hard-coded white. No further restyling was needed.

@@ -65,7 +65,7 @@ export const badge = style({
   padding: '2px 8px',
   borderRadius: '999px',
   backgroundColor: vars.color.accent,
-  color: '#fff',
+  color: vars.color.onAccent,
   fontSize: '0.7rem',
   fontWeight: 600,
   whiteSpace: 'nowrap',
@@ -118,7 +118,7 @@ export const buttonPrimary = style([
   {
     borderColor: vars.color.accent,
     backgroundColor: vars.color.accent,
-    color: '#fff',
+    color: vars.color.onAccent,
     selectors: {
       '&:hover': {
         backgroundColor: vars.color.accentHover,
