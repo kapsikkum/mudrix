@@ -604,6 +604,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                     color = theme.textPrimary,
                 )
             }
+            DeveloperToolsSections()
         }
     }
     if (showAccountData) AccountDataSheet(onDismiss = { showAccountData = false })
