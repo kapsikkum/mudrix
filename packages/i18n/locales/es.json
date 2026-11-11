@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "Fuentes de GIF",
     "gifNotConfiguredTooltip": "No hay clave de API configurada en esta versión",
     "gifSourceTag": "De {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Enviar más tarde...",
+      "title": "Enviar más tarde",
+      "messageLabel": "Mensaje",
+      "noDraft": "Escribe primero un mensaje en el editor y luego vuelve para programarlo.",
+      "noCommands": "Los comandos de barra no se pueden programar.",
+      "whenLabel": "Enviar a las",
+      "inOneHour": "Dentro de 1 hora",
+      "tomorrowMorning": "Mañana, 9:00",
+      "pastTime": "Elige una hora al menos unos segundos en el futuro.",
+      "submit": "Programar",
+      "scheduled": "Mensaje programado.",
+      "failed": "No se pudo programar el mensaje: {{error}}",
+      "unsupported": "Tu servidor doméstico no admite mensajes programados (MSC4140), así que esta función no está disponible.",
+      "encrypted": "Los mensajes programados no pueden cifrarse de extremo a extremo, por lo que están desactivados en las salas cifradas.",
+      "listTitle": "Programados en esta sala",
+      "empty": "No hay mensajes programados.",
+      "unknownTime": "Hora desconocida",
+      "sendNow": "Enviar ahora",
+      "cancel": "Cancelar",
+      "sendNowFailed": "No se pudo enviar el mensaje: {{error}}",
+      "cancelFailed": "No se pudo cancelar el mensaje: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Copiar texto",

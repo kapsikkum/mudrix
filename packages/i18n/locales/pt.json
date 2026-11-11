@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "Fontes de GIFs",
     "gifNotConfiguredTooltip": "Nenhuma chave de API configurada nesta versão",
     "gifSourceTag": "De {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Enviar depois...",
+      "title": "Enviar depois",
+      "messageLabel": "Mensagem",
+      "noDraft": "Digite uma mensagem no campo de texto primeiro e depois volte para agendá-la.",
+      "noCommands": "Comandos com barra não podem ser agendados.",
+      "whenLabel": "Enviar em",
+      "inOneHour": "Em 1 hora",
+      "tomorrowMorning": "Amanhã, 9:00",
+      "pastTime": "Escolha um horário pelo menos alguns segundos a partir de agora.",
+      "submit": "Agendar",
+      "scheduled": "Mensagem agendada.",
+      "failed": "Não foi possível agendar a mensagem: {{error}}",
+      "unsupported": "Seu homeserver não oferece mensagens agendadas (MSC4140), então este recurso não está disponível.",
+      "encrypted": "Mensagens agendadas não podem ser criptografadas de ponta a ponta, por isso estão desativadas em salas criptografadas.",
+      "listTitle": "Agendadas nesta sala",
+      "empty": "Nenhuma mensagem agendada.",
+      "unknownTime": "Horário desconhecido",
+      "sendNow": "Enviar agora",
+      "cancel": "Cancelar",
+      "sendNowFailed": "Não foi possível enviar a mensagem: {{error}}",
+      "cancelFailed": "Não foi possível cancelar a mensagem: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Copiar texto",

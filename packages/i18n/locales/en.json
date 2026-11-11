@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "GIF sources",
     "gifNotConfiguredTooltip": "No API key configured in this build",
     "gifSourceTag": "From {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Send later...",
+      "title": "Send later",
+      "messageLabel": "Message",
+      "noDraft": "Type a message in the composer first, then come back to schedule it.",
+      "noCommands": "Slash commands can't be scheduled.",
+      "whenLabel": "Send at",
+      "inOneHour": "In 1 hour",
+      "tomorrowMorning": "Tomorrow, 9:00",
+      "pastTime": "Pick a time at least a few seconds from now.",
+      "submit": "Schedule",
+      "scheduled": "Message scheduled.",
+      "failed": "Couldn't schedule the message: {{error}}",
+      "unsupported": "Your homeserver doesn't support scheduled messages (MSC4140), so this isn't available.",
+      "encrypted": "Scheduled messages can't be end-to-end encrypted, so they are disabled in encrypted rooms.",
+      "listTitle": "Scheduled in this room",
+      "empty": "No scheduled messages.",
+      "unknownTime": "Time unknown",
+      "sendNow": "Send now",
+      "cancel": "Cancel",
+      "sendNowFailed": "Couldn't send the message: {{error}}",
+      "cancelFailed": "Couldn't cancel the message: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Copy text",

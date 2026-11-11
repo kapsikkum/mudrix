@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "GIFのソース",
     "gifNotConfiguredTooltip": "このビルドにはAPIキーが設定されていません",
     "gifSourceTag": "{{provider}} から",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "後で送信...",
+      "title": "後で送信",
+      "messageLabel": "メッセージ",
+      "noDraft": "先に入力欄にメッセージを入力してから、戻ってスケジュールしてください。",
+      "noCommands": "スラッシュコマンドはスケジュールできません。",
+      "whenLabel": "送信日時",
+      "inOneHour": "1時間後",
+      "tomorrowMorning": "明日 9:00",
+      "pastTime": "現在から数秒以上後の時刻を選んでください。",
+      "submit": "スケジュール",
+      "scheduled": "メッセージをスケジュールしました。",
+      "failed": "メッセージをスケジュールできませんでした: {{error}}",
+      "unsupported": "お使いのホームサーバーは予約メッセージ（MSC4140）に対応していないため、利用できません。",
+      "encrypted": "予約メッセージはエンドツーエンドで暗号化できないため、暗号化されたルームでは無効になっています。",
+      "listTitle": "このルームの予約済みメッセージ",
+      "empty": "予約済みのメッセージはありません。",
+      "unknownTime": "時刻不明",
+      "sendNow": "今すぐ送信",
+      "cancel": "キャンセル",
+      "sendNowFailed": "メッセージを送信できませんでした: {{error}}",
+      "cancelFailed": "メッセージをキャンセルできませんでした: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "テキストをコピー",

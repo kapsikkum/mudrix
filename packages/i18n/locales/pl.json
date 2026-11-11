@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "Źródła GIF-ów",
     "gifNotConfiguredTooltip": "W tej wersji nie skonfigurowano klucza API",
     "gifSourceTag": "Z: {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Wyślij później...",
+      "title": "Wyślij później",
+      "messageLabel": "Wiadomość",
+      "noDraft": "Najpierw napisz wiadomość w polu edycji, a potem wróć, aby ją zaplanować.",
+      "noCommands": "Polecenia z ukośnikiem nie mogą być planowane.",
+      "whenLabel": "Wyślij o",
+      "inOneHour": "Za 1 godzinę",
+      "tomorrowMorning": "Jutro, 9:00",
+      "pastTime": "Wybierz czas co najmniej kilka sekund w przyszłości.",
+      "submit": "Zaplanuj",
+      "scheduled": "Wiadomość została zaplanowana.",
+      "failed": "Nie udało się zaplanować wiadomości: {{error}}",
+      "unsupported": "Twój serwer domowy nie obsługuje zaplanowanych wiadomości (MSC4140), więc ta funkcja jest niedostępna.",
+      "encrypted": "Zaplanowanych wiadomości nie można szyfrować end-to-end, dlatego są wyłączone w zaszyfrowanych pokojach.",
+      "listTitle": "Zaplanowane w tym pokoju",
+      "empty": "Brak zaplanowanych wiadomości.",
+      "unknownTime": "Nieznany czas",
+      "sendNow": "Wyślij teraz",
+      "cancel": "Anuluj",
+      "sendNowFailed": "Nie udało się wysłać wiadomości: {{error}}",
+      "cancelFailed": "Nie udało się anulować wiadomości: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Kopiuj tekst",

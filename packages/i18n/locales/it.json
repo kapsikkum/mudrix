@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "Fonti GIF",
     "gifNotConfiguredTooltip": "Nessuna chiave API configurata in questa build",
     "gifSourceTag": "Da {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Invia più tardi...",
+      "title": "Invia più tardi",
+      "messageLabel": "Messaggio",
+      "noDraft": "Scrivi prima un messaggio nel campo di composizione, poi torna qui per programmarlo.",
+      "noCommands": "I comandi slash non possono essere programmati.",
+      "whenLabel": "Invia alle",
+      "inOneHour": "Tra 1 ora",
+      "tomorrowMorning": "Domani, 9:00",
+      "pastTime": "Scegli un orario almeno qualche secondo nel futuro.",
+      "submit": "Programma",
+      "scheduled": "Messaggio programmato.",
+      "failed": "Impossibile programmare il messaggio: {{error}}",
+      "unsupported": "Il tuo homeserver non supporta i messaggi programmati (MSC4140), quindi questa funzione non è disponibile.",
+      "encrypted": "I messaggi programmati non possono essere crittografati end-to-end, quindi sono disattivati nelle stanze crittografate.",
+      "listTitle": "Programmati in questa stanza",
+      "empty": "Nessun messaggio programmato.",
+      "unknownTime": "Orario sconosciuto",
+      "sendNow": "Invia ora",
+      "cancel": "Annulla",
+      "sendNowFailed": "Impossibile inviare il messaggio: {{error}}",
+      "cancelFailed": "Impossibile annullare il messaggio: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Copia testo",

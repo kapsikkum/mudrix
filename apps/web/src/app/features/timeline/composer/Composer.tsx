@@ -12,6 +12,7 @@ import {
   GifIcon,
   MapPinIcon,
   MicrophoneIcon,
+  ClockIcon,
   SpinnerGapIcon,
 } from '@phosphor-icons/react';
 import { formatFileSize } from '@/util/format';
@@ -37,6 +38,7 @@ import { LinkInputPopover } from './LinkInputPopover';
 import { ComposerStatus } from './TypingIndicator';
 import { useComposer } from './useComposer';
 import { PollCreatorModal } from './PollCreatorModal';
+import { ScheduleMessageModal } from './ScheduleMessageModal';
 import { LocationShareModal } from './LocationShareModal';
 import { VoiceRecordComposerTile } from './VoiceRecordComposerTile';
 import { AttachmentTray } from './AttachmentTray';
@@ -110,6 +112,7 @@ export function Composer({
   const [pollOpen, setPollOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
   const [voiceOpen, setVoiceOpen] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const autocompleteListId = useId();
 
   const { openContextMenuAt } = useContextMenu();
@@ -140,6 +143,7 @@ export function Composer({
     submitLink,
     cancelLink,
     sendMessage,
+    scheduleSend,
     isEmpty,
     attachments,
     removeAttachment,
@@ -188,6 +192,11 @@ export function Composer({
           label: t('composer.voice.record'),
           icon: <MicrophoneIcon size={14} />,
           onClick: () => setVoiceOpen(true),
+        },
+        {
+          label: t('composer.schedule.menu'),
+          icon: <ClockIcon size={14} />,
+          onClick: () => setScheduleOpen(true),
         },
       ];
       if (stickerWidget) {
@@ -515,6 +524,22 @@ export function Composer({
                         // keyboard closes after every send.
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={sendMessage}
+                        // The tools menu is hidden while there is a draft, so "Send later" for
+                        // that draft is on the send button's own menu.
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          openContextMenuAt(
+                            [
+                              {
+                                label: t('composer.schedule.menu'),
+                                icon: <ClockIcon size={14} />,
+                                onClick: () => setScheduleOpen(true),
+                              },
+                            ],
+                            anchorFromElement(e.currentTarget),
+                            e.currentTarget
+                          );
+                        }}
                         disabled={attachments.some((a) => a.oversized)}
                         aria-label={t('composer.send')}
                       >
@@ -575,6 +600,15 @@ export function Composer({
         client={client}
         roomId={roomId}
         threadId={threadId}
+      />
+
+      <ScheduleMessageModal
+        open={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        client={client}
+        roomId={roomId}
+        draftPreview={draftText}
+        onSchedule={scheduleSend}
       />
 
       <IntegrationDialogs

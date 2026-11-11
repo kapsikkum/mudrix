@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "GIF kaynakları",
     "gifNotConfiguredTooltip": "Bu derlemede API anahtarı yapılandırılmamış",
     "gifSourceTag": "{{provider}} kaynağından",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Daha sonra gönder...",
+      "title": "Daha sonra gönder",
+      "messageLabel": "Mesaj",
+      "noDraft": "Önce yazı alanına bir mesaj yazın, ardından zamanlamak için geri dönün.",
+      "noCommands": "Eğik çizgi komutları zamanlanamaz.",
+      "whenLabel": "Gönderim zamanı",
+      "inOneHour": "1 saat içinde",
+      "tomorrowMorning": "Yarın, 09:00",
+      "pastTime": "Şu andan en az birkaç saniye sonrası için bir zaman seçin.",
+      "submit": "Zamanla",
+      "scheduled": "Mesaj zamanlandı.",
+      "failed": "Mesaj zamanlanamadı: {{error}}",
+      "unsupported": "Ana sunucunuz zamanlanmış mesajları (MSC4140) desteklemiyor, bu nedenle bu özellik kullanılamıyor.",
+      "encrypted": "Zamanlanmış mesajlar uçtan uca şifrelenemez, bu nedenle şifreli odalarda devre dışıdır.",
+      "listTitle": "Bu odada zamanlananlar",
+      "empty": "Zamanlanmış mesaj yok.",
+      "unknownTime": "Zaman bilinmiyor",
+      "sendNow": "Şimdi gönder",
+      "cancel": "İptal",
+      "sendNowFailed": "Mesaj gönderilemedi: {{error}}",
+      "cancelFailed": "Mesaj iptal edilemedi: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Metni kopyala",

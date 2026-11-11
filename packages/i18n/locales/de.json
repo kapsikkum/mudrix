@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "GIF-Quellen",
     "gifNotConfiguredTooltip": "Kein API-Schlüssel in diesem Build konfiguriert",
     "gifSourceTag": "Von {{provider}}",
-    "camera": "Kamera"
+    "camera": "Kamera",
+    "schedule": {
+      "menu": "Später senden...",
+      "title": "Später senden",
+      "messageLabel": "Nachricht",
+      "noDraft": "Schreibe zuerst eine Nachricht im Eingabefeld und komm dann zurück, um sie zu planen.",
+      "noCommands": "Slash-Befehle können nicht geplant werden.",
+      "whenLabel": "Senden um",
+      "inOneHour": "In 1 Stunde",
+      "tomorrowMorning": "Morgen, 9:00",
+      "pastTime": "Wähle einen Zeitpunkt, der mindestens einige Sekunden in der Zukunft liegt.",
+      "submit": "Planen",
+      "scheduled": "Nachricht geplant.",
+      "failed": "Nachricht konnte nicht geplant werden: {{error}}",
+      "unsupported": "Dein Homeserver unterstützt keine geplanten Nachrichten (MSC4140), daher ist dies nicht verfügbar.",
+      "encrypted": "Geplante Nachrichten können nicht Ende-zu-Ende-verschlüsselt werden und sind in verschlüsselten Räumen deaktiviert.",
+      "listTitle": "In diesem Raum geplant",
+      "empty": "Keine geplanten Nachrichten.",
+      "unknownTime": "Zeit unbekannt",
+      "sendNow": "Jetzt senden",
+      "cancel": "Abbrechen",
+      "sendNowFailed": "Nachricht konnte nicht gesendet werden: {{error}}",
+      "cancelFailed": "Nachricht konnte nicht abgebrochen werden: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Text kopieren",

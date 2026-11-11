@@ -64,6 +64,8 @@ import { toMarkdown } from './editor/toMarkdown';
 import { buildTextContent } from './editor/buildTextContent';
 import { applyInlineMarkdown } from './editor/applyMarkdown';
 import {
+  applyReplyMetadata,
+  applyThreadRelation,
   replyMentions,
   sendTextMessage,
   textMessageFrom,
@@ -75,6 +77,7 @@ import { useRichEditor } from './useRichEditor';
 import { sendGif } from './sendGif';
 import { GALLERY_CONTENT_KEY, type GalleryTag } from '../message/gallery';
 import { hasGifConsent, parseGifLink, resolveGifLink } from './gifProviders';
+import { scheduleMessage } from './delayedEvents';
 import type { CustomEditor, MentionElement } from './editor/types';
 
 const EMPTY_ATTACHMENTS: ComposerAttachment[] = [];
@@ -118,6 +121,8 @@ export interface ComposerState {
   submitLink: (url: string) => void;
   cancelLink: () => void;
   sendMessage: () => Promise<void>;
+  /** Has the homeserver send the composer's text after `delayMs` (send later). Rejects on failure. */
+  scheduleSend: (delayMs: number) => Promise<void>;
   /** Plain-text preview of the composer content (empty when there is none). */
   draftText: string;
   /** Identifies this composer to the integration dialogs it opens (api confirmation). */
@@ -519,6 +524,45 @@ export function useComposer({
     integrationLauncher,
     setComposerText,
   ]);
+
+  const scheduleSend = useCallback(
+    async (delayMs: number) => {
+      const text = toMarkdown(editorValue).markdown.trim();
+      if (!text) throw new Error(t('composer.schedule.noDraft'));
+      const parsed = parseCommand(text);
+      if (parsed && getCommandDefinition(parsed.command, integrationCommands)) {
+        throw new Error(t('composer.schedule.noCommands'));
+      }
+      const withEmoji = emoticonsToEmoji ? replaceEmoticonsInValue(editorValue) : editorValue;
+      const built = buildTextContent(markdownEnabled ? applyInlineMarkdown(withEmoji) : withEmoji, {
+        forceFormatted: !!replyTo,
+        myId,
+      });
+      applyReplyMetadata(built.content, {
+        replyTo,
+        myId,
+        mentionedUserIds: built.mentionedUserIds,
+      });
+      if (threadId) applyThreadRelation(built.content, threadId, replyTo);
+      await scheduleMessage(client, roomId, built.content, delayMs);
+      clearEditor();
+      if (replyTo) onClearReply();
+    },
+    [
+      editorValue,
+      emoticonsToEmoji,
+      markdownEnabled,
+      client,
+      roomId,
+      threadId,
+      replyTo,
+      myId,
+      onClearReply,
+      clearEditor,
+      t,
+      integrationCommands,
+    ]
+  );
 
   const handleEditorKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
@@ -955,6 +999,7 @@ export function useComposer({
     submitLink,
     cancelLink,
     sendMessage,
+    scheduleSend,
     draftText,
     integrationOwner,
     isEmpty,

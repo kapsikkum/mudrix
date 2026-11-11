@@ -38,7 +38,7 @@ export function applyReplyMetadata(
   content['m.mentions'] = newMentions;
 }
 
-function applyThreadRelation(
+export function applyThreadRelation(
   content: Record<string, unknown>,
   threadId: string,
   replyTo?: ReplyTarget | null

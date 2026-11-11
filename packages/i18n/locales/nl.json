@@ -1033,7 +1033,30 @@
     "gifTabsLabel": "GIF-bronnen",
     "gifNotConfiguredTooltip": "In deze build is geen API-sleutel ingesteld",
     "gifSourceTag": "Via {{provider}}",
-    "camera": "Camera"
+    "camera": "Camera",
+    "schedule": {
+      "menu": "Later verzenden...",
+      "title": "Later verzenden",
+      "messageLabel": "Bericht",
+      "noDraft": "Typ eerst een bericht in het invoerveld en kom dan terug om het in te plannen.",
+      "noCommands": "Slashopdrachten kunnen niet worden ingepland.",
+      "whenLabel": "Verzenden op",
+      "inOneHour": "Over 1 uur",
+      "tomorrowMorning": "Morgen, 9:00",
+      "pastTime": "Kies een tijdstip dat minstens een paar seconden in de toekomst ligt.",
+      "submit": "Inplannen",
+      "scheduled": "Bericht ingepland.",
+      "failed": "Het bericht kon niet worden ingepland: {{error}}",
+      "unsupported": "Je homeserver ondersteunt geen geplande berichten (MSC4140), dus dit is niet beschikbaar.",
+      "encrypted": "Geplande berichten kunnen niet end-to-end worden versleuteld, daarom zijn ze uitgeschakeld in versleutelde kamers.",
+      "listTitle": "Gepland in deze kamer",
+      "empty": "Geen geplande berichten.",
+      "unknownTime": "Tijdstip onbekend",
+      "sendNow": "Nu verzenden",
+      "cancel": "Annuleren",
+      "sendNowFailed": "Het bericht kon niet worden verzonden: {{error}}",
+      "cancelFailed": "Het bericht kon niet worden geannuleerd: {{error}}"
+    }
   },
   "timeline": {
     "copyText": "Tekst kopiëren",
