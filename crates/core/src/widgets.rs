@@ -166,7 +166,7 @@ impl WizardClient {
         }
         let id = id
             .map(ToOwned::to_owned)
-            .unwrap_or_else(|| format!("wizardchat_{}", matrix_sdk::ruma::TransactionId::new()));
+            .unwrap_or_else(|| format!("mudrix_{}", matrix_sdk::ruma::TransactionId::new()));
         let content = json!({
             "type": "m.custom",
             "url": parsed.as_str(),
@@ -230,7 +230,7 @@ impl WizardClient {
                 ("matrix_display_name", &display_name),
                 ("matrix_avatar_url", &avatar_url),
                 ("matrix_widget_id", &widget.id),
-                ("org.matrix.msc2873.client_id", "org.wizardchat"),
+                ("org.matrix.msc2873.client_id", "io.github.kapsikkum.mudrix"),
                 ("org.matrix.msc2873.client_theme", theme),
                 ("org.matrix.msc2873.client_language", language),
             ],

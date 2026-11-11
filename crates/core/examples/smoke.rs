@@ -467,11 +467,13 @@ async fn main() -> Result<(), BoxError> {
     println!("notification defaults, keywords and per-room mute set and read back");
     client
         .set_account_data(
-            "org.wizardchat.settings",
+            "io.github.kapsikkum.mudrix.settings",
             serde_json::json!({ "theme": "hallow" }),
         )
         .await?;
-    let stored = client.account_data("org.wizardchat.settings").await?;
+    let stored = client
+        .account_data("io.github.kapsikkum.mudrix.settings")
+        .await?;
     assert_eq!(
         stored.and_then(|v| v.get("theme").cloned()),
         Some(serde_json::json!("hallow"))

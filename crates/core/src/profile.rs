@@ -9,8 +9,10 @@ use serde_json::{json, Value};
 
 use crate::{rooms::parse_user_id, Error, Result, WizardClient};
 
-/// WizardChat's custom status, stored as an extended profile field (MSC4133)
-pub const STATUS_FIELD: &str = "org.wizardchat.status";
+/// The custom status, stored as an extended profile field (MSC4133)
+pub const STATUS_FIELD: &str = "io.github.kapsikkum.mudrix.status";
+/// Where earlier Mudrix versions and WizardChat kept it: still read, never written
+const LEGACY_STATUS_FIELDS: [&str; 2] = ["chat.mudrix.status", "org.wizardchat.status"];
 pub const MAX_STATUS_LENGTH: usize = 128;
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -76,6 +78,13 @@ pub(crate) fn parse_status(value: Option<&Value>) -> Option<CustomStatus> {
     })
 }
 
+/// The status in a profile: the Mudrix field first, then the older names
+fn status_of_profile<'a>(field: impl Fn(&str) -> Option<&'a Value>) -> Option<CustomStatus> {
+    std::iter::once(STATUS_FIELD)
+        .chain(LEGACY_STATUS_FIELDS)
+        .find_map(|name| parse_status(field(name)))
+}
+
 fn presence_of(state: &PresenceState) -> Presence {
     match state {
         PresenceState::Online => Presence::Online,
@@ -115,7 +124,7 @@ impl WizardClient {
                 .get("avatar_url")
                 .and_then(Value::as_str)
                 .map(ToOwned::to_owned),
-            custom_status: parse_status(profile.get(STATUS_FIELD)),
+            custom_status: status_of_profile(|name| profile.get(name)),
             presence: self.presence(user_id).await,
             is_ignored,
         })
@@ -174,6 +183,14 @@ impl WizardClient {
             .account()
             .delete_profile_field(ProfileFieldName::from(STATUS_FIELD))
             .await;
+        // An older copy would show again once the current one is gone
+        for legacy in LEGACY_STATUS_FIELDS {
+            let _ = self
+                .sdk()
+                .account()
+                .delete_profile_field(ProfileFieldName::from(legacy))
+                .await;
+        }
         self.set_presence(presence, None).await?;
         removed.map_err(Error::from)
     }
@@ -234,6 +251,30 @@ impl WizardClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_mudrix_status_wins_over_older_names() {
+        let profile = json!({
+            "org.wizardchat.status": { "text": "old" },
+            "chat.mudrix.status": { "text": "mid" },
+        });
+        let get = |name: &str| profile.get(name);
+        assert_eq!(status_of_profile(get).unwrap().text, "mid");
+        let both = json!({
+            "org.wizardchat.status": { "text": "old" },
+            "io.github.kapsikkum.mudrix.status": { "text": "new" },
+        });
+        assert_eq!(status_of_profile(|n| both.get(n)).unwrap().text, "new");
+        let expired = json!({
+            "io.github.kapsikkum.mudrix.status": { "text": "x", "expires_at": 1 },
+            "org.wizardchat.status": { "text": "legacy" },
+        });
+        assert_eq!(
+            status_of_profile(|n| expired.get(n)).unwrap().text,
+            "legacy"
+        );
+        assert_eq!(status_of_profile(|_| None), None);
+    }
 
     #[test]
     fn status_parsing_drops_empty_and_expired() {
