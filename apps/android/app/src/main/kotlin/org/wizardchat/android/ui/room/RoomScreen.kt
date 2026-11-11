@@ -54,7 +54,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -142,22 +141,18 @@ import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
-import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.shimmer
 import org.wizardchat.android.ui.space.LocalRoomRoles
 import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
-import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
 import org.wizardchat.android.ui.composer.MediaPicker
 import org.wizardchat.android.ui.composer.MediaPickerTab
 import org.wizardchat.android.ui.copyToClipboard
 import org.wizardchat.android.ui.home.LocalCalls
-import org.wizardchat.android.ui.home.LocalNavigator
-import org.wizardchat.android.ui.home.Route
 import org.wizardchat.android.ui.people.RoomInfoSheet
 import org.wizardchat.android.ui.people.UserProfileSheet
 import org.wizardchat.android.ui.theme.nameColor
@@ -1143,6 +1138,7 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
                 linkOnAccent = isClassic && entry.isOwn && theme.isDark,
                 onMention = actions?.openProfile,
                 onRoomLink = actions?.openRoomLink,
+                roomId = actions?.roomId,
             )
         }
         return
@@ -1181,6 +1177,7 @@ private fun TextContent(
     linkOnAccent: Boolean,
     onMention: ((String) -> Unit)?,
     onRoomLink: ((String) -> Unit)? = null,
+    roomId: String? = null,
 ) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
