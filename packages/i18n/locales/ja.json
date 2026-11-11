@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> が表示名を {{newName}} に変更しました。",
     "userRemovedName": "<name>{{name}}</name> が表示名を削除しました。",
     "userChangedAvatar": "<name>{{name}}</name> がアバターを変更しました。",
-    "userRemovedAvatar": "<name>{{name}}</name> がアバターを削除しました。"
+    "userRemovedAvatar": "<name>{{name}}</name> がアバターを削除しました。",
+    "mediaRetry": "読み込めませんでした。クリックで再試行",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} 個のスタンプ",
+      "stickerCount_other": "{{count}} 個のスタンプ",
+      "fromRoom": "{{room}} から",
+      "viewRoom": "ルームを見る",
+      "notPublic": "このスタンプのパックはプライベートルームにあるため表示できません。",
+      "unknown": "このスタンプがどのパックのものか見つかりませんでした。"
+    }
   },
   "call": {
     "event": {

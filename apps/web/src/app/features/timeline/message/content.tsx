@@ -44,6 +44,7 @@ import {
 import type { ManualVideoLoad } from './encryption';
 import type { MediaCover } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
+import { StickerPackPreviewModal, useStickerPackPreview } from './StickerPackPreviewModal';
 import { prettifyLinksAtom, sessionVerificationAtom } from '@/app/store/atoms';
 import { AudioFilePlayer } from '@/app/components/AudioFilePlayer/AudioFilePlayer';
 import { VoiceMessagePlayer } from '@/app/components/VoiceMessagePlayer/VoiceMessagePlayer';
@@ -422,7 +423,8 @@ interface StickerBoxProps {
   mediaFailed: boolean;
   width?: number | null;
   height?: number | null;
-  requestFullRes?: () => Promise<string | null>;
+  requestFullRes?: (force?: boolean) => Promise<string | null>;
+  onClick?: () => void;
 }
 
 function StickerBox({
@@ -434,6 +436,7 @@ function StickerBox({
   width,
   height,
   requestFullRes,
+  onClick,
 }: StickerBoxProps) {
   const [measured, setMeasured] = useState<{ src: string; w: number; h: number } | null>(null);
   const infoW = typeof width === 'number' && width > 0 ? width : undefined;
@@ -454,6 +457,7 @@ function StickerBox({
           wrapperClassName={css.mediaBoxFillWrap}
           isAnimated={isAnimated}
           requestFullRes={requestFullRes}
+          onClick={onClick}
           onLoad={
             infoW && infoH
               ? undefined
@@ -472,6 +476,24 @@ function StickerBox({
         </div>
       )}
     </div>
+  );
+}
+
+/** A sticker; a click opens the pack it came from. */
+function StickerContent({
+  client,
+  roomId,
+  packMxc,
+  ...box
+}: StickerBoxProps & { client: MatrixClient; roomId?: string; packMxc: string | null }) {
+  const preview = useStickerPackPreview(client, roomId);
+  return (
+    <>
+      <StickerBox {...box} onClick={packMxc ? () => void preview.open(packMxc) : undefined} />
+      {preview.source && (
+        <StickerPackPreviewModal client={client} source={preview.source} onClose={preview.close} />
+      )}
+    </>
   );
 }
 
@@ -495,7 +517,7 @@ interface MessageContentProps {
   onMentionClick?: (userId: string, rect: DOMRect) => void;
   optimisticBody?: string | null;
   imagePacks?: Map<string, ImagePackImage>;
-  requestFullRes?: () => Promise<string | null>;
+  requestFullRes?: (force?: boolean) => Promise<string | null>;
   mediaCover?: MediaCover | null;
   onRevealMedia?: () => void;
   videoLoad?: ManualVideoLoad | null;
@@ -681,7 +703,10 @@ export function MessageContent({
       mediaSrc ??
       (mxcUrl && mxcUrl.startsWith('mxc://') ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
     return (
-      <StickerBox
+      <StickerContent
+        client={client}
+        roomId={roomId}
+        packMxc={mxcUrl && mxcUrl.startsWith('mxc://') ? mxcUrl : null}
         src={src}
         alt={content.body || 'sticker'}
         mimeType={media.mimetype ?? undefined}

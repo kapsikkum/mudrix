@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> heeft de weergavenaam gewijzigd in {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> heeft de weergavenaam verwijderd.",
     "userChangedAvatar": "<name>{{name}}</name> heeft de avatar gewijzigd.",
-    "userRemovedAvatar": "<name>{{name}}</name> heeft de avatar verwijderd."
+    "userRemovedAvatar": "<name>{{name}}</name> heeft de avatar verwijderd.",
+    "mediaRetry": "Laden mislukt. Klik om opnieuw te proberen",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} sticker",
+      "stickerCount_other": "{{count}} stickers",
+      "fromRoom": "Uit {{room}}",
+      "viewRoom": "Bekijk kamer",
+      "notPublic": "Het pakket van deze sticker staat in een privékamer en kan niet worden weergegeven.",
+      "unknown": "Kon niet vinden uit welk pakket deze sticker komt."
+    }
   },
   "call": {
     "event": {

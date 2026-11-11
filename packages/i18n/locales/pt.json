@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> alterou seu nome de exibição para {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> removeu seu nome de exibição.",
     "userChangedAvatar": "<name>{{name}}</name> alterou seu avatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> removeu seu avatar."
+    "userRemovedAvatar": "<name>{{name}}</name> removeu seu avatar.",
+    "mediaRetry": "Falha ao carregar. Clique para tentar novamente",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} selo",
+      "stickerCount_other": "{{count}} selos",
+      "fromRoom": "De {{room}}",
+      "viewRoom": "Ver sala",
+      "notPublic": "O pacote deste selo está em uma sala privada e não pode ser exibido.",
+      "unknown": "Não foi possível encontrar de qual pacote este selo é."
+    }
   },
   "call": {
     "event": {

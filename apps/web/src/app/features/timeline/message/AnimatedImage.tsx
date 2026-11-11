@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { useAtomValue } from 'jotai';
-import { WarningIcon } from '@phosphor-icons/react';
+import { useTranslation } from 'react-i18next';
+import { ArrowClockwiseIcon, WarningIcon } from '@phosphor-icons/react';
 import { autoplayGifsAtom } from '@/app/store/atoms';
 import { animatedImageBadge, imageSkeleton, imageErrorFallback } from '../Timeline.css';
 import { firstFrameToBlobUrl, mayBeAnimated } from '../utils/imageAnimation';
+
+/** A failed load is retried this many times (1s, then 3s apart) before showing the error. */
+const AUTO_RETRY_DELAYS_MS = [1000, 3000];
 
 const stillCache = new Map<string, string>();
 const MAX_STILL_CACHE = 500;
@@ -39,7 +43,7 @@ interface AnimatedImageProps {
   onClick?: () => void;
   onLoad?: (img: HTMLImageElement) => void;
   onError?: () => void;
-  requestFullRes?: () => Promise<string | null>;
+  requestFullRes?: (force?: boolean) => Promise<string | null>;
 }
 
 export function AnimatedImage({
@@ -65,11 +69,43 @@ export function AnimatedImage({
   const fetchedFullResRef = useRef(false);
   const [loaded, setLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const { t } = useTranslation();
+  const [retryNonce, setRetryNonce] = useState(0);
+  const retriesRef = useRef(0);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     setLoaded(false);
     setHasError(false);
+    retriesRef.current = 0;
+    clearTimeout(retryTimerRef.current);
   }, [src]);
+
+  useEffect(() => () => clearTimeout(retryTimerRef.current), []);
+
+  // Fetch the file again (the cached blob URL may be gone) and remount the <img>.
+  const retryLoad = useCallback(async () => {
+    const fresh = requestFullRes ? await requestFullRes(true).catch(() => null) : null;
+    if (fresh) setAnimatedSrc(fresh);
+    setRetryNonce((n) => n + 1);
+  }, [requestFullRes]);
+
+  const handleLoadError = useCallback(() => {
+    const delay = AUTO_RETRY_DELAYS_MS[retriesRef.current];
+    if (delay === undefined) {
+      setHasError(true);
+      onError?.();
+      return;
+    }
+    retriesRef.current += 1;
+    retryTimerRef.current = setTimeout(() => void retryLoad(), delay);
+  }, [onError, retryLoad]);
+
+  const handleManualRetry = useCallback(() => {
+    retriesRef.current = 0;
+    setHasError(false);
+    void retryLoad();
+  }, [retryLoad]);
 
   // Already-decoded images (cache hits) show at once instead of fading in.
   const handleImgRef = useCallback((el: HTMLImageElement | null) => {
@@ -136,6 +172,7 @@ export function AnimatedImage({
       {!loaded && !hasError && <div className={imageSkeleton} aria-hidden="true" />}
       {!hasError && !skipAnimatedFallback && (
         <img
+          key={retryNonce}
           ref={handleImgRef}
           src={showStill ? stillUrl : effectiveSrc}
           alt={alt}
@@ -148,16 +185,23 @@ export function AnimatedImage({
             setLoaded(true);
             onLoad?.(e.currentTarget);
           }}
-          onError={() => {
-            setHasError(true);
-            onError?.();
-          }}
+          onError={handleLoadError}
         />
       )}
       {hasError && (
-        <div className={imageErrorFallback} role="img" aria-label={alt || 'Image failed to load'}>
+        <button
+          type="button"
+          className={imageErrorFallback}
+          aria-label={t('timeline.mediaRetry')}
+          title={t('timeline.mediaRetry')}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleManualRetry();
+          }}
+        >
           <WarningIcon size={24} />
-        </div>
+          <ArrowClockwiseIcon size={16} />
+        </button>
       )}
       {showBadge && loaded && !hasError && <span className={animatedImageBadge}>GIF</span>}
     </span>

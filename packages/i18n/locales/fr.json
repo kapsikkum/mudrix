@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> a changé son nom d'affichage en {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> a supprimé son nom d'affichage.",
     "userChangedAvatar": "<name>{{name}}</name> a changé d'avatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> a supprimé son avatar."
+    "userRemovedAvatar": "<name>{{name}}</name> a supprimé son avatar.",
+    "mediaRetry": "Échec du chargement. Cliquez pour réessayer",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} sticker",
+      "stickerCount_other": "{{count}} stickers",
+      "fromRoom": "Depuis {{room}}",
+      "viewRoom": "Voir le salon",
+      "notPublic": "Le pack de cet autocollant se trouve dans un salon privé et ne peut pas être affiché.",
+      "unknown": "Impossible de déterminer de quel pack provient cet autocollant."
+    }
   },
   "call": {
     "event": {

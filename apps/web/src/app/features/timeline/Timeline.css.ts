@@ -367,11 +367,75 @@ export const imageErrorFallback = style({
   position: 'absolute',
   inset: 0,
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  gap: '6px',
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
+  border: 'none',
+  padding: 0,
+  cursor: 'pointer',
   width: '100%',
+  selectors: { '&:hover': { color: vars.color.textPrimary } },
+});
+
+export const stickerPackPreviewHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  marginBottom: '14px',
+});
+
+export const stickerPackPreviewAvatar = style({
+  width: '40px',
+  height: '40px',
+  borderRadius: vars.radius.sm,
+  objectFit: 'cover',
+  backgroundColor: vars.color.bgTertiary,
+  flexShrink: 0,
+});
+
+export const stickerPackPreviewInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  minWidth: 0,
+});
+
+export const stickerPackPreviewName = style({
+  fontWeight: 600,
+  fontSize: fontSize.rem95,
+  color: vars.color.textPrimary,
+});
+
+export const stickerPackPreviewMeta = style({
+  fontSize: fontSize.rem80,
+  color: vars.color.textMuted,
+});
+
+export const stickerPackPreviewGrid = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, 72px)',
+  gap: '8px',
+  maxHeight: '340px',
+  overflowY: 'auto',
+});
+
+export const stickerPackPreviewItem = style({
+  width: '72px',
+  height: '72px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+});
+
+export const stickerPackPreviewItemImg = style({
+  maxWidth: '100%',
+  maxHeight: '100%',
+  objectFit: 'contain',
 });
 
 export const mediaBox = style({

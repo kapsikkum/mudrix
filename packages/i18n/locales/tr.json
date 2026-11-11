@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> görünen adını {{newName}} olarak değiştirdi.",
     "userRemovedName": "<name>{{name}}</name> görünen adını kaldırdı.",
     "userChangedAvatar": "<name>{{name}}</name> avatarını değiştirdi.",
-    "userRemovedAvatar": "<name>{{name}}</name> avatarını kaldırdı."
+    "userRemovedAvatar": "<name>{{name}}</name> avatarını kaldırdı.",
+    "mediaRetry": "Yüklenemedi. Yeniden denemek için tıklayın",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} çıkartma",
+      "stickerCount_other": "{{count}} çıkartma",
+      "fromRoom": "{{room}} odasından",
+      "viewRoom": "Odayı görüntüle",
+      "notPublic": "Bu çıkartmanın paketi özel bir odada ve gösterilemiyor.",
+      "unknown": "Bu çıkartmanın hangi paketten geldiği bulunamadı."
+    }
   },
   "call": {
     "event": {

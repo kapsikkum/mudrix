@@ -192,6 +192,41 @@ export async function readRoomPackContents(
   return byStateKey;
 }
 
+/** A room pack found for an image: its summary and every image in it by shortcode. */
+export interface PackSource {
+  summary: RoomPackSummary;
+  images: Record<string, UserPackImage>;
+}
+
+const FIND_BATCH = 6;
+
+/**
+ * The room pack an image (by its `mxc://`) belongs to, looking through `roomIds` in order (put the
+ * likeliest room first). Packs of rooms read before are answered from the state cache.
+ */
+export async function findPackSourceForImage(
+  client: MatrixClient,
+  mxc: string,
+  roomIds: readonly string[]
+): Promise<PackSource | null> {
+  for (let at = 0; at < roomIds.length; at += FIND_BATCH) {
+    const batch = await Promise.all(
+      roomIds
+        .slice(at, at + FIND_BATCH)
+        .map(async (roomId) => [roomId, await readRoomPackContents(client, roomId)] as const)
+    );
+    for (const [roomId, byStateKey] of batch) {
+      for (const [stateKey, contents] of byStateKey) {
+        const merged = mergePackImageMap(...contents);
+        if (!Object.values(merged).some((img) => img.url === mxc)) continue;
+        const summary = summarizeRoomPack(roomId, stateKey, contents);
+        if (summary) return { summary, images: parsePackImages({ images: merged }, DEFAULT_USAGE) };
+      }
+    }
+  }
+  return null;
+}
+
 export async function canonicalParents(client: MatrixClient, roomId: string): Promise<string[]> {
   const parents = await stateEvents(client, roomId, ['m.space.parent']).catch(() => []);
   return parents.filter(([, , content]) => !!content?.canonical).map(([, stateKey]) => stateKey);

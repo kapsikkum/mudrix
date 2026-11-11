@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> ha cambiato il nome visualizzato in {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> ha rimosso il proprio nome visualizzato.",
     "userChangedAvatar": "<name>{{name}}</name> ha cambiato avatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> ha rimosso il proprio avatar."
+    "userRemovedAvatar": "<name>{{name}}</name> ha rimosso il proprio avatar.",
+    "mediaRetry": "Caricamento non riuscito. Clicca per riprovare",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} sticker",
+      "stickerCount_other": "{{count}} sticker",
+      "fromRoom": "Da {{room}}",
+      "viewRoom": "Visualizza stanza",
+      "notPublic": "Il pack di questo sticker si trova in una stanza privata e non può essere mostrato.",
+      "unknown": "Impossibile trovare da quale pack proviene questo sticker."
+    }
   },
   "call": {
     "event": {

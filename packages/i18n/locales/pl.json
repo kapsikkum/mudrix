@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> zmienił(a) nazwę wyświetlaną na {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> usunął(ęła) nazwę wyświetlaną.",
     "userChangedAvatar": "<name>{{name}}</name> zmienił(a) awatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> usunął(ęła) awatar."
+    "userRemovedAvatar": "<name>{{name}}</name> usunął(ęła) awatar.",
+    "mediaRetry": "Nie udało się załadować. Kliknij, aby spróbować ponownie",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} naklejka",
+      "stickerCount_other": "{{count}} naklejek",
+      "fromRoom": "Z {{room}}",
+      "viewRoom": "Zobacz pokój",
+      "notPublic": "Pakiet tej naklejki znajduje się w prywatnym pokoju i nie można go wyświetlić.",
+      "unknown": "Nie udało się ustalić, z jakiego pakietu pochodzi ta naklejka."
+    }
   },
   "call": {
     "event": {

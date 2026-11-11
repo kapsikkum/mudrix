@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> hat den Anzeigenamen zu {{newName}} geändert.",
     "userRemovedName": "<name>{{name}}</name> hat den Anzeigenamen entfernt.",
     "userChangedAvatar": "<name>{{name}}</name> hat den Avatar geändert.",
-    "userRemovedAvatar": "<name>{{name}}</name> hat den Avatar entfernt."
+    "userRemovedAvatar": "<name>{{name}}</name> hat den Avatar entfernt.",
+    "mediaRetry": "Laden fehlgeschlagen. Zum Wiederholen klicken",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} Sticker",
+      "stickerCount_other": "{{count}} Sticker",
+      "fromRoom": "Aus {{room}}",
+      "viewRoom": "Raum ansehen",
+      "notPublic": "Das Sticker-Paket befindet sich in einem privaten Raum und kann nicht angezeigt werden.",
+      "unknown": "Konnte nicht ermitteln, aus welchem Paket dieser Sticker stammt."
+    }
   },
   "call": {
     "event": {

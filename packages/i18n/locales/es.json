@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> cambió su nombre visible a {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> eliminó su nombre visible.",
     "userChangedAvatar": "<name>{{name}}</name> cambió su avatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> eliminó su avatar."
+    "userRemovedAvatar": "<name>{{name}}</name> eliminó su avatar.",
+    "mediaRetry": "No se pudo cargar. Haz clic para reintentar",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} pegatina",
+      "stickerCount_other": "{{count}} pegatinas",
+      "fromRoom": "De {{room}}",
+      "viewRoom": "Ver sala",
+      "notPublic": "El paquete de este sticker está en una sala privada y no se puede mostrar.",
+      "unknown": "No se pudo encontrar de qué paquete proviene este sticker."
+    }
   },
   "call": {
     "event": {

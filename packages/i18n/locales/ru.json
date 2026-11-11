@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> изменил(-а) отображаемое имя на {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> удалил(-а) отображаемое имя.",
     "userChangedAvatar": "<name>{{name}}</name> изменил(-а) аватар.",
-    "userRemovedAvatar": "<name>{{name}}</name> удалил(-а) аватар."
+    "userRemovedAvatar": "<name>{{name}}</name> удалил(-а) аватар.",
+    "mediaRetry": "Не удалось загрузить. Нажмите, чтобы повторить",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} стикер",
+      "stickerCount_other": "{{count}} стикеров",
+      "fromRoom": "Из {{room}}",
+      "viewRoom": "Перейти в комнату",
+      "notPublic": "Набор этого стикера находится в приватной комнате и не может быть показан.",
+      "unknown": "Не удалось найти, из какого набора этот стикер."
+    }
   },
   "call": {
     "event": {

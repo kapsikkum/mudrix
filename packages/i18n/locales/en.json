@@ -1401,7 +1401,16 @@
     "userChangedName": "<name>{{name}}</name> changed their display name to {{newName}}.",
     "userRemovedName": "<name>{{name}}</name> removed their display name.",
     "userChangedAvatar": "<name>{{name}}</name> changed their avatar.",
-    "userRemovedAvatar": "<name>{{name}}</name> removed their avatar."
+    "userRemovedAvatar": "<name>{{name}}</name> removed their avatar.",
+    "mediaRetry": "Failed to load. Click to retry",
+    "stickerPack": {
+      "stickerCount_one": "{{count}} sticker",
+      "stickerCount_other": "{{count}} stickers",
+      "fromRoom": "From {{room}}",
+      "viewRoom": "View room",
+      "notPublic": "This sticker's pack is in a private room and can't be shown.",
+      "unknown": "Couldn't find which pack this sticker is from."
+    }
   },
   "call": {
     "event": {
