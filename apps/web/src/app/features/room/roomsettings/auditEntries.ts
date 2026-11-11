@@ -1,15 +1,23 @@
 import type { TimelineEntry } from '@wizardchat/core';
 import { formatUserId } from '@/util/matrix';
+import { mudrixKey, typeAndLegacy } from '@/util/namespace';
+import type { StateEntry } from '@/app/features/space/mudrixStateEntries';
 
 /**
  * A readable "who changed what" list built from a room's timeline: the core hands over members
  * joining and leaving, power levels, names, topics, rules and (for a space) its rooms as events.
- * Mudrix's own state (roles, list style) is not in the timeline, so it is not listed here.
+ * Mudrix's own state (roles) is not in the timeline: role changes come from the state store.
  */
 
-export type AuditCategory = 'members' | 'permissions' | 'settings' | 'rooms';
+export type AuditCategory = 'members' | 'permissions' | 'settings' | 'rooms' | 'roles';
 
-export const AUDIT_CATEGORIES: AuditCategory[] = ['members', 'permissions', 'settings', 'rooms'];
+export const AUDIT_CATEGORIES: AuditCategory[] = [
+  'members',
+  'permissions',
+  'settings',
+  'rooms',
+  'roles',
+];
 
 /** What happened, as a translation key under `room.settings.auditLog.action` plus its values. */
 export interface AuditEntry {
@@ -163,4 +171,28 @@ export function buildAuditLog(
   return entries
     .flatMap((e) => (e.kind === 'event' ? auditEntriesFor(e, roomName) : []))
     .sort((a, b) => b.ts - a.ts);
+}
+
+const ROLES_TYPES = new Set(typeAndLegacy(mudrixKey('space_roles')));
+const MEMBER_ROLES_TYPES = new Set(typeAndLegacy(mudrixKey('space_member_roles')));
+
+/** The entries for role changes seen by the state store (changes of the list, or of a person's roles). */
+export function roleAuditEntries(changes: readonly StateEntry[]): AuditEntry[] {
+  const out: AuditEntry[] = [];
+  for (const change of changes) {
+    if (!change.eventId) continue;
+    const actor = formatUserId(change.sender) || change.sender;
+    const base = { category: 'roles' as const, actor, id: change.eventId, ts: change.ts };
+    if (ROLES_TYPES.has(change.type)) {
+      out.push({ ...base, action: 'rolesChanged', values: {} });
+    } else if (MEMBER_ROLES_TYPES.has(change.type) && change.stateKey) {
+      const target = `@${change.stateKey}`;
+      out.push({
+        ...base,
+        action: 'memberRolesChanged',
+        values: { target: formatUserId(target) || target },
+      });
+    }
+  }
+  return out;
 }

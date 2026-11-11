@@ -704,7 +704,8 @@
           "members": "Участники",
           "permissions": "Права",
           "settings": "Настройки",
-          "rooms": "Комнаты"
+          "rooms": "Комнаты",
+          "roles": "Роли"
         },
         "rule": {
           "public": "все",
@@ -738,7 +739,9 @@
           "aliasChanged": "изменил основной адрес",
           "upgraded": "обновил до новой версии",
           "roomAdded": "добавил {{room}}",
-          "roomRemoved": "убрал {{room}}"
+          "roomRemoved": "убрал {{room}}",
+          "rolesChanged": "изменил роли",
+          "memberRolesChanged": "изменил роли {{target}}"
         }
       },
       "spaces": {

@@ -1,6 +1,13 @@
 import type { SpaceNode, WizardClient } from '@wizardchat/core';
 import { canSendState, parentSpacesOf, powerLevelOf } from '@/app/data';
 import { legacyTypeOf } from '@/util/namespace';
+import {
+  getMudrixRoomState,
+  loadMudrixRoomState,
+  setMudrixRoomState,
+  subscribeMudrixRoomState,
+} from '@/app/features/space/mudrixRoomState';
+import type { MudrixRoomState } from '@/app/features/space/mudrixStateEntries';
 import { normalizeMimetype } from './builtIn';
 import {
   DEFAULT_SOUNDBOARD_ROOM_SETTINGS,
@@ -90,14 +97,13 @@ export interface RoomSoundboardData {
   /** The room's `m.room.power_levels` content and creators, for the checks below. */
   powerLevels: Record<string, unknown> | undefined;
   creators: string[];
-  loadedAt: number;
 }
 
-/** Custom state is not part of what sync delivers, so it is asked for and kept for a short while. */
-const CACHE_MS = 30_000;
-const cache = new Map<string, RoomSoundboardData>();
-const inFlight = new Map<string, Promise<RoomSoundboardData>>();
-const listeners = new Set<() => void>();
+/** The power levels and creators last seen for a room (power levels are read from local state). */
+const permissions = new Map<
+  string,
+  { powerLevels: Record<string, unknown> | undefined; creators: string[] }
+>();
 
 function sanitizeSettings(raw: unknown): SoundboardRoomSettings | null {
   if (!raw || typeof raw !== 'object') return null;
@@ -114,73 +120,50 @@ function sanitizeSettings(raw: unknown): SoundboardRoomSettings | null {
   };
 }
 
-/** The room's board, settings and power levels (kept for 30 seconds unless `force`). */
-export function loadRoomSoundboardData(
+function dataFrom(roomId: string, state: MudrixRoomState | null): RoomSoundboardData | undefined {
+  const perms = permissions.get(roomId);
+  if (!state && !perms) return undefined;
+  return {
+    board: parseBoard(state?.get(SOUNDBOARD_DATA_TYPE)),
+    settings: sanitizeSettings(state?.get(SOUNDBOARD_SETTINGS_TYPE)),
+    powerLevels: perms?.powerLevels,
+    creators: perms?.creators ?? [],
+  };
+}
+
+/**
+ * The room's board, settings and power levels. The board and settings come from the Mudrix state
+ * store, which the core's events keep current, so there is nothing to refresh; `force` is accepted
+ * for callers that used to ask for a fresh read.
+ */
+export async function loadRoomSoundboardData(
   client: WizardClient,
   roomId: string,
-  force = false
+  _force = false
 ): Promise<RoomSoundboardData> {
-  const cached = cache.get(roomId);
-  if (cached && !force && Date.now() - cached.loadedAt < CACHE_MS) return Promise.resolve(cached);
-  const pending = inFlight.get(roomId);
-  if (pending) return pending;
-  const request = (async () => {
-    const types = [
-      SOUNDBOARD_DATA_TYPE,
-      legacyTypeOf(SOUNDBOARD_DATA_TYPE),
-      SOUNDBOARD_SETTINGS_TYPE,
-      legacyTypeOf(SOUNDBOARD_SETTINGS_TYPE),
-    ];
-    const [events, room] = await Promise.all([
-      client.stateEventsOfTypes(roomId, types).catch(() => [] as [string, string, unknown][]),
-      client.localRoomSettings(roomId).catch(() => null),
-    ]);
-    const content = (type: string) =>
-      events.find(([t, key]) => t === type && key === '')?.[2] as unknown;
-    const data: RoomSoundboardData = {
-      board: parsePersonalBoard(
-        content(SOUNDBOARD_DATA_TYPE),
-        content(legacyTypeOf(SOUNDBOARD_DATA_TYPE))
-      ),
-      settings: sanitizeSettings(
-        content(SOUNDBOARD_SETTINGS_TYPE) ?? content(legacyTypeOf(SOUNDBOARD_SETTINGS_TYPE))
-      ),
-      powerLevels:
-        (room?.powerLevels as Record<string, unknown> | undefined) ?? cached?.powerLevels,
-      creators: room?.creators ?? cached?.creators ?? [],
-      loadedAt: Date.now(),
-    };
-    cache.set(roomId, data);
-    listeners.forEach((fn) => fn());
-    return data;
-  })().finally(() => inFlight.delete(roomId));
-  inFlight.set(roomId, request);
-  return request;
+  const [state, room] = await Promise.all([
+    loadMudrixRoomState(roomId),
+    client.localRoomSettings(roomId).catch(() => null),
+  ]);
+  if (room) {
+    permissions.set(roomId, {
+      powerLevels: room.powerLevels as Record<string, unknown> | undefined,
+      creators: room.creators ?? [],
+    });
+  }
+  return (
+    dataFrom(roomId, state) ?? { board: [], settings: null, powerLevels: undefined, creators: [] }
+  );
 }
 
 /** What is known about a room without asking (undefined before the first load). */
 export function getCachedRoomSoundboardData(roomId: string): RoomSoundboardData | undefined {
-  return cache.get(roomId);
+  return dataFrom(roomId, getMudrixRoomState(roomId));
 }
 
-/** Calls `listener` whenever any room's data was (re)loaded or changed; returns the unsubscribe. */
+/** Calls `listener` whenever any room's Mudrix state changed; returns the unsubscribe. */
 export function subscribeRoomSoundboardData(listener: () => void): () => void {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
-
-function remember(roomId: string, change: Partial<RoomSoundboardData>): void {
-  const current = cache.get(roomId);
-  cache.set(roomId, {
-    board: [],
-    settings: null,
-    powerLevels: undefined,
-    creators: [],
-    ...current,
-    ...change,
-    loadedAt: Date.now(),
-  });
-  listeners.forEach((fn) => fn());
+  return subscribeMudrixRoomState(listener);
 }
 
 /** Whether `userId` may send the room's soundboard state (change its board or its settings). */
@@ -208,11 +191,10 @@ export async function writeRoomBoard(
   const data = await loadRoomSoundboardData(client, roomId);
   if (!myId || !canManageSoundboard(data, myId)) throw new SoundboardError('forbidden');
   try {
-    await client.setStateEvent(roomId, SOUNDBOARD_DATA_TYPE, '', { sounds });
+    await setMudrixRoomState(client, roomId, SOUNDBOARD_DATA_TYPE, { sounds });
   } catch (err) {
     throw new SoundboardError('save', err instanceof Error ? err.message : undefined);
   }
-  remember(roomId, { board: sounds });
 }
 
 export async function writeRoomSoundboardSettings(
@@ -220,11 +202,10 @@ export async function writeRoomSoundboardSettings(
   roomId: string,
   settings: SoundboardRoomSettings
 ): Promise<void> {
-  await client.setStateEvent(roomId, SOUNDBOARD_SETTINGS_TYPE, '', {
+  await setMudrixRoomState(client, roomId, SOUNDBOARD_SETTINGS_TYPE, {
     enabled: settings.enabled,
     minPowerLevel: settings.minPowerLevel,
   });
-  remember(roomId, { settings });
 }
 
 /** Rooms whose boards apply in `roomId`: its parent spaces first, then the room itself. */

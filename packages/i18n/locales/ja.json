@@ -704,7 +704,8 @@
           "members": "メンバー",
           "permissions": "権限",
           "settings": "設定",
-          "rooms": "ルーム"
+          "rooms": "ルーム",
+          "roles": "ロール"
         },
         "rule": {
           "public": "誰でも",
@@ -738,7 +739,9 @@
           "aliasChanged": "がメインアドレスを変更しました",
           "upgraded": "が新しいバージョンにアップグレードしました",
           "roomAdded": "が {{room}} を追加しました",
-          "roomRemoved": "が {{room}} を削除しました"
+          "roomRemoved": "が {{room}} を削除しました",
+          "rolesChanged": "がロールを変更しました",
+          "memberRolesChanged": "が {{target}} のロールを変更しました"
         }
       },
       "spaces": {

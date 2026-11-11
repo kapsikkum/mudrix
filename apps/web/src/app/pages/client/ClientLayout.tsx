@@ -66,6 +66,7 @@ import { useUpdateCheck } from '@/app/hooks/useUpdateCheck';
 import { usePresenceSender } from '@/app/hooks/usePresenceSender';
 import { useBindFavouriteRooms } from '@/app/hooks/useBindFavouriteRooms';
 import { useSpaceNicknameSync } from '@/app/hooks/useSpaceNicknames';
+import { useMudrixStateWatch } from '@/app/features/space/mudrixRoomState';
 import { usePresenceListener } from '@/app/hooks/usePresenceListener';
 import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
@@ -499,6 +500,7 @@ export function ClientLayout() {
   useStreamerMode();
   useBindFavouriteRooms();
   useSpaceNicknameSync(client);
+  useMudrixStateWatch(client);
   usePresenceListener(client);
   useConnectionStatusWatcher();
   useCustomStatusSync(client);

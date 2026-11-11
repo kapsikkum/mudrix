@@ -3,16 +3,19 @@ import { useTranslation } from 'react-i18next';
 import {
   ChatsIcon,
   GearSixIcon,
+  IdentificationBadgeIcon,
   ShieldIcon,
   UserIcon,
   type Icon as PhosphorIcon,
 } from '@phosphor-icons/react';
 import { useAllJoinedSpaces, useAllRooms, useClient, useTimeline } from '@/app/data';
 import { Button } from '@/app/components/Button';
+import { useMudrixRoleLog } from '@/app/features/space/mudrixRoomState';
 import {
   AUDIT_CATEGORIES,
   buildAuditLog,
   levelValue,
+  roleAuditEntries,
   type AuditCategory,
   type AuditEntry,
 } from './auditEntries';
@@ -24,6 +27,7 @@ const ICONS: Record<AuditCategory, PhosphorIcon> = {
   permissions: ShieldIcon,
   settings: GearSixIcon,
   rooms: ChatsIcon,
+  roles: IdentificationBadgeIcon,
 };
 
 /** Enough entries to fill the panel before the user asks for more. */
@@ -47,7 +51,14 @@ export function AuditLogPanel({ roomId }: { roomId: string }) {
       ]),
     [rooms, spaces]
   );
-  const entries = useMemo(() => buildAuditLog(raw, (id) => names.get(id) ?? id), [raw, names]);
+  const roleLog = useMudrixRoleLog(roomId);
+  const entries = useMemo(
+    () =>
+      [...buildAuditLog(raw, (id) => names.get(id) ?? id), ...roleAuditEntries(roleLog)].sort(
+        (a, b) => b.ts - a.ts
+      ),
+    [raw, names, roleLog]
+  );
   const shown = filter === 'all' ? entries : entries.filter((e) => e.category === filter);
 
   // Fill the panel when it opens: most of a busy room's timeline is messages, so look further back

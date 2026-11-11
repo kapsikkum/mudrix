@@ -704,7 +704,8 @@
           "members": "Leden",
           "permissions": "Rechten",
           "settings": "Instellingen",
-          "rooms": "Kamers"
+          "rooms": "Kamers",
+          "roles": "Rollen"
         },
         "rule": {
           "public": "iedereen",
@@ -738,7 +739,9 @@
           "aliasChanged": "heeft het hoofdadres gewijzigd",
           "upgraded": "heeft bijgewerkt naar een nieuwe versie",
           "roomAdded": "heeft {{room}} toegevoegd",
-          "roomRemoved": "heeft {{room}} verwijderd"
+          "roomRemoved": "heeft {{room}} verwijderd",
+          "rolesChanged": "heeft de rollen gewijzigd",
+          "memberRolesChanged": "heeft de rollen van {{target}} gewijzigd"
         }
       },
       "spaces": {

@@ -704,7 +704,8 @@
           "members": "Members",
           "permissions": "Permissions",
           "settings": "Settings",
-          "rooms": "Rooms"
+          "rooms": "Rooms",
+          "roles": "Roles"
         },
         "rule": {
           "public": "anyone",
@@ -738,7 +739,9 @@
           "aliasChanged": "changed the main address",
           "upgraded": "upgraded it to a new version",
           "roomAdded": "added {{room}}",
-          "roomRemoved": "removed {{room}}"
+          "roomRemoved": "removed {{room}}",
+          "rolesChanged": "changed the roles",
+          "memberRolesChanged": "changed the roles of {{target}}"
         }
       },
       "spaces": {

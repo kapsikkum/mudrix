@@ -704,7 +704,8 @@
           "members": "Üyeler",
           "permissions": "İzinler",
           "settings": "Ayarlar",
-          "rooms": "Odalar"
+          "rooms": "Odalar",
+          "roles": "Roller"
         },
         "rule": {
           "public": "herkes",
@@ -738,7 +739,9 @@
           "aliasChanged": "ana adresi değiştirdi",
           "upgraded": "yeni bir sürüme yükseltti",
           "roomAdded": "{{room}} odasını ekledi",
-          "roomRemoved": "{{room}} odasını kaldırdı"
+          "roomRemoved": "{{room}} odasını kaldırdı",
+          "rolesChanged": "rolleri değiştirdi",
+          "memberRolesChanged": "{{target}} kişisinin rollerini değiştirdi"
         }
       },
       "spaces": {
