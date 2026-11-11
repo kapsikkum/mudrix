@@ -1361,7 +1361,15 @@
     "openThread": "Open thread",
     "threadComposerPlaceholder": "Reply in thread",
     "pinnedEmpty": "No pinned messages.",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "editHistory": {
+      "title": "Bewerkingsgeschiedenis",
+      "open": "Bewerkingsgeschiedenis bekijken",
+      "current": "Huidig",
+      "original": "Origineel",
+      "empty": "Er zijn geen eerdere versies van dit bericht gevonden.",
+      "failed": "Bewerkingsgeschiedenis laden mislukt: {{error}}"
+    }
   },
   "call": {
     "event": {

@@ -927,6 +927,12 @@ const editedMarkerBase = {
   color: vars.color.textMuted,
   fontStyle: 'italic',
   whiteSpace: 'nowrap',
+  // Rendered as a button that opens the edit history.
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  fontFamily: 'inherit',
+  cursor: 'pointer',
 };
 
 // Inline next to the sender name, revealed on row hover

@@ -1361,7 +1361,15 @@
     "openThread": "Open thread",
     "threadComposerPlaceholder": "Reply in thread",
     "pinnedEmpty": "No pinned messages.",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "editHistory": {
+      "title": "Düzenleme geçmişi",
+      "open": "Düzenleme geçmişini görüntüle",
+      "current": "Güncel",
+      "original": "Orijinal",
+      "empty": "Bu mesajın önceki sürümleri bulunamadı.",
+      "failed": "Düzenleme geçmişi yüklenemedi: {{error}}"
+    }
   },
   "call": {
     "event": {

@@ -1361,7 +1361,15 @@
     "openThread": "Open thread",
     "threadComposerPlaceholder": "Reply in thread",
     "pinnedEmpty": "No pinned messages.",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "editHistory": {
+      "title": "История изменений",
+      "open": "Посмотреть историю изменений",
+      "current": "Текущая",
+      "original": "Исходная",
+      "empty": "Более ранние версии этого сообщения не найдены.",
+      "failed": "Не удалось загрузить историю изменений: {{error}}"
+    }
   },
   "call": {
     "event": {

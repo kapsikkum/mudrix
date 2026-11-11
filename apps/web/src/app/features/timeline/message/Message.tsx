@@ -14,6 +14,7 @@ import { Avatar } from '@/app/components/Avatar';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { MessageActionToolbar } from './MessageActionToolbar';
 import { ViewSourceModal } from './ViewSourceModal';
+import { EditHistoryModal } from './EditHistoryModal';
 import { formatTime } from '@/util/format';
 import { formatUserId } from '@/util/matrix';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
@@ -236,6 +237,7 @@ export const Message = memo(function Message({
     initialTime?: number;
   } | null>(null);
   const [viewSourceEvent, setViewSourceEvent] = useState<MatrixEvent | null>(null);
+  const [editHistoryId, setEditHistoryId] = useState<string | null>(null);
   const [devModeEnabled] = useAtom(developerModeAtom);
   const threadLastSeen = useAtomValue(threadLastSeenAtom);
   const { openContextMenu } = useContextMenu();
@@ -1171,7 +1173,16 @@ export const Message = memo(function Message({
                 {senderName}
               </button>
               <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
-              {isEdited && <span className={css.editedMarkerHeader}>{t('timeline.edited')}</span>}
+              {isEdited && (
+                <button
+                  type="button"
+                  className={css.editedMarkerHeader}
+                  onClick={() => setEditHistoryId(event.eventId)}
+                  title={t('timeline.editHistory.open')}
+                >
+                  {t('timeline.edited')}
+                </button>
+              )}
             </div>
           ) : null}
 
@@ -1205,13 +1216,16 @@ export const Message = memo(function Message({
                 <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
               )}
               {isGrouped && isEdited && (
-                <span
+                <button
+                  type="button"
                   className={
                     variant === 'classic' ? css.editedMarkerGroupedClassic : css.editedMarkerGrouped
                   }
+                  onClick={() => setEditHistoryId(event.eventId)}
+                  title={t('timeline.editHistory.open')}
                 >
                   {t('timeline.edited')}
-                </span>
+                </button>
               )}
             </div>
           ) : null}
@@ -1286,6 +1300,12 @@ export const Message = memo(function Message({
         roomId={roomId}
         client={client}
         onClose={handleViewSourceClose}
+      />
+      <EditHistoryModal
+        client={client}
+        roomId={roomId}
+        eventId={editHistoryId}
+        onClose={() => setEditHistoryId(null)}
       />
       {editPollModal}
     </div>

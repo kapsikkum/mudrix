@@ -1361,7 +1361,15 @@
     "openThread": "Open thread",
     "threadComposerPlaceholder": "Reply in thread",
     "pinnedEmpty": "No pinned messages.",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "editHistory": {
+      "title": "Historial de ediciones",
+      "open": "Ver historial de ediciones",
+      "current": "Actual",
+      "original": "Original",
+      "empty": "No se encontraron versiones anteriores de este mensaje.",
+      "failed": "No se pudo cargar el historial de ediciones: {{error}}"
+    }
   },
   "call": {
     "event": {

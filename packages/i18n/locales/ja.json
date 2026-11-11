@@ -1361,7 +1361,15 @@
     "openThread": "Open thread",
     "threadComposerPlaceholder": "Reply in thread",
     "pinnedEmpty": "No pinned messages.",
-    "addReaction": "Add reaction"
+    "addReaction": "Add reaction",
+    "editHistory": {
+      "title": "編集履歴",
+      "open": "編集履歴を表示",
+      "current": "現在",
+      "original": "元のメッセージ",
+      "empty": "このメッセージの以前のバージョンは見つかりませんでした。",
+      "failed": "編集履歴を読み込めませんでした: {{error}}"
+    }
   },
   "call": {
     "event": {
