@@ -54,6 +54,7 @@ import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
+import org.wizardchat.android.matrix.ListeningSharing
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.MudrixRoomStates
@@ -203,6 +204,9 @@ fun MainScreen(roomList: RoomListModel) {
     }
     LaunchedEffect(session.client) {
         if (session.client != null) session.ensureMudrixUserFlag()
+    }
+    LaunchedEffect(session.client, prefs.shareListening) {
+        if (session.client != null && prefs.shareListening) ListeningSharing.start(session) else ListeningSharing.stop()
     }
     // Also when another device changes the setting
     LaunchedEffect(session.client, prefs.showPresence, prefs.presenceChoice) {

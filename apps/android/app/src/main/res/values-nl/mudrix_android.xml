@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">Doorgestuurd naar %1$s</string>
     <string name="mobile_imageFailed">Deze afbeelding kon niet worden geladen. Tik om opnieuw te proberen.</string>
+    <string name="mobile_keepAlive_channel">Achtergrondverbinding</string>
+    <string name="mobile_keepAlive_text">Verbonden voor berichtmeldingen</string>
+    <string name="mobile_listening_note">Toont het nummer dat op deze telefoon speelt op je profiel. Vereist toegang tot meldingen in de Android-instellingen.</string>
+    <string name="mobile_listening_share">Delen waar ik naar luister</string>
     <string name="mobile_lowPriority">Lage prioriteit</string>
     <string name="mobile_presence_invisible">Onzichtbaar</string>
     <string name="mobile_profileChanged">%1$s heeft het profiel bijgewerkt</string>
     <string name="mobile_publish_note">Iedereen kan deze kamer vinden in de openbare gids van je homeserver.</string>
     <string name="mobile_publish_title">Publiceren in de kamergids</string>
+    <string name="mobile_push_distributor">Pushdienst</string>
+    <string name="mobile_push_failed">Registratie mislukt: %1$s</string>
+    <string name="mobile_push_fcmNote">Berichten komen binnen via Googles pushdienst (Firebase).</string>
+    <string name="mobile_push_keepAlive">Verbonden blijven</string>
+    <string name="mobile_push_keepAliveNote">Houdt Mudrix op de achtergrond actief met een stille melding en toont berichtmeldingen zelf. Gebruikt meer batterij.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Deze versie heeft geen pushdienst. Met Verbonden blijven blijft Mudrix actief zodat je meldingen krijgt.</string>
+    <string name="mobile_push_noDistributor">Geen UnifiedPush-app geïnstalleerd. Installeer er een (zoals ntfy) om meldingen te krijgen als Mudrix gesloten is.</string>
+    <string name="mobile_push_title">Bezorging als de app gesloten is</string>
+    <string name="mobile_push_unifiedNote">Berichten komen binnen via een UnifiedPush-app op deze telefoon.</string>
     <string name="mobile_reportRoom_button">Kamer melden</string>
     <string name="mobile_reportRoom_failed">Kamer melden mislukt: %1$s</string>
     <string name="mobile_reportRoom_sent">Kamer gemeld</string>

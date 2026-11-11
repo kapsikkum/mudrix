@@ -10,6 +10,9 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.BuildConfig
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.MatrixSession
@@ -21,8 +24,8 @@ import org.wizardchat.core.PusherConfig
 import org.wizardchat.core.SyncState
 
 object Push {
-    /** The Matrix push gateway's notify URL, from PUSH_GATEWAY_URL at build time; empty registers no pusher */
-    private val GATEWAY = BuildConfig.PUSH_GATEWAY_URL
+    /** The Matrix push gateway's notify URL (PUSH_GATEWAY_URL at build time, or the push mode's own); empty registers no pusher */
+    private val GATEWAY get() = PushProvider.gateway
     private const val FETCH_TIMEOUT_MS = 15_000L
     private const val REGISTER_TIMEOUT_MS = 30_000L
     private const val TAG = "Push"
@@ -60,7 +63,7 @@ object Push {
                     appId = BuildConfig.APPLICATION_ID,
                     pushkey = pushkey,
                     gatewayUrl = GATEWAY,
-                    appName = "WizardChat",
+                    appName = "Mudrix",
                     deviceName = MatrixSession.DEVICE_NAME,
                     lang = Locale.getDefault().toLanguageTag(),
                 ),
@@ -74,6 +77,22 @@ object Push {
             if (error is CancellationException) throw error
             Log.w(TAG, "couldn't register the pusher for $userId", error)
         }
+    }
+
+    /**
+     * What a push gateway forwards: `{"notification": {"event_id", "room_id", "counts": {"unread"}, ...}}`. Gives the
+     * same keys an FCM data message has (`room_id`, `event_id`, `unread`), or null when the bytes are not a notification.
+     */
+    fun parsePayload(content: ByteArray): Map<String, String>? {
+        val notification = runCatching {
+            (Json.parseToJsonElement(content.decodeToString()) as? JsonObject)?.get("notification") as? JsonObject
+        }.getOrNull() ?: return null
+        fun text(key: String) = (notification[key] as? JsonPrimitive)?.takeIf { it.isString }?.content?.takeIf { it.isNotEmpty() }
+        return buildMap {
+            text("room_id")?.let { put("room_id", it) }
+            text("event_id")?.let { put("event_id", it) }
+            ((notification["counts"] as? JsonObject)?.get("unread") as? JsonPrimitive)?.content?.let { put("unread", it) }
+        }.takeIf { it.isNotEmpty() }
     }
 
     fun forget(userId: String) {

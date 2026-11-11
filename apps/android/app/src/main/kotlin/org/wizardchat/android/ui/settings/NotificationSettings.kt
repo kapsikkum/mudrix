@@ -172,6 +172,7 @@ internal fun NotificationSettingsPage(onBack: () -> Unit, openVoice: () -> Unit 
                 note = tr("settings.notifications.bannerNote"),
             )
         }
+        PushDeliverySection()
         if (bannersDenied) {
             StatusText(tr("settings.notifications.systemDisabledAndroid"))
             // The app's notification settings in Android

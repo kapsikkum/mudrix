@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">Forwarded to %1$s</string>
     <string name="mobile_imageFailed">Couldn\'t load this picture. Tap to try again.</string>
+    <string name="mobile_keepAlive_channel">Background connection</string>
+    <string name="mobile_keepAlive_text">Connected for message notifications</string>
+    <string name="mobile_listening_note">Shows the song playing on this phone on your profile. Needs Notification access in Android settings.</string>
+    <string name="mobile_listening_share">Share what I\'m listening to</string>
     <string name="mobile_lowPriority">Low priority</string>
     <string name="mobile_presence_invisible">Invisible</string>
     <string name="mobile_profileChanged">%1$s updated their profile</string>
     <string name="mobile_publish_note">Anyone can find this room in your homeserver\'s public directory.</string>
     <string name="mobile_publish_title">Publish to the room directory</string>
+    <string name="mobile_push_distributor">Push service</string>
+    <string name="mobile_push_failed">Registration failed: %1$s</string>
+    <string name="mobile_push_fcmNote">Messages arrive through Google\'s push service (Firebase).</string>
+    <string name="mobile_push_keepAlive">Stay connected</string>
+    <string name="mobile_push_keepAliveNote">Keeps Mudrix running in the background with a quiet notification, and posts message notifications itself. Uses more battery.</string>
+    <string name="mobile_push_keepAliveOnlyNote">This version has no push service. Stay connected keeps Mudrix running so messages can notify you.</string>
+    <string name="mobile_push_noDistributor">No UnifiedPush app is installed. Install one (like ntfy) to get notifications when Mudrix is closed.</string>
+    <string name="mobile_push_title">Delivery when closed</string>
+    <string name="mobile_push_unifiedNote">Messages arrive through a UnifiedPush app on this phone.</string>
     <string name="mobile_reportRoom_button">Report room</string>
     <string name="mobile_reportRoom_failed">Failed to report room: %1$s</string>
     <string name="mobile_reportRoom_sent">Room reported</string>

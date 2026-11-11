@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">Переслано в %1$s</string>
     <string name="mobile_imageFailed">Не удалось загрузить это изображение. Нажмите, чтобы повторить.</string>
+    <string name="mobile_keepAlive_channel">Фоновое соединение</string>
+    <string name="mobile_keepAlive_text">Подключено для уведомлений о сообщениях</string>
+    <string name="mobile_listening_note">Показывает в профиле трек, играющий на этом телефоне. Нужен доступ к уведомлениям в настройках Android.</string>
+    <string name="mobile_listening_share">Показывать, что я слушаю</string>
     <string name="mobile_lowPriority">Низкий приоритет</string>
     <string name="mobile_presence_invisible">Невидимка</string>
     <string name="mobile_profileChanged">%1$s обновил(а) профиль</string>
     <string name="mobile_publish_note">Любой сможет найти эту комнату в публичном каталоге вашего сервера.</string>
     <string name="mobile_publish_title">Опубликовать в каталоге комнат</string>
+    <string name="mobile_push_distributor">Push-сервис</string>
+    <string name="mobile_push_failed">Не удалось зарегистрироваться: %1$s</string>
+    <string name="mobile_push_fcmNote">Сообщения приходят через push-сервис Google (Firebase).</string>
+    <string name="mobile_push_keepAlive">Оставаться на связи</string>
+    <string name="mobile_push_keepAliveNote">Держит Mudrix в фоне с тихим уведомлением и сам показывает уведомления о сообщениях. Расходует больше заряда.</string>
+    <string name="mobile_push_keepAliveOnlyNote">В этой версии нет push-сервиса. «Оставаться на связи» держит Mudrix запущенным, чтобы приходили уведомления.</string>
+    <string name="mobile_push_noDistributor">Приложение UnifiedPush не установлено. Установите его (например, ntfy), чтобы получать уведомления при закрытом Mudrix.</string>
+    <string name="mobile_push_title">Доставка при закрытом приложении</string>
+    <string name="mobile_push_unifiedNote">Сообщения приходят через приложение UnifiedPush на этом телефоне.</string>
     <string name="mobile_reportRoom_button">Пожаловаться на комнату</string>
     <string name="mobile_reportRoom_failed">Не удалось отправить жалобу: %1$s</string>
     <string name="mobile_reportRoom_sent">Жалоба отправлена</string>

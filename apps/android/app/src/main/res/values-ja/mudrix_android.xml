@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">%1$s に転送しました</string>
     <string name="mobile_imageFailed">この画像を読み込めませんでした。タップして再試行します。</string>
+    <string name="mobile_keepAlive_channel">バックグラウンド接続</string>
+    <string name="mobile_keepAlive_text">メッセージ通知のため接続中</string>
+    <string name="mobile_listening_note">この端末で再生中の曲をプロフィールに表示します。Android設定で通知へのアクセスが必要です。</string>
+    <string name="mobile_listening_share">聴いている曲を共有</string>
     <string name="mobile_lowPriority">低優先度</string>
     <string name="mobile_presence_invisible">オンライン状態を隠す</string>
     <string name="mobile_profileChanged">%1$s さんがプロフィールを更新しました</string>
     <string name="mobile_publish_note">ホームサーバーの公開ディレクトリで誰でもこのルームを見つけられます。</string>
     <string name="mobile_publish_title">ルームディレクトリに公開</string>
+    <string name="mobile_push_distributor">プッシュサービス</string>
+    <string name="mobile_push_failed">登録に失敗しました: %1$s</string>
+    <string name="mobile_push_fcmNote">メッセージは Google のプッシュサービス（Firebase）経由で届きます。</string>
+    <string name="mobile_push_keepAlive">接続を維持</string>
+    <string name="mobile_push_keepAliveNote">目立たない通知でMudrixをバックグラウンドで動かし続け、メッセージ通知を自分で表示します。バッテリーを多く使います。</string>
+    <string name="mobile_push_keepAliveOnlyNote">このバージョンにはプッシュサービスがありません。「接続を維持」でMudrixを動かし続け、メッセージを通知します。</string>
+    <string name="mobile_push_noDistributor">UnifiedPush アプリがありません。Mudrix を閉じていても通知を受け取るには ntfy などをインストールしてください。</string>
+    <string name="mobile_push_title">アプリを閉じているときの配信</string>
+    <string name="mobile_push_unifiedNote">メッセージはこの端末の UnifiedPush アプリ経由で届きます。</string>
     <string name="mobile_reportRoom_button">ルームを報告</string>
     <string name="mobile_reportRoom_failed">ルームを報告できませんでした: %1$s</string>
     <string name="mobile_reportRoom_sent">ルームを報告しました</string>

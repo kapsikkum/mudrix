@@ -244,6 +244,12 @@ class AppPreferences(context: Context) {
     }
 
     /** Ask a person's homeserver what it runs and show it on their profile */
+    /** Keeps the app connected in the background (the foreground service); on from the start in a build that has no push service */
+    var keepAlive by pref(
+        defaults.getBoolean("keepAlive", org.wizardchat.android.push.PushMode.current == org.wizardchat.android.push.PushMode.keepalive),
+    ) { putBoolean("keepAlive", it) }
+    /** Shares the song playing on the phone as the profile's "listening to" (needs Notification access) */
+    var shareListening by pref(defaults.getBoolean("shareListening", false)) { putBoolean("shareListening", it) }
     var presenceChoice by pref(enumPref("presenceChoice", PresenceChoice.auto)) { putString("presenceChoice", it.name) }
     var hideMembershipEvents by pref(defaults.getBoolean("hideMembershipEvents", false), boolCodec("hideMembershipEvents")) {
         putBoolean("hideMembershipEvents", it)

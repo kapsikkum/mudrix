@@ -8,9 +8,13 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.wizardchat.android.BuildConfig
 
-internal object PushProvider {
-    suspend fun token(): String? = runCatching {
+/** Firebase Cloud Messaging; the project comes from the FIREBASE_* build secrets, and without them there is no token */
+internal object PushProvider : PushBackend {
+    override val gateway: String = BuildConfig.PUSH_GATEWAY_URL
+
+    override suspend fun token(): String? = runCatching {
         suspendCancellableCoroutine { continuation ->
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 continuation.resume(if (task.isSuccessful) task.result else null)

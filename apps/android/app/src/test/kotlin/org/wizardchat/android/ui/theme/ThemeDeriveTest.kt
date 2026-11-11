@@ -44,7 +44,7 @@ class ThemeDeriveTest {
         assertEquals(web("#b94a48"), hex(c.statusDanger))
         assertEquals(web("#4ade80"), hex(c.presenceOnline))
         assertEquals(web("#4ea8ff"), hex(c.usernameC1))
-        assertEquals(web("#6a329f"), hex(c.logoP0))
+        assertEquals(web("#4a301b"), hex(c.logoP0))
     }
 
     @Test

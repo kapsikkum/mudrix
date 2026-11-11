@@ -38,6 +38,14 @@ fun buildSecret(name: String): String =
 
 fun String.asBuildConfigString(): String = "\"" + replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
+// How messages reach the phone while the app is closed, chosen when building (-Pmudrix.push=...):
+//   keepalive    a foreground service keeps the connection open and posts the notifications (default, needs no credentials)
+//   unifiedpush  a UnifiedPush distributor delivers them through a Matrix push gateway (PUSH_GATEWAY_URL, or the public one)
+//   fcm          Firebase Cloud Messaging through PUSH_GATEWAY_URL; the FIREBASE_* secrets below name the Firebase project
+val pushMode: String = (providers.gradleProperty("mudrix.push").orNull ?: "keepalive").trim().lowercase().also {
+    require(it in setOf("keepalive", "unifiedpush", "fcm")) { "mudrix.push must be keepalive, unifiedpush or fcm, not '$it'" }
+}
+
 android {
     namespace = "org.wizardchat.android"
     compileSdk = 36
@@ -52,13 +60,30 @@ android {
         buildConfigField("String", "GIPHY_API_KEY", buildSecret("GIPHY_API_KEY").asBuildConfigString())
         // Empty means push notifications are not registered (docs/SECRETS.md)
         buildConfigField("String", "PUSH_GATEWAY_URL", buildSecret("PUSH_GATEWAY_URL").asBuildConfigString())
+        buildConfigField("String", "PUSH_MODE", pushMode.asBuildConfigString())
+        if (pushMode == "fcm") {
+            // The Firebase project's values (Project settings > Your apps); without them FCM stays off at run time
+            resValue("string", "google_app_id", buildSecret("FIREBASE_APP_ID"))
+            resValue("string", "gcm_defaultSenderId", buildSecret("FIREBASE_SENDER_ID"))
+            resValue("string", "google_api_key", buildSecret("FIREBASE_API_KEY"))
+            resValue("string", "project_id", buildSecret("FIREBASE_PROJECT_ID"))
+        }
     }
 
-    // gplay pushes through Firebase; fdroid has no Google code (UnifiedPush comes later)
+    // The flavours only name the store; what delivers notifications is the push mode, whose code lives in
+    // src/push-<mode> (nothing from Firebase or UnifiedPush is built into the other modes)
     flavorDimensions += "distribution"
     productFlavors {
         create("gplay") { dimension = "distribution" }
         create("fdroid") { dimension = "distribution" }
+    }
+    sourceSets {
+        listOf("gplay", "fdroid").forEach { flavor ->
+            getByName(flavor) {
+                manifest.srcFile("src/push-$pushMode/AndroidManifest.xml")
+                kotlin.srcDir("src/push-$pushMode/kotlin")
+            }
+        }
     }
 
     signingConfigs {
@@ -134,5 +159,8 @@ dependencies {
     // QR codes for signing in a device: drawing one and reading one from the camera (pure Java, 0.5 MB)
     implementation(libs.zxing.core)
     testImplementation(libs.junit)
-    "gplayImplementation"(libs.firebase.messaging)
+    when (pushMode) {
+        "fcm" -> implementation(libs.firebase.messaging)
+        "unifiedpush" -> implementation(libs.unifiedpush.connector)
+    }
 }

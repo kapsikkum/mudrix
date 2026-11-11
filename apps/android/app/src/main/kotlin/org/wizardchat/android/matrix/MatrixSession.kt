@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.push.KeepAliveService
 import org.wizardchat.android.push.Push
+import org.wizardchat.android.push.PushProvider
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.CustomStatus
@@ -453,6 +455,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                 }
             }
             Push.register()
+            PushProvider.apply(WizardApplication.instance)
+            KeepAliveService.apply(WizardApplication.instance)
         }
         state = State.LoggedIn
     }
@@ -486,6 +490,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         SessionStore.remove(stored.session.userId)
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()
+        KeepAliveService.apply(WizardApplication.instance)
         state = State.Restoring
         restore()
     }
@@ -493,7 +498,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     companion object {
         /** What the web app assumes until the server says otherwise */
         const val DEFAULT_UPLOAD_LIMIT = 15L * 1024 * 1024
-        const val DEVICE_NAME = "WizardChat Android"
+        const val DEVICE_NAME = "Mudrix Android"
         const val CALLBACK_SCHEME = "org.wizardchat"
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"
         val APP = AppInfo(name = "Mudrix", clientUri = "https://github.com/kapsikkum/mudrix")

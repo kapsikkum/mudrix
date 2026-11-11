@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">Przesłano do %1$s</string>
     <string name="mobile_imageFailed">Nie udało się wczytać tego obrazu. Dotknij, aby spróbować ponownie.</string>
+    <string name="mobile_keepAlive_channel">Połączenie w tle</string>
+    <string name="mobile_keepAlive_text">Połączono, aby powiadamiać o wiadomościach</string>
+    <string name="mobile_listening_note">Pokazuje w profilu utwór odtwarzany na tym telefonie. Wymaga dostępu do powiadomień w ustawieniach Androida.</string>
+    <string name="mobile_listening_share">Udostępniaj, czego słucham</string>
     <string name="mobile_lowPriority">Niski priorytet</string>
     <string name="mobile_presence_invisible">Niewidoczny</string>
     <string name="mobile_profileChanged">%1$s zaktualizował(a) profil</string>
     <string name="mobile_publish_note">Każdy może znaleźć ten pokój w publicznym katalogu twojego serwera.</string>
     <string name="mobile_publish_title">Opublikuj w katalogu pokoi</string>
+    <string name="mobile_push_distributor">Usługa push</string>
+    <string name="mobile_push_failed">Rejestracja nie powiodła się: %1$s</string>
+    <string name="mobile_push_fcmNote">Wiadomości docierają przez usługę push Google (Firebase).</string>
+    <string name="mobile_push_keepAlive">Pozostań połączony</string>
+    <string name="mobile_push_keepAliveNote">Utrzymuje Mudrix w tle z cichym powiadomieniem i sam wyświetla powiadomienia o wiadomościach. Zużywa więcej baterii.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Ta wersja nie ma usługi push. „Pozostań połączony” utrzymuje Mudrix, aby powiadamiać o wiadomościach.</string>
+    <string name="mobile_push_noDistributor">Nie zainstalowano aplikacji UnifiedPush. Zainstaluj jedną (np. ntfy), aby dostawać powiadomienia przy zamkniętym Mudrix.</string>
+    <string name="mobile_push_title">Dostarczanie przy zamkniętej aplikacji</string>
+    <string name="mobile_push_unifiedNote">Wiadomości docierają przez aplikację UnifiedPush na tym telefonie.</string>
     <string name="mobile_reportRoom_button">Zgłoś pokój</string>
     <string name="mobile_reportRoom_failed">Nie udało się zgłosić pokoju: %1$s</string>
     <string name="mobile_reportRoom_sent">Pokój zgłoszony</string>

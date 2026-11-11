@@ -3,11 +3,24 @@
 <resources>
     <string name="mobile_forwarded">Reenviado a %1$s</string>
     <string name="mobile_imageFailed">No se pudo cargar esta imagen. Toca para reintentar.</string>
+    <string name="mobile_keepAlive_channel">Conexión en segundo plano</string>
+    <string name="mobile_keepAlive_text">Conectado para notificar mensajes</string>
+    <string name="mobile_listening_note">Muestra en tu perfil la canción que suena en este teléfono. Requiere acceso a notificaciones en los ajustes de Android.</string>
+    <string name="mobile_listening_share">Compartir lo que escucho</string>
     <string name="mobile_lowPriority">Prioridad baja</string>
     <string name="mobile_presence_invisible">Invisible</string>
     <string name="mobile_profileChanged">%1$s actualizó su perfil</string>
     <string name="mobile_publish_note">Cualquiera puede encontrar esta sala en el directorio público de tu servidor.</string>
     <string name="mobile_publish_title">Publicar en el directorio de salas</string>
+    <string name="mobile_push_distributor">Servicio push</string>
+    <string name="mobile_push_failed">Falló el registro: %1$s</string>
+    <string name="mobile_push_fcmNote">Los mensajes llegan por el servicio push de Google (Firebase).</string>
+    <string name="mobile_push_keepAlive">Mantener conexión</string>
+    <string name="mobile_push_keepAliveNote">Mantiene Mudrix en segundo plano con una notificación silenciosa y muestra los avisos de mensajes. Gasta más batería.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Esta versión no tiene servicio push. «Mantener conexión» deja Mudrix activo para avisarte de mensajes.</string>
+    <string name="mobile_push_noDistributor">No hay ninguna app UnifiedPush instalada. Instala una (como ntfy) para recibir avisos con Mudrix cerrado.</string>
+    <string name="mobile_push_title">Entrega con la app cerrada</string>
+    <string name="mobile_push_unifiedNote">Los mensajes llegan por una app UnifiedPush de este teléfono.</string>
     <string name="mobile_reportRoom_button">Denunciar sala</string>
     <string name="mobile_reportRoom_failed">No se pudo denunciar la sala: %1$s</string>
     <string name="mobile_reportRoom_sent">Sala denunciada</string>

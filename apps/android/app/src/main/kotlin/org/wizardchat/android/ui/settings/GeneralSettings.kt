@@ -474,6 +474,8 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                 { prefs.showHomeserverSoftware = it },
                 note = tr("settings.privacy.showHomeserverSoftwareNote"),
             )
+            SettingsDivider()
+            ListeningRow()
             BlockInvitesRow()
         }
     }
