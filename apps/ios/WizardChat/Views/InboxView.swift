@@ -21,13 +21,9 @@ struct InboxView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: WZ.Space.space0) {
-                HStack(spacing: WZ.Space.space2) {
-                    tabButton(String(localized: "inbox.tabInvites"), count: roomList.invites.count, tab: .invites)
-                    tabButton(String(localized: "inbox.tabMentions"), count: roomList.mentionRooms.count, tab: .mentions)
-                    tabButton(String(localized: "inbox.tabThreads"), count: 0, tab: .threads)
-                    tabButton(String(localized: "inbox.tabSaved"), count: saved.items.count, tab: .saved)
-                    Spacer()
+            ThemedForm {
+                Section {
+                    tabs
                 }
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
@@ -63,16 +59,20 @@ struct InboxView: View {
                         }
                     }
                 case .threads:
-                    InboxThreadsList(roomList: roomList) { roomId, rootId in
-                        notifier.threadToOpen = (roomId, rootId)
-                        onOpenRoom(roomId)
-                        dismiss()
+                    Section {
+                        InboxThreadsList(roomList: roomList) { roomId, rootId in
+                            notifier.threadToOpen = (roomId, rootId)
+                            onOpenRoom(roomId)
+                            dismiss()
+                        }
                     }
                 case .saved:
-                    InboxSavedList(roomList: roomList) { roomId, eventId in
-                        notifier.eventToFocus = (roomId, eventId)
-                        onOpenRoom(roomId)
-                        dismiss()
+                    Section {
+                        InboxSavedList(roomList: roomList) { roomId, eventId in
+                            notifier.eventToFocus = (roomId, eventId)
+                            onOpenRoom(roomId)
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -88,11 +88,13 @@ struct InboxView: View {
         .presentationDetents([.medium, .large])
     }
 
-    /// Two equal halves, the active one raised, each with its count
+    /// Equal parts, the active one raised, each with its count
     private var tabs: some View {
         HStack(spacing: WZ.Space.space1) {
             tabButton(String(localized: "inbox.tabInvites"), count: roomList.invites.count, tab: .invites)
             tabButton(String(localized: "inbox.tabMentions"), count: roomList.mentionRooms.count, tab: .mentions)
+            tabButton(String(localized: "inbox.tabThreads"), count: 0, tab: .threads)
+            tabButton(String(localized: "inbox.tabSaved"), count: saved.items.count, tab: .saved)
         }
         .padding(WZ.Space.space1)
         .background(theme.fill, in: Capsule())
@@ -106,6 +108,8 @@ struct InboxView: View {
             HStack(spacing: WZ.Space.space3) {
                 Text(title)
                     .font(.wizard(WZ.FontSize.md, isActive ? .semibold : .regular))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
                 if count > 0 {
                     Text(count > 99 ? "99+" : "\(count)")
                         .font(.wizard(WZ.FontSize.xs, .bold))
