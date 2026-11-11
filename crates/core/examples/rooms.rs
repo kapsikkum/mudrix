@@ -385,7 +385,8 @@ async fn main() -> Result<(), BoxError> {
     println!(
         "local settings: join rule {}, profile status writable: {}",
         local.join_rule,
-        me.can_set_profile_field("org.wizardchat.status").await?
+        me.can_set_profile_field("io.github.kapsikkum.mudrix.status")
+            .await?
     );
 
     println!("All room checks passed in {:.1?}", started.elapsed());

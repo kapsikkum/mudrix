@@ -84,6 +84,8 @@ pub struct WizardClient {
     /// The newest tokens another instance on the same store refreshed (another browser tab)
     shared_tokens: Arc<Mutex<Option<SessionTokens>>>,
     sync: Mutex<Option<Arc<SyncService>>>,
+    /// The connection that brings Mudrix's own room state (see `custom_state`)
+    pub(crate) state_sync: Mutex<Option<matrix_sdk::executor::JoinHandle<()>>>,
     pub(crate) identity_reset_cancel: Mutex<Option<futures_channel::oneshot::Sender<()>>>,
     pub(crate) downloads: Mutex<crate::media_download::Downloads>,
     pub(crate) spaces: Mutex<Option<Arc<SpaceService>>>,
@@ -141,6 +143,7 @@ impl WizardClient {
             restored: false,
             shared_tokens: Arc::new(Mutex::new(None)),
             sync: Mutex::new(None),
+            state_sync: Mutex::new(None),
             identity_reset_cancel: Mutex::new(None),
             downloads: Mutex::default(),
             spaces: Mutex::new(None),
@@ -274,6 +277,7 @@ impl WizardClient {
     /// Starts (or resumes) the background sync. Room list and timelines need it running.
     pub async fn start_sync(&self) -> Result<()> {
         self.built_sync_service().await?.start().await;
+        self.start_state_sync();
         Ok(())
     }
 
@@ -298,6 +302,7 @@ impl WizardClient {
     }
 
     pub async fn stop_sync(&self) {
+        self.stop_state_sync();
         let service = self.sync.lock().unwrap().clone();
         if let Some(service) = service {
             service.stop().await;

@@ -16,15 +16,20 @@ mod call_history;
 mod calls;
 mod client;
 mod content;
+mod custom_state;
+mod delayed_events;
 mod diff;
 mod directory;
 mod encryption;
 mod error;
+mod event_history;
 mod extras;
 mod features;
 mod homeserver;
+mod key_export;
 mod key_recovery;
 mod media_download;
+mod member_profile;
 mod net;
 mod profile;
 mod push;
@@ -56,17 +61,22 @@ pub use calls::{
 pub use client::{sniff_mime_type, LoadState};
 pub use client::{SyncState, WizardClient};
 pub use content::{EntryContent, MediaInfo, PollAnswerView, PollView, ReplyPreview};
+pub use custom_state::{mudrix_state_types, StateEventView};
+pub use delayed_events::DelayedEvent;
 pub use diff::ListDiff;
 pub use directory::{PublicRoom, PublicRoomsPage, UserResult};
 pub use encryption::{
     DeviceInfo, EncryptionStatus, VerificationEmoji, VerificationFlow, VerificationStatus,
 };
 pub use error::{Error, Result};
+pub use event_history::{EventVersion, SearchDirection, TimestampEvent};
 pub use extras::{ThreadInfo, ThreadPage, UrlPreview};
 pub use features::{EmojiPack, Notification, PackImage, SearchHit};
 pub use homeserver::HomeserverSoftware;
+pub use key_export::KeyImportResult;
 pub use key_recovery::KeyRestoreProgress;
 pub use media_download::DownloadProgress;
+pub use member_profile::RoomMemberProfile;
 pub use profile::{
     CustomStatus, Presence, PresenceInfo, UserProfile, MAX_STATUS_LENGTH, STATUS_FIELD,
 };
@@ -88,7 +98,8 @@ pub use spaces::SpaceHierarchy;
 pub use spaces::{SpaceChild, SpaceLink, SpaceNode, SpaceSummary};
 pub use timeline::{
     Attachment, MentionsInput, MentionsView, MessageKind, Reaction, ReadReceiptView, RoomTimeline,
-    SendState, ThreadSummaryView, TimelineEntry, TimelineKind, TypingUser,
+    SendState, ShieldCode, ShieldColor, ShieldView, ThreadSummaryView, TimelineEntry, TimelineKind,
+    TypingUser,
 };
 pub use timeline::{UploadProgress, UploadedAttachment};
 pub use trust::{IdentityChange, UserTrust};

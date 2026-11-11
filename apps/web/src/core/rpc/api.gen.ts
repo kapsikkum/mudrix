@@ -195,6 +195,35 @@ export type CustomStatus = {
   expiresAt?: number | null;
 };
 
+/**
+ * A delayed event the homeserver holds for the user
+ */
+export type DelayedEvent = {
+  /**
+   * What `cancelDelayedEvent` and `sendDelayedEventNow` take
+   */
+  delayId: string;
+  roomId: string;
+  eventType: string;
+  /**
+   * Set when the delayed event is a state event
+   */
+  stateKey: string | null;
+  /**
+   * The content to send
+   */
+  content: JsonValue;
+  /**
+   * How long the server waits, in milliseconds
+   */
+  delayMs: number;
+  /**
+   * When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+   * event goes out at `runningSince + delayMs`
+   */
+  runningSince: number;
+};
+
 export type DeviceInfo = {
   deviceId: string;
   displayName: string | null;
@@ -338,6 +367,29 @@ export type EventSource = {
 };
 
 /**
+ * One version of a message: the original or an edit
+ */
+export type EventVersion = {
+  /**
+   * The original event's or the edit's ID
+   */
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  timestamp: number;
+  isOriginal: boolean;
+  msgtype: string | null;
+  body: string;
+  /**
+   * Set with `formattedBody` when the version has HTML
+   */
+  format: string | null;
+  formattedBody: string | null;
+};
+
+/**
  * Who may read a room's history
  */
 export type HistoryVisibility = 'world_readable' | 'shared' | 'invited' | 'joined';
@@ -422,6 +474,20 @@ export type InviteInfo = {
 export type JoinRule = 'invite' | 'public' | 'knock' | 'restricted' | 'knock_restricted';
 
 export type JsonValue = any;
+
+/**
+ * What an import found
+ */
+export type KeyImportResult = {
+  /**
+   * Keys that were new or better than the ones this device had
+   */
+  imported: number;
+  /**
+   * Keys the file holds
+   */
+  total: number;
+};
 
 /**
  * How far restoring the room keys from the key backup has come
@@ -828,6 +894,21 @@ export type RoomFilter = {
 export type RoomKind = 'all' | 'people' | 'groups' | 'unread' | 'favourites' | 'invites';
 
 /**
+ * What a room's member event says about a person
+ */
+export type RoomMemberProfile = {
+  /**
+   * `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event
+   */
+  membership: string | null;
+  displayname: string | null;
+  /**
+   * `mxc://` URI
+   */
+  avatarUrl: string | null;
+};
+
+/**
  * What the user may do in a room, for showing or hiding actions
  */
 export type RoomPermissions = {
@@ -974,6 +1055,11 @@ export type RoomSummary = {
 export type RoomTag = { name: string; order: number | null };
 
 /**
+ * Which way `timestampToEvent` looks from the date
+ */
+export type SearchDirection = 'forward' | 'backward';
+
+/**
  * A message found by search
  */
 export type SearchHit = {
@@ -1074,6 +1160,28 @@ export type SfuConfig = {
 };
 
 /**
+ * Why a message gets a shield
+ */
+export type ShieldCode =
+  | 'authenticityNotGuaranteed'
+  | 'unknownDevice'
+  | 'unsignedDevice'
+  | 'unverifiedIdentity'
+  | 'verificationViolation'
+  | 'mismatchedSender'
+  | 'sentInClear';
+
+/**
+ * How serious a message's encryption warning is
+ */
+export type ShieldColor = 'red' | 'grey';
+
+/**
+ * The encryption warning to show on a message
+ */
+export type ShieldView = { color: ShieldColor; code: ShieldCode };
+
+/**
  * A room or subspace inside a space, joined or not
  */
 export type SpaceChild = {
@@ -1163,6 +1271,25 @@ export type SpaceSummary = {
  * A state change seen in sync, so cached settings can be refreshed
  */
 export type StateChange = { roomId: string; eventType: string; stateKey: string };
+
+/**
+ * A state event with who sent it and when
+ */
+export type StateEventView = {
+  roomId: string;
+  type: string;
+  stateKey: string;
+  /**
+   * The user ID of whoever set it; permission checks need this
+   */
+  sender: string;
+  content: JsonValue;
+  eventId: string | null;
+  /**
+   * When the sender's server saw it, in milliseconds; `0` when missing
+   */
+  originServerTs: number;
+};
 
 /**
  * Where the client keeps its state, crypto keys and caches.
@@ -1278,6 +1405,11 @@ export type TimelineEntry =
        * as an object; null when there are none or the content is not at hand (a local echo)
        */
       customContent: JsonValue | null;
+      /**
+       * A warning about the message's authenticity; null when it is fine (verified sender) or
+       * the room isn't encrypted
+       */
+      shield: ShieldView | null;
     }
   | { kind: 'dateDivider'; id: string; timestamp: number }
   | { kind: 'readMarker'; id: string }
@@ -1291,6 +1423,17 @@ export type TimelineKind =
   | { type: 'thread'; rootEventId: string }
   | { type: 'pinned' }
   | { type: 'event'; eventId: string };
+
+/**
+ * The event `timestampToEvent` found
+ */
+export type TimestampEvent = {
+  eventId: string;
+  /**
+   * When the sender's server saw it, in milliseconds
+   */
+  timestamp: number;
+};
 
 export type Tombstone = { replacementRoom: string; body: string };
 
@@ -2450,6 +2593,169 @@ export class WizardClient extends Remote {
 
   logout(): Promise<void> {
     return runtime.call('WizardClient.logout', this, []) as Promise<void>;
+  }
+
+  /**
+   * Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+   * `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+   * Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+   * hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+   * server would have to send the plain event).
+   */
+  sendDelayedEvent(
+    roomId: string,
+    eventType: string,
+    content: JsonValue,
+    delayMs: number,
+    stateKey?: string | null
+  ): Promise<string> {
+    return runtime.call('WizardClient.sendDelayedEvent', this, [
+      roomId,
+      eventType,
+      content,
+      delayMs,
+      stateKey,
+    ]) as Promise<string>;
+  }
+
+  /**
+   * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+   * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+   */
+  listDelayedEvents(roomId?: string | null): Promise<Array<DelayedEvent>> {
+    return runtime.call('WizardClient.listDelayedEvents', this, [roomId]) as Promise<
+      Array<DelayedEvent>
+    >;
+  }
+
+  /**
+   * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+   * looking `direction` from it ("jump to date"); null when the room has no event that
+   * way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+   * `unsupportedByServer` when the homeserver can't look up dates.
+   */
+  timestampToEvent(
+    roomId: string,
+    timestamp: number,
+    direction: SearchDirection
+  ): Promise<TimestampEvent | null> {
+    return runtime.call('WizardClient.timestampToEvent', this, [
+      roomId,
+      timestamp,
+      direction,
+    ]) as Promise<TimestampEvent | null>;
+  }
+
+  /**
+   * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+   * decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+   * left out).
+   */
+  eventEditHistory(roomId: string, eventId: string): Promise<Array<EventVersion>> {
+    return runtime.call('WizardClient.eventEditHistory', this, [roomId, eventId]) as Promise<
+      Array<EventVersion>
+    >;
+  }
+
+  /**
+   * A person's name and picture in one room or space (its `m.room.member` event), which
+   * can differ from their account profile. Works for any user; the server answers for
+   * people this device hasn't loaded.
+   */
+  roomMemberProfile(roomId: string, userId: string): Promise<RoomMemberProfile> {
+    return runtime.call('WizardClient.roomMemberProfile', this, [
+      roomId,
+      userId,
+    ]) as Promise<RoomMemberProfile>;
+  }
+
+  /**
+   * Sets the own name in one room or space only (the member event's `displayname`); null
+   * or empty goes back to the account's display name. Needs a joined room.
+   */
+  setRoomNickname(roomId: string, displayname?: string | null): Promise<void> {
+    return runtime.call('WizardClient.setRoomNickname', this, [
+      roomId,
+      displayname,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Sets the own picture in one room or space only; without `data` it goes back to the
+   * account's picture. Needs a joined room.
+   */
+  setRoomMemberAvatar(
+    roomId: string,
+    data?: Uint8Array | null,
+    mimetype?: string | null
+  ): Promise<void> {
+    return runtime.call('WizardClient.setRoomMemberAvatar', this, [
+      roomId,
+      data,
+      mimetype,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Every state event of the given types in a room, with who set it and when (the sender
+   * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+   * and the older `chat.mudrix.*`) and space children come from this device; the server
+   * is asked once when there are none there or for other types.
+   */
+  stateEventsWithSender(roomId: string, eventTypes: Array<string>): Promise<Array<StateEventView>> {
+    return runtime.call('WizardClient.stateEventsWithSender', this, [
+      roomId,
+      eventTypes,
+    ]) as Promise<Array<StateEventView>>;
+  }
+
+  /**
+   * Calls `listener` with every state event of one of `types` arriving in a joined room,
+   * the first sync's and your own changes included. Mudrix's state types are requested
+   * from the server in every room (a separate light sync connection runs beside the room
+   * list's), so this hears them without polling.
+   */
+  watchStateEvents(types: Array<string>, listener: (value: StateEventView) => void): Subscription {
+    return runtime.watch('WizardClient.watchStateEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+   * `stateEventsWithSender` or `watchStateEvents`.
+   */
+  static mudrixStateTypes(): Promise<Array<string>> {
+    return runtime.call('WizardClient.mudrixStateTypes', null, []) as Promise<Array<string>>;
+  }
+
+  /**
+   * Writes every room key this device has to a file, encrypted with `passphrase`
+   * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+   * `unsupported`.
+   */
+  exportRoomKeys(path: string, passphrase: string): Promise<void> {
+    return runtime.call('WizardClient.exportRoomKeys', this, [path, passphrase]) as Promise<void>;
+  }
+
+  /**
+   * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+   * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+   * Desktop and mobile only: in the browser it rejects with `unsupported`.
+   */
+  importRoomKeys(path: string, passphrase: string): Promise<KeyImportResult> {
+    return runtime.call('WizardClient.importRoomKeys', this, [
+      path,
+      passphrase,
+    ]) as Promise<KeyImportResult>;
+  }
+
+  /** Calls a delayed event off so it is never sent. */
+  cancelDelayedEvent(delayId: string): Promise<void> {
+    return runtime.call('WizardClient.cancelDelayedEvent', this, [delayId]) as Promise<void>;
+  }
+
+  /** Has the server send a delayed event right now. */
+  sendDelayedEventNow(delayId: string): Promise<void> {
+    return runtime.call('WizardClient.sendDelayedEventNow', this, [delayId]) as Promise<void>;
   }
 
   /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */

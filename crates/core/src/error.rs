@@ -39,6 +39,13 @@ pub enum Error {
     NoKeyBackup,
     #[error("the recovery key or passphrase is wrong")]
     WrongRecoveryKey,
+    /// The homeserver lacks the feature (an unstable MSC it hasn't switched on, an endpoint it
+    /// doesn't know); the text names it
+    #[error("the homeserver doesn't support {0}")]
+    UnsupportedByServer(String),
+    /// Not possible on this platform (the browser) or in this room
+    #[error("{0}")]
+    Unsupported(String),
     #[error("{0}")]
     Sdk(String),
 }

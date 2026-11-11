@@ -747,6 +747,7 @@ export const Message = memo(function Message({
       mentions: null,
       sendError: null,
       customContent: null,
+      shield: null,
     });
   }, [inReplyTo, replyTarget, myId]);
 
