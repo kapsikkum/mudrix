@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Переслано в %1$s</string>
+    <string name="mobile_imageFailed">Не удалось загрузить это изображение. Нажмите, чтобы повторить.</string>
+    <string name="mobile_lowPriority">Низкий приоритет</string>
+    <string name="mobile_presence_invisible">Невидимка</string>
+    <string name="mobile_profileChanged">%1$s обновил(а) профиль</string>
+    <string name="mobile_publish_note">Любой сможет найти эту комнату в публичном каталоге вашего сервера.</string>
+    <string name="mobile_publish_title">Опубликовать в каталоге комнат</string>
+    <string name="mobile_reportRoom_button">Пожаловаться на комнату</string>
+    <string name="mobile_reportRoom_failed">Не удалось отправить жалобу: %1$s</string>
+    <string name="mobile_reportRoom_sent">Жалоба отправлена</string>
+    <string name="mobile_reportRoom_title">Пожаловаться на эту комнату?</string>
+</resources>

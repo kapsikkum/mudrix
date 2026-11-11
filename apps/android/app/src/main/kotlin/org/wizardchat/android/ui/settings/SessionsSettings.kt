@@ -77,6 +77,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var showRecoveryKeyEntry by remember { mutableStateOf(false) }
+    var showLinkDevice by remember { mutableStateOf(false) }
     var verification by remember { mutableStateOf<VerificationModel?>(null) }
     var newRecoveryKey by remember { mutableStateOf<String?>(null) }
     var removing by remember { mutableStateOf<DeviceInfo?>(null) }
@@ -157,6 +158,12 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             }
         }
 
+        SettingsSection {
+            SettingsItem {
+                LabelButton(tr("auth.qr.linkTitle"), "qr-code", { showLinkDevice = true })
+            }
+        }
+
         if (loading) {
             SettingsCard {
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Spinner() }
@@ -190,6 +197,12 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     }
 
     if (showRecoveryKeyEntry) RecoveryKeyEntrySheet { showRecoveryKeyEntry = false }
+    if (showLinkDevice) {
+        org.wizardchat.android.ui.login.LinkDeviceSheet {
+            showLinkDevice = false
+            scope.launch { reload() }
+        }
+    }
     verification?.let { model ->
         VerificationSheet(model) {
             verification = null

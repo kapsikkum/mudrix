@@ -131,6 +131,8 @@ dependencies {
     implementation(libs.media3.ui)
     implementation(libs.media3.transformer)
     implementation(libs.media3.effect)
+    // QR codes for signing in a device: drawing one and reading one from the camera (pure Java, 0.5 MB)
+    implementation(libs.zxing.core)
     testImplementation(libs.junit)
     "gplayImplementation"(libs.firebase.messaging)
 }

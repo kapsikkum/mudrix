@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Doorgestuurd naar %1$s</string>
+    <string name="mobile_imageFailed">Deze afbeelding kon niet worden geladen. Tik om opnieuw te proberen.</string>
+    <string name="mobile_lowPriority">Lage prioriteit</string>
+    <string name="mobile_presence_invisible">Onzichtbaar</string>
+    <string name="mobile_profileChanged">%1$s heeft het profiel bijgewerkt</string>
+    <string name="mobile_publish_note">Iedereen kan deze kamer vinden in de openbare gids van je homeserver.</string>
+    <string name="mobile_publish_title">Publiceren in de kamergids</string>
+    <string name="mobile_reportRoom_button">Kamer melden</string>
+    <string name="mobile_reportRoom_failed">Kamer melden mislukt: %1$s</string>
+    <string name="mobile_reportRoom_sent">Kamer gemeld</string>
+    <string name="mobile_reportRoom_title">Deze kamer melden?</string>
+</resources>

@@ -77,6 +77,7 @@ internal sealed interface PeoplePage {
     data class SpaceRoles(val spaceId: String) : PeoplePage
     data class Channels(val spaceId: String) : PeoplePage
     data class AuditLog(val roomId: String) : PeoplePage
+    data class General(val roomId: String) : PeoplePage
 }
 
 /** The pages shared by room info and space settings; false for pages the caller shows itself */
@@ -91,6 +92,7 @@ internal fun SharedPage(page: PeoplePage, push: (PeoplePage) -> Unit, pop: () ->
         is PeoplePage.PackEditor -> PackEditorScreen(page.roomId, page.key, page.content, page.canEdit, pop)
         is PeoplePage.SpaceRoles -> SpaceRolesScreen(page.spaceId, pop)
         is PeoplePage.AuditLog -> AuditLogScreen(page.roomId, pop)
+        is PeoplePage.General -> RoomGeneralScreen(page.roomId, pop)
         else -> return false
     }
     return true
@@ -314,6 +316,8 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                             RowDivider()
                             NavRow(tr("room.header.pinnedMessages"), "push-pin", { push(PeoplePage.Pinned(canPin)) }, value = "$pinnedCount")
                             if (!room.isDirect) {
+                                RowDivider()
+                                NavRow(tr("room.settings.security.title"), "lock-key", { push(PeoplePage.General(room.id)) })
                                 RowDivider()
                                 NavRow(tr("room.settings.permissions.title"), "shield-check", { push(PeoplePage.Roles(room.id)) })
                                 RowDivider()

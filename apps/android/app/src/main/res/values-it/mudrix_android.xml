@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Inoltrato a %1$s</string>
+    <string name="mobile_imageFailed">Impossibile caricare questa immagine. Tocca per riprovare.</string>
+    <string name="mobile_lowPriority">Priorità bassa</string>
+    <string name="mobile_presence_invisible">Invisibile</string>
+    <string name="mobile_profileChanged">%1$s ha aggiornato il profilo</string>
+    <string name="mobile_publish_note">Chiunque può trovare questa stanza nella directory pubblica del tuo server.</string>
+    <string name="mobile_publish_title">Pubblica nella directory delle stanze</string>
+    <string name="mobile_reportRoom_button">Segnala stanza</string>
+    <string name="mobile_reportRoom_failed">Impossibile segnalare la stanza: %1$s</string>
+    <string name="mobile_reportRoom_sent">Stanza segnalata</string>
+    <string name="mobile_reportRoom_title">Segnalare questa stanza?</string>
+</resources>

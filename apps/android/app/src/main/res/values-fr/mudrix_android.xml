@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Transféré à %1$s</string>
+    <string name="mobile_imageFailed">Impossible de charger cette image. Touchez pour réessayer.</string>
+    <string name="mobile_lowPriority">Priorité basse</string>
+    <string name="mobile_presence_invisible">Invisible</string>
+    <string name="mobile_profileChanged">%1$s a mis à jour son profil</string>
+    <string name="mobile_publish_note">Tout le monde peut trouver ce salon dans l\'annuaire public de ton serveur.</string>
+    <string name="mobile_publish_title">Publier dans l\'annuaire des salons</string>
+    <string name="mobile_reportRoom_button">Signaler le salon</string>
+    <string name="mobile_reportRoom_failed">Impossible de signaler le salon : %1$s</string>
+    <string name="mobile_reportRoom_sent">Salon signalé</string>
+    <string name="mobile_reportRoom_title">Signaler ce salon ?</string>
+</resources>

@@ -89,6 +89,7 @@ fun LoginScreen() {
     var usernameState by remember { mutableStateOf(UsernameState.Idle) }
     var busy by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showQr by remember { mutableStateOf(false) }
 
     val server = if (serverChoice == CUSTOM) customServer.trim() else serverChoice
     val serverName = runCatching { android.net.Uri.parse(if ("://" in server) server else "https://$server").host }.getOrNull().orEmpty()
@@ -232,6 +233,8 @@ fun LoginScreen() {
         }
     }
 
+    if (showQr) QrSignInSheet(server) { showQr = false }
+
     Box(Modifier.fillMaxSize().background(theme.bgPrimary)) {
         Column(
             Modifier
@@ -290,6 +293,7 @@ fun LoginScreen() {
                         )
                         if (discovered.oauth) {
                             PrimaryButton(tr(if (busy) "auth.redirecting" else "auth.oidcLogin"), { signInWithBrowser() }, enabled = !busy)
+                            SecondaryButton(tr("auth.qr.signInTitle"), { showQr = true }, enabled = !busy)
                         }
                         if (discovered.password) {
                             WizardTextField(username, { username = it }, tr("auth.username"), keyboardType = KeyboardType.Email)

@@ -223,6 +223,8 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                             GroupedSection {
                                 NavRow(tr("common.members"), "users", { push(PeoplePage.Members(space.id)) })
                                 RowDivider()
+                                NavRow(tr("room.settings.security.title"), "lock-key", { push(PeoplePage.General(space.id)) })
+                                RowDivider()
                                 NavRow(tr("room.settings.permissions.title"), "shield-check", { push(PeoplePage.Roles(space.id)) })
                                 RowDivider()
                                 NavRow(tr("room.settings.emojis.title"), "smiley", { push(PeoplePage.Packs(space.id)) })

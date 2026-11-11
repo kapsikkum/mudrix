@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Encaminhada para %1$s</string>
+    <string name="mobile_imageFailed">Não foi possível carregar esta imagem. Toque para tentar novamente.</string>
+    <string name="mobile_lowPriority">Prioridade baixa</string>
+    <string name="mobile_presence_invisible">Invisível</string>
+    <string name="mobile_profileChanged">%1$s atualizou o perfil</string>
+    <string name="mobile_publish_note">Qualquer pessoa pode encontrar esta sala no diretório público do teu servidor.</string>
+    <string name="mobile_publish_title">Publicar no diretório de salas</string>
+    <string name="mobile_reportRoom_button">Denunciar sala</string>
+    <string name="mobile_reportRoom_failed">Falha ao denunciar a sala: %1$s</string>
+    <string name="mobile_reportRoom_sent">Sala denunciada</string>
+    <string name="mobile_reportRoom_title">Denunciar esta sala?</string>
+</resources>

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.InviteBlocking
 import org.wizardchat.android.matrix.searchUsers
 import org.wizardchat.android.matrix.startDirectMessage
 import org.wizardchat.android.ui.Avatar
@@ -112,11 +113,13 @@ fun UserPickerSheet(
         scope.launch {
             busy = true
             val failed = mutableListOf<String>()
+            val blocked = mutableListOf<String>()
             for (user in selected) {
                 try {
                     client.invite(roomId, user.userId)
                 } catch (e: Exception) {
                     failed += user.userId
+                    if (e is org.wizardchat.core.WizardError && InviteBlocking.isBlockedError(e.errcode)) blocked += user.userId
                 }
             }
             busy = false
@@ -124,7 +127,11 @@ fun UserPickerSheet(
             if (failed.isEmpty()) {
                 onDismiss()
             } else {
-                error = L10n.format("invite.inviteFailed", failed.joinToString(", "))
+                error = if (blocked.size == failed.size) {
+                    L10n.format("invite.inviteBlocked", blocked.joinToString(", "))
+                } else {
+                    L10n.format("invite.inviteFailed", failed.joinToString(", "))
+                }
                 selected = selected.filter { it.userId in failed }
             }
         }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">%1$s に転送しました</string>
+    <string name="mobile_imageFailed">この画像を読み込めませんでした。タップして再試行します。</string>
+    <string name="mobile_lowPriority">低優先度</string>
+    <string name="mobile_presence_invisible">オンライン状態を隠す</string>
+    <string name="mobile_profileChanged">%1$s さんがプロフィールを更新しました</string>
+    <string name="mobile_publish_note">ホームサーバーの公開ディレクトリで誰でもこのルームを見つけられます。</string>
+    <string name="mobile_publish_title">ルームディレクトリに公開</string>
+    <string name="mobile_reportRoom_button">ルームを報告</string>
+    <string name="mobile_reportRoom_failed">ルームを報告できませんでした: %1$s</string>
+    <string name="mobile_reportRoom_sent">ルームを報告しました</string>
+    <string name="mobile_reportRoom_title">このルームを報告しますか？</string>
+</resources>

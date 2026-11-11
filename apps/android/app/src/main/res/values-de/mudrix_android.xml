@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Weitergeleitet an %1$s</string>
+    <string name="mobile_imageFailed">Dieses Bild konnte nicht geladen werden. Tippe, um es erneut zu versuchen.</string>
+    <string name="mobile_lowPriority">Niedrige Priorität</string>
+    <string name="mobile_presence_invisible">Unsichtbar</string>
+    <string name="mobile_profileChanged">%1$s hat das Profil aktualisiert</string>
+    <string name="mobile_publish_note">Jeder kann diesen Raum im öffentlichen Verzeichnis deines Homeservers finden.</string>
+    <string name="mobile_publish_title">Im Raumverzeichnis veröffentlichen</string>
+    <string name="mobile_reportRoom_button">Raum melden</string>
+    <string name="mobile_reportRoom_failed">Raum konnte nicht gemeldet werden: %1$s</string>
+    <string name="mobile_reportRoom_sent">Raum gemeldet</string>
+    <string name="mobile_reportRoom_title">Diesen Raum melden?</string>
+</resources>
