@@ -15,6 +15,7 @@ import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { MessageActionToolbar } from './MessageActionToolbar';
 import { ViewSourceModal } from './ViewSourceModal';
 import { EditHistoryModal } from './EditHistoryModal';
+import { EventShield } from './EventShield';
 import { formatTime } from '@/util/format';
 import { formatUserId } from '@/util/matrix';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
@@ -860,6 +861,14 @@ export const Message = memo(function Message({
 
   const showEncryptedBanner = isDecrypting || isUndecryptable;
   const showFailedUI = isFailed && !isEdited && !isRedacted;
+  const showShield =
+    !!event.shield &&
+    !isSystemMessage &&
+    !isRedacted &&
+    !isSending &&
+    !isFailed &&
+    !isUndecryptable &&
+    !isDecrypting;
   const actionToolbar = showActions && !isRedacted && !showEncryptedBanner && !showFailedUI && (
     <MessageActionToolbar
       event={event}
@@ -1211,7 +1220,14 @@ export const Message = memo(function Message({
             ) : null
           ) : !isEditing ? (
             <div className={contentClass}>
-              {messageContent}
+              {showShield ? (
+                <div className={css.msgContentShieldRow}>
+                  <div className={css.msgContentShieldBody}>{messageContent}</div>
+                  <EventShield shield={event.shield} />
+                </div>
+              ) : (
+                messageContent
+              )}
               {isGrouped && variant === 'classic' && (
                 <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
               )}

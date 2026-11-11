@@ -133,6 +133,24 @@ export const msgAvatarCol = style({
   paddingTop: '2px',
 });
 
+// The message and its shield side by side. A plain block-level flex row would span the whole
+// column and flex:1 on the body would push the shield to the pane's right edge. fit-content
+// shrinks the row to its content (capped at the column width so long text still wraps), keeping
+// the shield snug. 'last baseline' sits the shield on the last line of wrapped text ('center'
+// fallback).
+export const msgContentShieldRow = style({
+  display: 'flex',
+  alignItems: ['center', 'last baseline'],
+  gap: '6px',
+  width: 'fit-content',
+  maxWidth: '100%',
+});
+
+export const msgContentShieldBody = style({
+  flex: 1,
+  minWidth: 0,
+});
+
 export const msgRow = style({
   display: 'flex',
   alignItems: 'flex-start',
