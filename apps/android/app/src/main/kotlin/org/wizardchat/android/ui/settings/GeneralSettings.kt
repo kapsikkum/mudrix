@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,12 +54,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.PackageInfoCompat
 import java.util.Date
+import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.AppPreferences
 import org.wizardchat.android.matrix.DateFormatStyle
 import org.wizardchat.android.matrix.Density
 import org.wizardchat.android.matrix.EmojiOnlySize
+import org.wizardchat.android.matrix.InviteBlocking
+import org.wizardchat.android.matrix.PresenceChoice
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageMention
 import org.wizardchat.android.matrix.ReducedMotion
@@ -66,6 +70,8 @@ import org.wizardchat.android.matrix.StreamerMode
 import org.wizardchat.android.matrix.TimeFormat
 import org.wizardchat.android.matrix.deviceId
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.CopyToast
+import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.theme.CustomTheme
@@ -190,6 +196,20 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 prefs.groupImages,
                 { prefs.groupImages = it },
                 note = tr("settings.appearance.groupImagesNote"),
+            )
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.hideMembershipEvents"),
+                prefs.hideMembershipEvents,
+                { prefs.hideMembershipEvents = it },
+                note = tr("settings.appearance.hideMembershipEventsNote"),
+            )
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.hideProfileEvents"),
+                prefs.hideProfileEvents,
+                { prefs.hideProfileEvents = it },
+                note = tr("settings.appearance.hideProfileEventsNote"),
             )
             SettingsDivider()
             // Android can't swap the launcher icon per theme, so this themes the in-app logo
@@ -433,6 +453,20 @@ internal fun PrivacySettings(onBack: () -> Unit) {
         }
         SettingsSection(tr("settings.privacy.other")) {
             ToggleRow(tr("settings.privacy.showPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.showPresenceNote"))
+            if (prefs.showPresence) {
+                SettingsDivider()
+                PickerRow(
+                    tr("presence.changeStatus"),
+                    prefs.presenceChoice,
+                    listOf(
+                        PresenceChoice.auto to tr("presence.auto"),
+                        PresenceChoice.online to tr("presence.online"),
+                        PresenceChoice.away to tr("presence.away"),
+                        PresenceChoice.invisible to tr("mobile.presence.invisible"),
+                    ),
+                    { prefs.presenceChoice = it },
+                )
+            }
             SettingsDivider()
             ToggleRow(
                 tr("settings.privacy.showHomeserverSoftware"),
@@ -440,8 +474,44 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                 { prefs.showHomeserverSoftware = it },
                 note = tr("settings.privacy.showHomeserverSoftwareNote"),
             )
+            BlockInvitesRow()
         }
     }
+}
+
+/** "Block all invites" (MSC4380); not shown when the homeserver has no such setting */
+@Composable
+private fun BlockInvitesRow() {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    var eventType by remember { mutableStateOf<String?>(null) }
+    var blocked by remember { mutableStateOf(false) }
+    LaunchedEffect(session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        val type = runCatching { InviteBlocking.eventType(client.serverFeatures().unstableFeatures) }.getOrNull() ?: return@LaunchedEffect
+        blocked = InviteBlocking.isBlocked(runCatching { client.accountData(type) }.getOrNull())
+        eventType = type
+    }
+    val type = eventType ?: return
+    SettingsDivider()
+    ToggleRow(
+        tr("settings.privacy.blockInvites"),
+        blocked,
+        { next ->
+            val client = session.client ?: return@ToggleRow
+            val before = blocked
+            blocked = next
+            scope.launch {
+                try {
+                    client.setAccountData(type, InviteBlocking.content(next))
+                } catch (e: Exception) {
+                    blocked = before
+                    CopyToast.show(L10n.format("settings.privacy.blockInvitesFailed", e.message ?: ""))
+                }
+            }
+        },
+        note = tr("settings.privacy.blockInvitesNote"),
+    )
 }
 
 /** The app language; Android applies it right away (per-app languages), so there's no "reopen" note */

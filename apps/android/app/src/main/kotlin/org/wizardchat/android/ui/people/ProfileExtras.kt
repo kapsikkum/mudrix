@@ -43,13 +43,17 @@ import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.accountDataJSON
 import org.wizardchat.android.matrix.setAccountDataJSON
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.settings.VerificationModel
+import org.wizardchat.android.ui.settings.VerificationSheet
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.HomeserverSoftware
+import org.wizardchat.core.UserTrust
 import org.wizardchat.tokens.WZ
 
 /** The colour a profile asks to be tinted with, or null */
@@ -178,6 +182,31 @@ private fun Badge(text: String, glyph: String, color: Color) {
         }
         Text(text, style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = theme.textSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
+}
+
+/** Whether you verified this person, and a button to do it (emoji comparison) when they have an identity */
+@Composable
+internal fun ProfileVerification(userId: String) {
+    val session = LocalSession.current
+    var trust by remember(userId) { mutableStateOf<UserTrust?>(null) }
+    var model by remember { mutableStateOf<VerificationModel?>(null) }
+    LaunchedEffect(userId, model) {
+        trust = session.client?.let { runCatching { it.userTrust(userId) }.getOrNull() }
+    }
+    val current = trust?.takeIf { it.verified || it.hasIdentity } ?: return
+    GroupedSection {
+        GroupedRow(
+            tr(if (current.verified) "profile.verifiedUser" else "profile.notVerifiedUser"),
+            icon = if (current.verified) "shield-check" else "shield-warning",
+            iconTint = if (current.verified) theme.success else theme.textMuted,
+            onClick = if (current.verified) null else ({ model = VerificationModel(VerificationModel.Start.User(userId)) }),
+        ) {
+            if (!current.verified) {
+                Text(tr("verification.verifyUser"), style = wizardFont(WZ.FontSize.lg, FontWeight.Medium), color = theme.accent)
+            }
+        }
+    }
+    model?.let { VerificationSheet(it) { model = null } }
 }
 
 /** A private note on someone, kept in account data and saved when the box loses focus */

@@ -281,6 +281,11 @@ object Soundboard {
         return PlayResult.Ok
     }
 
+    /** Plays a clip here only (the editor's preview); nothing is sent */
+    fun preview(client: WizardClient, clip: SoundboardClip) {
+        play(client, "preview", clip.id, clip.builtIn, clip.resource, clip.url, clip.volume, clip.durationMs)
+    }
+
     /** Plays someone else's press when everything checks out; `fromRoom` is a press that came as a room event */
     fun receive(roomId: String, sender: String, content: JsonElement?, fromRoom: Boolean) {
         val link = link ?: return

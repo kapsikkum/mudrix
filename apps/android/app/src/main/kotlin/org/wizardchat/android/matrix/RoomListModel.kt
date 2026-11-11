@@ -39,6 +39,10 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         private set
     var invites by mutableStateOf(listOf<RoomSummary>())
         private set
+
+    /** Rooms you asked to join and are waiting on; they are not in [joinedRooms] */
+    var knockedIds by mutableStateOf(setOf<String>())
+        private set
     var mentionRooms by mutableStateOf(listOf<RoomSummary>())
         private set
     var spaces by mutableStateOf(listOf<SpaceSummary>())
@@ -172,10 +176,13 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         )
         val bySection = mutableMapOf<String, MutableList<RoomSummary>>()
         var rest = mutableListOf<RoomSummary>()
+        val lowPriority = mutableListOf<RoomSummary>()
         for (room in rooms) {
             if (room.isFavourite) continue
             val tag = sectionTag(room.id)
-            if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room) else rest.add(room)
+            if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room)
+            else if (room.isLowPriority) lowPriority.add(room)
+            else rest.add(room)
         }
         if (selection == SidebarSelection.Home && homeOrder.isNotEmpty()) {
             val position = homeOrder.withIndex().associate { it.value to it.index }
@@ -191,6 +198,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
             addAll(block(above = true))
             add(RoomGroup(RoomGroup.Kind.Rooms, rest))
             addAll(block(above = false))
+            if (lowPriority.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.LowPriority, lowPriority))
         }
     }
 
@@ -202,7 +210,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     }
 
     suspend fun moveGroup(anchor: String, offset: Int, groups: List<RoomGroup>) {
-        val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }.toMutableList()
+        val anchors = groups.filter { it.isMovable }.map { it.id }.toMutableList()
         val index = anchors.indexOf(anchor)
         if (index < 0 || index + offset !in anchors.indices) return
         java.util.Collections.swap(anchors, index, index + offset)
@@ -242,7 +250,8 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     private fun apply(diffs: List<ListDiff<RoomSummary>>) {
         diffs.forEach { it.applyTo(rooms) }
-        joinedRooms = rooms.filter { !it.isInvite }
+        joinedRooms = rooms.filter { !it.isInvite && !it.isKnocked }
+        knockedIds = rooms.filter { it.isKnocked && !it.isInvite }.mapTo(mutableSetOf()) { it.id }
         joinedRooms.forEach { room ->
             if (room.id in notificationOverrides && notificationOverrides[room.id] == room.notificationMode) {
                 notificationOverrides.remove(room.id)
@@ -277,11 +286,18 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
         data object Favourites : Kind
         data class Section(val section: RoomSection) : Kind
         data object Rooms : Kind
+
+        /** Rooms tagged `m.lowpriority` that are in no section; always last, not movable */
+        data object LowPriority : Kind
     }
+
+    /** Sections and the room list itself can be moved up and down; favourites and low priority stay put */
+    val isMovable: Boolean get() = kind != Kind.Favourites && kind != Kind.LowPriority
 
     val id: String
         get() = when (kind) {
             Kind.Favourites -> "favourites"
+            Kind.LowPriority -> "low-priority"
             is Kind.Section -> kind.section.tag
             Kind.Rooms -> ROOMS_ANCHOR
         }

@@ -205,8 +205,8 @@ fun MainScreen(roomList: RoomListModel) {
         if (session.client != null) session.ensureMudrixUserFlag()
     }
     // Also when another device changes the setting
-    LaunchedEffect(session.client, prefs.showPresence) {
-        if (session.client != null) session.applyPresence(prefs.showPresence)
+    LaunchedEffect(session.client, prefs.showPresence, prefs.presenceChoice) {
+        if (session.client != null) session.applyPresence(prefs.showPresence, prefs.presenceChoice)
     }
     // Also runs when the activity is recreated (rotation), so calls end on sign-out instead (MatrixSession)
     DisposableEffect(Unit) {
@@ -341,7 +341,7 @@ private fun TabContent(
         stateHolder.SaveableStateProvider(route?.toString() ?: "root-$tab") {
             when (route) {
                 null -> when (tab) {
-                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox)
+                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox, onCreateSpace, onExplore)
                     Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox)
                     else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
                 }

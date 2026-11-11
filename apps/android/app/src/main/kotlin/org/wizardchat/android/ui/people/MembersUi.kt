@@ -46,6 +46,7 @@ import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.core.HomeserverSoftware
 import org.wizardchat.core.Member
+import org.wizardchat.core.MemberEntry
 import org.wizardchat.tokens.WZ
 
 /** A room's members grouped by role (a page inside room info or space settings) */
@@ -59,11 +60,17 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
     var selected by remember { mutableStateOf<String?>(null) }
     var showInvite by remember { mutableStateOf(false) }
     var canInvite by remember { mutableStateOf(false) }
+    var canKick by remember { mutableStateOf(false) }
+    var knockers by remember { mutableStateOf(listOf<MemberEntry>()) }
+    var knockError by remember { mutableStateOf<String?>(null) }
 
     suspend fun load() {
         val client = session.client ?: return
         members = runCatching { client.members(roomId) }.getOrDefault(emptyList())
-        canInvite = runCatching { client.roomDetails(roomId) }.getOrNull()?.permissions?.invite ?: false
+        val permissions = runCatching { client.roomDetails(roomId) }.getOrNull()?.permissions
+        canInvite = permissions?.invite ?: false
+        canKick = permissions?.kick ?: false
+        knockers = if (canInvite || canKick) runCatching { client.membersInState(roomId, "knock") }.getOrDefault(emptyList()) else emptyList()
         loaded = true
     }
     LaunchedEffect(roomId) { load() }
@@ -115,6 +122,37 @@ internal fun MembersScreen(roomId: String, onBack: () -> Unit) {
                             ActionRow(tr("room.members.invite"), "user-plus", { showInvite = true })
                         }
                     }
+                }
+                if (knockers.isNotEmpty()) {
+                    lazyGroupedSection("knock", "${L10n.format("room.members.pending")}  ${knockers.size}", knockers, { it.userId }) { knocker ->
+                        PersonRow(knocker.displayName, knocker.userId, knocker.avatarUrl, { selected = knocker.userId }) {
+                            if (canKick) {
+                                org.wizardchat.android.ui.BarButton("x-circle", tr("room.members.reject"), {
+                                    scope.launch {
+                                        try {
+                                            session.requireClient.rejectKnock(roomId, knocker.userId)
+                                            load()
+                                        } catch (e: Exception) {
+                                            knockError = L10n.format("room.members.rejectFailed", errorText(e))
+                                        }
+                                    }
+                                }, tint = theme.danger, size = WZ.SizeIcon.md)
+                            }
+                            if (canInvite) {
+                                org.wizardchat.android.ui.BarButton("check", tr("common.accept"), {
+                                    scope.launch {
+                                        try {
+                                            session.requireClient.acceptKnock(roomId, knocker.userId)
+                                            load()
+                                        } catch (e: Exception) {
+                                            knockError = errorText(e)
+                                        }
+                                    }
+                                }, tint = theme.accent, size = WZ.SizeIcon.md)
+                            }
+                        }
+                    }
+                    item { ErrorText(knockError) }
                 }
                 groups.forEach { (id, title, list) ->
                     lazyGroupedSection(id, "$title  ${list.size}", list, { it.userId }) { member ->
@@ -171,6 +209,9 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     var isMember by remember { mutableStateOf(false) }
     var canKick by remember { mutableStateOf(false) }
     var canBan by remember { mutableStateOf(false) }
+    var canInviteHere by remember { mutableStateOf(false) }
+    var canReject by remember { mutableStateOf(false) }
+    var knocking by remember { mutableStateOf(false) }
     var confirm by remember { mutableStateOf<ProfileAction?>(null) }
     var reason by remember { mutableStateOf("") }
     var busy by remember { mutableStateOf(false) }
@@ -195,6 +236,15 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                 runCatching { client.roomDetails(roomId) }.getOrNull()?.permissions?.let { permissions ->
                     canKick = permissions.kick && level < rights.ownLevel
                     canBan = permissions.ban && level < rights.ownLevel
+                }
+            }
+        }
+        if (roomId != null && client != null && !isMe) {
+            knocking = runCatching { client.membersInState(roomId, "knock") }.getOrNull()?.any { it.userId == userId } == true
+            if (knocking) {
+                runCatching { client.roomDetails(roomId) }.getOrNull()?.permissions?.let {
+                    canInviteHere = it.invite
+                    canReject = it.kick
                 }
             }
         }
@@ -232,6 +282,22 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
         }
     }
 
+    fun answerKnock(accept: Boolean) {
+        val roomId = roomId ?: return
+        scope.launch {
+            busy = true
+            try {
+                if (accept) session.requireClient.acceptKnock(roomId, userId) else session.requireClient.rejectKnock(roomId, userId)
+                onChanged()
+                onDismiss()
+            } catch (e: Exception) {
+                error = errorText(e)
+            } finally {
+                busy = false
+            }
+        }
+    }
+
     fun perform(action: ProfileAction) {
         val why = reason.ifEmpty { null }
         reason = ""
@@ -259,6 +325,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                 ) {
+                    ProfileBanner(userId)
                     AccentAvatar(name ?: userId, avatarUrl, extended.accent)
                     Text(
                         name ?: userId,
@@ -278,6 +345,25 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                 }
             }
             if (!isMe) item { ProfileNote(userId) }
+            if (!isMe) item { ProfileVerification(userId) }
+            if (!isMe) item { ProfileMutualRooms(userId, name ?: userId) }
+            if (roomId != null && knocking && (canInviteHere || canReject)) {
+                item {
+                    GroupedSection(header = tr("room.members.pending")) {
+                        if (canInviteHere) {
+                            ActionRow(tr("common.accept"), "check", {
+                                answerKnock(true)
+                            }, enabled = !busy)
+                        }
+                        if (canInviteHere && canReject) RowDivider()
+                        if (canReject) {
+                            ActionRow(tr("room.members.reject"), "x-circle", {
+                                answerKnock(false)
+                            }, theme.danger, enabled = !busy)
+                        }
+                    }
+                }
+            }
             if (roomId != null && isMember && rights.canChange(level, isMe)) {
                 item {
                     GroupedSection {

@@ -25,6 +25,18 @@ import org.wizardchat.android.ui.theme.Themes
 enum class MessageLayout { modern, classic, compact }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
+
+/** Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline) */
+enum class PresenceChoice {
+    auto, online, away, invisible;
+
+    /** What to tell the server; sharing off always reads as offline */
+    fun presence(shared: Boolean): org.wizardchat.core.Presence = when {
+        !shared || this == invisible -> org.wizardchat.core.Presence.offline
+        this == away -> org.wizardchat.core.Presence.unavailable
+        else -> org.wizardchat.core.Presence.online
+    }
+}
 enum class MediaVisibility { always, private, never }
 
 /** An enum whose synced value is not its Kotlin name (`12h` cannot be one) */
@@ -232,6 +244,13 @@ class AppPreferences(context: Context) {
     }
 
     /** Ask a person's homeserver what it runs and show it on their profile */
+    var presenceChoice by pref(enumPref("presenceChoice", PresenceChoice.auto)) { putString("presenceChoice", it.name) }
+    var hideMembershipEvents by pref(defaults.getBoolean("hideMembershipEvents", false), boolCodec("hideMembershipEvents")) {
+        putBoolean("hideMembershipEvents", it)
+    }
+    var hideProfileEvents by pref(defaults.getBoolean("hideProfileEvents", true), boolCodec("hideProfileEvents")) {
+        putBoolean("hideProfileEvents", it)
+    }
     var showHomeserverSoftware by pref(defaults.getBoolean("showHomeserverSoftware", true), boolCodec("showHomeserverSoftware")) {
         putBoolean("showHomeserverSoftware", it)
     }

@@ -38,6 +38,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import io.livekit.android.renderer.TextureViewRenderer
 import io.livekit.android.room.track.VideoTrack
 import livekit.org.webrtc.RendererCommon
+import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.CallParticipantInfo
 import org.wizardchat.android.ui.Avatar
@@ -78,6 +81,8 @@ import io.livekit.android.room.Room as LiveKitRoom
 @Composable
 fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
     val calls = CallManager.shared
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
     var volumeFor by remember { mutableStateOf<String?>(null) }
     val screenShares = calls.participants.filter { it.screenTrack != null }
     val full: (androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope.() -> GridItemSpan) = { GridItemSpan(maxLineSpan) }
@@ -111,6 +116,11 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
             }
             items(calls.participants, key = { it.id }) { participant ->
                 var showMenu by remember { mutableStateOf(false) }
+                var moveTargets by remember(room.id, participant.userId) { mutableStateOf(emptyList<RoomSummary>()) }
+                var showMove by remember { mutableStateOf(false) }
+                LaunchedEffect(showMenu) {
+                    if (showMenu) moveTargets = voiceMoveTargets(session, room.id, participant.userId)
+                }
                 Box(Modifier.animateItem()) {
                     ParticipantTile(
                         room.id,
@@ -121,15 +131,24 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                     WizardMenu(
                         showMenu,
                         { showMenu = false },
-                        listOf(
-                            if (participant.locallyMuted) {
-                                MenuItem(tr("call.unmuteForMe"), "speaker-high") { calls.toggleLocalMute(participant.userId) }
+                        buildList {
+                            add(
+                                if (participant.locallyMuted) {
+                                    MenuItem(tr("call.unmuteForMe"), "speaker-high") { calls.toggleLocalMute(participant.userId) }
+                                } else {
+                                    MenuItem(tr("call.muteForMe"), "speaker-slash") { calls.toggleLocalMute(participant.userId) }
+                                },
+                            )
+                            add(MenuItem(tr("call.volume"), "sliders") { volumeFor = participant.userId })
+                            if (participant.userId in prefs.soundboardMutedUsers) {
+                                add(MenuItem(tr("soundboard.person.unmute"), "bell") { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers - participant.userId })
                             } else {
-                                MenuItem(tr("call.muteForMe"), "speaker-slash") { calls.toggleLocalMute(participant.userId) }
-                            },
-                            MenuItem(tr("call.volume"), "sliders") { volumeFor = participant.userId },
-                        ),
+                                add(MenuItem(tr("soundboard.person.mute"), "bell-slash") { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers + participant.userId })
+                            }
+                            if (moveTargets.isNotEmpty()) add(MenuItem(tr("room.settings.channels.moveTo"), "arrow-circle-right") { showMove = true })
+                        },
                     )
+                    if (showMove) VoiceMoveDialog(room.id, participant.userId, moveTargets) { showMove = false }
                 }
             }
         }

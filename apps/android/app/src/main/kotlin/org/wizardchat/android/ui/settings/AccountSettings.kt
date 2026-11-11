@@ -146,6 +146,8 @@ internal fun AccountSettings(onBack: () -> Unit) {
                 }
             }
             SettingsDivider()
+            BannerSettingsItem { status = it to true }
+            SettingsDivider()
             SettingsItem {
                 Text(tr("settings.account.displayName"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {

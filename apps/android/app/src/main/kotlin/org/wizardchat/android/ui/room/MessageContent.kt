@@ -61,6 +61,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -259,10 +260,13 @@ fun ImageMessageView(
 
     var image by remember(media.source) { mutableStateOf<Bitmap?>(null) }
     var animated by remember(media.source) { mutableStateOf<Drawable?>(null) }
-    LaunchedEffect(animate, hidden, loader) {
+    var failed by remember(media.source) { mutableStateOf(false) }
+    var attempt by remember(media.source) { mutableIntStateOf(0) }
+    LaunchedEffect(animate, hidden, loader, attempt) {
         if (hidden || loader == null) return@LaunchedEffect
         if (animate) animated = loader.animated(media.source)
         if (image == null) image = loader.image(media.source, if (animate) null else 800)
+        failed = image == null && animated == null
     }
 
     val maxWidth = if (isSticker) 160f else 260f
@@ -279,6 +283,10 @@ fun ImageMessageView(
             .messageTap(interaction) {
                 when {
                     hidden -> revealed = true
+                    failed -> {
+                        failed = false
+                        attempt += 1
+                    }
                     canAnimate && !animate && !isSticker -> playing = true
                     !isSticker -> showViewer = true
                 }
@@ -297,6 +305,7 @@ fun ImageMessageView(
                 Modifier.fillMaxSize().then(blur),
                 contentScale = if (isSticker) ContentScale.Fit else ContentScale.Crop,
             )
+            failed && !hidden -> FailedPicture()
             else -> {
                 Box(Modifier.fillMaxSize().background(theme.fill))
                 if (!hidden) Spinner(color = theme.textMuted)
@@ -325,6 +334,19 @@ fun ImageMessageView(
         ImageViewer(image, animated.takeIf { canAnimate }, media.caption ?: media.filename, media.source, media.filename, media.mimetype) {
             showViewer = false
         }
+    }
+}
+
+/** A picture that could not be loaded: a warning tile; tapping it tries again */
+@Composable
+internal fun FailedPicture(modifier: Modifier = Modifier) {
+    Column(
+        modifier.fillMaxSize().background(theme.fill).padding(WZ.Space.space4),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterVertically),
+    ) {
+        PhIcon("warning-circle", size = WZ.SizeIcon.xl, tint = theme.warningColor)
+        Text(tr("mobile.imageFailed"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
     }
 }
 
