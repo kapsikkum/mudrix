@@ -213,7 +213,7 @@ impl WizardClient {
                             || (s.as_str() == "m.login.registration_token" && token.is_some())
                     })
                 })
-                .ok_or_else(|| Error::Sdk("this server needs a step WizardChat can't do here (like a captcha or email); register on the server's website".into()))?;
+                .ok_or_else(|| Error::Sdk("this server needs a step Mudrix can't do here (like a captcha or email); register on the server's website".into()))?;
             let next = flow
                 .stages
                 .iter()

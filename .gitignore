@@ -50,3 +50,4 @@ tools/parity/user-data/
 tools/parity/*.json
 !tools/parity/package.json
 
+/target-*/
