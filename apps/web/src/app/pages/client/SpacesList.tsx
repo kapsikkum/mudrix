@@ -60,6 +60,7 @@ import { getErrorMessage } from '@/util/error';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSpaceNicknamePrompt } from '@/app/hooks/useSpaceNicknames';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { isNativeApp } from '@/util/nativeApp';
 import * as css from './SpacesList.css';
@@ -173,6 +174,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const client = getMatrixClientOrNull();
+  const setNickname = useSpaceNicknamePrompt(client);
   const rooms = useAllRooms();
   const graph = useSpaceGraph();
   const queryClient = useQueryClient();
@@ -215,6 +217,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
         pinnedSubSpaces,
         setPinnedSubSpacesArr,
         setSpaceSettings,
+        setNickname,
         markSpaceAsRead: handleMarkSpaceAsRead,
       });
     },
@@ -228,6 +231,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       toast,
       pinnedSubSpaces,
       setPinnedSubSpacesArr,
+      setNickname,
       handleMarkSpaceAsRead,
     ]
   );

@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Nie udało się włączyć szyfrowania: {{error}}",
         "autoJoin": "Dołączaj nowych członków do każdego pokoju",
         "autoJoinNote": "Każdy, kto dołączy do tej przestrzeni, zostanie dodany do wszystkich jej pokojów i kategorii oraz do pokojów dodanych później. Pokoje prywatne pozostają tylko za zaproszeniem, a pokój, który ktoś opuścił, nie dodaje go ponownie.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Twoje imię i obraz tutaj",
+          "note": "Widoczne tylko w tym pokoju zamiast Twojego zwykłego imienia i obrazu.",
+          "name": "Imię w tym pokoju",
+          "namePlaceholder": "Twoje zwykłe imię",
+          "removeAvatar": "Użyj zwykłego obrazu",
+          "saved": "Zapisano dla tego pokoju",
+          "failed": "Nie udało się zapisać: {{error}}"
+        }
       },
       "addresses": {
         "title": "Adresy",
@@ -756,7 +765,17 @@
         "upload": "Prześlij baner"
       },
       "removeRoomConfirmMessage": "Osoby już w {{name}} w nim zostają. Pokój przestaje tylko być wyświetlany w tej przestrzeni.",
-      "removeRoomConfirmTitle": "Usunąć {{name}} z przestrzeni?"
+      "removeRoomConfirmTitle": "Usunąć {{name}} z przestrzeni?",
+      "nickname": {
+        "menu": "Pseudonim w tej przestrzeni…",
+        "title": "Twój pseudonim w {{name}}",
+        "message": "Wyświetlany w pokojach tej przestrzeni zamiast Twojej zwykłej nazwy. Zostaw puste, aby wrócić do zwykłej nazwy.",
+        "applying": "Ustawianie pseudonimu…",
+        "done": "Pseudonim ustawiony w tej przestrzeni",
+        "resetting": "Przywracanie Twojej nazwy…",
+        "reset": "Z powrotem Twoja zwykła nazwa",
+        "failed": "Nie udało się zmienić pseudonimu"
+      }
     },
     "dm": {
       "directMessages": "Wiadomości bezpośrednie",

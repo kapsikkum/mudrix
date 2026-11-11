@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Failed to enable encryption: {{error}}",
         "autoJoin": "Join new members to every room",
         "autoJoinNote": "Anyone who joins this space is joined to all of its rooms and categories, and to rooms added later. Private rooms stay invite only, and a room someone leaves is not joined again.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Your name and picture here",
+          "note": "Shown only in this room instead of your usual name and picture.",
+          "name": "Name in this room",
+          "namePlaceholder": "Your usual name",
+          "removeAvatar": "Use your usual picture",
+          "saved": "Saved for this room",
+          "failed": "Couldn't save: {{error}}"
+        }
       },
       "addresses": {
         "title": "Addresses",
@@ -756,7 +765,17 @@
         "upload": "Upload banner"
       },
       "removeRoomConfirmMessage": "People already in {{name}} stay in it. It just stops being listed in this space.",
-      "removeRoomConfirmTitle": "Remove {{name}} from the space?"
+      "removeRoomConfirmTitle": "Remove {{name}} from the space?",
+      "nickname": {
+        "menu": "Nickname in this space…",
+        "title": "Your nickname in {{name}}",
+        "message": "Shown in this space's rooms instead of your usual name. Leave empty to go back to your usual name.",
+        "applying": "Setting your nickname…",
+        "done": "Nickname set in this space",
+        "resetting": "Restoring your name…",
+        "reset": "Back to your usual name",
+        "failed": "Couldn't change your nickname"
+      }
     },
     "dm": {
       "directMessages": "Direct Messages",

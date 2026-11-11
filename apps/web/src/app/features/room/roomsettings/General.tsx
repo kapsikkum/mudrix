@@ -28,6 +28,7 @@ import * as css from '@/app/components/Settings/Settings.css';
 import { RoomBridges } from './RoomBridges';
 import { AddressesSection } from './AddressesSection';
 import { IdentitySection } from './IdentitySection';
+import { MemberProfileSection } from './MemberProfileSection';
 import { RoomSpacesSection } from './RoomSpaces';
 import { useIdentityForm, type AccessOption } from './useIdentityForm';
 import { useRoomAliases } from './useRoomAliases';
@@ -253,6 +254,10 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           </div>
         </>
       )}
+
+      <div className={css.divider} />
+
+      <MemberProfileSection roomId={roomId} />
 
       <div className={css.divider} />
 

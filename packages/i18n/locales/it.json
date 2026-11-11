@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Impossibile attivare la crittografia: {{error}}",
         "autoJoin": "Aggiungi i nuovi membri a ogni stanza",
         "autoJoinNote": "Chiunque entri in questo spazio viene aggiunto a tutte le sue stanze e categorie, e alle stanze aggiunte in seguito. Le stanze private restano solo su invito, e una stanza che qualcuno lascia non viene riunita di nuovo.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Il tuo nome e la tua immagine qui",
+          "note": "Mostrato solo in questa stanza al posto del tuo nome e della tua immagine abituali.",
+          "name": "Nome in questa stanza",
+          "namePlaceholder": "Il tuo nome abituale",
+          "removeAvatar": "Usa la tua immagine abituale",
+          "saved": "Salvato per questa stanza",
+          "failed": "Impossibile salvare: {{error}}"
+        }
       },
       "addresses": {
         "title": "Indirizzi",
@@ -756,7 +765,17 @@
         "upload": "Carica banner"
       },
       "removeRoomConfirmMessage": "Chi è già in {{name}} ci resta. La stanza smette solo di comparire in questo spazio.",
-      "removeRoomConfirmTitle": "Rimuovere {{name}} dallo spazio?"
+      "removeRoomConfirmTitle": "Rimuovere {{name}} dallo spazio?",
+      "nickname": {
+        "menu": "Soprannome in questo spazio…",
+        "title": "Il tuo soprannome in {{name}}",
+        "message": "Mostrato nelle stanze di questo spazio al posto del tuo nome abituale. Lascia vuoto per tornare al nome abituale.",
+        "applying": "Impostazione del soprannome…",
+        "done": "Soprannome impostato in questo spazio",
+        "resetting": "Ripristino del tuo nome…",
+        "reset": "Di nuovo il tuo nome abituale",
+        "failed": "Impossibile cambiare il soprannome"
+      }
     },
     "dm": {
       "directMessages": "Messaggi diretti",

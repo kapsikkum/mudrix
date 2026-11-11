@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "No se pudo activar el cifrado: {{error}}",
         "autoJoin": "Unir a los nuevos miembros a todas las salas",
         "autoJoinNote": "Quien se una a este espacio entra en todas sus salas y categorías, y en las salas que se añadan después. Las salas privadas siguen siendo solo por invitación, y una sala que alguien abandona no se vuelve a unir.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Tu nombre e imagen aquí",
+          "note": "Solo se muestra en esta sala en lugar de tu nombre e imagen habituales.",
+          "name": "Nombre en esta sala",
+          "namePlaceholder": "Tu nombre habitual",
+          "removeAvatar": "Usar tu imagen habitual",
+          "saved": "Guardado para esta sala",
+          "failed": "No se pudo guardar: {{error}}"
+        }
       },
       "addresses": {
         "title": "Direcciones",
@@ -756,7 +765,17 @@
         "upload": "Subir banner"
       },
       "removeRoomConfirmMessage": "Quienes ya están en {{name}} siguen en él. Solo deja de aparecer en este espacio.",
-      "removeRoomConfirmTitle": "¿Quitar {{name}} del espacio?"
+      "removeRoomConfirmTitle": "¿Quitar {{name}} del espacio?",
+      "nickname": {
+        "menu": "Apodo en este espacio…",
+        "title": "Tu apodo en {{name}}",
+        "message": "Se muestra en las salas de este espacio en lugar de tu nombre habitual. Déjalo vacío para volver a tu nombre habitual.",
+        "applying": "Estableciendo tu apodo…",
+        "done": "Apodo establecido en este espacio",
+        "resetting": "Restaurando tu nombre…",
+        "reset": "De vuelta a tu nombre habitual",
+        "failed": "No se pudo cambiar tu apodo"
+      }
     },
     "dm": {
       "directMessages": "Mensajes directos",

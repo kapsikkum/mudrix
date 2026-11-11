@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Aktivieren der Verschlüsselung fehlgeschlagen: {{error}}",
         "autoJoin": "Neue Mitglieder in alle Räume aufnehmen",
         "autoJoinNote": "Wer diesem Space beitritt, tritt allen seinen Räumen und Kategorien bei, ebenso später hinzugefügten. Private Räume bleiben nur auf Einladung, und ein verlassener Raum wird nicht erneut betreten.",
-        "resetAvatar": "Avatar zurücksetzen"
+        "resetAvatar": "Avatar zurücksetzen",
+        "myProfile": {
+          "title": "Dein Name und Bild hier",
+          "note": "Wird nur in diesem Raum statt deines üblichen Namens und Bildes angezeigt.",
+          "name": "Name in diesem Raum",
+          "namePlaceholder": "Dein üblicher Name",
+          "removeAvatar": "Übliches Bild verwenden",
+          "saved": "Für diesen Raum gespeichert",
+          "failed": "Speichern fehlgeschlagen: {{error}}"
+        }
       },
       "addresses": {
         "title": "Adressen",
@@ -756,7 +765,17 @@
         "upload": "Banner hochladen"
       },
       "removeRoomConfirmMessage": "Wer schon in {{name}} ist, bleibt dort. Der Raum wird nur nicht mehr in diesem Space aufgeführt.",
-      "removeRoomConfirmTitle": "{{name}} aus dem Space entfernen?"
+      "removeRoomConfirmTitle": "{{name}} aus dem Space entfernen?",
+      "nickname": {
+        "menu": "Spitzname in diesem Space…",
+        "title": "Dein Spitzname in {{name}}",
+        "message": "Wird in den Räumen dieses Spaces statt deines üblichen Namens angezeigt. Leer lassen, um zum üblichen Namen zurückzukehren.",
+        "applying": "Spitzname wird gesetzt…",
+        "done": "Spitzname in diesem Space gesetzt",
+        "resetting": "Dein Name wird wiederhergestellt…",
+        "reset": "Zurück zu deinem üblichen Namen",
+        "failed": "Spitzname konnte nicht geändert werden"
+      }
     },
     "dm": {
       "directMessages": "Direktnachrichten",

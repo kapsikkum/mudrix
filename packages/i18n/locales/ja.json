@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "暗号化の有効化に失敗しました: {{error}}",
         "autoJoin": "新しいメンバーを全ルームに参加させる",
         "autoJoinNote": "このスペースに参加した人は、すべてのルームとカテゴリ、および後から追加されたルームにも参加します。プライベートルームは招待制のままで、退出したルームには再参加しません。",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "ここでの名前と画像",
+          "note": "このルームでのみ、普段の名前と画像の代わりに表示されます。",
+          "name": "このルームでの名前",
+          "namePlaceholder": "普段の名前",
+          "removeAvatar": "普段の画像を使う",
+          "saved": "このルームに保存しました",
+          "failed": "保存できませんでした: {{error}}"
+        }
       },
       "addresses": {
         "title": "アドレス",
@@ -756,7 +765,17 @@
         "upload": "バナーをアップロード"
       },
       "removeRoomConfirmMessage": "{{name}} にすでにいる人はそのまま残ります。このスペースの一覧に表示されなくなるだけです。",
-      "removeRoomConfirmTitle": "{{name}} をスペースから外しますか？"
+      "removeRoomConfirmTitle": "{{name}} をスペースから外しますか？",
+      "nickname": {
+        "menu": "このスペースでのニックネーム…",
+        "title": "{{name}} でのニックネーム",
+        "message": "このスペースのルームでは、通常の名前の代わりに表示されます。空欄にすると通常の名前に戻ります。",
+        "applying": "ニックネームを設定中…",
+        "done": "このスペースのニックネームを設定しました",
+        "resetting": "名前を元に戻しています…",
+        "reset": "通常の名前に戻りました",
+        "failed": "ニックネームを変更できませんでした"
+      }
     },
     "dm": {
       "directMessages": "ダイレクトメッセージ",

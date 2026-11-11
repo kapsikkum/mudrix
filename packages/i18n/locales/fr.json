@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Échec de l'activation du chiffrement : {{error}}",
         "autoJoin": "Ajouter les nouveaux membres à tous les salons",
         "autoJoinNote": "Toute personne qui rejoint cet espace rejoint tous ses salons et catégories, ainsi que les salons ajoutés plus tard. Les salons privés restent sur invitation, et un salon quitté par quelqu'un n'est pas rejoint à nouveau.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Votre nom et votre image ici",
+          "note": "Affiché uniquement dans ce salon à la place de votre nom et de votre image habituels.",
+          "name": "Nom dans ce salon",
+          "namePlaceholder": "Votre nom habituel",
+          "removeAvatar": "Utiliser votre image habituelle",
+          "saved": "Enregistré pour ce salon",
+          "failed": "Échec de l'enregistrement : {{error}}"
+        }
       },
       "addresses": {
         "title": "Adresses",
@@ -756,7 +765,17 @@
         "upload": "Téléverser une bannière"
       },
       "removeRoomConfirmMessage": "Les personnes déjà dans {{name}} y restent. Le salon n'apparaît simplement plus dans cet espace.",
-      "removeRoomConfirmTitle": "Retirer {{name}} de l'espace ?"
+      "removeRoomConfirmTitle": "Retirer {{name}} de l'espace ?",
+      "nickname": {
+        "menu": "Pseudo dans cet espace…",
+        "title": "Votre pseudo dans {{name}}",
+        "message": "Affiché dans les salons de cet espace à la place de votre nom habituel. Laissez vide pour revenir à votre nom habituel.",
+        "applying": "Définition de votre pseudo…",
+        "done": "Pseudo défini dans cet espace",
+        "resetting": "Rétablissement de votre nom…",
+        "reset": "Retour à votre nom habituel",
+        "failed": "Impossible de changer votre pseudo"
+      }
     },
     "dm": {
       "directMessages": "Messages privés",

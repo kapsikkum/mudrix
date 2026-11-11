@@ -99,6 +99,7 @@ import {
   type RoomSection,
 } from '@/app/features/room/roomSections';
 import { usePrompt } from '@/app/hooks/usePrompt';
+import { useSpaceNicknamePrompt } from '@/app/hooks/useSpaceNicknames';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { isVoiceRoom } from '@/util/matrix';
 import { manageableAncestors, moveVoiceUser } from '@/app/features/voice/voiceMove';
@@ -368,6 +369,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   );
   const canOrderCurrentSpace = useRoomsWhereCanSendState(ownSpaceIds, 'm.space.child').size > 0;
 
+  const setNickname = useSpaceNicknamePrompt(client);
   const handleMarkSpaceAsRead = useCallback(
     (spaceId: string) => {
       markSpaceAsRead(client, sendReadReceipts, spaceId, allRooms, spaceGraph);
@@ -396,6 +398,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       setPinnedSubSpacesArr,
       setSpaceSettings,
       markSpaceAsRead: handleMarkSpaceAsRead,
+      setNickname,
       onCreateSection: () => void handleNewSectionRef.current(),
       onCreateCategory:
         modernList && canOrderCurrentSpace && currentSpaceId
@@ -403,6 +406,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           : undefined,
     });
   }, [
+    setNickname,
     modernList,
     canOrderCurrentSpace,
     currentSpaceId,

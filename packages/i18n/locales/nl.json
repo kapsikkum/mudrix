@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Versleuteling inschakelen mislukt: {{error}}",
         "autoJoin": "Nieuwe leden aan elke kamer toevoegen",
         "autoJoinNote": "Iedereen die lid wordt van deze space, wordt toegevoegd aan alle kamers en categorieën ervan, en aan kamers die later worden toegevoegd. Privékamers blijven alleen op uitnodiging, en een kamer die iemand verlaat, wordt niet opnieuw toegevoegd.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Je naam en afbeelding hier",
+          "note": "Alleen in deze kamer zichtbaar, in plaats van je gebruikelijke naam en afbeelding.",
+          "name": "Naam in deze kamer",
+          "namePlaceholder": "Je gebruikelijke naam",
+          "removeAvatar": "Gebruikelijke afbeelding gebruiken",
+          "saved": "Opgeslagen voor deze kamer",
+          "failed": "Opslaan mislukt: {{error}}"
+        }
       },
       "addresses": {
         "title": "Adressen",
@@ -756,7 +765,17 @@
         "upload": "Banner uploaden"
       },
       "removeRoomConfirmMessage": "Wie al in {{name}} zit, blijft erin. De kamer wordt alleen niet meer in deze space getoond.",
-      "removeRoomConfirmTitle": "{{name}} uit de space verwijderen?"
+      "removeRoomConfirmTitle": "{{name}} uit de space verwijderen?",
+      "nickname": {
+        "menu": "Bijnaam in deze space…",
+        "title": "Je bijnaam in {{name}}",
+        "message": "Wordt in de kamers van deze space getoond in plaats van je gebruikelijke naam. Laat leeg om terug te gaan naar je gebruikelijke naam.",
+        "applying": "Bijnaam instellen…",
+        "done": "Bijnaam ingesteld in deze space",
+        "resetting": "Je naam herstellen…",
+        "reset": "Terug naar je gebruikelijke naam",
+        "failed": "Kon je bijnaam niet wijzigen"
+      }
     },
     "dm": {
       "directMessages": "Directe berichten",

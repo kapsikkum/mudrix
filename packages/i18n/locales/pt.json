@@ -486,7 +486,16 @@
         "encryptionEnableFailed": "Falha ao ativar a criptografia: {{error}}",
         "autoJoin": "Adicionar novos membros a todas as salas",
         "autoJoinNote": "Quem entrar neste espaço entra em todas as suas salas e categorias, e nas salas adicionadas depois. Salas privadas continuam só por convite, e uma sala que alguém deixou não o adiciona de novo.",
-        "resetAvatar": "Reset avatar"
+        "resetAvatar": "Reset avatar",
+        "myProfile": {
+          "title": "Seu nome e imagem aqui",
+          "note": "Mostrado apenas nesta sala, no lugar do seu nome e imagem habituais.",
+          "name": "Nome nesta sala",
+          "namePlaceholder": "Seu nome habitual",
+          "removeAvatar": "Usar sua imagem habitual",
+          "saved": "Salvo para esta sala",
+          "failed": "Não foi possível salvar: {{error}}"
+        }
       },
       "addresses": {
         "title": "Endereços",
@@ -756,7 +765,17 @@
         "upload": "Enviar banner"
       },
       "removeRoomConfirmMessage": "Quem já está em {{name}} continua nela. Ela só deixa de aparecer neste espaço.",
-      "removeRoomConfirmTitle": "Remover {{name}} do espaço?"
+      "removeRoomConfirmTitle": "Remover {{name}} do espaço?",
+      "nickname": {
+        "menu": "Apelido neste espaço…",
+        "title": "O teu apelido em {{name}}",
+        "message": "Mostrado nas salas deste espaço em vez do teu nome habitual. Deixa vazio para voltar ao nome habitual.",
+        "applying": "A definir o apelido…",
+        "done": "Apelido definido neste espaço",
+        "resetting": "A restaurar o teu nome…",
+        "reset": "De volta ao teu nome habitual",
+        "failed": "Não foi possível alterar o apelido"
+      }
     },
     "dm": {
       "directMessages": "Mensagens diretas",

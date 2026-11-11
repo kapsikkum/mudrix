@@ -65,6 +65,7 @@ import { registerNotificationServiceWorker } from '@/app/hooks/useNotifications'
 import { useUpdateCheck } from '@/app/hooks/useUpdateCheck';
 import { usePresenceSender } from '@/app/hooks/usePresenceSender';
 import { useBindFavouriteRooms } from '@/app/hooks/useBindFavouriteRooms';
+import { useSpaceNicknameSync } from '@/app/hooks/useSpaceNicknames';
 import { usePresenceListener } from '@/app/hooks/usePresenceListener';
 import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
@@ -497,6 +498,7 @@ export function ClientLayout() {
   usePresenceSender(client);
   useStreamerMode();
   useBindFavouriteRooms();
+  useSpaceNicknameSync(client);
   usePresenceListener(client);
   useConnectionStatusWatcher();
   useCustomStatusSync(client);
