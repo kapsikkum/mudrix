@@ -603,3 +603,30 @@ export const callingStatus = style({
   fontWeight: 600,
   textAlign: 'center',
 });
+
+const connectingSpin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+export const connectingSpinner = style({
+  flexShrink: 0,
+  width: '11px',
+  height: '11px',
+  borderRadius: '50%',
+  border: '2px solid rgba(255, 255, 255, 0.3)',
+  borderTopColor: '#fff',
+  animation: `${connectingSpin} 0.8s linear infinite`,
+});
+
+export const connecting = style({ opacity: 0.5 });
+
+export const bubbleConnecting = style({
+  position: 'absolute',
+  left: '6px',
+  bottom: '6px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '32px',
+  height: '32px',
+  borderRadius: '50%',
+  backgroundColor: vars.color.bgTertiary,
+});

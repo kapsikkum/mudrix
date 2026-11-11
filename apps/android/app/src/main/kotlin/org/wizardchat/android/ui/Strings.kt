@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap
 import org.wizardchat.android.WizardApplication
 
 /**
- * Translations by their shared key (`welcome.login`). The resources come from packages/i18n,
- * where `welcome.login` becomes `R.string.welcome_login`.
+ * Translations by their shared key (`auth.login`). The resources come from packages/i18n,
+ * where `auth.login` becomes `R.string.auth_login`.
  */
 object L10n {
     private val strings = ConcurrentHashMap<String, Int>()

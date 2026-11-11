@@ -3,13 +3,19 @@ import SwiftUI
 
 struct VoiceRoomView: View {
     let room: RoomSummary
+    let client: WizardClient
     let onOpenChat: () -> Void
 
     @EnvironmentObject private var calls: CallManager
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var notifier: MessageNotifier
     @Environment(\.theme) private var theme
+    @State private var showInfo = false
+    @State private var barWidth: CGFloat = 0
 
     private var inThisCall: Bool { calls.isInCall(roomId: room.id) }
+    /// When this call began, once it is connected; drives the timer next to the title
+    private var callStartedAt: Int64? { inThisCall && calls.state == .joined ? calls.callStartedAt : nil }
 
     var body: some View {
         VStack(spacing: WZ.Space.space0) {
@@ -22,25 +28,43 @@ struct VoiceRoomView: View {
                 lobby
             }
         }
+        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { barWidth = $0 }
         .background(theme.bgSecondary.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bgSecondary, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                HStack(spacing: WZ.Space.space2) {
-                    Image("ph-speaker-high-fill")
-                        .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
-                        .foregroundStyle(theme.success)
-                    Text(room.displayName).font(.wizard(WZ.FontSize.lg, .semibold)).foregroundStyle(theme.textPrimary)
-                    if inThisCall, calls.state == .joined, let started = calls.callStartedAt {
-                        CallTimerText(startedAt: started)
-                            .font(.wizard(WZ.FontSize.sm))
-                            .foregroundStyle(theme.textMuted)
+            ToolbarItem(placement: .topBarLeading) {
+                Button { showInfo = true } label: {
+                    HStack(spacing: WZ.Space.space3) {
+                        RoomTitle(room: room, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: callStartedAt == nil ? 1 : 2))
+                        if let started = callStartedAt {
+                            CallTimerText(startedAt: started)
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
+                        }
                     }
+                        .fixedSize()
+                        .padding(.horizontal, WZ.Space.space6)
+                        .padding(.vertical, WZ.Space.space2)
+                        .frame(minHeight: WZ.Space.space10)
+                        .floatingGlass(in: Capsule())
+                        .contentShape(Capsule())
                 }
+                .buttonStyle(.plain)
+                .accessibilityHint(String(localized: "timeline.showsRoomInfoMembers"))
             }
+            .glassBackgroundHidden()
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onOpenChat) { Image("ph-chat-text-regular") }
                     .accessibilityLabel(String(localized: "room.openChat"))
+            }
+        }
+        .sheet(isPresented: $showInfo) {
+            RoomInfoView(room: room, client: client) { eventId in
+                showInfo = false
+                notifier.eventToFocus = (room.id, eventId)
+                onOpenChat()
             }
         }
     }
@@ -50,19 +74,20 @@ struct VoiceRoomView: View {
             VStack(spacing: WZ.Space.space6) {
                 AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.xl)
                     .overlay(alignment: .bottomTrailing) {
-                        Image("ph-speaker-high-fill")
-                            .font(.system(size: WZ.SizeIcon.sm, weight: .bold))
-                            .foregroundStyle(theme.textOnAccent)
+                        Image("ph-speaker-high-regular")
+                            .font(.system(size: WZ.SizeIcon.sm))
+                            .foregroundStyle(room.callParticipants.isEmpty ? theme.textMuted : theme.success)
                             .frame(width: WZ.Space.space9, height: WZ.Space.space9)
-                            .background(theme.success, in: Circle())
-                            .overlay(Circle().stroke(theme.bgSecondary, lineWidth: WZ.BorderWidth.thick))
+                            .background(theme.bgSecondary, in: Circle())
+                            .overlay(Circle().stroke(room.callParticipants.isEmpty ? theme.border : theme.success,
+                                                     lineWidth: WZ.BorderWidth.thin))
                     }
                 Text(room.displayName)
                     .font(.wizard(WZ.FontSize.xxl, .bold))
                     .foregroundStyle(theme.textPrimary)
                 Text(room.callParticipants.isEmpty
-                     ? String(localized: "voice.noOneIsHere")
-                     : L10n.format("voice.inVoice", room.callParticipants.count))
+                     ? String(localized: "call.empty")
+                     : L10n.format("call.inVoice", room.callParticipants.count))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
 
@@ -81,10 +106,18 @@ struct VoiceRoomView: View {
                     Text(message).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error).multilineTextAlignment(.center)
                 }
 
+                if room.inCallElsewhere {
+                    Text(String(localized: "call.inCallElsewhere"))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .multilineTextAlignment(.center)
+                }
+
                 Button {
                     Task { await calls.join(room, session: session) }
                 } label: {
-                    Label(String(localized: "call.joinVoice"), image: "ph-phone-fill")
+                    Label(room.inCallElsewhere ? String(localized: "call.joinHere") : String(localized: "call.joinVoice"),
+                          image: "ph-speaker-high-regular")
                 }
                 .buttonStyle(PrimaryButtonStyle())
                 Button(action: onOpenChat) {
@@ -107,12 +140,16 @@ struct CallControls: View {
 
     var body: some View {
         HStack(spacing: WZ.Space.space3) {
-            control(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
-                    label: calls.micMuted ? "voice.unmute" : "voice.mute") { calls.toggleMic() }
-            control(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-fill", active: calls.deafened,
-                    label: calls.deafened ? "voice.undeafen" : "voice.deafen") { calls.toggleDeafen() }
-            control(calls.cameraOn ? "ph-video-camera-fill" : "ph-video-camera-slash-regular", active: false, highlighted: calls.cameraOn,
-                    label: calls.cameraOn ? "voice.turnCameraOff" : "voice.turnCameraOn") { calls.toggleCamera() }
+            if prefs.pushToTalk {
+                PushToTalkButton(size: WZ.Space.space11, iconSize: WZ.SizeIcon.md)
+            } else {
+                control(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
+                        label: calls.micMuted ? "call.unmute" : "call.mute") { calls.toggleMic() }
+            }
+            control(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-regular", active: calls.deafened,
+                    label: calls.deafened ? "call.undeafen" : "call.deafen") { calls.toggleDeafen() }
+            control(calls.cameraOn ? "ph-video-camera-regular" : "ph-video-camera-slash-regular", active: false, highlighted: calls.cameraOn,
+                    label: calls.cameraOn ? "call.turnCameraOff" : "call.turnCameraOn") { calls.toggleCamera() }
             Menu {
                 ControlGroup {
                     ForEach(CallReaction.all.prefix(6)) { reaction in
@@ -125,18 +162,18 @@ struct CallControls: View {
                         : Label(menu: String(localized: "call.raiseHand"), icon: "ph-hand-regular")
                 }
                 Button { calls.toggleScreenShare() } label: {
-                    calls.screenSharing ? Label(menu: String(localized: "voice.stopSharingScreen"), icon: "ph-monitor-regular")
-                        : Label(menu: String(localized: "voice.shareScreen"), icon: "ph-monitor-arrow-up-regular")
+                    calls.screenSharing ? Label(menu: String(localized: "call.stopSharingScreen"), icon: "ph-monitor-regular")
+                        : Label(menu: String(localized: "call.shareScreen"), icon: "ph-monitor-arrow-up-regular")
                 }
                 if let watch = calls.watch {
                     if watch.state != nil {
                         Button(role: .destructive) { watch.stop() } label: {
-                            Label(menu: String(localized: "voice.stopWatchingTogether"), icon: "ph-stop-fill", destructive: true)
+                            Label(menu: String(localized: "call.watchTogether.stopTogether"), icon: "ph-stop-fill", destructive: true)
                         }
                         .tint(theme.danger)
                     } else {
                         Button { showWatchSheet = true } label: {
-                            Label(menu: String(localized: "voice.watchTogetherBeta"), icon: "ph-youtube-logo-fill")
+                            Label(menu: String(localized: "call.watchTogether.menuBeta"), icon: "ph-youtube-logo-fill")
                         }
                     }
                 }
@@ -159,7 +196,7 @@ struct CallControls: View {
             .menuOrder(.fixed)
             // Menu icons in the text colour instead of the accent, like the message menu.
             .tint(theme.textPrimary)
-            .accessibilityLabel(String(localized: "voice.moreReactionsRaiseHand"))
+            .accessibilityLabel(String(localized: "call.moreActionsHint"))
             Button {
                 calls.leave()
             } label: {
@@ -206,57 +243,69 @@ struct CallControls: View {
 }
 
 struct CallBar: View {
+    enum Style { case floating, accessory, inline }
+
+    var style: Style = .floating
     let onOpen: () -> Void
     @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
         if let room = calls.room, calls.isInCall {
-            HStack(spacing: WZ.Space.space4) {
+            HStack(spacing: style == .inline ? WZ.Space.space3 : WZ.Space.space4) {
                 Button(action: onOpen) {
                     HStack(spacing: WZ.Space.space4) {
-                        Image("ph-speaker-high-fill")
+                        Image("ph-speaker-high-regular")
                             .font(.system(size: WZ.SizeIcon.sm, weight: .bold))
                             .foregroundStyle(theme.textOnAccent)
-                            .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                            .frame(width: style == .inline ? WZ.Space.space8 : WZ.Space.space9,
+                                   height: style == .inline ? WZ.Space.space8 : WZ.Space.space9)
                             .background(theme.success, in: Circle())
                         VStack(alignment: .leading, spacing: WZ.Space.space0) {
                             Text(room.displayName).font(.wizard(WZ.FontSize.md, .semibold)).foregroundStyle(theme.textPrimary)
-                            HStack(spacing: WZ.Space.space2) {
-                                Text(calls.state == .joined ? String(localized: "voice.statusConnected") : String(localized: "voice.statusConnecting"))
-                                if calls.state == .joined, let started = calls.callStartedAt {
-                                    Text("\u{00B7}")
-                                    CallTimerText(startedAt: started)
+                            if style != .inline {
+                                HStack(spacing: WZ.Space.space2) {
+                                    Text(calls.state == .joined ? String(localized: "call.statusConnected") : String(localized: "call.statusConnecting"))
+                                    if calls.state == .joined, let started = calls.callStartedAt {
+                                        Text("\u{00B7}")
+                                        CallTimerText(startedAt: started)
+                                    }
                                 }
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(calls.state == .joined ? theme.success : theme.textMuted)
                             }
-                            .font(.wizard(WZ.FontSize.sm))
-                            .foregroundStyle(calls.state == .joined ? theme.success : theme.textMuted)
                         }
                         .lineLimit(1)
-                        Spacer(minLength: 0)
+                        if style != .inline { Spacer(minLength: 0) }
                     }
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(String(localized: "voice.returnToCall"))
-                barButton(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
-                          label: calls.micMuted ? "voice.unmute" : "voice.mute") { calls.toggleMic() }
-                barButton(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-fill", active: calls.deafened,
-                          label: calls.deafened ? "voice.undeafen" : "voice.deafen") { calls.toggleDeafen() }
+                .accessibilityLabel(String(localized: "call.returnToCall"))
+                if prefs.pushToTalk {
+                    PushToTalkButton(size: buttonSize)
+                } else {
+                    barButton(calls.micMuted ? "ph-microphone-slash-regular" : "ph-microphone-regular", active: calls.micMuted,
+                              label: calls.micMuted ? "call.unmute" : "call.mute") { calls.toggleMic() }
+                }
+                barButton(calls.deafened ? "ph-speaker-slash-regular" : "ph-speaker-high-regular", active: calls.deafened,
+                          label: calls.deafened ? "call.undeafen" : "call.deafen") { calls.toggleDeafen() }
                 Button { calls.leave() } label: {
                     Image("ph-phone-x-regular")
                         .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
                         .foregroundStyle(theme.textOnAccent)
-                        .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                        .frame(width: buttonSize, height: buttonSize)
                         .background(theme.danger, in: Circle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(String(localized: "common.leave"))
             }
-            .padding(.leading, WZ.Space.space4)
+            .padding(.leading, style == .inline ? WZ.Space.space2 : WZ.Space.space4)
             .padding(.trailing, WZ.Space.space3)
-            .frame(height: WZ.Space.space11)
-            .floatingGlass(in: Capsule())
+            .frame(height: style == .inline ? nil : WZ.Space.space11)
+            .frame(maxWidth: style == .inline ? .infinity : nil)
+            .modifier(CallBarBackground(floating: style == .floating))
         }
     }
 
@@ -265,11 +314,31 @@ struct CallBar: View {
             Image(icon)
                 .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
                 .foregroundStyle(active ? theme.textOnAccent : theme.textPrimary)
-                .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                .frame(width: buttonSize, height: buttonSize)
                 .background(active ? theme.danger : theme.fill, in: Circle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)
+    }
+
+    private var buttonSize: CGFloat { style == .inline ? WZ.Space.space9 : WZ.Space.space10 }
+}
+
+private struct CallBarBackground: ViewModifier {
+    let floating: Bool
+
+    func body(content: Content) -> some View {
+        if floating { content.floatingGlass(in: Capsule()) } else { content }
+    }
+}
+
+@available(iOS 26.0, *)
+struct CallAccessory: View {
+    let onOpen: () -> Void
+    @Environment(\.tabViewBottomAccessoryPlacement) private var placement
+
+    var body: some View {
+        CallBar(style: placement == .inline ? .inline : .accessory, onOpen: onOpen)
     }
 }
 
@@ -289,7 +358,6 @@ struct ParticipantRow: View {
                 .foregroundStyle(theme.textPrimary)
                 .lineLimit(1)
             Spacer()
-            Image("ph-waveform-regular").foregroundStyle(theme.success)
         }
         .padding(.horizontal, WZ.Space.space5)
         .padding(.vertical, WZ.Space.space4)
@@ -337,5 +405,33 @@ private struct MiniAvatar: View {
                 name = profile.name
                 url = profile.avatarUrl
             }
+    }
+}
+
+struct PushToTalkButton: View {
+    var size: CGFloat = WZ.Space.space10
+    var iconSize: CGFloat = WZ.SizeIcon.sm
+    @EnvironmentObject private var calls: CallManager
+    @Environment(\.theme) private var theme
+    @GestureState private var pressing = false
+
+    var body: some View {
+        let talking = calls.talking
+        Image("ph-microphone-regular")
+            .font(.system(size: iconSize, weight: .semibold))
+            .foregroundStyle(talking ? theme.textOnAccent : theme.textPrimary)
+            .frame(width: size, height: size)
+            .background(talking ? theme.success : theme.fill, in: Circle())
+            .scaleEffect(talking ? 0.92 : 1)
+            .contentShape(Circle())
+            .gesture(DragGesture(minimumDistance: 0).updating($pressing) { _, state, _ in state = true })
+            .onChange(of: pressing) { _, on in calls.setTalking(on) }
+            .onDisappear { calls.setTalking(false) }
+            .sensoryFeedback(.impact(weight: .light), trigger: talking)
+            .animation(.snappy(duration: 0.15), value: talking)
+            .accessibilityElement()
+            .accessibilityLabel(String(localized: talking ? "call.talking" : "call.holdToTalk"))
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction { calls.setTalking(!calls.talking) }
     }
 }

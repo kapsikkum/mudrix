@@ -39,7 +39,7 @@ export function useSessionVerificationActions(client: MatrixClient | null) {
     try {
       await startSelfVerification(client, setEmojiModal);
     } catch (err) {
-      toast.error(t('verifySession.failed', { error: getErrorMessage(err) }));
+      toast.error(t('verification.session.failed', { error: getErrorMessage(err) }));
     } finally {
       setBusy(null);
     }
@@ -54,13 +54,13 @@ export function useSessionVerificationActions(client: MatrixClient | null) {
     setBusy('key');
     try {
       const result = await applyRecoveryKey(client, key);
-      if (result === 'verified') toast.success(t('verifySession.verified'));
-      else if (result === 'backup-only') toast.success(t('verifySession.backupOnly'));
-      else if (result === 'invalid-key') toast.error(t('verifySession.invalidKey'));
-      else toast.error(t('verifySession.noIdentityBackup'));
+      if (result === 'verified') toast.success(t('verification.session.verified'));
+      else if (result === 'backup-only') toast.success(t('verification.session.backupOnly'));
+      else if (result === 'invalid-key') toast.error(t('verification.session.invalidKey'));
+      else toast.error(t('verification.session.noIdentityBackup'));
       await Promise.all([refresh(), recovery.refreshStatus()]);
     } catch (err) {
-      toast.error(t('verifySession.failed', { error: getErrorMessage(err) }));
+      toast.error(t('verification.session.failed', { error: getErrorMessage(err) }));
     } finally {
       setBusy(null);
     }

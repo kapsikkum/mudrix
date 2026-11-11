@@ -69,7 +69,8 @@ struct AppearanceSettings: View {
                 }
                 SettingsDivider()
                 PickerRow(label: "settings.appearance.messageLayout", selection: $prefs.messageLayout,
-                          options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic")])
+                          options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic"),
+                                    (.compact, "settings.appearance.compact")])
                 SettingsDivider()
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {
                     HStack {
@@ -77,7 +78,7 @@ struct AppearanceSettings: View {
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                         Spacer()
-                        Text(L10n.format("settings.textSizePx", "\(Int(prefs.chatFontSize))"))
+                        Text(L10n.format("settings.appearance.textSizePx", "\(Int(prefs.chatFontSize))"))
                             .font(.wizard(WZ.FontSize.sm, .medium))
                             .foregroundStyle(theme.textMuted)
                     }
@@ -96,6 +97,8 @@ struct AppearanceSettings: View {
                 SettingsDivider()
                 PickerRow(label: "settings.appearance.density", selection: $prefs.chatDensity,
                           options: [(.compact, "settings.appearance.densityCompact"), (.default, "settings.appearance.densityDefault"), (.spacious, "settings.appearance.densitySpacious")])
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.colorUsernames", isOn: $prefs.colorUsernames)
                 SettingsDivider()
                 ToggleRow(label: "settings.appearance.prettifyLinks",
                           note: "settings.appearance.prettifyLinksNote",
@@ -165,21 +168,41 @@ struct ThemeMenuRow: View {
 private struct ChatPreview: View {
     @EnvironmentObject private var session: MatrixSession
 
+    private static let otherId = "@merlin:wizardchat.org"
+    private static let otherName = "Merlin"
+
     var body: some View {
         let now = Date()
+        let myId = session.userId ?? "@you:wizardchat.org"
+        let myName = session.displayName ?? session.userId ?? "You"
         VStack(spacing: WZ.Space.space0) {
-            MessageRow(entry: ChatEntry(
-                id: "preview-1", kind: .message(body: L10n.format("settings.appearance.previewOtherMessage", session.displayName ?? session.userId ?? ""), isEmote: false, isNotice: false),
-                sender: "@merlin:wizardchat.org", senderName: "Merlin", senderAvatarUrl: nil, isOwn: false,
-                timestamp: now.addingTimeInterval(-120), isSending: false, isEdited: false))
-            MessageRow(entry: ChatEntry(
-                id: "preview-2", kind: .message(body: L10n.format("settings.appearance.previewOwnMessage", "Merlin"), isEmote: false, isNotice: false),
-                sender: session.userId ?? "", senderName: session.displayName ?? session.userId ?? "",
-                senderAvatarUrl: session.avatarUrl, isOwn: true,
-                timestamp: now.addingTimeInterval(-60), isSending: false, isEdited: false))
+            MessageRow(entry: entry(
+                id: "preview-1", text: "settings.appearance.previewOtherMessage",
+                mention: MessageMention(label: Self.label(myName), userId: myId, isOwn: true),
+                sender: Self.otherId, senderName: Self.otherName, avatarUrl: nil, isOwn: false,
+                timestamp: now.addingTimeInterval(-120)))
+            MessageRow(entry: entry(
+                id: "preview-2", text: "settings.appearance.previewOwnMessage",
+                mention: MessageMention(label: Self.label(Self.otherName), userId: Self.otherId, isOwn: false),
+                sender: myId, senderName: myName, avatarUrl: session.avatarUrl, isOwn: true,
+                timestamp: now.addingTimeInterval(-60)))
         }
         .padding(.vertical, WZ.Space.space4)
         .allowsHitTesting(false)
+    }
+
+    private static func label(_ name: String) -> String {
+        name.hasPrefix("@") ? name : "@" + name
+    }
+
+    private func entry(id: String, text: String, mention: MessageMention, sender: String, senderName: String,
+                       avatarUrl: String?, isOwn: Bool, timestamp: Date) -> ChatEntry {
+        var entry = ChatEntry(
+            id: id, kind: .message(body: L10n.format(text, mention.label), isEmote: false, isNotice: false),
+            sender: sender, senderName: senderName, senderAvatarUrl: avatarUrl, isOwn: isOwn,
+            timestamp: timestamp, isSending: false, isEdited: false)
+        entry.mentions = [mention]
+        return entry
     }
 }
 
@@ -212,8 +235,8 @@ struct PrivacySettings: View {
                           note: "settings.privacy.typingIndicatorsNote",
                           isOn: $prefs.typingIndicators)
                 SettingsDivider()
-                ToggleRow(label: "settings.readReceipts",
-                          note: "settings.letOtherUsersKnow",
+                ToggleRow(label: "settings.privacy.readReceipts",
+                          note: "settings.privacy.readReceiptsNote",
                           isOn: $prefs.sendReadReceipts)
             }
             SettingsSection(title: "settings.privacy.streamer.title", note: "settings.privacy.streamer.note") {
@@ -260,7 +283,7 @@ struct LanguageSettings: View {
                           options: Self.options)
             }
             if changed {
-                StatusText(text: String(localized: "settings.closeAndReopenWizardchat"), isError: false)
+                StatusText(text: String(localized: "settings.language.restartHint"), isError: false)
             }
         }
         .onChange(of: prefs.language) { _, _ in changed = true }
@@ -274,30 +297,30 @@ struct DeveloperSettings: View {
     @State private var tokenExpanded = false
 
     var body: some View {
-        SettingsPage(title: "settings.developer.title") {
+        SettingsPage(title: "developer.title") {
             SettingsSection {
-                ToggleRow(label: "settings.developer.enable",
-                          note: "settings.developer.enableDescription",
+                ToggleRow(label: "developer.enable",
+                          note: "developer.enableDescription",
                           isOn: $prefs.developerMode)
             }
             if prefs.developerMode {
                 SettingsSection {
                     DisclosureGroup(isExpanded: $tokenExpanded) {
                         VStack(alignment: .leading, spacing: WZ.Space.space4) {
-                            Label(String(localized: "settings.developer.accessTokenWarning"),
+                            Label(String(localized: "developer.accessTokenWarning"),
                                   image: "ph-warning-regular")
                                 .font(.wizard(WZ.FontSize.sm))
                                 .foregroundStyle(theme.warningColor)
-                            CopyRow(label: "settings.developer.accessToken", value: session.client?.session.accessToken ?? "", secret: true)
+                            CopyRow(label: "developer.accessToken", value: session.client?.session.accessToken ?? "", secret: true)
                         }
                         .padding(.top, WZ.Space.space4)
                     } label: {
-                        Text(String(localized: "settings.developer.accessToken"))
+                        Text(String(localized: "developer.accessToken"))
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                     }
                     SettingsDivider()
-                    CopyRow(label: "settings.developer.homeserverUrl", value: session.client?.session.homeserverUrl ?? "")
+                    CopyRow(label: "developer.homeserverUrl", value: session.client?.session.homeserverUrl ?? "")
                     if let deviceId = session.deviceId {
                         SettingsDivider()
                         CopyRow(label: "settings.sessions.deviceId", value: deviceId)
@@ -307,7 +330,7 @@ struct DeveloperSettings: View {
                     NavigationLink {
                         AccountDataExplorer()
                     } label: {
-                        Text(String(localized: "settings.developer.accountData"))
+                        Text(String(localized: "developer.accountData.title"))
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textPrimary)
                     }
@@ -336,7 +359,7 @@ struct AboutSettings: View {
                 Text(String(localized: "app.name"))
                     .font(.wizard(WZ.FontSize.xxl, .bold))
                     .foregroundStyle(theme.textPrimary)
-                Text(String(localized: "welcome.tagline"))
+                Text(String(localized: "auth.tagline"))
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
                 Text(version)
@@ -345,24 +368,19 @@ struct AboutSettings: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, WZ.Space.space4)
+            .listRowSeparator(.hidden)
 
-            VStack(spacing: WZ.Space.space4) {
-                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
-                    Label(String(localized: "settings.downloadWizardchatForDesktop"), image: "ph-download-simple-regular")
-                }
-                .buttonStyle(SecondaryButtonStyle())
-                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
-                    Label(String(localized: "settings.about.viewSourceOnGitLab"), image: "ph-code-regular")
-                }
-                .buttonStyle(SecondaryButtonStyle())
-                if let entry = WhatsNew.latest() {
-                    Button { showWhatsNew = true } label: {
-                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-fill")
-                    }
-                    .buttonStyle(SecondaryButtonStyle())
-                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
-                }
+            Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
+                Label(String(localized: "settings.downloadMudrixForDesktop"), image: "ph-download-simple-regular")
             }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
+
+            Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
+                Label(String(localized: "settings.about.viewSourceOnGitHub"), image: "ph-code-regular")
+            }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
 
             SettingsSection(title: "settings.about.credits") {
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {
@@ -371,6 +389,35 @@ struct AboutSettings: View {
                     credit("Roboto", url: "https://fonts.google.com/specimen/Roboto",
                            text: String(localized: "settings.about.creditRoboto"))
                 }
+            }
+
+            HStack(spacing: WZ.Space.space7) {
+                if let entry = WhatsNew.latest() {
+                    Button { showWhatsNew = true } label: {
+                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-regular")
+                    }
+                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                }
+                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
+                    Label(String(localized: "settings.about.privacyPolicy"), image: "ph-shield-check-regular")
+                }
+            }
+            .labelStyle(FooterLinkLabelStyle())
+            .buttonStyle(.borderless)
+            .font(.wizard(WZ.FontSize.sm))
+            .foregroundStyle(theme.textMuted)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, WZ.Space.space7)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private struct FooterLinkLabelStyle: LabelStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            HStack(spacing: WZ.Space.space3) {
+                configuration.icon
+                configuration.title
             }
         }
     }

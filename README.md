@@ -81,13 +81,29 @@ npm run core:web:dev   # builds the core for the browser once
 npm run dev            # web app on http://localhost:5180
 ```
 
-`npm run desktop`, `npm run android` and `npm run ios` run the other apps. GIF search needs API keys at build time: put
-`VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` in a git-ignored `.env.local`; without a key that provider's tab is
-disabled.
+`npm run desktop`, `npm run android` and `npm run ios` run the other apps.
+
+#### GIF search keys
+
+The GIF picker calls GIPHY and KLIPY directly from the client. The API keys are supplied at **build time** and are not in
+the source. For the web and desktop apps put them in a git-ignored `apps/web/.env.local` (see `apps/web/.env.example`):
+
+```bash
+VITE_GIPHY_API_KEY=your_giphy_key
+VITE_KLIPY_API_KEY=your_klipy_key
+```
+
+Restart `npm run dev` after changing them. A provider without a key has its tab disabled ("No API key configured in this
+build"). Android (`GIPHY_API_KEY` in `apps/android/local.properties`) and iOS (`GIPHY_API_KEY` in
+`apps/ios/Config/Secrets.xcconfig`) read a GIPHY key only; without it their GIF picker says it is not configured. `VITE_`
+values are embedded in the built bundle, so those keys are visible to anyone who can load the app. Use your own keys
+(create a GIPHY one at developers.giphy.com). All names, CI secrets and the audit of other embedded identifiers are in
+[docs/SECRETS.md](docs/SECRETS.md).
 
 - [Development](docs/DEVELOPMENT.md): setting up, running the apps, checks
 - [Building](docs/BUILDING.md) and [releasing](RELEASING.md)
-- [Contributing](docs/CONTRIBUTING.md): where code goes, the conventions and the internal names that still say WizardChat
+- [Working on the codebase](docs/CODEBASE.md): where code goes, the conventions and the internal names that still say WizardChat
+- [Contributing](CONTRIBUTING.md): reporting bugs, suggesting features and contributing code
 - [Branding and artwork](docs/BRANDING.md)
 
 ## Based on WizardChat

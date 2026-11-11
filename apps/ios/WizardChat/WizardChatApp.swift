@@ -1,4 +1,3 @@
-import BackgroundTasks
 import SwiftUI
 import UIKit
 
@@ -15,7 +14,6 @@ struct WizardChatApp: App {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
 
-    static let refreshTask = "chat.mudrix.mobile.refresh"
 
     init() {
         FontRegistry.registerFonts()
@@ -94,7 +92,6 @@ struct WizardChatApp: App {
             switch phase {
             case .background:
                 UIApplication.shared.ignoreSnapshotOnNextApplicationLaunch()
-                Self.scheduleRefresh()
                 Task { await session.pauseSync(keepRunning: calls.isInCall) }
             case .active:
                 Task { await session.resumeSync() }
@@ -102,25 +99,6 @@ struct WizardChatApp: App {
                 break
             }
         }
-        .backgroundTask(.appRefresh(Self.refreshTask)) {
-            await backgroundRefresh()
-        }
-    }
-
-    private static func scheduleRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: refreshTask)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-        try? BGTaskScheduler.shared.submit(request)
-    }
-
-    @MainActor
-    private func backgroundRefresh() async {
-        Self.scheduleRefresh()
-        if session.state == .restoring { await session.restore() }
-        guard session.state == .loggedIn, let roomList = session.roomList else { return }
-        notifier.start(roomList: roomList, prefs: prefs)
-        try? await session.client?.startSync()
-        try? await Task.sleep(for: .seconds(20))
     }
 
     private func onLoginChanged() async {
@@ -149,7 +127,8 @@ struct WizardChatApp: App {
             notifier.start(roomList: roomList, prefs: prefs)
         }
         if let client = session.client {
-            calls.watchIncoming(client)
+            let notifier = notifier
+            calls.watchIncoming(client, session: session) { [weak notifier] call in notifier?.notifyMissedCall(call) }
             SavedMessages.shared.start(client: client)
             Reminders.shared.start(client: client) { session.roomList?.room(id: $0)?.displayName }
             recentEmoji.start(client: client)

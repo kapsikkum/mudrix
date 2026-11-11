@@ -39,6 +39,7 @@ impl RpcObject for CallSession {
             "roomId": self.room_id(),
             "serviceUrl": self.service_url(),
             "identity": self.identity(),
+            "rang": self.rang(),
         })
     }
 }

@@ -1,0 +1,79 @@
+name: Desktop
+
+# `tauri build --debug --no-bundle` on Windows, Linux and macOS: proves the Tauri app compiles and links on each OS and
+# leaves the unbundled debug binary as an artifact. No installers, no signing (see docs/CI.md for the release plan).
+# Runs on pull requests only when desktop or core files change, or by hand (the macOS leg bills 10x minutes).
+on:
+  pull_request:
+    paths:
+      - apps/desktop/**
+      - crates/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/desktop.yml
+      - .github/actions/**
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Runners to build on, as a JSON array'
+        default: '["windows-latest","ubuntu-latest","macos-latest"]'
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: desktop
+
+      - name: Tauri system libraries
+        if: runner.os == 'Linux'
+        uses: ./.github/actions/tauri-linux-deps
+
+      - run: npm ci --ignore-scripts
+
+      - name: Design tokens
+        run: npm run tokens
+
+      # beforeBuildCommand (tsc + vite build --mode desktop) builds the web UI that Tauri embeds
+      - name: Tauri build (debug, no bundle)
+        run: npm run tauri -w @wizardchat/desktop -- build --debug --no-bundle
+
+      - name: Upload the binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-debug-${{ runner.os }}
+          path: |
+            target/debug/wizardchat-desktop
+            target/debug/wizardchat-desktop.exe
+            target/debug/wizardchat_desktop.pdb
+          if-no-files-found: error
+          retention-days: 14

@@ -111,9 +111,9 @@ impl WizardClient {
             builder
                 .handle_refresh_tokens()
                 .with_encryption_settings(EncryptionSettings {
-                    auto_enable_cross_signing: true,
+                    auto_enable_cross_signing: !store.manual_encryption_setup,
                     backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
-                    auto_enable_backups: true,
+                    auto_enable_backups: !store.manual_encryption_setup,
                 });
         let builder = if store.exclude_insecure_devices {
             builder
@@ -273,22 +273,23 @@ impl WizardClient {
 
     /// Starts (or resumes) the background sync. Room list and timelines need it running.
     pub async fn start_sync(&self) -> Result<()> {
-        let existing = self.sync.lock().unwrap().clone();
-        let service = match existing {
-            Some(service) => service,
-            None => {
-                let service = Arc::new(
-                    SyncService::builder(self.client.clone())
-                        .with_offline_mode()
-                        .build()
-                        .await?,
-                );
-                *self.sync.lock().unwrap() = Some(service.clone());
-                service
-            }
-        };
-        service.start().await;
+        self.built_sync_service().await?.start().await;
         Ok(())
+    }
+
+    /// The sync service, created (but not started) when there's none yet
+    pub(crate) async fn built_sync_service(&self) -> Result<Arc<SyncService>> {
+        if let Some(service) = self.sync.lock().unwrap().clone() {
+            return Ok(service);
+        }
+        let service = Arc::new(
+            SyncService::builder(self.client.clone())
+                .with_offline_mode()
+                .build()
+                .await?,
+        );
+        let mut sync = self.sync.lock().unwrap();
+        Ok(sync.get_or_insert(service).clone())
     }
 
     /// Pauses the background sync, e.g. while the app is in the background.

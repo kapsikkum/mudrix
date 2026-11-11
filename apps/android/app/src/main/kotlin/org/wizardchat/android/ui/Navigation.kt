@@ -47,6 +47,7 @@ fun WizardTopBar(
     title: String,
     modifier: Modifier = Modifier,
     large: Boolean = false,
+    titleInRow: Boolean = false,
     onBack: (() -> Unit)? = null,
     backLabel: String? = null,
     background: Color = theme.bgPrimary,
@@ -60,7 +61,16 @@ fun WizardTopBar(
             if (onBack != null) {
                 BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold)
             }
-            if (!large) {
+            if (large && titleInRow) {
+                Text(
+                    title,
+                    Modifier.weight(1f).padding(horizontal = WZ.Space.space3),
+                    style = wizardFont(WZ.FontSize.display, FontWeight.Bold),
+                    color = theme.textPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            } else if (!large) {
                 Text(
                     title,
                     Modifier.weight(1f).padding(horizontal = WZ.Space.space3),
@@ -74,7 +84,7 @@ fun WizardTopBar(
             }
             Row(verticalAlignment = Alignment.CenterVertically, content = actions)
         }
-        if (large) {
+        if (large && !titleInRow) {
             Text(
                 title,
                 Modifier.padding(horizontal = WZ.Space.space6).padding(bottom = WZ.Space.space3),
@@ -183,6 +193,7 @@ data class MenuItem(
     val icon: String? = null,
     val destructive: Boolean = false,
     val divider: Boolean = false,
+    val checked: Boolean = false,
     val onClick: () -> Unit,
 )
 
@@ -195,6 +206,7 @@ fun WizardMenu(expanded: Boolean, onDismiss: () -> Unit, items: List<MenuItem>) 
             DropdownMenuItem(
                 text = { Text(item.label, style = wizardFont(WZ.FontSize.lg), color = color) },
                 leadingIcon = item.icon?.let { { PhIcon(it, tint = color) } },
+                trailingIcon = if (item.checked) ({ PhIcon("check", PhWeight.bold, tint = theme.accent) }) else null,
                 onClick = {
                     onDismiss()
                     item.onClick()

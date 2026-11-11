@@ -115,8 +115,8 @@ fun String.snippet(query: String, radius: Int = 60): String {
     val start = maxOf(0, index - radius)
     val end = minOf(length, index + query.length + radius)
     var piece = substring(start, end).replace("\n", " ")
-    if (start > 0) piece = "…$piece"
-    if (end < length) piece += "…"
+    if (start > 0) piece = "...$piece"
+    if (end < length) piece += "..."
     return piece
 }
 
@@ -236,7 +236,7 @@ fun GlobalSearchResults(roomList: RoomListModel, query: String, onOpenRoom: (Str
         if (rooms.isEmpty() && spaces.isEmpty() && !searchesMessages) {
             item(key = "empty") {
                 Text(
-                    tr("room.header.noResults"),
+                    tr("common.noResults"),
                     Modifier.fillMaxWidth().padding(vertical = WZ.Space.space9),
                     style = wizardFont(WZ.FontSize.md),
                     color = theme.textMuted,
@@ -249,7 +249,7 @@ fun GlobalSearchResults(roomList: RoomListModel, query: String, onOpenRoom: (Str
 
 private fun roomIcon(room: RoomSummary): Pair<String, PhWeight> = when {
     room.isDirect -> "user" to PhWeight.regular
-    room.isVoice -> "speaker-high" to PhWeight.fill
+    room.isVoice -> "speaker-high" to PhWeight.regular
     else -> "hash-straight" to PhWeight.regular
 }
 
@@ -383,7 +383,7 @@ fun RoomSearchScreen(room: RoomSummary, client: WizardClient, onJump: (String) -
         WizardTextField(
             query,
             { query = it },
-            tr("search.searchThisRoom"),
+            tr("search.thisRoom"),
             Modifier.background(theme.bgPrimary).padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
         )
         Box(Modifier.weight(1f).imePadding()) {
@@ -401,7 +401,7 @@ fun RoomSearchScreen(room: RoomSummary, client: WizardClient, onJump: (String) -
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Spinner()
-                                Text(tr("search.searchingOlderMessages"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                                Text(tr("search.searchingOlder"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                             }
                             LaunchedEffect(needle) {
                                 while (isActive && !model.reachedStart) {
@@ -429,7 +429,7 @@ fun RoomSearchScreen(room: RoomSummary, client: WizardClient, onJump: (String) -
                 ) {
                     PhIcon("magnifying-glass", size = WZ.SizeIcon.xxl, tint = theme.textMuted)
                     Text(tr("search.title"), style = wizardFont(WZ.FontSize.xl, FontWeight.Bold), color = theme.textPrimary, textAlign = TextAlign.Center)
-                    Text(tr("search.findMessagesFilesAnd"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
+                    Text(tr("search.roomHint"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted, textAlign = TextAlign.Center)
                 }
             }
         }

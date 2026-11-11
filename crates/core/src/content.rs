@@ -22,14 +22,20 @@ pub enum EntryContent {
     Text {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Notice {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Emote {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Image {
         media: MediaInfo,
@@ -91,6 +97,12 @@ pub enum EntryContent {
         content: Value,
         prev_content: Option<Value>,
     },
+    /// A call, shown on the first of its events
+    Call {
+        call: crate::call_history::CallHistoryView,
+    },
+    /// One of a call's other events: shown as part of its `call`
+    CallPart,
     Other,
 }
 
@@ -252,6 +264,12 @@ fn sanitize(html: &str) -> String {
     html.to_string()
 }
 
+/// The HTML a message's Markdown turns into, as sending it without HTML would produce; `None`
+/// when it has no formatting
+pub fn markdown_to_html(body: &str) -> Option<String> {
+    FormattedBody::markdown(body).map(|formatted| formatted.body)
+}
+
 /// Sanitised once here so every app renders the same safe subset
 pub(crate) fn sanitized(formatted: Option<&FormattedBody>) -> Option<String> {
     let formatted = formatted?;
@@ -330,15 +348,18 @@ fn message_content(msgtype: &MessageType, body: &str, raw: Option<&Value>) -> En
     match msgtype {
         MessageType::Text(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Text { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Text { body, html, rich }
         }
         MessageType::Notice(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Notice { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Notice { body, html, rich }
         }
         MessageType::Emote(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Emote { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Emote { body, html, rich }
         }
         MessageType::Image(_) => {
             media().map_or(EntryContent::Other, |media| EntryContent::Image { media })
@@ -370,6 +391,7 @@ fn message_content(msgtype: &MessageType, body: &str, raw: Option<&Value>) -> En
         _ => EntryContent::Text {
             body: body.to_owned(),
             html: None,
+            rich: None,
         },
     }
 }
@@ -491,6 +513,7 @@ pub(crate) fn content_of(
                 fallback_text(raw_content).map_or(EntryContent::Other, |body| EntryContent::Text {
                     body,
                     html: None,
+                    rich: None,
                 })
             }
             _ => EntryContent::Other,
@@ -507,6 +530,14 @@ pub(crate) fn content_of(
         TimelineItemContent::ProfileChange(change) => EntryContent::ProfileChange {
             user_id: change.user_id().to_string(),
         },
+        content
+            if crate::call_history::is_call_item(
+                content,
+                raw.and_then(|r| r.get("type")).and_then(Value::as_str),
+            ) =>
+        {
+            EntryContent::CallPart
+        }
         TimelineItemContent::OtherState(state) => EntryContent::State {
             event_type: raw
                 .and_then(|r| r.get("type"))
@@ -618,5 +649,17 @@ mod tests {
         );
         assert_eq!(info.filename, "cat.png");
         assert_eq!(info.caption.as_deref(), Some("look at this"));
+    }
+
+    #[test]
+    fn renders_markdown_like_sending_does() {
+        let html = markdown_to_html("**bold** and ~~gone~~").unwrap();
+        assert!(html.contains("<strong>bold</strong>"), "{html}");
+        assert!(html.contains("<del>gone</del>"), "{html}");
+        assert_eq!(markdown_to_html("just text"), None);
+        assert_eq!(
+            markdown_to_html("[smh](https://a.b)").as_deref(),
+            Some(r#"<a href="https://a.b">smh</a>"#)
+        );
     }
 }

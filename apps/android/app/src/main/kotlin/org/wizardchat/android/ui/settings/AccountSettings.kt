@@ -127,7 +127,7 @@ internal fun AccountSettings(onBack: () -> Unit) {
                     Avatar(name, session.avatarUrl, size = WZ.SizeAvatar.lg)
                     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
                         Text(
-                            tr("settings.upload"),
+                            tr("settings.emojisStickers.upload"),
                             Modifier.clickable {
                                 picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                             },
@@ -249,7 +249,7 @@ private fun PasswordSection() {
             return@launch
         }
         if (new != confirm) {
-            status = L10n.format("welcome.passwordMismatch") to true
+            status = L10n.format("common.passwordMismatch") to true
             return@launch
         }
         busy = true
@@ -367,7 +367,7 @@ private fun EmailSection() {
                 }
             } else {
                 Text(tr("settings.account.checkEmail"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
-                Text(tr("settings.openTheLinkIn"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                Text(tr("settings.account.emailLinkHint"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                 WizardTextField(password, { password = it }, tr("auth.password"), password = true)
                 PrimaryButton(tr("settings.account.verify"), { finish() }, enabled = !busy)
             }

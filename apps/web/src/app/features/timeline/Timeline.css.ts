@@ -1723,6 +1723,8 @@ export const callPillEnded = style({
   opacity: 0.8,
 });
 
+export const callPillMissed = style({});
+
 export const callPillIcon = style({
   display: 'flex',
   alignItems: 'center',
@@ -1736,6 +1738,9 @@ export const callPillIcon = style({
   selectors: {
     [`${callPillOngoing} &`]: {
       color: vars.color.success,
+    },
+    [`${callPillMissed} &`]: {
+      color: vars.color.error,
     },
   },
 });
@@ -1757,6 +1762,23 @@ export const callPillDuration = style({
   fontVariantNumeric: 'tabular-nums',
   whiteSpace: 'nowrap',
   flexShrink: 0,
+});
+
+export const callPillJoin = style({
+  padding: '2px 10px',
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: vars.color.success,
+  color: '#fff',
+  fontSize: chatSize(0.74),
+  fontWeight: 600,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  whiteSpace: 'nowrap',
+  flexShrink: 0,
+  ':hover': {
+    filter: 'brightness(1.1)',
+  },
 });
 
 export const searchEmpty = style({
@@ -1850,6 +1872,15 @@ globalStyle('.mention-pill', {
 globalStyle('.mention-pill:focus-visible', {
   outline: `2px solid ${vars.color.accent}`,
   outlineOffset: '1px',
+});
+
+globalStyle('a.mention-pill.room-pill', {
+  color: vars.color.accent,
+  textDecoration: 'none',
+});
+
+globalStyle('a.mention-pill.room-pill:hover', {
+  textDecoration: 'underline',
 });
 
 globalStyle('.mention-pill-self', {

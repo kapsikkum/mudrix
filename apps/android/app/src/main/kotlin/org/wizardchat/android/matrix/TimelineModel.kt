@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.io.File
+import java.net.URLDecoder
 import java.time.Instant
 import java.time.ZoneId
 import kotlin.math.roundToLong
@@ -37,7 +38,7 @@ import org.wizardchat.android.media.VideoMeta
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
-import org.wizardchat.core.UploadedFile
+import org.wizardchat.core.CallHistoryView
 import org.wizardchat.core.EntryContent
 import org.wizardchat.core.ListDiff
 import org.wizardchat.core.MediaInfo
@@ -47,12 +48,15 @@ import org.wizardchat.core.Mentions
 import org.wizardchat.core.MessageKind
 import org.wizardchat.core.ReadReceiptView
 import org.wizardchat.core.ReplyPreview
+import org.wizardchat.core.RichBlock
 import org.wizardchat.core.RoomTimeline
 import org.wizardchat.core.SendState
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.ThreadSummaryView
 import org.wizardchat.core.TimelineEntry
 import org.wizardchat.core.TimelineKind
+import org.wizardchat.core.UploadedFile
+import org.wizardchat.core.UploadedThumbnail
 import org.wizardchat.core.WizardClient
 
 /** A row of the timeline. Immutable: changes make copies. */
@@ -71,6 +75,8 @@ data class PendingUpload(
         var nextId = 0L
     }
 }
+
+data class MessageMention(val label: String, val userId: String, val isOwn: Boolean)
 
 @Immutable
 data class ChatEntry(
@@ -94,6 +100,9 @@ data class ChatEntry(
     val isEditable: Boolean = false,
     val isGrouped: Boolean = false,
     val spoilers: List<String> = emptyList(),
+    val mentions: List<MessageMention> = emptyList(),
+    /** The message's formatting (headings, lists, code...) to draw instead of the plain body */
+    val rich: List<RichBlock>? = null,
     val mediaSpoiler: String? = null,
     val galleryItems: List<ChatEntry> = emptyList(),
     val thread: ThreadSummaryView? = null,
@@ -110,10 +119,24 @@ data class ChatEntry(
         data object Redacted : Kind
         data class Undecryptable(val text: String, val reason: String) : Kind
         data class System(val text: String) : Kind
+        data class Call(val call: CallHistoryView) : Kind
         data class DateDivider(val date: Instant) : Kind
     }
 
     enum class ContentType { text, notice, emote, image, video, audio, file, location }
+
+    val editableMedia: MediaContent?
+        get() = when (val k = kind) {
+            is Kind.Image -> k.media
+            is Kind.Video -> k.media
+            is Kind.Audio -> k.media.takeUnless { k.isVoice }
+            is Kind.File -> k.media
+            else -> null
+        }
+
+    val editableText: String?
+        get() = (kind as? Kind.Message)?.body
+            ?: editableMedia?.let { media -> media.caption?.takeIf { it.isNotBlank() && it != media.filename } ?: "" }
 
     /** `duration` is in seconds */
     data class MediaContent(
@@ -159,9 +182,10 @@ data class ChatEntry(
         val id: String get() = key
     }
 
-    data class ReplyQuote(val eventId: String, val senderName: String, val text: String)
+    data class ReplyQuote(val eventId: String, val senderName: String, val text: String, val sender: String = "")
 
-    val canBeRepliedTo: Boolean get() = eventId != null
+    val allowsActions: Boolean get() = kind !is Kind.Redacted && kind !is Kind.Undecryptable
+    val canBeRepliedTo: Boolean get() = eventId != null && allowsActions
 
     val summary: String
         get() = when (val kind = kind) {
@@ -176,7 +200,7 @@ data class ChatEntry(
             else -> ""
         }
 
-    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider
+    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider && kind !is Kind.Call
 
     /** With read receipts added (not your own), newest first */
     fun addReceipts(receipts: List<ReadReceiptView>, ownUserId: String): ChatEntry {
@@ -208,6 +232,8 @@ class TimelineModel(
     var reachedStart by mutableStateOf(false)
         private set
     var typingNames by mutableStateOf<List<String>>(emptyList())
+        private set
+    var typingIds by mutableStateOf<List<String>>(emptyList())
         private set
     var sendError by mutableStateOf<String?>(null)
     var firstUnreadId by mutableStateOf<String?>(null)
@@ -249,6 +275,7 @@ class TimelineModel(
             if (kind == TimelineKind.Main) {
                 subscriptions += timeline.watchTyping { users ->
                     typingNames = users.map { it.displayName ?: localpart(it.userId) }
+                    typingIds = users.map { it.userId }
                 }
             }
         } catch (e: CancellationException) {
@@ -364,7 +391,10 @@ class TimelineModel(
     suspend fun edit(entry: ChatEntry, newText: String) {
         val timeline = timeline ?: return
         val itemKey = entry.itemKey ?: return
-        report { timeline.editText(itemKey, newText) }
+        report {
+            if (entry.editableMedia != null) timeline.editCaption(itemKey, newText)
+            else timeline.editText(itemKey, newText)
+        }
     }
 
     suspend fun redact(entry: ChatEntry) {
@@ -735,22 +765,32 @@ class TimelineModel(
             }
             var contentType: ChatEntry.ContentType? = null
             var spoilers = emptyList<String>()
+            var mentions = emptyList<MessageMention>()
+            var rich: List<RichBlock>? = null
             var mediaSpoiler: String? = null
             val kind: ChatEntry.Kind = when (val content = event.content) {
                 is EntryContent.Text -> {
                     contentType = ChatEntry.ContentType.text
+                    rich = content.rich
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = false, isNotice = false)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = false, isNotice = false)
                 }
                 is EntryContent.Notice -> {
                     contentType = ChatEntry.ContentType.notice
+                    rich = content.rich
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = false, isNotice = true)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = false, isNotice = true)
                 }
                 is EntryContent.Emote -> {
                     contentType = ChatEntry.ContentType.emote
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = true, isNotice = false)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = true, isNotice = false)
                 }
                 is EntryContent.Image -> {
                     contentType = ChatEntry.ContentType.image
@@ -797,6 +837,8 @@ class TimelineModel(
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)
                 }
+                is EntryContent.Call -> ChatEntry.Kind.Call(content.call)
+                EntryContent.CallPart -> return null
                 else -> return null
             }
             return ChatEntry(
@@ -814,6 +856,8 @@ class TimelineModel(
                 contentType = contentType,
                 sendFailed = event.sendState == SendState.failed,
                 spoilers = spoilers,
+                mentions = mentions,
+                rich = rich,
                 mediaSpoiler = mediaSpoiler,
                 isEditable = event.isEditable,
                 thread = event.thread,
@@ -835,6 +879,38 @@ class TimelineModel(
                 val inner = match.groupValues[1].replace(Regex("<[^>]+>"), "")
                 decodeEntities(inner).trim().ifEmpty { null }
             }.toList()
+        }
+
+        private val mentionLink = Regex(
+            """<a\s[^>]*href=["']https://matrix\.to/#/((?:@|%40)[^"'?]+)[^"']*["'][^>]*>(.*?)</a>""",
+            setOf(RegexOption.IGNORE_CASE, RegexOption.DOT_MATCHES_ALL),
+        )
+
+        /**
+         * The body has only names, so mentions (matrix.to links in the HTML, as Element sends them)
+         * are read from the HTML and shown as "@name" pills
+         */
+        fun mentionText(html: String?, ownUserId: String?): Pair<String, List<MessageMention>>? {
+            if (html == null) return null
+            val withoutReply = html.replace(Regex("(?is)<mx-reply>.*?</mx-reply>"), "")
+            if (!mentionLink.containsMatchIn(withoutReply)) return null
+            val mentions = mutableListOf<MessageMention>()
+            val text = mentionLink.replace(withoutReply) { match ->
+                val rawId = match.groupValues[1]
+                val userId = runCatching { URLDecoder.decode(rawId.replace("+", "%2B"), "UTF-8") }.getOrDefault(rawId)
+                val name = decodeEntities(match.groupValues[2].replace(Regex("<[^>]+>"), "")).trim()
+                val label = if (name.startsWith("@")) name else "@" + name.ifEmpty { userId }
+                mentions += MessageMention(label, userId, userId == ownUserId)
+                label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            }
+                .replace(Regex("(?i)<br\\s*/?>"), "\n")
+                .replace(Regex("(?i)</(p|div|li|h[1-6]|blockquote|pre|tr)>"), "\n")
+                .replace(Regex("(?i)<li[^>]*>"), "• ")
+                .replace(Regex("""(?i)<img[^>]*alt="([^"]*)"[^>]*>"""), "$1")
+                .replace(Regex("<[^>]+>"), "")
+                .replace("&nbsp;", " ")
+                .replace(Regex("\n{3,}"), "\n\n")
+            return decodeEntities(text).trim() to mentions
         }
 
         private fun decodeEntities(text: String): String =
@@ -879,7 +955,7 @@ class TimelineModel(
         }
 
         private fun quote(reply: ReplyPreview): ChatEntry.ReplyQuote = when (reply) {
-            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary)
+            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary, reply.sender)
             is ReplyPreview.Unavailable -> ChatEntry.ReplyQuote(reply.eventId, "", "")
             is ReplyPreview.Pending -> ChatEntry.ReplyQuote(reply.eventId, "", "")
         }

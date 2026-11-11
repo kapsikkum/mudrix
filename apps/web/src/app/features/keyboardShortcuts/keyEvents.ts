@@ -1,7 +1,7 @@
-const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
+import { IS_MAC } from '@/app/util/platform';
 
 export function isModOnly(e: KeyboardEvent): boolean {
-  return isMac ? e.metaKey && !e.ctrlKey : e.ctrlKey && !e.metaKey;
+  return IS_MAC ? e.metaKey && !e.ctrlKey : e.ctrlKey && !e.metaKey;
 }
 
 export function isTextFieldTarget(e: KeyboardEvent): boolean {

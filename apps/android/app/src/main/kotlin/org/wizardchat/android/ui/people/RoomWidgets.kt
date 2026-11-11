@@ -57,21 +57,21 @@ internal fun RoomWidgetsScreen(roomId: String, client: WizardClient, canManage: 
     LaunchedEffect(roomId) { load() }
 
     SheetPage {
-        WizardTopBar(tr("widgets.title"), onBack = onBack)
+        WizardTopBar(tr("room.settings.widgets.title"), onBack = onBack)
         FormList(Modifier.weight(1f)) {
             item {
-                GroupedSection(footer = tr("widgets.privacy")) {
+                GroupedSection(footer = tr("room.settings.widgets.privacy")) {
                     if (loaded && widgets.isEmpty()) {
-                        GroupedRow(tr("widgets.empty"), titleColor = theme.textMuted)
+                        GroupedRow(tr("room.settings.widgets.noWidgets"), titleColor = theme.textMuted)
                     }
                     widgets.forEachIndexed { index, widget ->
                         if (index > 0) RowDivider()
                         val host = runCatching { java.net.URI(widget.url).host }.getOrNull() ?: widget.url
                         GroupedRow(
-                            widget.name?.takeIf { it.isNotBlank() } ?: tr("widgets.untitled"),
+                            widget.name?.takeIf { it.isNotBlank() } ?: tr("room.settings.widgets.untitled"),
                             icon = "puzzle-piece",
                             iconTint = theme.textMuted,
-                            subtitle = widget.creator?.let { L10n.format("widgets.addedBy", it) } ?: host,
+                            subtitle = widget.creator?.let { L10n.format("room.settings.widgets.addedBy", it) } ?: host,
                             onClick = {
                                 scope.launch {
                                     val language = Locale.getDefault().language
@@ -88,7 +88,7 @@ internal fun RoomWidgetsScreen(roomId: String, client: WizardClient, canManage: 
             if (canManage) {
                 item {
                     GroupedSection {
-                        ActionRow(tr("widgets.add"), "plus", { adding = true })
+                        ActionRow(tr("room.settings.widgets.addWidgetBtn"), "plus", { adding = true })
                     }
                 }
             }
@@ -110,8 +110,8 @@ internal fun RoomWidgetsScreen(roomId: String, client: WizardClient, canManage: 
     }
     removing?.let { widget ->
         ConfirmDialog(
-            title = L10n.format("widgets.removeConfirm", widget.name ?: tr("widgets.untitled")),
-            confirmLabel = tr("widgets.remove"),
+            title = L10n.format("room.settings.widgets.removeWidgetConfirm", widget.name ?: tr("room.settings.widgets.untitled")),
+            confirmLabel = tr("room.settings.widgets.removeWidget"),
             onConfirm = {
                 removing = null
                 scope.launch {
@@ -132,12 +132,12 @@ private fun AddWidgetDialog(onDismiss: () -> Unit, onAdd: (String, String) -> Un
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = theme.bgPrimary,
-        title = { Text(tr("widgets.add"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary) },
+        title = { Text(tr("room.settings.widgets.addWidgetBtn"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
-                WizardTextField(name, { name = it }, tr("widgets.name"))
-                WizardTextField(url, { url = it }, tr("widgets.url"), keyboardType = KeyboardType.Uri)
-                Text(tr("widgets.urlHint"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                WizardTextField(name, { name = it }, tr("common.name"))
+                WizardTextField(url, { url = it }, tr("room.settings.widgets.url"), keyboardType = KeyboardType.Uri)
+                Text(tr("room.settings.widgets.urlHint"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
         },
         confirmButton = { BarTextButton(tr("common.save"), { if (url.isNotBlank()) onAdd(name, url.trim()) }, bold = true) },

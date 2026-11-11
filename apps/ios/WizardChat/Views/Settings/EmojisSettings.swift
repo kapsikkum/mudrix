@@ -9,7 +9,7 @@ struct EmojisSettings: View {
     @Environment(\.theme) private var theme
 
     @State private var pack: [String: Any] = [:]
-    @State private var favorites: [(roomId: String, stateKey: String)] = []
+    @State private var favorites: [(roomId: String, stateKey: String, name: String?)] = []
     @State private var photo: PhotosPickerItem?
     @State private var pendingImage: (url: String, mime: String)?
     @State private var shortcode = ""
@@ -26,7 +26,7 @@ struct EmojisSettings: View {
         SettingsPage(title: "room.settings.emojis.title") {
             SettingsSection(title: "settings.emojisStickers.defaultPack", note: "settings.emojisStickers.defaultPackNote") {
                 VStack(alignment: .leading, spacing: WZ.Space.space5) {
-                    Text(images.count == 1 ? String(localized: "settings.oneImage") : L10n.format("settings.images", images.count))
+                    Text(L10n.format("settings.emojisStickers.imageCount", images.count))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 72), spacing: WZ.Space.space4)], spacing: WZ.Space.space4) {
@@ -50,7 +50,7 @@ struct EmojisSettings: View {
                                     .font(.system(size: WZ.SizeIcon.md))
                                     .frame(width: WZ.Space.space11, height: WZ.Space.space11)
                                     .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
-                                Text(String(localized: "settings.upload")).font(.wizard(WZ.FontSize.xs))
+                                Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.xs))
                             }
                             .foregroundStyle(theme.textMuted)
                         }
@@ -67,7 +67,7 @@ struct EmojisSettings: View {
                                 .disabled(shortcode.trimmingCharacters(in: CharacterSet(charactersIn: ": ")).isEmpty)
                         }
                     }
-                    Text(String(localized: "settings.longPressAnImage"))
+                    Text(String(localized: "settings.emojisStickers.imageActionsHint"))
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -84,7 +84,7 @@ struct EmojisSettings: View {
                     if index > 0 { SettingsDivider() }
                     HStack {
                         VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                            Text(favorite.stateKey.isEmpty ? roomName(favorite.roomId) : favorite.stateKey)
+                            Text(favorite.name ?? (favorite.stateKey.isEmpty ? roomName(favorite.roomId) : favorite.stateKey))
                                 .font(.wizard(WZ.FontSize.md, .medium))
                                 .foregroundStyle(theme.textPrimary)
                             Text(roomName(favorite.roomId))
@@ -96,9 +96,9 @@ struct EmojisSettings: View {
                         Button {
                             Task { await setFavorite(favorite.roomId, favorite.stateKey, false) }
                         } label: {
-                            Image("ph-star-regular")
+                            Image("ph-star-fill")
                         }
-                        .foregroundStyle(theme.textMuted)
+                        .foregroundStyle(theme.accent)
                         .accessibilityLabel(String(localized: "settings.emojisStickers.removeFavorite"))
                     }
                 }
@@ -142,7 +142,19 @@ struct EmojisSettings: View {
                 }
             }
         }
-        favorites = result.map { (roomId: $0.0, stateKey: $0.1) }
+        var named: [(roomId: String, stateKey: String, name: String?)] = []
+        for (roomId, key) in result {
+            named.append((roomId: roomId, stateKey: key, name: await packName(roomId, key)))
+        }
+        favorites = named
+    }
+
+    private func packName(_ roomId: String, _ stateKey: String) async -> String? {
+        for type in ["im.ponies.room_emotes", "m.room.image_pack"] {
+            let content = await session.stateEvents(type, in: roomId).first { $0.key == stateKey }?.content
+            if let name = (content?["pack"] as? [String: Any])?["display_name"] as? String, !name.isEmpty { return name }
+        }
+        return nil
     }
 
     private func upload(_ item: PhotosPickerItem) async {
@@ -187,7 +199,7 @@ struct EmojisSettings: View {
             try await session.setAccountDataJSON(Self.userPackType, content)
             pack = content
         } catch {
-            self.error = L10n.format("settings.failedToSave", "\(error.localizedDescription)")
+            self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)")
         }
     }
 
@@ -204,7 +216,7 @@ struct EmojisSettings: View {
             }
             await reload()
         } catch {
-            self.error = L10n.format("settings.failedToSave", "\(error.localizedDescription)")
+            self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)")
         }
     }
 }

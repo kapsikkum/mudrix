@@ -74,6 +74,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -122,12 +123,16 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
+import org.wizardchat.android.ui.room.RoomLinks
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.Member
 import org.wizardchat.core.PackImage
 import org.wizardchat.core.RoomSummary
+import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
 
 /** A file waiting in the composer's tray until the message is sent */
@@ -145,6 +150,7 @@ class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boo
 
 private sealed interface Suggestion {
     data class MemberItem(val member: Member) : Suggestion
+    data class RoomItem(val name: String, val avatarUrl: String?, val detail: String?, val link: String) : Suggestion
     data class EmojiItem(val emoji: Emoji) : Suggestion
     data class Custom(val image: PackImage) : Suggestion
     data class Command(val name: String, val description: String) : Suggestion
@@ -179,6 +185,7 @@ fun ComposerView(
     val packStore = remember { PacksStore() }
     val usedEmotes = remember { HashMap<String, PackImage>() }
     val mentions = remember { HashMap<String, String>() }
+    val roomLinks = remember { HashMap<String, String>() }
     var members by remember { mutableStateOf(listOf<Member>()) }
     var pickerTab by remember { mutableStateOf<MediaPickerTab?>(null) }
     var plusMenu by remember { mutableStateOf(false) }
@@ -187,6 +194,8 @@ fun ComposerView(
     var showLocation by remember { mutableStateOf(false) }
     val recorder = remember { VoiceRecorder(context.applicationContext, scope) }
     var focused by remember { mutableStateOf(false) }
+    // The formatting bar stays open, picked from the + menu (it also shows while text is selected)
+    var formatting by remember { mutableStateOf(false) }
     var preparing by remember { mutableIntStateOf(0) }
 
     val text = draft.text.toString()
@@ -204,7 +213,7 @@ fun ComposerView(
     }
     var apiRequest by remember { mutableStateOf<ApiRequest?>(null) }
     val uploadPrefs = prefs.videoUploadPrefs()
-    val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty()) && preparing == 0
+    val canSend = (trimmed.isNotEmpty() || attachments.isNotEmpty() || editing?.editableMedia != null) && preparing == 0
     val isRecording = recorder.state == VoiceRecorder.State.recording || recorder.state == VoiceRecorder.State.paused
     val hasSelection = !draft.selection.collapsed
     val draftKey = threadRoot?.let { "draft.${room.id}.$it" } ?: "draft.${room.id}"
@@ -258,6 +267,20 @@ fun ComposerView(
     val filePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
         uris.forEach { addUri(it, keepName = true) }
     }
+    var cameraUri by remember { mutableStateOf<Uri?>(null) }
+    val takePicture = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { saved ->
+        val uri = cameraUri
+        if (saved && uri != null) addUri(uri, keepName = false)
+    }
+    fun launchCamera() {
+        val file = File(context.cacheDir, "camera-${System.currentTimeMillis()}.jpg")
+        val uri = androidx.core.content.FileProvider.getUriForFile(context, "${context.packageName}.files", file)
+        cameraUri = uri
+        takePicture.launch(uri)
+    }
+    val cameraPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) launchCamera()
+    }
     val micPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) recorder.start() else recorder.state = VoiceRecorder.State.denied
     }
@@ -292,6 +315,20 @@ fun ComposerView(
                 (it.displayName ?: "").contains(query, ignoreCase = true) || it.userId.contains(query, ignoreCase = true)
             }.take(6).map { Suggestion.MemberItem(it) }
         }
+        currentToken.startsWith("#") && !currentToken.drop(1).contains("#") -> {
+            val query = currentToken.drop(1)
+            val roomList = session.roomList
+            val rooms = roomList?.joinedRooms.orEmpty()
+                .filter { !it.isDirect && !it.isInvite && !it.isTombstoned }
+                .map { Suggestion.RoomItem(it.displayName, it.avatarUrl, if (it.isSpace) tr("explore.typeSpace") else it.canonicalAlias, RoomLinks.link(it)) }
+            val spaces = roomList?.allSpaces.orEmpty()
+                .filter { space -> rooms.none { it.link.contains(space.id) } }
+                .map { Suggestion.RoomItem(it.name, it.avatarUrl, tr("explore.typeSpace"), RoomLinks.link(it)) }
+            (rooms + spaces)
+                .filter { it.name.contains(query, ignoreCase = true) || it.detail?.contains(query, ignoreCase = true) == true }
+                .sortedByDescending { it.name.startsWith(query, ignoreCase = true) }
+                .take(6)
+        }
         currentToken.startsWith(":") && currentToken.length >= 3 && !currentToken.drop(1).contains(":") -> {
             val query = currentToken.drop(1)
             val custom = packStore.packs.flatMap { pack -> pack.images.filter { it.emoticon && it.shortcode.contains(query, ignoreCase = true) } }
@@ -314,6 +351,11 @@ fun ComposerView(
                 val name = suggestion.member.displayName ?: suggestion.member.userId
                 mentions[name] = suggestion.member.userId
                 setDraft("$base$name ")
+            }
+            is Suggestion.RoomItem -> {
+                val label = "#${suggestion.name}"
+                roomLinks[label] = suggestion.link
+                setDraft("$base$label ")
             }
             is Suggestion.EmojiItem -> setDraft("$base${suggestion.emoji.e} ")
             is Suggestion.Custom -> {
@@ -347,11 +389,14 @@ fun ComposerView(
         }
     }
 
-    fun prefixLines(prefix: String) {
+    /** Prefixes each selected line, prefix getting its 1-based number */
+    fun prefixLines(prefix: (Int) -> String) {
         val selection = draft.selection
         val lineStart = if (selection.min == 0) 0 else text.lastIndexOf('\n', selection.min - 1) + 1
         val lineEnd = text.indexOf('\n', selection.max).let { if (it < 0) text.length else it }
-        val replaced = text.substring(lineStart, lineEnd).split("\n").joinToString("\n") { prefix + it }
+        val replaced = text.substring(lineStart, lineEnd).split("\n")
+            .mapIndexed { index, line -> prefix(index + 1) + line }
+            .joinToString("\n")
         draft.edit {
             replace(lineStart, lineEnd, replaced)
             this.selection = TextRange(lineStart + replaced.length)
@@ -360,10 +405,13 @@ fun ComposerView(
 
     suspend fun send(message: String, reply: String?) {
         val message = if (prefs.emoticonsToEmoji) Emoticons.replaceInMessage(message) else message
-        val html = richHtml(message, usedEmotes, mentions)
+        val links = roomLinks.filterKeys { message.contains(it) }.entries.sortedByDescending { it.key.length }
+        val body = links.fold(message) { text, (label, link) -> text.replace(label, RoomLinks.target(link) ?: link) }
+        val html = richHtml(body, usedEmotes, mentions, timeline.client, links.associate { (_, link) -> (RoomLinks.target(link) ?: link) to link })
         usedEmotes.clear()
         mentions.clear()
-        timeline.send(message, html = html, replyTo = reply)
+        roomLinks.clear()
+        timeline.send(body, html = html, replyTo = reply)
     }
 
     suspend fun submit() {
@@ -485,8 +533,8 @@ fun ComposerView(
         }
     }
     LaunchedEffect(editing?.id) {
-        val kind = editing?.kind as? ChatEntry.Kind.Message ?: return@LaunchedEffect
-        setDraft(kind.body)
+        val text = editing?.editableText ?: return@LaunchedEffect
+        setDraft(text)
         focus(true)
     }
     LaunchedEffect(replyTo?.id) { if (replyTo != null) focus(true) }
@@ -544,9 +592,20 @@ fun ComposerView(
                                 add(MenuItem(tr("composer.photosVideos"), "images") {
                                     photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
                                 })
+                                if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+                                    add(MenuItem(tr("composer.camera"), "camera") {
+                                        val granted = androidx.core.content.ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+                                            PackageManager.PERMISSION_GRANTED
+                                        if (granted) launchCamera() else cameraPermission.launch(Manifest.permission.CAMERA)
+                                    })
+                                }
                                 add(MenuItem(tr("composer.file"), "file") { filePicker.launch(arrayOf("*/*")) })
                                 if (clipboardHasImages) add(MenuItem(tr("composer.pasteImage"), "clipboard-text") { pasteImages() })
-                                add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal", divider = true) { showPoll = true })
+                                add(MenuItem(tr("composer.formatting.toolbar"), "text-aa", divider = true) {
+                                    formatting = !formatting
+                                    if (formatting) runCatching { focusRequester.requestFocus() }
+                                })
+                                add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal") { showPoll = true })
                                 add(MenuItem(tr("composer.location.share"), "map-pin") { showLocation = true })
                                 add(MenuItem(tr("composer.voice.record"), "microphone") { startRecording() })
                                 integrationInserts.forEachIndexed { index, entry ->
@@ -566,7 +625,7 @@ fun ComposerView(
                 }
                 Column(Modifier.weight(1f).floatingGlass(RoundedCornerShape(WZ.Radius.xl), theme.bgTertiary)) {
                     replyTo?.let { entry ->
-                        ContextBar("arrow-bend-up-left", L10n.format("composer.replyingToName", entry.senderName), entry.summary) {
+                        ContextBar("arrow-bend-up-left", L10n.format("composer.replyingToName", entry.senderName), entry.summary, entry.senderName to nameColor(entry.sender)) {
                             onReplyToChange(null)
                         }
                     }
@@ -579,19 +638,20 @@ fun ComposerView(
                     if (attachments.isNotEmpty() || preparing > 0) {
                         AttachmentTray(attachments, preparing, uploadPrefs, session.uploadLimit) { attachment -> attachments.removeAll { it.id == attachment.id } }
                     }
-                    // Formatting appears only while text is selected
-                    if (focused && hasSelection) {
+                    if (formatting || (focused && hasSelection)) {
                         FormatBar(
                             Modifier.padding(horizontal = WZ.Space.space4).padding(top = WZ.Space.space2),
+                            selectionHasLines = text.substring(draft.selection.min, draft.selection.max).contains('\n'),
                             onWrap = ::wrap,
                             onPrefix = ::prefixLines,
+                            onClose = if (formatting) ({ formatting = false }) else null,
                         )
                     }
                     InputField(
                         draft,
                         placeholder = when {
                             editing != null -> tr("composer.editMessage")
-                            threadRoot != null -> tr("thread.composerPlaceholder")
+                            threadRoot != null -> tr("timeline.threadComposerPlaceholder")
                             else -> L10n.format("composer.messageRoom", room.displayName)
                         },
                         modifier = Modifier
@@ -670,14 +730,28 @@ fun ComposerView(
     }
 }
 
-/** HTML only when the message has custom emoji or mentions; otherwise Markdown is used */
-internal fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Map<String, String>): String? {
+/**
+ * HTML only when the message has custom emoji or mentions (otherwise the core turns the Markdown
+ * into HTML); its Markdown is rendered first so formatting isn't lost.
+ */
+internal suspend fun richHtml(
+    text: String,
+    emotes: Map<String, PackImage>,
+    mentions: Map<String, String>,
+    client: WizardClient,
+    roomLinks: Map<String, String> = emptyMap(),
+): String? {
     val usedEmotes = emotes.filter { text.contains(":${it.key}:") }
     val usedMentions = mentions.filter { text.contains(it.key) }
-    if (usedEmotes.isEmpty() && usedMentions.isEmpty()) return null
-    var html = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    val usedRooms = roomLinks.filter { text.contains(it.key) }
+    if (usedEmotes.isEmpty() && usedMentions.isEmpty() && usedRooms.isEmpty()) return null
+    var html = runCatching { client.markdownToHtml(text) }.getOrNull()
+        ?: text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
     for ((name, userId) in usedMentions) {
         html = html.replace(name, "<a href=\"https://matrix.to/#/$userId\">$name</a>")
+    }
+    for ((label, link) in usedRooms.entries.sortedByDescending { it.key.length }) {
+        html = html.replace(label, "<a href=\"$link\">$label</a>")
     }
     for ((code, image) in usedEmotes) {
         html = html.replace(
@@ -685,7 +759,7 @@ internal fun richHtml(text: String, emotes: Map<String, PackImage>, mentions: Ma
             "<img data-mx-emoticon height=\"32\" src=\"${image.url}\" alt=\":$code:\" title=\":$code:\">",
         )
     }
-    return html.replace("\n", "<br>")
+    return html
 }
 
 private fun ByteArray.startsWith(vararg bytes: Int) = size >= bytes.size && bytes.indices.all { this[it] == bytes[it].toByte() }
@@ -742,21 +816,32 @@ private fun InputField(state: TextFieldState, placeholder: String, modifier: Mod
 }
 
 @Composable
-private fun FormatBar(modifier: Modifier, onWrap: (String, String, Boolean) -> Unit, onPrefix: (String) -> Unit) {
+private fun FormatBar(
+    modifier: Modifier,
+    selectionHasLines: Boolean,
+    onWrap: (String, String, Boolean) -> Unit,
+    onPrefix: ((Int) -> String) -> Unit,
+    onClose: (() -> Unit)?,
+) {
+    // The same options as the web's toolbar, written as the Markdown sending turns into formatting
     Row(modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
         FormatButton("text-b", tr("composer.formatting.bold")) { onWrap("**", "**", false) }
         FormatButton("text-italic", tr("composer.formatting.italic")) { onWrap("_", "_", false) }
         FormatButton("text-strikethrough", tr("composer.formatting.strikethrough")) { onWrap("~~", "~~", false) }
-        FormatButton("code", tr("composer.code")) { onWrap("`", "`", false) }
-        FormatButton("brackets-curly", tr("composer.codeBlock")) { onWrap("```\n", "\n```", true) }
-        FormatButton("quotes", tr("composer.formatting.quote")) { onPrefix("> ") }
-        FormatButton("list-bullets", tr("composer.list")) { onPrefix("- ") }
-        FormatButton("link", tr("composer.link")) { onWrap("[", "](https://)", false) }
+        FormatButton("code", tr("composer.formatting.code")) {
+            if (selectionHasLines) onWrap("```\n", "\n```", true) else onWrap("`", "`", false)
+        }
+        FormatButton("text-h", tr("composer.formatting.heading")) { onPrefix { "# " } }
+        FormatButton("list-bullets", tr("composer.formatting.bulletList")) { onPrefix { "- " } }
+        FormatButton("list-numbers", tr("composer.formatting.numberedList")) { onPrefix { "$it. " } }
+        FormatButton("quotes", tr("composer.formatting.quote")) { onPrefix { "> " } }
+        FormatButton("link", tr("composer.formatting.link")) { onWrap("[", "](https://)", false) }
+        if (onClose != null) FormatButton("x", tr("common.close"), tint = theme.textMuted, onClick = onClose)
     }
 }
 
 @Composable
-private fun FormatButton(icon: String, label: String, onClick: () -> Unit) {
+private fun FormatButton(icon: String, label: String, tint: Color = theme.textPrimary, onClick: () -> Unit) {
     Box(
         Modifier
             .size(WZ.Space.space10, WZ.Space.space9)
@@ -765,12 +850,12 @@ private fun FormatButton(icon: String, label: String, onClick: () -> Unit) {
             .semantics { contentDescription = label },
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon(icon, size = WZ.SizeIcon.sm, tint = theme.textPrimary)
+        PhIcon(icon, size = WZ.SizeIcon.sm, tint = tint)
     }
 }
 
 @Composable
-private fun ContextBar(icon: String, title: String, text: String, onClose: () -> Unit) {
+private fun ContextBar(icon: String, title: String, text: String, name: Pair<String, Color>? = null, onClose: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -781,7 +866,13 @@ private fun ContextBar(icon: String, title: String, text: String, onClose: () ->
     ) {
         PhIcon(icon, tint = theme.accent)
         Column(Modifier.weight(1f)) {
-            Text(title, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(
+                withNameColors(title, listOfNotNull(name)),
+                style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                color = theme.accent,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
             Text(text, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Box(Modifier.clip(CircleShape).clickable(onClick = onClose)) {
@@ -953,6 +1044,26 @@ private fun SuggestionList(suggestions: List<Suggestion>, onPick: (Suggestion) -
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
+                    }
+                    is Suggestion.RoomItem -> {
+                        Avatar(suggestion.name, suggestion.avatarUrl, WZ.SizeAvatar.sm)
+                        Text(
+                            suggestion.name,
+                            style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        suggestion.detail?.let {
+                            Text(
+                                it,
+                                Modifier.weight(1f, fill = false),
+                                style = wizardFont(WZ.FontSize.sm),
+                                color = theme.textMuted,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
                     is Suggestion.EmojiItem -> {
                         Box(Modifier.widthIn(min = WZ.Space.space8), contentAlignment = Alignment.Center) {

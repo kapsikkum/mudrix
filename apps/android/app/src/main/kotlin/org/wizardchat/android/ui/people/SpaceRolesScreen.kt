@@ -288,8 +288,8 @@ internal fun SpaceRolesScreen(spaceId: String, onBack: () -> Unit) {
 @Composable
 private fun builtinName(key: SpaceModern.Builtin): String = when (key) {
     SpaceModern.Builtin.Founder -> tr("room.members.founder")
-    SpaceModern.Builtin.Admin -> tr("room.admins")
-    SpaceModern.Builtin.Moderator -> tr("room.moderators")
+    SpaceModern.Builtin.Admin -> tr("room.members.admins")
+    SpaceModern.Builtin.Moderator -> tr("room.members.moderators")
     SpaceModern.Builtin.Member -> tr("common.members")
 }
 

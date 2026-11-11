@@ -160,7 +160,7 @@ export function UiaPanel({
             ) : (
               <ArrowSquareOutIcon size={14} />
             )}
-            {t('settings.sessions.continueWithSso')}
+            {t('common.continueWithSso')}
           </button>
         </div>
       )}

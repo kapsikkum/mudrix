@@ -40,7 +40,7 @@ export function RoomSpacesSection({ roomId }: { roomId: string }) {
       await client.addToSpace(selected, roomId, false);
       setSelected('');
     } catch (err) {
-      toast.error(t('room.space.addExistingRoomFailed', { error: getErrorMessage(err) }));
+      toast.error(t('space.addExistingRoomFailed', { error: getErrorMessage(err) }));
     } finally {
       setBusy(false);
     }
@@ -51,7 +51,7 @@ export function RoomSpacesSection({ roomId }: { roomId: string }) {
     try {
       await client.removeFromSpace(spaceId, roomId);
     } catch (err) {
-      toast.error(t('room.space.removeFailed', { error: getErrorMessage(err) }));
+      toast.error(t('space.removeFailed', { error: getErrorMessage(err) }));
     } finally {
       setBusy(false);
     }
@@ -92,8 +92,8 @@ export function RoomSpacesSection({ roomId }: { roomId: string }) {
               size="sm"
               onClick={() => remove(space.id)}
               disabled={busy}
-              aria-label={t('room.space.removeRoom')}
-              tooltip={t('room.space.removeRoom')}
+              aria-label={t('space.removeRoom')}
+              tooltip={t('space.removeRoom')}
             >
               <XIcon size={14} />
             </IconButton>

@@ -3,9 +3,10 @@
 mod badge;
 mod dev;
 mod downloads;
+mod global_keys;
+mod keep_awake;
 mod links;
 mod loopback;
-mod push_to_talk;
 mod rpc;
 mod screen_share;
 mod settings;
@@ -110,10 +111,12 @@ pub fn run() {
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             Some(vec![AUTOSTART_FLAG]),
         ))
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .manage(rpc::Core::new())
         .manage(shell::FullscreenState::default())
         .manage(links::Pending::default())
-        .manage(push_to_talk::PushToTalk::default())
+        .manage(global_keys::GlobalKeys::default())
+        .manage(keep_awake::KeepAwake::default())
         .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
         // Calls, screen sharing and location sharing
@@ -183,8 +186,9 @@ pub fn run() {
             links::show_notification,
             links::take_pending_room,
             links::take_deep_link,
-            push_to_talk::push_to_talk_set_key,
-            push_to_talk::push_to_talk_permission,
+            global_keys::global_key_set,
+            global_keys::global_keys_permission,
+            keep_awake::keep_awake,
             update::update_ready,
             update::install_update,
             screen_share::screen_capture_supported,

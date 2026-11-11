@@ -93,6 +93,7 @@ export function newStoreConfig(): StoreConfig {
   return {
     location: `wizardchat-${crypto.randomUUID()}`,
     passphrase: btoa(String.fromCharCode(...bytes)),
+    manualEncryptionSetup: true,
   };
 }
 

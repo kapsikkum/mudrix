@@ -1,0 +1,119 @@
+name: Check
+
+# The root `npm run check` (lint, format, i18n, rustfmt, clippy native + wasm), split into jobs, plus a web build.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  # Same as upstream's .gitlab-ci.yml
+  WASM_PACK: '0.15.0'
+
+jobs:
+  web:
+    name: Web (types, lint, format, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: wasm
+
+      - name: Install wasm-pack
+        run: |
+          base="wasm-pack-v${WASM_PACK}-x86_64-unknown-linux-musl"
+          curl -sSfL "https://github.com/rustwasm/wasm-pack/releases/download/v${WASM_PACK}/${base}.tar.gz" \
+            | tar -xz --strip-components=1 -C "$HOME/.cargo/bin" "${base}/wasm-pack"
+          wasm-pack --version
+
+      # --ignore-scripts: skips husky's `prepare` hook, like upstream's pipeline
+      - run: npm ci --ignore-scripts
+
+      - name: Design tokens
+        run: npm run tokens
+
+      - name: Translations (generates dist, fails on a missing or unused key)
+        run: npm run i18n
+
+      # Pull requests build the core unoptimised (wasm-opt -Oz + LTO is slow); pushes to main build what ships
+      - name: Core for the web (wasm, dev profile)
+        if: github.event_name == 'pull_request'
+        run: npm run core:web:dev
+      - name: Core for the web (wasm, release profile)
+        if: github.event_name != 'pull_request'
+        run: npm run core:web
+
+      - name: Type check
+        run: npm run typecheck -w @wizardchat/web
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Vite build
+        run: npm exec -w @wizardchat/web -- vite build
+
+  web-tests:
+    name: Web (unit tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run tokens
+      - run: npm test -w @wizardchat/web
+
+  rust:
+    name: Rust (fmt, clippy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: clippy
+
+      # The workspace includes the Tauri crate, so clippy needs its system libraries ...
+      - uses: ./.github/actions/tauri-linux-deps
+
+      # ... and tauri::generate_context!() refuses to compile when frontendDist (apps/web/dist-desktop) is missing
+      - name: Stand-in for the desktop frontend build
+        run: mkdir -p apps/web/dist-desktop
+
+      - name: rustfmt
+        run: cargo fmt --all --check
+
+      - name: clippy (workspace, native)
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+      - name: clippy (core + wasm crates, wasm32)
+        run: cargo clippy -p wizardchat-core -p wizardchat-core-wasm --target wasm32-unknown-unknown -- -D warnings

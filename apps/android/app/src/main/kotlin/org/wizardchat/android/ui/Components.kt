@@ -21,6 +21,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,11 +55,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -75,11 +77,9 @@ import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.WizardApplication
-import org.wizardchat.android.ui.theme.WizardTheme
 import org.wizardchat.android.ui.theme.hueColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
-import org.wizardchat.core.SyncState
 import org.wizardchat.tokens.WZ
 
 @Composable
@@ -89,16 +89,17 @@ fun Avatar(
     size: Dp = WZ.SizeAvatar.md,
     cornerRadius: Dp? = null,
     modifier: Modifier = Modifier,
+    fallback: Bitmap? = null,
 ) {
     val media = LocalMedia.current
-    var image by remember(url) { mutableStateOf<Bitmap?>(url?.let { media?.cachedThumbnail(it) }) }
+    var image by remember(url, fallback) { mutableStateOf(url?.let { media?.cachedThumbnail(it) } ?: fallback) }
     val imageBitmap = remember(image) { image?.asImageBitmap() }
     LaunchedEffect(url, media) {
         if (url == null || media == null) {
-            image = null
+            image = fallback
             return@LaunchedEffect
         }
-        if (image == null) image = media.thumbnail(url, (size.value * 3).toInt())
+        media.thumbnail(url, (size.value * 3).toInt())?.let { image = it }
     }
     val shape: Shape = if (cornerRadius == null) CircleShape else RoundedCornerShape(cornerRadius)
     Box(
@@ -117,46 +118,102 @@ fun Avatar(
     }
 }
 
+/**
+ * The mud mound in one colour. Facets are shaded by tone so the silhouette keeps its faceting
+ * (same opacities as the web mark). The function keeps its upstream name; the artwork is Mudrix's.
+ */
 @Composable
 fun WizardMark(color: Color, modifier: Modifier = Modifier) {
     Canvas(modifier) {
         val scale = minOf(this.size.width, this.size.height) / 400f
-        logoPolygons.forEach { points ->
-            val path = Path().apply {
-                moveTo(points[0].x * scale, points[0].y * scale)
-                points.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
-                close()
-            }
-            drawPath(path, color)
+        mudFacets.forEach { facet ->
+            drawPath(facet.path(scale), color.copy(alpha = color.alpha * mudToneAlpha[facet.tone]))
         }
     }
 }
 
-private val logoPolygons = listOf(
-    listOf(0 to 280, 100 to 320, 200 to 270, 100 to 230),
-    listOf(100 to 320, 300 to 320, 200 to 270),
-    listOf(400 to 280, 300 to 320, 200 to 270, 300 to 230),
-    listOf(100 to 230, 200 to 270, 230 to 80, 200 to 70),
-    listOf(200 to 270, 300 to 230, 260 to 75, 230 to 80),
-    listOf(200 to 70, 230 to 80, 260 to 75, 300 to 0),
-).map { points -> points.map { (x, y) -> Offset(x.toFloat(), y + 40f) } }
+// Mud mound geometry, copied from apps/web/src/theme/mudMoundGeometry.ts (viewBox 0 0 400 400).
+// tone 0 is the darkest facet, 5 the lightest.
+private class MudFacet(val tone: Int, private val pts: FloatArray) {
+    fun path(scale: Float): Path = Path().apply {
+        moveTo(pts[0] * scale, pts[1] * scale)
+        lineTo(pts[2] * scale, pts[3] * scale)
+        lineTo(pts[4] * scale, pts[5] * scale)
+        close()
+    }
+}
+
+private fun mudFacet(tone: Int, x0: Int, y0: Int, x1: Int, y1: Int, x2: Int, y2: Int) =
+    MudFacet(tone, floatArrayOf(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), x2.toFloat(), y2.toFloat()))
+
+private val mudFacets = listOf(
+    mudFacet(4, 60, 200, 130, 120, 125, 205),
+    mudFacet(5, 130, 120, 210, 140, 125, 205),
+    mudFacet(5, 130, 120, 210, 55, 210, 140),
+    mudFacet(4, 210, 55, 280, 100, 210, 140),
+    mudFacet(4, 280, 100, 285, 195, 210, 140),
+    mudFacet(2, 280, 100, 340, 180, 285, 195),
+    mudFacet(1, 340, 180, 365, 270, 285, 195),
+    mudFacet(3, 40, 290, 60, 200, 125, 205),
+    mudFacet(3, 40, 290, 125, 205, 105, 285),
+    mudFacet(4, 125, 205, 210, 140, 200, 260),
+    mudFacet(3, 210, 140, 285, 195, 200, 260),
+    mudFacet(3, 125, 205, 200, 260, 105, 285),
+    mudFacet(1, 285, 195, 300, 285, 200, 260),
+    mudFacet(1, 285, 195, 365, 270, 300, 285),
+    mudFacet(0, 365, 270, 330, 330, 300, 285),
+    mudFacet(0, 330, 330, 180, 340, 300, 285),
+    mudFacet(1, 300, 285, 180, 340, 200, 260),
+    mudFacet(2, 200, 260, 180, 340, 105, 285),
+    mudFacet(0, 105, 285, 180, 340, 95, 320),
+    mudFacet(2, 40, 290, 105, 285, 95, 320),
+    mudFacet(0, 95, 320, 180, 340, 90, 385),
+)
+
+// The small highlight facet, drawn on top in the theme's hover tone
+private val mudHighlight = mudFacet(5, 185, 92, 212, 68, 208, 108)
+
+private val mudToneAlpha = floatArrayOf(0.55f, 0.65f, 0.75f, 0.85f, 0.92f, 1f)
+
+// Logo tones p0..p5 (darkest to lightest) plus the highlight, from the Mudrix themes
+private class MudTones(val tones: List<Color>, val highlight: Color)
+
+private val mudBaseTones = MudTones(
+    listOf(0xFF4A301B, 0xFF644427, 0xFF7A5434, 0xFF8A6038, 0xFFA87B50, 0xFFCFA170).map { Color(it) },
+    Color(0xFFE2BC8E),
+)
+private val mudParrotTones = MudTones(
+    listOf(0xFF1E5128, 0xFF34743E, 0xFFA8201A, 0xFFD7412F, 0xFFE0A526, 0xFFF5D547).map { Color(it) },
+    Color(0xFF79C183),
+)
+private val mudHallowTones = MudTones(
+    listOf(0xFF111111, 0xFF2B1F3A, 0xFF4A2A78, 0xFF7A4BC0, 0xFFE65F00, 0xFFFF9D00).map { Color(it) },
+    Color(0xFFFFB84D),
+)
 
 @Composable
 fun WizardLogo(size: Dp = WZ.SizeAvatar.xl, modifier: Modifier = Modifier) {
     val prefs = LocalPrefs.current
     // Theme colours only when the themed app icon is on, so it matches the launcher icon
-    val colors = if (prefs.themedAppIcon) theme.logo else WizardTheme.baseLogo
+    val themeName = prefs.effectiveThemeName(isSystemInDarkTheme())
+    val tones = when {
+        !prefs.themedAppIcon -> mudBaseTones
+        themeName == WZ.Theme.PARROT.label -> mudParrotTones
+        themeName == WZ.Theme.HALLOW.label -> mudHallowTones
+        else -> mudBaseTones
+    }
     val label = tr("app.name")
     Canvas(modifier.size(size).semantics { contentDescription = label }) {
         val scale = this.size.width / 400f
-        logoPolygons.forEachIndexed { index, points ->
-            val path = Path().apply {
-                moveTo(points[0].x * scale, points[0].y * scale)
-                points.drop(1).forEach { lineTo(it.x * scale, it.y * scale) }
-                close()
-            }
-            drawPath(path, colors[index])
+        // A hairline stroke in the fill colour closes the seams between facets
+        val seam = Stroke(width = 1.5f * scale, join = StrokeJoin.Round)
+        mudFacets.forEach { facet ->
+            val path = facet.path(scale)
+            val fill = tones.tones[facet.tone]
+            drawPath(path, fill)
+            drawPath(path, fill, style = seam)
         }
+        drawPath(mudHighlight.path(scale), tones.highlight)
     }
 }
 
@@ -327,7 +384,7 @@ object CopyToast {
     internal val stamp get() = shownAt
 }
 
-fun copyToClipboard(text: String, message: String = L10n.format("security.copied")) {
+fun copyToClipboard(text: String, message: String = L10n.format("common.copied")) {
     val clipboard = WizardApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(null, text))
     CopyToast.show(message)
@@ -360,12 +417,11 @@ fun CopyToastView(modifier: Modifier = Modifier) {
 @Composable
 fun ConnectionBanner(modifier: Modifier = Modifier) {
     val session = LocalSession.current
-    val offline = session.syncState == SyncState.offline || session.syncState == SyncState.error
-    AnimatedVisibility(offline, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
+    AnimatedVisibility(session.connectionLost, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
         Row(
             Modifier
                 .clip(CircleShape)
-                .background(Color(0xFFFF9500))
+                .background(theme.warningColor)
                 .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
@@ -460,9 +516,9 @@ fun VerificationBanner(onVerify: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
-        PhIcon("shield-check", size = WZ.SizeIcon.lg, tint = theme.warningColor)
+        PhIcon("shield-warning", size = WZ.SizeIcon.lg, tint = theme.danger)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            Text(tr("verifySession.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+            Text(tr("verification.session.title"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
             Text(tr("common.useAnotherDeviceOr"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         Box(

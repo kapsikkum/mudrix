@@ -1,0 +1,29 @@
+name: Branding gate
+
+# Fails when "wizardchat" appears somewhere users can see it (translations, READMEs, docs, store/manifest labels).
+# Allow-list and the list of scanned places: tools/ci/branding-allow.txt and tools/ci/branding-gate.mjs.
+# Once the internal rename is done, switch the command to `--strict` (scans every tracked text file).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  branding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Scan user-visible text
+        run: node tools/ci/branding-gate.mjs

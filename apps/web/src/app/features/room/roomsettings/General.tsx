@@ -45,8 +45,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   const queryClient = useQueryClient();
   const myUserId = useUserId();
   const confirmDialog = useConfirm();
-  const [devModeEnabled] = useAtom(developerModeAtom);
   const toast = useToast();
+  const [devModeEnabled] = useAtom(developerModeAtom);
 
   const { data: settings } = useRoomSettings(roomId);
   const details = useRoomDetails(roomId);

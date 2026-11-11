@@ -132,7 +132,7 @@ public enum CallEvent: Codable, Hashable, Sendable {
     case members(Members)
     /// A media key for a participant (the own one too); keep every index
     case key(Key)
-    /// The person rung declined
+    /// Everyone rung declined (`user_id` is the last of them)
     case declined(Declined)
     /// Nobody answered the ring
     case unanswered
@@ -183,6 +183,34 @@ public enum CallEvent: Codable, Hashable, Sendable {
     }
 }
 
+public struct CallHistoryView: Codable, Hashable, Sendable {
+    public var outcome: CallOutcome
+    /// Milliseconds since the Unix epoch
+    public var startedAt: Int
+    public var endedAt: Int?
+    public var startedBy: String
+    /// Everyone who joined, in the order they joined
+    public var participants: [CallParticipantView]
+    public var video: Bool
+    /// The call rang (a DM or small room)
+    public var rang: Bool
+    public var declinedBy: [String]
+    /// The call started before the loaded part of the timeline
+    public var partial: Bool
+
+    public init(outcome: CallOutcome, startedAt: Int, endedAt: Int? = nil, startedBy: String, participants: [CallParticipantView], video: Bool, rang: Bool, declinedBy: [String], partial: Bool) {
+        self.outcome = outcome
+        self.startedAt = startedAt
+        self.endedAt = endedAt
+        self.startedBy = startedBy
+        self.participants = participants
+        self.video = video
+        self.rang = rang
+        self.declinedBy = declinedBy
+        self.partial = partial
+    }
+}
+
 /// One device in a room's call
 public struct CallMember: Codable, Hashable, Sendable {
     public var userId: String
@@ -210,6 +238,26 @@ public struct CallMember: Codable, Hashable, Sendable {
         self.joinedAt = joinedAt
         self.isOwnDevice = isOwnDevice
         self.membershipEventId = membershipEventId
+        self.displayName = displayName
+        self.avatarUrl = avatarUrl
+    }
+}
+
+public enum CallOutcome: String, Codable, Hashable, Sendable, CaseIterable {
+    case ongoing = "ongoing"
+    case ended = "ended"
+    case missed = "missed"
+    case declined = "declined"
+    case unanswered = "unanswered"
+}
+
+public struct CallParticipantView: Codable, Hashable, Sendable {
+    public var userId: String
+    public var displayName: String?
+    public var avatarUrl: String?
+
+    public init(userId: String, displayName: String? = nil, avatarUrl: String? = nil) {
+        self.userId = userId
         self.displayName = displayName
         self.avatarUrl = avatarUrl
     }
@@ -350,28 +398,37 @@ public enum EntryContent: Codable, Hashable, Sendable {
     public struct Text: Codable, Hashable, Sendable {
         public var body: String
         public var html: String?
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        public var rich: [RichBlock]?
 
-        public init(body: String, html: String? = nil) {
+        public init(body: String, html: String? = nil, rich: [RichBlock]? = nil) {
             self.body = body
             self.html = html
+            self.rich = rich
         }
     }
     public struct Notice: Codable, Hashable, Sendable {
         public var body: String
         public var html: String?
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        public var rich: [RichBlock]?
 
-        public init(body: String, html: String? = nil) {
+        public init(body: String, html: String? = nil, rich: [RichBlock]? = nil) {
             self.body = body
             self.html = html
+            self.rich = rich
         }
     }
     public struct Emote: Codable, Hashable, Sendable {
         public var body: String
         public var html: String?
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        public var rich: [RichBlock]?
 
-        public init(body: String, html: String? = nil) {
+        public init(body: String, html: String? = nil, rich: [RichBlock]? = nil) {
             self.body = body
             self.html = html
+            self.rich = rich
         }
     }
     public struct Image: Codable, Hashable, Sendable {
@@ -484,6 +541,13 @@ public enum EntryContent: Codable, Hashable, Sendable {
             self.prevContent = prevContent
         }
     }
+    public struct Call: Codable, Hashable, Sendable {
+        public var call: CallHistoryView
+
+        public init(call: CallHistoryView) {
+            self.call = call
+        }
+    }
     case text(Text)
     case notice(Notice)
     case emote(Emote)
@@ -506,6 +570,10 @@ public enum EntryContent: Codable, Hashable, Sendable {
     case profileChange(ProfileChange)
     /// Any other state change, with its content as sent
     case state(State)
+    /// A call, shown on the first of its events
+    case call(Call)
+    /// One of a call's other events: shown as part of its `call`
+    case callPart
     case other
 
     public init(from decoder: Decoder) throws {
@@ -527,6 +595,8 @@ public enum EntryContent: Codable, Hashable, Sendable {
         case "membership": self = .membership(try Membership(from: decoder))
         case "profileChange": self = .profileChange(try ProfileChange(from: decoder))
         case "state": self = .state(try State(from: decoder))
+        case "call": self = .call(try Call(from: decoder))
+        case "callPart": self = .callPart
         case "other": self = .other
         case let other: throw DecodingError.dataCorruptedError(forKey: AnyKey("type"), in: container, debugDescription: "Unknown EntryContent \(other)")
         }
@@ -583,6 +653,11 @@ public enum EntryContent: Codable, Hashable, Sendable {
         case .state(let value):
             try container.encode("state", forKey: AnyKey("type"))
             try value.encode(to: encoder)
+        case .call(let value):
+            try container.encode("call", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .callPart:
+            try container.encode("callPart", forKey: AnyKey("type"))
         case .other:
             try container.encode("other", forKey: AnyKey("type"))
         }
@@ -647,15 +722,16 @@ public struct IdentityProvider: Codable, Hashable, Sendable {
     }
 }
 
-/// Someone calling, from a ring or notification event, or a caller's new membership in a direct chat
+/// Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+/// in the call
 public struct IncomingCall: Codable, Hashable, Sendable {
     public var roomId: String
     public var roomName: String?
-    /// The ring or notification event to decline; empty when only the membership is known so far
+    /// The ring or notification event to decline
     public var eventId: String
     public var sender: String
     public var senderName: String?
-    /// Ring audibly (direct chats), or just show a notification
+    /// Ring audibly (DMs and rooms up to 10 members), or just show a notification
     public var ring: Bool
     public var intent: String?
     /// Milliseconds since the Unix epoch
@@ -670,6 +746,50 @@ public struct IncomingCall: Codable, Hashable, Sendable {
         self.ring = ring
         self.intent = intent
         self.expiresAt = expiresAt
+    }
+}
+
+public enum IncomingCallEvent: Codable, Hashable, Sendable {
+    public struct Ringing: Codable, Hashable, Sendable {
+        public var call: IncomingCall
+
+        public init(call: IncomingCall) {
+            self.call = call
+        }
+    }
+    public struct Ended: Codable, Hashable, Sendable {
+        public var call: IncomingCall
+        public var reason: RingEnd
+
+        public init(call: IncomingCall, reason: RingEnd) {
+            self.call = call
+            self.reason = reason
+        }
+    }
+    /// Someone is calling; a later ring in the same room replaces this one
+    case ringing(Ringing)
+    /// The ring in the call's room is over
+    case ended(Ended)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: AnyKey.self)
+        switch try container.decode(String.self, forKey: AnyKey("type")) {
+        case "ringing": self = .ringing(try Ringing(from: decoder))
+        case "ended": self = .ended(try Ended(from: decoder))
+        case let other: throw DecodingError.dataCorruptedError(forKey: AnyKey("type"), in: container, debugDescription: "Unknown IncomingCallEvent \(other)")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: AnyKey.self)
+        switch self {
+        case .ringing(let value):
+            try container.encode("ringing", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .ended(let value):
+            try container.encode("ended", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        }
     }
 }
 
@@ -1019,6 +1139,7 @@ public enum MessageKind: String, Codable, Hashable, Sendable, CaseIterable {
 public struct Notification: Codable, Hashable, Sendable {
     public var roomId: String
     public var roomName: String?
+    public var roomAvatarUrl: String?
     public var eventId: String
     public var sender: String
     public var senderName: String?
@@ -1026,19 +1147,23 @@ public struct Notification: Codable, Hashable, Sendable {
     public var body: String
     /// The message hides a spoiler: show a placeholder instead of its text
     public var spoiler: Bool
+    /// Its keys haven't arrived yet: show a placeholder
+    public var encrypted: Bool
     /// Mentions and keywords: show more prominently
     public var highlight: Bool
     public var sound: Bool
     public var isDirect: Bool
 
-    public init(roomId: String, roomName: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, highlight: Bool, sound: Bool, isDirect: Bool) {
+    public init(roomId: String, roomName: String? = nil, roomAvatarUrl: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, encrypted: Bool, highlight: Bool, sound: Bool, isDirect: Bool) {
         self.roomId = roomId
         self.roomName = roomName
+        self.roomAvatarUrl = roomAvatarUrl
         self.eventId = eventId
         self.sender = sender
         self.senderName = senderName
         self.body = body
         self.spoiler = spoiler
+        self.encrypted = encrypted
         self.highlight = highlight
         self.sound = sound
         self.isDirect = isDirect
@@ -1173,6 +1298,24 @@ public struct PublicRoomsPage: Codable, Hashable, Sendable {
         self.rooms = rooms
         self.next = next
         self.total = total
+    }
+}
+
+public struct PusherConfig: Codable, Hashable, Sendable {
+    public var appId: String
+    public var pushkey: String
+    public var gatewayUrl: String
+    public var appName: String
+    public var deviceName: String
+    public var lang: String
+
+    public init(appId: String, pushkey: String, gatewayUrl: String, appName: String, deviceName: String, lang: String) {
+        self.appId = appId
+        self.pushkey = pushkey
+        self.gatewayUrl = gatewayUrl
+        self.appName = appName
+        self.deviceName = deviceName
+        self.lang = lang
     }
 }
 
@@ -1375,6 +1518,131 @@ public struct ResolvedAlias: Codable, Hashable, Sendable {
     }
 }
 
+public enum RichBlock: Codable, Hashable, Sendable {
+    public struct Paragraph: Codable, Hashable, Sendable {
+        public var spans: [RichSpan]
+
+        public init(spans: [RichSpan]) {
+            self.spans = spans
+        }
+    }
+    public struct Heading: Codable, Hashable, Sendable {
+        /// 1 to 6
+        public var level: Int
+        public var spans: [RichSpan]
+
+        public init(level: Int, spans: [RichSpan]) {
+            self.level = level
+            self.spans = spans
+        }
+    }
+    public struct Quote: Codable, Hashable, Sendable {
+        public var blocks: [RichBlock]
+
+        public init(blocks: [RichBlock]) {
+            self.blocks = blocks
+        }
+    }
+    public struct ItemList: Codable, Hashable, Sendable {
+        public var ordered: Bool
+        /// The first number of an ordered list
+        public var start: Int
+        public var items: [[RichBlock]]
+
+        public init(ordered: Bool, start: Int, items: [[RichBlock]]) {
+            self.ordered = ordered
+            self.start = start
+            self.items = items
+        }
+    }
+    public struct Code: Codable, Hashable, Sendable {
+        public var text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+    }
+    case paragraph(Paragraph)
+    case heading(Heading)
+    case quote(Quote)
+    /// A bulleted or numbered list (not `List`: Kotlin's would be shadowed)
+    case itemList(ItemList)
+    /// A code block, its text as written
+    case code(Code)
+    case rule
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: AnyKey.self)
+        switch try container.decode(String.self, forKey: AnyKey("type")) {
+        case "paragraph": self = .paragraph(try Paragraph(from: decoder))
+        case "heading": self = .heading(try Heading(from: decoder))
+        case "quote": self = .quote(try Quote(from: decoder))
+        case "itemList": self = .itemList(try ItemList(from: decoder))
+        case "code": self = .code(try Code(from: decoder))
+        case "rule": self = .rule
+        case let other: throw DecodingError.dataCorruptedError(forKey: AnyKey("type"), in: container, debugDescription: "Unknown RichBlock \(other)")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: AnyKey.self)
+        switch self {
+        case .paragraph(let value):
+            try container.encode("paragraph", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .heading(let value):
+            try container.encode("heading", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .quote(let value):
+            try container.encode("quote", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .itemList(let value):
+            try container.encode("itemList", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .code(let value):
+            try container.encode("code", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .rule:
+            try container.encode("rule", forKey: AnyKey("type"))
+        }
+    }
+}
+
+/// A run of text with one style
+public struct RichSpan: Codable, Hashable, Sendable {
+    public var text: String
+    public var bold: Bool
+    public var italic: Bool
+    public var strike: Bool
+    public var underline: Bool
+    /// Inline code
+    public var code: Bool
+    public var link: String?
+    /// A mentioned user's ID; `text` is "@name", as the plain body shows mentions
+    public var mention: String?
+    public var spoiler: Bool
+
+    public init(text: String, bold: Bool, italic: Bool, strike: Bool, underline: Bool, code: Bool, link: String? = nil, mention: String? = nil, spoiler: Bool) {
+        self.text = text
+        self.bold = bold
+        self.italic = italic
+        self.strike = strike
+        self.underline = underline
+        self.code = code
+        self.link = link
+        self.mention = mention
+        self.spoiler = spoiler
+    }
+}
+
+/// Why a ring stopped
+public enum RingEnd: String, Codable, Hashable, Sendable, CaseIterable {
+    case answered = "answered"
+    case declined = "declined"
+    case callerLeft = "callerLeft"
+    case expired = "expired"
+}
+
 public struct RoomDetails: Codable, Hashable, Sendable {
     public var id: String
     public var name: String?
@@ -1468,8 +1736,9 @@ public struct RoomPermissions: Codable, Hashable, Sendable {
     public var changePermissions: Bool
     public var pin: Bool
     public var manageWidgets: Bool
+    public var enableEncryption: Bool
 
-    public init(invite: Bool, kick: Bool, ban: Bool, redactOthers: Bool, changeName: Bool, changeTopic: Bool, changeAvatar: Bool, changePermissions: Bool, pin: Bool, manageWidgets: Bool) {
+    public init(invite: Bool, kick: Bool, ban: Bool, redactOthers: Bool, changeName: Bool, changeTopic: Bool, changeAvatar: Bool, changePermissions: Bool, pin: Bool, manageWidgets: Bool, enableEncryption: Bool) {
         self.invite = invite
         self.kick = kick
         self.ban = ban
@@ -1480,6 +1749,7 @@ public struct RoomPermissions: Codable, Hashable, Sendable {
         self.changePermissions = changePermissions
         self.pin = pin
         self.manageWidgets = manageWidgets
+        self.enableEncryption = enableEncryption
     }
 }
 
@@ -1578,8 +1848,12 @@ public struct RoomSummary: Codable, Hashable, Sendable {
     public var memberCount: Int
     /// The room's own notification setting, if it has one: `all`, `mentions` or `mute`
     public var notificationMode: NotificationMode?
-    /// Users in the room's call, oldest first (a user appears once per device)
+    /// Users in the room's call, oldest first, once each
     public var callParticipants: [String]
+    /// This device is in the room's call
+    public var inCall: Bool
+    /// The user is in the room's call on another device, not on this one
+    public var inCallElsewhere: Bool
     /// Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
     /// "5 min ago"
     public var lastActivity: Int?
@@ -1590,7 +1864,7 @@ public struct RoomSummary: Codable, Hashable, Sendable {
     public var dmUserName: String?
     public var dmUserAvatar: String?
 
-    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], lastActivity: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil) {
+    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], inCall: Bool, inCallElsewhere: Bool, lastActivity: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil) {
         self.id = id
         self.name = name
         self.avatarUrl = avatarUrl
@@ -1611,6 +1885,8 @@ public struct RoomSummary: Codable, Hashable, Sendable {
         self.memberCount = memberCount
         self.notificationMode = notificationMode
         self.callParticipants = callParticipants
+        self.inCall = inCall
+        self.inCallElsewhere = inCallElsewhere
         self.lastActivity = lastActivity
         self.isSpace = isSpace
         self.isKnocked = isKnocked
@@ -1920,11 +2196,13 @@ public struct StoreConfig: Codable, Hashable, Sendable {
     public var passphrase: String?
     /// Don't share keys with, or read messages from, devices their owner hasn't verified
     public var excludeInsecureDevices: Bool?
+    public var manualEncryptionSetup: Bool?
 
-    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil) {
+    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil, manualEncryptionSetup: Bool? = nil) {
         self.location = location
         self.passphrase = passphrase
         self.excludeInsecureDevices = excludeInsecureDevices
+        self.manualEncryptionSetup = manualEncryptionSetup
     }
 }
 
@@ -3062,6 +3340,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.stateEventsOfTypes", [.value(roomId), .value(eventTypes)])
     }
 
+    /// Every current state event of the room in full, for exploring it.
+    public func roomState(roomId: String) async throws -> [JSONValue] {
+        try await call("WizardClient.roomState", [.value(roomId)])
+    }
+
     public func setStateEvent(roomId: String, eventType: String, stateKey: String, content: JSONValue) async throws {
         _ = try await call("WizardClient.setStateEvent", [.value(roomId), .value(eventType), .value(stateKey), .value(content)]) as Empty
     }
@@ -3228,6 +3511,12 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.uploadEncryptedMedia", [.bytes(data)])
     }
 
+    /// The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+    /// mentions and custom emoji to it, which plain Markdown sending can't.
+    public func markdownToHtml(body: String) async throws -> String? {
+        try await call("WizardClient.markdownToHtml", [.value(body)])
+    }
+
     /// The LiveKit service the homeserver offers for calls, if any
     public func rtcServiceUrl() async throws -> String? {
         try await call("WizardClient.rtcServiceUrl", [])
@@ -3259,14 +3548,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
         try await call("WizardClient.joinCall", [.value(roomId), .value(video), .value(ring), .value(serviceUrl)])
     }
 
+    /// Rings as they start and end: answered or declined on one of the user's devices, the
+    /// caller left, or it expired.
     @discardableResult
-    public func watchIncomingCalls(listener: @escaping @Sendable (IncomingCall) -> Void) -> Subscription {
-        watch("WizardClient.watchIncomingCalls", [.listener(IncomingCall.self, listener)])
-    }
-
-    @discardableResult
-    public func watchCallsHandledElsewhere(listener: @escaping @Sendable (String) -> Void) -> Subscription {
-        watch("WizardClient.watchCallsHandledElsewhere", [.listener(String.self, listener)])
+    public func watchIncomingCalls(listener: @escaping @Sendable (IncomingCallEvent) -> Void) -> Subscription {
+        watch("WizardClient.watchIncomingCalls", [.listener(IncomingCallEvent.self, listener)])
     }
 
     public func declineCall(roomId: String, eventId: String) async throws {
@@ -3278,6 +3564,18 @@ public final class WizardClient: Remote, @unchecked Sendable {
     @discardableResult
     public func watchNotifications(listener: @escaping @Sendable (Notification) -> Void) -> Subscription {
         watch("WizardClient.watchNotifications", [.listener(Notification.self, listener)])
+    }
+
+    public func setPusher(config: PusherConfig) async throws {
+        _ = try await call("WizardClient.setPusher", [.value(config)]) as Empty
+    }
+
+    public func removePusher(appId: String, pushkey: String) async throws {
+        _ = try await call("WizardClient.removePusher", [.value(appId), .value(pushkey)]) as Empty
+    }
+
+    public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
+        try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
     }
 
     public func logout() async throws {
@@ -3573,6 +3871,10 @@ public final class RoomTimeline: Remote, @unchecked Sendable {
 
     public func editText(itemKey: String, body: String) async throws {
         _ = try await call("RoomTimeline.editText", [.value(itemKey), .value(body)]) as Empty
+    }
+
+    public func editCaption(itemKey: String, caption: String, html: String? = nil, mentions: Mentions? = nil) async throws {
+        _ = try await call("RoomTimeline.editCaption", [.value(itemKey), .value(caption), .value(html), .value(mentions)]) as Empty
     }
 
     public func redact(itemKey: String, reason: String? = nil) async throws {

@@ -1,5 +1,7 @@
 package org.wizardchat.android.ui.settings
 
+import androidx.compose.runtime.LaunchedEffect
+import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -46,6 +48,8 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTopBar
+import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.login.LoginScreen
 import org.wizardchat.android.ui.room.FullScreenDialog
 import org.wizardchat.android.ui.theme.theme
@@ -61,12 +65,13 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     media("settings.media.title", "film-strip"),
     integrations("settings.integrations.title", "plugs-connected"),
     notifications("settings.notifications.title", "bell"),
-    voice("settings.voice.title", "microphone"),
+    voiceVideo("settings.voiceVideo.title", "microphone"),
     appearance("settings.appearance.title", "palette"),
     accessibility("settings.accessibility.title", "person-simple-circle"),
     language("settings.language.title", "globe-simple"),
     sessions("settings.sessions.title", "devices"),
-    developer("settings.developer.title", "wrench"),
+    encryption("settings.encryption.title", "lock-key"),
+    developer("developer.title", "wrench"),
     about("settings.about.title", "info"),
 }
 
@@ -105,12 +110,13 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.emojis -> EmojisSettings(pop)
             SettingsPageId.media -> MediaSettings(pop)
             SettingsPageId.integrations -> IntegrationsSettings(pop)
-            SettingsPageId.notifications -> NotificationSettingsPage(pop, openVoice = { stack = stack + SettingsPageId.voice })
-            SettingsPageId.voice -> VoiceSettings(pop)
+            SettingsPageId.notifications -> NotificationSettingsPage(pop, openVoice = { stack = stack + SettingsPageId.voiceVideo })
+            SettingsPageId.voiceVideo -> VoiceVideoSettings(pop)
             SettingsPageId.appearance -> AppearanceSettings(pop)
             SettingsPageId.accessibility -> AccessibilitySettings(pop)
             SettingsPageId.language -> LanguageSettings(pop)
             SettingsPageId.sessions -> SessionsSettings(pop)
+            SettingsPageId.encryption -> EncryptionSettings(pop)
             SettingsPageId.developer -> DeveloperSettings(pop)
             SettingsPageId.about -> AboutSettings(pop)
         }
@@ -120,11 +126,27 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
 @Composable
 private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (SettingsPageId) -> Unit) {
     val session = LocalSession.current
+    var search by remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize().background(theme.groupedBackground)) {
-        WizardTopBar(tr("common.settings"), large = true) {
+        WizardTopBar(tr("common.settings"), large = true, titleInRow = isTab) {
             if (!isTab && onDismiss != null) BarTextButton(tr("common.done"), onDismiss, bold = true)
         }
+        WizardTextField(
+            search,
+            { search = it },
+            tr("settings.search"),
+            Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+        )
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState())) {
+            val query = search.trim()
+            if (query.isNotEmpty()) {
+                val matches = SettingsPageId.entries.filter { L10n.format(it.titleKey).contains(query, ignoreCase = true) }
+                if (matches.isEmpty()) {
+                    Text(tr("nav.noMatches"), Modifier.fillMaxWidth().padding(WZ.Space.space9), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                } else {
+                    PageRows(matches, open)
+                }
+            } else {
             SettingsSection {
                 val name = session.displayName ?: session.userId ?: ""
                 Row(
@@ -154,8 +176,9 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
                 AccountSwitcher(onLogout = { if (!isTab) onDismiss?.invoke() })
             }
             PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis, SettingsPageId.media, SettingsPageId.integrations), open)
-            PageRows(listOf(SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
-            PageRows(listOf(SettingsPageId.sessions, SettingsPageId.developer, SettingsPageId.about), open)
+            PageRows(listOf(SettingsPageId.voiceVideo, SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
+            PageRows(listOf(SettingsPageId.sessions, SettingsPageId.encryption, SettingsPageId.developer, SettingsPageId.about), open)
+            }
             Spacer(Modifier.height(LocalBottomBarInset.current + WZ.Space.space8))
         }
     }
@@ -166,6 +189,7 @@ private fun AccountSwitcher(onLogout: () -> Unit) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var open by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { session.refreshAccountProfiles() }
     Box {
         Row(
             Modifier
@@ -190,7 +214,10 @@ private fun AccountSwitcher(onLogout: () -> Unit) {
                             Text(account.userId, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                         }
                     },
-                    leadingIcon = { Avatar(account.displayName ?: account.userId, account.avatarUrl, size = WZ.SizeAvatar.sm) },
+                    leadingIcon = {
+                        val saved = remember(account.userId) { SessionStore.savedAvatar(account.userId) }
+                        Avatar(account.displayName ?: account.userId, account.avatarUrl, size = WZ.SizeAvatar.sm, fallback = saved)
+                    },
                     trailingIcon = if (isOpen) {
                         { PhIcon("check", tint = theme.accent) }
                     } else {

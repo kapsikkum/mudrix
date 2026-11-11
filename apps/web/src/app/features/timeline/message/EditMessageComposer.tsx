@@ -31,12 +31,14 @@ import {
   fromMarkdown,
   type MentionResolver,
 } from '@/app/features/timeline/composer/editor/fromMarkdown';
-import { toMarkdown } from '@/app/features/timeline/composer/editor/toMarkdown';
+import { toMarkdown, withPlainRoomLinks } from '@/app/features/timeline/composer/editor/toMarkdown';
+import { parseMatrixToUrl } from '@/util/matrixTo';
 import { buildTextContent } from '@/app/features/timeline/composer/editor/buildTextContent';
 import { applyInlineMarkdown } from '@/app/features/timeline/composer/editor/applyMarkdown';
 import { insertEmoji } from '@/app/features/timeline/composer/editor/insertEmoji';
 import { useRichEditor } from '@/app/features/timeline/composer/useRichEditor';
 import { resolveRelationTarget } from './relationTarget';
+import { isCaptionMsgtype } from './textContent';
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import { AutocompleteDropdown } from '@/app/features/timeline/AutocompleteDropdown';
 import * as css from '../Timeline.css';
@@ -76,6 +78,18 @@ function buildMentionResolver(
     }
   }
 
+  const rooms: NonNullable<MentionResolver['rooms']> = [];
+  if (typeof formattedBody === 'string' && formattedBody.includes('matrix.to/#/')) {
+    const doc = new DOMParser().parseFromString(formattedBody, 'text/html');
+    for (const a of doc.querySelectorAll('a[href]')) {
+      const url = a.getAttribute('href') ?? '';
+      const label = a.textContent ?? '';
+      const target = parseMatrixToUrl(url);
+      if (target?.kind !== 'room' || target.eventId || !label) continue;
+      rooms.push({ token: label, url, name: label.replace(/^#/, '') });
+    }
+  }
+
   const mentioned = original.mentions?.userIds;
   if (Array.isArray(mentioned)) {
     for (const userId of mentioned) {
@@ -85,7 +99,7 @@ function buildMentionResolver(
   }
 
   tokens.sort((a, b) => b.token.length - a.token.length);
-  return tokens.length > 0 ? { tokens } : undefined;
+  return tokens.length > 0 || rooms.length > 0 ? { tokens, rooms } : undefined;
 }
 
 export function EditMessageComposer({ client, editState, onClose }: EditMessageComposerProps) {
@@ -221,8 +235,28 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
     try {
       const { markdown } = toMarkdown(value);
       const newBody = markdown.trim();
-      if (!newBody || newBody === editState.body) {
+      const isCaption = isCaptionMsgtype(editState.msgtype);
+      if ((!newBody && !isCaption) || withPlainRoomLinks(newBody) === editState.body) {
         onClose();
+        return;
+      }
+
+      if (isCaption) {
+        onClose();
+        const built = newBody
+          ? buildTextContent(markdownEnabled ? applyInlineMarkdown(value) : value, {
+              myId: client.userId() ?? undefined,
+            })
+          : null;
+        const mentions = built?.content['m.mentions'] as
+          { user_ids?: string[]; room?: boolean } | undefined;
+        const timeline = await getTimeline();
+        await timeline.editCaption(
+          editState.eventId,
+          built?.body ?? '',
+          typeof built?.content.formatted_body === 'string' ? built.content.formatted_body : null,
+          mentions ? { userIds: mentions.user_ids ?? [], room: mentions.room === true } : null
+        );
         return;
       }
 
@@ -346,7 +380,12 @@ export function EditMessageComposer({ client, editState, onClose }: EditMessageC
         <button type="button" className={css.editBtnCancel} onClick={onClose}>
           {t('common.cancel')}
         </button>
-        <button type="button" className={css.editBtnSave} onClick={saveEdit} disabled={isEmpty}>
+        <button
+          type="button"
+          className={css.editBtnSave}
+          onClick={saveEdit}
+          disabled={isEmpty && !isCaptionMsgtype(editState.msgtype)}
+        >
           {t('common.save')}
         </button>
       </div>

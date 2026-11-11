@@ -1,11 +1,10 @@
 import type { KeyboardEvent } from 'react';
 import { Editor, Transforms, Element } from 'slate';
-import type { CustomEditor } from './types';
-
-const isMac = typeof navigator !== 'undefined' && /mac/i.test(navigator.platform);
+import type { CustomEditor, CustomElement, HeadingLevel, ListType } from './types';
+import { IS_MAC } from '@/app/util/platform';
 
 export function isMod(e: KeyboardEvent): boolean {
-  return isMac ? e.metaKey : e.ctrlKey;
+  return IS_MAC ? e.metaKey : e.ctrlKey;
 }
 
 function moveByLine(editor: CustomEditor, e: KeyboardEvent, reverse: boolean): boolean {
@@ -33,12 +32,12 @@ export function handleEditorKeyDown(e: KeyboardEvent, editor: CustomEditor): boo
   }
 
   if (e.key === 'Home' || e.key === 'End') {
-    const toDocumentEdge = isMac ? isMod(e) : e.ctrlKey;
+    const toDocumentEdge = IS_MAC ? isMod(e) : e.ctrlKey;
     if (toDocumentEdge) return moveToDocumentEdge(editor, e, e.key === 'Home');
     return moveByLine(editor, e, e.key === 'Home');
   }
 
-  if (isMac && isMod(e) && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+  if (IS_MAC && isMod(e) && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
     return moveByLine(editor, e, e.key === 'ArrowLeft');
   }
 
@@ -74,7 +73,7 @@ export function handleEditorKeyDown(e: KeyboardEvent, editor: CustomEditor): boo
     return true;
   }
 
-  if (isArrow && e.shiftKey && (e.altKey || (!isMac && e.ctrlKey))) {
+  if (isArrow && e.shiftKey && (e.altKey || (!IS_MAC && e.ctrlKey))) {
     e.preventDefault();
     Transforms.move(editor, {
       unit: 'word',
@@ -135,11 +134,39 @@ export function isBlockActive(editor: CustomEditor, blockType: BlockType): boole
   return !!match;
 }
 
+const isBlockNode = (editor: CustomEditor) => (n: unknown) =>
+  Element.isElement(n) && Editor.isBlock(editor, n);
+
+function setBlock(editor: CustomEditor, props: Partial<CustomElement>): void {
+  Transforms.unsetNodes(editor, ['level', 'listType'], { match: isBlockNode(editor) });
+  Transforms.setNodes<CustomElement>(editor, props, { match: isBlockNode(editor) });
+}
+
 export function toggleBlock(editor: CustomEditor, blockType: BlockType): void {
-  const isActive = isBlockActive(editor, blockType);
-  Transforms.setNodes(
+  setBlock(editor, { type: isBlockActive(editor, blockType) ? 'paragraph' : blockType });
+}
+
+export function isListActive(editor: CustomEditor, listType: ListType): boolean {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => Element.isElement(n) && n.type === 'list-item' && n.listType === listType,
+  });
+  return !!match;
+}
+
+export function toggleList(editor: CustomEditor, listType: ListType): void {
+  setBlock(
     editor,
-    { type: isActive ? 'paragraph' : blockType },
-    { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) }
+    isListActive(editor, listType) ? { type: 'paragraph' } : { type: 'list-item', listType }
   );
+}
+
+export function isHeadingActive(editor: CustomEditor): boolean {
+  const [match] = Editor.nodes(editor, {
+    match: (n) => Element.isElement(n) && n.type === 'heading',
+  });
+  return !!match;
+}
+
+export function toggleHeading(editor: CustomEditor, level: HeadingLevel = 1): void {
+  setBlock(editor, isHeadingActive(editor) ? { type: 'paragraph' } : { type: 'heading', level });
 }

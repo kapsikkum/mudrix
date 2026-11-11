@@ -118,7 +118,7 @@ fun ExploreSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpen: (String
                 onOpen(roomId)
                 onDismiss()
             } catch (e: Exception) {
-                errorMessage = L10n.format("explore.failedToJoin", e.message ?: e.toString())
+                errorMessage = L10n.format("common.joinFailed", e.message ?: e.toString())
             } finally {
                 joining = joining - room.id
             }
@@ -286,7 +286,7 @@ private fun Results(
                 color = theme.textMuted,
             )
         }
-        val error = errorMessage ?: model.error?.let { L10n.format("explore.couldNotLoadRooms", it) }
+        val error = errorMessage ?: model.error?.let { L10n.format("explore.fetchError", it) }
         if (error != null) {
             item(key = "error") { Text(error, style = wizardFont(WZ.FontSize.sm), color = theme.error) }
         }

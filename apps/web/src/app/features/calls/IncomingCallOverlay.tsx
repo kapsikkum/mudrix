@@ -47,6 +47,7 @@ interface Props {
   callerName: string;
   callerId: string;
   voiceOnly: boolean;
+  roomName: string | null;
   client: WizardClient;
   onAccept: () => void;
   onDecline: () => void;
@@ -56,6 +57,7 @@ export function IncomingCallOverlay({
   callerName,
   callerId,
   voiceOnly,
+  roomName,
   client,
   onAccept,
   onDecline,
@@ -63,7 +65,7 @@ export function IncomingCallOverlay({
   const { t } = useTranslation();
   const avatarMxc = useProfile(callerId).data?.avatarUrl ?? null;
   const CallIcon = voiceOnly ? PhoneIcon : VideoCameraIcon;
-  const kind = voiceOnly ? t('voice.incomingVoiceCall') : t('voice.incomingVideoCall');
+  const kind = voiceOnly ? t('call.incomingVoiceCall') : t('call.incomingVideoCall');
 
   // Opens in the corner; it can be dragged out of the way and remembers where it was left.
   const ref = useRef<HTMLDivElement>(null);
@@ -123,25 +125,26 @@ export function IncomingCallOverlay({
         <span className={css.callerName}>{callerName}</span>
         <span className={css.callKind}>
           <CallIcon size={12} weight="fill" />
-          {kind}
+          <span className={css.ellipsis}>{kind}</span>
         </span>
+        {roomName && <span className={css.roomName}>{roomName}</span>}
       </div>
-      <Tooltip content={t('voice.declineShort')}>
+      <Tooltip content={t('common.decline')}>
         <button
           type="button"
           className={css.declineBtn}
           onClick={onDecline}
-          aria-label={t('voice.declineShort')}
+          aria-label={t('common.decline')}
         >
           <PhoneXIcon size={18} weight="fill" />
         </button>
       </Tooltip>
-      <Tooltip content={t('voice.acceptShort')}>
+      <Tooltip content={t('common.accept')}>
         <button
           type="button"
           className={css.acceptBtn}
           onClick={onAccept}
-          aria-label={t('voice.acceptShort')}
+          aria-label={t('common.accept')}
         >
           <CallIcon size={18} weight="fill" />
         </button>

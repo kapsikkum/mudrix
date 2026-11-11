@@ -146,7 +146,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
   });
   items.push({ divider: true, label: '', onClick: () => {} });
   items.push({
-    label: t('room.space.overview'),
+    label: t('space.overview'),
     icon: <StackIcon size={14} />,
     onClick: () =>
       navigate(`/space/${encodeURIComponent(space.roomId)}`, {
@@ -169,7 +169,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
   }
   if (pinnedSubSpaces.has(space.roomId)) {
     items.push({
-      label: t('room.space.unpinFromSidebar'),
+      label: t('space.unpinFromSidebar'),
       icon: <PushPinIcon size={14} weight="fill" />,
       onClick: () => setPinnedSubSpacesArr((prev) => prev.filter((id) => id !== space.roomId)),
     });
@@ -200,7 +200,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
       onClick: () => {},
     },
     {
-      label: t('room.space.leave'),
+      label: t('space.leave'),
       icon: <SignOutIcon size={14} />,
       danger: true,
       onClick: () => roomActions.leaveSpace(space.roomId, space.name),

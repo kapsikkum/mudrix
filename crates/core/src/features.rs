@@ -70,6 +70,7 @@ pub struct PackImage {
 pub struct Notification {
     pub room_id: String,
     pub room_name: Option<String>,
+    pub room_avatar_url: Option<String>,
     pub event_id: String,
     pub sender: String,
     pub sender_name: Option<String>,
@@ -77,6 +78,8 @@ pub struct Notification {
     pub body: String,
     /// The message hides a spoiler: show a placeholder instead of its text
     pub spoiler: bool,
+    /// Its keys haven't arrived yet: show a placeholder
+    pub encrypted: bool,
     /// Mentions and keywords: show more prominently
     pub highlight: bool,
     pub sound: bool,
@@ -431,7 +434,7 @@ async fn is_muted(room: &Room) -> bool {
         .is_some_and(|rule| rule.enabled() && !rule.actions().iter().any(Action::should_notify))
 }
 
-async fn notification_for(
+pub(crate) async fn notification_for(
     room: &Room,
     raw: &Raw<AnySyncTimelineEvent>,
     actions: Option<Vec<Action>>,
@@ -480,6 +483,7 @@ async fn notification_for(
     Some(Notification {
         room_id: room.room_id().to_string(),
         room_name: room.cached_display_name().map(|n| n.to_string()),
+        room_avatar_url: room.avatar_url().map(|url| url.to_string()),
         event_id: event.get("event_id")?.as_str()?.to_owned(),
         sender: sender.to_owned(),
         sender_name,
@@ -493,6 +497,7 @@ async fn notification_for(
                 .to_owned()
         },
         spoiler,
+        encrypted: false,
         highlight,
         sound,
         is_direct: room.direct_targets_length() > 0,

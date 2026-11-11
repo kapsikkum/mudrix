@@ -124,8 +124,10 @@ final class WatchTogether: ObservableObject {
                                       position: max(0, position), at: at + (samples.min() ?? 0))
             guard incoming.at > stoppedAt else { return }
             if let current = state, incoming.at < current.at { return }
-            if state?.videoId != incoming.videoId, consent { watchingVideoId = incoming.videoId }
-            if state == nil { Sounds.play(.watchTogetherStart) }
+            if state?.videoId != incoming.videoId {
+                if consent { watchingVideoId = incoming.videoId }
+                Sounds.play(.watchTogetherStart)
+            }
             state = incoming
         default:
             return

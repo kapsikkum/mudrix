@@ -21,6 +21,7 @@ pub struct RoomPermissions {
     pub change_permissions: bool,
     pub pin: bool,
     pub manage_widgets: bool,
+    pub enable_encryption: bool,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -82,6 +83,7 @@ async fn details_of(room: &Room) -> RoomDetails {
             pin: pl.user_can_send_state(&own_id, StateEventType::RoomPinnedEvents),
             manage_widgets: pl
                 .user_can_send_state(&own_id, StateEventType::from(crate::widgets::WIDGET_EVENT)),
+            enable_encryption: pl.user_can_send_state(&own_id, StateEventType::RoomEncryption),
         })
         .unwrap_or_default();
     let is_encrypted = matches!(

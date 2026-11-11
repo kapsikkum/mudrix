@@ -23,16 +23,16 @@ struct AvatarView: View {
 
     var body: some View {
         // The colour is only for the placeholder; transparent pictures show what's behind them
+        let shown = image ?? url.flatMap { mediaLoader?.cachedThumbnail($0) }
         shape
-            .fill(image == nil ? fallbackColor : .clear)
+            .fill(shown == nil ? fallbackColor : .clear)
             .overlay {
-                if let image {
-                    Image(uiImage: image)
+                if let shown {
+                    Image(uiImage: shown)
                         .resizable()
                         .scaledToFill()
                 } else {
-                    WizardMark()
-                        .fill(theme.textOnAccent)
+                    ShadedWizardMark(color: theme.textOnAccent)
                         .frame(width: size * 0.58, height: size * 0.58)
                 }
             }
@@ -43,10 +43,7 @@ struct AvatarView: View {
                     image = nil
                     return
                 }
-                image = mediaLoader.cachedThumbnail(url)
-                if image == nil {
-                    image = await mediaLoader.thumbnail(url, size: Int(size * 3))
-                }
+                image = await mediaLoader.thumbnail(url, size: Int(size * 3))
             }
     }
 
@@ -63,45 +60,61 @@ struct AvatarView: View {
 
 struct WizardLogo: View {
     var size: CGFloat = WZ.SizeAvatar.xl
-    @Environment(\.theme) private var theme
     @EnvironmentObject private var prefs: AppPreferences
 
-    /// Theme colours only when the themed app icon is on, so it matches the home screen icon.
-    private var colors: [Color] { prefs.themedAppIcon ? theme.logo : WizardTheme.baseLogo }
-
-    static let polygons: [[CGPoint]] = [
-        [(0, 280), (100, 320), (200, 270), (100, 230)],
-        [(100, 320), (300, 320), (200, 270)],
-        [(400, 280), (300, 320), (200, 270), (300, 230)],
-        [(100, 230), (200, 270), (230, 80), (200, 70)],
-        [(200, 270), (300, 230), (260, 75), (230, 80)],
-        [(200, 70), (230, 80), (260, 75), (300, 0)],
-    ].map { $0.map { CGPoint(x: $0.0, y: $0.1 + 40) } }
+    /// Themed tones only when the themed app icon is on, so it matches the home screen icon.
+    private var tones: (colors: [String], highlight: String) {
+        guard prefs.themedAppIcon, !prefs.followSystemTheme else { return (MudMound.baseTones, MudMound.baseHighlight) }
+        if prefs.theme == WZ.Theme.parrot.name {
+            return (["#1E5128", "#34743E", "#A8201A", "#D7412F", "#E0A526", "#F5D547"], "#79C183")
+        }
+        if prefs.theme == WZ.Theme.hallow.name {
+            return (["#111111", "#2B1F3A", "#4A2A78", "#7A4BC0", "#E65F00", "#FF9D00"], "#FFB84D")
+        }
+        return (MudMound.baseTones, MudMound.baseHighlight)
+    }
 
     var body: some View {
-        Canvas { context, canvasSize in
-            let scale = canvasSize.width / 400
-            for (index, points) in Self.polygons.enumerated() {
-                var path = Path()
-                path.addLines(points.map { CGPoint(x: $0.x * scale, y: $0.y * scale) })
-                path.closeSubpath()
-                context.fill(path, with: .color(colors[index]))
-            }
-        }
-        .frame(width: size, height: size)
-        .accessibilityLabel(String(localized: "app.name"))
+        WizardLogoShape(colors: tones.colors.map { Color(hexString: $0) }, highlight: Color(hexString: tones.highlight))
+            .frame(width: size, height: size)
+            .accessibilityLabel(String(localized: "app.name"))
     }
 }
 
+/// The whole mud mound as one silhouette (every facet in one path), for single-colour uses such as CallKit's icon.
 struct WizardMark: Shape {
     func path(in rect: CGRect) -> Path {
-        let scale = min(rect.width, rect.height) / 400
         var path = Path()
-        for points in WizardLogo.polygons {
-            path.addLines(points.map { CGPoint(x: rect.minX + $0.x * scale, y: rect.minY + $0.y * scale) })
-            path.closeSubpath()
+        for facet in MudMound.facets {
+            path.addPath(MudMound.path(facet.points, in: rect))
         }
         return path
+    }
+}
+
+/// One tone of the mound, so a single-colour mark can keep its faceting (see `ShadedWizardMark`)
+private struct WizardMarkTone: Shape {
+    let tone: Int
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        for facet in MudMound.facets where facet.tone == tone {
+            path.addPath(MudMound.path(facet.points, in: rect))
+        }
+        return path
+    }
+}
+
+/// The mud mound in one colour, with facets shaded by tone (same opacities as the web mark)
+struct ShadedWizardMark: View {
+    var color: Color
+
+    var body: some View {
+        ZStack {
+            ForEach(0..<MudMound.toneOpacity.count, id: \.self) { tone in
+                WizardMarkTone(tone: tone).fill(color.opacity(MudMound.toneOpacity[tone]))
+            }
+        }
     }
 }
 
@@ -180,6 +193,28 @@ extension WizardTheme {
     var groupedRow: Color { colorScheme == .dark ? bgSecondary : bgPrimary }
 }
 
+struct ThemedForm<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Form { content().listRowBackground(theme.groupedRow) }
+            .scrollContentBackground(.hidden)
+            .background(theme.groupedBackground.ignoresSafeArea())
+    }
+}
+
+struct ThemedList<Content: View>: View {
+    @ViewBuilder let content: () -> Content
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        List { content().listRowBackground(theme.groupedRow) }
+            .scrollContentBackground(.hidden)
+            .background(theme.groupedBackground.ignoresSafeArea())
+    }
+}
+
 struct LineDivider: View {
     let text: String
     @Environment(\.theme) private var theme
@@ -232,7 +267,7 @@ final class CopyToast: ObservableObject {
 }
 
 @MainActor
-func copyToClipboard(_ text: String, message: String = String(localized: "security.copied")) {
+func copyToClipboard(_ text: String, message: String = String(localized: "common.copied")) {
     UIPasteboard.general.string = text
     CopyToast.shared.show(message)
 }
@@ -278,7 +313,7 @@ struct CopyButton: View {
             }
         } label: {
             if copied {
-                Label(String(localized: "security.copied"), image: "ph-check-bold")
+                Label(String(localized: "common.copied"), image: "ph-check-bold")
             } else {
                 Label(title, image: image)
             }
@@ -293,7 +328,7 @@ struct ConnectionBanner: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        if session.syncState == .offline || session.syncState == .error {
+        if session.connectionLost {
             HStack(spacing: WZ.Space.space4) {
                 ProgressView().controlSize(.small).tint(theme.textOnAccent)
                 Text(String(localized: "common.offlineReconnecting"))
@@ -302,7 +337,7 @@ struct ConnectionBanner: View {
             .foregroundStyle(theme.textOnAccent)
             .padding(.horizontal, WZ.Space.space5)
             .padding(.vertical, WZ.Space.space4)
-            .background(Color.orange, in: Capsule())
+            .background(theme.warningColor, in: Capsule())
             .accessibilityElement(children: .combine)
             .transition(.move(edge: .top).combined(with: .opacity))
         }
@@ -318,11 +353,11 @@ struct VerificationBanner: View {
     var body: some View {
         if session.encryption?.deviceVerified == false && !dismissed {
             HStack(spacing: WZ.Space.space5) {
-                Image("ph-shield-check-regular")
+                Image("ph-shield-warning-regular")
                     .font(.system(size: WZ.SizeIcon.lg))
-                    .foregroundStyle(theme.warningColor)
+                    .foregroundStyle(theme.danger)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
-                    Text(String(localized: "verifySession.title"))
+                    Text(String(localized: "verification.session.title"))
                         .font(.wizard(WZ.FontSize.md, .semibold))
                         .foregroundStyle(theme.textPrimary)
                     Text(String(localized: "common.useAnotherDeviceOr"))
@@ -370,4 +405,31 @@ extension Image {
         guard let image = UIImage(named: name) else { return Image(name) }
         return Image(uiImage: image.withTintColor(destructive ? .systemRed : .label, renderingMode: .alwaysOriginal))
     }
+}
+
+private struct TabTitle: ViewModifier {
+    let title: String
+    @Environment(\.theme) private var theme
+
+    func body(content: Content) -> some View {
+        content
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) { Color.clear.frame(width: 0, height: 0) }
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(title)
+                        .font(.wizard(WZ.FontSize.display, .bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                        .fixedSize()
+                        .accessibilityAddTraits(.isHeader)
+                }
+                .glassBackgroundHidden()
+            }
+    }
+}
+
+extension View {
+    func tabTitle(_ title: String) -> some View { modifier(TabTitle(title: title)) }
 }

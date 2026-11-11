@@ -525,7 +525,7 @@ private struct MediaThumb: View {
             .overlay(alignment: .bottomLeading) {
                 if isVideo {
                     HStack(spacing: WZ.Space.space1) {
-                        Image("ph-video-camera-fill")
+                        Image("ph-video-camera-regular")
                         if let duration = media.duration {
                             Text(Duration.seconds(duration).formatted(.time(pattern: .minuteSecond)))
                         }
