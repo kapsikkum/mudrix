@@ -54,6 +54,7 @@ import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
+import org.wizardchat.android.matrix.ListeningSharing
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.MudrixRoomStates
@@ -204,9 +205,12 @@ fun MainScreen(roomList: RoomListModel) {
     LaunchedEffect(session.client) {
         if (session.client != null) session.ensureMudrixUserFlag()
     }
+    LaunchedEffect(session.client, prefs.shareListening) {
+        if (session.client != null && prefs.shareListening) ListeningSharing.start(session) else ListeningSharing.stop()
+    }
     // Also when another device changes the setting
-    LaunchedEffect(session.client, prefs.showPresence) {
-        if (session.client != null) session.applyPresence(prefs.showPresence)
+    LaunchedEffect(session.client, prefs.showPresence, prefs.presenceChoice) {
+        if (session.client != null) session.applyPresence(prefs.showPresence, prefs.presenceChoice)
     }
     // Also runs when the activity is recreated (rotation), so calls end on sign-out instead (MatrixSession)
     DisposableEffect(Unit) {
@@ -287,6 +291,7 @@ fun MainScreen(roomList: RoomListModel) {
                 CopyToastView(Modifier.padding(top = WZ.Space.space2))
                 IncomingCallBanner(Modifier.padding(top = WZ.Space.space2))
                 CallErrorBanner(Modifier.padding(top = WZ.Space.space2))
+                org.wizardchat.android.ui.voice.AloneNotice(Modifier.padding(top = WZ.Space.space2), show = !calls.showCallScreen)
             }
         }
 
@@ -341,7 +346,7 @@ private fun TabContent(
         stateHolder.SaveableStateProvider(route?.toString() ?: "root-$tab") {
             when (route) {
                 null -> when (tab) {
-                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox)
+                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox, onCreateSpace, onExplore)
                     Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox)
                     else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
                 }

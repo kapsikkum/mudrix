@@ -75,6 +75,7 @@ fun ExploreSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpen: (String
     var otherServer by remember { mutableStateOf("") }
     var search by remember { mutableStateOf("") }
     var joining by remember { mutableStateOf(setOf<String>()) }
+    var knocked by remember { mutableStateOf(setOf<String>()) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     val homeServer = session.userId?.split(":", limit = 2)?.getOrNull(1) ?: "your server"
@@ -103,7 +104,10 @@ fun ExploreSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpen: (String
         select(ExploreTab.other)
     }
 
+    fun isKnocked(room: PublicRoom) = room.id in knocked || room.id in roomList.knockedIds
+
     fun join(room: PublicRoom) {
+        if (isKnocked(room)) return
         if (roomList.isJoined(room.id)) {
             onOpen(room.id)
             onDismiss()
@@ -114,11 +118,20 @@ fun ExploreSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpen: (String
         val via = currentServer ?: homeServer
         scope.launch {
             try {
+                if (room.joinRule == "knock") {
+                    session.requireClient.knock(room.id, null, listOf(via))
+                    knocked = knocked + room.id
+                    return@launch
+                }
                 val roomId = session.joinTarget(room.id, listOf(via))
                 onOpen(roomId)
                 onDismiss()
             } catch (e: Exception) {
-                errorMessage = L10n.format("common.joinFailed", e.message ?: e.toString())
+                errorMessage = if (room.joinRule == "knock") {
+                    L10n.format("explore.knockFailed", e.message ?: e.toString())
+                } else {
+                    L10n.format("common.joinFailed", e.message ?: e.toString())
+                }
             } finally {
                 joining = joining - room.id
             }
@@ -206,7 +219,8 @@ fun ExploreSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpen: (String
                 Results(
                     model,
                     if (tab == ExploreTab.featured) tr("explore.featuredSpaces") else tr("explore.publicRoomsOn", currentServer ?: homeServer),
-                    isJoined = { roomList.isJoined(it.id) },
+                    isJoined = { roomList.isJoined(it.id) && !isKnocked(it) },
+                    isKnocked = ::isKnocked,
                     joining = joining,
                     errorMessage = errorMessage,
                     onJoin = ::join,
@@ -270,6 +284,7 @@ private fun Results(
     model: ExploreModel,
     title: String,
     isJoined: (PublicRoom) -> Boolean,
+    isKnocked: (PublicRoom) -> Boolean,
     joining: Set<String>,
     errorMessage: String?,
     onJoin: (PublicRoom) -> Unit,
@@ -303,7 +318,7 @@ private fun Results(
             }
         }
         items(model.rooms, key = { it.id }) { room ->
-            RoomCard(room, isJoined(room), room.id in joining) { onJoin(room) }
+            RoomCard(room, isJoined(room), isKnocked(room), room.id in joining) { onJoin(room) }
             if (room.id == model.rooms.lastOrNull()?.id) LaunchedEffect(room.id) { model.loadNextPage() }
         }
         if (model.isLoading) {
@@ -326,7 +341,7 @@ private fun memberCountText(count: Long): String {
 }
 
 @Composable
-private fun RoomCard(room: PublicRoom, isJoined: Boolean, isJoining: Boolean, onJoin: () -> Unit) {
+private fun RoomCard(room: PublicRoom, isJoined: Boolean, isKnocked: Boolean, isJoining: Boolean, onJoin: () -> Unit) {
     val name = room.name ?: room.alias ?: room.id
     Column(
         Modifier
@@ -361,21 +376,23 @@ private fun RoomCard(room: PublicRoom, isJoined: Boolean, isJoining: Boolean, on
             Box(
                 Modifier
                     .height(WZ.Space.space9)
-                    .alpha(if (isJoining) 0.6f else 1f)
+                    .alpha(if (isJoining || isKnocked) 0.6f else 1f)
                     .clip(RoundedCornerShape(WZ.Radius.sm))
-                    .background(if (isJoined) theme.bgTertiary else theme.accent)
-                    .clickable(enabled = !isJoining, onClick = onJoin)
+                    .background(if (isJoined || isKnocked) theme.bgTertiary else theme.accent)
+                    .clickable(enabled = !isJoining && !isKnocked, onClick = onJoin)
                     .padding(horizontal = WZ.Space.space5),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
                     when {
+                        isKnocked -> tr("explore.knocking")
                         isJoined -> tr("common.open")
                         isJoining -> tr("explore.joining")
+                        room.joinRule == "knock" -> tr("explore.knock")
                         else -> tr("common.join")
                     },
                     style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
-                    color = if (isJoined) theme.textPrimary else theme.textOnAccent,
+                    color = if (isJoined || isKnocked) theme.textPrimary else theme.textOnAccent,
                 )
             }
         }

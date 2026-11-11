@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import org.wizardchat.android.WizardApplication
+import org.wizardchat.android.push.KeepAliveService
 import org.wizardchat.android.push.Push
+import org.wizardchat.android.push.PushProvider
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AppInfo
 import org.wizardchat.core.CustomStatus
@@ -26,6 +28,8 @@ import org.wizardchat.core.IdentityProvider
 import org.wizardchat.core.LoginIdentifier
 import org.wizardchat.core.PendingLogin
 import org.wizardchat.core.Presence
+import org.wizardchat.core.QrLoginControl
+import org.wizardchat.core.QrLoginStatus
 import org.wizardchat.core.ServerInfo
 import org.wizardchat.core.SessionEvent
 import org.wizardchat.core.StoreConfig
@@ -52,7 +56,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         private set
     var customStatus by mutableStateOf<CustomStatus?>(null)
         private set
-    private var presenceVisible = true
+    private var presence = Presence.online
     private var statusExpiry: Job? = null
     var accounts by mutableStateOf<List<Account>>(emptyList())
         private set
@@ -207,6 +211,22 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         }
     }
 
+    /** Signs this device in through one that is signed in (MSC4108): scans its QR code, or shows one when `scanned` is null */
+    suspend fun loginWithQr(server: String, scanned: ByteArray?, control: QrLoginControl, onStatus: (QrLoginStatus) -> Unit) {
+        val (folder, store) = StoredSession.newStore()
+        try {
+            val client = WizardClient.loginWithQr(server, store, APP, scanned, control, onStatus)
+            remember(client, folder, store)
+        } catch (error: Exception) {
+            SessionStore.removeStore(folder)
+            throw error
+        }
+    }
+
+    /** Lets a new device sign in through this one */
+    suspend fun linkDevice(scanned: ByteArray?, control: QrLoginControl, onStatus: (QrLoginStatus) -> Unit) =
+        requireClient.grantLoginWithQr(scanned, control, onStatus)
+
     /** The server's sign-in page to open in a browser tab; it redirects back to `REDIRECT_URI` */
     suspend fun startBrowserLogin(server: String, sso: IdentityProvider? = null, createAccount: Boolean = false): String {
         cancelBrowserLogin()
@@ -319,14 +339,13 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         stored?.let { forget(it) }
     }
 
-    suspend fun applyPresence(visible: Boolean) {
-        presenceVisible = visible
-        runCatching { client?.setPresence(if (visible) Presence.online else Presence.offline, customStatus?.text) }
+    suspend fun applyPresence(visible: Boolean, choice: PresenceChoice = PresenceChoice.auto) {
+        presence = choice.presence(visible)
+        runCatching { client?.setPresence(presence, customStatus?.text) }
     }
 
     suspend fun setCustomStatus(text: String, expiresAt: Long?) {
         val trimmed = text.trim()
-        val presence = if (presenceVisible) Presence.online else Presence.offline
         if (trimmed.isEmpty()) {
             requireClient.clearCustomStatus(presence)
             showCustomStatus(null)
@@ -436,6 +455,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                 }
             }
             Push.register()
+            PushProvider.apply(WizardApplication.instance)
+            KeepAliveService.apply(WizardApplication.instance)
         }
         state = State.LoggedIn
     }
@@ -469,6 +490,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         SessionStore.remove(stored.session.userId)
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()
+        KeepAliveService.apply(WizardApplication.instance)
         state = State.Restoring
         restore()
     }
@@ -476,7 +498,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     companion object {
         /** What the web app assumes until the server says otherwise */
         const val DEFAULT_UPLOAD_LIMIT = 15L * 1024 * 1024
-        const val DEVICE_NAME = "WizardChat Android"
+        const val DEVICE_NAME = "Mudrix Android"
         const val CALLBACK_SCHEME = "org.wizardchat"
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"
         val APP = AppInfo(name = "Mudrix", clientUri = "https://github.com/kapsikkum/mudrix")

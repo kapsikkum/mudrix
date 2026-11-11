@@ -44,7 +44,17 @@ class ThemeDeriveTest {
         assertEquals(web("#b94a48"), hex(c.statusDanger))
         assertEquals(web("#4ade80"), hex(c.presenceOnline))
         assertEquals(web("#4ea8ff"), hex(c.usernameC1))
-        assertEquals(web("#6a329f"), hex(c.logoP0))
+        assertEquals(web("#4a301b"), hex(c.logoP0))
+    }
+
+    @Test
+    fun anotherAccentRederivesWhatFollowsTheAccent() {
+        val base = ThemeDerive.build(dark)
+        val c = ThemeDerive.withAccent(base, "#ff0000", light = false)
+        assertEquals(web("#ff0000"), hex(c.accentDefault))
+        assertEquals(web("#d10000"), hex(c.accentHover))
+        assertEquals(web("#ff000026"), hex(c.accentSoft))
+        assertEquals(hex(base.bgApp), hex(c.bgApp))
     }
 
     @Test

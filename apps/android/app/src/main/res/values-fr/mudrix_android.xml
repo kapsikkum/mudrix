@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Transféré à %1$s</string>
+    <string name="mobile_imageFailed">Impossible de charger cette image. Touchez pour réessayer.</string>
+    <string name="mobile_keepAlive_channel">Connexion en arrière-plan</string>
+    <string name="mobile_keepAlive_text">Connecté pour les notifications de messages</string>
+    <string name="mobile_listening_note">Affiche sur votre profil le morceau en cours sur ce téléphone. Nécessite l\'accès aux notifications dans les réglages Android.</string>
+    <string name="mobile_listening_share">Partager ce que j\'écoute</string>
+    <string name="mobile_lowPriority">Priorité basse</string>
+    <string name="mobile_presence_invisible">Invisible</string>
+    <string name="mobile_profileChanged">%1$s a mis à jour son profil</string>
+    <string name="mobile_publish_note">Tout le monde peut trouver ce salon dans l\'annuaire public de ton serveur.</string>
+    <string name="mobile_publish_title">Publier dans l\'annuaire des salons</string>
+    <string name="mobile_push_distributor">Service push</string>
+    <string name="mobile_push_failed">Échec de l\'enregistrement : %1$s</string>
+    <string name="mobile_push_fcmNote">Les messages arrivent par le service push de Google (Firebase).</string>
+    <string name="mobile_push_keepAlive">Rester connecté</string>
+    <string name="mobile_push_keepAliveNote">Garde Mudrix actif en arrière-plan avec une notification discrète et affiche lui-même les notifications. Consomme plus de batterie.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Cette version n\'a pas de service push. « Rester connecté » garde Mudrix actif pour vous notifier.</string>
+    <string name="mobile_push_noDistributor">Aucune app UnifiedPush n\'est installée. Installez-en une (comme ntfy) pour être notifié quand Mudrix est fermé.</string>
+    <string name="mobile_push_title">Distribution quand l\'app est fermée</string>
+    <string name="mobile_push_unifiedNote">Les messages arrivent par une app UnifiedPush de ce téléphone.</string>
+    <string name="mobile_reportRoom_button">Signaler le salon</string>
+    <string name="mobile_reportRoom_failed">Impossible de signaler le salon : %1$s</string>
+    <string name="mobile_reportRoom_sent">Salon signalé</string>
+    <string name="mobile_reportRoom_title">Signaler ce salon ?</string>
+    <string name="mobile_systemAccentNote">Reprend la couleur d\'accent de votre fond d\'écran (Material You).</string>
+</resources>

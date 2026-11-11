@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">Weitergeleitet an %1$s</string>
+    <string name="mobile_imageFailed">Dieses Bild konnte nicht geladen werden. Tippe, um es erneut zu versuchen.</string>
+    <string name="mobile_keepAlive_channel">Hintergrundverbindung</string>
+    <string name="mobile_keepAlive_text">Verbunden für Nachrichtenbenachrichtigungen</string>
+    <string name="mobile_listening_note">Zeigt den Song, der auf diesem Telefon läuft, in deinem Profil. Benötigt Benachrichtigungszugriff in den Android-Einstellungen.</string>
+    <string name="mobile_listening_share">Teilen, was ich höre</string>
+    <string name="mobile_lowPriority">Niedrige Priorität</string>
+    <string name="mobile_presence_invisible">Unsichtbar</string>
+    <string name="mobile_profileChanged">%1$s hat das Profil aktualisiert</string>
+    <string name="mobile_publish_note">Jeder kann diesen Raum im öffentlichen Verzeichnis deines Homeservers finden.</string>
+    <string name="mobile_publish_title">Im Raumverzeichnis veröffentlichen</string>
+    <string name="mobile_push_distributor">Push-Dienst</string>
+    <string name="mobile_push_failed">Registrierung fehlgeschlagen: %1$s</string>
+    <string name="mobile_push_fcmNote">Nachrichten kommen über Googles Push-Dienst (Firebase).</string>
+    <string name="mobile_push_keepAlive">Verbunden bleiben</string>
+    <string name="mobile_push_keepAliveNote">Hält Mudrix mit einer stillen Benachrichtigung im Hintergrund aktiv und zeigt Nachrichten selbst an. Verbraucht mehr Akku.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Diese Version hat keinen Push-Dienst. „Verbunden bleiben“ hält Mudrix aktiv, damit Nachrichten dich benachrichtigen.</string>
+    <string name="mobile_push_noDistributor">Keine UnifiedPush-App installiert. Installiere eine (z. B. ntfy), um bei geschlossenem Mudrix benachrichtigt zu werden.</string>
+    <string name="mobile_push_title">Zustellung bei geschlossener App</string>
+    <string name="mobile_push_unifiedNote">Nachrichten kommen über eine UnifiedPush-App auf diesem Telefon.</string>
+    <string name="mobile_reportRoom_button">Raum melden</string>
+    <string name="mobile_reportRoom_failed">Raum konnte nicht gemeldet werden: %1$s</string>
+    <string name="mobile_reportRoom_sent">Raum gemeldet</string>
+    <string name="mobile_reportRoom_title">Diesen Raum melden?</string>
+    <string name="mobile_systemAccentNote">Übernimmt die Akzentfarbe von deinem Hintergrundbild (Material You).</string>
+</resources>

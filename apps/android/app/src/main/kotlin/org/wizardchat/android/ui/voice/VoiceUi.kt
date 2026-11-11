@@ -580,6 +580,7 @@ private fun DMCallContent(onDismiss: () -> Unit) {
     val other = rememberMemberProfile(room?.dmUserId, room?.id)
 
     Column(Modifier.fillMaxSize().background(theme.bgSecondary).statusBarsPadding().navigationBarsPadding()) {
+        AloneNotice(Modifier.padding(top = WZ.Space.space3))
         Row(
             Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6).padding(top = WZ.Space.space4),
             verticalAlignment = Alignment.CenterVertically,

@@ -93,7 +93,13 @@ import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
 
 @Composable
-fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenInbox: (() -> Unit)?) {
+fun RoomListScreen(
+    roomList: RoomListModel,
+    selection: SidebarSelection,
+    onOpenInbox: (() -> Unit)?,
+    onCreateSpace: (() -> Unit)? = null,
+    onExplore: (() -> Unit)? = null,
+) {
     val prefs = LocalPrefs.current
     val navigator = LocalNavigator.current
     val scope = rememberCoroutineScope()
@@ -137,7 +143,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
         collapsed = if (key in collapsed) collapsed - key else collapsed + key
         collapsedPrefs.edit().putStringSet("collapsed", collapsed).apply()
     }
-    val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }
+    val anchors = groups.filter { it.isMovable }.map { it.id }
 
     // A space whose top space says "modern" lists categories, voice channels and a banner. Its state is not in sync, so it is asked for.
     val stores = MudrixRoomStates.shared
@@ -223,7 +229,7 @@ fun RoomListScreen(roomList: RoomListModel, selection: SidebarSelection, onOpenI
                     }
                 }
                 if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded) {
-                    item(key = "welcome") { HomeWelcome(roomList, onOpenInbox) }
+                    item(key = "welcome") { HomeWelcome(roomList, onOpenInbox, { showNewMessage = true }, onCreateSpace, onExplore) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
                 }
                 if (!roomList.isLoaded) {
@@ -517,6 +523,7 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
             )
             if (inCall && room.isVoice) ParticipantStack(room.id, room.callParticipants)
         }
+        if (inCall) RoomCallTimer(room.id)
         Spacer(Modifier.width(6.dp))
         if (muted) {
             PhIcon("bell-slash", size = WZ.SizeIcon.sm, tint = theme.textMuted, contentDescription = tr("room.notifications.mute"))
@@ -546,6 +553,7 @@ private fun GroupHeader(
         RoomGroup.Kind.Favourites -> tr("nav.favourites")
         is RoomGroup.Kind.Section -> kind.section.name
         RoomGroup.Kind.Rooms -> tr("nav.rooms")
+        RoomGroup.Kind.LowPriority -> tr("mobile.lowPriority")
     }
     val rotation by androidx.compose.animation.core.animateFloatAsState(if (closed) 0f else 90f, label = "chevron")
     val haptics = androidx.compose.ui.platform.LocalHapticFeedback.current

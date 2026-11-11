@@ -25,6 +25,18 @@ import org.wizardchat.android.ui.theme.Themes
 enum class MessageLayout { modern, classic, compact }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
+
+/** Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline) */
+enum class PresenceChoice {
+    auto, online, away, invisible;
+
+    /** What to tell the server; sharing off always reads as offline */
+    fun presence(shared: Boolean): org.wizardchat.core.Presence = when {
+        !shared || this == invisible -> org.wizardchat.core.Presence.offline
+        this == away -> org.wizardchat.core.Presence.unavailable
+        else -> org.wizardchat.core.Presence.online
+    }
+}
 enum class MediaVisibility { always, private, never }
 
 /** An enum whose synced value is not its Kotlin name (`12h` cannot be one) */
@@ -232,6 +244,21 @@ class AppPreferences(context: Context) {
     }
 
     /** Ask a person's homeserver what it runs and show it on their profile */
+    /** Keeps the app connected in the background (the foreground service); on from the start in a build that has no push service */
+    var keepAlive by pref(
+        defaults.getBoolean("keepAlive", org.wizardchat.android.push.PushMode.current == org.wizardchat.android.push.PushMode.keepalive),
+    ) { putBoolean("keepAlive", it) }
+    /** Shares the song playing on the phone as the profile's "listening to" (needs Notification access) */
+    var shareListening by pref(defaults.getBoolean("shareListening", false)) { putBoolean("shareListening", it) }
+    /** The accent colour comes from the wallpaper (Material You, Android 12+) instead of the theme */
+    var useSystemAccent by pref(defaults.getBoolean("useSystemAccent", false), boolCodec("useSystemAccent")) { putBoolean("useSystemAccent", it) }
+    var presenceChoice by pref(enumPref("presenceChoice", PresenceChoice.auto)) { putString("presenceChoice", it.name) }
+    var hideMembershipEvents by pref(defaults.getBoolean("hideMembershipEvents", false), boolCodec("hideMembershipEvents")) {
+        putBoolean("hideMembershipEvents", it)
+    }
+    var hideProfileEvents by pref(defaults.getBoolean("hideProfileEvents", true), boolCodec("hideProfileEvents")) {
+        putBoolean("hideProfileEvents", it)
+    }
     var showHomeserverSoftware by pref(defaults.getBoolean("showHomeserverSoftware", true), boolCodec("showHomeserverSoftware")) {
         putBoolean("showHomeserverSoftware", it)
     }

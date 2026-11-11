@@ -39,6 +39,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.displayName
+import org.wizardchat.android.matrix.ignore
 import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarTextButton
@@ -68,6 +69,24 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
     var busyId by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val inviters = remember { mutableStateMapOf<String, String>() }
+    val inviterIds = remember { mutableStateMapOf<String, String>() }
+    var blocking by remember { mutableStateOf<RoomSummary?>(null) }
+
+    fun declineAndBlock(invite: RoomSummary) {
+        val inviter = inviterIds[invite.id] ?: return
+        scope.launch {
+            busyId = invite.id
+            errorMessage = null
+            try {
+                roomList.decline(invite)
+                session.ignore(inviter)
+            } catch (e: Exception) {
+                errorMessage = L10n.format("invite.declineAndBlockFailed", e.message ?: e.toString())
+            } finally {
+                busyId = null
+            }
+        }
+    }
 
     fun accept(invite: RoomSummary) {
         scope.launch {
@@ -132,9 +151,19 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
                                     if (index > 0) RowDivider()
                                     LaunchedEffect(invite.id) {
                                         val info = runCatching { session.client?.inviteInfo(invite.id) }.getOrNull()
-                                        if (info != null) inviters[invite.id] = info.inviterName ?: info.inviterId
+                                        if (info != null) {
+                                            inviters[invite.id] = info.inviterName ?: info.inviterId
+                                            inviterIds[invite.id] = info.inviterId
+                                        }
                                     }
-                                    InviteRow(invite, inviters[invite.id], busyId == invite.id, { accept(invite) }, { decline(invite) })
+                                    InviteRow(
+                                        invite,
+                                        inviters[invite.id],
+                                        busyId == invite.id,
+                                        { accept(invite) },
+                                        { decline(invite) },
+                                        if (invite.id in inviterIds) ({ blocking = invite }) else null,
+                                    )
                                 }
                             }
                         }
@@ -171,6 +200,17 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
             }
             Spacer(Modifier.navigationBarsPadding())
         }
+    }
+    blocking?.let { invite ->
+        val inviterId = inviterIds[invite.id].orEmpty()
+        val name = inviters[invite.id] ?: inviterId
+        org.wizardchat.android.ui.ConfirmDialog(
+            title = L10n.format("invite.declineAndBlockTitle", name),
+            confirmLabel = L10n.format("invite.declineAndBlock"),
+            message = L10n.format("invite.declineAndBlockBody", name, inviterId),
+            onConfirm = { declineAndBlock(invite) },
+            onDismiss = { blocking = null },
+        )
     }
 }
 
@@ -262,17 +302,32 @@ private fun RoomAvatar(room: RoomSummary) {
 }
 
 @Composable
-private fun RoundButton(icon: String, label: String, background: Color, tint: Color, enabled: Boolean, onClick: () -> Unit) {
+private fun RoundButton(
+    icon: String,
+    label: String,
+    background: Color,
+    tint: Color,
+    enabled: Boolean,
+    onClick: () -> Unit,
+    weight: PhWeight = PhWeight.bold,
+) {
     Box(
         Modifier.size(WZ.Space.space10).clip(CircleShape).background(background).clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon(icon, PhWeight.bold, size = WZ.SizeIcon.sm, tint = tint, contentDescription = label)
+        PhIcon(icon, weight, size = WZ.SizeIcon.sm, tint = tint, contentDescription = label)
     }
 }
 
 @Composable
-private fun InviteRow(invite: RoomSummary, inviterName: String?, busy: Boolean, onAccept: () -> Unit, onDecline: () -> Unit) {
+private fun InviteRow(
+    invite: RoomSummary,
+    inviterName: String?,
+    busy: Boolean,
+    onAccept: () -> Unit,
+    onDecline: () -> Unit,
+    onBlock: (() -> Unit)?,
+) {
     Row(
         Modifier.fillMaxWidth().alpha(if (busy) 0.5f else 1f).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
         verticalAlignment = Alignment.CenterVertically,
@@ -297,6 +352,7 @@ private fun InviteRow(invite: RoomSummary, inviterName: String?, busy: Boolean, 
                 )
             }
         }
+        if (onBlock != null) RoundButton("prohibit", tr("invite.declineAndBlock"), theme.fill, theme.danger, !busy, onBlock, PhWeight.regular)
         RoundButton("x", tr("common.decline"), theme.fill, theme.textPrimary, !busy, onDecline)
         RoundButton("check", tr("common.accept"), theme.accent, theme.textOnAccent, !busy, onAccept)
     }

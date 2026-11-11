@@ -834,8 +834,13 @@ class TimelineModel(
                 is EntryContent.Redacted -> ChatEntry.Kind.Redacted
                 is EntryContent.UnableToDecrypt -> ChatEntry.Kind.Undecryptable(decryptionMessage(content.reason), content.reason)
                 is EntryContent.Membership -> {
+                    if (WizardApplication.instance.prefs.hideMembershipEvents) return null
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)
+                }
+                is EntryContent.ProfileChange -> {
+                    if (WizardApplication.instance.prefs.hideProfileEvents) return null
+                    ChatEntry.Kind.System(L10n.format("mobile.profileChanged", event.senderName ?: content.userId))
                 }
                 is EntryContent.Call -> ChatEntry.Kind.Call(content.call)
                 EntryContent.CallPart -> return null

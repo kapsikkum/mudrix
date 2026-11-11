@@ -1,0 +1,480 @@
+# Mudrix parity matrix
+
+Authoritative gap list between the old JavaScript Mudrix (`E:\code\web\mudrix-web`, plus the `mudrix-desktop` and
+`mudrix-mobile` shells) and this Rust-core rewrite (branch `web-look`). Read-only audit, produced 2026-11-11 from the
+code, not from docs. `docs/PORT.md` was the starting index; its "Port status" tables turned out to be **stale for the
+web app** (for example `ProfileStyle.tsx` and `ProfileEffect.tsx` are now line-for-line copies of the old files, and
+the web has the soundboard, integrations, Modern spaces and cosmetics UI), so every row below was re-checked against
+the tree.
+
+## How the audit was done
+
+- Old inventory: every settings page of `src/app/features/settings/**` (option by option via the locale keys each page
+  uses), the message context menu, composer, room/space settings, profile, calls, inbox, desktop `src-tauri/src/*.rs`
+  and the mobile shell.
+- New status: for each feature, file existence plus use of its atoms / RPCs in `apps/web`, `apps/android`, `apps/ios`,
+  `apps/desktop`, `crates/core`. Two mechanical cross-checks found most of the gaps: (a) same-named files whose line
+  count shrank (`EmojiStickerPanel` 815 -> 386, `PackEditor` 755 -> 519, `About` 305 -> 143, `UserProfilePopup`
+  1535 -> 1285, `PollViewer` 322 -> 145, ...), and (b) i18n keys a ported file used in the old app and no longer
+  references (`timeline.editHistory.open`, `composer.schedule.menu`, `room.markUnread`, `room.addLowPriority`,
+  `room.space.nickname.menu`, `timeline.stickerPack.*`, ...).
+- Status words: **done** = equivalent behaviour present; **partial** = exact gap in the Notes; **missing** = nothing
+  found; **n/a** = the platform cannot (or by design does not) have it, reason in Notes.
+- **Caveat for iOS:** every iOS row marked done/partial was written on Windows and has never been compiled or run (see
+  `PORT.md` "iOS port status"). Android rows are compiled and unit-tested but most UI is unverified on a device.
+  "Done" on those platforms means "code present", not "tested".
+- Web and desktop share one column: the desktop app is the web app in Tauri, so a web gap is a desktop gap; desktop-only
+  rows (section 12) say so.
+- Native apps keep WizardChat's layout. "Android / iOS: missing" is a request to port the *behaviour* natively.
+
+## Summary
+
+Counts are over the numbered rows of the matrix below (Mudrix-specific features and the old-app features the audit
+tied to them).
+
+| Platform | done | partial | missing | n/a | total |
+| --- | --- | --- | --- | --- | --- |
+| Web / Desktop | 110 | 30 | 16 | 4 | 160 |
+| Android | 66 | 41 | 25 | 28 | 160 |
+| iOS | 64 | 43 | 23 | 30 | 160 |
+
+
+Second, smaller table: old-web features that WizardChat's native apps lack even though they are not Mudrix additions
+(baseline gaps, section "Baseline native gaps"), counted separately:
+
+| Platform | done | missing |
+| --- | --- | --- |
+| Web / Desktop | 9 | 0 |
+| Android | 0 | 9 |
+| iOS | 1 | 8 |
+
+
+Headline numbers: web/desktop has 16 missing and 30 partial rows (about 45 concrete items, several of them one
+RPC plus one modal); Android and iOS each have 25 / 23 missing and about 42 partial, on top of the 9 baseline gaps.
+One item is blocked on matrix-rust-sdk (room-key import / export) and several need an owner decision (iOS push,
+KLIPY key, legal provenance of cosmetics and games data, widgets, namespace). "n/a" on native is mostly desktop-only
+shell rows and platform-equivalent features (system spellcheck, OS-routed audio, no side panels).
+
+## Matrix
+
+Columns: `| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |`. IDs keep the
+`PORT.md` numbering where a row existed; new ids from the audit are P2b, P2c, P13, N5-N6, C14-C17, A16-A18, K12-K15,
+R14-R15, T13, T16-T19, M14-M16.
+
+### 1. Media and files
+
+Old paths are relative to `mudrix-web/src/` unless noted.
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| M1 | Big-video compression (original / smart / fixed height, estimate, progress, cancel) | util/videoCompress.ts, composer/videoUpload.ts, attachmentQuality.ts, AttachmentTray.tsx | done | done | partial | no | Web: mediabunny/WebCodecs. Android: media3 Transformer, never run on a device. iOS: AVAssetWriter encoder written, never compiled or run. |
+| M2 | Photo EXIF/GPS strip + shrink (2560/1920/1280) | util/imageSanitize.ts, composer/imageUpload.ts | done | done | done | no | iOS sends HEIC as JPEG when it must strip. |
+| M3 | Upload-limit lookup (authenticated media config first) | util/serverCapabilities.ts | done | done | done | no | SDK already tries `/v1/media/config` first. |
+| M4 | Click-to-play received video, real progress, cancel | message/VideoPlaceholder.tsx | done | done | done | no | Uses core `mediaDownload` / `cancelMediaDownload`. |
+| M5 | Settings > Media page (video modes, photo strip/size, media visibility, YouTube policy) | settings/media/Media.tsx | done | done | done | no |  |
+| M6 | Upload attachments in the background before send | composer/attachmentUploads.ts | done | partial | partial | no | Native composers upload on send (with progress); no early upload so send is not instant. |
+| M7 | Image viewer: zoom to point, pan, pinch, double-tap, swipe-dismiss | components/MediaLightbox | done | done | done | no | iOS pinch zooms around centre, not the pinch point. |
+| M8 | Image galleries: grouping, tagged sends (`gallery` key), Save all, `groupImages` toggle | message/gallery.ts, GalleryGrid.tsx, galleryDownload.ts | done | partial | partial | no | Native: grouping + Save all done; tagged sends missing (core already has `UploadedFile.extraContent` / `TimelineEntry.customContent`). |
+| M9 | Text-file card (first 64 KB) + PDF/Markdown in-app preview | message/FilePreviewModal.tsx | done | partial | partial | no (`mediaHead` exists) | Native opens the OS viewer / Quick Look; no inline text card. |
+| M10 | Own context menu for local images/videos (copy, save) | contextMenu/LocalMediaMenu.tsx | done | done | done | no | Desktop save goes through `save_download` (D11). |
+| M11 | GIF picker: GIPHY + KLIPY tabs, GIF links sent/shown as GIFs, favourites, Recent tab | composer/gifProviders/*, GifFavouriteButton.tsx, gifFavourites.ts | partial | partial | partial | no | Web has both providers (keys at build time), link embeds. Missing everywhere: favourite a GIF from a received message, Recent tab (Mudrix kept full items in an encrypted account-data blob; base keeps a plain URL list). Native: GIPHY only, no provider tabs, no GIF-link embeds. KLIPY needs a key (owner). |
+| M12 | YouTube card (ask / on / off, click-to-load, nocookie player) | message/YouTubeEmbed.tsx, util/youtube.ts | done | done | done | no |  |
+| M13 | Animated-image detection (MSC4230) | timeline/utils/imageAnimation.ts | done | done | done | no |  |
+| M14 | Sticker pack preview modal (click a sticker -> pack, count, view room) | message/StickerPackPreviewModal.tsx, content.tsx | missing | missing | missing | no | Strings `timeline.stickerPack.*` unused in the new web. |
+| M15 | Emoji/sticker pack editor extras: size meter vs 64 KB state limit, split pack, retry/resume/cancel uploads, upload-and-create | room/roomsettings/PackEditor.tsx (755 -> 519 lines in web-look), EmojiStickerPanel.tsx (815 -> 386) | missing | missing | missing | no | Confirmed by diff: keys `room.settings.emojis.sizeMeter/splitPack/resumeUpload/retryFailed/uploadAndCreate/...` not referenced. Native pack editors exist (Packs.kt, SpaceAndPacks.swift) but without these. |
+| M16 | Voice messages, location share, polls (create/vote/end), spoiler media, captions/edit caption | composer/*, message/* | done | done | done | no | WizardChat-native parity; verified present on all three. |
+
+### 2. Appearance, language, accessibility
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| A1 | 29 built-in themes, shared order (dark by hue, light last) | theme/themeTokens.ts | done | done | done | no | Per-theme app-icon art not ported (new themes use base logo). |
+| A2 | Custom themes (up to 20, 9 colours, import/export JSON, synced) | theme/customThemes.ts, settings/appearance/CustomThemes.tsx | done | done | done | no | Derive function exists in TS, Kotlin, Swift (tests compare). |
+| A3 | Follow system theme + dark/light mapping | settings atoms | done | done | done | no |  |
+| A4 | Use the system accent colour | hooks/useSystemAccent.ts, desktop accent.rs | partial | done | n/a | no | Web: toggle exists in Appearance but nothing reads `useSystemAccentAtom` (dead switch). Desktop `accent.rs` not ported. Android could use Material You dynamic colour. iOS has no OS accent API for apps. **Android:** Material You: Appearance > Use the system accent colour (Android 12+) re-derives the accent-based colours of any theme. |
+| A5 | Themed app icon + themed logos | themedAppIcon atom, desktop set_app_icon | partial | done | done | no | Desktop `set_app_icon` command not ported (window/tray icon does not follow theme). |
+| A6 | Message layouts Modern / Bubble / Compact + separate phone layout | hooks/useMessageLayout.ts, Timeline.css.ts | partial | partial | partial | no | Phone-layout setting exists everywhere. Mudrix compact time gutter / bubble tweaks not mapped onto base markup. Native has modern + bubble only; synced `compact` renders as modern. |
+| A7 | UI density, page zoom, text size, chat density, emoji style packs, emoji-only size | theme/uiDensity.ts, util/emojiStyle.ts | done | partial | partial | no | Native: only emoji-only size; zoom = system font scale, emoji = system emoji (n/a by platform). |
+| A8 | Time and date format preferences | util/format.ts | done | done | done | no | Android search/thread times and iOS call/session screens still use device format. |
+| A9 | Emoticon -> emoji on send; send animation toggle | util/emoticons.ts | done | done | done | no | Send animation has no native counterpart (n/a). |
+| A10 | Spellcheck: underlines, suggestions, 10 dictionaries, personal dictionary, own context menu | util/spellcheck/*, composer/editor/useSpellcheck.ts, settings/language/Language.tsx | missing | n/a | n/a | no | Web/desktop: hunspell-asm in a worker (L). Native uses the system keyboard spellcheck. |
+| A11 | Accessibility: reduced motion, 44 px touch targets, announcements, focus | hooks/useReducedMotion.ts, theme/touch.css.ts | done | partial | partial | no | Native: key targets done, rest not audited one by one. |
+| A12 | 11 UI languages | i18n/locales/* | done | done | done | no | Every new key must be added to all 11 files (`npm run check`). |
+| A13 | What's new dialog | features/whatsNew | done | done | done | no | See Duplicates (same generator). |
+| A14 | Skeleton shimmer, scroll anchoring, graceful image error | timeline/MessageSkeleton.tsx, useTimelineScrollAnchor.ts | done | partial | partial | no | Native: no image fade-in / warning tile for failed pictures; iOS performance unmeasured. **Android:** Failed-picture tile with tap-to-retry done; no image fade-in. |
+| A15 | Streamer mode (off/auto/on) + sensitive blur + indicator | util/streamerMode.ts, components/Sensitive | done | partial | partial | no | Native has no user panel, so no indicator button; auto follows own screen share / screen capture only. |
+| A16 | Hide joins/leaves and Hide profile changes toggles | settings/appearance/Appearance.tsx, timeline | partial | done | missing | no (`profileChange` content exists) | Web: both switches exist (`hideMembershipEventsAtom`, `hideProfileEventsAtom`) but no timeline code reads them, and `isTimelineRenderedEntry` drops `profileChange` entirely, so display-name/avatar change lines (`timeline.userChangedName`...) never show. Native: no setting and no profile-change lines. **Android:** Hide joins and leaves / Hide profile changes in Appearance. |
+| A17 | Show room avatars toggle, interface zoom slider, prettify links | settings/appearance | done | n/a | n/a | no | Native: system settings / not applicable. |
+| A18 | Accessibility page: reduce motion, autoplay GIFs | settings/accessibility | done | done | done | no |  |
+
+### 3. Sounds
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| S1 | 14 sound packs, volume, per-sound override with preview | util/notificationSounds.ts, settings/voice/SoundsSection.tsx | done | done | done | no | iOS omits Cinny and Commet (Ogg only). |
+| S2 | Separate mention sound / pack per sound | notificationMentionSoundPack | done | done | done | no | iOS background banner can only use wav/aiff/caf, so mp3 packs use the system sound there. |
+| S3 | Message sounds stay quiet while focused | notificationSoundsWhenFocused | done | done | done | no |  |
+| S4 | Call, join/leave, mute/deafen/camera, moved, watch-start sounds follow the pack | calls/useCallSounds.ts, voice/voiceSounds.ts | done | done | partial | no | Android lacks watch-together-start. iOS lacks `moved` (hidden). Deafen / screen share / raise hand / reaction stay the app's own everywhere. **Android:** Watch-together start sound follows the pack. |
+| S5 | Soundboard: personal + room/space boards, upload/edit, limits, per-person mute, room settings | features/soundboard/* (19 files) | done | partial | partial | no | Native: personal board + built-ins + receive + play only. Missing: add/edit/delete clips, room/space soundboard settings, per-person mute from a call, power-level check on received presses. Web refreshes custom state by polling (30 s) because sliding sync does not carry it. **Android:** Add/edit/remove clips, room and space soundboard settings and per-person mute done; no power-level check on received presses. |
+| S6 | Voice & Audio settings page (devices, mic test, camera preview, processing toggles, reactions toggle) | settings/voice/* (12 files) | done | partial | partial | no | Native: processing toggles + sound effects + soundboard section; no device pickers (OS routes audio; n/a) and no "show reactions" switch. |
+
+### 4. Notifications, reminders, unread
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| N1 | Remind me on any message (account data, listed in settings) | util/reminders.ts, hooks/useReminderDelivery.ts | done | done | partial | no | Android has no background service so nothing fires with the process dead; iOS schedules local notifications but a closed device cannot learn another delivered it. |
+| N2 | Streamer mode hides notification text | useClientNotifications.ts | done | done | done | no |  |
+| N3 | Notification prefs: levels, keywords, banners, desktop block (tray, autostart, start minimised), push prefs | settings/notifications/* | done | done | partial | no | Native lacks the Mudrix push preferences page (see Y1-Y3). **Android:** Delivery section in Notification settings: UnifiedPush distributor choice, Stay connected, Firebase note. |
+| N4 | Unread counts from read receipts / thread unread / ignore join-leave-call events for unread | util/markedUnread.ts, hooks/useHasUnreadThreads.ts | partial | partial | partial | verify in core | Mudrix js-sdk workarounds were not ported; Rust SDK counts differ. Needs scenario tests on the local test server (E1) before calling it done. |
+| N5 | Mark read / mark unread from the room menu | pages/client/markAsRead.ts, RoomListItem.tsx | partial | done | done | no (`setMarkedUnread` exists) | Web menu has Mark read only; `room.markUnread` entry is missing (confirmed by key diff). |
+| N6 | Low-priority rooms group in the room list | pages/client/RoomListPanel.tsx (`lowPriorityRoomsAtom`) | missing | partial | missing | no (`RoomListEntry.isLowPriority` exists, unused) | Nobody reads `isLowPriority`. Old app showed a "Low priority" section (and a toggle was in `room.addLowPriority`); setter would need a core tag call. **Android:** Low priority group in the room list (read-only); setting the tag needs a core call. |
+
+### 5. Calls and voice
+
+Old call engine (`rtc/`) is replaced by the core LiveKit engine; only features are listed.
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| C2 | Connection stats popover (ping, loss, codec, bitrate) | calls/CallStatsPopover.tsx, callStats.ts | done | missing | missing | no | Needs LiveKit mobile SDK stats; not started. |
+| C3 | Connection status at composer / in call instead of banner | hooks/useConnectionStatus.ts | done | done | done | no | Upstream behaviour kept. |
+| C4 | Call tiles: avatar + decoration, speaking ring, still frame when idle, key-error badge | calls/stage/CallStage.tsx, TileAvatar.tsx | done | partial | partial | no | Native tiles have no decorations/nameplates (SVG art, see P2). **Android:** Decoration drawn on call tile avatars; no still frame when idle or key-error badge. |
+| C5 | Call panel + reactions rail (hand, 8 reactions, cooldown) | calls/CallReactionsRail.tsx, CallBar.tsx | done | done | done | no | Native keeps its own layout; raise hand + reactions exist. |
+| C6 | Watch Together (YouTube) with advert muting and resync fixes | calls/watchTogether/* | done | done | done | no | Topic `org.wizardchat.watch` kept; Mudrix topic still understood. |
+| C7 | Stage / participant handling | calls/stage/* | done | done | done | no |  |
+| C8 | Call follows you as floating tile; dock back; phone call screen with minimise | calls/CallLayer.tsx, useReturnToCall.ts | done | done | done | no |  |
+| C9 | Pop-out call window | calls/CallPopoutWindow.tsx, desktop popout.rs | missing | n/a | n/a | no (shell + UI) | Desktop only; needs second window, `on_new_window`, call UI rendered there. Native uses PiP/minimise instead. |
+| C10 | Alone-in-call notice (end DM call after being alone) | calls/AloneNotice.tsx | done | done | missing | no | No native equivalent found. **Android:** AloneNotice in the screen and the full-screen DM call (grace 10 s, 60 s countdown, Stay / Ring again / Leave now). |
+| C11 | Outgoing / incoming call screens, ring tracing, ring again | IncomingCallOverlay.tsx, OutgoingCallScreen.tsx | done | done | done | no | Web keeps base calling panel (more exact: core ring state). Full-screen phone ring redesign not ported; native uses CallKit / full-screen intent. |
+| C12 | Per-person volume, user call menu, call background | calls/VolumeSlider.tsx, UserCallMenu.tsx | done | done | done | no |  |
+| C13 | Push to talk (in-app and global on desktop) | calls/usePushToTalk.ts, desktop ptt.rs | done | done | done | no | Desktop uses base `global_keys.rs`, not Mudrix rdev code. |
+| C14 | Screen share: source picker, audio, cursor, quality and FPS options, "you are sharing" bar | calls/ScreenSharePicker.tsx, nativeCapture/*, desktop capture/*, screenshare.rs | partial | n/a | n/a | no | Base `desktopPicker` + Rust `screen_share/*` (win/mac/linux, audio option) used. Missing: quality / FPS / cursor options (`screenShareQuality/Fps/Cursor` atoms) and own sharing bar. Native uses MediaProjection / ReplayKit. |
+| C15 | Voice channels in sidebar, join sheet, call timer on live channel | calls/VoiceJoinSheet.tsx, voice/* | done | done | partial | no | Native: timer in the call bar, no timer in room-list rows; separate join sheet not needed. **Android:** Call timer in room-list rows. |
+| C16 | Admins move people between voice channels | voice/voiceMove.ts, useVoiceMoves.ts | done | done | done | no | Android has listener + sender function but no UI to move someone (no drag on participants). iOS has a "Move to..." menu. **Android:** Move to... in the participant menu. |
+| C17 | Voice-channel flag: make text / voice channel | room/voiceChannel.ts, RoomListItem.tsx | partial | done | done | no | Web has it in space Channels panel only; the room-list context-menu entries `room.makeVoiceChannel/makeTextChannel` are missing. Native reads the flag; setting it is via web. |
+| C18 | Call media-key error on tile, hang-up mid-connect cleanup | rtc/keyProvider.ts | done | done | done | no | Base engine re-tested; one cleanup fix added. |
+
+### 6. Profiles, activity, cosmetics, presence
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| P1 | Extended profile: bio, pronouns, timezone; banner crop/position editor | settings/account/ExtendedProfile.tsx, util/profileFields.ts | partial | partial | partial | no | Bio/pronouns/timezone done on all. Banner: web edits via card (base `setBanner`); Mudrix crop/position editor not ported; native has no banner. **Android:** Banner shown on profiles and set/removed in Account (centre crop to 3:1); no crop/position editor. |
+| P2 | Cosmetics: decorations, effects (canvas), nameplates, frames, accent; chooser, uploads, subscribed packs | settings/account/ProfileStyle.tsx, CosmeticChooserModal.tsx, profile/ProfileEffect.tsx, util/profileCosmetics.ts | done | partial | partial | no | Web copy is line-for-line the old ProfileStyle (1646 lines) and ProfileEffect (1221). Native reads ids and rings the avatar with the accent only: no art drawn (SVG), no pickers. **Android:** Built-in decorations, nameplates and frames are drawn (AndroidSVG, no SVG filters so glows are flat) and picked in Account > Profile cosmetics; no effects (canvas), uploads or subscribed packs. |
+| P2b | Cosmetics settings page + room-settings cosmetic packs (pack preview, status, subscribe) | settings/cosmetics/Cosmetics.tsx, roomsettings/CosmeticPackPreview.tsx, PackStatus.tsx, packContent.ts | missing | missing | missing | no | Not in the new web (`settings.cosmetics` page and `room.settings.cosmetics.*` keys unused). Check the legal question for the Discord-scraped art first (owner list). |
+| P2c | Cosmetics shown in member rows, messages, call tiles | profile/ListCosmetics.tsx | done | done | missing | no | **Android:** Decoration on avatars in member rows, messages and call tiles; nameplate behind member rows and profiles. |
+| P3 | Profile card glow, bottom sheet on phones, expanded full profile with tabs | features/profile/UserProfilePopup.tsx (1535 -> 1285) | done | partial | partial | no | Web restyled to the old full-profile sheet (d11468a). Native sheets lack tabs (Activity / Mutual / About). |
+| P4 | Activity (game/song): profile cards, member-row status line, Active now, Settings > Activity (sharing, hidden, custom Playing apps) | profile/ActivityCards.tsx, settings/activity/*, hooks/useActivitySharing.ts, pages/client/useFriendActivities.ts | partial | partial | partial | no | Web: cards + home friends feed + Active now exist; Settings > Activity page, sharing toggles and custom Playing apps missing. Native: profile cards only. **Android:** Profile cards, Active now and the member-row status line exist; the song playing on the phone is shared as Listening (opt-in, Notification access). No Settings > Activity page (nothing to configure without game detection); games are not detected on Android. |
+| P5 | Activity detection (running games, music apps) | desktop activity/{mod,classify,music,scan}.rs, games.json (844 KB) | missing | n/a | n/a | no (desktop shell) | Windows-only upstream; see owner list for the games database provenance. |
+| P6 | Custom status (emoji, text, expiry) | profile/CustomStatusModal.tsx | done | done | done | no | Both Mudrix modal and WizardChat Status settings exist (Duplicates). |
+| P7 | Per-space nickname | hooks/useSpaceNicknames.ts, util/spaceNicknames.ts, spaceContextMenu.tsx | missing | missing | missing | yes: own `m.room.member` profile per room (or document use of `setStateEvent`) | No trace anywhere (`room.space.nickname.*` unused). |
+| P8 | Homeserver software badge + Privacy switch | util/homeserverSoftware.ts | done | done | done | no (core `homeserverSoftware`) | In a browser only servers allowing cross-site federation GETs answer. |
+| P9 | Mudrix badge (`is_user`), Badges list | profile/ProfileExtras.tsx | done | done | done | no | Badges settings list not ported. |
+| P10 | Mutual rooms on profile | hooks/useMutualRooms.ts | done | done | missing | no | Web `MutualRooms.tsx` present. Native profile sheets do not show it. **Android:** Mutual rooms and spaces on the profile sheet (server lookup only, as on web). |
+| P11 | User notes; start verification from profile; ignore hides messages | hooks/useUserNotes.ts, useUserVerification.ts | done | done | partial | no | Notes done on native; verify-from-profile missing on native (core `requestUserVerification` exists). **Android:** Verify from the profile sheet. |
+| P12 | Live username check at sign-up | pages/auth/RegisterForm.tsx | done | missing | missing | no (`usernameAvailable`) | Native registration forms not audited. |
+| P13 | Presence menu: auto / online / idle / DND / invisible (+ "Edit profile") | pages/client/UserStatusMenu.tsx | done | partial | partial | no | Native has one presence on/off switch only; no idle/DND/invisible choices. **Android:** Auto / Online / Away / Invisible choice in Privacy; no Do Not Disturb (needs the status mode field). |
+
+### 7. Spaces, rooms and the room list
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 | Modern room list per space (categories, voice channels, banner, drag reorder, wizard) | features/space/*, pages/client/RoomDragRow.tsx, RoomListPanel.tsx | done | partial | partial | optional: `addRequiredState` | Native: no drag reorder, no banner upload, no first-run wizard; style set via space settings. |
+| R2 | Cosmetic roles in a space | space/spaceRoles.ts, spacesettings/RolesPanel.tsx | partial | partial | partial | optional: `stateEventsWithSender` | Role colours missing in call tiles, thread list, reply previews; trust rule weakened (PL>=50) because core state has no sender. Audit entries for role changes missing. |
+| R3 | Channels tab, Matrix-style rooms panel, auto-join per space | spacesettings/*, hooks/useAutoJoinSpaceRooms.ts | done | partial | partial | optional: `addRequiredState` | Native: move up/down buttons only; no MatrixRoomsPanel, no auto-join runner, no re-pointing restricted rooms. Web auto-join does one `/state` per space. |
+| R4 | Audit log in room and space settings | roomsettings/AuditLog.tsx, auditEntries.ts | partial | partial | partial | yes for role entries: `showStateEventTypes` | Web built from timeline; native shows membership changes only (no name/topic/permission/room entries). Role changes missing everywhere. |
+| R5 | Room bridges | roomsettings/RoomBridges.tsx | done | done | done | no |  |
+| R6 | Manage a room's spaces from its settings | roomsettings/RoomSpaces.tsx | done | done | missing | no (`addToSpace` exists) | **Android:** Spaces section in room General settings: remove from a space, add to a space the person can manage. |
+| R7 | Founders field when creating rooms/spaces | room/FoundersField.tsx | done | done | done | no |  |
+| R8 | Unnamed 2-person room counts as DM | hooks/useDms.ts | partial | partial | partial | verify in core | Unverified; Rust SDK heuristic differs. |
+| R9 | Shared identity form + addresses for room and space General settings | roomsettings/IdentitySection.tsx, AddressesSection.tsx | done | done | missing | no | Native has name/topic/avatar only; no aliases / join rule / history visibility / publish / room upgrade (baseline gap too). **Android:** General page: join rule, history visibility, publish, addresses, upgrade, report room; also in space settings. |
+| R10 | Space hierarchy cache/prefetch | room/useSpaceHierarchy.ts | partial | partial | partial | verify perf | Core caches `spaceHierarchy`; measure on a large account. |
+| R11 | Home dashboard (greeting, setup, tiles, catch up, jump back in, live now, friends, what's new, search tip) | pages/client/HomeWelcome.tsx | done | partial | partial | no | Native missing: Get started tiles, friends' activity, What's new highlights, search tip (Android also lacks verify row differences). **Android:** Get started tiles and What's new highlights added; friends' activity feed and the keyboard search tip are not ported. |
+| R12 | Global search / room switcher / in-room server search with encrypted-room fallback note | features/globalSearch, roomSearch, timeline/SearchResults.tsx | partial | done | done | no | Web has global search, room switcher and in-room search (`RoomSearchField`, core `searchMessages`). Missing from Mudrix: results panel "Load more", encrypted-room note (`room.header.searchEncryptedNote`), global-search "Messages in #room" group and Recent/Places groups (key diff). |
+| R13 | Inbox: Invites, Mentions, Threads, Saved; decline and block | features/inbox/* | done | done | partial | no | Native lacks Decline and block. **Android:** Decline and block added to the invite row. |
+| R14 | Space nicknames menu, space context menu extras | pages/client/spaceContextMenu.tsx | partial | missing | missing | see P7 | Only the nickname entry missing on web. |
+| R15 | Room list menu: Move up/down, Move to category, voice-channel toggle, mark unread, low priority | pages/client/RoomListItem.tsx (506 -> 443 lines) | partial | partial | partial | no | Web replaced by RoomReorder drag + sections; menu entries missing (see N5, N6, C17). |
+
+### 8. Messages and timeline
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| T1 | Send later (MSC4140 delayed events): schedule modal, list, cancel, send now | composer/ScheduleMessageModal.tsx, delayedEvents.ts | missing | missing | missing | yes: delayed-event RPCs (`sendDelayedEvent`, `listDelayedEvents`, `cancelDelayedEvent`, `sendDelayedEventNow`) | No trace on any platform; `composer.schedule.*` strings unused. Server must support MSC4140 (Synapse 1.114+ experimental flag). |
+| T2 | Jump to date | timeline/JumpToDateModal.tsx | partial | missing | missing | yes: `timestampToEvent` + event-focused timeline | Web header has the calendar button, but `setShowJumpToDate` is written and never read: it opens nothing. |
+| T3 | Edit history modal (click "(edited)") | message/EditHistoryModal.tsx | missing | missing | missing | yes: `eventEditHistory` (relations) | No trace. |
+| T4 | View source | message/ViewSourceModal.tsx | done | done | done | no |  |
+| T5 | Reply line with connector; replies never group | Timeline.tsx, ReplyPreview.tsx | done | done | done | no |  |
+| T6 | Pinned messages popover with media, jump, unpin | PinnedMessagesPopover.tsx | done | done | done | no |  |
+| T7 | Read receipts popover / reactors sheet | readReceiptsPopover.tsx, ReactorsSheet.tsx | done | done | done | no |  |
+| T8 | Undecryptable UX: fold runs, How to fix, retry, restore from backup, pause scrollback | message/UndecryptableMessage.tsx, undecryptable.ts | done | partial | partial | Import keys: SDK limit | Native: fold + How to fix done; no scrollback pause, no history notice. "Import keys" missing everywhere (needs SDK; owner list). |
+| T9 | Hide messages from ignored users | Timeline | done | done | done | no | Core filters ignored senders. |
+| T10 | Markdown -> HTML, matrix.to links open in app | util/markdownToHtml.ts, matrixTo.ts | done | done | done | no |  |
+| T11 | Composer: send button only with content, focus rules, shortcuts, formatting toolbar, link popover | composer/Composer.tsx, FormatToolbar.tsx | done | partial | partial | no | Native composers are plain text (markdown typed); no formatting toolbar. |
+| T12 | Emoji picker: frequently used (shared with Element), bottom drawers | EmojiPicker.tsx, useRecentEmoji.ts | done | done | done | no | iOS/Android keep native docked picker. |
+| T13 | Per-message encryption shield (verified / unverified sender, reasons) | message/EventShield.tsx | missing | missing | missing | yes: expose shield state on `TimelineEntry` | Base has room-level `EncryptionWarningButton` only; no per-message shield. SDK timeline items carry `ShieldState`. |
+| T14 | Link previews, per-theme link colour | message/LinkPreview.tsx | done | done | done | no |  |
+| T15 | Slash commands (built-in set) | composer/commands.ts | done | done | done | no |  |
+| T16 | Call events / call session summaries in timeline | message/callEvents.tsx, callSessions.ts | done | done | done | no | Done via core `call_history`; old js-sdk session grouping replaced. |
+| T17 | Display-name / avatar change lines | timeline systemMessages | missing | done | missing | no (`profileChange` entry exists) | See A16. **Android:** Profile-change line (hidden by default, like web). |
+| T18 | Message actions: forward, report, hide media, copy link/text, save, remind, pin, end poll | message/contextMenu.ts | done | done | partial | no | Context menu is byte-identical on web. Android/iOS: no Forward; iOS also lacks Hide media / End poll entries. **Android:** Forward added (forward sheet with room search). |
+| T19 | Media retry on failed load ("Failed to load. Click to retry") | message/AnimatedImage.tsx | partial | done | missing | no | Web has warning tile; click-to-retry string unused. **Android:** Tap to retry on a failed picture. |
+
+### 9. Integrations and widgets
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| I1 | Manifest validator, Ed25519 signatures, pinning, permission diff, official key | integrations/{manifest,signature,permissions,officialKeys,matching,store}.ts | done | done | done | optional `fetchPublic` | Ported three times with shared fixtures (25 good / 178 bad / 11 widget). |
+| I2 | Repositories / install / update UI | settings/integrations/Integrations.tsx (1179 -> 999) | done | done | done | no | Icons not fetched; widgets listed as unsupported. |
+| I3 | Link cards + link details lookups | integrations/ui/IntegrationCard.tsx, useLinkDetails.ts | done | done | done | no | Strings `integrations.card.openHere/openInBrowser` (widget cards) unused. |
+| I4 | Composer actions, slash commands, API actions with confirm | ui/useComposerIntegrationItems.tsx, ApiConfirmDialog.tsx | done | done | done | no |  |
+| I5 | Sandboxed code widgets with widget driver + custom events | integrations/{widget,widgetCapabilities,customEvents}.ts, ui/IntegrationWidgetDialog.tsx, IntegrationWidgetDriver.ts | missing | missing | missing | yes: core widget driver (`matrix_sdk::widget`) | Deferred on purpose; entries asking for widgets are listed as unsupported. Needs security review. Owner decision. |
+| I6 | Dev integrations repo / fixtures | public/dev-integrations/repo.json | done | done | done | no | Fixtures became node / XCTest / JUnit tests. |
+| I7 | Generic room widgets (list, add, remove, open) | hooks/useWidgets.ts | done | done | done | no |  |
+
+### 10. Settings, privacy, security, developer
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| K1 | Settings sync (nested Mudrix event, changed keys only, fallbacks) | client/settingsSync.ts | done | done | partial | no | iOS: GIF favourites not kept in account data; custom status field still `org.wizardchat.status` (core). |
+| K2 | Keybinds incl. toggle video and disconnect | keyboardShortcuts/* | done | n/a | n/a | no | Desktop/web only. |
+| K4 | Privacy: typing, receipts, presence, homeserver software, streamer mode, ignored users, block invites | settings/privacy/Privacy.tsx | done | done | partial | no | Native lacks "Block all invites" (MSC4380, core `account.rs` has it). **Android:** Block all invites toggle in Privacy (feature-detected). |
+| K5 | Developer tools page (session info, server features, encryption state, copy debug info, clear media cache, reset sync cache) + Account data explorer + dev options | settings/developer/{DeveloperTools,AccountDataExplorer,DeveloperOptions}.tsx | partial | partial | partial | no | Explorer + options exist on all; DeveloperTools page (9 KB) missing on all. Sliding-sync switch obsolete (n/a). **Android:** Developer page: session, encryption state, server features, copy debug info, clear media cache. Reset sync cache needs a core call. |
+| K6 | Sign-in: QR login, link new device, server step, identifier (email/phone/MXID) | features/qrLogin, pages/auth/* | done | partial | partial | no | Native identifier + server check done; quiet one-line server step not ported. QR login: iOS has it, Android has none (grep). Link-new-device missing on Android. **Android:** QR sign-in (Camera2 + zxing) and Link new device done; the quiet server step is not ported. |
+| K7 | Do not share keys with unverified sessions | client/deviceIsolation.ts | done | done | done | no | Core `exclude_insecure_devices` applied at client build (needs reload). |
+| K8 | Key backup UX: recover, reset key, status panel, restore with progress, export / import room keys, auto-restore | features/keybackup/*, settings/sessions/{KeyBackupStatus,RecoveryKeyBox,RoomKeysBackup}.tsx, util/megolmKeyFile.ts | partial | partial | partial | yes + SDK limit (export/import) | Encryption page (WizardChat) covers recovery key + reset. Missing: key-backup status panel, restore button on settings, **Export / Import room keys** (core has no RPC; matrix-rust-sdk only takes a file path, not on wasm). |
+| K9 | Multi-account switching without state leaks | client/accounts.ts | done | done | done | no | WizardChat AccountSwitcher. |
+| K10 | Security hardening: safeUrl, frame guard, CSP, safe MIME, SW auth | util/safeUrl.ts, public/frame-guard.js, nginx headers | partial | n/a | n/a | no | `safeMimeType`, `clientSecret`, sw.js present; `safeUrl.ts` and `frame-guard.js` absent; Tauri CSP intentionally null. |
+| K11 | Settings navigation: sidebar sub-sections, settings search, phone list/detail | settings/useSubSections.ts | done | n/a | n/a | no | Settings search is WizardChat-only (kept). |
+| K12 | About page: version, credits, check for updates, include pre-releases, download desktop | settings/about/About.tsx (305 -> 143) | partial | partial | partial | no | Web About has no Updates section: no "Check for updates", installing / up-to-date states or "Include pre-releases" switch (the `UpdateButton` component only installs). The GetApps modal is WizardChat's. Native About: version/credits only. |
+| K13 | Account: display name, avatar, email, password, deactivate (UIA), matrix ID | settings/account/* | done | done | done | no |  |
+| K14 | Sessions: rename, remove (UIA), verify, link device, account management URL | settings/sessions/* | done | done | done | no |  |
+| K15 | Emojis & stickers settings: user pack, favourite packs, emoji style | settings/emojis/* | done | done | done | no |  |
+
+### 11. Mobile layout (web on phones)
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| X1 | Bottom sheets, swipe-dismiss, stretch + wobble, docked emoji picker | components/Popover, hooks/useSwipeDownDismiss.ts | done | partial | partial | no | Native sheets use Material / SwiftUI drag-down; no stretch/wobble, no docked emoji picker. |
+| X2 | Swipe panels, back-to-close | hooks/useSwipePanels.ts, useBackToClose.ts | partial | n/a | n/a | no | Web: phone swipe-right-to-open-list not ported (conflicts with swipe-to-reply). Native has no panels; system back handled. |
+| X3 | Dedicated call screen on phones | calls/CallLayer.tsx | done | done | done | no |  |
+| X4 | Tablet drawers / overlay panels | ClientLayout.tsx | partial | n/a | n/a | no | Web: phone bottom drawers for threads/chat not ported. Native tablets not targeted. |
+| X5 | Settings list/detail with back | settings/Settings.tsx | done | done | done | no |  |
+| X7 | Coarse pointer: quick-reaction row in message sheet | hooks/useCoarsePointer.ts | done | done | done | no |  |
+
+### 12. Desktop shell (Tauri)
+
+Web/Desktop column = the desktop app. Android/iOS n/a.
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| D1 | Tray icon + menu, close-to-tray | desktop tray.rs | done | n/a | n/a | no | Not run on all OSes. |
+| D2 | Unread badge (tray, taskbar overlay, dock) | badge.rs | done | n/a | n/a | no |  |
+| D3 | Toasts under own app id, click opens room | toast.rs | partial | n/a | n/a | no | Missing sender avatar in the toast. |
+| D4 | Launch at login, start minimised, window state | settings.rs | done | n/a | n/a | no |  |
+| D5 | matrix: deep links | commands.rs | done | n/a | n/a | no |  |
+| D6 | SSO / OIDC via system browser + loopback | auth.rs | done | n/a | n/a | no |  |
+| D7 | Signed updater: check button, pre-releases, progress | updater.rs | partial | n/a | n/a | no | Feed points to GitHub `latest.json` with Mudrix key; manual check + pre-release switch missing; needs signed release to verify. |
+| D9 | Own screen-share bar, hide WebView2's | screenshare.rs | missing | n/a | n/a | no | Base capture stays; see C14. |
+| D10 | Auto-answer media permission for own origin | permissions.rs | done | n/a | n/a | no |  |
+| D11 | Save download with sanitised names, mark-of-the-web | commands.rs | done | n/a | n/a | no |  |
+| D14 | Device name "Mudrix Desktop" | hooks/useDesktopDeviceName.ts | partial | n/a | n/a | no | New app keeps WizardChat naming; owner decision. |
+| D15 | Custom title bar, themed controls | components/TitleBar | done | n/a | n/a | no |  |
+| D16 | Packaging (Windows/macOS/Linux/AUR) | RELEASING.md | done | n/a | n/a | no | Signing / notarisation keys are owner items. |
+
+### 13. Mobile shell behaviours (old `mudrix-mobile`)
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Y1 | Android push without Google services (UnifiedPush) + distributor choice | mobile push.rs, PushPlugin.kt, PushService.kt | n/a | done | n/a | no | Android gplay flavour uses FCM; fdroid flavour has no push ("UnifiedPush comes later" in build.gradle.kts). **Android:** Compile-time `-Pmudrix.push=unifiedpush|keepalive|fcm` (default keepalive). UnifiedPush mode registers the endpoint with PUSH_GATEWAY_URL or the public UnifiedPush Matrix gateway. |
+| Y2 | Stay-connected foreground service (no distributor) | KeepAliveService.kt | n/a | done | n/a | no | Only `CallService` (calls). **Android:** KeepAliveService (specialUse foreground service, boot receiver, Stay connected toggle) restores the session, keeps sync running and posts notifications. |
+| Y3 | iOS keep-alive (audio / location strategy) + ntfy + local notifications | plugins/ios-keepalive | n/a | n/a | missing | no | iOS has `UIBackgroundModes: [audio]` for calls only and no APNs registration anywhere. Owner decision (Apple push entitlement / gateway). |
+| Y4 | iOS WKWebView fixes | plugins/ios-webview | n/a | n/a | n/a | no | Obsolete: native SwiftUI. |
+| Y6 | Reachable test server from USB phone | dev/test-server/forward.mjs | missing | missing | missing | no | Infra. |
+
+### 14. Dev tooling and infrastructure
+
+| ID | Feature | Old location (path) | Web/Desktop | Android | iOS | Core needed? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| E1 | Local test server with call bots (tuwunel, LiveKit, lk-jwt, Caddy, headless participants, seed) | dev/test-server/* | missing | n/a | n/a | no | Needed to settle N4/R8/R10 and test calls/T1. |
+| E3 | Release process (YEAR.MONTH.N, -next, Pages stable + /next/) | RELEASING.md, .github/workflows | partial | n/a | n/a | no | GitLab CI exists; Mudrix Pages/next channel not. |
+| E4 | Release notes from commits | scripts/release-notes.mjs | done | n/a | n/a | no |  |
+
+
+
+## Baseline native gaps
+
+Features the old web has through WizardChat's own code and that Android and/or iOS do not have (found because the old
+app was walked option by option). They matter because the owner wants every old feature reachable; most need no core
+work.
+
+| ID | Feature | Web/Desktop | Android | iOS | Core |
+| --- | --- | --- | --- | --- | --- |
+| B1 | Forward message | done | done | missing | core `forwardEvent` exists |
+| B2 | Block all invites (MSC4380) | done | done | missing | core `account.rs` |
+| B3 | Knock (request to join) + manage knock requests | done | done | missing | core `knock/acceptKnock/rejectKnock` |
+| B4 | Room upgrade / join upgraded room | done | done | missing | core `upgradeRoom/joinUpgradedRoom` |
+| B5 | Room General admin: join rule, history visibility, addresses, publish to directory | done | done | missing | core `setJoinRule/setHistoryVisibility/...` |
+| B6 | Report room | done | done | missing | core `reportRoom` |
+| B7 | Start verification with another user | done | done | missing | core `requestUserVerification` |
+| B8 | QR sign-in and link new device | done | done | done | core `loginWithQr`/`grantLoginWithQr` |
+| B9 | Formatting toolbar in composer | done | done | missing | plain composers; markdown typed |
+
+
+## Duplicates: Mudrix vs WizardChat
+
+Places where both implementations exist side by side in the new tree (or upstream replaced a Mudrix one). Rule applied:
+use Mudrix unless WizardChat's is better.
+
+| Area | Mudrix (old) | WizardChat (upstream, in tree) | Recommendation | Reasoning |
+| --- | --- | --- | --- | --- |
+| Voice & Audio vs Voice & Video settings | `settings/voice/*` (devices, processing, sound packs, soundboard, reactions toggle, moves) | `settings/voiceVideo/*` (mic test, camera preview, push-to-talk key + input mode, per-event sound toggles) | **merge** | Both pages are in the web sidebar and in Android/iOS settings. Keep the Mudrix page as the only one (sound packs and per-sound overrides subsume the per-event toggles, devices overlap) and move WizardChat's push-to-talk input-mode / key block into it (Keybinds already hosts the key). Remove `voice-video` from navigation. |
+| Custom status | `profile/CustomStatusModal.tsx` in profile + `ProfileStyle` | `features/status/*`, `settings/account/Status.tsx`, core `setCustomStatus` / `clearCustomStatus` | **merge** | Same data. Keep WizardChat's core-backed storage and expiry ("clear after"), put Mudrix's modal as the single editor in profile and settings. Status key is still `org.wizardchat.status` (see Needs owner: namespace). |
+| Key backup / recovery / encryption page | `keybackup/*`, `sessions/{KeyBackupStatus,RecoveryKeyBox,RoomKeysBackup}` | `settings/encryption/Encryption.tsx`, core `enableRecovery` / `recover` / `resetRecoveryKey` / `restoreKeyBackup` | **use wizardchat** | SDK-native recovery flow, simpler. Add only the pieces it lacks (backup status line, restore-with-progress button; export / import keys are blocked, K8). |
+| Session verification | `features/device/*`, `useEncryptionSetupWarning` | `features/device/sessionVerification.ts`, `VerifySessionGate`, `VerificationBanner`, `EncryptionWarningButton` | **use wizardchat** | Gate + banner are tied to the core's verification state; Mudrix's was js-sdk shaped. |
+| QR sign-in / link device | `features/qrLogin/*`, `client/qrLoginSecrets.ts` | core `qr_login.rs`, `features/qrLogin` | **use wizardchat** | Core handles the secrets bundle; nothing to keep. |
+| GIF picker | GIPHY + KLIPY tabs, link embeds, rich favourites in encrypted account data | GIPHY picker + synced URL favourites (`useGifFavourites`) | **merge** | Keep Mudrix picker (two providers, GIF links), keep WizardChat's plain-URL favourite list as the storage (already synced) and add a "favourite" button on received GIFs + Recent tab on top of it. |
+| What's new | `whatsNew/*`, generated from commits | `whatsNew/*` (same generator, `whatsnew/*.md`) | **use wizardchat** | Identical; the repo's `whatsnew/` and CI job are the source. |
+| Settings search / navigation | sidebar sub-section list (`useSubSections`) | `SettingsSearch`, `searchIndex.ts`, `MobileSettingsHome` | **merge (keep both)** | They solve different things (jump within a page vs find a setting). Both are already present; add search-index entries for new Mudrix settings. |
+| Account switcher | `client/accounts.ts`, session provider | `AccountSwitcher.tsx`, `AccountSwitchGuard` | **use wizardchat** | Restarts cleanly without state leaks. |
+| Call UI: outgoing / incoming | `OutgoingCallScreen`, `useOutgoingCallState` (membership polling, 45 s guess) | calling panel in stage driven by core ring state (`ringAgain`, `declineCall`) | **use wizardchat** | Exact (no guessing). Keep Mudrix's draggable incoming card (done). |
+| Call history in timeline | `message/callSessions.ts` (groups membership events) | core `call_history.rs` + `CallTile` | **use wizardchat** | Computed in the core; also gives missed / declined outcome. |
+| Screen share | `ScreenSharePicker`, Windows-only GPU capture crate (`capture/*`, 3.5k lines), quality / FPS / cursor | `desktopPicker/DesktopSourcePicker`, `screen_share/{windows,macos,linux}.rs` | **use wizardchat, then merge options** | Cross-platform and in tree. Add Mudrix's quality / FPS / cursor options on top (C14). |
+| Push to talk (global) | `ptt.rs` (rdev) | `push_to_talk.rs` / `global_keys.rs` | **use wizardchat** | Already in the base, no rdev. |
+| Watch Together topic | `io.github.kapsikkum.mudrix.watch` | `org.wizardchat.watch` | **merge** | Keep WizardChat topic, read Mudrix's (done); player fixes taken from Mudrix (done). |
+| Room list organisation | Mudrix categories = real sub-spaces (`order`), Modern style | per-user sections (`core/sections.rs`, `RoomReorder`) | **keep both** | Decision already taken (PORT.md section 7): different audience (space staff vs one user). |
+| Sign-up / sign-in forms | `RegisterForm` live username / token UI, friendlier server step | `RegisterForm` on core (`usernameAvailable`, tokens) | **use wizardchat for flow, mudrix for server step** | Server step ported; identifier input ported. |
+| Sound handling | 14 packs, per-sound overrides | per-event on/off toggles | **use mudrix** | Superset. |
+| Themes / layout | 29 themes, custom themes, Bubble/Modern/Compact | 9 themes, modern / classic / compact | **use mudrix** | Done (tokens shared by all apps). |
+| Emoji / sticker picker & recents | Element-compatible `m.recent_emoji`, bottom drawers | `useRecentEmoji` | **use mudrix** | Done. |
+| Notifications transport (Android) | UnifiedPush + ntfy + keep-alive (Tauri plugin) | FCM (`gplay` flavour), push gateway | **merge** | Keep FCM for Play builds, add UnifiedPush for `fdroid` (Y1). |
+| Updater feed | GitHub `latest.json` (+ pre-releases) | GitLab feed (`update.rs`) | **merge** | Feed now points to GitHub with Mudrix key; add manual check + pre-release switch (D7). |
+| About / get apps | About with updates, "Download Mudrix for Desktop" | `GetAppsModal` + `releaseFeed.ts` (per-OS downloads) | **use wizardchat** | Better (detects OS, lists packages); add the update section back to About (K12). |
+| Encryption shields | `EventShield` per message | room-level `EncryptionWarningButton` only | **use mudrix** | Per-message is what users expect; needs core (T13). |
+
+## Needs owner / impossible
+
+1. **Import room keys (and export on web)** (K8, T8). matrix-rust-sdk 0.19 only imports / exports key files from a file
+   *path*, does not exist on wasm, and keeps the `OlmMachine` private; the only route is the `testing` feature, which is
+   not acceptable. Possible: export / import on desktop and mobile through a file path in core native builds only.
+   Impossible today: web. Needs an SDK change upstream or accepting "desktop / mobile only".
+2. **KLIPY provider** (M11): needs a KLIPY API key (build secret `VITE_KLIPY_API_KEY`, Android `BuildConfig`, iOS
+   `Secrets.xcconfig`). Native has no KLIPY code at all; GIPHY key mechanism exists. Owner must create the account / key.
+3. **Push notifications on iOS** (Y3, N3): APNs requires an Apple Developer account, a push entitlement and a push
+   gateway that talks to Apple (Sygnal or equivalent). Mudrix avoided it with a background-audio / location keep-alive
+   plus local notifications, which is an App Store review risk (background modes used for something else). Owner
+   decision: gateway + APNs, or the keep-alive hack, or foreground-only.
+4. **Android push without Google** (Y1): UnifiedPush needs a decision on distributor UX and a push gateway URL
+   (`PUSH_GATEWAY_URL` secret already exists for FCM). FCM itself needs `google-services.json` (Firebase project) for the
+   `gplay` flavour.
+5. **Legal: Discord-scraped cosmetics** (P2, P2b): `scripts/sync-discord-cosmetics.mjs` downloads Discord collectible art
+   (decorations, nameplates, frames, effects) and its header says "PRIVATE USE ONLY ... may breach Discord's terms".
+   Also confirm provenance and licence of the art already copied into `apps/web/public/assets/{decorations,frames,
+   nameplates}` and `util/builtinCosmetics`. Do not ship scraped packs in the repo or default config.
+6. **Legal: games database** (P5): `activity/games.json` (844 KB) lists detectable game executables; if derived from
+   Discord's detectable-apps list the same question applies. Decide before porting activity detection.
+7. **Legal / licences of bundled sounds**: 14 packs include sounds taken from Element, Cinny, FluffyChat, Commet and
+   console-style packs (Mega Drive / NES). `packages/sounds/LICENSES.md` exists; owner should confirm it is complete
+   before store release.
+8. **Apple / signing**: unsigned iOS IPA and macOS builds are fine for sideloading only; App Store / notarisation needs the
+   owner's Apple account. Windows code signing and the updater private key (`TAURI_SIGNING_PRIVATE_KEY` in CI) are
+   owner-held (D7, D16).
+9. **Widgets** (I5): needs a core-side widget driver plus a security review; Mudrix itself shipped several hardening
+   commits here. Decide whether widgets are in scope at all (all three apps list widget entries as unsupported).
+10. **Namespace**: new data is written as `io.github.kapsikkum.mudrix.*` (read `chat.mudrix.*`, `org.wizardchat.*`) but
+    the custom status profile field is still `org.wizardchat.status` and the watch topic stays WizardChat's. Decide
+    whether data written by the new app must stay readable by the old WizardChat app (affects K1, P6, C6).
+11. **Session name** (D14): old desktop registered sessions as "Mudrix Desktop"; the new app keeps WizardChat naming
+    (CI has a branding gate). Decide the product / session name.
+12. **Server-dependent features**: T1 (send later) needs MSC4140 on the homeserver; P8 homeserver software badge only
+    works in browsers for servers that allow cross-site federation GETs; M3/N4 depend on the server's media config.
+13. **Rust-SDK sliding sync cannot deliver custom state** (R1, R2, R3, R4, S5): web refreshes space / room custom state
+    with `/state` requests (60 s caches). Core additions (`addRequiredState`, `stateEventsWithSender`,
+    `showStateEventTypes`) are wanted; they are not impossible but are not available today.
+
+## Work packages
+
+Ordered so core / RPC work lands first, then web (reference per `docs/CONTRIBUTING.md`), then desktop, then native
+ports. Sizes: S under a day, M one to three days, L a week or more (per platform unless stated).
+
+### WP1. Core: timeline, profile and crypto RPCs (L, first)
+
+Items: T1, T2, T3, T13, P7, R2/R4/R1 perf (state calls), K8 (native export / import only), N4/N5/R8/R10 verification.
+
+- `sendDelayedEvent`, `listDelayedEvents`, `cancelDelayedEvent`, `sendDelayedEventNow` (ruma `delayed_events`; `core/calls.rs` already uses `delayed_state_event`) [T1].
+- `timestampToEvent(room, ts, dir)` and an event-focused timeline (check that `timelineOf` / `TimelineKind` can focus an event; add if not) [T2].
+- `eventEditHistory(room, event_id)` via relations [T3].
+- `shield` (and reason) on `TimelineEntry` from the SDK's timeline item [T13].
+- `setRoomMemberProfile(room, display_name?, avatar?)` (or document the `setStateEvent` recipe for the own member event) [P7].
+- `addRequiredState(types)`, `stateEventsWithSender(room, types)`, `showStateEventTypes(types)` [R1-R4].
+- native-only `exportRoomKeys(path, passphrase)` / `importRoomKeys(path, passphrase)` behind `cfg(not(wasm))` [K8].
+- Scenario tests for unread / DM heuristic / hierarchy perf using the test server (E1) [N4, R8, R10].
+- Files: `crates/core/src/{timeline,room_admin,account,content,rooms}.rs`, `crates/core/src/rpc/*`, then `npm run core:types`.
+- Depends on: nothing. Everything below that uses these RPCs depends on it.
+
+### WP2. Web/Desktop: timeline and room-list completion (M)
+
+Items: T1-T3, T13, T17/A16, T19, M14, N5, N6, R15, C17, R12, K12.
+
+- Send-later modal + scheduled list; wire the Jump-to-date button (dead `setShowJumpToDate`) to a modal; Edit history modal from "(edited)"; per-message shield; render `profileChange` lines and read `hideMembershipEvents` / `hideProfileEvents`; sticker-pack preview; Mark unread, Low-priority group, move up/down and make-voice-channel entries in the room menu; in-room search load-more + encrypted note; About updates section (check now, pre-releases).
+- Files: `apps/web/src/app/features/timeline/{RoomHeader,Timeline,composer/Composer}.tsx`, `message/{Message,content}.tsx`, new `ScheduleMessageModal.tsx`, `JumpToDateModal.tsx`, `EditHistoryModal.tsx`, `StickerPackPreviewModal.tsx`, `hooks/useTimeline.ts`, `pages/client/{RoomListItem,RoomListPanel}.tsx`, `settings/about/About.tsx`, all 11 locale files.
+- Depends on: WP1 (T1-T3, T13).
+
+### WP3. Web/Desktop: profile, cosmetics, activity, packs (L)
+
+Items: P1 (banner crop editor), P2b, P4 (Settings > Activity, status line in member rows, custom Playing apps), P7, P9 (Badges list), M15 (pack size meter / split / resume), M11 (favourite from message + Recent tab), K5 (DeveloperTools), A10 (spellcheck), K10 (safeUrl, frame guard), A4 (wire system accent).
+
+- Files: `settings/{cosmetics,activity,developer}/*`, `room/roomsettings/{CosmeticPackPreview,PackStatus,PackEditor,EmojiStickerPanel}.tsx`, `util/spellcheck/*`, `composer/editor/useSpellcheck.ts`, `profile/ProfileExtras.tsx`, `hooks/useSpaceNicknames.ts`, `pages/client/spaceContextMenu.tsx`.
+- Depends on: WP1 (P7) and the owner's answer on Discord-scraped art (item 5) before P2b.
+
+### WP4. Desktop shell (L)
+
+Items: A4/D12 (accent), A5 (`set_app_icon`), C9/D8 (pop-out window), C14/D9 (quality / FPS / cursor, sharing bar), P5/D13 (activity detection, after owner item 6), D7 (manual update check, pre-release switch), D3 (toast avatar), D14.
+
+- Files: `apps/desktop/src-tauri/src/{lib,shell,tray,toast,update,screen_share/*}.rs`, new `accent.rs`, `popout.rs`, `activity/*`; `apps/web/src/bridge/desktopApi.ts`, `calls/CallPopoutWindow.tsx`.
+- Depends on: WP2/WP3 only for the UI that consumes the bridge calls.
+
+### WP5. Android: Mudrix feature set (L)
+
+Items: M6, M8 (tagged sends), M9, M11, M14, M15, A4, A14, A15, A16, C2, C4 (decorations via VectorDrawable / Coil SVG), C10, C16 (move UI), P1 (banner), P2, P2b, P3 (tabs), P4 (settings, status line), P7, P10, P11, P12, P13 (idle / DND / invisible), R1 (drag, banner upload, wizard), R2, R3 (rooms panel, auto-join), R4, R6, R9, R11, R13 (decline and block), S4, S5 (edit clips, room settings, mute), S6, T1-T3, T11, T13, T18, K5, K6 (QR, link device), K12, X1, Y1, Y2, N5, N6.
+
+- Files: `apps/android/app/src/main/kotlin/org/wizardchat/android/{ui,matrix,push}/*`, `res/values*` from `npm run i18n`.
+- Depends on: WP1 (T1-T3, T13, P7); WP2 for the reference behaviour; owner items 2-5.
+
+### WP6. iOS: same set, plus verification (L, plus a compile pass first)
+
+Items: same as WP5 with iOS specifics (M1 verify, no Y1/Y2; Y3 per owner; QR already present; C16 done).
+
+- First task (S/M): compile and run the existing iOS rows (everything in "iOS port status" was written blind), fix errors, run XCTest targets.
+- Files: `apps/ios/WizardChat/{Views,Matrix,Media,Integrations}/*`, `Localizable` from `npm run i18n`.
+- Depends on: WP1, WP5 for behaviour parity, owner item 3.
+
+### WP7. Native baseline gaps (M per platform)
+
+Items: B1-B9 (forward, block invites, knock, room upgrade, room General admin, report room, start user verification, QR on Android, formatting toolbar).
+
+- Files: Android `ui/room/RoomScreen.kt`, `ui/people/RoomInfo.kt`, `ui/settings/GeneralSettings.kt`, `ui/login/*`; iOS `Views/People/RoomInfoView.swift`, `Views/Settings/*`, `Views/Messages/MessageMenu.swift`.
+- Depends on: nothing (core RPCs exist).
+
+### WP8. Spaces / rooms parity on native + shared leftovers (M)
+
+Items: R1 (drag reorder, banner upload, wizard), R3 (rooms panel, auto-join runner), R2 audit entries, R4, R9/B5, R14, T8 (pause scrollback), R11 tiles.
+
+- Depends on: WP1 state RPCs for efficiency; no hard blocker.
+
+### WP9. Widgets (L, only if the owner says yes)
+
+Item: I5. Core widget driver (`matrix_sdk::widget`), web `IntegrationWidgetDialog` + driver, native WebView hosts, security review.
+
+- Depends on: WP1 conventions; owner item 9.
+
+### WP10. Infra and quality (M)
+
+Items: E1 (local test server with call bots), E3 (release channels), Y6, N4/R8/R10 scenario tests, K10/CSP review.
+
+- Order: E1 is a prerequisite for the verification part of WP1.
+
+### Suggested order
+
+1. WP1 (core) in parallel with WP10 (E1) and the WP6 compile pass.
+2. WP2 and WP3 (web), WP7 (baseline gaps, independent).
+3. WP4 (desktop) after owner items 5-6 and the bridge needs of WP2/WP3.
+4. WP5 and WP6 (native Mudrix set) once web behaviour is stable.
+5. WP8, then WP9 only after an explicit owner decision.

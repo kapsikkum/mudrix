@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStop(owner: LifecycleOwner) {
-                lifecycleScope.launch { app.session.pauseSync(keepRunning = CallManager.shared.isInCall) }
+                lifecycleScope.launch { app.session.pauseSync(keepRunning = CallManager.shared.isInCall || app.prefs.keepAlive) }
             }
 
             override fun onStart(owner: LifecycleOwner) {

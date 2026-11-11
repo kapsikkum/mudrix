@@ -186,6 +186,7 @@ class MessageActions(
     val canRedactOthers: Boolean = false,
     val togglePin: (ChatEntry) -> Unit = {},
     val report: (ChatEntry) -> Unit = {},
+    val forward: (ChatEntry) -> Unit = {},
     val viewSource: (ChatEntry) -> Unit = {},
     val openThread: ((ChatEntry) -> Unit)? = null,
     /** Set only in unencrypted rooms */
@@ -218,6 +219,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     var canPin by remember { mutableStateOf(false) }
     var canRedactOthers by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf<ChatEntry?>(null) }
+    var forwarding by remember { mutableStateOf<ChatEntry?>(null) }
+    var replacementRoom by remember { mutableStateOf<String?>(null) }
     var sourceText by remember { mutableStateOf<String?>(null) }
     var linkPreviews by remember { mutableStateOf<LinkPreviewLoader?>(null) }
     var profileUserId by remember { mutableStateOf<String?>(null) }
@@ -334,6 +337,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     LaunchedEffect(timeline) { timeline.start() }
     // Looking at a thread marks its replies as seen (the unread dot in the inbox)
     if (threadRoot != null) LaunchedEffect(threadRoot, timeline.entries.size) { org.wizardchat.android.matrix.ThreadLastSeen.markSeen(threadRoot) }
+    LaunchedEffect(room.id, room.isTombstoned) {
+        replacementRoom = if (room.isTombstoned) runCatching { client.localRoomSettings(room.id) }.getOrNull()?.tombstone?.replacementRoom else null
+    }
     LaunchedEffect(timeline) {
         val details = runCatching { client.roomDetails(room.id) }.getOrNull()
         if (details?.isEncrypted == false) linkPreviews = LinkPreviewLoader(client)
@@ -412,6 +418,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         canRedactOthers = canRedactOthers,
         togglePin = { entry -> scope.launch { timeline.togglePin(entry) } },
         report = { reporting = it },
+        forward = { forwarding = it },
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
         linkPreviews = linkPreviews,
@@ -508,6 +515,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                     textAlign = TextAlign.Center,
                 )
             }
+            if (threadRoot == null) replacementRoom?.let { TombstoneBanner(room.id, it) }
             org.wizardchat.android.ui.composer.IdentityWarning(room.id, client, room.isEncrypted)
             if (LocalSession.current.connectionLost) {
                 OfflineStatus()
@@ -548,6 +556,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             navigator.push(Route.Thread(room.id, root))
         }
     }
+    forwarding?.let { entry -> entry.eventId?.let { ForwardSheet(room.id, it) { forwarding = null } } }
     sourceText?.let { SourceSheet(it) { sourceText = null } }
     reporting?.let { entry -> ReportDialog(onDismiss = { reporting = null }) { reason ->
         scope.launch { if (timeline.reportMessage(entry, reason)) CopyToast.show(L10n.format("timeline.reported")) }
@@ -1012,7 +1021,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                 if (!isCompact && entry.isGrouped) {
                     Spacer(Modifier.width(WZ.SizeAvatar.md))
                 } else if (!isCompact) {
-                    Avatar(
+                    org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                        entry.sender,
                         entry.senderName,
                         entry.senderAvatarUrl,
                         WZ.SizeAvatar.md,
@@ -1577,6 +1587,9 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                         CopyToast.show(L10n.format("timeline.saveFailed", e.message ?: ""))
                     }
                 }
+            }
+            if (entry.isContent && entry.kind !is ChatEntry.Kind.Redacted && entry.kind !is ChatEntry.Kind.Undecryptable) {
+                item(tr("timeline.forward"), "arrow-circle-right") { actions.forward(entry) }
             }
             item(tr("timeline.remind.title"), "alarm", action = onRemind)
             item(tr("timeline.viewSource"), "code") { actions.viewSource(entry) }

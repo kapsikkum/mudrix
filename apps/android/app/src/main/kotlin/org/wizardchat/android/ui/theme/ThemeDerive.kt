@@ -67,6 +67,20 @@ object ThemeDerive {
     /** The built-in theme whose status, presence and username colours a custom theme borrows */
     private fun firstOfScheme(dark: Boolean): WZ.Theme = WZ.Theme.entries.firstOrNull { it.isDark == dark } ?: WZ.Theme.entries.first()
 
+    /** The colours of a theme with another accent: everything [build] derives from the accent follows it */
+    fun withAccent(colors: WZ.ThemeColors, accent: String, light: Boolean): WZ.ThemeColors {
+        val hover = mixHex(accent, "#000000", 0.18)
+        return colors.copy(
+            bgActive = parse(withAlpha(accent, if (light) 0.14 else 0.2)),
+            accentDefault = parse(accent),
+            accentHover = parse(hover),
+            accentSoft = parse(withAlpha(accent, if (light) 0.12 else 0.15)),
+            accentGlow1 = parse(withAlpha(accent, 0.05)),
+            accentGlow2 = parse(withAlpha(accent, 0.03)),
+            borderFocus = parse(if (light) hover else mixHex(accent, "#ffffff", 0.35)),
+        )
+    }
+
     fun build(spec: ThemeSpec): WZ.ThemeColors {
         val light = isLightColor(spec.bgPrimary)
         val base = firstOfScheme(dark = !light).colors
