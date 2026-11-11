@@ -162,9 +162,18 @@ export declare const defaultThemeId: ThemeId;
 export declare const media: ${JSON.stringify(media, null, 2)};
 `;
 
+// Themes may hold `rgba(r, g, b, a)` (the web's form); the native outputs want #rrggbb[aa]
+const toHex = (color) => {
+  const m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:\s*[,/]\s*([\d.]+)(%?))?\s*\)$/.exec(color.trim());
+  if (!m) return color;
+  const byte = (n) => Math.round(Math.min(255, Math.max(0, Number(n)))).toString(16).padStart(2, '0');
+  const alpha = m[4] === undefined ? 1 : Number(m[4]) / (m[5] ? 100 : 1);
+  return `#${byte(m[1])}${byte(m[2])}${byte(m[3])}${byte(alpha * 255)}`;
+};
+
 // Swift
-const swiftHex = (hex) => {
-  const h = hex.replace('#', '');
+const swiftHex = (value) => {
+  const h = toHex(value).replace('#', '');
   const [r, g, b, a = 'ff'] = h.match(/../g);
   const f = (x) => (parseInt(x, 16) / 255).toFixed(3);
   return `Color(.sRGB, red: ${f(r)}, green: ${f(g)}, blue: ${f(b)}, opacity: ${f(a)})`;
@@ -262,8 +271,8 @@ ${themes
 `;
 
 // Kotlin (Compose)
-const kotlinHex = (hex) => {
-  const h = hex.replace('#', '');
+const kotlinHex = (value) => {
+  const h = toHex(value).replace('#', '');
   const [r, g, b, a = 'ff'] = h.match(/../g);
   return `Color(0x${(a + r + g + b).toUpperCase()})`;
 };
@@ -340,7 +349,8 @@ const appBackground = (id) => {
   if (!theme) throw new Error(`System theme "${id}" not found`);
   return theme.tokens.find((t) => key(t) === 'color.bg.app').value;
 };
-const colorsetColor = (hex) => {
+const colorsetColor = (value) => {
+  const hex = toHex(value);
   const [r, g, b] = [1, 3, 5].map((i) => `0x${hex.slice(i, i + 2).toUpperCase()}`);
   return { 'color-space': 'srgb', components: { red: r, green: g, blue: b, alpha: '1.000' } };
 };
