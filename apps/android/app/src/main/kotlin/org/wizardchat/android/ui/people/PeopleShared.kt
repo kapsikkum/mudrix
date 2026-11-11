@@ -396,28 +396,34 @@ internal fun PersonRow(
     nameColor: Color? = null,
     trailing: @Composable () -> Unit = {},
 ) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .then(if (onClick != null) Modifier.clickable(enabled = enabled, onClick = onClick) else Modifier)
-            .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
-    ) {
-        org.wizardchat.android.ui.Avatar(name ?: userId, avatarUrl, WZ.SizeAvatar.md)
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space0)) {
-            Text(
-                name ?: userId,
-                style = wizardFont(WZ.FontSize.lg, FontWeight.Medium),
-                color = nameColor ?: theme.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            if (name != null) {
-                Text(userId, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    val cosmetics = org.wizardchat.android.ui.cosmetics.rememberCosmetics(userId)
+    org.wizardchat.android.ui.cosmetics.NameplateBox(cosmetics?.nameplate, Modifier.fillMaxWidth()) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .then(if (onClick != null) Modifier.clickable(enabled = enabled, onClick = onClick) else Modifier)
+                .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+        ) {
+            org.wizardchat.android.ui.cosmetics.CosmeticAvatar(userId, name ?: userId, avatarUrl, WZ.SizeAvatar.md)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space0)) {
+                Text(
+                    name ?: userId,
+                    style = wizardFont(WZ.FontSize.lg, FontWeight.Medium),
+                    color = nameColor ?: theme.textPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                val activity = cosmetics?.activities?.firstOrNull()?.let { org.wizardchat.android.ui.cosmetics.activityLine(it) }
+                if (activity != null) {
+                    Text(activity, style = wizardFont(WZ.FontSize.sm), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                } else if (name != null) {
+                    Text(userId, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
             }
+            trailing()
         }
-        trailing()
     }
 }
 

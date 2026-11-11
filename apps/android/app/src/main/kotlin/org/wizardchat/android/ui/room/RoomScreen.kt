@@ -1021,7 +1021,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                 if (!isCompact && entry.isGrouped) {
                     Spacer(Modifier.width(WZ.SizeAvatar.md))
                 } else if (!isCompact) {
-                    Avatar(
+                    org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                        entry.sender,
                         entry.senderName,
                         entry.senderAvatarUrl,
                         WZ.SizeAvatar.md,

@@ -176,6 +176,7 @@ internal fun AccountSettings(onBack: () -> Unit) {
             CopyRow(tr("auth.username"), session.userId ?: "", sensitive = true)
         }
         AboutMeSection()
+        CosmeticsSection()
 
         SettingsSection(title = tr("status.title")) {
             SettingsItem {

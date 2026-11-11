@@ -265,11 +265,14 @@ internal fun ProfileNote(userId: String) {
 
 /** The profile picture, with a ring in the person's accent colour when they chose one */
 @Composable
-internal fun AccentAvatar(name: String, url: String?, accent: String?) {
+internal fun AccentAvatar(name: String, url: String?, accent: String?, decoration: String? = null) {
     val color = accentColor(accent)
-    if (color == null) {
-        Avatar(name, url, WZ.SizeAvatar.xl)
-    } else {
-        Box(Modifier.border(3.dp, color, CircleShape).padding(3.dp)) { Avatar(name, url, WZ.SizeAvatar.xl) }
+    Box(contentAlignment = Alignment.Center) {
+        if (color == null) {
+            Avatar(name, url, WZ.SizeAvatar.xl)
+        } else {
+            Box(Modifier.border(3.dp, color, CircleShape).padding(3.dp)) { Avatar(name, url, WZ.SizeAvatar.xl) }
+        }
+        org.wizardchat.android.ui.cosmetics.DecorationOverlay(decoration, WZ.SizeAvatar.xl)
     }
 }

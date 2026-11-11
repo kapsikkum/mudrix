@@ -205,7 +205,13 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
         if (camera != null) {
             CallVideoView(camera, participant.connection, fill = true, mirror = participant.isLocal, Modifier.fillMaxSize())
         } else {
-            Avatar(name, avatarUrl, WZ.SizeAvatar.lg, modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f))
+            org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                participant.userId,
+                name,
+                avatarUrl,
+                WZ.SizeAvatar.lg,
+                modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f),
+            )
         }
         AnimatedContent(
             participant.reaction,

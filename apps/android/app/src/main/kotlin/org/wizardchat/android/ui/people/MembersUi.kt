@@ -320,13 +320,17 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
         SheetBar("", trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
         FormList {
             item {
+                val appContext = androidx.compose.ui.platform.LocalContext.current
+                val cosmetics = remember(extended) { org.wizardchat.android.ui.cosmetics.CosmeticCatalog.resolve(appContext, extended) }
+                org.wizardchat.android.ui.cosmetics.FrameBox(cosmetics.frame, Modifier.fillMaxWidth()) {
+                org.wizardchat.android.ui.cosmetics.NameplateBox(cosmetics.nameplate, Modifier.fillMaxWidth()) {
                 Column(
                     Modifier.fillMaxWidth().padding(top = WZ.Space.space4, start = WZ.Space.space6, end = WZ.Space.space6),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                 ) {
                     ProfileBanner(userId)
-                    AccentAvatar(name ?: userId, avatarUrl, extended.accent)
+                    AccentAvatar(name ?: userId, avatarUrl, extended.accent, cosmetics.decoration)
                     Text(
                         name ?: userId,
                         style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
@@ -342,6 +346,8 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     if (isMember) RoleBadge(level)
                     ProfileBadges(extended.isMudrixUser, software)
                     ProfileAbout(extended, name ?: userId)
+                }
+                }
                 }
             }
             if (!isMe) item { ProfileNote(userId) }

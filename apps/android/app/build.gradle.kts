@@ -110,6 +110,9 @@ android {
         }
     }
 
+    // The cosmetics art and lists come from the web app (apps/web/public/assets, src/util/builtinCosmetics)
+    sourceSets["main"].assets.srcDir(layout.buildDirectory.dir("generated/cosmetics"))
+
     // Shared with the other apps: colours (npm run tokens), translations (npm run i18n), icons
     // (npm run icons), sounds (packages/sounds/raw), emoji (npm run emoji) and the release notes (whatsnew/)
     sourceSets["main"].apply {
@@ -130,6 +133,16 @@ android {
         jniLibs.useLegacyPackaging = false
     }
 }
+
+val syncCosmetics = tasks.register<Sync>("syncCosmetics") {
+    val web = rootProject.layout.projectDirectory.dir("../web")
+    into(layout.buildDirectory.dir("generated/cosmetics/cosmetics"))
+    from(web.dir("public/assets/decorations")) { into("decorations") }
+    from(web.dir("public/assets/frames")) { into("frames") }
+    from(web.dir("public/assets/nameplates")) { into("nameplates") }
+    from(web.dir("src/util/builtinCosmetics")) { include("*.json") }
+}
+tasks.named("preBuild") { dependsOn(syncCosmetics) }
 
 kotlin {
     compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
@@ -158,6 +171,8 @@ dependencies {
     implementation(libs.media3.effect)
     // QR codes for signing in a device: drawing one and reading one from the camera (pure Java, 0.5 MB)
     implementation(libs.zxing.core)
+    // Draws the SVG art of avatar decorations, nameplates and profile frames (0.3 MB)
+    implementation(libs.androidsvg)
     testImplementation(libs.junit)
     when (pushMode) {
         "fcm" -> implementation(libs.firebase.messaging)

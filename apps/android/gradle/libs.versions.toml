@@ -16,6 +16,7 @@ media3 = "1.8.0"
 junit = "4.13.2"
 firebase-messaging = "26.0.1"
 unifiedpush = "3.3.5"
+androidsvg = "1.4"
 zxing = "3.5.3"
 
 [libraries]
@@ -44,6 +45,7 @@ media3-effect = { group = "androidx.media3", name = "media3-effect", version.ref
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebase-messaging" }
+androidsvg = { group = "com.caverock", name = "androidsvg-aar", version.ref = "androidsvg" }
 unifiedpush-connector = { group = "org.unifiedpush.android", name = "connector", version.ref = "unifiedpush" }
 
 [plugins]
