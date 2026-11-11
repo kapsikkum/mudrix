@@ -4,7 +4,7 @@ import AVFoundation
 /// that follow the user's sound settings go through `Sounds`.
 @MainActor
 enum CallSounds {
-    static let defaultVolume: Float = 0.5
+    nonisolated static let defaultVolume: Float = 0.5
     private static var playing: [AVAudioPlayer] = []
     private static let toggles = [
         "mute": "mute", "unmute": "mute", "deafen": "deafen", "undeafen": "deafen",

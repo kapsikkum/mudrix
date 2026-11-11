@@ -35,7 +35,7 @@ on:
     inputs:
       xcode-version:
         description: Xcode version to select (must ship the iOS 18 SDK or newer)
-        default: '16.4'
+        default: '26'
         type: string
       run-tests:
         description: Run the XCTest target after the build
