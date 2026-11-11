@@ -827,7 +827,13 @@
       "notFound": "Aucun message trouvé autour de cette date.",
       "unsupported": "Votre serveur d'accueil ne permet pas d'aller à une date.",
       "failed": "Impossible d'aller à cette date."
-    }
+    },
+    "lowPriority": "Priorité basse",
+    "addLowPriority": "Marquer comme priorité basse",
+    "removeLowPriority": "Retirer de la priorité basse",
+    "toggleLowPriorityFailed": "Impossible de mettre à jour la priorité basse : {{error}}",
+    "markUnread": "Marquer comme non lu",
+    "markUnreadFailed": "Impossible de marquer comme non lu : {{error}}"
   },
   "developer": {
     "title": "Developer",

@@ -827,7 +827,13 @@
       "notFound": "Bu tarih civarında mesaj bulunamadı.",
       "unsupported": "Ana sunucunuz tarihe geçişi desteklemiyor.",
       "failed": "Bu tarihe geçilemedi."
-    }
+    },
+    "lowPriority": "Düşük öncelik",
+    "addLowPriority": "Düşük öncelikli olarak işaretle",
+    "removeLowPriority": "Düşük önceliği kaldır",
+    "toggleLowPriorityFailed": "Düşük öncelik güncellenemedi: {{error}}",
+    "markUnread": "Okunmadı olarak işaretle",
+    "markUnreadFailed": "Okunmadı olarak işaretlenemedi: {{error}}"
   },
   "developer": {
     "title": "Developer",

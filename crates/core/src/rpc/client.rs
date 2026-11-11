@@ -158,6 +158,11 @@ rpc_methods! {
             this.set_favourite(&room_id, favourite).await
         }
 
+        /// Moves a room to the low priority group (or back); a favourite stops being one.
+        call fn setLowPriority(room_id: String, low_priority: bool) -> () {
+            this.set_low_priority(&room_id, low_priority).await
+        }
+
         call fn setMarkedUnread(room_id: String, unread: bool) -> () {
             this.set_marked_unread(&room_id, unread).await
         }

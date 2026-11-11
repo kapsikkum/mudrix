@@ -827,7 +827,13 @@
       "notFound": "Er zijn geen berichten rond die datum gevonden.",
       "unsupported": "Je homeserver ondersteunt niet springen naar een datum.",
       "failed": "Kon niet naar die datum springen."
-    }
+    },
+    "lowPriority": "Lage prioriteit",
+    "addLowPriority": "Markeren als lage prioriteit",
+    "removeLowPriority": "Lage prioriteit verwijderen",
+    "toggleLowPriorityFailed": "Lage prioriteit bijwerken mislukt: {{error}}",
+    "markUnread": "Markeren als ongelezen",
+    "markUnreadFailed": "Markeren als ongelezen mislukt: {{error}}"
   },
   "developer": {
     "title": "Developer",

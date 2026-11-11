@@ -827,7 +827,13 @@
       "notFound": "Keine Nachrichten um dieses Datum gefunden.",
       "unsupported": "Dein Homeserver unterstützt das Springen zu einem Datum nicht.",
       "failed": "Sprung zu diesem Datum fehlgeschlagen."
-    }
+    },
+    "lowPriority": "Niedrige Priorität",
+    "addLowPriority": "Als niedrige Priorität markieren",
+    "removeLowPriority": "Niedrige Priorität entfernen",
+    "toggleLowPriorityFailed": "Niedrige Priorität konnte nicht aktualisiert werden: {{error}}",
+    "markUnread": "Als ungelesen markieren",
+    "markUnreadFailed": "Konnte nicht als ungelesen markiert werden: {{error}}"
   },
   "developer": {
     "title": "Entwickler",

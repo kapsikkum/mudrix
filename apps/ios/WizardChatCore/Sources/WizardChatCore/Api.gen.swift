@@ -3111,6 +3111,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
         _ = try await call("WizardClient.setFavourite", [.value(roomId), .value(favourite)]) as Empty
     }
 
+    /// Moves a room to the low priority group (or back); a favourite stops being one.
+    public func setLowPriority(roomId: String, lowPriority: Bool) async throws {
+        _ = try await call("WizardClient.setLowPriority", [.value(roomId), .value(lowPriority)]) as Empty
+    }
+
     public func setMarkedUnread(roomId: String, unread: Bool) async throws {
         _ = try await call("WizardClient.setMarkedUnread", [.value(roomId), .value(unread)]) as Empty
     }

@@ -1740,6 +1740,14 @@ export class WizardClient extends Remote {
     return runtime.call('WizardClient.setFavourite', this, [roomId, favourite]) as Promise<void>;
   }
 
+  /** Moves a room to the low priority group (or back); a favourite stops being one. */
+  setLowPriority(roomId: string, lowPriority: boolean): Promise<void> {
+    return runtime.call('WizardClient.setLowPriority', this, [
+      roomId,
+      lowPriority,
+    ]) as Promise<void>;
+  }
+
   setMarkedUnread(roomId: string, unread: boolean): Promise<void> {
     return runtime.call('WizardClient.setMarkedUnread', this, [roomId, unread]) as Promise<void>;
   }

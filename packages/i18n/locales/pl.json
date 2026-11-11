@@ -827,7 +827,13 @@
       "notFound": "Nie znaleziono wiadomości z okolic tej daty.",
       "unsupported": "Twój serwer domowy nie obsługuje przechodzenia do daty.",
       "failed": "Nie udało się przejść do tej daty."
-    }
+    },
+    "lowPriority": "Niski priorytet",
+    "addLowPriority": "Oznacz jako niski priorytet",
+    "removeLowPriority": "Usuń niski priorytet",
+    "toggleLowPriorityFailed": "Nie udało się zaktualizować priorytetu: {{error}}",
+    "markUnread": "Oznacz jako nieprzeczytane",
+    "markUnreadFailed": "Nie udało się oznaczyć jako nieprzeczytane: {{error}}"
   },
   "developer": {
     "title": "Developer",

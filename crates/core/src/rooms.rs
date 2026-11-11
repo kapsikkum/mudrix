@@ -714,6 +714,14 @@ impl WizardClient {
             .await?)
     }
 
+    /// Tags or untags a room as low priority (favourite and low priority exclude each other)
+    pub async fn set_low_priority(&self, room_id: &str, low_priority: bool) -> Result<()> {
+        Ok(self
+            .room(room_id)?
+            .set_is_low_priority(low_priority, None)
+            .await?)
+    }
+
     pub async fn set_marked_unread(&self, room_id: &str, unread: bool) -> Result<()> {
         Ok(self.room(room_id)?.set_unread_flag(unread).await?)
     }

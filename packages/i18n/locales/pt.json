@@ -827,7 +827,13 @@
       "notFound": "Nenhuma mensagem encontrada em torno dessa data.",
       "unsupported": "Seu homeserver não permite ir para uma data.",
       "failed": "Não foi possível ir para essa data."
-    }
+    },
+    "lowPriority": "Baixa prioridade",
+    "addLowPriority": "Marcar como baixa prioridade",
+    "removeLowPriority": "Remover da baixa prioridade",
+    "toggleLowPriorityFailed": "Não foi possível atualizar a baixa prioridade: {{error}}",
+    "markUnread": "Marcar como não lida",
+    "markUnreadFailed": "Não foi possível marcar como não lida: {{error}}"
   },
   "developer": {
     "title": "Developer",

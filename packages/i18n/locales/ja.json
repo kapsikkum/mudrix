@@ -827,7 +827,13 @@
       "notFound": "その日付付近のメッセージは見つかりませんでした。",
       "unsupported": "お使いのホームサーバーは日付への移動に対応していません。",
       "failed": "その日付に移動できませんでした。"
-    }
+    },
+    "lowPriority": "低優先度",
+    "addLowPriority": "低優先度に設定",
+    "removeLowPriority": "低優先度を解除",
+    "toggleLowPriorityFailed": "低優先度を更新できませんでした: {{error}}",
+    "markUnread": "未読にする",
+    "markUnreadFailed": "未読にできませんでした: {{error}}"
   },
   "developer": {
     "title": "Developer",

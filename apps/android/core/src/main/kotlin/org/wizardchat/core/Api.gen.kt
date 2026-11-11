@@ -2091,6 +2091,11 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         Runtime.callUnit("WizardClient.setFavourite", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(favourite)))
     }
 
+    /** Moves a room to the low priority group (or back); a favourite stops being one. */
+    suspend fun setLowPriority(roomId: String, lowPriority: Boolean) {
+        Runtime.callUnit("WizardClient.setLowPriority", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(lowPriority)))
+    }
+
     suspend fun setMarkedUnread(roomId: String, unread: Boolean) {
         Runtime.callUnit("WizardClient.setMarkedUnread", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(unread)))
     }

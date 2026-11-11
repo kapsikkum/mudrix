@@ -827,7 +827,13 @@
       "notFound": "Nessun messaggio trovato intorno a quella data.",
       "unsupported": "Il tuo homeserver non supporta il salto a una data.",
       "failed": "Impossibile saltare a quella data."
-    }
+    },
+    "lowPriority": "Bassa priorità",
+    "addLowPriority": "Segna come bassa priorità",
+    "removeLowPriority": "Rimuovi da bassa priorità",
+    "toggleLowPriorityFailed": "Impossibile aggiornare la bassa priorità: {{error}}",
+    "markUnread": "Segna come non letto",
+    "markUnreadFailed": "Impossibile segnare come non letto: {{error}}"
   },
   "developer": {
     "title": "Developer",

@@ -827,7 +827,13 @@
       "notFound": "No messages found around that date.",
       "unsupported": "Your homeserver doesn't support jumping to a date.",
       "failed": "Couldn't jump to that date."
-    }
+    },
+    "lowPriority": "Low priority",
+    "addLowPriority": "Mark as low priority",
+    "removeLowPriority": "Remove low priority",
+    "toggleLowPriorityFailed": "Couldn't update low priority: {{error}}",
+    "markUnread": "Mark as unread",
+    "markUnreadFailed": "Couldn't mark as unread: {{error}}"
   },
   "developer": {
     "title": "Developer",

@@ -17,10 +17,15 @@ import {
   FolderSimpleIcon,
   FolderSimplePlusIcon,
   FolderSimpleMinusIcon,
+  EnvelopeSimpleIcon,
+  ArrowLineDownIcon,
+  SpeakerHighIcon,
+  HashStraightIcon,
 } from '@phosphor-icons/react';
 import {
   roomSettingsRoomIdAtom,
   favouriteRoomsAtom,
+  lowPriorityRoomsAtom,
   currentSpaceIdAtom,
   sidebarViewAtom,
   presenceMapAtom,
@@ -43,6 +48,12 @@ import type { NotifLevel } from '@/app/hooks/useNotifications';
 import { ChatListItem } from './ChatListItem';
 import { getErrorMessage } from '@/util/error';
 import { makeRoomPermalink } from '@/util/matrix';
+import { useCanSendState } from '@/app/hooks/useCanSendState';
+import {
+  VOICE_CHANNEL_STATE_TYPE,
+  setVoiceChannel,
+  useVoiceChannelFlag,
+} from '@/app/features/room/voiceChannel';
 import { roomSectionsAtom, roomTagNamesAtom, useRoom } from '@/app/data';
 import type { RoomEntry } from '@/app/features/room/useRooms';
 import type { DmEntry } from '@/app/hooks/useDms';
@@ -121,6 +132,13 @@ export const RoomListItem = memo(function RoomListItem({
   const showRoomAvatars = avatarsOn && !modernStyle;
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const favourite = useAtomValue(favouriteRoomsAtom).has(entry.roomId);
+  const lowPriority = useAtomValue(lowPriorityRoomsAtom).has(entry.roomId);
+  // Modern spaces can turn a text room into a voice channel (and back); real voice rooms are fixed.
+  // Only Modern lists look up whether the person may.
+  const modernMenu = useAtomValue(activeRoomListStyleAtom) === 'modern';
+  const isFlaggedVoice = useVoiceChannelFlag(entry.roomId);
+  const canFlagVoice = useCanSendState(modernMenu ? entry.roomId : null)(VOICE_CHANNEL_STATE_TYPE);
+  const offerVoiceFlag = modernMenu && canFlagVoice && !entry.room.isVoice;
   const sidebarView = useAtomValue(sidebarViewAtom);
   const currentSpaceId = useAtomValue(currentSpaceIdAtom);
   const prompt = usePrompt();
@@ -134,7 +152,10 @@ export const RoomListItem = memo(function RoomListItem({
     const fail = (err: unknown) =>
       toast.error(t('room.sections.failed', { error: getErrorMessage(err) }));
     const move = (tag: string | null) => {
-      if (client) client.setRoomSection(entry.roomId, tag).catch(fail);
+      if (!client) return;
+      // A section is a place in the normal list, so the room leaves low priority for it
+      const leaveLow = lowPriority ? client.setLowPriority(entry.roomId, false) : Promise.resolve();
+      leaveLow.then(() => client.setRoomSection(entry.roomId, tag)).catch(fail);
     };
     const context = sidebarView === 'space' && currentSpaceId ? currentSpaceId : HOME_SPACE;
     return {
@@ -171,7 +192,7 @@ export const RoomListItem = memo(function RoomListItem({
           : []),
       ],
     };
-  }, [client, store, entry.roomId, sidebarView, currentSpaceId, prompt, toast, t]);
+  }, [client, store, entry.roomId, lowPriority, sidebarView, currentSpaceId, prompt, toast, t]);
 
   const handleClick = useCallback(() => {
     onSelect(entry.roomId);
@@ -185,6 +206,29 @@ export const RoomListItem = memo(function RoomListItem({
     if (!client) return;
     void markRoomAsRead(client, entry.roomId, sendReadReceipts);
   }, [client, entry.roomId, sendReadReceipts]);
+
+  const handleMarkAsUnread = useCallback(() => {
+    if (!client) return;
+    client
+      .setMarkedUnread(entry.roomId, true)
+      .catch((err) => toast.error(t('room.markUnreadFailed', { error: getErrorMessage(err) })));
+  }, [client, entry.roomId, toast, t]);
+
+  const handleToggleLowPriority = useCallback(async () => {
+    if (!client) return;
+    try {
+      await client.setLowPriority(entry.roomId, !lowPriority);
+    } catch (err) {
+      toast.error(t('room.toggleLowPriorityFailed', { error: getErrorMessage(err) }));
+    }
+  }, [client, entry.roomId, lowPriority, toast, t]);
+
+  const handleToggleVoiceChannel = useCallback(() => {
+    if (!client) return;
+    setVoiceChannel(client, entry.roomId, !isFlaggedVoice).catch((err) =>
+      toast.error(t('room.voiceChannelFailed', { error: getErrorMessage(err) }))
+    );
+  }, [client, entry.roomId, isFlaggedVoice, toast, t]);
 
   const handleCopyLink = useCallback(() => {
     if (!room) return;
@@ -204,6 +248,19 @@ export const RoomListItem = memo(function RoomListItem({
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
       openContextMenu(e, [
+        ...(offerVoiceFlag
+          ? [
+              {
+                label: isFlaggedVoice ? t('room.makeTextChannel') : t('room.makeVoiceChannel'),
+                icon: isFlaggedVoice ? (
+                  <HashStraightIcon size={14} />
+                ) : (
+                  <SpeakerHighIcon size={14} />
+                ),
+                onClick: handleToggleVoiceChannel,
+              },
+            ]
+          : []),
         ...(entry.hasVoiceRoom
           ? [
               {
@@ -220,6 +277,12 @@ export const RoomListItem = memo(function RoomListItem({
           onClick: handleMarkAsRead,
         },
         {
+          label: t('room.markUnread'),
+          icon: <EnvelopeSimpleIcon size={14} />,
+          disabled: entry.unreadCount > 0 || entry.hasNotif,
+          onClick: handleMarkAsUnread,
+        },
+        {
           divider: true,
           label: '',
           onClick: () => {},
@@ -228,6 +291,11 @@ export const RoomListItem = memo(function RoomListItem({
           label: favourite ? t('room.removeFavourite') : t('room.addFavourite'),
           icon: <StarIcon size={14} weight={favourite ? 'fill' : 'regular'} />,
           onClick: handleToggleFavourite,
+        },
+        {
+          label: lowPriority ? t('room.removeLowPriority') : t('room.addLowPriority'),
+          icon: <ArrowLineDownIcon size={14} weight={lowPriority ? 'fill' : 'regular'} />,
+          onClick: handleToggleLowPriority,
         },
         sectionMenu(),
         {
@@ -279,6 +347,12 @@ export const RoomListItem = memo(function RoomListItem({
       handleMarkAsRead,
       handleCopyLink,
       handleToggleFavourite,
+      handleMarkAsUnread,
+      handleToggleLowPriority,
+      handleToggleVoiceChannel,
+      offerVoiceFlag,
+      isFlaggedVoice,
+      lowPriority,
       sectionMenu,
       onOpenChatOnly,
       entry.hasVoiceRoom,
@@ -332,6 +406,7 @@ export const DmListItem = memo(function DmListItem({
   onSelect,
 }: DmListItemProps) {
   const { t } = useTranslation();
+  const toast = useToast();
   const { openContextMenu } = useContextMenu();
   const roomActions = useRoomActions();
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
@@ -362,6 +437,13 @@ export const DmListItem = memo(function DmListItem({
     void markRoomAsRead(client, entry.roomId, sendReadReceipts);
   }, [client, entry.roomId, sendReadReceipts]);
 
+  const handleMarkAsUnread = useCallback(() => {
+    if (!client) return;
+    client
+      .setMarkedUnread(entry.roomId, true)
+      .catch((err) => toast.error(t('room.markUnreadFailed', { error: getErrorMessage(err) })));
+  }, [client, entry.roomId, toast, t]);
+
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
       openContextMenu(e, [
@@ -370,6 +452,12 @@ export const DmListItem = memo(function DmListItem({
           icon: <ChecksIcon size={14} />,
           disabled: entry.unreadCount === 0 && !entry.hasNotif,
           onClick: handleMarkAsRead,
+        },
+        {
+          label: t('room.markUnread'),
+          icon: <EnvelopeSimpleIcon size={14} />,
+          disabled: entry.unreadCount > 0 || entry.hasNotif,
+          onClick: handleMarkAsUnread,
         },
         {
           divider: true,
@@ -409,6 +497,7 @@ export const DmListItem = memo(function DmListItem({
       entry.unreadCount,
       entry.hasNotif,
       handleMarkAsRead,
+      handleMarkAsUnread,
       t,
       level,
       setLevel,

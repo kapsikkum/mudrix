@@ -827,7 +827,13 @@
       "notFound": "No se encontraron mensajes alrededor de esa fecha.",
       "unsupported": "Tu servidor doméstico no admite saltar a una fecha.",
       "failed": "No se pudo ir a esa fecha."
-    }
+    },
+    "lowPriority": "Baja prioridad",
+    "addLowPriority": "Marcar como baja prioridad",
+    "removeLowPriority": "Quitar de baja prioridad",
+    "toggleLowPriorityFailed": "No se pudo actualizar la baja prioridad: {{error}}",
+    "markUnread": "Marcar como no leído",
+    "markUnreadFailed": "No se pudo marcar como no leído: {{error}}"
   },
   "developer": {
     "title": "Developer",

@@ -27,6 +27,7 @@ import {
   spaceSettingsRoomIdAtom,
   mobileDrawerOpenAtom,
   favouriteRoomsAtom,
+  lowPriorityRoomsAtom,
   openRoomChatAtom,
   createCategoryOpenAtom,
 } from '@/app/store/atoms';
@@ -116,6 +117,7 @@ const noop = () => {};
 
 const HOME_FAVOURITES_CATEGORY = 'home-favourites';
 const HOME_ROOMS_CATEGORY = 'home-rooms';
+const HOME_LOW_PRIORITY_CATEGORY = 'home-lowpriority';
 
 type HomeListItem =
   | {
@@ -323,6 +325,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const callActions = useAtomValue(callActionsAtom);
   const [closedNavCategoriesArr, setClosedNavCategoriesArr] = useAtom(closedNavCategoriesAtom);
   const favouriteRooms = useAtomValue(favouriteRoomsAtom);
+  const lowPriorityRooms = useAtomValue(lowPriorityRoomsAtom);
   const navigate = useNavigate();
   const client = getMatrixClientOrNull();
   const toast = useToast();
@@ -526,6 +529,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   );
 
   const spaceFavKey = isSpaceView && currentSpaceId ? `${currentSpaceId}::favourites` : null;
+  const spaceLowKey = isSpaceView && currentSpaceId ? `${currentSpaceId}::lowpriority` : null;
   const favouriteOrdersVersion = useFavouriteOrders();
   const roomTagNames = useRoomTagNames();
   const sections = useRoomSections();
@@ -683,9 +687,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     const favSet = favouriteRooms;
 
     const favRooms: HierarchyRoomItem[] = [];
+    const lowRooms: HierarchyRoomItem[] = [];
     const nonFav: HierarchyItem[] = [];
     for (const item of hierarchyItems) {
       if (item.kind === 'room' && favSet.has(item.roomId)) favRooms.push(item);
+      else if (item.kind === 'room' && lowPriorityRooms.has(item.roomId)) lowRooms.push(item);
       else nonFav.push(item);
     }
     const grouped = groupBySection(nonFav, (i) => i.roomId);
@@ -817,7 +823,32 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       ? roomsAndHeader.filter((it) => !(it.kind === 'header' && it.item.isRoot))
       : roomsAndHeader;
     const subspacePart = split === -1 ? [] : collected.slice(split);
-    return items.concat(roomsPart, sectionBlock(false), subspacePart);
+
+    const lowBlock: SpaceListItem[] = [];
+    if (lowRooms.length > 0 && spaceLowKey) {
+      const lowClosed = isCollapsed(spaceLowKey);
+      const lowHasMention = lowRooms.some((r) => r.entry.hasNotif);
+      const lowHasNotif = lowHasMention || lowRooms.some((r) => r.entry.unreadCount > 0);
+      lowBlock.push({
+        kind: 'header',
+        item: {
+          kind: 'space',
+          roomId: spaceLowKey,
+          categoryKey: spaceLowKey,
+          name: t('room.lowPriority'),
+          avatarMxc: null,
+          hasNotif: lowHasNotif,
+          hasMention: lowHasMention,
+          isRoot: false,
+          depth: 0,
+        },
+      });
+      for (const room of lowRooms) {
+        if (lowClosed && !keepVisible(room.roomId)) continue;
+        lowBlock.push({ kind: 'room', item: room, compact: lowClosed });
+      }
+    }
+    return items.concat(roomsPart, sectionBlock(false), subspacePart, lowBlock);
   }, [
     modernList,
     groupBySection,
@@ -826,6 +857,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     currentSpaceId,
     client,
     favouriteRooms,
+    lowPriorityRooms,
+    spaceLowKey,
     hierarchyItems,
     keepVisible,
     spaceFavKey,
@@ -914,8 +947,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
     }
 
+    const lowEntries = homeRooms.filter(
+      (entry) => !favSet.has(entry.roomId) && lowPriorityRooms.has(entry.roomId)
+    );
     const grouped = groupBySection(
-      homeRooms.filter((entry) => !favSet.has(entry.roomId)),
+      homeRooms.filter((entry) => !favSet.has(entry.roomId) && !lowPriorityRooms.has(entry.roomId)),
       (e) => e.roomId
     );
     const otherEntries = grouped.rest;
@@ -946,7 +982,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       items.push({
         kind: 'header',
         itemKey,
-        label: itemKey === HOME_FAVOURITES_CATEGORY ? t('nav.favourites') : t('nav.rooms'),
+        label:
+          itemKey === HOME_FAVOURITES_CATEGORY
+            ? t('nav.favourites')
+            : itemKey === HOME_LOW_PRIORITY_CATEGORY
+              ? t('room.lowPriority')
+              : t('nav.rooms'),
         hasNotif,
         hasMention,
         showAdd: itemKey === HOME_ROOMS_CATEGORY,
@@ -971,6 +1012,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     pushSections(true);
     pushSection(HOME_ROOMS_CATEGORY, otherEntries);
     pushSections(false);
+    if (lowEntries.length > 0) pushSection(HOME_LOW_PRIORITY_CATEGORY, lowEntries);
     return items;
   }, [
     groupBySection,
@@ -979,6 +1021,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     isDmView,
     client,
     favouriteRooms,
+    lowPriorityRooms,
     homeRooms,
     keepVisible,
     favouriteOrdersVersion,
@@ -1054,11 +1097,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           group =
             headerKey === spaceFavKey
               ? 'fav'
-              : modernList
-                ? `cat:${it.item.roomId}`
-                : it.item.isRoot
-                  ? 'rooms'
-                  : 'subspaces';
+              : headerKey === spaceLowKey
+                ? 'low'
+                : modernList
+                  ? `cat:${it.item.roomId}`
+                  : it.item.isRoot
+                    ? 'rooms'
+                    : 'subspaces';
           const parent = categoryParents.get(it.item.roomId);
           rows.push({
             id: `hdr:${headerKey}`,
@@ -1100,7 +1145,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         }
         const isFavourite = headerKey !== null && headerKey === spaceFavKey;
         const closed = headerKey !== null && closedCategories.has(headerKey);
-        const allowed = !closed && (isFavourite || canEditSpace.has(it.item.parentSpaceId));
+        const isLow = headerKey !== null && headerKey === spaceLowKey;
+        const allowed =
+          !closed && !isLow && (isFavourite || canEditSpace.has(it.item.parentSpaceId));
         rows.push({
           id: it.item.roomId,
           kind: 'room',
@@ -1112,7 +1159,15 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
       return rows;
     },
-    [canEditSpace, spaceFavKey, closedCategories, modernList, categoryParents, currentSpaceId]
+    [
+      canEditSpace,
+      spaceFavKey,
+      spaceLowKey,
+      closedCategories,
+      modernList,
+      categoryParents,
+      currentSpaceId,
+    ]
   );
 
   const homeReorderRows = useCallback(
@@ -1123,7 +1178,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       for (const it of items) {
         if (it.kind === 'header') {
           headerKey = it.itemKey;
-          group = headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'rooms';
+          group =
+            headerKey === HOME_FAVOURITES_CATEGORY
+              ? 'fav'
+              : headerKey === HOME_LOW_PRIORITY_CATEGORY
+                ? 'low'
+                : 'rooms';
           rows.push({
             id: `hdr:${headerKey}`,
             kind: 'header',
@@ -1163,7 +1223,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
           id: it.entry.roomId,
           kind: 'room',
           group,
-          section: closed ? null : headerKey === HOME_FAVOURITES_CATEGORY ? 'fav' : 'home',
+          section:
+            closed || headerKey === HOME_LOW_PRIORITY_CATEGORY
+              ? null
+              : headerKey === HOME_FAVOURITES_CATEGORY
+                ? 'fav'
+                : 'home',
           label: it.entry.name,
           voice: it.entry.hasVoiceRoom,
         });
@@ -1265,12 +1330,17 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     (roomId: string, group: string) => {
       if (!client) return;
       let save: Promise<unknown>;
-      if (group === 'fav') {
+      // Low priority is its own group: leaving it for another one takes the tag off first
+      const leaveLow = (): Promise<void> =>
+        lowPriorityRooms.has(roomId) ? client.setLowPriority(roomId, false) : Promise.resolve();
+      if (group === 'low') {
+        save = client.setRoomSection(roomId, null).then(() => client.setLowPriority(roomId, true));
+      } else if (group === 'fav') {
         save = client.setRoomSection(roomId, null).then(() => client.setFavourite(roomId, true));
       } else if (group === 'rooms' || group === 'subspaces') {
-        save = client.setRoomSection(roomId, null);
+        save = leaveLow().then(() => client.setRoomSection(roomId, null));
       } else if (group.startsWith('section:')) {
-        save = client.setRoomSection(roomId, group.slice('section:'.length));
+        save = leaveLow().then(() => client.setRoomSection(roomId, group.slice('section:'.length)));
       } else if (group.startsWith('cat:')) {
         // Modern: dropped in another category (or the space itself). Both ends must be ones the
         // user may change; a room that is not in the list yet has nowhere to move from.
@@ -1288,7 +1358,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       }
       save.catch(sectionError);
     },
-    [client, sectionError, hierarchyItems, canEditSpace, spaceGraph, toast, t]
+    [client, sectionError, hierarchyItems, canEditSpace, spaceGraph, toast, t, lowPriorityRooms]
   );
 
   const handleReorderCategories = useCallback(
