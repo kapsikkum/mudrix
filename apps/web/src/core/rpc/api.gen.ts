@@ -476,6 +476,20 @@ export type JoinRule = 'invite' | 'public' | 'knock' | 'restricted' | 'knock_res
 export type JsonValue = any;
 
 /**
+ * What an import found
+ */
+export type KeyImportResult = {
+  /**
+   * Keys that were new or better than the ones this device had
+   */
+  imported: number;
+  /**
+   * Keys the file holds
+   */
+  total: number;
+};
+
+/**
  * How far restoring the room keys from the key backup has come
  */
 export type KeyRestoreProgress = {
@@ -1257,6 +1271,25 @@ export type SpaceSummary = {
  * A state change seen in sync, so cached settings can be refreshed
  */
 export type StateChange = { roomId: string; eventType: string; stateKey: string };
+
+/**
+ * A state event with who sent it and when
+ */
+export type StateEventView = {
+  roomId: string;
+  type: string;
+  stateKey: string;
+  /**
+   * The user ID of whoever set it; permission checks need this
+   */
+  sender: string;
+  content: JsonValue;
+  eventId: string | null;
+  /**
+   * When the sender's server saw it, in milliseconds; `0` when missing
+   */
+  originServerTs: number;
+};
 
 /**
  * Where the client keeps its state, crypto keys and caches.
@@ -2661,6 +2694,58 @@ export class WizardClient extends Remote {
       data,
       mimetype,
     ]) as Promise<void>;
+  }
+
+  /**
+   * Every state event of the given types in a room, with who set it and when (the sender
+   * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+   * and the older `chat.mudrix.*`) and space children come from this device; the server
+   * is asked once when there are none there or for other types.
+   */
+  stateEventsWithSender(roomId: string, eventTypes: Array<string>): Promise<Array<StateEventView>> {
+    return runtime.call('WizardClient.stateEventsWithSender', this, [
+      roomId,
+      eventTypes,
+    ]) as Promise<Array<StateEventView>>;
+  }
+
+  /**
+   * Calls `listener` with every state event of one of `types` arriving in a joined room,
+   * the first sync's and your own changes included. Mudrix's state types are requested
+   * from the server in every room (a separate light sync connection runs beside the room
+   * list's), so this hears them without polling.
+   */
+  watchStateEvents(types: Array<string>, listener: (value: StateEventView) => void): Subscription {
+    return runtime.watch('WizardClient.watchStateEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+   * `stateEventsWithSender` or `watchStateEvents`.
+   */
+  static mudrixStateTypes(): Promise<Array<string>> {
+    return runtime.call('WizardClient.mudrixStateTypes', null, []) as Promise<Array<string>>;
+  }
+
+  /**
+   * Writes every room key this device has to a file, encrypted with `passphrase`
+   * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+   * `unsupported`.
+   */
+  exportRoomKeys(path: string, passphrase: string): Promise<void> {
+    return runtime.call('WizardClient.exportRoomKeys', this, [path, passphrase]) as Promise<void>;
+  }
+
+  /**
+   * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+   * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+   * Desktop and mobile only: in the browser it rejects with `unsupported`.
+   */
+  importRoomKeys(path: string, passphrase: string): Promise<KeyImportResult> {
+    return runtime.call('WizardClient.importRoomKeys', this, [
+      path,
+      passphrase,
+    ]) as Promise<KeyImportResult>;
   }
 
   /** Calls a delayed event off so it is never sent. */

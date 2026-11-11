@@ -2,9 +2,10 @@
 
 use serde_json::Value;
 
-use super::Bytes;
+use super::{Bytes, Listener, Subscription};
 use crate::{
-    DelayedEvent, EventVersion, RoomMemberProfile, SearchDirection, TimestampEvent, WizardClient,
+    DelayedEvent, EventVersion, KeyImportResult, RoomMemberProfile, SearchDirection,
+    StateEventView, TimestampEvent, WizardClient,
 };
 
 rpc_methods! {
@@ -67,6 +68,44 @@ rpc_methods! {
         call fn setRoomMemberAvatar(room_id: String, data: Option<Bytes>, mimetype: Option<String>) -> () {
             let image = data.map(|d| (d.0, mimetype.unwrap_or_else(|| "image/png".into())));
             this.set_room_member_avatar(&room_id, image).await
+        }
+
+        /// Every state event of the given types in a room, with who set it and when (the sender
+        /// is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+        /// and the older `chat.mudrix.*`) and space children come from this device; the server
+        /// is asked once when there are none there or for other types.
+        call fn stateEventsWithSender(room_id: String, event_types: Vec<String>) -> Vec<StateEventView> {
+            this.state_events_with_sender(&room_id, &event_types).await
+        }
+
+        /// Calls `listener` with every state event of one of `types` arriving in a joined room,
+        /// the first sync's and your own changes included. Mudrix's state types are requested
+        /// from the server in every room (a separate light sync connection runs beside the room
+        /// list's), so this hears them without polling.
+        watch fn watchStateEvents(types: Vec<String>, listener: Listener<StateEventView>) -> Subscription {
+            Ok(listener.clone().watch(async move {
+                this.watch_state_events(types, |e| listener.emit(&e)).await
+            }))
+        }
+
+        /// The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+        /// `stateEventsWithSender` or `watchStateEvents`.
+        bare fn mudrixStateTypes() -> Vec<String> {
+            Ok(crate::mudrix_state_types())
+        }
+
+        /// Writes every room key this device has to a file, encrypted with `passphrase`
+        /// (Element's key file format). Desktop and mobile only: in the browser it rejects with
+        /// `unsupported`.
+        call fn exportRoomKeys(path: String, passphrase: String) -> () {
+            this.export_room_keys(&path, &passphrase).await
+        }
+
+        /// Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+        /// unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+        /// Desktop and mobile only: in the browser it rejects with `unsupported`.
+        call fn importRoomKeys(path: String, passphrase: String) -> KeyImportResult {
+            this.import_room_keys(&path, &passphrase).await
         }
 
         /// Calls a delayed event off so it is never sent.

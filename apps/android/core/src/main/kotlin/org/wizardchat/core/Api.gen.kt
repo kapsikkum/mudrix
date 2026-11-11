@@ -549,6 +549,15 @@ data class InviteInfo(
 /** Who may join a room */
 typealias JoinRule = String
 
+/** What an import found */
+@Serializable
+data class KeyImportResult(
+    /** Keys that were new or better than the ones this device had */
+    val imported: Long,
+    /** Keys the file holds */
+    val total: Long,
+)
+
 /** How far restoring the room keys from the key backup has come */
 @Serializable
 data class KeyRestoreProgress(
@@ -1469,6 +1478,20 @@ data class StateChange(
     val stateKey: String,
 )
 
+/** A state event with who sent it and when */
+@Serializable
+data class StateEventView(
+    val roomId: String,
+    val type: String,
+    val stateKey: String,
+    /** The user ID of whoever set it; permission checks need this */
+    val sender: String,
+    val content: JsonElement,
+    val eventId: String? = null,
+    /** When the sender's server saw it, in milliseconds; `0` when missing */
+    val originServerTs: Long,
+)
+
 /**
  * Where the client keeps its state, crypto keys and caches.
  *
@@ -1908,6 +1931,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         /** The MIME type of media bytes, from their first bytes (images, audio, video, PDF). */
         suspend fun sniffMimeType(head: Bytes): String? =
             Runtime.call("WizardClient.sniffMimeType", null, listOf(Arg.bytes(head)))
+
+        /**
+         * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+         * `stateEventsWithSender` or `watchStateEvents`.
+         */
+        suspend fun mudrixStateTypes(): List<String> =
+            Runtime.call("WizardClient.mudrixStateTypes", null, listOf())
 
         /**
          * Signs in with a password. `server` may be a server name or a homeserver URL;
@@ -2682,6 +2712,41 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun setRoomMemberAvatar(roomId: String, data: Bytes? = null, mimetype: String? = null) {
         Runtime.callUnit("WizardClient.setRoomMemberAvatar", handle, listOf(Arg.value<String>(roomId), Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
     }
+
+    /**
+     * Every state event of the given types in a room, with who set it and when (the sender
+     * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+     * and the older `chat.mudrix.*`) and space children come from this device; the server
+     * is asked once when there are none there or for other types.
+     */
+    suspend fun stateEventsWithSender(roomId: String, eventTypes: List<String>): List<StateEventView> =
+        Runtime.call("WizardClient.stateEventsWithSender", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
+
+    /**
+     * Calls `listener` with every state event of one of `types` arriving in a joined room,
+     * the first sync's and your own changes included. Mudrix's state types are requested
+     * from the server in every room (a separate light sync connection runs beside the room
+     * list's), so this hears them without polling.
+     */
+    fun watchStateEvents(types: List<String>, listener: (StateEventView) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchStateEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<StateEventView>(listener)), ::Subscription)
+
+    /**
+     * Writes every room key this device has to a file, encrypted with `passphrase`
+     * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+     * `unsupported`.
+     */
+    suspend fun exportRoomKeys(path: String, passphrase: String) {
+        Runtime.callUnit("WizardClient.exportRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
+    }
+
+    /**
+     * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+     * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+     * Desktop and mobile only: in the browser it rejects with `unsupported`.
+     */
+    suspend fun importRoomKeys(path: String, passphrase: String): KeyImportResult =
+        Runtime.call("WizardClient.importRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
 
     /** Calls a delayed event off so it is never sent. */
     suspend fun cancelDelayedEvent(delayId: String) {

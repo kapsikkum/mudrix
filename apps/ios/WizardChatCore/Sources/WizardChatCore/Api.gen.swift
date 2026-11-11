@@ -865,6 +865,19 @@ public struct InviteInfo: Codable, Hashable, Sendable {
 /// Who may join a room
 public typealias JoinRule = String
 
+/// What an import found
+public struct KeyImportResult: Codable, Hashable, Sendable {
+    /// Keys that were new or better than the ones this device had
+    public var imported: Int
+    /// Keys the file holds
+    public var total: Int
+
+    public init(imported: Int, total: Int) {
+        self.imported = imported
+        self.total = total
+    }
+}
+
 /// How far restoring the room keys from the key backup has come
 public struct KeyRestoreProgress: Codable, Hashable, Sendable {
     /// Encrypted rooms whose keys have been fetched
@@ -2286,6 +2299,29 @@ public struct StateChange: Codable, Hashable, Sendable {
         self.roomId = roomId
         self.eventType = eventType
         self.stateKey = stateKey
+    }
+}
+
+/// A state event with who sent it and when
+public struct StateEventView: Codable, Hashable, Sendable {
+    public var roomId: String
+    public var type: String
+    public var stateKey: String
+    /// The user ID of whoever set it; permission checks need this
+    public var sender: String
+    public var content: JSONValue
+    public var eventId: String?
+    /// When the sender's server saw it, in milliseconds; `0` when missing
+    public var originServerTs: Int
+
+    public init(roomId: String, type: String, stateKey: String, sender: String, content: JSONValue, eventId: String? = nil, originServerTs: Int) {
+        self.roomId = roomId
+        self.type = type
+        self.stateKey = stateKey
+        self.sender = sender
+        self.content = content
+        self.eventId = eventId
+        self.originServerTs = originServerTs
     }
 }
 
@@ -3747,6 +3783,43 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// account's picture. Needs a joined room.
     public func setRoomMemberAvatar(roomId: String, data: Data? = nil, mimetype: String? = nil) async throws {
         _ = try await call("WizardClient.setRoomMemberAvatar", [.value(roomId), .value(data), .value(mimetype)]) as Empty
+    }
+
+    /// Every state event of the given types in a room, with who set it and when (the sender
+    /// is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+    /// and the older `chat.mudrix.*`) and space children come from this device; the server
+    /// is asked once when there are none there or for other types.
+    public func stateEventsWithSender(roomId: String, eventTypes: [String]) async throws -> [StateEventView] {
+        try await call("WizardClient.stateEventsWithSender", [.value(roomId), .value(eventTypes)])
+    }
+
+    /// Calls `listener` with every state event of one of `types` arriving in a joined room,
+    /// the first sync's and your own changes included. Mudrix's state types are requested
+    /// from the server in every room (a separate light sync connection runs beside the room
+    /// list's), so this hears them without polling.
+    @discardableResult
+    public func watchStateEvents(types: [String], listener: @escaping @Sendable (StateEventView) -> Void) -> Subscription {
+        watch("WizardClient.watchStateEvents", [.value(types), .listener(StateEventView.self, listener)])
+    }
+
+    /// The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+    /// `stateEventsWithSender` or `watchStateEvents`.
+    public static func mudrixStateTypes() async throws -> [String] {
+        try await Runtime.shared.call("WizardClient.mudrixStateTypes", this: nil, [])
+    }
+
+    /// Writes every room key this device has to a file, encrypted with `passphrase`
+    /// (Element's key file format). Desktop and mobile only: in the browser it rejects with
+    /// `unsupported`.
+    public func exportRoomKeys(path: String, passphrase: String) async throws {
+        _ = try await call("WizardClient.exportRoomKeys", [.value(path), .value(passphrase)]) as Empty
+    }
+
+    /// Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+    /// unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+    /// Desktop and mobile only: in the browser it rejects with `unsupported`.
+    public func importRoomKeys(path: String, passphrase: String) async throws -> KeyImportResult {
+        try await call("WizardClient.importRoomKeys", [.value(path), .value(passphrase)])
     }
 
     /// Calls a delayed event off so it is never sent.
