@@ -2925,7 +2925,12 @@
     "verifyFailed": "Impossible de lancer la vérification : {{error}}"
   },
   "update": {
-    "action": "Mettre à jour Mudrix"
+    "action": "Mettre à jour Mudrix",
+    "checkNow": "Rechercher des mises à jour",
+    "upToDate": "Vous êtes à jour.",
+    "checkFailed": "Impossible de rechercher les mises à jour.",
+    "checking": "Vérification…",
+    "available": "Une nouvelle version de Mudrix est disponible."
   },
   "presence": {
     "title": "Statut en ligne",

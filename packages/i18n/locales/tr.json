@@ -2925,7 +2925,12 @@
     "verifyFailed": "Doğrulama başlatılamadı: {{error}}"
   },
   "update": {
-    "action": "Mudrix'i güncelle"
+    "action": "Mudrix'i güncelle",
+    "checkNow": "Güncellemeleri denetle",
+    "upToDate": "Güncelsiniz.",
+    "checkFailed": "Güncellemeler denetlenemedi.",
+    "checking": "Denetleniyor…",
+    "available": "Mudrix'in yeni bir sürümü mevcut."
   },
   "presence": {
     "title": "Çevrimiçi durumu",

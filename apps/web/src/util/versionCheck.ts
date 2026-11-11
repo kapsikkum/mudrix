@@ -13,6 +13,15 @@ export async function fetchDeployedVersion(): Promise<string | null> {
   }
 }
 
+export type UpdateCheck = 'upToDate' | 'available' | 'error';
+
+/** Asks the server which version is deployed now and compares it with the one running. */
+export async function checkForUpdate(): Promise<UpdateCheck> {
+  const deployed = await fetchDeployedVersion();
+  if (deployed === null) return 'error';
+  return isNewerVersion(CURRENT_VERSION, deployed) ? 'available' : 'upToDate';
+}
+
 export function isNewerVersion(current: string, deployed: string): boolean {
   return deployed !== current;
 }

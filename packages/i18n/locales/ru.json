@@ -2925,7 +2925,12 @@
     "verifyFailed": "Не удалось начать верификацию: {{error}}"
   },
   "update": {
-    "action": "Обновить Mudrix"
+    "action": "Обновить Mudrix",
+    "checkNow": "Проверить обновления",
+    "upToDate": "У вас последняя версия.",
+    "checkFailed": "Не удалось проверить обновления.",
+    "checking": "Проверка…",
+    "available": "Доступна новая версия Mudrix."
   },
   "presence": {
     "title": "Статус в сети",

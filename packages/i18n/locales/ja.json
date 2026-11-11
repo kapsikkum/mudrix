@@ -2925,7 +2925,12 @@
     "verifyFailed": "認証を開始できませんでした: {{error}}"
   },
   "update": {
-    "action": "Mudrixを更新"
+    "action": "Mudrixを更新",
+    "checkNow": "アップデートを確認",
+    "upToDate": "最新の状態です。",
+    "checkFailed": "アップデートを確認できませんでした。",
+    "checking": "確認中…",
+    "available": "Mudrixの新しいバージョンが利用可能です。"
   },
   "presence": {
     "title": "オンライン状態",

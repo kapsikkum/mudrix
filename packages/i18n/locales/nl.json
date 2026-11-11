@@ -2925,7 +2925,12 @@
     "verifyFailed": "Verificatie kon niet worden gestart: {{error}}"
   },
   "update": {
-    "action": "Mudrix bijwerken"
+    "action": "Mudrix bijwerken",
+    "checkNow": "Controleren op updates",
+    "upToDate": "Je bent up-to-date.",
+    "checkFailed": "Kon niet controleren op updates.",
+    "checking": "Controleren…",
+    "available": "Er is een nieuwe versie van Mudrix beschikbaar."
   },
   "presence": {
     "title": "Onlinestatus",

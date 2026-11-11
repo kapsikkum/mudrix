@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { LogoHover } from '@/app/components/AppLoading';
-import { GithubLogoIcon, DownloadSimpleIcon, SparkleIcon } from '@phosphor-icons/react';
+import {
+  ArrowClockwiseIcon,
+  CheckCircleIcon,
+  GithubLogoIcon,
+  DownloadSimpleIcon,
+  SparkleIcon,
+} from '@phosphor-icons/react';
 import { useSetAtom } from 'jotai';
-import { getAppsOpenAtom, whatsNewOpenAtom } from '@/app/store/atoms';
+import { getAppsOpenAtom, updateAvailableAtom, whatsNewOpenAtom } from '@/app/store/atoms';
+import { isTauriDesktop } from '@/util/desktop';
+import { checkForUpdate, type UpdateCheck } from '@/util/versionCheck';
 import { latestWhatsNew } from '@/app/features/whatsNew';
 import * as css from '../Settings.css';
 import { SOURCE_URL } from '@/const/links';
@@ -18,6 +26,23 @@ export function About() {
   const setWhatsNewOpen = useSetAtom(whatsNewOpenAtom);
   const setGetAppsOpen = useSetAtom(getAppsOpenAtom);
   const hasWhatsNew = !!latestWhatsNew('en');
+  const setUpdateAvailable = useSetAtom(updateAvailableAtom);
+  const [updateCheck, setUpdateCheck] = useState<UpdateCheck | 'checking' | null>(null);
+  const checking = updateCheck === 'checking';
+
+  const handleCheck = async () => {
+    setUpdateCheck('checking');
+    const result = await checkForUpdate();
+    if (result === 'available') setUpdateAvailable(true);
+    setUpdateCheck(result);
+  };
+
+  // "You're up to date" replaces the button's label for a few seconds, then it goes back.
+  useEffect(() => {
+    if (updateCheck !== 'upToDate') return undefined;
+    const timer = window.setTimeout(() => setUpdateCheck(null), 4000);
+    return () => window.clearTimeout(timer);
+  }, [updateCheck]);
 
   useEffect(() => {
     window.desktopAPI?.getAppVersion?.().then((v) => v && setVersion(v));
@@ -35,6 +60,29 @@ export function About() {
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>
+            {!isTauriDesktop() && (
+              <button
+                type="button"
+                className={heroCss.downloadBtn}
+                onClick={() => void handleCheck()}
+                disabled={checking}
+              >
+                {updateCheck === 'upToDate' ? (
+                  <>
+                    <CheckCircleIcon size={16} />
+                    {t('update.upToDate')}
+                  </>
+                ) : (
+                  <>
+                    <ArrowClockwiseIcon
+                      size={16}
+                      className={checking ? heroCss.spinning : undefined}
+                    />
+                    {checking ? t('update.checking') : t('update.checkNow')}
+                  </>
+                )}
+              </button>
+            )}
             <button
               type="button"
               className={heroCss.downloadBtn}
@@ -63,6 +111,11 @@ export function About() {
               </button>
             )}
           </div>
+          {(updateCheck === 'error' || updateCheck === 'available') && (
+            <span className={css.settingLabel} role="status">
+              {updateCheck === 'error' ? t('update.checkFailed') : t('update.available')}
+            </span>
+          )}
         </div>
       </div>
 

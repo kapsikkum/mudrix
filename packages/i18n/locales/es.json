@@ -2925,7 +2925,12 @@
     "verifyFailed": "No se pudo iniciar la verificación: {{error}}"
   },
   "update": {
-    "action": "Actualizar Mudrix"
+    "action": "Actualizar Mudrix",
+    "checkNow": "Buscar actualizaciones",
+    "upToDate": "Estás al día.",
+    "checkFailed": "No se pudo buscar actualizaciones.",
+    "checking": "Buscando…",
+    "available": "Hay una nueva versión de Mudrix disponible."
   },
   "presence": {
     "title": "Estado en línea",
