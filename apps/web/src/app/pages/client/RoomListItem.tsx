@@ -21,6 +21,9 @@ import {
   ArrowLineDownIcon,
   SpeakerHighIcon,
   HashStraightIcon,
+  StackIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from '@phosphor-icons/react';
 import {
   roomSettingsRoomIdAtom,
@@ -102,6 +105,12 @@ interface RoomListItemProps {
   voiceMembers?: string[];
   /** People in the voice channel can be dragged to another channel */
   canMoveVoiceUsers?: boolean;
+  /** Modern lists: where the room sits among its category's rooms, and the other categories it can go to */
+  canMoveUp?: boolean;
+  canMoveDown?: boolean;
+  onMove?: (roomId: string, direction: -1 | 1) => void;
+  categoryTargets?: { id: string; name: string }[];
+  onMoveToCategory?: (roomId: string, targetSpaceId: string) => void;
   compactVoice?: boolean;
   onSelect: (roomId: string) => void;
   onOpenChat: (roomId: string) => void;
@@ -115,6 +124,11 @@ export const RoomListItem = memo(function RoomListItem({
   isInCall,
   voiceMembers,
   canMoveVoiceUsers,
+  canMoveUp,
+  canMoveDown,
+  onMove,
+  categoryTargets,
+  onMoveToCategory,
   compactVoice,
   onSelect,
   onOpenChat,
@@ -261,6 +275,29 @@ export const RoomListItem = memo(function RoomListItem({
               },
             ]
           : []),
+        ...(onMoveToCategory && categoryTargets
+          ? categoryTargets.map((target) => ({
+              label: t('room.moveToCategory', { name: target.name }),
+              icon: <StackIcon size={14} />,
+              onClick: () => onMoveToCategory(entry.roomId, target.id),
+            }))
+          : []),
+        ...(onMove
+          ? [
+              {
+                label: t('room.moveUp'),
+                icon: <ArrowUpIcon size={14} />,
+                disabled: !canMoveUp,
+                onClick: () => onMove(entry.roomId, -1),
+              },
+              {
+                label: t('room.moveDown'),
+                icon: <ArrowDownIcon size={14} />,
+                disabled: !canMoveDown,
+                onClick: () => onMove(entry.roomId, 1),
+              },
+            ]
+          : []),
         ...(entry.hasVoiceRoom
           ? [
               {
@@ -347,6 +384,11 @@ export const RoomListItem = memo(function RoomListItem({
       handleMarkAsRead,
       handleCopyLink,
       handleToggleFavourite,
+      canMoveUp,
+      canMoveDown,
+      onMove,
+      categoryTargets,
+      onMoveToCategory,
       handleMarkAsUnread,
       handleToggleLowPriority,
       handleToggleVoiceChannel,

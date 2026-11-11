@@ -855,7 +855,8 @@
     "removeLowPriority": "低優先度を解除",
     "toggleLowPriorityFailed": "低優先度を更新できませんでした: {{error}}",
     "markUnread": "未読にする",
-    "markUnreadFailed": "未読にできませんでした: {{error}}"
+    "markUnreadFailed": "未読にできませんでした: {{error}}",
+    "moveToCategory": "{{name}} に移動"
   },
   "developer": {
     "title": "Developer",

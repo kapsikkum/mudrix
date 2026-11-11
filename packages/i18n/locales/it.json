@@ -855,7 +855,8 @@
     "removeLowPriority": "Rimuovi da bassa priorità",
     "toggleLowPriorityFailed": "Impossibile aggiornare la bassa priorità: {{error}}",
     "markUnread": "Segna come non letto",
-    "markUnreadFailed": "Impossibile segnare come non letto: {{error}}"
+    "markUnreadFailed": "Impossibile segnare come non letto: {{error}}",
+    "moveToCategory": "Sposta in {{name}}"
   },
   "developer": {
     "title": "Developer",

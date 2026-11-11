@@ -855,7 +855,8 @@
     "removeLowPriority": "Retirer de la priorité basse",
     "toggleLowPriorityFailed": "Impossible de mettre à jour la priorité basse : {{error}}",
     "markUnread": "Marquer comme non lu",
-    "markUnreadFailed": "Impossible de marquer comme non lu : {{error}}"
+    "markUnreadFailed": "Impossible de marquer comme non lu : {{error}}",
+    "moveToCategory": "Déplacer vers {{name}}"
   },
   "developer": {
     "title": "Developer",

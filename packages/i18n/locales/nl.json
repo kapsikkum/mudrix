@@ -855,7 +855,8 @@
     "removeLowPriority": "Lage prioriteit verwijderen",
     "toggleLowPriorityFailed": "Lage prioriteit bijwerken mislukt: {{error}}",
     "markUnread": "Markeren als ongelezen",
-    "markUnreadFailed": "Markeren als ongelezen mislukt: {{error}}"
+    "markUnreadFailed": "Markeren als ongelezen mislukt: {{error}}",
+    "moveToCategory": "Verplaatsen naar {{name}}"
   },
   "developer": {
     "title": "Developer",

@@ -855,7 +855,8 @@
     "removeLowPriority": "Düşük önceliği kaldır",
     "toggleLowPriorityFailed": "Düşük öncelik güncellenemedi: {{error}}",
     "markUnread": "Okunmadı olarak işaretle",
-    "markUnreadFailed": "Okunmadı olarak işaretlenemedi: {{error}}"
+    "markUnreadFailed": "Okunmadı olarak işaretlenemedi: {{error}}",
+    "moveToCategory": "{{name}} kategorisine taşı"
   },
   "developer": {
     "title": "Developer",

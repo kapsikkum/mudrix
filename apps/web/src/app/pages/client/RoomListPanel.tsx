@@ -1365,6 +1365,52 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     [client, sectionError, hierarchyItems, canEditSpace, spaceGraph, toast, t, lowPriorityRooms]
   );
 
+  // Modern style: a room's menu moves it up or down among the rooms of its category, or to another
+  // category (the same changes dragging makes).
+  const { movable, categoriesOf } = useMemo(() => {
+    const movableRooms = new Map<string, { section: string; ids: string[]; index: number }>();
+    const targets = new Map<string, { id: string; name: string }[]>();
+    if (!modernList || !isSpaceView) return { movable: movableRooms, categoriesOf: targets };
+    const bySection = new Map<string, string[]>();
+    for (const row of reorderRows) {
+      if (row.kind !== 'room' || !row.section?.startsWith('space:')) continue;
+      bySection.set(row.section, [...(bySection.get(row.section) ?? []), row.id]);
+    }
+    for (const [section, ids] of bySection) {
+      ids.forEach((id, index) => movableRooms.set(id, { section, ids, index }));
+    }
+    // The space's own level has no heading here but is still somewhere a room can go.
+    const headers = hierarchyItems.filter((it): it is HierarchySpaceItem => it.kind === 'space');
+    for (const it of spaceItems) {
+      if (it.kind !== 'room' || !movableRooms.has(it.item.roomId)) continue;
+      targets.set(
+        it.item.roomId,
+        headers
+          .filter((h) => h.roomId !== it.item.parentSpaceId && canEditSpace.has(h.roomId))
+          .map((h) => ({ id: h.roomId, name: h.isRoot ? t('room.noCategory') : h.name }))
+      );
+    }
+    return { movable: movableRooms, categoriesOf: targets };
+  }, [modernList, isSpaceView, reorderRows, hierarchyItems, spaceItems, canEditSpace, t]);
+
+  const moveRoom = useCallback(
+    (roomId: string, direction: -1 | 1) => {
+      const at = movable.get(roomId);
+      if (!at) return;
+      const next = [...at.ids];
+      const to = at.index + direction;
+      if (to < 0 || to >= next.length) return;
+      [next[at.index], next[to]] = [next[to], next[at.index]];
+      handleReorder(at.section, next, roomId);
+    },
+    [movable, handleReorder]
+  );
+
+  const moveToCategory = useCallback(
+    (roomId: string, targetSpaceId: string) => handleMoveRoom(roomId, `cat:${targetSpaceId}`),
+    [handleMoveRoom]
+  );
+
   const handleReorderCategories = useCallback(
     (parentId: string, orderedIds: string[], movedId: string) => {
       if (!client) return;
@@ -1768,6 +1814,16 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                         isInCall={callUi.roomId === item.item.roomId}
                         voiceMembers={callParticipantsByRoom.get(item.item.roomId)}
                         canMoveVoiceUsers={canMoveVoiceUsersFrom(item.item.roomId)}
+                        canMoveUp={(movable.get(item.item.roomId)?.index ?? 0) > 0}
+                        canMoveDown={
+                          (movable.get(item.item.roomId)?.index ?? 0) <
+                          (movable.get(item.item.roomId)?.ids.length ?? 0) - 1
+                        }
+                        onMove={movable.has(item.item.roomId) ? moveRoom : undefined}
+                        categoryTargets={categoriesOf.get(item.item.roomId)}
+                        onMoveToCategory={
+                          categoriesOf.has(item.item.roomId) ? moveToCategory : undefined
+                        }
                         compactVoice={item.compact}
                         onSelect={selectRoom}
                         onOpenChat={openVoiceChat}

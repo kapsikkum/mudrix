@@ -855,7 +855,8 @@
     "removeLowPriority": "Niedrige Priorität entfernen",
     "toggleLowPriorityFailed": "Niedrige Priorität konnte nicht aktualisiert werden: {{error}}",
     "markUnread": "Als ungelesen markieren",
-    "markUnreadFailed": "Konnte nicht als ungelesen markiert werden: {{error}}"
+    "markUnreadFailed": "Konnte nicht als ungelesen markiert werden: {{error}}",
+    "moveToCategory": "Nach {{name}} verschieben"
   },
   "developer": {
     "title": "Entwickler",

@@ -855,7 +855,8 @@
     "removeLowPriority": "Remover da baixa prioridade",
     "toggleLowPriorityFailed": "Não foi possível atualizar a baixa prioridade: {{error}}",
     "markUnread": "Marcar como não lida",
-    "markUnreadFailed": "Não foi possível marcar como não lida: {{error}}"
+    "markUnreadFailed": "Não foi possível marcar como não lida: {{error}}",
+    "moveToCategory": "Mover para {{name}}"
   },
   "developer": {
     "title": "Developer",

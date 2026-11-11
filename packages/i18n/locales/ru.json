@@ -855,7 +855,8 @@
     "removeLowPriority": "Убрать низкий приоритет",
     "toggleLowPriorityFailed": "Не удалось обновить приоритет: {{error}}",
     "markUnread": "Отметить как непрочитанное",
-    "markUnreadFailed": "Не удалось отметить как непрочитанное: {{error}}"
+    "markUnreadFailed": "Не удалось отметить как непрочитанное: {{error}}",
+    "moveToCategory": "Переместить в «{{name}}»"
   },
   "developer": {
     "title": "Developer",

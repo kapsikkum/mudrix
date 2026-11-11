@@ -855,7 +855,8 @@
     "removeLowPriority": "Usuń niski priorytet",
     "toggleLowPriorityFailed": "Nie udało się zaktualizować priorytetu: {{error}}",
     "markUnread": "Oznacz jako nieprzeczytane",
-    "markUnreadFailed": "Nie udało się oznaczyć jako nieprzeczytane: {{error}}"
+    "markUnreadFailed": "Nie udało się oznaczyć jako nieprzeczytane: {{error}}",
+    "moveToCategory": "Przenieś do {{name}}"
   },
   "developer": {
     "title": "Developer",
