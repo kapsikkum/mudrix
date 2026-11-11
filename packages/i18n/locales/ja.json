@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "日付に移動",
+      "description": "この日付以降の最初のメッセージに移動します。",
+      "jump": "移動",
+      "notFound": "その日付付近のメッセージは見つかりませんでした。",
+      "unsupported": "お使いのホームサーバーは日付への移動に対応していません。",
+      "failed": "その日付に移動できませんでした。"
     }
   },
   "developer": {

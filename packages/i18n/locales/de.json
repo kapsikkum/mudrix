@@ -819,6 +819,14 @@
       "conversation": "Unterhaltung",
       "title": "Rauminfo",
       "changePicture": "Raumbild ändern"
+    },
+    "jumpToDate": {
+      "title": "Zu Datum springen",
+      "description": "Zur ersten Nachricht an oder nach diesem Datum springen.",
+      "jump": "Springen",
+      "notFound": "Keine Nachrichten um dieses Datum gefunden.",
+      "unsupported": "Dein Homeserver unterstützt das Springen zu einem Datum nicht.",
+      "failed": "Sprung zu diesem Datum fehlgeschlagen."
     }
   },
   "developer": {

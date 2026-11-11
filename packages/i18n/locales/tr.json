@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Tarihe git",
+      "description": "Bu tarihte veya bu tarihten sonraki ilk mesaja git.",
+      "jump": "Git",
+      "notFound": "Bu tarih civarında mesaj bulunamadı.",
+      "unsupported": "Ana sunucunuz tarihe geçişi desteklemiyor.",
+      "failed": "Bu tarihe geçilemedi."
     }
   },
   "developer": {

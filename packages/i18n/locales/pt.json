@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Ir para a data",
+      "description": "Ir para a primeira mensagem nesta data ou após ela.",
+      "jump": "Ir",
+      "notFound": "Nenhuma mensagem encontrada em torno dessa data.",
+      "unsupported": "Seu homeserver não permite ir para uma data.",
+      "failed": "Não foi possível ir para essa data."
     }
   },
   "developer": {

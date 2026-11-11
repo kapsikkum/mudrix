@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Перейти к дате",
+      "description": "Перейти к первому сообщению в этот день или после него.",
+      "jump": "Перейти",
+      "notFound": "Сообщения рядом с этой датой не найдены.",
+      "unsupported": "Ваш домашний сервер не поддерживает переход к дате.",
+      "failed": "Не удалось перейти к этой дате."
     }
   },
   "developer": {

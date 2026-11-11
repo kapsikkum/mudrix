@@ -33,6 +33,7 @@ import { useRoom } from '@/app/data';
 import { isVoiceRoom } from '@/util/matrix';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { PinnedMessagesPopover } from './PinnedMessagesPopover';
+import { JumpToDateModal } from './JumpToDateModal';
 import * as css from './RoomHeader.css';
 
 interface RoomHeaderProps {
@@ -91,7 +92,7 @@ export function RoomHeader({
   // Voice rooms are joined from the sidebar, so the header button is not an entry point there.
   const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
   const { openContextMenu } = useContextMenu();
-  const [, setShowJumpToDate] = useState(false);
+  const [showJumpToDate, setShowJumpToDate] = useState(false);
   const isVoice = isVoiceRoom(room);
   const joinsRunningCall = othersInCall || inCallElsewhere;
   const callLive = callActive || joinsRunningCall;
@@ -147,6 +148,7 @@ export function RoomHeader({
 
   useEffect(() => {
     setShowTopic(false);
+    setShowJumpToDate(false);
   }, [roomId]);
 
   const roomName = room?.name ?? roomId;
@@ -373,6 +375,16 @@ export function RoomHeader({
           onClose={() => setShowPinned(false)}
           anchorRef={pinnedAnchorRef}
           onJumpTo={onJumpToEvent}
+        />
+      )}
+
+      {onJumpToEvent && (
+        <JumpToDateModal
+          open={showJumpToDate}
+          onClose={() => setShowJumpToDate(false)}
+          client={client}
+          roomId={roomId}
+          onJump={onJumpToEvent}
         />
       )}
 

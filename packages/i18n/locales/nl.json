@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Naar datum springen",
+      "description": "Spring naar het eerste bericht op of na deze datum.",
+      "jump": "Springen",
+      "notFound": "Er zijn geen berichten rond die datum gevonden.",
+      "unsupported": "Je homeserver ondersteunt niet springen naar een datum.",
+      "failed": "Kon niet naar die datum springen."
     }
   },
   "developer": {

@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Jump to date",
+      "description": "Jump to the first message on or after this date.",
+      "jump": "Jump",
+      "notFound": "No messages found around that date.",
+      "unsupported": "Your homeserver doesn't support jumping to a date.",
+      "failed": "Couldn't jump to that date."
     }
   },
   "developer": {

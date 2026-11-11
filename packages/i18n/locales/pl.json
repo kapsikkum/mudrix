@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Przejdź do daty",
+      "description": "Przejdź do pierwszej wiadomości z tego dnia lub późniejszej.",
+      "jump": "Przejdź",
+      "notFound": "Nie znaleziono wiadomości z okolic tej daty.",
+      "unsupported": "Twój serwer domowy nie obsługuje przechodzenia do daty.",
+      "failed": "Nie udało się przejść do tej daty."
     }
   },
   "developer": {

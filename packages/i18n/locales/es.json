@@ -819,6 +819,14 @@
       "conversation": "Conversation",
       "title": "Room Info",
       "changePicture": "Change room picture"
+    },
+    "jumpToDate": {
+      "title": "Ir a la fecha",
+      "description": "Ir al primer mensaje en esta fecha o posterior.",
+      "jump": "Ir",
+      "notFound": "No se encontraron mensajes alrededor de esa fecha.",
+      "unsupported": "Tu servidor doméstico no admite saltar a una fecha.",
+      "failed": "No se pudo ir a esa fecha."
     }
   },
   "developer": {
