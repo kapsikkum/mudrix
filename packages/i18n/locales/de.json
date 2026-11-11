@@ -1369,7 +1369,11 @@
       "original": "Original",
       "empty": "Keine früheren Versionen dieser Nachricht gefunden.",
       "failed": "Bearbeitungsverlauf konnte nicht geladen werden: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> hat den Anzeigenamen zu {{newName}} geändert.",
+    "userRemovedName": "<name>{{name}}</name> hat den Anzeigenamen entfernt.",
+    "userChangedAvatar": "<name>{{name}}</name> hat den Avatar geändert.",
+    "userRemovedAvatar": "<name>{{name}}</name> hat den Avatar entfernt."
   },
   "call": {
     "event": {

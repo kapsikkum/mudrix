@@ -1369,7 +1369,11 @@
       "original": "Original",
       "empty": "No se encontraron versiones anteriores de este mensaje.",
       "failed": "No se pudo cargar el historial de ediciones: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> cambió su nombre visible a {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> eliminó su nombre visible.",
+    "userChangedAvatar": "<name>{{name}}</name> cambió su avatar.",
+    "userRemovedAvatar": "<name>{{name}}</name> eliminó su avatar."
   },
   "call": {
     "event": {

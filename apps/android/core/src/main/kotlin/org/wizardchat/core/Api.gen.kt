@@ -57,6 +57,13 @@ data class AttachmentThumbnail(
     val height: Long,
 )
 
+/** What happened to a picture: the new one isn't named, as it is shown from the member list */
+@Serializable
+enum class AvatarChange {
+    @SerialName("changed") changed,
+    @SerialName("removed") removed,
+}
+
 @Serializable(with = CallEvent.Serializer::class)
 sealed interface CallEvent {
     /** Everyone in the call, oldest first */
@@ -249,6 +256,13 @@ data class DeviceInfo(
     val crossSignedByOwner: Boolean,
 )
 
+/** A display name change: `from` is null when there was no name, `to` when it was removed */
+@Serializable
+data class DisplayNameChange(
+    val from: String? = null,
+    val to: String? = null,
+)
+
 /** How much of a download has arrived, in bytes */
 @Serializable
 data class DownloadProgress(
@@ -368,6 +382,10 @@ sealed interface EntryContent {
     @Serializable
     data class ProfileChange(
         val userId: String,
+        /** Set when the display name changed */
+        val displayName: DisplayNameChange? = null,
+        /** Set when the picture changed */
+        val avatar: AvatarChange? = null,
     ) : EntryContent
     /** Any other state change, with its content as sent */
     @Serializable

@@ -1369,7 +1369,11 @@
       "original": "Originale",
       "empty": "Aucune version antérieure de ce message n'a été trouvée.",
       "failed": "Impossible de charger l'historique des modifications : {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> a changé son nom d'affichage en {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> a supprimé son nom d'affichage.",
+    "userChangedAvatar": "<name>{{name}}</name> a changé d'avatar.",
+    "userRemovedAvatar": "<name>{{name}}</name> a supprimé son avatar."
   },
   "call": {
     "event": {

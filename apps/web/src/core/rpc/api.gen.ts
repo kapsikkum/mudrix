@@ -54,6 +54,11 @@ export type AttachmentThumbnail = {
   height: number;
 };
 
+/**
+ * What happened to a picture: the new one isn't named, as it is shown from the member list
+ */
+export type AvatarChange = 'changed' | 'removed';
+
 export type CallEvent =
   | { type: 'members'; members: Array<CallMember> }
   | {
@@ -238,6 +243,11 @@ export type DeviceInfo = {
 };
 
 /**
+ * A display name change: `from` is null when there was no name, `to` when it was removed
+ */
+export type DisplayNameChange = { from: string | null; to: string | null };
+
+/**
  * How much of a download has arrived, in bytes
  */
 export type DownloadProgress = {
@@ -338,7 +348,18 @@ export type EntryContent =
       change: string | null;
       reason: string | null;
     }
-  | { type: 'profileChange'; userId: string }
+  | {
+      type: 'profileChange';
+      userId: string;
+      /**
+       * Set when the display name changed
+       */
+      displayName: DisplayNameChange | null;
+      /**
+       * Set when the picture changed
+       */
+      avatar: AvatarChange | null;
+    }
   | {
       type: 'state';
       eventType: string;

@@ -88,6 +88,10 @@ pub enum EntryContent {
     #[serde(rename_all = "camelCase")]
     ProfileChange {
         user_id: String,
+        /// Set when the display name changed
+        display_name: Option<DisplayNameChange>,
+        /// Set when the picture changed
+        avatar: Option<AvatarChange>,
     },
     /// Any other state change, with its content as sent
     #[serde(rename_all = "camelCase")]
@@ -195,6 +199,24 @@ fn enrich_image(media: &mut MediaInfo, raw: &Value) {
         .or_else(|| raw.pointer("/info/blurhash"))
         .and_then(Value::as_str)
         .map(ToOwned::to_owned);
+}
+
+/// A display name change: `from` is null when there was no name, `to` when it was removed
+#[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct DisplayNameChange {
+    pub from: Option<String>,
+    pub to: Option<String>,
+}
+
+/// What happened to a picture: the new one isn't named, as it is shown from the member list
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum AvatarChange {
+    Changed,
+    Removed,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -529,6 +551,17 @@ pub(crate) fn content_of(
         },
         TimelineItemContent::ProfileChange(change) => EntryContent::ProfileChange {
             user_id: change.user_id().to_string(),
+            display_name: change.displayname_change().map(|c| DisplayNameChange {
+                from: c.old.clone().filter(|n| !n.is_empty()),
+                to: c.new.clone().filter(|n| !n.is_empty()),
+            }),
+            avatar: change.avatar_url_change().map(|c| {
+                if c.new.is_some() {
+                    AvatarChange::Changed
+                } else {
+                    AvatarChange::Removed
+                }
+            }),
         },
         content
             if crate::call_history::is_call_item(

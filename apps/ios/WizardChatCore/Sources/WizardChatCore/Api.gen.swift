@@ -74,6 +74,12 @@ public struct AttachmentThumbnail: Codable, Hashable, Sendable {
     }
 }
 
+/// What happened to a picture: the new one isn't named, as it is shown from the member list
+public enum AvatarChange: String, Codable, Hashable, Sendable, CaseIterable {
+    case changed = "changed"
+    case removed = "removed"
+}
+
 public enum CallEvent: Codable, Hashable, Sendable {
     public struct Members: Codable, Hashable, Sendable {
         public var members: [CallMember]
@@ -371,6 +377,17 @@ public struct DeviceInfo: Codable, Hashable, Sendable {
     }
 }
 
+/// A display name change: `from` is null when there was no name, `to` when it was removed
+public struct DisplayNameChange: Codable, Hashable, Sendable {
+    public var from: String?
+    public var to: String?
+
+    public init(from: String? = nil, to: String? = nil) {
+        self.from = from
+        self.to = to
+    }
+}
+
 /// How much of a download has arrived, in bytes
 public struct DownloadProgress: Codable, Hashable, Sendable {
     public var received: Int
@@ -550,9 +567,15 @@ public enum EntryContent: Codable, Hashable, Sendable {
     }
     public struct ProfileChange: Codable, Hashable, Sendable {
         public var userId: String
+        /// Set when the display name changed
+        public var displayName: DisplayNameChange?
+        /// Set when the picture changed
+        public var avatar: AvatarChange?
 
-        public init(userId: String) {
+        public init(userId: String, displayName: DisplayNameChange? = nil, avatar: AvatarChange? = nil) {
             self.userId = userId
+            self.displayName = displayName
+            self.avatar = avatar
         }
     }
     public struct State: Codable, Hashable, Sendable {

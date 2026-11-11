@@ -1369,7 +1369,11 @@
       "original": "Original",
       "empty": "No earlier versions of this message were found.",
       "failed": "Couldn't load edit history: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> changed their display name to {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> removed their display name.",
+    "userChangedAvatar": "<name>{{name}}</name> changed their avatar.",
+    "userRemovedAvatar": "<name>{{name}}</name> removed their avatar."
   },
   "call": {
     "event": {

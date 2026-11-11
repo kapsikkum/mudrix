@@ -1369,7 +1369,11 @@
       "original": "Origineel",
       "empty": "Er zijn geen eerdere versies van dit bericht gevonden.",
       "failed": "Bewerkingsgeschiedenis laden mislukt: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> heeft de weergavenaam gewijzigd in {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> heeft de weergavenaam verwijderd.",
+    "userChangedAvatar": "<name>{{name}}</name> heeft de avatar gewijzigd.",
+    "userRemovedAvatar": "<name>{{name}}</name> heeft de avatar verwijderd."
   },
   "call": {
     "event": {

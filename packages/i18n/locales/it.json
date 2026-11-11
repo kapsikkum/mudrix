@@ -1369,7 +1369,11 @@
       "original": "Originale",
       "empty": "Non sono state trovate versioni precedenti di questo messaggio.",
       "failed": "Impossibile caricare la cronologia delle modifiche: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> ha cambiato il nome visualizzato in {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> ha rimosso il proprio nome visualizzato.",
+    "userChangedAvatar": "<name>{{name}}</name> ha cambiato avatar.",
+    "userRemovedAvatar": "<name>{{name}}</name> ha rimosso il proprio avatar."
   },
   "call": {
     "event": {

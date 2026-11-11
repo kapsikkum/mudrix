@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
-import { groupImagesAtom } from '@/app/store/atoms/settings';
+import {
+  groupImagesAtom,
+  hideMembershipEventsAtom,
+  hideProfileEventsAtom,
+} from '@/app/store/atoms/settings';
 import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@wizardchat/core';
 import {
   useMembers,
@@ -22,6 +26,12 @@ import { entryEventId, isEventEntry, type EventEntry } from '@/app/features/time
 import { getGalleryTag, isPendingEcho } from '@/app/features/timeline/message/gallery';
 import type { ItemRange } from '@/app/hooks/useVirtualPaginator';
 import {
+  isReceiptAnchorEntry,
+  isSystemLine,
+  isTimelineRenderedEntry,
+  type TimelineHidePrefs,
+} from '@/app/hooks/timelineFilter';
+import {
   UNREADABLE_PAGES_BEFORE_PAUSE,
   isUnreadablePage,
 } from '@/app/features/timeline/message/undecryptable';
@@ -31,37 +41,11 @@ export type { EventEntry };
 const PAGINATION_LIMIT = 80;
 const PAGINATION_TIMEOUT_MS = 25000;
 
-const JOIN_CHANGES = new Set(['Joined', 'InvitationAccepted']);
-const LEAVE_CHANGES = new Set(['Left', 'Kicked', 'KickedAndBanned']);
-
 const EMPTY_REDACTED = new Set<string>();
 const EMPTY_EDITS = new Map<string, string>();
 const MAIN_KIND: TimelineKind = { type: 'main' };
 
-export function isTimelineRenderedEntry(entry: TimelineEntry): entry is EventEntry {
-  if (entry.kind !== 'event') return false;
-  const { content } = entry;
-  switch (content.type) {
-    case 'membership':
-      return (
-        content.change !== null &&
-        (JOIN_CHANGES.has(content.change) || LEAVE_CHANGES.has(content.change))
-      );
-    case 'state':
-    case 'callPart':
-    case 'profileChange':
-    case 'other':
-      return false;
-    default:
-      return true;
-  }
-}
-
-/** Read avatars sit on messages only, not on joins, leaves or call events */
-export function isReceiptAnchorEntry(entry: TimelineEntry): entry is EventEntry {
-  if (!isTimelineRenderedEntry(entry)) return false;
-  return entry.content.type !== 'membership' && entry.content.type !== 'call';
-}
+export { isTimelineRenderedEntry, isReceiptAnchorEntry };
 
 export interface TimelineItem {
   event: EventEntry;
@@ -111,7 +95,11 @@ export interface BuildContext {
   decryptingIds?: ReadonlySet<string>;
   /** Off: every image is its own message, as other clients show them. Default on. */
   groupImages?: boolean;
+  /** Which system lines the user hides. Default: joins and leaves shown, profile changes hidden. */
+  hide?: TimelineHidePrefs;
 }
+
+const DEFAULT_HIDE: TimelineHidePrefs = { hideMembership: false, hideProfile: true };
 
 export type BuildItemsSeed = { prevEvent?: EventEntry | null };
 
@@ -149,11 +137,12 @@ export function buildItems(
   // Images sent together are posted back to back; anything further apart is not one set.
   const GALLERY_GAP_MS = 60 * 1000;
   const groupImages = ctx.groupImages !== false;
+  const hide = ctx.hide ?? DEFAULT_HIDE;
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-    if (!isTimelineRenderedEntry(event)) continue;
-    const isSystemMessage = event.content.type === 'membership';
+    if (!isTimelineRenderedEntry(event, hide)) continue;
+    const isSystemMessage = isSystemLine(event);
     const isCallEvent = event.content.type === 'call';
 
     const sender = event.sender;
@@ -197,7 +186,7 @@ export function buildItems(
       let prevTs = ts;
       for (let j = i + 1; j < events.length; j++) {
         const next = events[j];
-        if (!isTimelineRenderedEntry(next)) continue;
+        if (!isTimelineRenderedEntry(next, hide)) continue;
         if (!isGalleryCandidate(next, optimisticRedactedIds)) break;
         if (next.sender !== senderId) break;
         const nextTag = getGalleryTag(next)?.id;
@@ -349,6 +338,9 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
   const { data: members } = useMembers(roomId);
   const ignored = useIgnoredUsers();
   const groupImages = useAtomValue(groupImagesAtom);
+  const hideMembership = useAtomValue(hideMembershipEventsAtom);
+  const hideProfile = useAtomValue(hideProfileEventsAtom);
+  const hide = useMemo(() => ({ hideMembership, hideProfile }), [hideMembership, hideProfile]);
 
   const ignoredUsers = useMemo(() => new Set(ignored), [ignored]);
   const roomPerms = useMemo(
@@ -373,8 +365,9 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
       ignoredUsers,
       lookupMember,
       groupImages,
+      hide,
     }),
-    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, groupImages]
+    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, groupImages, hide]
   );
   return context;
 }

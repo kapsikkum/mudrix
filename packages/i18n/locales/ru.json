@@ -1369,7 +1369,11 @@
       "original": "Исходная",
       "empty": "Более ранние версии этого сообщения не найдены.",
       "failed": "Не удалось загрузить историю изменений: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> изменил(-а) отображаемое имя на {{newName}}.",
+    "userRemovedName": "<name>{{name}}</name> удалил(-а) отображаемое имя.",
+    "userChangedAvatar": "<name>{{name}}</name> изменил(-а) аватар.",
+    "userRemovedAvatar": "<name>{{name}}</name> удалил(-а) аватар."
   },
   "call": {
     "event": {

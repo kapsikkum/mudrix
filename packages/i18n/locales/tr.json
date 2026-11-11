@@ -1369,7 +1369,11 @@
       "original": "Orijinal",
       "empty": "Bu mesajın önceki sürümleri bulunamadı.",
       "failed": "Düzenleme geçmişi yüklenemedi: {{error}}"
-    }
+    },
+    "userChangedName": "<name>{{name}}</name> görünen adını {{newName}} olarak değiştirdi.",
+    "userRemovedName": "<name>{{name}}</name> görünen adını kaldırdı.",
+    "userChangedAvatar": "<name>{{name}}</name> avatarını değiştirdi.",
+    "userRemovedAvatar": "<name>{{name}}</name> avatarını kaldırdı."
   },
   "call": {
     "event": {
