@@ -323,6 +323,33 @@ public struct CustomStatus: Codable, Hashable, Sendable {
     }
 }
 
+/// A delayed event the homeserver holds for the user
+public struct DelayedEvent: Codable, Hashable, Sendable {
+    /// What `cancelDelayedEvent` and `sendDelayedEventNow` take
+    public var delayId: String
+    public var roomId: String
+    public var eventType: String
+    /// Set when the delayed event is a state event
+    public var stateKey: String?
+    /// The content to send
+    public var content: JSONValue
+    /// How long the server waits, in milliseconds
+    public var delayMs: Int
+    /// When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+    /// event goes out at `runningSince + delayMs`
+    public var runningSince: Int
+
+    public init(delayId: String, roomId: String, eventType: String, stateKey: String? = nil, content: JSONValue, delayMs: Int, runningSince: Int) {
+        self.delayId = delayId
+        self.roomId = roomId
+        self.eventType = eventType
+        self.stateKey = stateKey
+        self.content = content
+        self.delayMs = delayMs
+        self.runningSince = runningSince
+    }
+}
+
 public struct DeviceInfo: Codable, Hashable, Sendable {
     public var deviceId: String
     public var displayName: String?
@@ -678,6 +705,32 @@ public struct EventSource: Codable, Hashable, Sendable {
         self.eventId = eventId
         self.original = original
         self.decrypted = decrypted
+    }
+}
+
+/// One version of a message: the original or an edit
+public struct EventVersion: Codable, Hashable, Sendable {
+    /// The original event's or the edit's ID
+    public var eventId: String
+    public var sender: String
+    /// Milliseconds since the Unix epoch
+    public var timestamp: Int
+    public var isOriginal: Bool
+    public var msgtype: String?
+    public var body: String
+    /// Set with `formattedBody` when the version has HTML
+    public var format: String?
+    public var formattedBody: String?
+
+    public init(eventId: String, sender: String, timestamp: Int, isOriginal: Bool, msgtype: String? = nil, body: String, format: String? = nil, formattedBody: String? = nil) {
+        self.eventId = eventId
+        self.sender = sender
+        self.timestamp = timestamp
+        self.isOriginal = isOriginal
+        self.msgtype = msgtype
+        self.body = body
+        self.format = format
+        self.formattedBody = formattedBody
     }
 }
 
@@ -1724,6 +1777,21 @@ public enum RoomKind: String, Codable, Hashable, Sendable, CaseIterable {
     case invites = "invites"
 }
 
+/// What a room's member event says about a person
+public struct RoomMemberProfile: Codable, Hashable, Sendable {
+    /// `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event
+    public var membership: String?
+    public var displayname: String?
+    /// `mxc://` URI
+    public var avatarUrl: String?
+
+    public init(membership: String? = nil, displayname: String? = nil, avatarUrl: String? = nil) {
+        self.membership = membership
+        self.displayname = displayname
+        self.avatarUrl = avatarUrl
+    }
+}
+
 /// What the user may do in a room, for showing or hiding actions
 public struct RoomPermissions: Codable, Hashable, Sendable {
     public var invite: Bool
@@ -1906,6 +1974,12 @@ public struct RoomTag: Codable, Hashable, Sendable {
     }
 }
 
+/// Which way `timestampToEvent` looks from the date
+public enum SearchDirection: String, Codable, Hashable, Sendable, CaseIterable {
+    case forward = "forward"
+    case backward = "backward"
+}
+
 /// A message found by search
 public struct SearchHit: Codable, Hashable, Sendable {
     public var roomId: String
@@ -2064,6 +2138,34 @@ public struct SfuConfig: Codable, Hashable, Sendable {
         self.jwt = jwt
         self.identity = identity
         self.alias = alias
+    }
+}
+
+/// Why a message gets a shield
+public enum ShieldCode: String, Codable, Hashable, Sendable, CaseIterable {
+    case authenticityNotGuaranteed = "authenticityNotGuaranteed"
+    case unknownDevice = "unknownDevice"
+    case unsignedDevice = "unsignedDevice"
+    case unverifiedIdentity = "unverifiedIdentity"
+    case verificationViolation = "verificationViolation"
+    case mismatchedSender = "mismatchedSender"
+    case sentInClear = "sentInClear"
+}
+
+/// How serious a message's encryption warning is
+public enum ShieldColor: String, Codable, Hashable, Sendable, CaseIterable {
+    case red = "red"
+    case grey = "grey"
+}
+
+/// The encryption warning to show on a message
+public struct ShieldView: Codable, Hashable, Sendable {
+    public var color: ShieldColor
+    public var code: ShieldCode
+
+    public init(color: ShieldColor, code: ShieldCode) {
+        self.color = color
+        self.code = code
     }
 }
 
@@ -2319,8 +2421,11 @@ public enum TimelineEntry: Codable, Hashable, Sendable {
         /// The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
         /// as an object; null when there are none or the content is not at hand (a local echo)
         public var customContent: JSONValue?
+        /// A warning about the message's authenticity; null when it is fine (verified sender) or
+        /// the room isn't encrypted
+        public var shield: ShieldView?
 
-        public init(id: String, itemKey: String, eventId: String? = nil, sender: String, senderName: String? = nil, senderAvatar: String? = nil, timestamp: Int, isOwn: Bool, isEditable: Bool, content: EntryContent, inReplyTo: ReplyPreview? = nil, threadRoot: String? = nil, thread: ThreadSummaryView? = nil, edited: Bool, reactions: [Reaction], sendState: SendState? = nil, readBy: [ReadReceiptView], mentions: MentionsView? = nil, sendError: String? = nil, customContent: JSONValue? = nil) {
+        public init(id: String, itemKey: String, eventId: String? = nil, sender: String, senderName: String? = nil, senderAvatar: String? = nil, timestamp: Int, isOwn: Bool, isEditable: Bool, content: EntryContent, inReplyTo: ReplyPreview? = nil, threadRoot: String? = nil, thread: ThreadSummaryView? = nil, edited: Bool, reactions: [Reaction], sendState: SendState? = nil, readBy: [ReadReceiptView], mentions: MentionsView? = nil, sendError: String? = nil, customContent: JSONValue? = nil, shield: ShieldView? = nil) {
             self.id = id
             self.itemKey = itemKey
             self.eventId = eventId
@@ -2341,6 +2446,7 @@ public enum TimelineEntry: Codable, Hashable, Sendable {
             self.mentions = mentions
             self.sendError = sendError
             self.customContent = customContent
+            self.shield = shield
         }
     }
     public struct DateDivider: Codable, Hashable, Sendable {
@@ -2448,6 +2554,18 @@ public enum TimelineKind: Codable, Hashable, Sendable {
             try container.encode("event", forKey: AnyKey("type"))
             try value.encode(to: encoder)
         }
+    }
+}
+
+/// The event `timestampToEvent` found
+public struct TimestampEvent: Codable, Hashable, Sendable {
+    public var eventId: String
+    /// When the sender's server saw it, in milliseconds
+    public var timestamp: Int
+
+    public init(eventId: String, timestamp: Int) {
+        self.eventId = eventId
+        self.timestamp = timestamp
     }
 }
 
@@ -3580,6 +3698,65 @@ public final class WizardClient: Remote, @unchecked Sendable {
 
     public func logout() async throws {
         _ = try await call("WizardClient.logout", []) as Empty
+    }
+
+    /// Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+    /// `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+    /// Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+    /// hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+    /// server would have to send the plain event).
+    public func sendDelayedEvent(roomId: String, eventType: String, content: JSONValue, delayMs: Int, stateKey: String? = nil) async throws -> String {
+        try await call("WizardClient.sendDelayedEvent", [.value(roomId), .value(eventType), .value(content), .value(delayMs), .value(stateKey)])
+    }
+
+    /// The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+    /// Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+    public func listDelayedEvents(roomId: String? = nil) async throws -> [DelayedEvent] {
+        try await call("WizardClient.listDelayedEvents", [.value(roomId)])
+    }
+
+    /// The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+    /// looking `direction` from it ("jump to date"); null when the room has no event that
+    /// way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+    /// `unsupportedByServer` when the homeserver can't look up dates.
+    public func timestampToEvent(roomId: String, timestamp: Int, direction: SearchDirection) async throws -> TimestampEvent? {
+        try await call("WizardClient.timestampToEvent", [.value(roomId), .value(timestamp), .value(direction)])
+    }
+
+    /// Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+    /// decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+    /// left out).
+    public func eventEditHistory(roomId: String, eventId: String) async throws -> [EventVersion] {
+        try await call("WizardClient.eventEditHistory", [.value(roomId), .value(eventId)])
+    }
+
+    /// A person's name and picture in one room or space (its `m.room.member` event), which
+    /// can differ from their account profile. Works for any user; the server answers for
+    /// people this device hasn't loaded.
+    public func roomMemberProfile(roomId: String, userId: String) async throws -> RoomMemberProfile {
+        try await call("WizardClient.roomMemberProfile", [.value(roomId), .value(userId)])
+    }
+
+    /// Sets the own name in one room or space only (the member event's `displayname`); null
+    /// or empty goes back to the account's display name. Needs a joined room.
+    public func setRoomNickname(roomId: String, displayname: String? = nil) async throws {
+        _ = try await call("WizardClient.setRoomNickname", [.value(roomId), .value(displayname)]) as Empty
+    }
+
+    /// Sets the own picture in one room or space only; without `data` it goes back to the
+    /// account's picture. Needs a joined room.
+    public func setRoomMemberAvatar(roomId: String, data: Data? = nil, mimetype: String? = nil) async throws {
+        _ = try await call("WizardClient.setRoomMemberAvatar", [.value(roomId), .value(data), .value(mimetype)]) as Empty
+    }
+
+    /// Calls a delayed event off so it is never sent.
+    public func cancelDelayedEvent(delayId: String) async throws {
+        _ = try await call("WizardClient.cancelDelayedEvent", [.value(delayId)]) as Empty
+    }
+
+    /// Has the server send a delayed event right now.
+    public func sendDelayedEventNow(delayId: String) async throws {
+        _ = try await call("WizardClient.sendDelayedEventNow", [.value(delayId)]) as Empty
     }
 
     /// Calls `listener` when tokens are refreshed (store the new session) or the session ends.

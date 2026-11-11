@@ -217,6 +217,26 @@ data class CustomStatus(
     val expiresAt: Long? = null,
 )
 
+/** A delayed event the homeserver holds for the user */
+@Serializable
+data class DelayedEvent(
+    /** What `cancelDelayedEvent` and `sendDelayedEventNow` take */
+    val delayId: String,
+    val roomId: String,
+    val eventType: String,
+    /** Set when the delayed event is a state event */
+    val stateKey: String? = null,
+    /** The content to send */
+    val content: JsonElement,
+    /** How long the server waits, in milliseconds */
+    val delayMs: Long,
+    /**
+     * When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+     * event goes out at `runningSince + delayMs`
+     */
+    val runningSince: Long,
+)
+
 @Serializable
 data class DeviceInfo(
     val deviceId: String,
@@ -423,6 +443,22 @@ data class EventSource(
     val original: JsonElement,
     /** Decrypted, when it was encrypted */
     val decrypted: JsonElement? = null,
+)
+
+/** One version of a message: the original or an edit */
+@Serializable
+data class EventVersion(
+    /** The original event's or the edit's ID */
+    val eventId: String,
+    val sender: String,
+    /** Milliseconds since the Unix epoch */
+    val timestamp: Long,
+    val isOriginal: Boolean,
+    val msgtype: String? = null,
+    val body: String,
+    /** Set with `formattedBody` when the version has HTML */
+    val format: String? = null,
+    val formattedBody: String? = null,
 )
 
 /** Who may read a room's history */
@@ -1098,6 +1134,16 @@ enum class RoomKind {
     @SerialName("invites") invites,
 }
 
+/** What a room's member event says about a person */
+@Serializable
+data class RoomMemberProfile(
+    /** `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event */
+    val membership: String? = null,
+    val displayname: String? = null,
+    /** `mxc://` URI */
+    val avatarUrl: String? = null,
+)
+
 /** What the user may do in a room, for showing or hiding actions */
 @Serializable
 data class RoomPermissions(
@@ -1208,6 +1254,13 @@ data class RoomTag(
     val order: Double? = null,
 )
 
+/** Which way `timestampToEvent` looks from the date */
+@Serializable
+enum class SearchDirection {
+    @SerialName("forward") forward,
+    @SerialName("backward") backward,
+}
+
 /** A message found by search */
 @Serializable
 data class SearchHit(
@@ -1315,6 +1368,32 @@ data class SfuConfig(
     val identity: String,
     /** The LiveKit room the token is for: services leading to the same SFU room share a connection */
     val alias: String,
+)
+
+/** Why a message gets a shield */
+@Serializable
+enum class ShieldCode {
+    @SerialName("authenticityNotGuaranteed") authenticityNotGuaranteed,
+    @SerialName("unknownDevice") unknownDevice,
+    @SerialName("unsignedDevice") unsignedDevice,
+    @SerialName("unverifiedIdentity") unverifiedIdentity,
+    @SerialName("verificationViolation") verificationViolation,
+    @SerialName("mismatchedSender") mismatchedSender,
+    @SerialName("sentInClear") sentInClear,
+}
+
+/** How serious a message's encryption warning is */
+@Serializable
+enum class ShieldColor {
+    @SerialName("red") red,
+    @SerialName("grey") grey,
+}
+
+/** The encryption warning to show on a message */
+@Serializable
+data class ShieldView(
+    val color: ShieldColor,
+    val code: ShieldCode,
 )
 
 /** A room or subspace inside a space, joined or not */
@@ -1493,6 +1572,11 @@ sealed interface TimelineEntry {
          * as an object; null when there are none or the content is not at hand (a local echo)
          */
         val customContent: JsonElement? = null,
+        /**
+         * A warning about the message's authenticity; null when it is fine (verified sender) or
+         * the room isn't encrypted
+         */
+        val shield: ShieldView? = null,
     ) : TimelineEntry
     @Serializable
     data class DateDivider(
@@ -1558,6 +1642,14 @@ sealed interface TimelineKind {
         }
     }
 }
+
+/** The event `timestampToEvent` found */
+@Serializable
+data class TimestampEvent(
+    val eventId: String,
+    /** When the sender's server saw it, in milliseconds */
+    val timestamp: Long,
+)
 
 @Serializable
 data class Tombstone(
@@ -2531,6 +2623,74 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun logout() {
         Runtime.callUnit("WizardClient.logout", handle, listOf())
+    }
+
+    /**
+     * Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+     * `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+     * Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+     * hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+     * server would have to send the plain event).
+     */
+    suspend fun sendDelayedEvent(roomId: String, eventType: String, content: JsonElement, delayMs: Long, stateKey: String? = null): String =
+        Runtime.call("WizardClient.sendDelayedEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content), Arg.value<Long>(delayMs), Arg.value<String?>(stateKey)))
+
+    /**
+     * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+     * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+     */
+    suspend fun listDelayedEvents(roomId: String? = null): List<DelayedEvent> =
+        Runtime.call("WizardClient.listDelayedEvents", handle, listOf(Arg.value<String?>(roomId)))
+
+    /**
+     * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+     * looking `direction` from it ("jump to date"); null when the room has no event that
+     * way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+     * `unsupportedByServer` when the homeserver can't look up dates.
+     */
+    suspend fun timestampToEvent(roomId: String, timestamp: Long, direction: SearchDirection): TimestampEvent? =
+        Runtime.call("WizardClient.timestampToEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(timestamp), Arg.value<SearchDirection>(direction)))
+
+    /**
+     * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+     * decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+     * left out).
+     */
+    suspend fun eventEditHistory(roomId: String, eventId: String): List<EventVersion> =
+        Runtime.call("WizardClient.eventEditHistory", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
+    /**
+     * A person's name and picture in one room or space (its `m.room.member` event), which
+     * can differ from their account profile. Works for any user; the server answers for
+     * people this device hasn't loaded.
+     */
+    suspend fun roomMemberProfile(roomId: String, userId: String): RoomMemberProfile =
+        Runtime.call("WizardClient.roomMemberProfile", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+
+    /**
+     * Sets the own name in one room or space only (the member event's `displayname`); null
+     * or empty goes back to the account's display name. Needs a joined room.
+     */
+    suspend fun setRoomNickname(roomId: String, displayname: String? = null) {
+        Runtime.callUnit("WizardClient.setRoomNickname", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(displayname)))
+    }
+
+    /**
+     * Sets the own picture in one room or space only; without `data` it goes back to the
+     * account's picture. Needs a joined room.
+     */
+    suspend fun setRoomMemberAvatar(roomId: String, data: Bytes? = null, mimetype: String? = null) {
+        Runtime.callUnit("WizardClient.setRoomMemberAvatar", handle, listOf(Arg.value<String>(roomId), Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
+    }
+
+    /** Calls a delayed event off so it is never sent. */
+    suspend fun cancelDelayedEvent(delayId: String) {
+        Runtime.callUnit("WizardClient.cancelDelayedEvent", handle, listOf(Arg.value<String>(delayId)))
+    }
+
+    /** Has the server send a delayed event right now. */
+    suspend fun sendDelayedEventNow(delayId: String) {
+        Runtime.callUnit("WizardClient.sendDelayedEventNow", handle, listOf(Arg.value<String>(delayId)))
     }
 
     /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */

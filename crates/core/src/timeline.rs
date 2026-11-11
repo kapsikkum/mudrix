@@ -22,8 +22,9 @@ use matrix_sdk::{
 };
 use matrix_sdk_ui::timeline::{
     default_event_filter, AttachmentConfig, AttachmentSource, EventSendState, EventTimelineItem,
-    MsgLikeKind, RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineFocus,
-    TimelineItem, TimelineItemContent, TimelineItemKind, VirtualTimelineItem,
+    MsgLikeKind, RoomExt, Timeline, TimelineDetails, TimelineEventItemId, TimelineEventShieldState,
+    TimelineEventShieldStateCode, TimelineFocus, TimelineItem, TimelineItemContent,
+    TimelineItemKind, VirtualTimelineItem,
 };
 use serde::Serialize;
 
@@ -69,6 +70,9 @@ pub enum TimelineEntry {
         /// The event content's namespaced keys other apps added (`xyz.mudrix.gif`, a gallery tag),
         /// as an object; null when there are none or the content is not at hand (a local echo)
         custom_content: Option<serde_json::Value>,
+        /// A warning about the message's authenticity; null when it is fine (verified sender) or
+        /// the room isn't encrypted
+        shield: Option<ShieldView>,
     },
     DateDivider {
         id: String,
@@ -290,6 +294,69 @@ fn event_entry(
             .or_else(|| event.latest_json())
             .and_then(|raw| raw.get_field::<serde_json::Value>("content").ok().flatten())
             .and_then(|content| custom_content(&content)),
+        shield: ShieldView::of(event.get_shield(false)),
+    }
+}
+
+/// How serious a message's encryption warning is
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum ShieldColor {
+    /// The sender can't be trusted (a forged or mismatched sender, a sender in clear text)
+    Red,
+    /// The sender isn't verified
+    Grey,
+}
+
+/// Why a message gets a shield
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum ShieldCode {
+    /// Not enough is known to check who sent it
+    AuthenticityNotGuaranteed,
+    /// The sending device isn't known yet
+    UnknownDevice,
+    /// The sending device isn't signed by its owner
+    UnsignedDevice,
+    /// The sender isn't verified
+    UnverifiedIdentity,
+    /// The sender was verified before but changed their identity
+    VerificationViolation,
+    /// The sender isn't the owner of the device that encrypted it
+    MismatchedSender,
+    /// Not encrypted although the room is
+    SentInClear,
+}
+
+/// The encryption warning to show on a message
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct ShieldView {
+    pub color: ShieldColor,
+    pub code: ShieldCode,
+}
+
+impl ShieldView {
+    fn of(state: TimelineEventShieldState) -> Option<Self> {
+        let (color, code) = match state {
+            TimelineEventShieldState::None => return None,
+            TimelineEventShieldState::Red { code } => (ShieldColor::Red, code),
+            TimelineEventShieldState::Grey { code } => (ShieldColor::Grey, code),
+        };
+        use TimelineEventShieldStateCode as Code;
+        let code = match code {
+            Code::AuthenticityNotGuaranteed => ShieldCode::AuthenticityNotGuaranteed,
+            Code::UnknownDevice => ShieldCode::UnknownDevice,
+            Code::UnsignedDevice => ShieldCode::UnsignedDevice,
+            Code::UnverifiedIdentity => ShieldCode::UnverifiedIdentity,
+            Code::VerificationViolation => ShieldCode::VerificationViolation,
+            Code::MismatchedSender => ShieldCode::MismatchedSender,
+            Code::SentInClear => ShieldCode::SentInClear,
+        };
+        Some(ShieldView { color, code })
     }
 }
 
@@ -1457,6 +1524,35 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn shield_states_map_to_a_colour_and_a_reason() {
+        assert_eq!(ShieldView::of(TimelineEventShieldState::None), None);
+        assert_eq!(
+            ShieldView::of(TimelineEventShieldState::Grey {
+                code: TimelineEventShieldStateCode::UnverifiedIdentity
+            }),
+            Some(ShieldView {
+                color: ShieldColor::Grey,
+                code: ShieldCode::UnverifiedIdentity
+            })
+        );
+        assert_eq!(
+            ShieldView::of(TimelineEventShieldState::Red {
+                code: TimelineEventShieldStateCode::SentInClear
+            }),
+            Some(ShieldView {
+                color: ShieldColor::Red,
+                code: ShieldCode::SentInClear
+            })
+        );
+        let json = serde_json::to_value(ShieldView {
+            color: ShieldColor::Red,
+            code: ShieldCode::MismatchedSender,
+        })
+        .unwrap();
+        assert_eq!(json, json!({ "color": "red", "code": "mismatchedSender" }));
+    }
 
     #[test]
     fn custom_content_keeps_only_foreign_namespaced_keys() {

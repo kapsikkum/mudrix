@@ -17,6 +17,7 @@ pub mod types;
 mod calls;
 mod client;
 mod client_account;
+mod client_events;
 mod client_extras;
 mod client_rooms;
 mod client_security;
@@ -130,6 +131,8 @@ impl From<Error> for RpcError {
             Error::NoKeyBackup => "noKeyBackup",
             Error::WrongRecoveryKey => "wrongRecoveryKey",
             Error::Cancelled => "cancelled",
+            Error::UnsupportedByServer(_) => "unsupportedByServer",
+            Error::Unsupported(_) => "unsupported",
             Error::Sdk(_) => "sdk",
         };
         let errcode = match &error {
@@ -612,6 +615,7 @@ async fn route(call: &mut Call, class: &str, method: &str) -> Option<Result<Repl
         client_account,
         client_rooms,
         client_extras,
+        client_events,
         client_security,
         login,
         login::pending,
@@ -632,6 +636,7 @@ pub fn routes(types: &mut typegen::Types) -> Vec<typegen::Route> {
         client_account::routes(types),
         client_rooms::routes(types),
         client_extras::routes(types),
+        client_events::routes(types),
         client_security::routes(types),
         login::routes(types),
         login::pending::routes(types),
