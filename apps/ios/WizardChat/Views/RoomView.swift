@@ -374,7 +374,6 @@ struct RoomView: View {
             canRedactOthers: canRedactOthers,
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
-            remind: { remindTarget = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
             selectText: { selectingText = IdentifiedString(id: $0.summary) },
             openThread: threadRoot != nil ? nil : { entry in
@@ -383,6 +382,7 @@ struct RoomView: View {
             },
             linkPreviews: linkPreviews,
             retry: { timeline.retrySending() },
+            remind: { remindTarget = $0 },
             openMenu: { entry, frame in
                 // The menu fades in by itself; the cover's own slide-up would fight it
                 var transaction = Transaction()

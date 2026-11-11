@@ -11,7 +11,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, media, integrations, emojis, notifications, voice, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, media, integrations, emojis, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
         var name: String { NSLocalizedString(titleKey, comment: "") }
@@ -24,7 +24,6 @@ struct SettingsView: View {
             case .integrations: return "settings.integrations.title"
             case .emojis: return "room.settings.emojis.title"
             case .notifications: return "settings.notifications.title"
-            case .voice: return "settings.voice.title"
             case .voiceVideo: return "settings.voiceVideo.title"
             case .appearance: return "settings.appearance.title"
             case .accessibility: return "settings.accessibility.title"
@@ -44,7 +43,6 @@ struct SettingsView: View {
             case .integrations: return "ph-plugs-connected-regular"
             case .emojis: return "ph-smiley-sticker-regular"
             case .notifications: return "ph-bell-regular"
-            case .voice: return "ph-speaker-high-regular"
             case .voiceVideo: return "ph-microphone-regular"
             case .appearance: return "ph-palette-regular"
             case .accessibility: return "ph-person-simple-circle-regular"
@@ -94,7 +92,7 @@ struct SettingsView: View {
                 .listRowBackground(theme.groupedRow)
 
                 Section {
-                    ForEach([Page.privacy, .media, .integrations, .notifications, .voice, .emojis]) { pageRow($0) }
+                    ForEach([Page.privacy, .media, .integrations, .notifications, .emojis]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.voiceVideo, .appearance, .accessibility, .language]) { pageRow($0) }
@@ -128,7 +126,6 @@ struct SettingsView: View {
                 case .integrations: IntegrationsSettings()
                 case .emojis: EmojisSettings()
                 case .notifications: NotificationSettingsPage()
-                case .voice: VoiceSettings()
                 case .voiceVideo: VoiceVideoSettings()
                 case .appearance: AppearanceSettings()
                 case .accessibility: AccessibilitySettings()

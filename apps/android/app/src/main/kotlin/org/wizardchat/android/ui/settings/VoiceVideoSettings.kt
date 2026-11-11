@@ -119,6 +119,7 @@ internal fun VoiceVideoSettings(onBack: () -> Unit) {
                 note = tr("settings.voiceVideo.pushToTalkNote"),
             )
         }
+        VoiceProcessingSection()
         SettingsSection(tr("settings.voiceVideo.video")) {
             PickerRow(
                 tr("call.camera"),
@@ -153,6 +154,9 @@ internal fun VoiceVideoSettings(onBack: () -> Unit) {
                 })
             }
         }
+        SoundEffectsSection()
+        SoundboardSection()
+        VoiceMovesSection()
     }
 }
 

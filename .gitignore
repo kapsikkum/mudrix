@@ -23,6 +23,8 @@ apps/ios/build/
 
 # Your own iOS signing (see apps/ios/Config/Local.example.xcconfig)
 apps/ios/Config/Local.xcconfig
+# Build-time API keys (see docs/SECRETS.md)
+apps/ios/Config/Secrets.xcconfig
 
 # Android: Gradle state, your SDK path, and the core built by apps/android/scripts/build-core.sh
 apps/android/.gradle/

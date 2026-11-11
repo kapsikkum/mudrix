@@ -62,6 +62,8 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
+        # GIF search key from Config/Secrets.xcconfig or the GIPHY_API_KEY build setting; empty turns the GIF picker off
+        WZGiphyApiKey: $(GIPHY_API_KEY)
         CFBundleLocalizations: [en, de, es, fr, it, pt, ru, ja, tr, nl, pl]
         # End-to-end encryption uses standard algorithms in open-source code, which is exempt
         ITSAppUsesNonExemptEncryption: false

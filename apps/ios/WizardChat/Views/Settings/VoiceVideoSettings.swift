@@ -58,6 +58,7 @@ struct VoiceVideoSettings: View {
             SettingsSection(title: "settings.voiceVideo.inputMode") {
                 ToggleRow(label: "settings.keybinds.pushToTalk", note: "settings.voiceVideo.pushToTalkNote", isOn: $prefs.pushToTalk)
             }
+            VoiceProcessingSection()
             SettingsSection(title: "settings.voiceVideo.video") {
                 Picker(selection: $cameraPosition) {
                     Text(String(localized: "call.frontCamera")).tag("front")
@@ -92,6 +93,7 @@ struct VoiceVideoSettings: View {
                         }))
                 }
             }
+            VoiceSettings()
         }
         .onAppear { inputs = Self.availableInputs() }
         .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.routeChangeNotification).receive(on: RunLoop.main)) { _ in

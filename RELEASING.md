@@ -32,12 +32,12 @@ Releases are `v*` tags, for example `v26.12.0-next.1`. The tag and `package.json
 
 Where the version lives today:
 
-| Place | How it follows `package.json` |
-| --- | --- |
-| root `package.json` (and `package-lock.json`) | the source: `npm version <v> --no-git-tag-version` |
-| desktop (`tauri.conf.json`) | reads `../../../package.json` |
-| iOS | `apps/ios/scripts/set-version.sh` copies it into `CFBundleShortVersionString` at build time, minus the pre-release suffix |
-| Cargo workspace (`Cargo.toml`, `version = "0.1.0"`) | **not** in step: set by hand if you want crate versions to match |
+| Place                                                                                     | How it follows `package.json`                                                                                                                                                                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| root `package.json` (and `package-lock.json`)                                             | the source: `npm version <v> --no-git-tag-version`                                                                                                                                                                                                          |
+| desktop (`tauri.conf.json`)                                                               | reads `../../../package.json`                                                                                                                                                                                                                               |
+| iOS                                                                                       | `apps/ios/scripts/set-version.sh` copies it into `CFBundleShortVersionString` at build time, minus the pre-release suffix                                                                                                                                   |
+| Cargo workspace (`Cargo.toml`, `version = "0.1.0"`)                                       | **not** in step: set by hand if you want crate versions to match                                                                                                                                                                                            |
 | Android (`apps/android/app/build.gradle.kts`: `versionName = "0.1.0"`, `versionCode = 1`) | **not** in step: set both by hand. `versionCode` must increase with every release; the old mobile app derived it as `major * 1000000 + minor * 1000 + patch` (26.10.19 is 26010019) and ignored the suffix, so every `-next.N` of a version shares one code |
 
 A script that sets all of these from one version (the old repos had `set-version.mjs` and `check-version.mjs`) is
@@ -45,16 +45,16 @@ still to be written.
 
 ## What a release should contain
 
-| file | what |
-| --- | --- |
-| `Mudrix-<v>-windows-x64-setup.exe` | NSIS installer, per user |
-| `Mudrix-<v>-windows-x64.msi` | MSI, stable releases only (WiX only takes numeric versions) |
-| `Mudrix-<v>-macos-universal.dmg` and `.app.tar.gz` (+ `.sig`) | macOS, Apple silicon and Intel |
-| `Mudrix-<v>-linux-x64.AppImage` / `.deb` / `.rpm` | Linux; pre-releases ship the AppImage only (deb and rpm reject a `-` in the version) |
-| `Mudrix-<v>.apk` (name not fixed yet) | Android, release-signed |
-| `Mudrix-unsigned.ipa` | iOS, unsigned, to be sideloaded |
-| `latest.json` | update manifest read by the desktop updater |
-| `SHA256SUMS.txt` | checksums of everything above |
+| file                                                          | what                                                                                 |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `Mudrix-<v>-windows-x64-setup.exe`                            | NSIS installer, per user                                                             |
+| `Mudrix-<v>-windows-x64.msi`                                  | MSI, stable releases only (WiX only takes numeric versions)                          |
+| `Mudrix-<v>-macos-universal.dmg` and `.app.tar.gz` (+ `.sig`) | macOS, Apple silicon and Intel                                                       |
+| `Mudrix-<v>-linux-x64.AppImage` / `.deb` / `.rpm`             | Linux; pre-releases ship the AppImage only (deb and rpm reject a `-` in the version) |
+| `Mudrix-<v>.apk` (name not fixed yet)                         | Android, release-signed                                                              |
+| `Mudrix-unsigned.ipa`                                         | iOS, unsigned, to be sideloaded                                                      |
+| `latest.json`                                                 | update manifest read by the desktop updater                                          |
+| `SHA256SUMS.txt`                                              | checksums of everything above                                                        |
 
 These names are the old Mudrix convention and are kept so that installs of the old apps can find their update; the
 workflows that create them do not exist yet.
@@ -95,7 +95,7 @@ No secret values belong in this repository or in this file.
   config and the private half into the secrets.
 - **Android** is signed with a keystore you create once and must keep safe: losing it means installed apps cannot be
   updated in place. Create it with `keytool -genkeypair -v -keystore mudrix-release.keystore -alias mudrix -keyalg RSA
-  -keysize 4096 -validity 10000`. The old mobile workflow read four repository secrets: `ANDROID_KEYSTORE_BASE64`,
+-keysize 4096 -validity 10000`. The old mobile workflow read four repository secrets: `ANDROID_KEYSTORE_BASE64`,
   `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD`, and fell back to a debug-signed APK when
   they were missing. `apps/android` here does not read them yet; wire up the signing config before the first release.
   Never commit a keystore.
@@ -103,7 +103,8 @@ No secret values belong in this repository or in this file.
   prefix come from `apps/ios/Config/Signing.xcconfig` (still the upstream team id, see
   [docs/BRANDING.md](docs/BRANDING.md)); use `Local.xcconfig` for your own Apple account.
 - Optional build-time keys for the GIF pickers (`VITE_GIPHY_API_KEY`, `VITE_KLIPY_API_KEY`) end up in the web bundle,
-  so they are visible to anyone who loads the app.
+  so they are visible to anyone who loads the app. The names every platform uses, and the repository secrets CI maps to
+  them, are in [docs/SECRETS.md](docs/SECRETS.md).
 
 ## Hosted web client (not set up)
 
@@ -117,8 +118,8 @@ future workflow work.
 
 Installs upgrade in place only if the ids match what the old Mudrix apps used:
 
-| App | Id |
-| --- | --- |
-| Desktop (Tauri `identifier`, deep-link scheme) | `chat.mudrix.desktop` |
-| Android `applicationId` (the Kotlin `namespace` is still `org.wizardchat.android`) | `chat.mudrix.mobile` |
-| iOS bundle id (`WZ_BUNDLE_PREFIX` `chat.mudrix` + `.mobile`, extensions `.mobile.widgets` and `.mobile.share`) | `chat.mudrix.mobile` |
+| App                                                                                                            | Id                    |
+| -------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Desktop (Tauri `identifier`, deep-link scheme)                                                                 | `chat.mudrix.desktop` |
+| Android `applicationId` (the Kotlin `namespace` is still `org.wizardchat.android`)                             | `chat.mudrix.mobile`  |
+| iOS bundle id (`WZ_BUNDLE_PREFIX` `chat.mudrix` + `.mobile`, extensions `.mobile.widgets` and `.mobile.share`) | `chat.mudrix.mobile`  |

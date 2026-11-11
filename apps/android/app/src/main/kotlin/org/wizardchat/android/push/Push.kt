@@ -21,7 +21,8 @@ import org.wizardchat.core.PusherConfig
 import org.wizardchat.core.SyncState
 
 object Push {
-    private const val GATEWAY = "https://push.wizardchat.org/_matrix/push/v1/notify"
+    /** The Matrix push gateway's notify URL, from PUSH_GATEWAY_URL at build time; empty registers no pusher */
+    private val GATEWAY = BuildConfig.PUSH_GATEWAY_URL
     private const val FETCH_TIMEOUT_MS = 15_000L
     private const val REGISTER_TIMEOUT_MS = 30_000L
     private const val TAG = "Push"
@@ -32,6 +33,7 @@ object Push {
 
     /** Points every signed-in account's pusher at this device's current token */
     suspend fun register(token: String? = null) {
+        if (GATEWAY.isBlank()) return
         val pushkey = token ?: PushProvider.token() ?: return
         mutex.withLock {
             coroutineScope {

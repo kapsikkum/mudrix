@@ -14,6 +14,8 @@ struct VoiceRoomView: View {
     @State private var barWidth: CGFloat = 0
 
     private var inThisCall: Bool { calls.isInCall(roomId: room.id) }
+    /// When this call began, once it is connected; drives the timer next to the title
+    private var callStartedAt: Int64? { inThisCall && calls.state == .joined ? calls.callStartedAt : nil }
 
     var body: some View {
         VStack(spacing: WZ.Space.space0) {
@@ -34,7 +36,14 @@ struct VoiceRoomView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button { showInfo = true } label: {
-                    RoomTitle(room: room, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: 1))
+                    HStack(spacing: WZ.Space.space3) {
+                        RoomTitle(room: room, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: callStartedAt == nil ? 1 : 2))
+                        if let started = callStartedAt {
+                            CallTimerText(startedAt: started)
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
+                        }
+                    }
                         .fixedSize()
                         .padding(.horizontal, WZ.Space.space6)
                         .padding(.vertical, WZ.Space.space2)
