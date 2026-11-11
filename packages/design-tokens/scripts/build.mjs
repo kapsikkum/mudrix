@@ -164,9 +164,14 @@ export declare const media: ${JSON.stringify(media, null, 2)};
 
 // Themes may hold `rgba(r, g, b, a)` (the web's form); the native outputs want #rrggbb[aa]
 const toHex = (color) => {
-  const m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:\s*[,/]\s*([\d.]+)(%?))?\s*\)$/.exec(color.trim());
+  const m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)(?:\s*[,/]\s*([\d.]+)(%?))?\s*\)$/.exec(
+    color.trim()
+  );
   if (!m) return color;
-  const byte = (n) => Math.round(Math.min(255, Math.max(0, Number(n)))).toString(16).padStart(2, '0');
+  const byte = (n) =>
+    Math.round(Math.min(255, Math.max(0, Number(n))))
+      .toString(16)
+      .padStart(2, '0');
   const alpha = m[4] === undefined ? 1 : Number(m[4]) / (m[5] ? 100 : 1);
   return `#${byte(m[1])}${byte(m[2])}${byte(m[3])}${byte(alpha * 255)}`;
 };

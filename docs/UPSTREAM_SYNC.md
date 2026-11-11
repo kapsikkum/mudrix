@@ -751,14 +751,14 @@ Upstream look, nothing in old Mudrix to match: settings search (`SettingsSearch`
 
 ### Checks (on `web-look` after the merge)
 
-| Check | Result |
-| --- | --- |
-| `npm install` | OK |
-| `npm run tokens` | 29 themes |
-| `npm run i18n` | 2518 keys in de, en, es, fr, it, ja, nl, pl, pt, ru, tr, all languages complete |
-| `npx tsc --noEmit` (apps/web) | no errors |
-| `npx eslint .` (apps/web) | 0 errors, 15 warnings |
-| `cargo check --workspace -j 4` | Finished |
-| `npm run core:web:dev` | Done |
-| `npx vite build` | built |
-| Android / iOS | not built |
+| Check                          | Result                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `npm install`                  | OK                                                                              |
+| `npm run tokens`               | 29 themes                                                                       |
+| `npm run i18n`                 | 2518 keys in de, en, es, fr, it, ja, nl, pl, pt, ru, tr, all languages complete |
+| `npx tsc --noEmit` (apps/web)  | no errors                                                                       |
+| `npx eslint .` (apps/web)      | 0 errors, 15 warnings                                                           |
+| `cargo check --workspace -j 4` | Finished                                                                        |
+| `npm run core:web:dev`         | Done                                                                            |
+| `npx vite build`               | built                                                                           |
+| Android / iOS                  | not built                                                                       |
