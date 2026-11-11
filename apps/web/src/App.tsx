@@ -11,7 +11,10 @@ import {
   dateFormatAtom,
   emojiStyleAtom,
   emojiOnlySizeAtom,
+  useSystemAccentAtom,
 } from '@/app/store/atoms';
+import { useSystemAccent } from '@/app/hooks/useSystemAccent';
+import { withAccent } from '@/theme/themeTokens';
 import { setDisplayFormats } from '@/util/format';
 import { applyEmojiOnlySize, applyEmojiStyle } from '@/util/emojiStyle';
 import { THEMES, DEFAULT_THEME, baseLogoClass } from '@/theme/themes.css';
@@ -42,6 +45,8 @@ function MatrixToLink() {
 export function App() {
   const theme = useAtomValue(effectiveThemeAtom);
   const customThemes = useAtomValue(customThemesAtom);
+  const useSystemAccentPref = useAtomValue(useSystemAccentAtom);
+  const systemAccent = useSystemAccent(useSystemAccentPref && theme === 'Carbon');
   const themedAppIcon = useAtomValue(themedAppIconAtom);
   const uiZoom = useAtomValue(uiZoomAtom);
   const messageSendAnimation = useAtomValue(messageSendAnimationAtom);
@@ -65,11 +70,19 @@ export function App() {
       : (THEMES[theme] ?? THEMES[DEFAULT_THEME]);
     Object.values(THEMES).forEach((cls) => document.documentElement.classList.remove(cls));
     document.documentElement.classList.add(themeClass);
-    applyCustomThemeVars(custom ? resolveThemeColors(theme) : null);
+    // Carbon can take the operating system's accent colour.
+    const accented = theme === 'Carbon' && systemAccent !== null;
+    applyCustomThemeVars(
+      accented
+        ? withAccent(resolveThemeColors(theme), systemAccent)
+        : custom
+          ? resolveThemeColors(theme)
+          : null
+    );
     document.documentElement.setAttribute('data-theme-name', theme);
     const { color } = resolveThemeTokens(theme);
     window.desktopAPI?.setTitleBarTheme?.(color.bgPrimary, color.textPrimary);
-  }, [theme, customThemes]);
+  }, [theme, customThemes, systemAccent]);
 
   useEffect(() => {
     const zoom = Number.isFinite(uiZoom) ? Math.min(Math.max(uiZoom, 75), 150) : 100;

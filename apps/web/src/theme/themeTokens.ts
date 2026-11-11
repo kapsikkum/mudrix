@@ -1,4 +1,5 @@
 import { themeColors, themes, type ThemeId } from '@wizardchat/design-tokens';
+import { hexToRgb, isHexColor, isLightColor, mixHex, readableAccent, withAlpha } from './colorMath';
 
 /**
  * Themes are build-time JSON in packages/design-tokens (the native apps read the same files). This
@@ -101,44 +102,28 @@ export const THEME_SPEC_KEYS: readonly (keyof ThemeSpec)[] = [
   'msgOtherBg',
 ];
 
-const HEX6 = /^#[0-9a-f]{6}$/i;
+export { isHexColor, isLightColor };
 
-export function isHexColor(value: unknown): value is string {
-  return typeof value === 'string' && HEX6.test(value);
-}
-
-function hexToRgb(hex: string): [number, number, number] {
-  return [
-    parseInt(hex.slice(1, 3), 16),
-    parseInt(hex.slice(3, 5), 16),
-    parseInt(hex.slice(5, 7), 16),
-  ];
-}
-
-const channel = (value: number) => Math.round(value).toString(16).padStart(2, '0');
-
-function mixHex(a: string, b: string, t: number): string {
-  const [ar, ag, ab] = hexToRgb(a);
-  const [br, bg, bb] = hexToRgb(b);
-  return `#${channel(ar + (br - ar) * t)}${channel(ag + (bg - ag) * t)}${channel(ab + (bb - ab) * t)}`;
-}
-
-/** `#rrggbb` with an alpha (0-1) as `#rrggbbaa`, the format the design tokens use. */
-function withAlpha(hex: string, alpha: number): string {
-  return `${hex}${channel(alpha * 255)}`;
-}
-
-function luminance(hex: string): number {
-  const [r, g, b] = hexToRgb(hex).map((v) => {
-    const c = v / 255;
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-/** True for a light background (relative luminance above the midpoint). */
-export function isLightColor(hex: string): boolean {
-  return luminance(hex) > 0.4;
+/**
+ * The same theme with its accent colour swapped for the operating system's (nudged until it is
+ * readable on the theme), and the colours derived from the accent re-derived.
+ */
+export function withAccent(colors: ThemeColors, systemAccent: string): ThemeColors {
+  const light = isLightColor(colors.bg.app);
+  const accent = readableAccent(systemAccent, light);
+  const hover = mixHex(accent, '#000000', 0.18);
+  return {
+    ...colors,
+    bg: { ...colors.bg, active: withAlpha(accent, light ? 0.14 : 0.2) },
+    accent: {
+      default: accent,
+      hover,
+      soft: withAlpha(accent, light ? 0.12 : 0.15),
+      glow1: withAlpha(accent, 0.05),
+      glow2: withAlpha(accent, 0.03),
+    },
+    border: { ...colors.border, focus: light ? hover : mixHex(accent, '#ffffff', 0.35) },
+  };
 }
 
 const firstOfScheme = (scheme: 'light' | 'dark') =>

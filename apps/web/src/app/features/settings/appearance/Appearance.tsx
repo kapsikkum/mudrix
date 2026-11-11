@@ -39,6 +39,7 @@ import { CustomThemesSection } from './CustomThemes';
 import { hasThemedLogo } from '@/theme/themeLogos';
 import { useMemo } from 'react';
 import { isTauriDesktop } from '@/util/desktop';
+import { readSystemAccent } from '@/app/hooks/useSystemAccent';
 import { useProfile } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Avatar } from '@/app/components/Avatar';
@@ -324,7 +325,7 @@ export function Appearance() {
           </div>
         )}
 
-        {isTauriDesktop() && effectiveTheme === 'Carbon' && (
+        {(isTauriDesktop() || readSystemAccent() !== null) && effectiveTheme === 'Carbon' && (
           <ToggleRow
             label={t('settings.appearance.systemAccent')}
             description={t('settings.appearance.systemAccentNote')}
