@@ -4,6 +4,9 @@ WZ_TEAM = QLN374H4MT
 WZ_BUNDLE_PREFIX = chat.mudrix
 WZ_APP_GROUP = group.$(WZ_BUNDLE_PREFIX).mobile
 
+// apns mode: point this at WizardChat/WizardChat-Push.entitlements (adds the Push Notifications capability)
+WZ_ENTITLEMENTS = WizardChat/WizardChat.entitlements
+WZ_PUSH_MODE = keepalive
 #include? "Local.xcconfig"
 // Build-time API keys (see Secrets.example.xcconfig); the file is optional
 #include? "Secrets.xcconfig"

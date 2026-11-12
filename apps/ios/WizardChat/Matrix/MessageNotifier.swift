@@ -77,6 +77,11 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         try? await UNUserNotificationCenter.current().add(request)
     }
 
+    /// Shows a message a push told the app about
+    func show(_ notification: WizardChatCore.Notification) {
+        Task { await notify(notification) }
+    }
+
     func notifyMissedCall(_ call: IncomingCall) {
         guard let prefs, prefs.notificationBanners || prefs.notificationSounds,
               call.roomId != activeRoomId else { return }

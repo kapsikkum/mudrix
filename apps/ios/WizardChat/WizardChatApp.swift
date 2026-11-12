@@ -3,6 +3,7 @@ import UIKit
 
 @main
 struct WizardChatApp: App {
+    @UIApplicationDelegateAdaptor(PushAppDelegate.self) private var pushDelegate
     @StateObject private var session = MatrixSession()
     @StateObject private var prefs = AppPreferences()
     @StateObject private var notifier = MessageNotifier()
@@ -126,6 +127,12 @@ struct WizardChatApp: App {
         if let roomList = session.roomList {
             notifier.start(roomList: roomList, prefs: prefs)
         }
+        Push.client = { [weak session] in session?.client }
+        Push.show = { [weak notifier] in notifier?.show($0) }
+        Push.resume = { [weak session] in await session?.resumeSync() }
+        Push.pause = { [weak session] in await session?.pauseSync(keepRunning: false) }
+        Push.requestToken()
+        Push.scheduleRefresh()
         if let client = session.client {
             let notifier = notifier
             calls.watchIncoming(client, session: session) { [weak notifier] call in notifier?.notifyMissedCall(call) }

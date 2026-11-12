@@ -52,7 +52,12 @@ targets:
         UILaunchScreen:
           UIColorName: LaunchBackground
         # Keep voice room audio running with the screen off or the app in the background
-        UIBackgroundModes: [audio]
+        # remote-notification: silent pushes (apns mode); fetch: BGAppRefreshTask syncs (keepalive mode)
+        UIBackgroundModes: [audio, remote-notification, fetch]
+        BGTaskSchedulerPermittedIdentifiers: [chat.mudrix.mobile.refresh]
+        # How notifications arrive while closed: apns (needs a push gateway and the Push capability) or keepalive
+        WZPushMode: $(WZ_PUSH_MODE)
+        WZPushGateway: $(WZ_PUSH_GATEWAY_URL)
         # Opened by the share extension to send what you shared
         CFBundleURLTypes:
           - CFBundleURLName: chat.mudrix.mobile
@@ -82,7 +87,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile
-        CODE_SIGN_ENTITLEMENTS: WizardChat/WizardChat.entitlements
+        CODE_SIGN_ENTITLEMENTS: $(WZ_ENTITLEMENTS)
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Mudrix
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
