@@ -92,6 +92,8 @@ struct RoomInfoView: View {
                     Section(String(localized: "room.topic")) { Text(topic).foregroundStyle(theme.textPrimary) }
                 }
 
+                RoomMemberProfileSection(roomId: room.id, client: client) { error = $0 }
+
                 Section {
                     Toggle(isOn: Binding(get: { encrypted }, set: { if $0 { confirmEncryption = true } })) {
                         VStack(alignment: .leading, spacing: WZ.Space.space0) {

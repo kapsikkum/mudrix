@@ -89,6 +89,8 @@ struct EncryptionSettings: View {
                 }
             }
 
+            if hasIdentity == true { RoomKeysSection() }
+
             if let error = setup.error { StatusText(text: error) }
         }
         .task {
