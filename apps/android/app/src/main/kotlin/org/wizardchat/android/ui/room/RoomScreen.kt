@@ -189,6 +189,7 @@ class MessageActions(
     val report: (ChatEntry) -> Unit = {},
     val forward: (ChatEntry) -> Unit = {},
     val viewSource: (ChatEntry) -> Unit = {},
+    val onEditHistory: (ChatEntry) -> Unit = {},
     val openThread: ((ChatEntry) -> Unit)? = null,
     /** Set only in unencrypted rooms */
     val linkPreviews: LinkPreviewLoader? = null,
@@ -218,6 +219,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     val reactionPacks = remember { PacksStore() }
     var showInfo by remember { mutableStateOf(false) }
     var showJumpToDate by remember { mutableStateOf(false) }
+    var editHistoryFor by remember { mutableStateOf<ChatEntry?>(null) }
     var canPin by remember { mutableStateOf(false) }
     var canRedactOthers by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf<ChatEntry?>(null) }
@@ -422,6 +424,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         report = { reporting = it },
         forward = { forwarding = it },
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
+        onEditHistory = { entry -> editHistoryFor = entry },
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
         linkPreviews = linkPreviews,
         isEncrypted = room.isEncrypted,
@@ -554,8 +557,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         )
     }
     if (showJumpToDate) {
-        JumpToDateSheet(
-            client = client,
+        JumpToDateSheet(            client = client,
             roomId = room.id,
             onJump = { eventId ->
                 showJumpToDate = false
@@ -563,6 +565,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             },
             onDismiss = { showJumpToDate = false },
         )
+    }
+    editHistoryFor?.eventId?.let { id ->
+        EditHistorySheet(client = client, roomId = room.id, eventId = id, onDismiss = { editHistoryFor = null })
     }
     if (showThreads) {
         ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
@@ -1629,6 +1634,7 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                 item(tr("timeline.forward"), "arrow-circle-right") { actions.forward(entry) }
             }
             item(tr("timeline.remind.title"), "alarm", action = onRemind)
+            if (entry.isEdited) item(tr("timeline.editHistory.open"), "clock-counter-clockwise") { actions.onEditHistory(entry) }
             item(tr("timeline.viewSource"), "code") { actions.viewSource(entry) }
             HorizontalDivider(color = theme.border)
             if (!entry.isOwn) item(tr("timeline.reportShort"), "flag", destructive = true) { actions.report(entry) }
