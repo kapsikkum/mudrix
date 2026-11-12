@@ -295,6 +295,10 @@ fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit
                     }
 
                     item {
+                        RoomMemberProfileItem(room.id) { message -> error = message }
+                    }
+
+                    item {
                         GroupedSection {
                             GroupedRow(
                                 tr("room.settings.general.e2ee"),
