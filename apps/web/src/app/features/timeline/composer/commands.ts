@@ -38,6 +38,8 @@ export interface CommandContext {
   setComposerText?: (text: string) => void;
   /** Integration commands: asks the person to confirm an api action before it is called. */
   openApiConfirm?: (request: { integrationId: string; actionId: string; args: string }) => void;
+  /** Integration commands: opens the integration's widget over the room. */
+  openIntegrationWidget?: (integrationId: string) => void;
 }
 
 export interface CommandDefinition {

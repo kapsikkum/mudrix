@@ -2,7 +2,13 @@ import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import '../gate';
 import { grantsAtom, installedIntegrationsAtom, integrationSettingsAtom } from '../store';
-import { findLinkLookup, matchLinkCard, type LinkCardMatch } from '../matching';
+import {
+  findLinkLookup,
+  findLinkViewer,
+  matchLinkCard,
+  type LinkCardMatch,
+  type LinkViewer,
+} from '../matching';
 import type { LinkLookup } from '../manifest';
 
 const URL_RE = /https?:\/\/[^\s<>"']+/gi;
@@ -11,6 +17,8 @@ const MAX_CARDS = 3;
 export interface IntegrationCardData extends LinkCardMatch {
   url: string;
   iconDataUrl?: string;
+  /** Set when the same integration may also open this link in a window (a button on the card). */
+  viewer?: LinkViewer;
   /** Set when the integration may look the link up on its approved host (`linkDetails`). */
   lookup?: { host: string; lookup: LinkLookup; allow: string[] };
 }
@@ -35,11 +43,13 @@ export function useIntegrationCards(body?: string, formattedBody?: string): Inte
           seen.add(url);
           const m = matchLinkCard(url, installed, grants, stored);
           if (m) {
+            const viewer = findLinkViewer(url, installed, grants);
             const lookup = findLinkLookup(m, installed, grants);
             out.push({
               ...m,
               url,
               iconDataUrl: installed.find((i) => i.id === m.integrationId)?.iconDataUrl,
+              ...(viewer && viewer.integrationId === m.integrationId ? { viewer } : {}),
               ...(lookup ? { lookup } : {}),
             });
           }

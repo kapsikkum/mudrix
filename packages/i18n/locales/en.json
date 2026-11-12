@@ -595,7 +595,20 @@
         "splitDone_one": "Pack saved.",
         "splitDone_other": "Pack split into {{count}} packs.",
         "splitFailed": "Failed to split pack: {{error}}",
-        "serverTooLarge": "The server rejected the pack because it is too large (limit 64 KB per event). Remove images or split the pack."
+        "serverTooLarge": "The server rejected the pack because it is too large (limit 64 KB per event). Remove images or split the pack.",
+        "uploadingProgress": "Uploading {{done}} of {{total}}",
+        "savingPacksProgress": "Saving pack {{done}} of {{total}}",
+        "uploadFailedSome_one": "{{count}} upload failed",
+        "uploadFailedSome_other": "{{count}} uploads failed",
+        "uploadCancelled": "Upload cancelled. {{done}} of {{total}} images were uploaded.",
+        "retryFailed_one": "Retry {{count}} failed upload",
+        "retryFailed_other": "Retry {{count}} failed uploads",
+        "resumeUpload": "Resume upload",
+        "uploadAndCreate": "Upload & Create Pack",
+        "uploadPackDone": "Pack \"{{name}}\" uploaded with {{count}} items ({{packs}} pack(s)) to the {{target}}.",
+        "willSplit": "This is too large for one pack. It will be saved as {{packs}} packs of about {{per}} images each.",
+        "targetRoom": "room",
+        "targetSpace": "space"
       },
       "members": {
         "searchMembers": "Search members",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Open",
+      "openHere": "Open here",
+      "openInBrowser": "Open in browser",
+      "nothingLoaded": "Nothing from {{host}} loads until you press “{{label}}”. It then runs in an isolated window.",
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · details from {{host}}",
       "loadDetails": "Show details from {{host}}",
@@ -3114,7 +3130,8 @@
       "paused": "Not asking {{host}} while streamer mode is on."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (code)"
     },
     "command": {
       "description": "{{description}} · via {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "Sent to {{host}}. A link was added to your message box.",
       "failed": "Could not send: {{error}}",
       "unavailable": "This action is no longer available. The integration may be turned off or uninstalled."
+    },
+    "widget": {
+      "title": "Widget",
+      "badge": "Runs code",
+      "codeFrom": "Code from {{host}}",
+      "frameTitle": "{{name}} (code from {{host}})",
+      "unavailable": "This widget is not available. It may be turned off or uninstalled.",
+      "failed": "The widget could not be started."
     }
   },
   "encryption": {

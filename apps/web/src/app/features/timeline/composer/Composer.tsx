@@ -613,6 +613,7 @@ export function Composer({
 
       <IntegrationDialogs
         owner={integrationOwner}
+        client={client}
         roomId={roomId}
         onInsertLink={insertIntegrationText}
       />

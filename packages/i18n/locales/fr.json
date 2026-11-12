@@ -595,7 +595,20 @@
         "splitDone_one": "Pack enregistré.",
         "splitDone_other": "Pack scindé en {{count}} packs.",
         "splitFailed": "Échec de la scission du pack : {{error}}",
-        "serverTooLarge": "Le serveur a rejeté le pack car il est trop volumineux (limite de 64 Ko par événement). Retirez des images ou scindez le pack."
+        "serverTooLarge": "Le serveur a rejeté le pack car il est trop volumineux (limite de 64 Ko par événement). Retirez des images ou scindez le pack.",
+        "uploadingProgress": "Envoi de {{done}} sur {{total}}",
+        "savingPacksProgress": "Enregistrement du pack {{done}} sur {{total}}",
+        "uploadFailedSome_one": "{{count}} envoi a échoué",
+        "uploadFailedSome_other": "{{count}} envois ont échoué",
+        "uploadCancelled": "Envoi annulé. {{done}} images sur {{total}} ont été envoyées.",
+        "retryFailed_one": "Réessayer {{count}} envoi échoué",
+        "retryFailed_other": "Réessayer {{count}} envois échoués",
+        "resumeUpload": "Reprendre l'envoi",
+        "uploadAndCreate": "Envoyer et créer le pack",
+        "uploadPackDone": "Le pack « {{name}} » a été envoyé avec {{count}} éléments ({{packs}} pack(s)) vers {{target}}.",
+        "willSplit": "Ceci est trop volumineux pour un seul pack. Il sera enregistré en {{packs}} packs d'environ {{per}} images chacun.",
+        "targetRoom": "le salon",
+        "targetSpace": "l'espace"
       },
       "members": {
         "searchMembers": "Rechercher des membres",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Ouvrir",
+      "openHere": "Ouvrir ici",
+      "openInBrowser": "Ouvrir dans le navigateur",
+      "nothingLoaded": "Rien de {{host}} n'est chargé avant d'appuyer sur « {{label}} ». Il s'exécute ensuite dans une fenêtre isolée.",
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · détails de {{host}}",
       "loadDetails": "Afficher les détails de {{host}}",
@@ -3114,7 +3130,8 @@
       "paused": "{{host}} n'est pas interrogé tant que le mode streamer est activé."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (code)"
     },
     "command": {
       "description": "{{description}} · via {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "Envoyé à {{host}}. Un lien a été ajouté à votre zone de message.",
       "failed": "Impossible d'envoyer : {{error}}",
       "unavailable": "Cette action n'est plus disponible. L'intégration est peut-être désactivée ou désinstallée."
+    },
+    "widget": {
+      "title": "Widget",
+      "badge": "Exécute du code",
+      "codeFrom": "Code provenant de {{host}}",
+      "frameTitle": "{{name}} (code de {{host}})",
+      "unavailable": "Ce widget n'est pas disponible. Il est peut-être désactivé ou désinstallé.",
+      "failed": "Le widget n'a pas pu être démarré."
     }
   },
   "encryption": {

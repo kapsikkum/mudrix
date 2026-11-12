@@ -595,7 +595,20 @@
         "splitDone_one": "パックを保存しました。",
         "splitDone_other": "パックを {{count}} 個に分割しました。",
         "splitFailed": "パックの分割に失敗しました: {{error}}",
-        "serverTooLarge": "パックが大きすぎるため、サーバーに拒否されました（イベントあたり64 KBの制限）。画像を削除するか、パックを分割してください。"
+        "serverTooLarge": "パックが大きすぎるため、サーバーに拒否されました（イベントあたり64 KBの制限）。画像を削除するか、パックを分割してください。",
+        "uploadingProgress": "アップロード中 {{done}} / {{total}}",
+        "savingPacksProgress": "パック {{done}} / {{total}} を保存中",
+        "uploadFailedSome_one": "{{count}} 件のアップロードに失敗しました",
+        "uploadFailedSome_other": "{{count}} 件のアップロードに失敗しました",
+        "uploadCancelled": "アップロードをキャンセルしました。{{total}} 件中 {{done}} 件の画像がアップロードされました。",
+        "retryFailed_one": "失敗した {{count}} 件のアップロードを再試行",
+        "retryFailed_other": "失敗した {{count}} 件のアップロードを再試行",
+        "resumeUpload": "アップロードを再開",
+        "uploadAndCreate": "アップロードしてパックを作成",
+        "uploadPackDone": "パック「{{name}}」を {{count}} 件のアイテム（{{packs}} 個のパック）と共に {{target}} にアップロードしました。",
+        "willSplit": "1つのパックには大きすぎます。約 {{per}} 枚ずつの {{packs}} 個のパックとして保存されます。",
+        "targetRoom": "ルーム",
+        "targetSpace": "スペース"
       },
       "members": {
         "searchMembers": "メンバーを検索",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "開く",
+      "openHere": "ここで開く",
+      "openInBrowser": "ブラウザで開く",
+      "nothingLoaded": "「{{label}}」を押すまで {{host}} からは何も読み込まれません。押すと隔離されたウィンドウで実行されます。",
       "via": "{{name}} 経由",
       "viaDetails": "{{name}} 経由 · 詳細は {{host}} から",
       "loadDetails": "{{host}} から詳細を表示",
@@ -3114,7 +3130,8 @@
       "paused": "配信者モードがオンの間は {{host}} に問い合わせません。"
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (コード)"
     },
     "command": {
       "description": "{{description}} · {{name}} 経由"
@@ -3132,6 +3149,14 @@
       "sentLink": "{{host}} に送信しました。メッセージ入力欄にリンクが追加されました。",
       "failed": "送信できませんでした: {{error}}",
       "unavailable": "この操作は現在利用できません。統合機能が無効またはアンインストールされている可能性があります。"
+    },
+    "widget": {
+      "title": "ウィジェット",
+      "badge": "コードを実行",
+      "codeFrom": "{{host}} のコード",
+      "frameTitle": "{{name}} ({{host}} のコード)",
+      "unavailable": "このウィジェットは利用できません。無効またはアンインストールされた可能性があります。",
+      "failed": "ウィジェットを起動できませんでした。"
     }
   },
   "encryption": {

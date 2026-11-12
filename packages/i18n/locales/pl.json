@@ -595,7 +595,20 @@
         "splitDone_one": "Pakiet został zapisany.",
         "splitDone_other": "Pakiet został podzielony; liczba nowych pakietów: {{count}}.",
         "splitFailed": "Nie udało się podzielić pakietu: {{error}}",
-        "serverTooLarge": "Serwer odrzucił pakiet, ponieważ jest zbyt duży (limit 64 KB na zdarzenie). Usuń obrazy lub podziel pakiet."
+        "serverTooLarge": "Serwer odrzucił pakiet, ponieważ jest zbyt duży (limit 64 KB na zdarzenie). Usuń obrazy lub podziel pakiet.",
+        "uploadingProgress": "Przesyłanie: {{done}} z {{total}}",
+        "savingPacksProgress": "Zapisywanie pakietu: {{done}} z {{total}}",
+        "uploadFailedSome_one": "Nieudane przesłanie: {{count}}",
+        "uploadFailedSome_other": "Nieudane przesłania: {{count}}",
+        "uploadCancelled": "Przesyłanie anulowane. Przesłano obrazów: {{done}} z {{total}}.",
+        "retryFailed_one": "Ponów {{count}} nieudane przesłanie",
+        "retryFailed_other": "Ponów nieudane przesyłania: {{count}}",
+        "resumeUpload": "Wznów przesyłanie",
+        "uploadAndCreate": "Prześlij i utwórz pakiet",
+        "uploadPackDone": "Pakiet „{{name}}” został przesłany z elementami w liczbie {{count}} (pakiety: {{packs}}) do: {{target}}.",
+        "willSplit": "Ten pakiet jest za duży na jeden zestaw. Zostanie zapisany jako pakiety w liczbie {{packs}}, po około {{per}} obrazów w każdym.",
+        "targetRoom": "pokoju",
+        "targetSpace": "przestrzeni"
       },
       "members": {
         "searchMembers": "Szukaj członków",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Otwórz",
+      "openHere": "Otwórz tutaj",
+      "openInBrowser": "Otwórz w przeglądarce",
+      "nothingLoaded": "Nic z {{host}} nie zostanie załadowane, dopóki nie naciśniesz „{{label}}”. Następnie uruchomi się w odizolowanym oknie.",
       "via": "przez {{name}}",
       "viaDetails": "przez {{name}} · szczegóły z {{host}}",
       "loadDetails": "Pokaż szczegóły z {{host}}",
@@ -3114,7 +3130,8 @@
       "paused": "Nie pytamy {{host}}, dopóki włączony jest tryb streamera."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (kod)"
     },
     "command": {
       "description": "{{description}} · przez {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "Wysłano do {{host}}. Link został dodany do Twojego pola wiadomości.",
       "failed": "Nie udało się wysłać: {{error}}",
       "unavailable": "To działanie nie jest już dostępne. Integracja mogła zostać wyłączona lub odinstalowana."
+    },
+    "widget": {
+      "title": "Widżet",
+      "badge": "Uruchamia kod",
+      "codeFrom": "Kod z {{host}}",
+      "frameTitle": "{{name}} (kod z {{host}})",
+      "unavailable": "Ten widżet jest niedostępny. Mógł zostać wyłączony lub odinstalowany.",
+      "failed": "Nie udało się uruchomić widżetu."
     }
   },
   "encryption": {

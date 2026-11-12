@@ -433,6 +433,7 @@ export function useComposer({
               setComposerText,
               openApiConfirm: (req) =>
                 integrationLauncher.openApi(req.integrationId, req.actionId, req.args, req.args),
+              openIntegrationWidget: (id) => integrationLauncher.openWidget(id),
             };
             try {
               await cmd.fn(parsed.args, ctx);

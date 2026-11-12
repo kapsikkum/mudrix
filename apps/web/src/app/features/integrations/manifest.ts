@@ -1,12 +1,19 @@
 /**
- * Integration repositories are data only: nothing from a repo.json is ever executed. This file
+ * Integration repositories are data only: nothing from a repo.json is ever executed by the
+ * client itself. The one exception is `permissions.widget`, which names a page that runs in a
+ * sandboxed iframe on its own origin (see `runsCode`). This file
  * holds the types and a strict hand-written validator. Anything unknown is rejected rather than
  * ignored, so a manifest can never carry a capability the client does not know how to show for
- * approval. Widgets (pages that run code) are known by name so they get a clear message, but this
- * app does not run them: an entry that asks for one is listed and can never be installed.
+ * approval.
  */
 
+import { MAX_WIDGET_EVENTS, checkEventType } from './customEvents';
 import { MAX_SERIAL, isValidKey } from './signature';
+import {
+  WIDGET_CAPABILITY_IDS,
+  WIDGET_PARAMETERS,
+  type WidgetParameter,
+} from './widgetCapabilities';
 
 export const MANIFEST_SCHEMA = 1;
 /** Cap on the raw repo.json text, in bytes. */
@@ -138,6 +145,34 @@ export interface SlashCommand {
   insert?: string;
   /** Id of an action in this integration's `api.actions`. Exclusive with `insert`. */
   api?: string;
+  /** Opens this integration's widget. Exclusive with `insert` and `api`. */
+  widget?: true;
+}
+
+export interface WidgetPermission {
+  /** https, no fragment, no `$` template variables. */
+  url: string;
+  /** Defaults to the integration name. */
+  name?: string;
+  /** Ids from WIDGET_CAPABILITY_CATALOGUE. Empty = the widget can only display. */
+  capabilities: string[];
+  /** Extra URL query parameters Mudrix may add (besides the always-sent theme and lang). */
+  parameters?: WidgetParameter[];
+  /**
+   * The widget's own custom room event types (at most 3, reverse-DNS style, see customEvents.ts).
+   * The widget may send and read exactly these in the room it is opened in, once approved.
+   */
+  events?: string[];
+  /**
+   * Cards for links on this widget's host get a button that opens the clicked link (any path, query
+   * and fragment on that exact host) in a window, instead of the fixed `url`. The page at the link
+   * runs code. Nothing loads until the button is pressed.
+   */
+  fromLinks?: boolean;
+  /** Text of that button (default "Open here"). Only with `fromLinks`. */
+  linkLabel?: string;
+  /** The page may save files to the device (lets the sandbox start downloads). */
+  saveFiles?: boolean;
 }
 
 export interface Permissions {
@@ -146,6 +181,8 @@ export interface Permissions {
   composerActions?: ComposerAction[];
   commands?: SlashCommand[];
   api?: ApiPermission;
+  /** Runs code. The only capability that is not data-only. */
+  widget?: WidgetPermission;
 }
 
 export type Capability = keyof Permissions;
@@ -155,12 +192,19 @@ export const CAPABILITIES: readonly Capability[] = [
   'composerActions',
   'commands',
   'api',
+  'widget',
 ];
+
+/** True when approving these permissions lets third-party code run (in a sandboxed iframe). */
+export function runsCode(p: Permissions): boolean {
+  return p.widget !== undefined;
+}
 
 /** True when the permission set actually offers this capability (non-empty). */
 export function hasCapability(p: Permissions, c: Capability): boolean {
   if (c === 'api') return (p.api?.actions.length ?? 0) > 0;
   if (c === 'linkDetails') return (p.linkDetails?.lookups.length ?? 0) > 0;
+  if (c === 'widget') return p.widget !== undefined;
   return (p[c]?.length ?? 0) > 0;
 }
 
@@ -186,7 +230,7 @@ export interface RejectedIntegration {
   id?: string;
   name?: string;
   error: string;
-  /** "unsupported": it uses something this Mudrix does not know or does not run (a newer one, a widget). */
+  /** "unsupported": it uses something this Mudrix does not know (likely made for a newer one). */
   reason: 'unsupported' | 'invalid';
 }
 
@@ -739,13 +783,86 @@ function validateLinkDetails(v: unknown, path: string, ids: SettingIds): LinkDet
   return { host, lookups };
 }
 
-/** The message of an entry that asks for a widget; looksNewer() reads it as "not supported here". */
-const WIDGET_UNSUPPORTED = 'widgets are not supported in this app';
+function validateWidget(v: unknown, path: string): WidgetPermission {
+  const o = asObject(v, path, [
+    'url',
+    'name',
+    'capabilities',
+    'parameters',
+    'events',
+    'fromLinks',
+    'linkLabel',
+    'saveFiles',
+  ]);
+  const raw = asString(o.url, `${path}.url`, MAX_URL);
+  let u: URL;
+  try {
+    u = new URL(raw);
+  } catch {
+    return fail(`${path}.url`, 'not a valid URL');
+  }
+  if (u.protocol !== 'https:') fail(`${path}.url`, 'must be an https URL');
+  if (u.username || u.password) fail(`${path}.url`, 'must not contain credentials');
+  asHost(u.hostname, `${path}.url`);
+  if (raw.includes('#')) fail(`${path}.url`, 'must not have a fragment');
+  if (raw.includes('$')) fail(`${path}.url`, 'template variables are not supported');
+  if (u.searchParams.has('theme') || u.searchParams.has('lang'))
+    fail(`${path}.url`, 'theme and lang are added by the client');
+  const capabilities = asArray(
+    o.capabilities,
+    `${path}.capabilities`,
+    WIDGET_CAPABILITY_IDS.length
+  ).map((c, i) => {
+    if (typeof c !== 'string' || !WIDGET_CAPABILITY_IDS.includes(c))
+      return fail(
+        `${path}.capabilities[${i}]`,
+        `must be one of ${WIDGET_CAPABILITY_IDS.join(', ')}`
+      );
+    return c;
+  });
+  if (new Set(capabilities).size !== capabilities.length)
+    fail(`${path}.capabilities`, 'duplicate capability');
+  const widget: WidgetPermission = { url: raw, capabilities };
+  const name = optional(o, 'name', (x) => asString(x, `${path}.name`, MAX_NAME));
+  if (name !== undefined) widget.name = name;
+  const parameters = optional(o, 'parameters', (x) => {
+    const list = asArray(x, `${path}.parameters`, WIDGET_PARAMETERS.length).map((p, i) => {
+      if (typeof p !== 'string' || !(WIDGET_PARAMETERS as readonly string[]).includes(p))
+        return fail(`${path}.parameters[${i}]`, `must be one of ${WIDGET_PARAMETERS.join(', ')}`);
+      return p as WidgetParameter;
+    });
+    if (new Set(list).size !== list.length) fail(`${path}.parameters`, 'duplicate parameter');
+    return list;
+  });
+  if (parameters !== undefined) widget.parameters = parameters;
+  const events = optional(o, 'events', (x) => {
+    const list = asArray(x, `${path}.events`, MAX_WIDGET_EVENTS).map((e, i) => {
+      const problem = checkEventType(e);
+      if (problem !== null) return fail(`${path}.events[${i}]`, problem);
+      return e as string;
+    });
+    if (new Set(list).size !== list.length) fail(`${path}.events`, 'duplicate event type');
+    return list;
+  });
+  // An empty list is the same as none; keep one canonical shape.
+  if (events !== undefined && events.length > 0) widget.events = events;
+  const mustBeTrue = (key: string) => (x: unknown) =>
+    x === true ? true : fail(`${path}.${key}`, 'must be true (or left out)');
+  if (optional(o, 'fromLinks', mustBeTrue('fromLinks'))) widget.fromLinks = true;
+  if (optional(o, 'saveFiles', mustBeTrue('saveFiles'))) widget.saveFiles = true;
+  const linkLabel = optional(o, 'linkLabel', (x) => asString(x, `${path}.linkLabel`, 24));
+  if (linkLabel !== undefined) {
+    if (!widget.fromLinks) fail(`${path}.linkLabel`, 'only makes sense together with fromLinks');
+    widget.linkLabel = linkLabel;
+  }
+  return widget;
+}
 
 function validateCommand(
   v: unknown,
   path: string,
   api: ApiPermission | undefined,
+  widget: WidgetPermission | undefined,
   ids: SettingIds
 ): SlashCommand {
   const o = asObject(v, path, ['name', 'description', 'usage', 'insert', 'api', 'widget']);
@@ -763,9 +880,11 @@ function validateCommand(
   });
   if (usage !== undefined) cmd.usage = usage;
   if ([o.insert, o.api, o.widget].filter((x) => x !== undefined).length !== 1)
-    fail(path, 'needs exactly one of "insert" or "api"');
+    fail(path, 'needs exactly one of "insert", "api" or "widget"');
   if (o.widget !== undefined) {
-    fail(`${path}.widget`, WIDGET_UNSUPPORTED);
+    if (o.widget !== true) fail(`${path}.widget`, 'must be true');
+    if (!widget) fail(`${path}.widget`, 'requires permissions.widget');
+    cmd.widget = true;
   } else if (o.insert !== undefined)
     cmd.insert = asTemplate(o.insert, `${path}.insert`, MAX_INSERT, ['room', 'args'], 1, ids.text);
   else {
@@ -796,8 +915,7 @@ function validateAction(v: unknown, path: string, ids: SettingIds): ComposerActi
 }
 
 function validatePermissions(v: unknown, path: string, ids: SettingIds = NO_SETTINGS): Permissions {
-  const o = asObject(v, path, [...CAPABILITIES, 'widget']);
-  if (o.widget !== undefined) fail(`${path}.widget`, WIDGET_UNSUPPORTED);
+  const o = asObject(v, path, CAPABILITIES as readonly string[]);
   const out: Permissions = {};
   // linkDetails first: link cards cross-check their `details` against it.
   const details =
@@ -824,11 +942,12 @@ function validatePermissions(v: unknown, path: string, ids: SettingIds = NO_SETT
       fail(`${path}.composerActions`, 'duplicate action id');
     out.composerActions = actions;
   }
-  // api first: commands cross-check their targets against it.
+  // api and widget first: commands cross-check their targets against them.
   if (o.api !== undefined) out.api = validateApi(o.api, `${path}.api`, ids);
+  if (o.widget !== undefined) out.widget = validateWidget(o.widget, `${path}.widget`);
   if (o.commands !== undefined) {
     const commands = asArray(o.commands, `${path}.commands`, MAX_COMMANDS).map((c, i) =>
-      validateCommand(c, `${path}.commands[${i}]`, out.api, ids)
+      validateCommand(c, `${path}.commands[${i}]`, out.api, out.widget, ids)
     );
     if (new Set(commands.map((c) => c.name)).size !== commands.length)
       fail(`${path}.commands`, 'duplicate command name');
@@ -866,11 +985,10 @@ function validateIntegration(v: unknown, path: string): Integration {
 }
 
 /**
- * Something this Mudrix does not know or does not do (an unknown key or value, a widget), as
- * opposed to a plain mistake.
+ * Something this Mudrix does not know (an unknown key or value), as opposed to a plain mistake.
  */
 function looksNewer(error: string): boolean {
-  return / unknown key$| must be one of |widgets are not supported/.test(error);
+  return / unknown key$| must be one of /.test(error);
 }
 
 /** The entry's id and name for listing it, only when they are well-formed. */

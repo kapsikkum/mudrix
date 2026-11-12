@@ -595,7 +595,20 @@
         "splitDone_one": "Pakket opgeslagen.",
         "splitDone_other": "Pakket gesplitst in {{count}} pakketten.",
         "splitFailed": "Pakket splitsen mislukt: {{error}}",
-        "serverTooLarge": "De server heeft het pakket geweigerd omdat het te groot is (limiet 64 KB per gebeurtenis). Verwijder afbeeldingen of splits het pakket."
+        "serverTooLarge": "De server heeft het pakket geweigerd omdat het te groot is (limiet 64 KB per gebeurtenis). Verwijder afbeeldingen of splits het pakket.",
+        "uploadingProgress": "{{done}} van {{total}} uploaden",
+        "savingPacksProgress": "Pakket {{done}} van {{total}} opslaan",
+        "uploadFailedSome_one": "{{count}} upload mislukt",
+        "uploadFailedSome_other": "{{count}} uploads mislukt",
+        "uploadCancelled": "Upload geannuleerd. {{done}} van {{total}} afbeeldingen zijn geüpload.",
+        "retryFailed_one": "{{count}} mislukte upload opnieuw proberen",
+        "retryFailed_other": "{{count}} mislukte uploads opnieuw proberen",
+        "resumeUpload": "Upload hervatten",
+        "uploadAndCreate": "Uploaden en pakket aanmaken",
+        "uploadPackDone": "Pakket “{{name}}” met {{count}} items ({{packs}} pakket(ten)) geüpload naar de {{target}}.",
+        "willSplit": "Dit is te groot voor één pakket. Het wordt opgeslagen als {{packs}} pakketten van elk ongeveer {{per}} afbeeldingen.",
+        "targetRoom": "kamer",
+        "targetSpace": "space"
       },
       "members": {
         "searchMembers": "Leden zoeken",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Openen",
+      "openHere": "Hier openen",
+      "openInBrowser": "In browser openen",
+      "nothingLoaded": "Er wordt niets geladen van {{host}} totdat je op '{{label}}' drukt. Het draait vervolgens in een geïsoleerd venster.",
       "via": "via {{name}}",
       "viaDetails": "via {{name}} · details van {{host}}",
       "loadDetails": "Details van {{host}} tonen",
@@ -3114,7 +3130,8 @@
       "paused": "{{host}} wordt niet gevraagd zolang de streamermodus aan staat."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (code)"
     },
     "command": {
       "description": "{{description}} · via {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "Verzonden naar {{host}}. Er is een link toegevoegd aan je berichtveld.",
       "failed": "Kon niet verzenden: {{error}}",
       "unavailable": "Deze actie is niet meer beschikbaar. De integratie is mogelijk uitgeschakeld of verwijderd."
+    },
+    "widget": {
+      "title": "Widget",
+      "badge": "Voert code uit",
+      "codeFrom": "Code van {{host}}",
+      "frameTitle": "{{name}} (code van {{host}})",
+      "unavailable": "Deze widget is niet beschikbaar. Hij is mogelijk uitgeschakeld of verwijderd.",
+      "failed": "De widget kon niet worden gestart."
     }
   },
   "encryption": {

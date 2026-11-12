@@ -595,7 +595,20 @@
         "splitDone_one": "Paquete guardado.",
         "splitDone_other": "Paquete dividido en {{count}} paquetes.",
         "splitFailed": "No se pudo dividir el paquete: {{error}}",
-        "serverTooLarge": "El servidor rechazó el paquete porque es demasiado grande (límite de 64 KB por evento). Quita imágenes o divide el paquete."
+        "serverTooLarge": "El servidor rechazó el paquete porque es demasiado grande (límite de 64 KB por evento). Quita imágenes o divide el paquete.",
+        "uploadingProgress": "Subiendo {{done}} de {{total}}",
+        "savingPacksProgress": "Guardando paquete {{done}} de {{total}}",
+        "uploadFailedSome_one": "{{count}} subida fallida",
+        "uploadFailedSome_other": "{{count}} subidas fallidas",
+        "uploadCancelled": "Subida cancelada. Se subieron {{done}} de {{total}} imágenes.",
+        "retryFailed_one": "Reintentar {{count}} subida fallida",
+        "retryFailed_other": "Reintentar {{count}} subidas fallidas",
+        "resumeUpload": "Reanudar subida",
+        "uploadAndCreate": "Subir y crear paquete",
+        "uploadPackDone": "El paquete \"{{name}}\" se ha subido con {{count}} elementos ({{packs}} paquete(s)) a la {{target}}.",
+        "willSplit": "Esto es demasiado para un solo paquete. Se guardará como {{packs}} paquetes de unas {{per}} imágenes cada uno.",
+        "targetRoom": "sala",
+        "targetSpace": "espacio"
       },
       "members": {
         "searchMembers": "Buscar miembros",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Abrir",
+      "openHere": "Abrir aquí",
+      "openInBrowser": "Abrir en el navegador",
+      "nothingLoaded": "No se carga nada de {{host}} hasta que pulses «{{label}}». Luego se ejecuta en una ventana aislada.",
       "via": "vía {{name}}",
       "viaDetails": "mediante {{name}} · detalles de {{host}}",
       "loadDetails": "Mostrar detalles de {{host}}",
@@ -3114,7 +3130,8 @@
       "paused": "No se consulta {{host}} mientras el modo streamer está activo."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (código)"
     },
     "command": {
       "description": "{{description}} · vía {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "Enviado a {{host}}. Se ha añadido un enlace a tu campo de mensaje.",
       "failed": "No se pudo enviar: {{error}}",
       "unavailable": "Esta acción ya no está disponible. Es posible que la integración esté desactivada o desinstalada."
+    },
+    "widget": {
+      "title": "Widget",
+      "badge": "Ejecuta código",
+      "codeFrom": "Código de {{host}}",
+      "frameTitle": "{{name}} (código de {{host}})",
+      "unavailable": "Este widget no está disponible. Es posible que esté desactivado o desinstalado.",
+      "failed": "No se pudo iniciar el widget."
     }
   },
   "encryption": {

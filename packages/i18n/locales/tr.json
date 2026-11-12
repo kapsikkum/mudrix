@@ -595,7 +595,20 @@
         "splitDone_one": "Paket kaydedildi.",
         "splitDone_other": "Paket {{count}} pakete bölündü.",
         "splitFailed": "Paket bölünemedi: {{error}}",
-        "serverTooLarge": "Sunucu paketi çok büyük olduğu için reddetti (olay başına 64 KB sınırı). Görselleri kaldırın veya paketi bölün."
+        "serverTooLarge": "Sunucu paketi çok büyük olduğu için reddetti (olay başına 64 KB sınırı). Görselleri kaldırın veya paketi bölün.",
+        "uploadingProgress": "{{total}} görselden {{done}} tanesi yükleniyor",
+        "savingPacksProgress": "{{total}} paketten {{done}} tanesi kaydediliyor",
+        "uploadFailedSome_one": "{{count}} yükleme başarısız",
+        "uploadFailedSome_other": "{{count}} yükleme başarısız",
+        "uploadCancelled": "Yükleme iptal edildi. {{total}} görselden {{done}} tanesi yüklendi.",
+        "retryFailed_one": "Başarısız {{count}} yüklemeyi yeniden dene",
+        "retryFailed_other": "Başarısız {{count}} yüklemeyi yeniden dene",
+        "resumeUpload": "Yüklemeye devam et",
+        "uploadAndCreate": "Yükle ve paket oluştur",
+        "uploadPackDone": "“{{name}}” paketi {{count}} öğeyle ({{packs}} paket) {{target}} alanına yüklendi.",
+        "willSplit": "Bu, tek bir paket için çok büyük. Her biri yaklaşık {{per}} görselden oluşan {{packs}} pakete bölünerek kaydedilecek.",
+        "targetRoom": "oda",
+        "targetSpace": "alan"
       },
       "members": {
         "searchMembers": "Üyelerde ara",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Aç",
+      "openHere": "Burada aç",
+      "openInBrowser": "Tarayıcıda aç",
+      "nothingLoaded": "\"{{label}}\" butonuna basana kadar {{host}} üzerinden hiçbir şey yüklenmez. Ardından yalıtılmış bir pencerede çalışır.",
       "via": "{{name}} aracılığıyla",
       "viaDetails": "{{name}} aracılığıyla · ayrıntılar {{host}} üzerinden",
       "loadDetails": "{{host}} ayrıntılarını göster",
@@ -3114,7 +3130,8 @@
       "paused": "Yayıncı modu açıkken {{host}} sorgulanmaz."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (kod)"
     },
     "command": {
       "description": "{{description}} · {{name}} aracılığıyla"
@@ -3132,6 +3149,14 @@
       "sentLink": "{{host}} adresine gönderildi. Mesaj kutunuza bir bağlantı eklendi.",
       "failed": "Gönderilemedi: {{error}}",
       "unavailable": "Bu eylem artık kullanılamıyor. Entegrasyon kapatılmış veya kaldırılmış olabilir."
+    },
+    "widget": {
+      "title": "Araç",
+      "badge": "Kod çalıştırır",
+      "codeFrom": "{{host}} kaynağından kod",
+      "frameTitle": "{{name}} ({{host}} kaynağından kod)",
+      "unavailable": "Bu araç kullanılamıyor. Kapatılmış veya kaldırılmış olabilir.",
+      "failed": "Araç başlatılamadı."
     }
   },
   "encryption": {

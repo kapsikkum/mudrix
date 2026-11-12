@@ -7,6 +7,7 @@ import {
   MAX_MANIFEST_BYTES,
   hasCapability,
   parseManifestText,
+  runsCode,
   validateManifest,
   type Permissions,
 } from '../src/app/features/integrations/manifest.ts';
@@ -14,12 +15,21 @@ import { previewApiRequest } from '../src/app/features/integrations/api.ts';
 import {
   getApiActions,
   getCommands,
+  getWidgets,
   matchLinkCard,
   renderInsert,
 } from '../src/app/features/integrations/matching.ts';
 import { permissionsWidened } from '../src/app/features/integrations/permissions.ts';
 import { parseRepoUrl } from '../src/app/features/integrations/repository.ts';
 import type { InstalledIntegration } from '../src/app/features/integrations/types.ts';
+import {
+  WIDGET_ALLOW,
+  WIDGET_SANDBOX,
+  assertWidgetUrlAllowed,
+  buildWidgetUrl,
+  resolveCapabilities,
+} from '../src/app/features/integrations/widget.ts';
+import { WIDGET_CAPABILITY_CATALOGUE } from '../src/app/features/integrations/widgetCapabilities.ts';
 
 const integration = (over: Record<string, unknown> = {}, perms: unknown = undefined) => ({
   id: 'altersend',
@@ -148,8 +158,14 @@ const widCmd = (over: Record<string, unknown> = {}) =>
   cmd({ name: 'open', usage: undefined, insert: undefined, widget: true, ...over });
 const apiCmd = () => cmd({ name: 'push', usage: undefined, insert: undefined, api: 'push' });
 
-/** Entries that ask for a widget: known, but this app does not run code, so they are set aside. */
-export const WIDGET_MANIFESTS: Record<string, unknown> = {
+export const GOOD_MANIFESTS: Record<string, unknown> = {
+  full: repo(),
+  empty: repo([]),
+  noPermissions: repo([integration({}, {})]),
+  httpsIcon: repo([integration({ icon: 'https://cdn.example/i.png' })]),
+  apiAndCommands: withPerms({ api: api(), commands: [cmd(), apiCmd()] }),
+  apiNoBody: withPerms({ api: api([act({ body: undefined, insertResultLink: undefined })]) }),
+  commandInsertOnly: withPerms({ commands: [cmd()] }),
   widgetFull: withPerms({ widget: wid(), commands: [widCmd()] }),
   widgetDisplayOnly: withPerms({ widget: { url: 'https://app.example.com/', capabilities: [] } }),
   widgetQueryKept: withPerms({ widget: wid({ url: 'https://app.example.com/w?mode=a' }) }),
@@ -171,16 +187,6 @@ export const WIDGET_MANIFESTS: Record<string, unknown> = {
   widgetEventsNoOtherCapability: withPerms({
     widget: wid({ capabilities: [], events: ['com.example.fileshare.sent'] }),
   }),
-};
-
-export const GOOD_MANIFESTS: Record<string, unknown> = {
-  full: repo(),
-  empty: repo([]),
-  noPermissions: repo([integration({}, {})]),
-  httpsIcon: repo([integration({ icon: 'https://cdn.example/i.png' })]),
-  apiAndCommands: withPerms({ api: api(), commands: [cmd(), apiCmd()] }),
-  apiNoBody: withPerms({ api: api([act({ body: undefined, insertResultLink: undefined })]) }),
-  commandInsertOnly: withPerms({ commands: [cmd()] }),
   linkDetailsFull: withDetails(),
   linkDetailsFactsOnly: withDetails(
     {},
@@ -680,14 +686,14 @@ export function runManifestExamples(): string[] {
     if (usable(withPerms({ api: api([act()], h) }))) problems.push(`apiHost:${h}`);
   });
 
-  // Widgets are set aside with a clear reason, never installed, never an error of the file.
-  Object.entries(WIDGET_MANIFESTS).forEach(([k, v]) => {
-    const r = validateManifest(v);
-    if (!r.ok || r.value.integrations.length !== 0 || r.value.rejected[0]?.reason !== 'unsupported')
-      problems.push(`widget:${k}`);
-  });
+  // The same local-http url is never accepted; neither is a local https host.
+  if (usable(withPerms({ widget: wid({ url: 'http://localhost:8080/w' }) })))
+    problems.push('widgetUrl:localhost');
+  if (usable(withPerms({ widget: wid({ url: 'https://localhost/w' }) })))
+    problems.push('widgetUrl:httpsLocalhost');
 
   checkApiAndCommands(problems);
+  checkWidget(problems);
   checkLinkDetails(problems);
   checkPerEntry(problems);
   return problems;
@@ -898,4 +904,120 @@ function checkApiAndCommands(problems: string[]) {
   const nobody = previewApiRequest({ permissions: p }, { ...a0, body: undefined }, ctx);
   if (!nobody.ok || nobody.body !== null) problems.push('preview:noBody');
   if (previewApiRequest({ permissions: {} }, a0, ctx).ok) problems.push('preview:noApi');
+}
+
+function checkWidget(problems: string[]) {
+  const parsed = validateManifest(
+    withPerms({ widget: wid(), commands: [widCmd(), cmd({ name: 'note', usage: undefined })] })
+  );
+  if (!parsed.ok) {
+    problems.push('widget:setup');
+    return;
+  }
+  const p = parsed.value.integrations[0].permissions;
+  const w = p.widget!;
+  if (!runsCode(p) || runsCode({ api: undefined })) problems.push('widget:runsCode');
+  if (!hasCapability(p, 'widget') || hasCapability({}, 'widget')) problems.push('widget:has');
+
+  // widening: anything that changes what the code may do or where it comes from
+  const widened = (n: Permissions) => permissionsWidened(p, n);
+  const withW = (over: Partial<NonNullable<Permissions['widget']>>): Permissions => ({
+    ...p,
+    widget: { ...w, ...over },
+  });
+  if (widened(p)) problems.push('widget:widenedSame');
+  if (!permissionsWidened({ ...p, widget: undefined }, p)) problems.push('widget:widenedNew');
+  if (!widened(withW({ capabilities: [...w.capabilities, 'read.room'] })))
+    problems.push('widget:widenedCapability');
+  if (!widened(withW({ url: 'https://app.example.com/other' })))
+    problems.push('widget:widenedPath');
+  if (!widened(withW({ url: 'https://evil.example.org/mudrix' })))
+    problems.push('widget:widenedOrigin');
+  if (!widened(withW({ parameters: ['room_id', 'user_id'] })))
+    problems.push('widget:widenedParameter');
+  if (!widened(withW({ name: 'Other' }))) problems.push('widget:widenedName');
+  if (widened(withW({ capabilities: ['send.message'] }))) problems.push('widget:narrowCaps');
+  if (widened(withW({ parameters: [] }))) problems.push('widget:narrowParams');
+  if (widened({ ...p, widget: undefined, commands: undefined })) problems.push('widget:removal');
+  if (
+    !widened({ ...p, commands: [...p.commands!, { name: 'go', description: 'g', widget: true }] })
+  )
+    problems.push('widget:widenedCommand');
+
+  // commands
+  const inst = [installedOf('one', p)];
+  const kinds = (g: Record<string, Record<string, boolean>>) =>
+    getCommands(inst, g, new Set<string>())
+      .map((c) => `${c.name}:${c.kind}`)
+      .join();
+  if (kinds({ one: { commands: true, widget: true } }) !== 'open:widget,note:insert')
+    problems.push('widget:commandKinds');
+  if (kinds({ one: { commands: true } }) !== 'note:insert')
+    problems.push('widget:commandNeedsGrant');
+  if (getWidgets(inst, { one: { widget: true } }).length !== 1) problems.push('getWidgets:hit');
+  if (getWidgets(inst, { one: { commands: true } }).length) problems.push('getWidgets:noGrant');
+  if (getWidgets([installedOf('one', p, false)], { one: { widget: true } }).length)
+    problems.push('getWidgets:disabled');
+
+  // buildWidgetUrl
+  const ctx = {
+    roomId: '!r:x.org',
+    userId: '@a b:x.org',
+    displayName: '�n� & "co" ?x=1#h',
+    theme: 'dark' as const,
+    lang: 'en-GB',
+  };
+  const bare = new URL(buildWidgetUrl({ url: 'https://app.example.com/mudrix' }, ctx));
+  if (bare.pathname !== '/mudrix' || [...bare.searchParams.keys()].join() !== 'theme,lang')
+    problems.push('buildWidgetUrl:bare');
+  const some = new URL(buildWidgetUrl(w, ctx));
+  if (some.searchParams.get('room_id') !== '!r:x.org' || some.searchParams.has('user_id'))
+    problems.push('buildWidgetUrl:subset');
+  const all = new URL(
+    buildWidgetUrl(
+      {
+        url: 'https://app.example.com/w?mode=a',
+        parameters: ['room_id', 'user_id', 'display_name'],
+      },
+      ctx
+    )
+  );
+  if (
+    all.searchParams.get('display_name') !== ctx.displayName ||
+    all.searchParams.get('user_id') !== ctx.userId ||
+    all.searchParams.get('mode') !== 'a' ||
+    all.hash !== '' ||
+    all.host !== 'app.example.com'
+  )
+    problems.push('buildWidgetUrl:encoding');
+
+  // resolveCapabilities
+  const cap = (id: string) => WIDGET_CAPABILITY_CATALOGUE.find((c) => c.id === id)!.capabilities[0];
+  const send = cap('send.message');
+  const asked = [send, cap('read.messages'), 'org.matrix.msc3819.send.to_device:m.x', 'm.sticker'];
+  const got = resolveCapabilities(asked, ['send.message']);
+  if (got.size !== 1 || !got.has(send)) problems.push('resolve:dropsUnapproved');
+  if (resolveCapabilities(asked, []).size) problems.push('resolve:none');
+  if (resolveCapabilities(asked, ['nonsense']).size) problems.push('resolve:unknownId');
+  const tl = 'org.matrix.msc2762.timeline:!r:x.org';
+  const tlOther = 'org.matrix.msc2762.timeline:!other:x';
+  if (resolveCapabilities([tl], ['send.message']).size) problems.push('resolve:timelineNoRoom');
+  const inRoom = resolveCapabilities([tl, tlOther], ['send.message'], '!r:x.org');
+  if (inRoom.size !== 1 || !inRoom.has(tl)) problems.push('resolve:timelineRoom');
+  if (resolveCapabilities([tl], ['read.room'], '!r:x.org').size)
+    problems.push('resolve:timelineNotNeeded');
+
+  // assertWidgetUrlAllowed
+  const origin = 'https://chat.example.com';
+  if (assertWidgetUrlAllowed(`${origin}/x`, origin).ok) problems.push('allowed:sameOrigin');
+  if (assertWidgetUrlAllowed(origin, origin).ok) problems.push('allowed:sameOriginRoot');
+  if (assertWidgetUrlAllowed('http://app.example.com/x', origin).ok) problems.push('allowed:http');
+  if (assertWidgetUrlAllowed('https://u:p@app.example.com/x', origin).ok)
+    problems.push('allowed:creds');
+  if (assertWidgetUrlAllowed('not a url', origin).ok) problems.push('allowed:invalid');
+  if (!assertWidgetUrlAllowed(w.url, origin).ok) problems.push('allowed:https');
+
+  // The iframe may never navigate the app or run without a sandbox.
+  if (WIDGET_ALLOW !== '' || WIDGET_SANDBOX.includes('allow-top-navigation'))
+    problems.push('widget:sandboxConstants');
 }

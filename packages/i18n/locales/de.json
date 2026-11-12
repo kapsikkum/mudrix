@@ -595,7 +595,20 @@
         "splitDone_one": "Pack gespeichert.",
         "splitDone_other": "Pack in {{count}} Packs aufgeteilt.",
         "splitFailed": "Pack konnte nicht aufgeteilt werden: {{error}}",
-        "serverTooLarge": "Der Server hat das Pack abgelehnt, weil es zu groß ist (Limit 64 KB pro Ereignis). Entferne Bilder oder teile das Pack auf."
+        "serverTooLarge": "Der Server hat das Pack abgelehnt, weil es zu groß ist (Limit 64 KB pro Ereignis). Entferne Bilder oder teile das Pack auf.",
+        "uploadingProgress": "Lade hoch: {{done}} von {{total}}",
+        "savingPacksProgress": "Speichere Pack {{done}} von {{total}}",
+        "uploadFailedSome_one": "{{count}} Upload fehlgeschlagen",
+        "uploadFailedSome_other": "{{count}} Uploads fehlgeschlagen",
+        "uploadCancelled": "Upload abgebrochen. {{done}} von {{total}} Bildern wurden hochgeladen.",
+        "retryFailed_one": "{{count}} fehlgeschlagenen Upload wiederholen",
+        "retryFailed_other": "{{count}} fehlgeschlagene Uploads wiederholen",
+        "resumeUpload": "Upload fortsetzen",
+        "uploadAndCreate": "Hochladen & Pack erstellen",
+        "uploadPackDone": "Pack „{{name}}“ mit {{count}} Elementen ({{packs}} Pack/Packs) in den {{target}} hochgeladen.",
+        "willSplit": "Das ist zu groß für ein Pack. Es wird als {{packs}} Packs mit je etwa {{per}} Bildern gespeichert.",
+        "targetRoom": "Raum",
+        "targetSpace": "Space"
       },
       "members": {
         "searchMembers": "Mitglieder suchen",
@@ -3107,6 +3120,9 @@
   "integrations": {
     "card": {
       "open": "Öffnen",
+      "openHere": "Hier öffnen",
+      "openInBrowser": "Im Browser öffnen",
+      "nothingLoaded": "Nichts von {{host}} wird geladen, bis Sie „{{label}}“ drücken. Es wird dann in einem isolierten Fenster ausgeführt.",
       "via": "über {{name}}",
       "viaDetails": "über {{name}} · Details von {{host}}",
       "loadDetails": "Details von {{host}} anzeigen",
@@ -3114,7 +3130,8 @@
       "paused": "{{host}} wird nicht gefragt, solange der Streamer-Modus an ist."
     },
     "composer": {
-      "actionLabel": "{{label}} ({{name}})"
+      "actionLabel": "{{label}} ({{name}})",
+      "widgetLabel": "{{name}} (Code)"
     },
     "command": {
       "description": "{{description}} · über {{name}}"
@@ -3132,6 +3149,14 @@
       "sentLink": "An {{host}} gesendet. Ein Link wurde zu Ihrem Eingabefeld hinzugefügt.",
       "failed": "Senden fehlgeschlagen: {{error}}",
       "unavailable": "Diese Aktion ist nicht mehr verfügbar. Die Integration wurde möglicherweise deaktiviert oder deinstalliert."
+    },
+    "widget": {
+      "title": "Widget",
+      "badge": "Führt Code aus",
+      "codeFrom": "Code von {{host}}",
+      "frameTitle": "{{name}} (Code von {{host}})",
+      "unavailable": "Dieses Widget ist nicht verfügbar. Es wurde möglicherweise deaktiviert oder deinstalliert.",
+      "failed": "Das Widget konnte nicht gestartet werden."
     }
   },
   "encryption": {
