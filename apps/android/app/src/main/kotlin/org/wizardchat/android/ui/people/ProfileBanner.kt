@@ -54,15 +54,11 @@ private const val BANNER_THUMBNAIL = 640
 internal data class CropRect(val x: Int, val y: Int, val width: Int, val height: Int)
 
 /** The biggest 3:1 strip from the middle of a picture */
-internal fun bannerCropRect(width: Int, height: Int): CropRect {
-    val cropHeight = minOf(height, (width / BANNER_RATIO).toInt()).coerceAtLeast(1)
-    val cropWidth = minOf(width, (cropHeight * BANNER_RATIO).toInt()).coerceAtLeast(1)
-    return CropRect((width - cropWidth) / 2, (height - cropHeight) / 2, cropWidth, cropHeight)
-}
+internal fun bannerCropRect(width: Int, height: Int): CropRect = BannerCrop.rect(width, height, 0.5f)
 
-/** A picked picture cropped from the middle to a 3:1 strip, at most 1200 pixels wide */
-internal fun cropBanner(source: Bitmap, maxWidth: Int = 1200): Bitmap {
-    val rect = bannerCropRect(source.width, source.height)
+/** A picked picture cropped to a 3:1 strip at [focus] (0..1, 0.5 = the middle), at most 1200 pixels wide */
+internal fun cropBanner(source: Bitmap, focus: Float = 0.5f, maxWidth: Int = 1200): Bitmap {
+    val rect = BannerCrop.rect(source.width, source.height, focus)
     val cropped = Bitmap.createBitmap(source, rect.x, rect.y, rect.width, rect.height)
     if (cropped.width <= maxWidth) return cropped
     return Bitmap.createScaledBitmap(cropped, maxWidth, (maxWidth / BANNER_RATIO).toInt().coerceAtLeast(1), true)
