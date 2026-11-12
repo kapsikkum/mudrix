@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo, useDeferredValue } from 'react';
+import { useState, useRef, useCallback, useMemo, useDeferredValue, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowLeftIcon,
@@ -21,8 +21,6 @@ import { Select } from '@/app/components/Select';
 import * as panelCss from '@/app/components/Settings/Settings.css';
 import { vars } from '@/theme/vars.css';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
-import { probeIsAnimated } from '@/app/features/timeline/utils/imageAnimation';
-import { getImageDimensions } from '@/app/features/timeline/encryptedMedia';
 import {
   PACK_BUDGET_BYTES,
   PACK_WARN_RATIO,
@@ -32,6 +30,7 @@ import {
   packContentSize,
   splitImagesBySize,
 } from './packSize';
+import { fileResumeKey, uploadFilesPooled, uploadPackFile, type UploadedImage } from './packUpload';
 import { PackBar } from './PackStatus';
 
 export type ImageEntry = {
@@ -126,10 +125,20 @@ export function PackEditor({
                 : 'emoticon';
   const [usageMode, setUsageMode] = useState<UsageMode>(initialUsage);
   const [images, setImages] = useState<Record<string, ImageEntry>>(pack.images);
+  const imagesRef = useRef(images);
+  imagesRef.current = images;
   const [avatarUrl, setAvatarUrl] = useState(pack.avatarUrl);
   const [attribution, setAttribution] = useState(pack.attribution ?? '');
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    done: number;
+    total: number;
+    failed: number;
+  } | null>(null);
+  const [failedFiles, setFailedFiles] = useState<File[]>([]);
+  const uploadAbortRef = useRef<AbortController | null>(null);
+  const uploadedCacheRef = useRef(new Map<string, UploadedImage>());
   const [editingShortcode, setEditingShortcode] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -168,67 +177,91 @@ export function PackEditor({
     if (blob) setLightboxSrc(blob);
   }, [avatarUrl, client]);
 
-  const handleUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(e.target.files ?? []);
-      if (files.length === 0) return;
+  useEffect(() => () => uploadAbortRef.current?.abort(), []);
+
+  const runUpload = useCallback(
+    async (files: File[]) => {
       const valid = files.filter((f) => ALLOWED_MIME_TYPES.includes(f.type));
       const skipped = files.length - valid.length;
       if (valid.length === 0) {
         toast.error(t('room.settings.emojis.unsupportedFormat'));
-        if (fileRef.current) fileRef.current.value = '';
         return;
       }
-      const used = new Set(Object.keys(images));
-      const prepared = valid.map((file) => {
-        const shortcode = shortcodeFromName(file.name.replace(/\.[^.]+$/, ''));
-        let uniqueShortcode = shortcode;
-        let idx = 1;
-        while (used.has(uniqueShortcode)) {
-          idx += 1;
-          uniqueShortcode = `${shortcode}_${idx}`;
-        }
-        used.add(uniqueShortcode);
-        return { file, uniqueShortcode };
-      });
+      const controller = new AbortController();
+      uploadAbortRef.current = controller;
       setUploading(true);
+      setFailedFiles([]);
       try {
-        const created: Record<string, ImageEntry> = {};
-        await Promise.all(
-          prepared.map(async ({ file, uniqueShortcode }) => {
-            const mimetype = file.type || 'image/png';
-            const mxcUrl = await client.uploadMedia(
-              new Uint8Array(await file.arrayBuffer()),
-              mimetype
-            );
-            const dims = await getImageDimensions(file);
-            const isAnimated = await probeIsAnimated(mimetype, file);
-            created[uniqueShortcode] = {
-              shortcode: uniqueShortcode,
-              url: mxcUrl,
-              usage: [],
-              mimetype,
-              info: {
-                ...(dims ? { w: dims.w, h: dims.h } : {}),
-                size: file.size,
-                mimetype,
-                ...(isAnimated !== undefined ? { is_animated: isAnimated } : {}),
-              },
-            };
-          })
+        // Bounded concurrency (4): unbounded Promise.all over hundreds of files stalls the
+        // browser and trips the homeserver's rate limits.
+        const result = await uploadFilesPooled(
+          valid,
+          (file, signal) => uploadPackFile(client, file, signal),
+          {
+            concurrency: 4,
+            signal: controller.signal,
+            done: uploadedCacheRef.current,
+            onProgress: (done, total, failed) => setUploadProgress({ done, total, failed }),
+          }
         );
+        const created: Record<string, ImageEntry> = {};
+        const failed: File[] = [];
+        const used = new Set(Object.keys(imagesRef.current));
+        valid.forEach((file, i) => {
+          const up = result.uploaded[i];
+          if (!up) {
+            failed.push(file);
+            return;
+          }
+          const base = shortcodeFromName(file.name.replace(/\.[^.]+$/, ''));
+          let unique = base;
+          let idx = 1;
+          while (used.has(unique)) {
+            idx += 1;
+            unique = `${base}_${idx}`;
+          }
+          used.add(unique);
+          created[unique] = {
+            shortcode: unique,
+            url: up.mxc,
+            usage: [],
+            mimetype: up.mimetype,
+            info: up.info,
+          };
+          uploadedCacheRef.current.delete(fileResumeKey(file));
+        });
         setImages((prev) => ({ ...prev, ...created }));
-        if (skipped > 0) {
-          toast.error(t('room.settings.emojis.someSkipped', { count: skipped }));
+        if (skipped > 0) toast.error(t('room.settings.emojis.someSkipped', { count: skipped }));
+        if (result.cancelled) {
+          toast.error(
+            t('room.settings.emojis.uploadCancelled', {
+              done: Object.keys(created).length,
+              total: valid.length,
+            })
+          );
+        } else if (failed.length > 0) {
+          setFailedFiles(failed);
+          toast.error(t('room.settings.emojis.uploadFailedSome', { count: failed.length }));
         }
       } catch (err) {
         toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
       } finally {
         setUploading(false);
+        setUploadProgress(null);
+        uploadAbortRef.current = null;
         if (fileRef.current) fileRef.current.value = '';
       }
     },
-    [client, images, toast, t]
+    [client, toast, t]
+  );
+
+  const handleUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.target.files ?? []);
+      if (files.length === 0) return;
+      await runUpload(files);
+    },
+    [runUpload]
   );
 
   const handleRemoveImage = useCallback((key: string) => {
@@ -302,7 +335,11 @@ export function PackEditor({
         attribution: attribution.trim() || undefined,
       });
     } catch (err) {
-      toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
+      toast.error(
+        isTooLargeError(err)
+          ? t('room.settings.emojis.serverTooLarge')
+          : t('common.saveFailed', { error: getErrorMessage(err) })
+      );
     } finally {
       setSaving(false);
     }
@@ -508,6 +545,50 @@ export function PackEditor({
             multiple
           />
         </div>
+
+        {uploadProgress && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, margin: '8px 0' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+                fontSize: '0.8rem',
+                color: vars.color.textSecondary,
+              }}
+            >
+              <span>
+                {t('room.settings.emojis.uploadingProgress', {
+                  done: uploadProgress.done,
+                  total: uploadProgress.total,
+                })}
+                {uploadProgress.failed > 0 &&
+                  ' · ' +
+                    t('room.settings.emojis.uploadFailedSome', { count: uploadProgress.failed })}
+              </span>
+              <Button variant="secondary" size="sm" onClick={() => uploadAbortRef.current?.abort()}>
+                {t('common.cancel')}
+              </Button>
+            </div>
+            <PackBar
+              value={uploadProgress.done}
+              max={uploadProgress.total}
+              label={t('room.settings.emojis.uploadingProgress', {
+                done: uploadProgress.done,
+                total: uploadProgress.total,
+              })}
+            />
+          </div>
+        )}
+
+        {!uploading && failedFiles.length > 0 && (
+          <div style={{ margin: '8px 0' }}>
+            <Button variant="secondary" size="sm" onClick={() => runUpload(failedFiles)}>
+              {t('room.settings.emojis.retryFailed', { count: failedFiles.length })}
+            </Button>
+          </div>
+        )}
 
         {imageCount === 0 ? (
           <div className={css.emptyPacks}>{t('room.settings.emojis.noImages')}</div>

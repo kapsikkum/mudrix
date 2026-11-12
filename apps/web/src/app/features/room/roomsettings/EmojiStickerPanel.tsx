@@ -1,15 +1,25 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PlusIcon, StickerIcon, TrashIcon, PencilSimpleIcon } from '@phosphor-icons/react';
+import {
+  PlusIcon,
+  StickerIcon,
+  TrashIcon,
+  PencilSimpleIcon,
+  UploadSimpleIcon,
+} from '@phosphor-icons/react';
 import type { WizardClient } from '@wizardchat/core';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
+import { useRoomDetails } from '@/app/data';
 import { invalidateImagePacks } from '@/app/hooks/useUserPacks';
 import { getErrorMessage } from '@/util/error';
 import { Button, IconButton } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
+import { Select } from '@/app/components/Select';
+import { Field } from '@/app/components/Field';
 import { Modal } from '@/app/components/Modal';
+import { vars } from '@/theme/vars.css';
 import {
   ROOM_PACK_STABLE,
   ROOM_PACK_UNSTABLE,
@@ -18,12 +28,35 @@ import {
   mergePackInfo,
 } from '@/app/features/settings/emojis/imagePackTypes';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
-import { PackEditor, type PackData } from './PackEditor';
-import { buildPackContent } from './packSize';
+import { PackEditor, type ImageEntry, type PackData } from './PackEditor';
+import {
+  PACK_BUDGET_BYTES,
+  buildPackContent,
+  estimateEntryBytes,
+  isTooLargeError,
+  numberedPackName,
+  splitImagesBySize,
+} from './packSize';
+import {
+  fileResumeKey,
+  sendPackStateEvents,
+  shortcodeFromFile,
+  uploadFilesPooled,
+  uploadPackFile,
+  withRateLimitRetry,
+  type UploadedImage,
+} from './packUpload';
+import { PackBar } from './PackStatus';
 import * as css from './RoomSettingsEmojiSticker.css';
 import * as panelCss from '@/app/components/Settings/Settings.css';
 
 const PONIES_ROOM_EMOTES = 'im.ponies.room_emotes';
+const ALLOWED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'image/apng'];
+
+function usageModeToArray(mode: string): string[] {
+  if (mode === 'both') return ['emoticon', 'sticker'];
+  return [mode];
+}
 
 function isMeaningfulPackContent(content: Record<string, unknown> | undefined): boolean {
   if (!content || typeof content !== 'object') return false;
@@ -132,6 +165,18 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
   const { t } = useTranslation();
   const toast = useToast();
   const confirmDialog = useConfirm();
+  const details = useRoomDetails(roomId);
+  const isSpace = details?.isSpace ?? false;
+
+  const usageOptions = useMemo(
+    () => [
+      { value: 'both', label: t('room.settings.emojis.usageBoth') },
+      { value: 'emoticon', label: t('room.settings.emojis.usageEmoji') },
+      { value: 'sticker', label: t('room.settings.emojis.usageSticker') },
+    ],
+    [t]
+  );
+  const defaultUsage = usageOptions[0].value;
 
   const can = useCanSendState(roomId);
   const canManage = can(PONIES_ROOM_EMOTES);
@@ -139,6 +184,26 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
   const [editing, setEditing] = useState<PackData | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newPackName, setNewPackName] = useState('');
+  const [newPackUsage, setNewPackUsage] = useState(defaultUsage);
+
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [uploadPackName, setUploadPackName] = useState('');
+  const [uploadPackUsage, setUploadPackUsage] = useState(defaultUsage);
+  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    phase: 'upload' | 'save';
+    done: number;
+    total: number;
+    failed: number;
+  } | null>(null);
+  const [uploadFailed, setUploadFailed] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadAbortRef = useRef<AbortController | null>(null);
+  // Uploads that already succeeded (by file), so retry / resume only uploads what is missing.
+  const uploadedRef = useRef(new Map<string, UploadedImage>());
+  // State keys for the packs of the current plan, so a retried save is idempotent.
+  const planKeysRef = useRef<string[]>([]);
 
   const reload = useCallback(async () => {
     const packEvents = await readRoomPackContents(client, roomId);
@@ -173,6 +238,8 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
     };
   }, [client, roomId]);
 
+  useEffect(() => () => uploadAbortRef.current?.abort(), []);
+
   const canCreatePack = newPackName.trim().length > 0 && canManage;
 
   const handleCreate = useCallback(async () => {
@@ -181,56 +248,182 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
     const stateKey = crypto.randomUUID();
     try {
       const content = {
-        pack: { display_name: name, usage: ['emoticon', 'sticker'] },
+        pack: { display_name: name, usage: usageModeToArray(newPackUsage) },
         images: {},
       };
-      await Promise.all([
-        client.setStateEvent(roomId, ROOM_PACK_UNSTABLE, stateKey, content),
-        client.setStateEvent(roomId, ROOM_PACK_STABLE, stateKey, content),
-      ]);
+      await sendPackStateEvents(client, roomId, stateKey, content);
       void reload();
       invalidateImagePacks();
       setCreateModalOpen(false);
       setNewPackName('');
+      setNewPackUsage(defaultUsage);
     } catch (err) {
       toast.error(t('room.settings.emojis.createFailed', { error: getErrorMessage(err) }));
     }
-  }, [canCreatePack, newPackName, client, roomId, reload, toast, t]);
+  }, [canCreatePack, newPackName, newPackUsage, defaultUsage, client, roomId, reload, toast, t]);
+
+  // Plan for the upload dialog: shortcodes, estimated size and how many packs it will take.
+  const uploadPlan = useMemo(() => {
+    const used = new Set<string>();
+    const usage = usageModeToArray(uploadPackUsage);
+    const domain = client.userId()?.split(':').slice(1).join(':') || 'matrix.org';
+    const entries = uploadFiles.map((file) => {
+      const base = shortcodeFromFile(file.name, 'item');
+      let shortcode = base;
+      let counter = 1;
+      while (used.has(shortcode)) {
+        shortcode = `${base}_${counter++}`;
+      }
+      used.add(shortcode);
+      return { file, shortcode, bytes: estimateEntryBytes(shortcode, usage, domain) };
+    });
+    let packCount = entries.length > 0 ? 1 : 0;
+    let used2 = 400;
+    for (const e of entries) {
+      if (used2 + e.bytes > PACK_BUDGET_BYTES && used2 > 400) {
+        packCount += 1;
+        used2 = 400;
+      }
+      used2 += e.bytes;
+    }
+    return { entries, packCount, perPack: Math.ceil(entries.length / Math.max(packCount, 1)) };
+  }, [uploadFiles, uploadPackUsage, client]);
+
+  const resetUploadPlan = useCallback(() => {
+    uploadedRef.current = new Map();
+    planKeysRef.current = [];
+    setUploadFailed([]);
+  }, []);
+
+  const handleUploadPack = useCallback(async () => {
+    if (!uploadPackName.trim() || uploadFiles.length === 0 || !canManage) return;
+    const name = uploadPackName.trim();
+    const controller = new AbortController();
+    uploadAbortRef.current = controller;
+    setUploading(true);
+    setUploadFailed([]);
+    setUploadProgress({ phase: 'upload', done: 0, total: uploadFiles.length, failed: 0 });
+
+    try {
+      // 1. Upload with bounded concurrency; already-uploaded files are skipped on retry.
+      const result = await uploadFilesPooled(
+        uploadPlan.entries.map((e) => e.file),
+        (file, signal) => uploadPackFile(client, file, signal),
+        {
+          concurrency: 4,
+          signal: controller.signal,
+          done: uploadedRef.current,
+          onProgress: (done, total, failed) =>
+            setUploadProgress({ phase: 'upload', done, total, failed }),
+        }
+      );
+      if (result.cancelled) {
+        toast.error(
+          t('room.settings.emojis.uploadCancelled', {
+            done: result.uploaded.filter(Boolean).length,
+            total: uploadFiles.length,
+          })
+        );
+        return;
+      }
+      if (result.errors.size > 0) {
+        setUploadFailed(
+          uploadPlan.entries.filter((_, i) => result.errors.has(i)).map((e) => e.file)
+        );
+        toast.error(t('room.settings.emojis.uploadFailedSome', { count: result.errors.size }));
+        return;
+      }
+
+      // 2. Build one pack, split it so every event stays under the Matrix size limit.
+      const usage = usageModeToArray(uploadPackUsage);
+      const images: Record<string, ImageEntry> = {};
+      uploadPlan.entries.forEach((entry, i) => {
+        const up = result.uploaded[i];
+        if (!up) return;
+        images[entry.shortcode] = {
+          shortcode: entry.shortcode,
+          url: up.mxc,
+          usage: [],
+          body: entry.file.name.replace(/\.[^.]+$/, ''),
+          mimetype: up.mimetype,
+          info: up.info,
+        };
+      });
+      const base: PackData = { stateKey: '', displayName: name, usage, images };
+      const chunks = splitImagesBySize(base);
+      while (planKeysRef.current.length < chunks.length) {
+        planKeysRef.current.push(crypto.randomUUID());
+      }
+
+      // 3. Save the packs one after another (state events are rate limited).
+      for (let i = 0; i < chunks.length; i += 1) {
+        setUploadProgress({ phase: 'save', done: i, total: chunks.length, failed: 0 });
+        const firstUrl = Object.values(chunks[i])[0]?.url;
+        const content = buildPackContent({
+          ...base,
+          stateKey: planKeysRef.current[i],
+          displayName: numberedPackName(name, i, chunks.length),
+          images: chunks[i],
+          avatarUrl: firstUrl,
+        });
+        await sendPackStateEvents(
+          client,
+          roomId,
+          planKeysRef.current[i],
+          content,
+          controller.signal
+        );
+      }
+
+      toast.success(
+        t('room.settings.emojis.uploadPackDone', {
+          name,
+          count: uploadFiles.length,
+          packs: chunks.length,
+          target: isSpace
+            ? t('room.settings.emojis.targetSpace')
+            : t('room.settings.emojis.targetRoom'),
+        })
+      );
+      resetUploadPlan();
+      setUploadModalOpen(false);
+      setUploadPackName('');
+      setUploadFiles([]);
+      setUploadPackUsage(defaultUsage);
+      void reload();
+      invalidateImagePacks();
+    } catch (err) {
+      toast.error(
+        isTooLargeError(err)
+          ? t('room.settings.emojis.serverTooLarge')
+          : t('room.settings.emojis.createFailed', { error: getErrorMessage(err) })
+      );
+    } finally {
+      setUploading(false);
+      setUploadProgress(null);
+      uploadAbortRef.current = null;
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  }, [
+    uploadPackName,
+    uploadFiles,
+    uploadPlan,
+    canManage,
+    uploadPackUsage,
+    defaultUsage,
+    client,
+    roomId,
+    isSpace,
+    resetUploadPlan,
+    reload,
+    toast,
+    t,
+  ]);
 
   const handleSavePack = useCallback(
     async (updated: PackData) => {
-      const imagesContent: Record<
-        string,
-        {
-          url: string;
-          usage?: string[];
-          body?: string;
-          mimetype?: string;
-          info?: Record<string, unknown>;
-        }
-      > = {};
-      for (const [key, img] of Object.entries(updated.images)) {
-        imagesContent[key] = {
-          url: img.url,
-          usage: img.usage.length > 0 ? img.usage : undefined,
-          body: img.body ?? key,
-          mimetype: img.mimetype,
-          info: img.info,
-        };
-      }
-      const content = {
-        pack: {
-          display_name: updated.displayName,
-          usage: updated.usage,
-          avatar_url: updated.avatarUrl,
-          attribution: updated.attribution || undefined,
-        },
-        images: imagesContent,
-      };
-      await Promise.all([
-        client.setStateEvent(roomId, ROOM_PACK_UNSTABLE, updated.stateKey, content),
-        client.setStateEvent(roomId, ROOM_PACK_STABLE, updated.stateKey, content),
-      ]);
+      // Incremental: unchanged event types are not re-sent, and nothing waits for the sync echo.
+      await sendPackStateEvents(client, roomId, updated.stateKey, buildPackContent(updated));
       void reload();
       invalidateImagePacks();
       setEditing(null);
@@ -243,12 +436,9 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
       for (let i = 0; i < parts.length; i += 1) {
         const part = parts[i];
         const stateKey = part.stateKey || crypto.randomUUID();
-        const content = buildPackContent({ ...part, stateKey });
+        // Packs are saved one after another; each already honours the rate limit.
 
-        await Promise.all([
-          client.setStateEvent(roomId, ROOM_PACK_UNSTABLE, stateKey, content),
-          client.setStateEvent(roomId, ROOM_PACK_STABLE, stateKey, content),
-        ]);
+        await sendPackStateEvents(client, roomId, stateKey, buildPackContent(part));
       }
       toast.success(t('room.settings.emojis.splitDone', { count: parts.length }));
       void reload();
@@ -268,10 +458,11 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
       if (!ok) return;
       try {
         const empty = { images: {} };
-        await Promise.all([
-          client.setStateEvent(roomId, ROOM_PACK_UNSTABLE, pack.stateKey, empty),
-          client.setStateEvent(roomId, ROOM_PACK_STABLE, pack.stateKey, empty),
-        ]);
+        await Promise.all(
+          [ROOM_PACK_UNSTABLE, ROOM_PACK_STABLE].map((type) =>
+            withRateLimitRetry(() => client.setStateEvent(roomId, type, pack.stateKey, empty))
+          )
+        );
         void reload();
         invalidateImagePacks();
       } catch (err) {
@@ -298,6 +489,16 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
     );
   }
 
+  const closeUploadModal = () => {
+    if (uploading) return;
+    setUploadModalOpen(false);
+    setUploadPackName('');
+    setUploadFiles([]);
+    resetUploadPlan();
+  };
+
+  const hasPartialUpload = uploadedRef.current.size > 0 || uploadFailed.length > 0;
+
   return (
     <div>
       <h2 className={panelCss.panelTitle}>{t('room.settings.emojis.title')}</h2>
@@ -305,10 +506,16 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
         {t('room.settings.emojis.description')}
       </p>
 
-      <Button variant="primary" onClick={() => setCreateModalOpen(true)} disabled={!canManage}>
-        <PlusIcon size={14} className={panelCss.iconBefore} />
-        {t('room.settings.emojis.createPack')}
-      </Button>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button variant="primary" onClick={() => setCreateModalOpen(true)} disabled={!canManage}>
+          <PlusIcon size={14} className={panelCss.iconBefore} />
+          {t('room.settings.emojis.createPack')}
+        </Button>
+        <Button variant="secondary" onClick={() => setUploadModalOpen(true)} disabled={!canManage}>
+          <UploadSimpleIcon size={14} className={panelCss.iconBefore} />
+          {t('room.settings.emojis.uploadAndCreate')}
+        </Button>
+      </div>
 
       <div className={panelCss.divider} />
 
@@ -370,6 +577,7 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
         onClose={() => {
           setCreateModalOpen(false);
           setNewPackName('');
+          setNewPackUsage(defaultUsage);
         }}
         title={t('room.settings.emojis.createPack')}
         size="sm"
@@ -380,6 +588,7 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
               onClick={() => {
                 setCreateModalOpen(false);
                 setNewPackName('');
+                setNewPackUsage(defaultUsage);
               }}
             >
               {t('common.cancel')}
@@ -390,17 +599,176 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
           </div>
         }
       >
-        <Input
-          label={t('room.settings.emojis.packName')}
-          placeholder={t('room.settings.emojis.packNamePlaceholder')}
-          value={newPackName}
-          disabled={!canManage}
-          onChange={(e) => setNewPackName(e.target.value)}
-          onKeyDown={(e: React.KeyboardEvent) => {
-            if (e.key === 'Enter') handleCreate();
-          }}
-          data-dialog-autofocus
-        />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <Input
+            label={t('room.settings.emojis.packName')}
+            placeholder={t('room.settings.emojis.packNamePlaceholder')}
+            value={newPackName}
+            disabled={!canManage}
+            onChange={(e) => setNewPackName(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent) => {
+              if (e.key === 'Enter') handleCreate();
+            }}
+            data-dialog-autofocus
+          />
+          <Field label={t('room.settings.emojis.usage')}>
+            <Select value={newPackUsage} onChange={setNewPackUsage} options={usageOptions} />
+          </Field>
+        </div>
+      </Modal>
+
+      <Modal
+        open={uploadModalOpen}
+        onClose={closeUploadModal}
+        title={t('room.settings.emojis.uploadAndCreate')}
+        size="md"
+        footer={
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (uploading) uploadAbortRef.current?.abort();
+                else closeUploadModal();
+              }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleUploadPack}
+              loading={uploading}
+              disabled={!uploadPackName.trim() || uploadFiles.length === 0 || !canManage}
+            >
+              {uploading
+                ? t(
+                    uploadProgress?.phase === 'save'
+                      ? 'room.settings.emojis.savingPacksProgress'
+                      : 'room.settings.emojis.uploadingProgress',
+                    {
+                      done: uploadProgress?.done ?? 0,
+                      total: uploadProgress?.total ?? uploadFiles.length,
+                    }
+                  )
+                : hasPartialUpload
+                  ? t('room.settings.emojis.resumeUpload')
+                  : t('room.settings.emojis.uploadAndCreate')}
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <Input
+            label={t('room.settings.emojis.packName')}
+            placeholder={t('room.settings.emojis.packNamePlaceholder')}
+            value={uploadPackName}
+            disabled={uploading || !canManage}
+            onChange={(e) => setUploadPackName(e.target.value)}
+          />
+          <Field label={t('room.settings.emojis.usage')}>
+            <Select
+              value={uploadPackUsage}
+              disabled={uploading}
+              onChange={setUploadPackUsage}
+              options={usageOptions}
+            />
+          </Field>
+          <Field label={t('room.settings.emojis.images')}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <input
+                type="file"
+                ref={fileInputRef}
+                multiple
+                accept={ALLOWED_MIME_TYPES.join(',')}
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const files = Array.from(e.target.files ?? []);
+                  if (files.length > 0) {
+                    resetUploadPlan();
+                    setUploadFiles(files);
+                    if (!uploadPackName.trim()) {
+                      setUploadPackName(files[0].name.replace(/\.[^.]+$/, ''));
+                    }
+                  }
+                }}
+              />
+              <Button
+                variant="secondary"
+                disabled={uploading}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <UploadSimpleIcon size={16} className={panelCss.iconBefore} />
+                {uploadFiles.length > 0
+                  ? `${t('room.settings.emojis.images')} (${uploadFiles.length})`
+                  : t('room.settings.emojis.addImages')}
+              </Button>
+              {uploadFiles.length > 0 && uploadPlan.packCount > 1 && (
+                <span style={{ fontSize: '0.78rem', color: vars.color.warning }}>
+                  {t('room.settings.emojis.willSplit', {
+                    packs: uploadPlan.packCount,
+                    per: uploadPlan.perPack,
+                  })}
+                </span>
+              )}
+              {uploadProgress && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <span style={{ fontSize: '0.8rem', color: vars.color.textSecondary }}>
+                    {t(
+                      uploadProgress.phase === 'save'
+                        ? 'room.settings.emojis.savingPacksProgress'
+                        : 'room.settings.emojis.uploadingProgress',
+                      { done: uploadProgress.done, total: uploadProgress.total }
+                    )}
+                    {uploadProgress.failed > 0 &&
+                      ' · ' +
+                        t('room.settings.emojis.uploadFailedSome', {
+                          count: uploadProgress.failed,
+                        })}
+                  </span>
+                  <PackBar value={uploadProgress.done} max={uploadProgress.total} />
+                </div>
+              )}
+              {!uploading && uploadFailed.length > 0 && (
+                <span style={{ fontSize: '0.78rem', color: vars.color.danger }}>
+                  {t('room.settings.emojis.retryFailed', { count: uploadFailed.length })}
+                </span>
+              )}
+              {uploadFiles.length > 0 && (
+                <div
+                  style={{
+                    maxHeight: '140px',
+                    overflowY: 'auto',
+                    fontSize: '0.78rem',
+                    color: vars.color.textSecondary,
+                    backgroundColor: vars.color.bgTertiary,
+                    padding: '8px 12px',
+                    borderRadius: vars.radius.sm,
+                    border: `1px solid ${vars.color.border}`,
+                  }}
+                >
+                  <div style={{ fontWeight: 600, marginBottom: '4px' }}>
+                    {t('room.settings.emojis.images')} ({uploadFiles.length})
+                  </div>
+                  {uploadFiles.map((f) => {
+                    const done = uploadedRef.current.has(fileResumeKey(f));
+                    return (
+                      <div
+                        key={fileResumeKey(f)}
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          opacity: done ? 0.6 : 1,
+                        }}
+                      >
+                        • {f.name} ({(f.size / 1024).toFixed(1)} KB)
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </Field>
+        </div>
       </Modal>
     </div>
   );

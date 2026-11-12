@@ -65,6 +65,28 @@ export function packContentSize(pack: PackData): number {
   return utf8Size(buildPackContent(pack));
 }
 
+/** Bytes one new image will add, assuming an mxc URI of a typical length for this server. */
+export function estimateEntryBytes(
+  shortcode: string,
+  packUsage: readonly string[],
+  homeserverDomain: string,
+  withInfo = true
+): number {
+  const entry = buildImageContent(
+    shortcode,
+    {
+      shortcode,
+      url: `mxc://${homeserverDomain}/${'x'.repeat(24)}`,
+      usage: [],
+      mimetype: 'image/png',
+      info: withInfo ? { w: 1024, h: 1024, mimetype: 'image/png' } : undefined,
+    },
+    packUsage
+  );
+  // key + ":" + value + ","
+  return utf8Size(shortcode) + 1 + utf8Size(entry) + 1;
+}
+
 /** Splits an image map into chunks whose pack events each fit within `budget` bytes. */
 export function splitImagesBySize(
   pack: PackData,
