@@ -66,6 +66,7 @@ struct RoomView: View {
     @State private var reporting: ChatEntry?
     @State private var reportReason = ""
     @State private var sourceText: IdentifiedString?
+    @State private var editHistoryFor: IdentifiedString?
     @State private var selectingText: IdentifiedString?
     @State private var linkPreviews: LinkPreviewLoader?
     @EnvironmentObject private var session: MatrixSession
@@ -273,6 +274,7 @@ struct RoomView: View {
             Button(String(localized: "common.cancel"), role: .cancel) {}
         }
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
+        .sheet(item: $editHistoryFor) { target in EditHistorySheet(client: timeline.client, roomId: room.id, eventId: target.id) }
         .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
             TextField(String(localized: "common.reasonOptional"), text: $reportReason)
@@ -375,6 +377,7 @@ struct RoomView: View {
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
+            editHistory: { editHistoryFor = $0.eventId.map(IdentifiedString.init) },
             selectText: { selectingText = IdentifiedString(id: $0.summary) },
             openThread: threadRoot != nil ? nil : { entry in
                 guard menuTarget == nil else { return }
@@ -937,6 +940,15 @@ struct MessageRow: View {
                                 UploadProgressRing(progress: nil)
                             }
                         }
+                    if let shield = Shields.display(entry.shield) {
+                        Button { CopyToast.shared.show(L10n.format(shield.reasonKey)) } label: {
+                            Image(shield.kind == .grey ? "ph-shield-check-regular" : "ph-shield-warning-regular")
+                                .font(.system(size: WZ.SizeIcon.xs * scale))
+                                .foregroundStyle(shield.kind == .red ? theme.danger : shield.kind == .warning ? theme.warningColor : theme.textMuted)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(L10n.format(shield.reasonKey))
+                    }
                     if entry.sendFailed {
                         Button { showFailed = true } label: {
                             Image("ph-warning-circle-regular")
@@ -1247,6 +1259,7 @@ struct MessageActions {
     var togglePin: (ChatEntry) -> Void = { _ in }
     var report: (ChatEntry) -> Void = { _ in }
     var viewSource: (ChatEntry) -> Void = { _ in }
+    var editHistory: (ChatEntry) -> Void = { _ in }
     var selectText: (ChatEntry) -> Void = { _ in }
     var openThread: ((ChatEntry) -> Void)?
     /// Set only in unencrypted rooms (see `LinkPreviewLoader`).

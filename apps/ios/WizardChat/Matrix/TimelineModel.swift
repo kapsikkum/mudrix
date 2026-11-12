@@ -150,6 +150,8 @@ struct ChatEntry: Identifiable, Equatable {
     var mediaSpoiler: String?
     var galleryItems: [ChatEntry] = []
     var thread: ThreadSummaryView?
+    /// The encryption warning the core found on this message; nil when it is fine or the room is not encrypted
+    var shield: ShieldView?
 
     var summary: String {
         switch kind {
@@ -772,6 +774,7 @@ final class TimelineModel: ObservableObject {
         entry.mediaSpoiler = mediaSpoiler
         entry.isEditable = event.isEditable
         entry.thread = event.thread
+        entry.shield = event.shield
         entry.replyTo = event.inReplyTo.map(Self.quote)
         entry.reactions = event.reactions.map {
             .init(key: $0.key, count: $0.count, reactedByMe: $0.mine, senders: $0.senders)

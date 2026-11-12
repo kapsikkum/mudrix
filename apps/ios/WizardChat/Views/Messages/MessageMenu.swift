@@ -167,6 +167,9 @@ struct MessageMenuOverlay: View {
             main.append(.init(title: isSaved ? String(localized: "timeline.unsaveMessage") : String(localized: "timeline.saveMessage"),
                               icon: isSaved ? "ph-bookmark-simple-fill" : "ph-bookmark-simple-regular") { toggleSaved(eventId) })
             main.append(.init(title: String(localized: "timeline.remind.title"), icon: "ph-alarm-regular") { actions.remind(entry) })
+            if entry.isEdited {
+                main.append(.init(title: String(localized: "timeline.editHistory.open"), icon: "ph-clock-counter-clockwise-regular") { actions.editHistory(entry) })
+            }
             main.append(.init(title: String(localized: "timeline.viewSource"), icon: "ph-code-regular") { actions.viewSource(entry) })
             if !entry.isOwn {
                 danger.append(.init(title: String(localized: "timeline.reportShort"), icon: "ph-flag-regular", destructive: true) { actions.report(entry) })
