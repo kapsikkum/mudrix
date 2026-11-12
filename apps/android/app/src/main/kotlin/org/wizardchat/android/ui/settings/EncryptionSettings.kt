@@ -127,6 +127,8 @@ internal fun EncryptionSettings(onBack: (() -> Unit)?) {
                 }
             }
 
+            RoomKeysSection()
+
             SettingsSection(tr("settings.encryption.reset"), tr("settings.encryption.resetNote")) {
                 SettingsItem {
                     LabelButton(tr("settings.encryption.resetButton"), null, { confirmReset = true }, enabled = !setup.busy, color = theme.danger)
