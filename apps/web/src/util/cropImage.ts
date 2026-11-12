@@ -2,6 +2,35 @@
 export const BANNER_ASPECT = 3;
 const BANNER_MAX_WIDTH = 1500;
 
+export interface CropRect {
+  sx: number;
+  sy: number;
+  sw: number;
+  sh: number;
+}
+
+/**
+ * The part of a `width` x `height` image kept when cropping to `aspect` (width / height).
+ * `focus` (0..1) picks the kept slice on the axis that overflows: 0 = top/left, 0.5 = centre,
+ * 1 = bottom/right. Values outside 0..1 are clamped, so the rectangle stays inside the image.
+ */
+export function cropRect(width: number, height: number, aspect: number, focus: number): CropRect {
+  const clamped = Math.min(Math.max(focus, 0), 1);
+  let sx = 0;
+  let sy = 0;
+  let sw = width;
+  let sh = height;
+  const srcAspect = width / height;
+  if (srcAspect > aspect) {
+    sw = Math.round(height * aspect);
+    sx = Math.round((width - sw) * clamped);
+  } else if (srcAspect < aspect) {
+    sh = Math.round(width / aspect);
+    sy = Math.round((height - sh) * clamped);
+  }
+  return { sx, sy, sw, sh };
+}
+
 /**
  * Crop `file` to `aspect` (width / height). `focus` (0..1) picks which part of the overflowing
  * axis is kept: 0 = top/left, 0.5 = centre, 1 = bottom/right. The result is downscaled to at
@@ -17,18 +46,7 @@ export async function cropImageToAspect(
 
   const bitmap = await createImageBitmap(file);
   try {
-    const srcAspect = bitmap.width / bitmap.height;
-    let sx = 0;
-    let sy = 0;
-    let sw = bitmap.width;
-    let sh = bitmap.height;
-    if (srcAspect > aspect) {
-      sw = Math.round(bitmap.height * aspect);
-      sx = Math.round((bitmap.width - sw) * focus);
-    } else if (srcAspect < aspect) {
-      sh = Math.round(bitmap.width / aspect);
-      sy = Math.round((bitmap.height - sh) * focus);
-    }
+    const { sx, sy, sw, sh } = cropRect(bitmap.width, bitmap.height, aspect, focus);
 
     const outW = Math.min(sw, maxWidth);
     const outH = Math.round(outW / aspect);
