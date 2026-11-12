@@ -12,6 +12,7 @@ import type {
   WizardClient as MatrixClient,
 } from '@wizardchat/core';
 import { isDeclaredEventType, validateCustomEventContent } from '../customEvents';
+import { mergeRoomEvents } from '../widgetEvents';
 import { resolveCapabilities } from '../widget';
 
 /** The one standard room event type a widget may send or read (besides its own declared types). */
@@ -28,6 +29,8 @@ const MESSAGE_MSGTYPES: readonly string[] = [
   'm.video',
 ];
 const MAX_TIMELINE_EVENTS = 200;
+const HISTORY_PAGE_SIZE = 100;
+const HISTORY_PAGES = 4;
 const MAX_FILE_BYTES = 25 * 1024 * 1024;
 /** Uploads per widget session: the widget cannot use the account's media storage without limit. */
 const MAX_UPLOADS = 20;
@@ -83,8 +86,9 @@ export class IntegrationWidgetDriver extends WidgetDriver {
   private granted = new Set<string>();
   /** The files this widget uploaded itself: the only media its own messages may point at. */
   private uploaded = new Set<string>();
-  /** Room events seen since the widget opened; the Widget API never reads older history. */
+  /** The newest room events, oldest first: recent history plus what arrived since the widget opened. */
   private seen: RoomEvent[] = [];
+  private history: Promise<void> | null = null;
   private readonly subscription: Subscription;
 
   constructor(
@@ -98,9 +102,29 @@ export class IntegrationWidgetDriver extends WidgetDriver {
     super();
     this.subscription = client.watchRoomEvents([MESSAGE_TYPE, ...approvedEvents], (ev) => {
       if (ev.roomId !== this.roomId) return;
-      this.seen.push(ev);
-      if (this.seen.length > MAX_TIMELINE_EVENTS) this.seen.shift();
+      this.seen = mergeRoomEvents(this.seen, [ev], MAX_TIMELINE_EVENTS);
     });
+  }
+
+  /** Reads the room's recent history once, on the first read a granted capability allows. */
+  private loadHistory(): Promise<void> {
+    this.history ??= (async () => {
+      const types = [MESSAGE_TYPE, ...this.approvedEvents];
+      const older: RoomEvent[] = [];
+      let from: string | null = null;
+      try {
+        for (let page = 0; page < HISTORY_PAGES && older.length < MAX_TIMELINE_EVENTS; page += 1) {
+          const got = await this.client.roomEvents(this.roomId, types, HISTORY_PAGE_SIZE, from);
+          older.push(...got.events);
+          from = got.next;
+          if (!from) break;
+        }
+      } catch {
+        // history is best effort; live events still arrive
+      }
+      this.seen = mergeRoomEvents(this.seen, older, MAX_TIMELINE_EVENTS);
+    })();
+    return this.history;
   }
 
   /** Stops collecting room events; the widget API is gone. */
@@ -191,6 +215,7 @@ export class IntegrationWidgetDriver extends WidgetDriver {
     if (!isMessage && !isDeclaredEventType(eventType, this.approvedEvents))
       throw new Error('This widget can only read messages and its own declared events');
     this.requireGranted(isMessage ? READ_MESSAGES : readCustom(eventType));
+    await this.loadHistory();
     let events = this.seen.filter(
       (ev) =>
         ev.type === eventType &&
@@ -252,6 +277,7 @@ export class IntegrationWidgetDriver extends WidgetDriver {
     this.requireGranted(MatrixCapabilities.MSC4039DownloadFile);
     if (typeof contentUri !== 'string' || !MXC_URI.test(contentUri)) throw new Error('Not a file');
     // Only files that messages in the open room refer to, never arbitrary media on the server.
+    await this.loadHistory();
     const inRoom = this.seen.some(
       (ev) => ev.type === MESSAGE_TYPE && contentMediaUris(ev.content).includes(contentUri)
     );

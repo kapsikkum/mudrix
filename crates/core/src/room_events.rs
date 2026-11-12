@@ -3,11 +3,17 @@
 
 use std::collections::HashSet;
 
-use matrix_sdk::ruma::{events::AnySyncMessageLikeEvent, serde::Raw};
+use matrix_sdk::{
+    room::MessagesOptions,
+    ruma::{events::AnySyncMessageLikeEvent, serde::Raw, UInt},
+};
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::WizardClient;
+use crate::{Result, WizardClient};
+
+/// The most events one `roomEvents` call asks the server for
+const MAX_PAGE: u32 = 100;
 
 /// A message-like event that arrived through sync (decrypted when the room is encrypted)
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -23,6 +29,22 @@ pub struct RoomEvent {
     /// When the sender's server saw the event, in milliseconds; `0` when missing. Sync also
     /// delivers recent history, so an app that only wants live events compares this to the clock.
     pub origin_server_ts: u64,
+}
+
+/// One page of a room's past, newest first
+#[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct RoomEventsPage {
+    /// The events of the wanted types on this page; can be empty while `next` is set
+    pub events: Vec<RoomEvent>,
+    /// Pass as `from` for the page before this one; `None` at the start of the room
+    pub next: Option<String>,
+}
+
+/// How many events to ask for: `limit` kept between 1 and [`MAX_PAGE`]
+fn page_size(limit: u32) -> u32 {
+    limit.clamp(1, MAX_PAGE)
 }
 
 /// The event as a [`RoomEvent`] when it is a message-like event of one of `types`.
@@ -51,6 +73,34 @@ fn room_event(room_id: &str, event: &Value, types: &HashSet<String>) -> Option<R
 }
 
 impl WizardClient {
+    /// A page of the room's message-like events of one of `types`, newest first, read from the
+    /// server and decrypted when the room is encrypted (events this device can't decrypt are
+    /// left out). Starts at the newest event, or at `from` (the `next` of an earlier page).
+    pub async fn room_events_page(
+        &self,
+        room_id: &str,
+        types: Vec<String>,
+        limit: u32,
+        from: Option<String>,
+    ) -> Result<RoomEventsPage> {
+        let room = self.room(room_id)?;
+        let types: HashSet<String> = types.into_iter().collect();
+        let mut options = MessagesOptions::backward();
+        options.from = from;
+        options.limit = UInt::from(page_size(limit));
+        let page = room.messages(options).await?;
+        let events = page
+            .chunk
+            .iter()
+            .filter_map(|e| e.raw().deserialize_as_unchecked::<Value>().ok())
+            .filter_map(|e| room_event(room_id, &e, &types))
+            .collect();
+        Ok(RoomEventsPage {
+            events,
+            next: page.end,
+        })
+    }
+
     /// Hands every message-like event of one of `types` that arrives in a joined room to
     /// `on_event`, own events included. Returns when the stream ends.
     pub async fn watch_room_events(&self, types: Vec<String>, mut on_event: impl FnMut(RoomEvent)) {
@@ -111,6 +161,13 @@ mod tests {
             "type": "io.example.play", "state_key": "", "sender": "@a:x", "event_id": "$e",
         });
         assert!(room_event("!r:x", &state, &types(&["io.example.play"])).is_none());
+    }
+
+    #[test]
+    fn page_size_stays_in_bounds() {
+        assert_eq!(page_size(0), 1);
+        assert_eq!(page_size(40), 40);
+        assert_eq!(page_size(5000), MAX_PAGE);
     }
 
     #[test]

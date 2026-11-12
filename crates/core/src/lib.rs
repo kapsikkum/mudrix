@@ -88,7 +88,7 @@ pub use room_admin::{
     StateChange, Tombstone,
 };
 pub use room_details::{Member, RoomDetails, RoomPermissions};
-pub use room_events::RoomEvent;
+pub use room_events::{RoomEvent, RoomEventsPage};
 pub use rooms::UnreadMention;
 pub use rooms::{CreateRoomOptions, InviteInfo, RoomFilter, RoomKind, RoomSummary};
 pub use sections::RoomSection;

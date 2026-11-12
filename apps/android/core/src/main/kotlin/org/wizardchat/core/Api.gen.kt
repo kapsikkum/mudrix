@@ -1141,6 +1141,15 @@ data class RoomEvent(
     val originServerTs: Long,
 )
 
+/** One page of a room's past, newest first */
+@Serializable
+data class RoomEventsPage(
+    /** The events of the wanted types on this page; can be empty while `next` is set */
+    val events: List<RoomEvent>,
+    /** Pass as `from` for the page before this one; `None` at the start of the room */
+    val next: String? = null,
+)
+
 @Serializable
 data class RoomFilter(
     val kind: RoomKind? = null,
@@ -2604,6 +2613,15 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      */
     fun watchRoomEvents(types: List<String>, listener: (RoomEvent) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchRoomEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<RoomEvent>(listener)), ::Subscription)
+
+    /**
+     * A page of a room's message-like events of one of `types`, newest first, decrypted in
+     * encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+     * page's `next` as `from` for the page before it; `next` is null at the start of the room.
+     * A page can hold fewer events than `limit`, even none, while `next` is set.
+     */
+    suspend fun roomEvents(roomId: String, types: List<String>, limit: Long, from: String? = null): RoomEventsPage =
+        Runtime.call("WizardClient.roomEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(types), Arg.value<Long>(limit), Arg.value<String?>(from)))
 
     suspend fun serverFeatures(): ServerFeatures =
         Runtime.call("WizardClient.serverFeatures", handle, listOf())

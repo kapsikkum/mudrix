@@ -107,6 +107,19 @@ rpc_methods! {
             }))
         }
 
+        /// A page of a room's message-like events of one of `types`, newest first, decrypted in
+        /// encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+        /// page's `next` as `from` for the page before it; `next` is null at the start of the room.
+        /// A page can hold fewer events than `limit`, even none, while `next` is set.
+        call fn roomEvents(
+            room_id: String,
+            types: Vec<String>,
+            limit: u32,
+            from: Option<String>,
+        ) -> crate::RoomEventsPage {
+            this.room_events_page(&room_id, types, limit, from).await
+        }
+
         call fn serverFeatures() -> ServerFeatures {
             this.server_features().await
         }

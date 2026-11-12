@@ -897,6 +897,20 @@ export type RoomEvent = {
   originServerTs: number;
 };
 
+/**
+ * One page of a room's past, newest first
+ */
+export type RoomEventsPage = {
+  /**
+   * The events of the wanted types on this page; can be empty while `next` is set
+   */
+  events: Array<RoomEvent>;
+  /**
+   * Pass as `from` for the page before this one; `None` at the start of the room
+   */
+  next: string | null;
+};
+
 export type RoomFilter = {
   kind?: RoomKind;
   /**
@@ -2524,6 +2538,26 @@ export class WizardClient extends Remote {
    */
   watchRoomEvents(types: Array<string>, listener: (value: RoomEvent) => void): Subscription {
     return runtime.watch('WizardClient.watchRoomEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * A page of a room's message-like events of one of `types`, newest first, decrypted in
+   * encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+   * page's `next` as `from` for the page before it; `next` is null at the start of the room.
+   * A page can hold fewer events than `limit`, even none, while `next` is set.
+   */
+  roomEvents(
+    roomId: string,
+    types: Array<string>,
+    limit: number,
+    from?: string | null
+  ): Promise<RoomEventsPage> {
+    return runtime.call('WizardClient.roomEvents', this, [
+      roomId,
+      types,
+      limit,
+      from,
+    ]) as Promise<RoomEventsPage>;
   }
 
   serverFeatures(): Promise<ServerFeatures> {

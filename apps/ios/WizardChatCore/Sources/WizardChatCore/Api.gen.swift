@@ -1789,6 +1789,19 @@ public struct RoomEvent: Codable, Hashable, Sendable {
     }
 }
 
+/// One page of a room's past, newest first
+public struct RoomEventsPage: Codable, Hashable, Sendable {
+    /// The events of the wanted types on this page; can be empty while `next` is set
+    public var events: [RoomEvent]
+    /// Pass as `from` for the page before this one; `None` at the start of the room
+    public var next: String?
+
+    public init(events: [RoomEvent], next: String? = nil) {
+        self.events = events
+        self.next = next
+    }
+}
+
 public struct RoomFilter: Codable, Hashable, Sendable {
     public var kind: RoomKind?
     /// Only rooms inside this joined space (at any depth)
@@ -3682,6 +3695,14 @@ public final class WizardClient: Remote, @unchecked Sendable {
     @discardableResult
     public func watchRoomEvents(types: [String], listener: @escaping @Sendable (RoomEvent) -> Void) -> Subscription {
         watch("WizardClient.watchRoomEvents", [.value(types), .listener(RoomEvent.self, listener)])
+    }
+
+    /// A page of a room's message-like events of one of `types`, newest first, decrypted in
+    /// encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+    /// page's `next` as `from` for the page before it; `next` is null at the start of the room.
+    /// A page can hold fewer events than `limit`, even none, while `next` is set.
+    public func roomEvents(roomId: String, types: [String], limit: Int, from: String? = nil) async throws -> RoomEventsPage {
+        try await call("WizardClient.roomEvents", [.value(roomId), .value(types), .value(limit), .value(from)])
     }
 
     public func serverFeatures() async throws -> ServerFeatures {
