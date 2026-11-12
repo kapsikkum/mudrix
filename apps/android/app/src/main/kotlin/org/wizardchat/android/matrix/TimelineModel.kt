@@ -51,6 +51,7 @@ import org.wizardchat.core.ReplyPreview
 import org.wizardchat.core.RichBlock
 import org.wizardchat.core.RoomTimeline
 import org.wizardchat.core.SendState
+import org.wizardchat.core.ShieldView
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.ThreadSummaryView
 import org.wizardchat.core.TimelineEntry
@@ -106,6 +107,8 @@ data class ChatEntry(
     val mediaSpoiler: String? = null,
     val galleryItems: List<ChatEntry> = emptyList(),
     val thread: ThreadSummaryView? = null,
+    /** The encryption warning the core found on this message; null when it is fine or the room isn't encrypted */
+    val shield: ShieldView? = null,
 ) {
     sealed interface Kind {
         data class Message(val body: String, val isEmote: Boolean, val isNotice: Boolean) : Kind
@@ -866,6 +869,7 @@ class TimelineModel(
                 mediaSpoiler = mediaSpoiler,
                 isEditable = event.isEditable,
                 thread = event.thread,
+                shield = event.shield,
                 replyTo = event.inReplyTo?.let(::quote),
                 reactions = event.reactions.map {
                     ChatEntry.ReactionGroup(it.key, it.count.toInt(), it.mine, it.senders)

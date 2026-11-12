@@ -118,6 +118,7 @@ import org.wizardchat.android.matrix.DisplayFormats
 import org.wizardchat.android.matrix.EmojiOnlySize
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageMention
+import org.wizardchat.android.matrix.Shields
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.PendingUpload
@@ -1083,6 +1084,27 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     entry.replyTo?.let { ReplyQuoteView(it) }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                        Shields.display(entry.shield)?.let { display ->
+                            val tint = when (display.kind) {
+                                Shields.Kind.Red -> theme.danger
+                                Shields.Kind.Warning -> theme.warningColor
+                                Shields.Kind.Grey -> theme.textMuted
+                            }
+                            val reason = L10n.format(display.reasonKey)
+                            Box(
+                                Modifier
+                                    .padding(top = WZ.Space.space1)
+                                    .clip(CircleShape)
+                                    .clickable { CopyToast.show(reason) },
+                            ) {
+                                PhIcon(
+                                    if (display.kind == Shields.Kind.Grey) "shield-check" else "shield-warning",
+                                    size = WZ.SizeIcon.xs * scale,
+                                    tint = tint,
+                                    contentDescription = reason,
+                                )
+                            }
+                        }
                         val sending = entry.isSending && !entry.sendFailed
                         Box(Modifier.weight(1f, fill = false).alpha(if (sending && isText) 0.5f else 1f), contentAlignment = Alignment.Center) {
                             MessageContent(entry, actions, isPrivateRoom, isText)
