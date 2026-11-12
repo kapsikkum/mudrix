@@ -51,7 +51,7 @@ final class MatrixSession: ObservableObject {
     private var subscriptions: [Subscription] = []
     private var pendingLogin: (login: PendingLogin, folder: String, store: StoreConfig)?
 
-    static let deviceName = "WizardChat iOS"
+    static let deviceName = "Mudrix iOS"
     static let callbackScheme = "org.wizardchat"
     static let app = AppInfo(name: "Mudrix", clientUri: "https://github.com/kapsikkum/mudrix")
 
