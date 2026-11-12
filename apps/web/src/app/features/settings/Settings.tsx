@@ -17,6 +17,7 @@ import {
   FilmStripIcon,
   PuzzlePieceIcon,
   MicrophoneIcon,
+  GameControllerIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
@@ -58,6 +59,8 @@ import { Media } from './media';
 import { Integrations } from './integrations';
 import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
+import { Activity } from './activity';
+import { isTauriDesktop } from '@/util/desktop';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
 import { Encryption } from './encryption';
@@ -206,6 +209,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Media />;
     case 'voice':
       return <VoiceAudio />;
+    case 'activity':
+      return <Activity />;
     case 'keybinds':
       return <Keybinds />;
     case 'developer':
@@ -225,6 +230,15 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   return [
     { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
     { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
+    ...(isTauriDesktop()
+      ? [
+          {
+            key: 'activity' as const,
+            label: t('settings.activity.title'),
+            Icon: GameControllerIcon,
+          },
+        ]
+      : []),
     { key: 'integrations', label: t('settings.integrations.title'), Icon: PuzzlePieceIcon },
     {
       key: 'emojis-stickers',

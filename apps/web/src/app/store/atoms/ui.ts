@@ -263,6 +263,7 @@ export type SettingsPage =
   | 'media'
   | 'voice'
   | 'keybinds'
+  | 'activity'
   | 'language'
   | 'developer'
   | 'sessions'

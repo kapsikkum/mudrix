@@ -29,6 +29,7 @@ import type { SidebarView } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
+import { useActivitySharing } from '@/app/hooks/useActivitySharing';
 import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useVerification } from '@/app/hooks/useVerification';
 import { useSessionVerification } from '@/app/hooks/useSessionVerification';
@@ -135,6 +136,7 @@ function SpaceOverviewPage() {
 export function ClientLayout() {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
+  useActivitySharing(client);
   const [currentSpaceId, setCurrentSpaceId] = useAtom(currentSpaceIdAtom);
   const [sidebarView, setSidebarView] = useAtom(sidebarViewAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);

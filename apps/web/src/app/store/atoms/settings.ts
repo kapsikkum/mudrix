@@ -129,6 +129,14 @@ export interface Preferences {
   streamerMode: StreamerMode;
   /** Share whether you are online (off: you appear offline and nobody's presence is shown) */
   showPresence: boolean;
+  /** Desktop app: show the game or music playing on this computer on your profile */
+  shareActivity: boolean;
+  shareActivityGames: boolean;
+  shareActivityMusic: boolean;
+  /** Games the person hid from their profile, by lower-case name */
+  hiddenActivities: string[];
+  /** Programs added by hand: when `exe` is running it counts as the game `name` */
+  customActivityApps: { exe: string; name: string }[];
   /** Ask a person's homeserver what software it runs and show it as a badge on their profile */
   showHomeserverSoftware: boolean;
   followSystemTheme: boolean;
@@ -216,6 +224,11 @@ export const DEFAULT_PREFERENCES: Preferences = {
   messageSendAnimation: false,
   streamerMode: 'auto',
   showPresence: false,
+  shareActivity: false,
+  shareActivityGames: true,
+  shareActivityMusic: true,
+  hiddenActivities: [],
+  customActivityApps: [],
   showHomeserverSoftware: true,
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
@@ -243,6 +256,11 @@ function preferenceFieldAtom<K extends keyof Preferences>(key: K) {
   );
 }
 
+export const shareActivityAtom = preferenceFieldAtom('shareActivity');
+export const shareActivityGamesAtom = preferenceFieldAtom('shareActivityGames');
+export const shareActivityMusicAtom = preferenceFieldAtom('shareActivityMusic');
+export const hiddenActivitiesAtom = preferenceFieldAtom('hiddenActivities');
+export const customActivityAppsAtom = preferenceFieldAtom('customActivityApps');
 export const slidingSyncAtom = preferenceFieldAtom('slidingSync');
 export const typingIndicatorsAtom = preferenceFieldAtom('typingIndicators');
 export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');

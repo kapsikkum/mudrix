@@ -1,5 +1,6 @@
 #![recursion_limit = "256"]
 
+mod activity;
 mod badge;
 mod dev;
 mod downloads;
@@ -184,6 +185,7 @@ pub fn run() {
             #[cfg(windows)]
             toast::init(app.handle());
             tray::build(app.handle())?;
+            activity::init(app.handle());
             // On Windows the app draws its own title bar, window buttons included. Linux keeps the
             // window manager's frame: many ignore a frameless window and draw theirs anyway
             #[cfg(windows)]
@@ -229,6 +231,9 @@ pub fn run() {
             global_keys::global_keys_permission,
             keep_awake::keep_awake,
             update::update_ready,
+            activity::set_activity_detection,
+            activity::get_activity,
+            activity::list_running_programs,
             update::check_for_update,
             update::install_update,
             screen_share::screen_capture_supported,
