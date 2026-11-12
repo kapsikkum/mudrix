@@ -34,6 +34,7 @@ struct ComposerView: View {
     @State private var showCamera = false
     @State private var showFiles = false
     @State private var showPoll = false
+    @State private var showSchedule = false
     @State private var showLocation = false
     @StateObject private var recorder = VoiceRecorder()
     @State private var sent = 0
@@ -151,6 +152,13 @@ struct ComposerView: View {
         .sheet(item: $apiRequest) { request in
             ApiConfirmSheet(request: request) { link in insertAtCursor(link) }
         }
+        .sheet(isPresented: $showSchedule) {
+            ScheduleSheet(client: timeline.client, roomId: room.id, roomEncrypted: room.isEncrypted, draft: draft, html: nil,
+                          replyTo: replyTo?.eventId, threadRoot: threadRoot, mentionedUserIds: []) {
+                draft = ""
+                replyTo = nil
+            }
+        }
         .sheet(isPresented: $showPoll) {
             PollCreatorSheet { question, answers, disclosed in
                 await timeline.createPoll(question: question, answers: answers, disclosed: disclosed)
@@ -209,6 +217,7 @@ struct ComposerView: View {
             } label: {
                 Label(menu: String(localized: "composer.formatting.toolbar"), icon: "ph-text-aa-regular")
             }
+            Button { showSchedule = true } label: { Label(menu: String(localized: "composer.schedule.menu"), icon: "ph-clock-counter-clockwise-regular") }
             Button { showPoll = true } label: { Label(menu: String(localized: "composer.poll.create"), icon: "ph-chart-bar-horizontal-regular") }
             Button { showLocation = true } label: { Label(menu: String(localized: "composer.location.share"), icon: "ph-map-pin-regular") }
             Button { Task { await recorder.start() } } label: { Label(menu: String(localized: "composer.voice.record"), icon: "ph-microphone-regular") }
