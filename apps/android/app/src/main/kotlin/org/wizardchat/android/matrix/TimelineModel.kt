@@ -350,18 +350,32 @@ class TimelineModel(
         repeat(maxPages) {
             if (entries.any { e -> e.eventId == eventId || e.galleryItems.any { it.eventId == eventId } }) return true
             if (reachedStart) return false
-            paginateBackwards()
+            paginateBackwards(manual = true)
             delay(50)
         }
         return entries.any { it.eventId == eventId }
     }
 
-    suspend fun paginateBackwards() {
+    private val unreadable = UnreadableHistory()
+
+    /** Older history stopped loading by itself because it is all messages this device cannot read */
+    var historyPaused by mutableStateOf(false)
+        private set
+
+    /** Loads a page of older messages; [manual] loads even while paused (the person asked for it) */
+    suspend fun paginateBackwards(manual: Boolean = false) {
         val timeline = timeline ?: return
         if (isPaginating || reachedStart) return
+        if (historyPaused && !manual) return
         isPaginating = true
         try {
+            val known = entries.mapTo(HashSet()) { it.id }
             reachedStart = timeline.paginateBack(80)
+            // Entries arrive through the timeline subscription, a moment after the page is loaded
+            delay(150)
+            val added = entries.filter { it.id !in known && it.isContent }
+            unreadable.record(added.size, added.count { it.kind is ChatEntry.Kind.Undecryptable })
+            historyPaused = unreadable.paused
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

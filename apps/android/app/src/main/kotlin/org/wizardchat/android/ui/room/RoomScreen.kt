@@ -288,7 +288,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                 do {
                     timeline.paginateBackwards()
                     delay(80)
-                } while (!fillsScreen && !timeline.reachedStart)
+                } while (!fillsScreen && !timeline.reachedStart && !timeline.historyPaused)
             } finally {
                 loadingOlder = false
             }
@@ -485,6 +485,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                         Spacer(Modifier.height(0.dp))
                     } else if (timeline.reachedStart) {
                         TimelineStart(room)
+                    } else if (timeline.historyPaused) {
+                        UndecryptableHistoryNotice(timeline.isPaginating) { scope.launch { timeline.paginateBackwards(manual = true) } }
                     } else {
                         // Skeleton rows; history loads as they scroll into view
                         TimelinePlaceholder()
