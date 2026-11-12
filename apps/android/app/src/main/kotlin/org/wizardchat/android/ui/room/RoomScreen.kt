@@ -216,6 +216,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     var reactingTo by remember { mutableStateOf<ChatEntry?>(null) }
     val reactionPacks = remember { PacksStore() }
     var showInfo by remember { mutableStateOf(false) }
+    var showJumpToDate by remember { mutableStateOf(false) }
     var canPin by remember { mutableStateOf(false) }
     var canRedactOthers by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf<ChatEntry?>(null) }
@@ -445,7 +446,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     Column(Modifier.fillMaxSize().background(theme.bgSecondary)) {
         RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
             inCall = room.inCall || calls.isInCall(room.id),
-            inThread = threadRoot != null, onShowThreads = { showThreads = true })
+            inThread = threadRoot != null, onShowThreads = { showThreads = true },
+            onJumpToDate = { showJumpToDate = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
             CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
             LazyColumn(
@@ -550,6 +552,17 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             },
         )
     }
+    if (showJumpToDate) {
+        JumpToDateSheet(
+            client = client,
+            roomId = room.id,
+            onJump = { eventId ->
+                showJumpToDate = false
+                scope.launch { jump(eventId) }
+            },
+            onDismiss = { showJumpToDate = false },
+        )
+    }
     if (showThreads) {
         ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
             showThreads = false
@@ -589,16 +602,18 @@ private fun RoomTopBar(
     inCall: Boolean,
     inThread: Boolean,
     onShowThreads: () -> Unit,
+    onJumpToDate: () -> Unit,
 ) {
     RoomHeader(
         room,
         onBack,
         onShowInfo = if (inThread) null else onShowInfo,
-        buttons = if (inThread) 0 else 2,
+        buttons = if (inThread) 0 else 3,
         title = { if (inThread) ThreadTitle(room) else RoomTitle(room) },
     ) {
         if (!inThread) {
             BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
+            BarButton("calendar-blank", tr("room.jumpToDate.title"), onJumpToDate, tint = theme.textPrimary)
             Box {
                 var callMenu by remember { mutableStateOf(false) }
                 BarButton("phone", tr("call.startCall"), { callMenu = true }, enabled = !inCall)
