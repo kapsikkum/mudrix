@@ -1,0 +1,1052 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_swift",
+      "label": "VoiceMoves.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "label": "VoiceMoves",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isfresh",
+      "label": ".isFresh()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "label": ".request()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "_callable": true
+    },
+    {
+      "id": "callmanager",
+      "label": "CallManager",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "label": ".handle()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "roomevent",
+      "label": "RoomEvent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "label": ".isFlaggedVoice()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L79",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "label": ".confirmsParent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "label": ".ancestorSpaces()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "_callable": true
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "label": ".mayMoveBetween()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isfresh",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isfresh",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isfresh",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "callmanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "callmanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "roomevent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isfresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "target": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "callee": "sendEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L33",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "callee": "sendEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L35",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_request",
+      "callee": "typeAndLegacy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L35",
+      "receiver": "MudrixTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "callee": "watchRoomEvents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L41",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "callee": "typeAndLegacy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L41",
+      "receiver": "MudrixTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L49",
+      "receiver": "subscription"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L59",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L60",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L61",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "isInCall",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L64",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L66",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "isInCall",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L71",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "members",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L72",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L73",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L74",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L74",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L75",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_handle",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L76",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "callee": "stateEventsOfTypes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L80",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "callee": "typeAndLegacy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L80",
+      "receiver": "MudrixTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L83",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_isflaggedvoice",
+      "callee": "MudrixRoomState",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "callee": "stateEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L90",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "callee": "parent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "callee": "localRoomSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L94",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_confirmsparent",
+      "callee": "canSendState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L95",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "callee": "popLast",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L102",
+      "receiver": "queue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L103",
+      "receiver": "space"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L105",
+      "receiver": "found"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_ancestorspaces",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L106",
+      "receiver": "queue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L117",
+      "receiver": "above"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "callee": "localRoomSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L118",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "callee": "canSendState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L119",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "callee": "members",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L121",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_voicemoves_voicemoves_maymovebetween",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/VoiceMoves.swift",
+      "source_location": "L122",
+      "receiver": "members"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/VoiceMoves.swift",
+    "table": {
+      "subscription": "Subscription",
+      "seen": "String",
+      "originServerTs": "Int",
+      "now": "Int",
+      "client": "WizardClient",
+      "fromRoomId": "String",
+      "userId": "String",
+      "toRoomId": "String",
+      "calls": "CallManager",
+      "session": "MatrixSession",
+      "roomList": "RoomListModel",
+      "prefs": "AppPreferences",
+      "me": "String",
+      "event": "RoomEvent",
+      "roomId": "String",
+      "spaceId": "String",
+      "senderId": "String",
+      "graph": "SpaceNode"
+    }
+  }
+}

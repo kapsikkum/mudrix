@@ -1,0 +1,636 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_swift",
+      "label": "VideoQualityChip.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "label": "VideoInfo",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "videometa",
+      "label": "VideoMeta",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "videoquality",
+      "label": "VideoQuality",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "label": "VideoQualityChip",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "videochoice",
+      "label": "VideoChoice",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_current",
+      "label": ".current",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L18"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_currentchoice",
+      "label": ".currentChoice",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L22"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "label": ".name()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L26",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "label": ".sizeText()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L34",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "label": ".label()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L45"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "target": "videometa",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "target": "videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "videochoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_current",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "videochoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_currentchoice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "target": "videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "target": "videochoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "target": "videochoice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_label",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_current",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L19",
+      "receiver": "choices"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_currentchoice",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L23",
+      "receiver": "choices"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L36",
+      "receiver": "ByteCountFormatter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_sizetext",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L37",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_videoqualitychip_videoqualitychip_body",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+      "source_location": "L66",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Composer/VideoQualityChip.swift",
+    "table": {
+      "meta": "VideoMeta",
+      "size": "Int64",
+      "quality": "VideoQuality",
+      "info": "VideoInfo",
+      "choices": "VideoChoice",
+      "onPick": "VideoQuality",
+      "current": "VideoQuality",
+      "currentChoice": "VideoChoice",
+      "choice": "VideoChoice",
+      "body": "View"
+    },
+    "factory": { "text": ["ByteCountFormatter", "string"] }
+  }
+}

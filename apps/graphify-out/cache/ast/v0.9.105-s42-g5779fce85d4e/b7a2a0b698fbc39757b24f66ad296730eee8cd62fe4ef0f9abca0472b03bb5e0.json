@@ -1,0 +1,2659 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_swift",
+      "label": "LoginView.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "authenticationservices",
+      "label": "AuthenticationServices",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "label": "LoginView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_mode",
+      "label": "Mode",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_mode_login",
+      "label": "login",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_mode_register",
+      "label": "register",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "label": "UsernameState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_idle",
+      "label": "idle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_checking",
+      "label": "checking",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_available",
+      "label": "available",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_taken",
+      "label": "taken",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_reserved",
+      "label": "reserved",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_invalid",
+      "label": "invalid",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "serverinfo",
+      "label": "ServerInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "registrationinfo",
+      "label": "RegistrationInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_server",
+      "label": ".server",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_servername",
+      "label": ".serverName",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L40"
+    },
+    {
+      "id": "signinidentifier",
+      "label": "SignInIdentifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_identifier",
+      "label": ".identifier",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L46"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_byemail",
+      "label": ".byEmail",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L50"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L52"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "label": ".serverPicker",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L123"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "label": ".softwareLine()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L146",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "label": ".loginOptions()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L155",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "label": ".registerOptions()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L200",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "label": ".ssoButtons()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L243",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "label": ".usernameField",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L263"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "label": ".passwordField()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L272",
+      "_callable": true
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "label": ".switchMode",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L279"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "label": ".note()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L295",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_fullid",
+      "label": ".fullId",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L305"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernameerror",
+      "label": ".usernameError",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L307"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamehint",
+      "label": ".usernameHint",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L311"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_canregister",
+      "label": ".canRegister",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L323"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "label": ".checkUsername()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L327",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "label": ".discover()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L358",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "label": ".signInWithBrowser()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L389",
+      "_callable": true
+    },
+    {
+      "id": "identityprovider",
+      "label": "IdentityProvider",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "label": ".logInWithPassword()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L409",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "label": ".register()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L428",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "label": ".message()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L456",
+      "_callable": true
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/LoginView.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_swift",
+      "target": "authenticationservices",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_mode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_mode",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_mode_login",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_mode",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_mode_register",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_idle",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_checking",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_available",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_taken",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_reserved",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_usernamestate_invalid",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "registrationinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_server",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_servername",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "signinidentifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_identifier",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_byemail",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L123",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L146",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L146",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L200",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L200",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L243",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L243",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L243",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L263",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L263",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L272",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L272",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L272",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L279",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L279",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L295",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L295",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L305",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_fullid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L305",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L307",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernameerror",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L307",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L311",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamehint",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L311",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_canregister",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L323",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L358",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L389",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "target": "identityprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L389",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L389",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L409",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L428",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L456",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "target": "error",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L456",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L456",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L372",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L405",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L424",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "target": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L442",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_server",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L37",
+      "receiver": "customServer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_servername",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L41",
+      "receiver": "server"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_identifier",
+      "callee": "interpret",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L47",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "scrollDismissesKeyboard",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "WizardLogo",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L113",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "pickerStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "autocorrectionDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "textInputAutocapitalization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_serverpicker",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_softwareline",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L152",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "QrSignInSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "EmptyView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L183",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginoptions",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L219",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_registeroptions",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L247",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L247",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "LineDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L247",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L251",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L254",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_ssobuttons",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "autocorrectionDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "textInputAutocapitalization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamefield",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "onSubmit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_passwordfield",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L280",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L280",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L280",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L281",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L281",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L283",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_switchmode",
+      "callee": "withAnimation",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L284",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_note",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamehint",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L317",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamehint",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L318",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_usernamehint",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L319",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L332",
+      "receiver": "username"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L337",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_checkusername",
+      "callee": "usernameAvailable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L340",
+      "receiver": "WizardClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L367",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L369",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_discover",
+      "callee": "registrationInfo",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L375",
+      "receiver": "WizardClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L392",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "startBrowserLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L394",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "authenticate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L395",
+      "receiver": "webAuthenticationSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "finishBrowserLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L400",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "cancelBrowserLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L402",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_signinwithbrowser",
+      "callee": "cancelBrowserLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L404",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L420",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "callee": "login",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L422",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_loginwithpassword",
+      "callee": "toCore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L422",
+      "receiver": "identifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L433",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L434",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L434",
+      "receiver": "flows"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L434",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L435",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L440",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L448",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L449",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_register",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L452",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L461",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L463",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L469",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L470",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview_message",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L476",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "callee": "CharacterSet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_loginview_loginview",
+      "callee": "presets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/LoginView.swift",
+      "source_location": "L21",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/LoginView.swift",
+    "table": {
+      "session": "MatrixSession",
+      "localpartCharacters": "CharacterSet",
+      "mode": "Mode",
+      "info": "ServerInfo",
+      "registration": "RegistrationInfo",
+      "usernameState": "UsernameState",
+      "errorMessage": "String",
+      "server": "String",
+      "serverName": "String",
+      "identifier": "SignInIdentifier",
+      "byEmail": "Bool",
+      "body": "View",
+      "serverPicker": "View",
+      "afterPassword": "Bool",
+      "usernameField": "View",
+      "submit": "Void",
+      "switchMode": "View",
+      "text": "String",
+      "fullId": "String",
+      "usernameError": "Bool",
+      "usernameHint": "String",
+      "canRegister": "Bool",
+      "sso": "IdentityProvider",
+      "createAccount": "Bool",
+      "error": "Error"
+    }
+  }
+}

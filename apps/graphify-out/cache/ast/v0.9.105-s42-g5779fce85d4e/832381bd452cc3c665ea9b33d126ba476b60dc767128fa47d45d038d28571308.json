@@ -1,0 +1,1950 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_project_yml",
+      "label": "project.yml",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_project_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_project_options",
+      "label": "options",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_project_options_deploymenttarget",
+      "label": "deploymentTarget",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_project_deploymenttarget_ios",
+      "label": "iOS",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_project_options_createintermediategroups",
+      "label": "createIntermediateGroups",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_project_options_developmentlanguage",
+      "label": "developmentLanguage",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_ios_project_packages",
+      "label": "packages",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_project_packages_wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L9"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatcore_path",
+      "label": "path",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L10"
+    },
+    {
+      "id": "$graphify-root$_ios_project_packages_livekit",
+      "label": "LiveKit",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_ios_project_livekit_url",
+      "label": "url",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_ios_project_livekit_exactversion",
+      "label": "exactVersion",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L13"
+    },
+    {
+      "id": "$graphify-root$_ios_project_configfiles",
+      "label": "configFiles",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L16"
+    },
+    {
+      "id": "$graphify-root$_ios_project_configfiles_debug",
+      "label": "Debug",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L17"
+    },
+    {
+      "id": "$graphify-root$_ios_project_configfiles_release",
+      "label": "Release",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L18"
+    },
+    {
+      "id": "$graphify-root$_ios_project_settings",
+      "label": "settings",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_project_settings_base",
+      "label": "base",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L21"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_swift_version",
+      "label": "SWIFT_VERSION",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L22"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_marketing_version",
+      "label": "MARKETING_VERSION",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L23"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_current_project_version",
+      "label": "CURRENT_PROJECT_VERSION",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L24"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_swift_emit_loc_strings",
+      "label": "SWIFT_EMIT_LOC_STRINGS",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L25"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_development_team",
+      "label": "DEVELOPMENT_TEAM",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L26"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_code_sign_style",
+      "label": "CODE_SIGN_STYLE",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L27"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_targeted_device_family",
+      "label": "TARGETED_DEVICE_FAMILY",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L28"
+    },
+    {
+      "id": "$graphify-root$_ios_project_targets",
+      "label": "targets",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L30"
+    },
+    {
+      "id": "$graphify-root$_ios_project_targets_wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L32"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_platform",
+      "label": "platform",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L33"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_sources",
+      "label": "sources",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L34"
+    },
+    {
+      "id": "$graphify-root$_ios_project_sources_path",
+      "label": "path",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L41"
+    },
+    {
+      "id": "$graphify-root$_ios_project_sources_buildphase",
+      "label": "buildPhase",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L42"
+    },
+    {
+      "id": "$graphify-root$_ios_project_sources_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L46"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_info",
+      "label": "info",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L48"
+    },
+    {
+      "id": "$graphify-root$_ios_project_info_path",
+      "label": "path",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L49"
+    },
+    {
+      "id": "$graphify-root$_ios_project_info_properties",
+      "label": "properties",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L50"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_uilaunchscreen",
+      "label": "UILaunchScreen",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L52"
+    },
+    {
+      "id": "$graphify-root$_ios_project_uilaunchscreen_uicolorname",
+      "label": "UIColorName",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L53"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_uibackgroundmodes",
+      "label": "UIBackgroundModes",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L55"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_cfbundleurltypes",
+      "label": "CFBundleURLTypes",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L57"
+    },
+    {
+      "id": "$graphify-root$_ios_project_cfbundleurltypes_cfbundleurlname",
+      "label": "CFBundleURLName",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L58"
+    },
+    {
+      "id": "$graphify-root$_ios_project_cfbundleurltypes_cfbundleurlschemes",
+      "label": "CFBundleURLSchemes",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L59"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_bgtaskschedulerpermittedidentifiers",
+      "label": "BGTaskSchedulerPermittedIdentifiers",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L61"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_nssupportsliveactivities",
+      "label": "NSSupportsLiveActivities",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L63"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_cfbundleshortversionstring",
+      "label": "CFBundleShortVersionString",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L64"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_cfbundleversion",
+      "label": "CFBundleVersion",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L65"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_wzappgroup",
+      "label": "WZAppGroup",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L66"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_cfbundlelocalizations",
+      "label": "CFBundleLocalizations",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L67"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L68"
+    },
+    {
+      "id": "$graphify-root$_ios_project_dependencies_package",
+      "label": "package",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L69"
+    },
+    {
+      "id": "$graphify-root$_ios_project_dependencies_target",
+      "label": "target",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L71"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_scheme",
+      "label": "scheme",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L73"
+    },
+    {
+      "id": "$graphify-root$_ios_project_scheme_testtargets",
+      "label": "testTargets",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L74"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_postbuildscripts",
+      "label": "postBuildScripts",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L76"
+    },
+    {
+      "id": "$graphify-root$_ios_project_postbuildscripts_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L77"
+    },
+    {
+      "id": "$graphify-root$_ios_project_postbuildscripts_script",
+      "label": "script",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L78"
+    },
+    {
+      "id": "$graphify-root$_ios_project_postbuildscripts_basedondependencyanalysis",
+      "label": "basedOnDependencyAnalysis",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L79"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchat_settings",
+      "label": "settings",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L80"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_product_bundle_identifier",
+      "label": "PRODUCT_BUNDLE_IDENTIFIER",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L82"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_code_sign_entitlements",
+      "label": "CODE_SIGN_ENTITLEMENTS",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L83"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_generate_infoplist_file",
+      "label": "GENERATE_INFOPLIST_FILE",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L84"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_cfbundledisplayname",
+      "label": "INFOPLIST_KEY_CFBundleDisplayName",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L85"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_uiapplicationsupportsindirectinputevents",
+      "label": "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L86"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_uisupportedinterfaceorientations",
+      "label": "INFOPLIST_KEY_UISupportedInterfaceOrientations",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L87"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_nsmicrophoneusagedescription",
+      "label": "INFOPLIST_KEY_NSMicrophoneUsageDescription",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L89"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_nscamerausagedescription",
+      "label": "INFOPLIST_KEY_NSCameraUsageDescription",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L90"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_nslocationwheninuseusagedescription",
+      "label": "INFOPLIST_KEY_NSLocationWhenInUseUsageDescription",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L91"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_infoplist_key_nsphotolibraryaddusagedescription",
+      "label": "INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L92"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_assetcatalog_compiler_appicon_name",
+      "label": "ASSETCATALOG_COMPILER_APPICON_NAME",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L93"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_assetcatalog_compiler_alternate_appicon_names",
+      "label": "ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L94"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_assetcatalog_compiler_include_all_appicon_assets",
+      "label": "ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L95"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_enable_user_script_sandboxing",
+      "label": "ENABLE_USER_SCRIPT_SANDBOXING",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L96"
+    },
+    {
+      "id": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "label": "WizardChatWidgets",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L99"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L100"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_platform",
+      "label": "platform",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L101"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_sources",
+      "label": "sources",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L102"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_info",
+      "label": "info",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L108"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_cfbundledisplayname",
+      "label": "CFBundleDisplayName",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L111"
+    },
+    {
+      "id": "$graphify-root$_ios_project_properties_nsextension",
+      "label": "NSExtension",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L115"
+    },
+    {
+      "id": "$graphify-root$_ios_project_nsextension_nsextensionpointidentifier",
+      "label": "NSExtensionPointIdentifier",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L116"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_postbuildscripts",
+      "label": "postBuildScripts",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L117"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatwidgets_settings",
+      "label": "settings",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L121"
+    },
+    {
+      "id": "$graphify-root$_ios_project_base_skip_install",
+      "label": "SKIP_INSTALL",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L124"
+    },
+    {
+      "id": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "label": "WizardChatShare",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L128"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L129"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_platform",
+      "label": "platform",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L130"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_sources",
+      "label": "sources",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L131"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_info",
+      "label": "info",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L137"
+    },
+    {
+      "id": "$graphify-root$_ios_project_nsextension_nsextensionprincipalclass",
+      "label": "NSExtensionPrincipalClass",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L146"
+    },
+    {
+      "id": "$graphify-root$_ios_project_nsextension_nsextensionattributes",
+      "label": "NSExtensionAttributes",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L147"
+    },
+    {
+      "id": "$graphify-root$_ios_project_nsextensionattributes_nsextensionactivationrule",
+      "label": "NSExtensionActivationRule",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L148"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_postbuildscripts",
+      "label": "postBuildScripts",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L154"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchatshare_settings",
+      "label": "settings",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L158"
+    },
+    {
+      "id": "$graphify-root$_ios_project_targets_wizardchattests",
+      "label": "WizardChatTests",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L166"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchattests_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L167"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchattests_platform",
+      "label": "platform",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L168"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchattests_sources",
+      "label": "sources",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L169"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchattests_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L171"
+    },
+    {
+      "id": "$graphify-root$_ios_project_wizardchattests_settings",
+      "label": "settings",
+      "file_type": "code",
+      "source_file": "ios/project.yml",
+      "source_location": "L174"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_options",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_options",
+      "target": "$graphify-root$_ios_project_options_deploymenttarget",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_options_deploymenttarget",
+      "target": "$graphify-root$_ios_project_deploymenttarget_ios",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_options",
+      "target": "$graphify-root$_ios_project_options_createintermediategroups",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_options",
+      "target": "$graphify-root$_ios_project_options_developmentlanguage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_packages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_packages",
+      "target": "$graphify-root$_ios_project_packages_wizardchatcore",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_packages_wizardchatcore",
+      "target": "$graphify-root$_ios_project_wizardchatcore_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_packages",
+      "target": "$graphify-root$_ios_project_packages_livekit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_packages_livekit",
+      "target": "$graphify-root$_ios_project_livekit_url",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_packages_livekit",
+      "target": "$graphify-root$_ios_project_livekit_exactversion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_configfiles",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_configfiles",
+      "target": "$graphify-root$_ios_project_configfiles_debug",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_configfiles",
+      "target": "$graphify-root$_ios_project_configfiles_release",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings",
+      "target": "$graphify-root$_ios_project_settings_base",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_swift_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_marketing_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_current_project_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_swift_emit_loc_strings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_development_team",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_code_sign_style",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_targeted_device_family",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_yml",
+      "target": "$graphify-root$_ios_project_targets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets",
+      "target": "$graphify-root$_ios_project_targets_wizardchat",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_platform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_buildphase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_buildphase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_sources",
+      "target": "$graphify-root$_ios_project_sources_buildphase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_info",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_info",
+      "target": "$graphify-root$_ios_project_info_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_info",
+      "target": "$graphify-root$_ios_project_info_properties",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_uilaunchscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_uilaunchscreen",
+      "target": "$graphify-root$_ios_project_uilaunchscreen_uicolorname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_uibackgroundmodes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleurltypes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_cfbundleurltypes",
+      "target": "$graphify-root$_ios_project_cfbundleurltypes_cfbundleurlname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_cfbundleurltypes",
+      "target": "$graphify-root$_ios_project_cfbundleurltypes_cfbundleurlschemes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_bgtaskschedulerpermittedidentifiers",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_nssupportsliveactivities",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleshortversionstring",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleversion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_wzappgroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundlelocalizations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_package",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_package",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_target",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_target",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_scheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_scheme",
+      "target": "$graphify-root$_ios_project_scheme_testtargets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_postbuildscripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_script",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_basedondependencyanalysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchat",
+      "target": "$graphify-root$_ios_project_wizardchat_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchat_settings",
+      "target": "$graphify-root$_ios_project_settings_base",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_product_bundle_identifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_code_sign_entitlements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_generate_infoplist_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_cfbundledisplayname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_uiapplicationsupportsindirectinputevents",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_uisupportedinterfaceorientations",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_nsmicrophoneusagedescription",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_nscamerausagedescription",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_nslocationwheninuseusagedescription",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_infoplist_key_nsphotolibraryaddusagedescription",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_assetcatalog_compiler_appicon_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_assetcatalog_compiler_alternate_appicon_names",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_assetcatalog_compiler_include_all_appicon_assets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_enable_user_script_sandboxing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets",
+      "target": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_platform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_info",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_info",
+      "target": "$graphify-root$_ios_project_info_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_info",
+      "target": "$graphify-root$_ios_project_info_properties",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundledisplayname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleshortversionstring",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleversion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_wzappgroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_nsextension",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_nsextension",
+      "target": "$graphify-root$_ios_project_nsextension_nsextensionpointidentifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_postbuildscripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_script",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_basedondependencyanalysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatwidgets",
+      "target": "$graphify-root$_ios_project_wizardchatwidgets_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatwidgets_settings",
+      "target": "$graphify-root$_ios_project_settings_base",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_product_bundle_identifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_skip_install",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_enable_user_script_sandboxing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets",
+      "target": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_platform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_sources",
+      "target": "$graphify-root$_ios_project_sources_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_sources",
+      "target": "$graphify-root$_ios_project_sources_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_info",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_info",
+      "target": "$graphify-root$_ios_project_info_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_info",
+      "target": "$graphify-root$_ios_project_info_properties",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundledisplayname",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleshortversionstring",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_cfbundleversion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_wzappgroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_info_properties",
+      "target": "$graphify-root$_ios_project_properties_nsextension",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_nsextension",
+      "target": "$graphify-root$_ios_project_nsextension_nsextensionpointidentifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_nsextension",
+      "target": "$graphify-root$_ios_project_nsextension_nsextensionprincipalclass",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_properties_nsextension",
+      "target": "$graphify-root$_ios_project_nsextension_nsextensionattributes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_nsextension_nsextensionattributes",
+      "target": "$graphify-root$_ios_project_nsextensionattributes_nsextensionactivationrule",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_postbuildscripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_script",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_postbuildscripts",
+      "target": "$graphify-root$_ios_project_postbuildscripts_basedondependencyanalysis",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchatshare",
+      "target": "$graphify-root$_ios_project_wizardchatshare_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchatshare_settings",
+      "target": "$graphify-root$_ios_project_settings_base",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_product_bundle_identifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_code_sign_entitlements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_skip_install",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_enable_user_script_sandboxing",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets",
+      "target": "$graphify-root$_ios_project_targets_wizardchattests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchattests",
+      "target": "$graphify-root$_ios_project_wizardchattests_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchattests",
+      "target": "$graphify-root$_ios_project_wizardchattests_platform",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchattests",
+      "target": "$graphify-root$_ios_project_wizardchattests_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchattests",
+      "target": "$graphify-root$_ios_project_wizardchattests_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchattests_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_target",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchattests_dependencies",
+      "target": "$graphify-root$_ios_project_dependencies_package",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_targets_wizardchattests",
+      "target": "$graphify-root$_ios_project_wizardchattests_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_wizardchattests_settings",
+      "target": "$graphify-root$_ios_project_settings_base",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_generate_infoplist_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_project_settings_base",
+      "target": "$graphify-root$_ios_project_base_product_bundle_identifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/project.yml",
+      "source_location": "L177",
+      "weight": 1.0
+    }
+  ]
+}

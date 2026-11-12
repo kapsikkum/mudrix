@@ -1,0 +1,1271 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_swift",
+      "label": "SpaceChannelsView.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder",
+      "label": "SpaceChannelOrder",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L7",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "label": "SpaceChannelsView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L22",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_graph",
+      "label": ".graph",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L33"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "label": ".categoryName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "spacemodern",
+      "label": "SpaceModern",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "label": ".categoryHeader()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "label": ".channelRow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L72",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L104",
+      "_callable": true
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "label": ".moveRoom()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L117",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "label": ".moveCategory()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L129",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "label": ".moveToCategory()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L141",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_graph",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L8",
+      "receiver": "orderedIds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L10",
+      "receiver": "node"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "callee": "stateEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L12",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelorder_save",
+      "callee": "updateSpaceChild",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L14",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "categories",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L34",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "List",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L36",
+      "receiver": "categories"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_body",
+      "callee": "canSendState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L51",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L55",
+      "receiver": "category"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryname",
+      "callee": "space",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L55",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_categoryheader",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L73",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L87",
+      "receiver": "categories"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_channelrow",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_run",
+      "callee": "refreshGraph",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L109",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L119",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L119",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "callee": "swapAt",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L120",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_moveroom",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L122",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "parent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L130",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L131",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "orderedChildren",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L132",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L133",
+      "receiver": "siblings"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L133",
+      "receiver": "siblings"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movecategory",
+      "callee": "swapAt",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L134",
+      "receiver": "siblings"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "callee": "addToSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L143",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacechannelsview_spacechannelsview_movetocategory",
+      "callee": "removeFromSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceChannelsView.swift",
+      "source_location": "L144",
+      "receiver": "client"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/SpaceChannelsView.swift",
+    "table": {
+      "client": "WizardClient",
+      "node": "SpaceNode",
+      "spaceId": "String",
+      "orderedIds": "String",
+      "roomList": "RoomListModel",
+      "session": "MatrixSession",
+      "error": "String",
+      "graph": "SpaceNode",
+      "body": "View",
+      "category": "SpaceModern",
+      "roomId": "String",
+      "categories": "SpaceModern",
+      "work": "WizardClient",
+      "delta": "Int",
+      "categoryId": "String",
+      "from": "String",
+      "to": "String",
+      "order": "String"
+    }
+  }
+}

@@ -1,0 +1,1033 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "label": "IntegrationSignatureTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "label": "IntegrationSignatureTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "label": ".hex()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "label": ".b64()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L14",
+      "_callable": true
+    },
+    {
+      "id": "bytearray",
+      "label": "ByteArray",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "label": ".flip()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_ok",
+      "label": ".ok()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "label": ".rfc8032Vectors()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "label": ".signaturesMadeByTheJdkAreChecked()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L41",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "label": ".fingerprintsAndKeys()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L72",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "label": ".updatesNeedTheSameKeyAndANonDecreasingSerial()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L83",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "keypairgenerator",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.security.KeyPairGenerator" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "signature",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.security.Signature" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "base64",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.util.Base64" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "asserttrue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertTrue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "target": "bytearray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "target": "bytearray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_ok",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_ok",
+      "target": "bytearray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_ok",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L60",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "callee": "toByteArray",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "callee": "chunked",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "callee": "toByte",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_hex",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "callee": "encodeToString",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_b64",
+      "callee": "getEncoder",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L14",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Base64"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "callee": "also",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "callee": "copyOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "callee": "toByte",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_flip",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_ok",
+      "callee": "verifyRepoSignature",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L18",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L22",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Ed25519"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "ByteArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L24",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L28",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Ed25519"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_rfc8032vectors",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "toByteArray",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "pair",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "rawPublic",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "run",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "getInstance",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L51",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Signature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "initSign",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "update",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "sign",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "Checks",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "rawPublic",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "pair",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "copyOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "ByteArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L66",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "ByteArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L67",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_signaturesmadebythejdkarechecked",
+      "callee": "done",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "Checks",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "fingerprintKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L75",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "fingerprintKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L76",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "fingerprintKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L77",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L78",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L78",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L79",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_fingerprintsandkeys",
+      "callee": "done",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "Checks",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkRepoUpdate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L87",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkRepoUpdate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L88",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkRepoUpdate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L89",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkRepoUpdate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L90",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkSerial",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L92",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "checkSerial",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L93",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "isOfficialKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L94",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "check",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "isOfficialKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationsignaturetest_integrationsignaturetest_updatesneedthesamekeyandanondecreasingserial",
+      "callee": "done",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationSignatureTest.kt",
+      "source_location": "L97",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.integrations"
+}

@@ -1,0 +1,3117 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "label": "Components.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_medialoaderkey",
+      "label": "MediaLoaderKey",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "environmentkey",
+      "label": "EnvironmentKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "medialoader",
+      "label": "MediaLoader",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_environmentvalues",
+      "label": "EnvironmentValues",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_environmentvalues_medialoader",
+      "label": ".mediaLoader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "label": "AvatarView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "cgfloat",
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "uiimage",
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L24"
+    },
+    {
+      "id": "roundedrectangle",
+      "label": "RoundedRectangle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_avatarview_shape",
+      "label": ".shape",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L53"
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_avatarview_fallbackcolor",
+      "label": ".fallbackColor",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L57"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "label": "WizardLogo",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L64",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_colors",
+      "label": ".colors",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L70"
+    },
+    {
+      "id": "cgpoint",
+      "label": "CGPoint",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L81"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardmark",
+      "label": "WizardMark",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L96",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "shape",
+      "label": "Shape",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "label": ".path()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L97",
+      "_callable": true
+    },
+    {
+      "id": "cgrect",
+      "label": "CGRect",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "path",
+      "label": "Path",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle",
+      "label": "PrimaryButtonStyle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L108",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "buttonstyle",
+      "label": "ButtonStyle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "label": ".makeBody()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L112",
+      "_callable": true
+    },
+    {
+      "id": "configuration",
+      "label": "Configuration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle",
+      "label": "SecondaryButtonStyle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L124",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "label": ".makeBody()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L128",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle",
+      "label": "WizardFieldStyle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L138",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "viewmodifier",
+      "label": "ViewModifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "label": ".body()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L141",
+      "_callable": true
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L151",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_view_wizardfield",
+      "label": ".wizardField()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L152",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "label": ".floatingGlass()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L156",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent",
+      "label": "ToolbarContent",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L166",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent_glassbackgroundhidden",
+      "label": ".glassBackgroundHidden()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L167",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "label": "WizardTheme",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L177",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_fill",
+      "label": ".fill",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L178"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_groupedbackground",
+      "label": ".groupedBackground",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L179"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_groupedrow",
+      "label": ".groupedRow",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L180"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "label": "LineDivider",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L183",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_linedivider_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L187"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_linedivider_line",
+      "label": ".line",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L195"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "label": "UnreadBadge",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L200",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L205"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "label": "CopyToast",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L216",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "label": ".show()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L222",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoclipboard",
+      "label": "copyToClipboard()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L234",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "label": "CopyToastView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L240",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L244"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "label": ".label()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L252",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "label": "CopyButton",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L265",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "localizedstringkey",
+      "label": "LocalizedStringKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L271"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "label": "ConnectionBanner",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L291",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Components.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L295"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "label": "VerificationBanner",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L312",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L318"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_label",
+      "label": "Label",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L358",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L359",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_image",
+      "label": "Image",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L368",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "label": ".menuIcon()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L369",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_medialoaderkey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_medialoaderkey",
+      "target": "environmentkey",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_medialoaderkey",
+      "target": "medialoader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_environmentvalues",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_environmentvalues",
+      "target": "medialoader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_environmentvalues",
+      "target": "$graphify-root$_ios_wizardchat_views_components_environmentvalues_medialoader",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "roundedrectangle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_avatarview_shape",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_avatarview_fallbackcolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_colors",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "cgpoint",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardmark",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardmark",
+      "target": "shape",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardmark",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "target": "cgrect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "target": "path",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle",
+      "target": "buttonstyle",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle",
+      "target": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "target": "configuration",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle",
+      "target": "buttonstyle",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle",
+      "target": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "target": "configuration",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle",
+      "target": "viewmodifier",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "target": "content",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_view",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view_wizardfield",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_view_wizardfield",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_view",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent",
+      "target": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent_glassbackgroundhidden",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent_glassbackgroundhidden",
+      "target": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L178",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_fill",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L179",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_groupedbackground",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L180",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_groupedrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L180",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L187",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "$graphify-root$_ios_wizardchat_views_components_linedivider_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L195",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider",
+      "target": "$graphify-root$_ios_wizardchat_views_components_linedivider_line",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L195",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L201",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L202",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L205",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_unreadbadge",
+      "target": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L222",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoclipboard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L234",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoclipboard",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L234",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L244",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L266",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L267",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L268",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L291",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L291",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L292",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L295",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_connectionbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L312",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L312",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L313",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L318",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_verificationbanner",
+      "target": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L318",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L358",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L359",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L359",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L359",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L363",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L363",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L363",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L363",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_image",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L369",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L369",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L369",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L369",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_fill",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardmark",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_fill",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_colors",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_view_wizardfield",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_linedivider_line",
+      "target": "$graphify-root$_ios_wizardchat_views_components_wizardtheme_fill",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoclipboard",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L246",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "target": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L281",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L321",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L360",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L360",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "target": "$graphify-root$_ios_wizardchat_views_components_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L370",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "target": "$graphify-root$_ios_wizardchat_views_components_copytoast",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L218",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "clipShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "scaledToFill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "resizable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "cachedThumbnail",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L46",
+      "receiver": "mediaLoader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_body",
+      "callee": "thumbnail",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L48",
+      "receiver": "mediaLoader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_shape",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L54",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_avatarview_fallbackcolor",
+      "callee": "truncatingRemainder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "Canvas",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L84",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "Path",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L85",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "addLines",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L86",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L86",
+      "receiver": "points"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L86",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo_body",
+      "callee": "closeSubpath",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L87",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "callee": "Path",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L99",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "callee": "addLines",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L101",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L101",
+      "receiver": "points"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L101",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardmark_path",
+      "callee": "closeSubpath",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L102",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "animation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "scaleEffect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L113",
+      "receiver": "configuration"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_primarybuttonstyle_makebody",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L129",
+      "receiver": "configuration"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_secondarybuttonstyle_makebody",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L142",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardfieldstyle_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L147",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_view_wizardfield",
+      "callee": "modifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "callee": "glassEffect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_view_floatingglass",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent_glassbackgroundhidden",
+      "callee": "sharedBackgroundVisibility",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_linedivider_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_linedivider_body",
+      "callee": "layoutPriority",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L190",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_linedivider_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L190",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_linedivider_line",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_linedivider_line",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_unreadbadge_body",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "callee": "notificationOccurred",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "callee": "UINotificationFeedbackGenerator",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L225",
+      "receiver": "hideTask"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L226",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoast_show",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L227",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "callee": "allowsHitTesting",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "callee": "animation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_body",
+      "callee": "ZStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "accessibilityAddTraits",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "transition",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L258",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "combined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L259",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copytoastview_label",
+      "callee": "post",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L261",
+      "receiver": "UIAccessibility"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "callee": "sensoryFeedback",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L272",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "callee": "animation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L272",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L272",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L275",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_copybutton_body",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L276",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "transition",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "accessibilityElement",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L298",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "controlSize",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L298",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L298",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_connectionbanner_body",
+      "callee": "combined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "accessibilityAddTraits",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "onTapGesture",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L321",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L321",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L324",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "fixedSize",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L333",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L335",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L335",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L335",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L342",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L343",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L347",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "SessionsSettings",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L350",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_verificationbanner_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L350",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L360",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_label_init",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L364",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "callee": "UIImage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L370",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_image_menuicon",
+      "callee": "withTintColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L371",
+      "receiver": "image"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L79",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_components_wizardlogo",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Components.swift",
+      "source_location": "L79",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_views_components_environmentvalues",
+      "label": "EnvironmentValues"
+    },
+    { "nid": "$graphify-root$_ios_wizardchat_views_components_view", "label": "View" },
+    {
+      "nid": "$graphify-root$_ios_wizardchat_views_components_toolbarcontent",
+      "label": "ToolbarContent"
+    },
+    {
+      "nid": "$graphify-root$_ios_wizardchat_views_components_wizardtheme",
+      "label": "WizardTheme"
+    },
+    { "nid": "$graphify-root$_ios_wizardchat_views_components_label", "label": "Label" },
+    { "nid": "$graphify-root$_ios_wizardchat_views_components_image", "label": "Image" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Components.swift",
+    "table": {
+      "defaultValue": "MediaLoader",
+      "mediaLoader": "MediaLoader",
+      "name": "String",
+      "url": "String",
+      "size": "CGFloat",
+      "cornerRadius": "CGFloat",
+      "image": "String",
+      "body": "View",
+      "shape": "RoundedRectangle",
+      "fallbackColor": "Color",
+      "prefs": "AppPreferences",
+      "colors": "Color",
+      "polygons": "CGPoint",
+      "rect": "CGRect",
+      "configuration": "Configuration",
+      "content": "Content",
+      "fill": "Color",
+      "groupedBackground": "Color",
+      "groupedRow": "Color",
+      "text": "String",
+      "line": "View",
+      "count": "Int",
+      "isMention": "Bool",
+      "shared": "CopyToast",
+      "message": "String",
+      "hideTask": "Task",
+      "toast": "CopyToast",
+      "title": "LocalizedStringKey",
+      "value": "String",
+      "session": "MatrixSession",
+      "icon": "String",
+      "destructive": "Bool",
+      "code": "Double",
+      "path": "Path"
+    }
+  }
+}

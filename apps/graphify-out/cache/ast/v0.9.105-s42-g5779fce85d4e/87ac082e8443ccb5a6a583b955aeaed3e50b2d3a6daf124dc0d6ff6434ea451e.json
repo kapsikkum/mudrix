@@ -1,0 +1,183 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "label": "unsupported.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_audio",
+      "label": "AUDIO",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_supported",
+      "label": "supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_sources",
+      "label": "sources()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L11"
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/unsupported.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_start",
+      "label": "start()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L15"
+    },
+    {
+      "id": "sink",
+      "label": "Sink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/unsupported.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/unsupported.rs",
+      "_rust_use_roots": ["crate"]
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "super",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "super",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "session",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Session",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "sink",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Sink",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "source",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Source",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_audio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_sources",
+      "target": "source",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_start",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_unsupported_start",
+      "target": "session",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/unsupported.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "generic_arg"
+    }
+  ],
+  "raw_calls": []
+}

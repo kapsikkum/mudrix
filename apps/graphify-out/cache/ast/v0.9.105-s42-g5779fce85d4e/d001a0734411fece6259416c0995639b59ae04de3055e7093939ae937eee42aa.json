@@ -1,0 +1,2495 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "label": "RoomListModel.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "label": "SidebarSelection",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L26",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_home",
+      "label": "Home",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L27",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_dms",
+      "label": "Dms",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L28",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_space",
+      "label": "Space",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L29",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_unreadstate",
+      "label": "UnreadState",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L32",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L34",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "coroutinescope",
+      "label": "CoroutineScope",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "job",
+      "label": "Job",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L69",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L90",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_room",
+      "label": ".room()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L96",
+      "_callable": true
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_accept",
+      "label": ".accept()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L98",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_decline",
+      "label": ".decline()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L100",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "label": ".setRead()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L102",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "label": ".leave()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L107",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "label": ".markAsRead()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L111",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "label": ".isJoined()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_space",
+      "label": ".space()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L117",
+      "_callable": true
+    },
+    {
+      "id": "spacesummary",
+      "label": "SpaceSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_spacecontaining",
+      "label": ".spaceContaining()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L119",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "label": ".unreadState()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "label": ".rooms()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L130",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "label": ".groups()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L142",
+      "_callable": true
+    },
+    {
+      "id": "roomgroup",
+      "label": "RoomGroup",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "label": ".sectionContext()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L173",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "label": ".sectionTag()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L175",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "label": ".moveGroup()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L180",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "label": ".saveFavouriteOrder()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L188",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "label": ".saveHomeOrder()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L200",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "label": ".applyTags()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L206",
+      "_callable": true
+    },
+    {
+      "id": "jsonelement",
+      "label": "JsonElement",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L219",
+      "_callable": true
+    },
+    {
+      "id": "listdiff",
+      "label": "ListDiff",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "label": ".refreshGraph()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L229",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "label": "RoomGroup",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L246",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "kind",
+      "label": "Kind",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "label": "Kind",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L247",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_favourites",
+      "label": "Favourites",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L248",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_section",
+      "label": "Section",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L249",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "roomsection",
+      "label": "RoomSection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_rooms",
+      "label": "Rooms",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L250",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "label": "roomIdsOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L267",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "coroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.CoroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "job",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.Job" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "delay",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.delay" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "jsonarray",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonArray" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "jsonelement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonElement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "doubleornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.doubleOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "listdiff",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.ListDiff" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "roomsection",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.RoomSection" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "roomsummary",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.RoomSummary" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "spacesummary",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceSummary" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "subscription",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.Subscription" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "wizardclient",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.WizardClient" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_home",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_home",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_dms",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_dms",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_space",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_space",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_unreadstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "coroutinescope",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "job",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_room",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_accept",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_accept",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_decline",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_decline",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L111",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_space",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_spacecontaining",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_spacecontaining",
+      "target": "spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_unreadstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L180",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L180",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "target": "jsonelement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "listdiff",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L246",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "target": "kind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L246",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L246",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_favourites",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_favourites",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_section",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_section",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_section",
+      "target": "roomsection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L249",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_rooms",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_rooms",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kind",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "target": "jsonelement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L267",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_unreadstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomgroup",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L225",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRooms",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRoomSections",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRoomAccountData",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "orEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "orEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchSpaces",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "applyTo",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "toList",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_room",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_accept",
+      "callee": "acceptInvite",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_decline",
+      "callee": "declineInvite",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "timeline",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "setMarkedUnread",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_leave",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_markasread",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_space",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_spacecontaining",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_spacecontaining",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "callee": "copy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "callee": "copy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "toSet",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "flatten",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L132",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "spaceRooms.values"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "emptySet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "sortedWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "thenBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "compareBy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "nullsLast",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L147",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "it.displayName"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "mutableMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "getOrPut",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "associate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "withIndex",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "toMutableList",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "sortedWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "withIndex",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "thenBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "compareBy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "nullsLast",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "buildList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "add",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "addAll",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "block",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "add",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "addAll",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "block",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "toMutableList",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "indexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "swap",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L184",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "java.util.Collections"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "setRoomSectionOrder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L189",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "roomIds.size"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "toMutableMap",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L190",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L191",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "toMap",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "setFavouriteOrder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "setAccountData",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "JsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "JsonArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "mutableMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "mutableMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "applyTo",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L222",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L230",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L231",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "delay",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L232",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L233",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L233",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "spaceGraph",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L233",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "associate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L235",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "node.children"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "associate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L239",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "also",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L240",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "descendants",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L240",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L268",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "callee": "orEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L269",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "callee": "mapNotNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L269",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomidsof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L269",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_roomlistmodel",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L263",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_roomlistmodel_kt",
+      "callee": "wizardchatKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/RoomListModel.kt",
+      "source_location": "L264",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Namespace"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

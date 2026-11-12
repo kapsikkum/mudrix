@@ -2928,6 +2928,7 @@
   "update": {
     "action": "Mudrix bijwerken",
     "checkNow": "Controleren op updates",
+    "includePrereleases": "Voorlopige versies meenemen",
     "upToDate": "Je bent up-to-date.",
     "checkFailed": "Kon niet controleren op updates.",
     "checking": "Controleren…",

@@ -1,0 +1,157 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "label": "latest-linux.yml",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "label": "files",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_files_url",
+      "label": "url",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_files_sha512",
+      "label": "sha512",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_files_size",
+      "label": "size",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_files_blockmapsize",
+      "label": "blockMapSize",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_path",
+      "label": "path",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_sha512",
+      "label": "sha512",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_web_public_desktop_latest_linux_releasedate",
+      "label": "releaseDate",
+      "file_type": "code",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L9"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_files_url",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_files_sha512",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_files_size",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_files",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_files_blockmapsize",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_sha512",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_web_public_desktop_latest_linux_yml",
+      "target": "$graphify-root$_web_public_desktop_latest_linux_releasedate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "web/public/desktop/latest-linux.yml",
+      "source_location": "L9",
+      "weight": 1.0
+    }
+  ]
+}

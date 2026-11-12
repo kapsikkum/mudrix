@@ -1,0 +1,603 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "label": "MediaMetadata.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "label": "MediaMetadata",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_video",
+      "label": "Video",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "label": ".imageSize()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "uri",
+      "label": "Uri",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "label": ".video()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L26",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "label": ".duration()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L41",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "label": ".temporaryCopy()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L45",
+      "_callable": true
+    },
+    {
+      "id": "bytearray",
+      "label": "ByteArray",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "label": ".retrieve()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L51",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "bitmapfactory",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.graphics.BitmapFactory" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "mediametadataretriever",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.media.MediaMetadataRetriever" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "uri",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.net.Uri" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "file",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.io.File" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.util.UUID" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "dispatchers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.Dispatchers" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "withcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.withContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "wizardapplication",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.WizardApplication" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_video",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "target": "uri",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "target": "uri",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_video",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "target": "uri",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "target": "bytearray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "target": "uri",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_video",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L42",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "apply",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "Options",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L18",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "BitmapFactory"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "use",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "openInputStream",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L19",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "WizardApplication.instance.contentResolver"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_imagesize",
+      "callee": "decodeStream",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L20",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "BitmapFactory"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "toLongOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "extractMetadata",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "toIntOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "extractMetadata",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "toIntOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "extractMetadata",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "toIntOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_video",
+      "callee": "extractMetadata",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "callee": "toLongOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_duration",
+      "callee": "extractMetadata",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "toString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "randomUUID",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L46",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UUID"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "mkdirs",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "also",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_temporarycopy",
+      "callee": "writeBytes",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "callee": "MediaMetadataRetriever",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "callee": "setDataSource",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "callee": "read",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_mediametadata_mediametadata_retrieve",
+      "callee": "release",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/MediaMetadata.kt",
+      "source_location": "L59",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

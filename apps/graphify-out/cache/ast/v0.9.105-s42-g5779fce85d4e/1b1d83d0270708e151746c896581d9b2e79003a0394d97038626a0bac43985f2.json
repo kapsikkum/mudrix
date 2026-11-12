@@ -1,0 +1,2699 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "label": "SpaceSettings.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "label": "SpaceSettingsSheet()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L56",
+      "_callable": true
+    },
+    {
+      "id": "spacesummary",
+      "label": "SpaceSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt"
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt"
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "label": "ChildRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L273",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "label": "RemovableRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L293",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "label": "AddRoomsToSpaceSheet()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L319",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "backhandler",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.activity.compose.BackHandler" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "background",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.background" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.clickable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "arrangement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Arrangement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "box",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Box" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "column",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Column" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "fillmaxsize",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxSize" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "heightin",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.heightIn" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.padding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "swipetodismissbox",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.SwipeToDismissBox" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "swipetodismissboxvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.SwipeToDismissBoxValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "rememberswipetodismissboxstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.rememberSwipeToDismissBoxState" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "compositionlocalprovider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.CompositionLocalProvider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "launchedeffect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.LaunchedEffect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "mutableintstateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableIntStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "remember",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.remember" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "remembercoroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.rememberCoroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "localcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.platform.LocalContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.font.FontWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "textoverflow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.style.TextOverflow" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "delay",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.delay" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "localsession",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.LocalSession" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "mudrixtypes",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.MudrixTypes" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "roomlistmodel",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.RoomListModel" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "addchild",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.addChild" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "cansendstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.canSendState" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "displayname",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.displayName" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "avatar",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.Avatar" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "bartextbutton",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.BarTextButton" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "confirmdialog",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L42",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.ConfirmDialog" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "groupedsection",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L43",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedSection" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "l10n",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L44",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.L10n" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "phicon",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhIcon" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "phweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L46",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "rowdivider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L47",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.RowDivider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "wizardsheet",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L48",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardSheet" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L49",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L50",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L51",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "spacesummary",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L52",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceSummary" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L53",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L273",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L273",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L273",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L293",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L293",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "target": "spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L257",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "rememberCoroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "mutableIntStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "LaunchedEffect",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "roomDetails",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "canSendState",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "canSendState",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "getOrDefault",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "spaceChildren",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "associate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "sortedWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "compareBy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "rememberImagePicker",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L123",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "avatarJpeg",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "setRoomAvatar",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L128",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "session.requireClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "delay",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "roomDetails",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L130",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "session.client"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "errorText",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "rememberRoleManagement",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L139",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "dropLast",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "WizardSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "CompositionLocalProvider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "BackHandler",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "pop",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "lastOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SpaceChannelsScreen",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SharedPage",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SheetPage",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SheetBar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "FormList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L154",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L157",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L159",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "AvatarWithBadge",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ifEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "FormField",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "FormField",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ActionRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L190",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "remove",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ActionRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L200",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ActionRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L201",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L201",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SpaceModernSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Channels",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L210",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "SpaceRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L213",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L216",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "AuditLog",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L217",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L222",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Members",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L224",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Roles",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L226",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "NavRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "push",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "Packs",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L228",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "PeoplePage"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "CopyRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L230",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L230",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L234",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ActionRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L236",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L236",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L239",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ErrorText",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L239",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "ConfirmDialog",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L245",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L246",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L248",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L249",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "session.client"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "onDismiss",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L250",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "toSet",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_spacesettingssheet",
+      "callee": "CreateRoomSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L263",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L275",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L277",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L278",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L284",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "Avatar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L286",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L287",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L287",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L287",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L288",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L288",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_childrow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L288",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "rememberSwipeToDismissBoxState",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L295",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "onRemove",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "SwipeToDismissBox",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L301",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "fillMaxSize",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L306",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_removablerow",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "rememberCoroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L322",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "setOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L324",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L324",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "sortedWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L326",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "roomList.joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "compareBy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "WizardSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L344",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "SheetPage",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L345",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "SheetBar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L346",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L347",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L351",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L351",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "FormList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L352",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L353",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L354",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L355",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L357",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L359",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L360",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L360",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "clickable",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L360",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L360",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L366",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "Avatar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L368",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L369",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L371",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L372",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "PhIcon",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L377",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L388",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "ErrorText",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L388",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L390",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "EmptyState",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L391",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L391",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_spacesettings_addroomstospacesheet",
+      "callee": "align",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/SpaceSettings.kt",
+      "source_location": "L391",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.people"
+}

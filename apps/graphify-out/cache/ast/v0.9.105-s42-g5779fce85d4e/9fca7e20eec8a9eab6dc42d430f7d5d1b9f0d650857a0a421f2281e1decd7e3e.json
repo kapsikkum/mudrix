@@ -1,0 +1,372 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "label": "RemindersSection.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "label": "RemindersSection()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L14",
+      "_callable": true
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "remembercoroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.rememberCoroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "dateformat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.text.DateFormat" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "date",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.util.Date" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "localsession",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.LocalSession" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "reminders",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.Reminders" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "displayname",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.displayName" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "attribute"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "rememberCoroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "SettingsItem",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L25",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "session.roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "getTimeInstance",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L27",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DateFormat"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "now",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L28",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "java.time.LocalDate"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "toLocalDate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "atZone",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "ofEpochMilli",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L28",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "java.time.Instant"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "systemDefault",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L28",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "java.time.ZoneId"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "getDateTimeInstance",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L31",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DateFormat"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "SettingRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "IconAction",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_reminderssection_reminderssection",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/RemindersSection.kt",
+      "source_location": "L36",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "Reminders.shared"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.settings"
+}

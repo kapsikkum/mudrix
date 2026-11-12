@@ -1,0 +1,1206 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "label": "RolesPermissions.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permission",
+      "label": "Permission",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L39",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "label": "value()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L59",
+      "_callable": true
+    },
+    {
+      "id": "jsonobject",
+      "label": "JsonObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "label": "RolesPermissionsScreen()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L67",
+      "_callable": true
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "label": "PermissionRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L163",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.clickable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "arrangement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Arrangement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "box",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Box" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "heightin",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.heightIn" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.padding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "launchedeffect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.LaunchedEffect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "remember",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.remember" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "remembercoroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.rememberCoroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "alpha",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.draw.alpha" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "textoverflow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.style.TextOverflow" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "jsonelement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonElement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "localsession",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.LocalSession" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "avatar",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.Avatar" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "groupedrow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedRow" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "groupedsection",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedSection" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "phicon",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhIcon" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "rowdivider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.RowDivider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "wizardtopbar",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardTopBar" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "member",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.Member" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permission",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L163",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L163",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permission",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L48",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L61",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "raw.number"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_value",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "rememberCoroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "RoleRights",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "LaunchedEffect",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "load",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "SheetPage",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "WizardTopBar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "FormList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L110",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L111",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "GroupedRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "clickable",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L119",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L125",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "Avatar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L130",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "roleName",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "apply",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "ErrorText",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "UserProfileSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_rolespermissionsscreen",
+      "callee": "load",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "closest",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L166",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "RoleLevel"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "alpha",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L167",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "GroupedRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "PhIcon",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "PickMenu",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L180",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "RoleLevel.entries"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "PickItem",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_permissionrow",
+      "callee": "onPick",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_people_rolespermissions_kt",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/people/RolesPermissions.kt",
+      "source_location": "L47",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.people"
+}

@@ -1,0 +1,893 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "label": "LocalMediaMenu.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "label": "LocalMediaMenu()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L44",
+      "_callable": true
+    },
+    {
+      "id": "mediasource",
+      "label": "MediaSource",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt"
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "label": "MenuRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L99",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "clipdata",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.ClipData" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "clipboardmanager",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.ClipboardManager" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "context",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.Context" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "rememberlauncherforactivityresult",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.activity.compose.rememberLauncherForActivityResult" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "activityresultcontracts",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.activity.result.contract.ActivityResultContracts" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.clickable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "arrangement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Arrangement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "column",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Column" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "heightin",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.heightIn" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "navigationbarspadding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.navigationBarsPadding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.padding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "remember",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.remember" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "remembercoroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.rememberCoroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "localcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.platform.LocalContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "dispatchers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.Dispatchers" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "withcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.withContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "localmedia",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.LocalMedia" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "copytoast",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.CopyToast" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "l10n",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.L10n" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "phicon",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhIcon" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "wizardsheet",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardSheet" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "mediasource",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.MediaSource" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L77",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "rememberCoroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "rememberLauncherForActivityResult",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "CreateDocument",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L56",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ActivityResultContracts"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "onDismiss",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "file",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "use",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "openOutputStream",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L65",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "context.contentResolver"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "use",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "inputStream",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "copyTo",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "error",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L69",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L69",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L69",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "onDismiss",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "WizardSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "navigationBarsPadding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L75",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L77",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "file",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "getSystemService",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "setPrimaryClip",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "newUri",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L84",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ClipData"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "shareableUri",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L86",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L86",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "onDismiss",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L91",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_localmediamenu",
+      "callee": "launch",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "clickable",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L103",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L105",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "PhIcon",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_room_localmediamenu_menurow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/room/LocalMediaMenu.kt",
+      "source_location": "L108",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.room"
+}

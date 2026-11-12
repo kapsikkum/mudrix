@@ -1,0 +1,252 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_kt",
+      "label": "UndecryptableRuns.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "label": "UndecryptableRuns",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_run",
+      "label": "Run",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L9",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "label": "HelpKind",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_notjoined",
+      "label": "notJoined",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_withheld",
+      "label": "withheld",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_senderuntrusted",
+      "label": "senderUntrusted",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_unverified",
+      "label": "unverified",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_nobackup",
+      "label": "noBackup",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_waiting",
+      "label": "waiting",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "label": ".helpKind()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L38",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_run",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_notjoined",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_withheld",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_senderuntrusted",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_unverified",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_nobackup",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind_waiting",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_helpkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "return_type"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "forEachIndexed",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "flush",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "flush",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "toList",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/UndecryptableRuns.kt",
+      "source_location": "L28",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

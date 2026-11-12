@@ -1,0 +1,378 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_swift",
+      "label": "ThreadLastSeen.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "label": "ThreadLastSeen",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L15",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "label": ".markSeen()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "label": ".isUnread()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L28",
+      "_callable": true
+    },
+    {
+      "id": "threadinfo",
+      "label": "ThreadInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "threadinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_init",
+      "callee": "dictionary",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L16",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "callee": "seen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "callee": "seen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_markseen",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L24",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L29",
+      "receiver": "info"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_threadlastseen_threadlastseen_isunread",
+      "callee": "seen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ThreadLastSeen.swift",
+      "source_location": "L30",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ThreadLastSeen.swift",
+    "table": {
+      "shared": "ThreadLastSeen",
+      "seen": "String",
+      "rootEventId": "String",
+      "time": "Int64",
+      "info": "ThreadInfo",
+      "myUserId": "String",
+      "latestSender": "String",
+      "latestTimestamp": "Int64",
+      "seenUpTo": "Int64",
+      "value": "Double"
+    }
+  }
+}

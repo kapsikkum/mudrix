@@ -1,0 +1,426 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_swift",
+      "label": "EmoticonsTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "label": "EmoticonsTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "label": ".testReplacesWholeEmoticons()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L5",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testleavesemoticonsinsidewordsandlinksalone",
+      "label": ".testLeavesEmoticonsInsideWordsAndLinksAlone()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "label": ".testSkipsInlineCodeAndFences()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "label": ".testNumericDatesFollowTheSetting()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L21",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "label": ".testOnlyEmojiMessages()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L28",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testleavesemoticonsinsidewordsandlinksalone",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests",
+      "target": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L6",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L6",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L7",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L8",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testreplaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L9",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testleavesemoticonsinsidewordsandlinksalone",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testleavesemoticonsinsidewordsandlinksalone",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L13",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L17",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testskipsinlinecodeandfences",
+      "callee": "replaceInMessage",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L18",
+      "receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L22",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L23",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L24",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testnumericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L25",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "isOnlyEmoji",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L29",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "isOnlyEmoji",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L30",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "isOnlyEmoji",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L31",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "isOnlyEmoji",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L32",
+      "receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_emoticonstests_emoticonstests_testonlyemojimessages",
+      "callee": "isOnlyEmoji",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/EmoticonsTests.swift",
+      "source_location": "L33",
+      "receiver": "DisplayFormats"
+    }
+  ]
+}

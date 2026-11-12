@@ -1,0 +1,217 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_kt",
+      "label": "CallTimerTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest",
+      "label": "CallTimerTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "label": ".formatsLikeTheWeb()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L7",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "attribute"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L9",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L10",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L10",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L11",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L12",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L13",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L14",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_rtc_calltimertest_calltimertest_formatsliketheweb",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/rtc/CallTimerTest.kt",
+      "source_location": "L15",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "CallTimer"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix.rtc"
+}

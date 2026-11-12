@@ -2928,6 +2928,7 @@
   "update": {
     "action": "Zaktualizuj Mudrix",
     "checkNow": "Sprawdź aktualizacje",
+    "includePrereleases": "Uwzględniaj wersje wstępne",
     "upToDate": "Masz najnowszą wersję.",
     "checkFailed": "Nie udało się sprawdzić aktualizacji.",
     "checking": "Sprawdzanie…",

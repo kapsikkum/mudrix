@@ -1,0 +1,3797 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "label": "QrLoginViews.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "avfoundation",
+      "label": "AVFoundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "label": "QrMode",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode_scan",
+      "label": "scan",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode_show",
+      "label": "show",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "label": "QrSignInSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "label": ".intro",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L40"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_introsteps",
+      "label": ".introSteps",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L73"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "label": "LinkDeviceSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L78",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L83"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "label": "QrAttemptView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L103",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "qrlogincontrol",
+      "label": "QrLoginControl",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "sendable",
+      "label": "Sendable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "qrloginstatus",
+      "label": "QrLoginStatus",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L114"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "label": ".scanner",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L133"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_switchbutton",
+      "label": ".switchButton",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L154"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L159",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "label": "QrHeader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L164",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L170"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe",
+      "label": "ScanFrame",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L189",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "shape",
+      "label": "Shape",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "label": ".path()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L190",
+      "_callable": true
+    },
+    {
+      "id": "cgrect",
+      "label": "CGRect",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "path",
+      "label": "Path",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "label": "QrFlow",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L203",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "label": "Step",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L205",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_starting",
+      "label": "starting",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_finishing",
+      "label": "finishing",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_done",
+      "label": "done",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_showqr",
+      "label": "showQr",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L207"
+    },
+    {
+      "id": "uiimage",
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_entercode",
+      "label": "enterCode",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L208"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_showcode",
+      "label": "showCode",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L209"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_approve",
+      "label": "approve",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L210"
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_failed",
+      "label": "failed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L211"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L239",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "label": ".sendCode()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L262",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "label": ".cancel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L276",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "label": "QrFlowView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L282",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L290"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "label": "QrScannerView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L375",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uiviewcontrollerrepresentable",
+      "label": "UIViewControllerRepresentable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_makeuiviewcontroller",
+      "label": ".makeUIViewController()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L378",
+      "_callable": true
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "scannercontroller",
+      "label": "ScannerController",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_updateuiviewcontroller",
+      "label": ".updateUIViewController()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L384",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "label": "ScannerController",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L386",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uiviewcontroller",
+      "label": "UIViewController",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "avcapturemetadataoutputobjectsdelegate",
+      "label": "AVCaptureMetadataOutputObjectsDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "avcapturevideopreviewlayer",
+      "label": "AVCaptureVideoPreviewLayer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "label": ".viewDidLoad()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L392",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidlayoutsubviews",
+      "label": ".viewDidLayoutSubviews()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L400",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "label": ".viewWillDisappear()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L405",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "label": ".startCamera()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L411",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "label": ".showDenied()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L429",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "label": ".metadataOutput()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L444",
+      "_callable": true
+    },
+    {
+      "id": "avcapturemetadataoutput",
+      "label": "AVCaptureMetadataOutput",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "avmetadataobject",
+      "label": "AVMetadataObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    },
+    {
+      "id": "avcaptureconnection",
+      "label": "AVCaptureConnection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "avfoundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode_scan",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode_show",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_introsteps",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrmode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "qrlogincontrol",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "qrloginstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L154",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_switchbutton",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L159",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L165",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L170",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L170",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe",
+      "target": "shape",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "target": "cgrect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "target": "path",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_starting",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_finishing",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_done",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_showqr",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L207",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_entercode",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_showcode",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_approve",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L210",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step_failed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_step",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L211",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L217",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "qrlogincontrol",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L218",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "qrlogincontrol",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "qrloginstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "target": "qrloginstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L239",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L262",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L276",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L282",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L283",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L284",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L285",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L286",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L290",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L290",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L375",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "uiviewcontrollerrepresentable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L375",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L376",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L376",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_makeuiviewcontroller",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L378",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_makeuiviewcontroller",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L378",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_makeuiviewcontroller",
+      "target": "scannercontroller",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L378",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_updateuiviewcontroller",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L384",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_updateuiviewcontroller",
+      "target": "scannercontroller",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L384",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_updateuiviewcontroller",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L384",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L386",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "uiviewcontroller",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L386",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "avcapturemetadataoutputobjectsdelegate",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L386",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L387",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L387",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "avcapturevideopreviewlayer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L389",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L392",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidlayoutsubviews",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L400",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L405",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L405",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L411",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L429",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L444",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "target": "avcapturemetadataoutput",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L444",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "target": "avmetadataobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L444",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "target": "avcaptureconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L444",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L227",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L278",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L325",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrscannerview_makeuiviewcontroller",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L379",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L396",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L396",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L111",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "interactiveDismissDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "id",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "loginWithQr",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L21",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "scrollBounceBehavior",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L46",
+      "receiver": "introSteps"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "alignmentGuide",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "$0",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrsigninsheet_intro",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "interactiveDismissDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "id",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "linkDevice",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L88",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_linkdevicesheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "onDisappear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "safeAreaInset",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L121",
+      "receiver": "switchButton"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "scrollBounceBehavior",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "clipShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "aspectRatio",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L139",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "stroke",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_scanner",
+      "callee": "StrokeStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_switchbutton",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_switchbutton",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_switchbutton",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrattemptview_start",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrheader_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "Path",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L192",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "move",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L195",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "addLine",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L196",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "addLine",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L197",
+      "receiver": "path"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scanframe_path",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "create",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L223",
+      "receiver": "QrLoginControl"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L230",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "yield",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L230",
+      "receiver": "continuation"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "finish",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L231",
+      "receiver": "continuation"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_run",
+      "callee": "failureMessage",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L235",
+      "receiver": "QrLogin"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "callee": "image",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L243",
+      "receiver": "QrLogin"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L249",
+      "receiver": "waiting"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "callee": "confirm",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L253",
+      "receiver": "control"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_update",
+      "callee": "failureMessage",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L254",
+      "receiver": "QrLogin"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L263",
+      "receiver": "code"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L269",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "callee": "sendCheckCode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L270",
+      "receiver": "control"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_sendcode",
+      "callee": "failureMessage",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L271",
+      "receiver": "QrLogin"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflow_cancel",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L291",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L291",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L292",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L292",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L292",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L292",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L292",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L295",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L295",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "scaledToFit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "resizable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "interpolation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L297",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L303",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L306",
+      "receiver": "qrSteps"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L312",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L312",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L313",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L320",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L324",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "onClose",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L327",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L327",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L327",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L333",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L333",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L334",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L337",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L337",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "textSelection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L338",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L338",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "monospaced",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L338",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L338",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L338",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L344",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L344",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L345",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L345",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L347",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L347",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L348",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "openURL",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L349",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L350",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "openURL",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L351",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L354",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L354",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L354",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L355",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L355",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L358",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L358",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L361",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L361",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L361",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L362",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L362",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L363",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L363",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_qrflowview_body",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L363",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "callee": "viewDidLoad",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L393",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "callee": "requestAccess",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L395",
+      "receiver": "AVCaptureDevice"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidload",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L396",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewdidlayoutsubviews",
+      "callee": "viewDidLayoutSubviews",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L401",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "callee": "viewWillDisappear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L406",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L408",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "callee": "global",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L408",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_viewwilldisappear",
+      "callee": "stopRunning",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L408",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "default",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L412",
+      "receiver": "AVCaptureDevice"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "AVCaptureDeviceInput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L413",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "canAddInput",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L413",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "addInput",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L414",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "AVCaptureMetadataOutput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L415",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "canAddOutput",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L416",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "addOutput",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L417",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "setMetadataObjectsDelegate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L418",
+      "receiver": "output"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "AVCaptureVideoPreviewLayer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L420",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "addSublayer",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L423",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L426",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "global",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L426",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_startcamera",
+      "callee": "startRunning",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L426",
+      "receiver": "capture"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "UILabel",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L430",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "addSubview",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L436",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "activate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L437",
+      "receiver": "NSLayoutConstraint"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "constraint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L438",
+      "receiver": "label"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "constraint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L439",
+      "receiver": "label"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_showdenied",
+      "callee": "constraint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L440",
+      "receiver": "label"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "callee": "bytes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L449",
+      "receiver": "QrLogin"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "callee": "notificationOccurred",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L451",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "callee": "UINotificationFeedbackGenerator",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L451",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller_metadataoutput",
+      "callee": "onScan",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L452",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_qrloginviews_scannercontroller",
+      "callee": "AVCaptureSession",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/QrLoginViews.swift",
+      "source_location": "L388",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Settings/QrLoginViews.swift",
+    "table": {
+      "server": "String",
+      "session": "MatrixSession",
+      "mode": "QrMode",
+      "body": "View",
+      "intro": "View",
+      "introSteps": "String",
+      "showSteps": "String",
+      "doneText": "String",
+      "switchMode": "Void",
+      "onClose": "Void",
+      "work": "QrLoginControl",
+      "flow": "QrFlow",
+      "scanner": "View",
+      "switchButton": "View",
+      "scanned": "Data",
+      "icon": "String",
+      "title": "String",
+      "note": "String",
+      "rect": "CGRect",
+      "step": "Step",
+      "checkCode": "String",
+      "control": "QrLoginControl",
+      "status": "QrLoginStatus",
+      "qrSteps": "String",
+      "onScan": "Data",
+      "context": "Context",
+      "controller": "ScannerController",
+      "capture": "AVCaptureSession",
+      "preview": "AVCaptureVideoPreviewLayer",
+      "animated": "Bool",
+      "output": "AVCaptureMetadataOutput",
+      "metadataObjects": "AVMetadataObject",
+      "connection": "AVCaptureConnection",
+      "path": "Path",
+      "updates": "Task",
+      "label": "UILabel"
+    }
+  }
+}

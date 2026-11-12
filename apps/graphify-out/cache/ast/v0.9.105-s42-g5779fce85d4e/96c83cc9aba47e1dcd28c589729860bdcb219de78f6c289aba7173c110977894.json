@@ -1,0 +1,644 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "label": "VoiceMoveMenu.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "label": "VoiceMoveVerdicts",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "label": ".allowed()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "label": "VoiceMoveMenu",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "viewmodifier",
+      "label": "ViewModifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "label": ".body()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L41",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "label": ".move()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L76",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "label": ".voiceMoveMenu()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L77",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "viewmodifier",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "target": "content",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "callee": "verdicts",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "callee": "timeIntervalSince",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "callee": "mayMoveBetween",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L12",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemoveverdicts_allowed",
+      "callee": "verdicts",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "callee": "contextMenu",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L28",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "callee": "rootSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L47",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "callee": "rooms",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L52",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L54",
+      "receiver": "candidates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_load",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L56",
+      "receiver": "allowed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "callee": "request",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L68",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_voicemovemenu_move",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L70",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view_voicemovemenu",
+      "callee": "modifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+      "source_location": "L78",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_views_voice_voicemovemenu_view", "label": "View" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Voice/VoiceMoveMenu.swift",
+    "table": {
+      "verdicts": "String",
+      "client": "WizardClient",
+      "graph": "SpaceNode",
+      "me": "String",
+      "from": "String",
+      "to": "String",
+      "roomId": "String",
+      "userId": "String",
+      "session": "MatrixSession",
+      "targets": "RoomSummary",
+      "content": "Content",
+      "targetId": "String"
+    },
+    "factory": { "root": ["SpaceModern", "rootSpace"] }
+  }
+}

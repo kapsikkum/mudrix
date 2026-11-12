@@ -1,0 +1,384 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "label": "EmoticonsTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "label": "EmoticonsTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "label": ".replacesWholeEmoticons()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L9",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_leavesemoticonsinsidewordsandlinksalone",
+      "label": ".leavesEmoticonsInsideWordsAndLinksAlone()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "label": ".skipsInlineCodeAndFences()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L21",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "label": ".numericDatesFollowTheSetting()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L27",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "target": "localdate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.time.LocalDate" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "target": "assertnull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_leavesemoticonsinsidewordsandlinksalone",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_leavesemoticonsinsidewordsandlinksalone",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "attribute"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L11",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L12",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_replaceswholeemoticons",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L13",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_leavesemoticonsinsidewordsandlinksalone",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_leavesemoticonsinsidewordsandlinksalone",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L18",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "callee": "replaceInText",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L23",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_skipsinlinecodeandfences",
+      "callee": "replaceInMessage",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L24",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Emoticons"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "of",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L29",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "LocalDate"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L30",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L31",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L32",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DisplayFormats"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_emoticonstest_emoticonstest_numericdatesfollowthesetting",
+      "callee": "numericDate",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/EmoticonsTest.kt",
+      "source_location": "L33",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DisplayFormats"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

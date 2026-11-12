@@ -1,0 +1,1200 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_swift",
+      "label": "MediaLoader.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "uniformtypeidentifiers",
+      "label": "UniformTypeIdentifiers",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "label": "MediaLoader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "uiimage",
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "label": ".cachedThumbnail()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "label": ".store()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "label": ".thumbnail()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "label": ".image()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "_callable": true
+    },
+    {
+      "id": "mediasource",
+      "label": "MediaSource",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "label": ".location()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L37",
+      "_callable": true
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "label": ".file()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L42",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "label": ".cachedFile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "label": ".downloadFile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "_callable": true
+    },
+    {
+      "id": "mainactor",
+      "label": "MainActor",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_canceldownload",
+      "label": ".cancelDownload()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L71",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "_callable": true
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "label": ".safeName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L91",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "label": ".key()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L101",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_swift",
+      "target": "uniformtypeidentifiers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_init",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "mainactor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_canceldownload",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_canceldownload",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "target": "mediasource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_thumbnail",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedthumbnail",
+      "callee": "object",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L17",
+      "receiver": "cache"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_store",
+      "callee": "setObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L21",
+      "receiver": "cache"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_image",
+      "callee": "media",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L33",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L38",
+      "receiver": "files"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "callee": "addingPercentEncoding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_location",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L39",
+      "receiver": "folder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "callee": "fileExists",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L44",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "callee": "media",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L45",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "callee": "createDirectory",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L46",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_file",
+      "callee": "write",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L47",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_cachedfile",
+      "callee": "fileExists",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L54",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "fileExists",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L62",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "mediaDownload",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L63",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L64",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "progress",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "createDirectory",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L66",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_downloadfile",
+      "callee": "write",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L67",
+      "receiver": "data"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_canceldownload",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L73",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_canceldownload",
+      "callee": "cancelMediaDownload",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L73",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "callee": "inFlight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "callee": "fetch",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "callee": "inFlight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_load",
+      "callee": "inFlight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L92",
+      "receiver": "filename"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "callee": "UTType",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "callee": "conforms",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_safename",
+      "callee": "UTType",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "callee": "source",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader_key",
+      "callee": "source",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_medialoader_medialoader",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MediaLoader.swift",
+      "source_location": "L10",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/MediaLoader.swift",
+    "table": {
+      "client": "WizardClient",
+      "inFlight": "String",
+      "key": "String",
+      "image": "UIImage",
+      "url": "String",
+      "size": "Int",
+      "source": "MediaSource",
+      "thumbnailSize": "Int",
+      "animated": "Bool",
+      "filename": "String",
+      "mimetype": "String",
+      "sizeHint": "Int",
+      "token": "String",
+      "progress": "MainActor",
+      "fetch": "WizardClient"
+    }
+  }
+}

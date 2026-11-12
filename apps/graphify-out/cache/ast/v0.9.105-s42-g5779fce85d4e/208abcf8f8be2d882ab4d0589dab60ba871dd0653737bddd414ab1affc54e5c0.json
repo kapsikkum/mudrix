@@ -1,0 +1,1055 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_swift",
+      "label": "SpaceModernTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "label": "SpaceModernTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L7",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "label": ".state()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L11",
+      "_callable": true
+    },
+    {
+      "id": "mudrixroomstate",
+      "label": "MudrixRoomState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "label": ".link()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L15",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift"
+    },
+    {
+      "id": "spacelink",
+      "label": "SpaceLink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "label": ".testTypesAreReadUnderTheOldNameToo()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L19",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "label": ".testStrictBooleanForVoiceFlag()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "label": ".testBannerNeedsAUrlOrAKnownPreset()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L32",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "label": ".testChildrenAreOrderedByOrderThenAgeThenId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L39",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "label": ".testCategoriesFollowSubSpaces()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L47",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicechannelsgobelowtextchannels",
+      "label": ".testVoiceChannelsGoBelowTextChannels()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "label": ".testRolesAreOnlyTrustedWhenSettingThemTakesPower()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "label": ".testRoleColourOrder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "label": ".testVoiceMovesAreOnlyFreshForAMinute()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L87",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "target": "spacelink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicechannelsgobelowtextchannels",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "target": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_json",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "callee": "MudrixRoomState",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L12",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_state",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L12",
+      "receiver": "rows"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_link",
+      "callee": "SpaceLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L16",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "typeAndLegacy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L21",
+      "receiver": "MudrixTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "style",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L23",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testtypesarereadundertheoldnametoo",
+      "callee": "style",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L24",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L28",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_teststrictbooleanforvoiceflag",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L29",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "callee": "banner",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L34",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "callee": "Banner",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L34",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testbannerneedsaurloraknownpreset",
+      "callee": "banner",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L36",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testchildrenareorderedbyorderthenagethenid",
+      "callee": "orderedChildren",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L44",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "categories",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L52",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L53",
+      "receiver": "categories"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L54",
+      "receiver": "categories"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testcategoriesfollowsubspaces",
+      "callee": "rootSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L55",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicechannelsgobelowtextchannels",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicechannelsgobelowtextchannels",
+      "callee": "arrange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L59",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicechannelsgobelowtextchannels",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L59",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L68",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L69",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "byUser",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L71",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "builtin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L72",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L73",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolesareonlytrustedwhensettingthemtakespower",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L74",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "Role",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L78",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "Roles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L79",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "roleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L81",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "roleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L82",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "roleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L83",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testrolecolourorder",
+      "callee": "roleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L84",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "isFresh",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L88",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "isFresh",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L89",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "isFresh",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L90",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_spacemoderntests_spacemoderntests_testvoicemovesareonlyfreshforaminute",
+      "callee": "isFresh",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SpaceModernTests.swift",
+      "source_location": "L91",
+      "receiver": "VoiceMoves"
+    }
+  ],
+  "parse_errors": { "first_error_line": 64, "multiline_error": false },
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/SpaceModernTests.swift",
+    "table": {
+      "text": "String",
+      "rows": "String",
+      "id": "String",
+      "order": "String",
+      "at": "Int",
+      "node": "SpaceNode"
+    },
+    "factory": {
+      "categories": ["SpaceModern", "categories"],
+      "roles": ["SpaceModern", "readRoles"],
+      "dev": ["SpaceModern", "Role"]
+    }
+  }
+}

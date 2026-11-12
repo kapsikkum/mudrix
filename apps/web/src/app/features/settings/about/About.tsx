@@ -30,9 +30,27 @@ export function About() {
   const [updateCheck, setUpdateCheck] = useState<UpdateCheck | 'checking' | null>(null);
   const checking = updateCheck === 'checking';
 
+  const [prereleases, setPrereleases] = useState(
+    () => localStorage.getItem('mudrix.updates.prereleases') === '1'
+  );
+  const togglePrereleases = (on: boolean) => {
+    setPrereleases(on);
+    localStorage.setItem('mudrix.updates.prereleases', on ? '1' : '0');
+  };
+
   const handleCheck = async () => {
     setUpdateCheck('checking');
-    const result = await checkForUpdate();
+    let result: UpdateCheck;
+    if (isTauriDesktop() && window.desktopAPI?.checkForUpdate) {
+      try {
+        const outcome = await window.desktopAPI.checkForUpdate(prereleases);
+        result = outcome.status === 'upToDate' ? 'upToDate' : 'available';
+      } catch {
+        result = 'error';
+      }
+    } else {
+      result = await checkForUpdate();
+    }
     if (result === 'available') setUpdateAvailable(true);
     setUpdateCheck(result);
   };
@@ -60,7 +78,7 @@ export function About() {
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>
-            {!isTauriDesktop() && (
+            {(!isTauriDesktop() || !!window.desktopAPI?.checkForUpdate) && (
               <button
                 type="button"
                 className={heroCss.downloadBtn}
@@ -111,6 +129,16 @@ export function About() {
               </button>
             )}
           </div>
+          {isTauriDesktop() && (
+            <label className={css.settingLabel}>
+              <input
+                type="checkbox"
+                checked={prereleases}
+                onChange={(e) => togglePrereleases(e.target.checked)}
+              />{' '}
+              {t('update.includePrereleases')}
+            </label>
+          )}
           {(updateCheck === 'error' || updateCheck === 'available') && (
             <span className={css.settingLabel} role="status">
               {updateCheck === 'error' ? t('update.checkFailed') : t('update.available')}

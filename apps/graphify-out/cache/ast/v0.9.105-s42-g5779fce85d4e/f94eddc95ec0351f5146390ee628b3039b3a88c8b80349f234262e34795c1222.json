@@ -1,0 +1,1521 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "label": "SettingsComponents.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "label": "SettingsPage()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "label": "SettingsSection()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L93",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "label": "SettingsItem()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "_callable": true
+    },
+    {
+      "id": "modifier",
+      "label": "Modifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt"
+    },
+    {
+      "id": "arrangement",
+      "label": "Arrangement",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt"
+    },
+    {
+      "id": "alignment",
+      "label": "Alignment",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingscard",
+      "label": "SettingsCard()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L124",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsdivider",
+      "label": "SettingsDivider()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L129",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "label": "RowLabel()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L132",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "label": "RowFrame()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L140",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "label": "SettingRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L161",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "label": "ToggleRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L169",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "label": "WizardSwitch()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L183",
+      "_callable": true
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "label": "PickerRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L203",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "background",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.background" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.clickable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "mutableinteractionsource",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.interaction.MutableInteractionSource"
+      }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "collectispressedasstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "androidx.compose.foundation.interaction.collectIsPressedAsState"
+      }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "arrangement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Arrangement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "box",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Box" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "column",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Column" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "columnscope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.ColumnScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "rowscope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.RowScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "spacer",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Spacer" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "fillmaxsize",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxSize" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "height",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.height" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "heightin",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.heightIn" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "imepadding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.imePadding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.padding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "size",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.size" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "width",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.width" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "rememberscrollstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.rememberScrollState" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "circleshape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.shape.CircleShape" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "verticalscroll",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.verticalScroll" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "switch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Switch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "switchdefaults",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.SwitchDefaults" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "remember",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.remember" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "alpha",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.draw.alpha" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "clip",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.draw.clip" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.graphics.Color" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "textstyle",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.TextStyle" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "fontfamily",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.font.FontFamily" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.font.FontWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "textoverflow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L42",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.style.TextOverflow" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "dp",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L43",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.unit.dp" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "bartextbutton",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L44",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.BarTextButton" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "groupedsection",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedSection" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "localbottombarinset",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L46",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.LocalBottomBarInset" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "menuitem",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L47",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.MenuItem" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "phicon",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L48",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhIcon" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "phweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L49",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "rowdivider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L50",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.RowDivider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "wizardmenu",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L51",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardMenu" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "wizardtopbar",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L52",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardTopBar" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "copytoclipboard",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L53",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.copyToClipboard" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "sensitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L54",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.sensitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L55",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "sheettopbar",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L57",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.SheetTopBar" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L58",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L59",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "target": "modifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "target": "arrangement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "target": "alignment",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingscard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingscard",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsdivider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsdivider",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "target": "modifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L132",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L132",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "target": "modifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L169",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L183",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L183",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingscard",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingscard",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L213",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "fillMaxSize",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L72",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "SheetTopBar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "WizardTopBar",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "verticalScroll",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "imePadding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L80",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "rememberScrollState",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingspage",
+      "callee": "height",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L87",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingssection",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L100",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsitem",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingsdivider",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L134",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowlabel",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "alpha",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "then",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "heightIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "clickable",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L151",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_rowframe",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L155",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L164",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_settingrow",
+      "callee": "control",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "callee": "onCheckedChange",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_togglerow",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L178",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "callee": "Switch",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "callee": "colors",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L189",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SwitchDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_wizardswitch",
+      "callee": "copy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_settingscomponents_pickerrow",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/SettingsComponents.kt",
+      "source_location": "L212",
+      "receiver": null
+    }
+  ],
+  "parse_errors": { "first_error_line": 213, "multiline_error": true, "lossy_error_line": 225 },
+  "kotlin_package": "org.wizardchat.android.ui.settings"
+}

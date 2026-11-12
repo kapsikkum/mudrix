@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_kt",
+      "label": "CallTimer.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer",
+      "label": "CallTimer",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer_format",
+      "label": ".format()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L5",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer_format",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer_format",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer_format",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L9",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_calltimer_calltimer_format",
+      "callee": "coerceAtLeast",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/CallTimer.kt",
+      "source_location": "L6",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix.rtc"
+}

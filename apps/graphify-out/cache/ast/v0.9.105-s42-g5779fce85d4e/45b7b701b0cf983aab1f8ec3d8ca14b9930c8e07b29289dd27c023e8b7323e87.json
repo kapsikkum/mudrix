@@ -1,0 +1,886 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_swift",
+      "label": "SpaceModernSettings.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "label": "SpaceModernSettingsSections",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "spacesummary",
+      "label": "SpaceSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "mudrixroomstate",
+      "label": "MudrixRoomState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_state",
+      "label": ".state",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L16"
+    },
+    {
+      "id": "roomliststyle",
+      "label": "RoomListStyle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_style",
+      "label": ".style",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L17"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_autojoin",
+      "label": ".autoJoin",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L18"
+    },
+    {
+      "id": "spacemodern",
+      "label": "SpaceModern",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_banner",
+      "label": ".banner",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L19"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "label": ".write()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L114",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_state",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "roomliststyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_style",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_autojoin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_banner",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_state",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_style",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_style",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_banner",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_banner",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_autojoin",
+      "callee": "explicitAutoJoin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L18",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Toggle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L48",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "rebuild",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L49",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "LinearGradient",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "stroke",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "canSend",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L75",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "NavigationLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "SpaceChannelsView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "NavigationLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "SpaceRolesView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "canSend",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L101",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "NavigationLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "AuditLogView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections_write",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L119",
+      "receiver": "MudrixRoomStates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacemodernsettings_spacemodernsettingssections",
+      "callee": "SpaceRoleManager",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceModernSettings.swift",
+      "source_location": "L13",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/SpaceModernSettings.swift",
+    "table": {
+      "space": "SpaceSummary",
+      "roomList": "RoomListModel",
+      "session": "MatrixSession",
+      "states": "MudrixRoomStates",
+      "manager": "SpaceRoleManager",
+      "error": "String",
+      "state": "MudrixRoomState",
+      "style": "RoomListStyle",
+      "autoJoin": "Bool",
+      "banner": "SpaceModern",
+      "body": "View",
+      "type": "String",
+      "content": "JSONValue"
+    }
+  }
+}

@@ -1,0 +1,1082 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "label": "VoiceSettings.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "label": "VoiceSettings()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "label": "packOptions()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "label": "SoundEffectsSection()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "label": "SoundboardSection()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L105",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "label": "VolumeRow()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L128",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "slider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Slider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "sliderdefaults",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.SliderDefaults" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.font.FontWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "localprefs",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.LocalPrefs" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "soundkind",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.SoundKind" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "soundpack",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.SoundPack" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "soundpacks",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.SoundPacks" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "sounds",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.rtc.Sounds" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "primarybutton",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PrimaryButton" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L105",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L116",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "SettingsPage",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_voicesettings",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L60",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "SoundPacks.CATEGORIES"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L61",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "SoundPacks.all"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_packoptions",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L70",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "PickerRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "preview",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L75",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L77",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "SoundKind.entries"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "buildList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "add",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "add",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "addAll",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L86",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "SoundPacks.all"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "PickerRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "preview",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L93",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "ifEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "SettingsItem",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "PrimaryButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundeffectssection",
+      "callee": "emptyMap",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L117",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "prefs.soundboardMutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L119",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "prefs.soundboardMutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "SettingRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "IconAction",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_soundboardsection",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "SettingsItem",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L131",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L132",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "Slider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "toFloat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "onChange",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_settings_voicesettings_volumerow",
+      "callee": "colors",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/settings/VoiceSettings.kt",
+      "source_location": "L140",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SliderDefaults"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.settings"
+}

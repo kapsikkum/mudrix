@@ -1,0 +1,1664 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "label": "IntegrationCards.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "label": "IntegrationCardData",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift"
+    },
+    {
+      "id": "integrationmatching",
+      "label": "IntegrationMatching",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L9"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "label": "DetailsState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_none",
+      "label": "none",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_ask",
+      "label": "ask",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L16"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_paused",
+      "label": "paused",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L18"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_loading",
+      "label": "loading",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L19"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_ready",
+      "label": "ready",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "integrationdetails",
+      "label": "IntegrationDetails",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_failed",
+      "label": "failed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "label": "SettledState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks",
+      "label": "IntegrationCardLinks",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L29",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "label": ".urls()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L34",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "label": "IntegrationLinkCards",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L51",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "label": ".cards",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L57"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L68"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "label": "IntegrationCardView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L80",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lookupurl",
+      "label": ".lookupUrl",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L89"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L97"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "label": ".currentState()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "label": ".content()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L138",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "label": ".stateView()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "label": ".letterTile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L224",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "integrationmatching",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "integrationmatching",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_none",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_ask",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_paused",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_loading",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_ready",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "integrationdetails",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate_failed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L87",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lookupurl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_detailsstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "target": "integrationdetails",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcarddata",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_currentstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_load",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_settledstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L166",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L39",
+      "receiver": "detector"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L40",
+      "receiver": "url"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L42",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardlinks_urls",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L42",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "callee": "matchLinkCard",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L62",
+      "receiver": "IntegrationMatching"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L63",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_cards",
+      "callee": "findLinkLookup",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L63",
+      "receiver": "IntegrationMatching"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationlinkcards_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lookupurl",
+      "callee": "lookupShowsAnything",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L90",
+      "receiver": "IntegrationSettings"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lookupurl",
+      "callee": "buildLookupUrl",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L91",
+      "receiver": "IntegrationDetails"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "callee": "isCached",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L100",
+      "receiver": "LinkDetailsLoader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L147",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L147",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "openURL",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_content",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L186",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L192",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L197",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L210",
+      "receiver": "facts"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_stateview",
+      "callee": "EmptyView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L219",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L225",
+      "receiver": "name"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "uppercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "accessibilityHidden",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_integrationcards_integrationcardview_lettertile",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/IntegrationCards.swift",
+      "source_location": "L230",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/IntegrationCards.swift",
+    "table": {
+      "url": "String",
+      "match": "IntegrationMatching",
+      "lookup": "IntegrationMatching",
+      "id": "String",
+      "key": "String",
+      "state": "DetailsState",
+      "text": "String",
+      "roomId": "String",
+      "isEncrypted": "Bool",
+      "store": "IntegrationStore",
+      "cards": "IntegrationCardData",
+      "body": "View",
+      "card": "IntegrationCardData",
+      "prefs": "AppPreferences",
+      "requestedUrl": "String",
+      "settled": "SettledState",
+      "lookupUrl": "String",
+      "requested": "Bool",
+      "auto": "Bool",
+      "waiting": "Bool",
+      "details": "IntegrationDetails",
+      "name": "String"
+    }
+  }
+}

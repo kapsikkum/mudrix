@@ -1,0 +1,607 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_kt",
+      "label": "YouTubeLinkTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "label": "YouTubeLinkTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "label": ".recognisesTheLinkShapes()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "label": ".readsTheStartOffset()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L21",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "label": ".rejectsEverythingElse()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L30",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "label": ".embedsFromThePrivacyEnhancedHost()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L41",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_kt",
+      "target": "assertnull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "attribute"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L12",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L13",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L14",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L15",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L16",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L17",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_recognisesthelinkshapes",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L18",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L23",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L24",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L25",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L26",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_readsthestartoffset",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L27",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L32",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L33",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L34",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L35",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L36",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L37",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_rejectseverythingelse",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L38",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "callee": "embedUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L45",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "YouTubeLink"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_media_youtubelinktest_youtubelinktest_embedsfromtheprivacyenhancedhost",
+      "callee": "YouTubeVideo",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/media/YouTubeLinkTest.kt",
+      "source_location": "L45",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.media"
+}

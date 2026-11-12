@@ -1,0 +1,679 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "label": "IntegrationState.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "label": "PendingUpdate",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "codable",
+      "label": "Codable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "integrationperms",
+      "label": "IntegrationPerms",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "integrationsetting",
+      "label": "IntegrationSetting",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "label": "BlockedUpdate",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "label": "InstalledIntegration",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L21",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "label": "RepositoryRecord",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L44",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "integration",
+      "label": "Integration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "rejectedintegration",
+      "label": "RejectedIntegration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "label": "SettingValue",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L73",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue_bool",
+      "label": "bool",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L74"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue_text",
+      "label": "text",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L75"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "integrationperms",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "target": "integrationsetting",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "integrationperms",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "integrationsetting",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_pendingupdate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_installedintegration",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_blockedupdate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "integration",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "rejectedintegration",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_repositoryrecord",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L61",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue_bool",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue_text",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationstate_settingvalue",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationState.swift",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "type"
+    }
+  ],
+  "raw_calls": [],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Integrations/IntegrationState.swift",
+    "table": {
+      "version": "String",
+      "name": "String",
+      "description": "String",
+      "iconUrl": "String",
+      "permissions": "IntegrationPerms",
+      "settings": "IntegrationSetting",
+      "reason": "String",
+      "error": "String",
+      "id": "String",
+      "repoUrl": "String",
+      "approvedAt": "Double",
+      "publisherFingerprint": "String",
+      "pendingUpdate": "PendingUpdate",
+      "blockedUpdate": "BlockedUpdate",
+      "url": "String",
+      "addedAt": "Double",
+      "lastFetchedAt": "Double",
+      "integrations": "Integration",
+      "rejected": "RejectedIntegration",
+      "key": "String",
+      "fingerprint": "String",
+      "serial": "Int",
+      "trustedAt": "Double"
+    }
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_swift",
+      "label": "CallSounds.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "avfoundation",
+      "label": "AVFoundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "label": "CallSounds",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "float",
+      "label": "Float",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift"
+    },
+    {
+      "id": "avaudioplayer",
+      "label": "AVAudioPlayer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "label": ".play()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift"
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "label": ".loop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L22",
+      "_callable": true
+    },
+    {
+      "id": "loop",
+      "label": "Loop",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "label": ".makePlayer()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L29",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "label": "Loop",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L35",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L37",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L38",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_swift",
+      "target": "avfoundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "avaudioplayer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "loop",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "target": "avaudioplayer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "target": "avaudioplayer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_init",
+      "target": "avaudioplayer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_loop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_stop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_loop_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "callee": "url",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L11",
+      "receiver": "Bundle"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L17",
+      "receiver": "playing"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_play",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L18",
+      "receiver": "playing"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callsounds_callsounds_makeplayer",
+      "callee": "AVAudioPlayer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallSounds.swift",
+      "source_location": "L30",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallSounds.swift",
+    "table": {
+      "defaultVolume": "Float",
+      "playing": "AVAudioPlayer",
+      "name": "String",
+      "volume": "Float",
+      "url": "URL",
+      "player": "AVAudioPlayer"
+    }
+  }
+}

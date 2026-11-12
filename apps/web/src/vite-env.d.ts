@@ -67,6 +67,10 @@ interface DesktopAPI {
   >;
   onUpdateDownloaded?: (cb: () => void) => void;
   installUpdate?: () => void;
+  /** Asks the update feed now (stable, or with pre-releases the `next` channel) */
+  checkForUpdate?: (
+    includePrereleases: boolean
+  ) => Promise<{ status: 'upToDate' | 'ready' } | { status: 'available'; version: string }>;
   /** Saves bytes into the Downloads folder and resolves with the saved path; needs a native command. */
   saveDownload?: (bytes: Uint8Array, filename: string) => Promise<string>;
   getSettings?: () => Promise<DesktopSettings>;

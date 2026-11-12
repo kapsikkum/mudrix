@@ -1,0 +1,654 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_swift",
+      "label": "UndecryptableActions.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "label": "KeyRestoreModel",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "keyrestoreprogress",
+      "label": "KeyRestoreProgress",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "label": ".restore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L9",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "label": "UndecryptableActions",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_canretry",
+      "label": ".canRetry()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L31",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L40"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "label": ".restoreBackup()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "label": ".retry()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L80",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "target": "keyrestoreprogress",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "target": "keyrestoreprogress",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_canretry",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_canretry",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_canretry",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_canretry",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "callee": "KeyRestoreProgress",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L10",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "callee": "restoreKeyBackup",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L12",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_keyrestoremodel_restore",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L13",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L44",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "SecondaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_body",
+      "callee": "encryptionStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L61",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L70",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L70",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L72",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L74",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L76",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_restorebackup",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L76",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "callee": "retryDecryption",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L85",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L87",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_undecryptableactions_undecryptableactions_retry",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+      "source_location": "L87",
+      "receiver": "L10n"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/UndecryptableActions.swift",
+    "table": {
+      "progress": "KeyRestoreProgress",
+      "client": "WizardClient",
+      "roomId": "String",
+      "reason": "String",
+      "session": "MatrixSession",
+      "restoring": "KeyRestoreModel",
+      "body": "View"
+    }
+  }
+}

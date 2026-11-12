@@ -1,0 +1,1367 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "label": "CustomThemes.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "label": "ThemeSpec",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/CustomThemes.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_subscript",
+      "label": ".subscript()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/CustomThemes.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_json",
+      "label": ".json",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L58"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "label": ".of()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "wizardtheme",
+      "label": "WizardTheme",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/CustomThemes.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "label": "CustomTheme",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L80",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme_themename",
+      "label": ".themeName",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L85"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme_json",
+      "label": ".json",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L87"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "label": "CustomThemes",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L93",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "label": ".isCustomName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L98",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/CustomThemes.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "label": ".isValidId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L102",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "label": ".isCustomThemeName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L109",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_newid",
+      "label": ".newId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "label": ".cleanName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L122",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "label": ".colorsOf()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L127",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "label": ".sanitize()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L138",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_tojson",
+      "label": ".toJson()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L156",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "label": ".parseShared()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L161",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "label": ".serialize()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L172",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "label": ".find()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L187",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_subscript",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_subscript",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_subscript",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "target": "wizardtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme_themename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L87",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_newid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_newid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_tojson",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_tojson",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_tojson",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L172",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L172",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L187",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L187",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L187",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customtheme",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "target": "$graphify-root$_ios_wizardchat_views_customthemes_themespec",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_json",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L67",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L68",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L69",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L70",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L71",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L72",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L73",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L74",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L75",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomname",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L99",
+      "receiver": "name"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_isvalidid",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L105",
+      "receiver": "id"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L110",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_iscustomthemename",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L110",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_newid",
+      "callee": "random",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L116",
+      "receiver": "UInt8"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L123",
+      "receiver": "raw"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_cleanname",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L124",
+      "receiver": "words"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "callee": "object",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L128",
+      "receiver": "SettingsSync"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "callee": "isHexColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L131",
+      "receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "callee": "spec",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_colorsof",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L132",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "object",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L144",
+      "receiver": "SettingsSync"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L150",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_sanitize",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L151",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_tojson",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L157",
+      "receiver": "themes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "callee": "data",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L162",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "callee": "object",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L164",
+      "receiver": "SettingsSync"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_parseshared",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "encode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L177",
+      "receiver": "keys"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L179",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "colors",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L179",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L181",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L182",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_serialize",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L183",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_customthemes_customthemes_find",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/CustomThemes.swift",
+      "source_location": "L189",
+      "receiver": "themes"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/CustomThemes.swift",
+    "table": {
+      "bgPrimary": "String",
+      "bgSecondary": "String",
+      "bgTertiary": "String",
+      "accent": "String",
+      "textPrimary": "String",
+      "textMuted": "String",
+      "border": "String",
+      "msgMineBg": "String",
+      "msgOtherBg": "String",
+      "starter": "ThemeSpec",
+      "key": "String",
+      "json": "JSONValue",
+      "theme": "CustomTheme",
+      "id": "String",
+      "name": "String",
+      "colors": "ThemeSpec",
+      "themeName": "String",
+      "value": "String",
+      "raw": "JSONValue",
+      "themes": "CustomTheme",
+      "text": "String",
+      "spec": "ThemeSpec",
+      "keys": "ThemeSpec"
+    },
+    "factory": { "byte": ["UInt8", "random"] }
+  }
+}

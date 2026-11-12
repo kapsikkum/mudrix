@@ -1,0 +1,2099 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "label": "SpaceModern.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle",
+      "label": "RoomListStyle",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle_matrix",
+      "label": "matrix",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle_modern",
+      "label": "modern",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "label": "SpaceModern",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "label": ".styleOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "mudrixroomstate",
+      "label": "MudrixRoomState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "label": ".rootSpaceOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "label": ".parentOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L31",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_banner",
+      "label": "Banner",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L37",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "label": ".bannerOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "label": ".explicitAutoJoinOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "label": ".isVoiceChannelFlagged()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_validorder",
+      "label": ".validOrder()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L70",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "label": ".orderedChildren()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "spacelink",
+      "label": "SpaceLink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_category",
+      "label": "Category",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L80",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "label": ".categories()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L86",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_arrange",
+      "label": ".arrange()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L104",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "label": "Role",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L115",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "label": "Builtin",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_founder",
+      "label": "Founder",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_admin",
+      "label": "Admin",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_moderator",
+      "label": "Moderator",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_member",
+      "label": "Member",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtinlook",
+      "label": "BuiltinLook",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L120",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "label": "Roles",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L122",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "label": ".cleanRoleName()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L137",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "label": ".isValidRoleColor()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L140",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "label": ".levelNeeded()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L143",
+      "_callable": true
+    },
+    {
+      "id": "jsonobject",
+      "label": "JsonObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_trusted",
+      "label": ".trusted()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L149",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "label": ".sanitizeRole()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "kotlinx",
+      "label": "kotlinx",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "label": ".readRoles()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L161",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cansendstate",
+      "label": ".canSendState()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L196",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_memberstatekey",
+      "label": ".memberStateKey()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L200",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "label": ".rolesChainOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L203",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_builtinof",
+      "label": ".builtinOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L215",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "label": ".powerLevelOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L223",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rolecolorof",
+      "label": ".roleColorOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L232",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_contentornull",
+      "label": ".contentOrNull()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L241",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "label": ".strictBoolean()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L244",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "jsonarray",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonArray" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "booleanornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.booleanOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "doubleornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.doubleOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "spacelink",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceLink" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "spacenode",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceNode" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle_matrix",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle_modern",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roomliststyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_banner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_banner",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_validorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "spacelink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_category",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_category",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_arrange",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_founder",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_admin",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_moderator",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin_member",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtinlook",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L123",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtinlook",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L123",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_trusted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_trusted",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L149",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "kotlinx",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cansendstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L196",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_memberstatekey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_builtinof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_builtinof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L215",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L223",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rolecolorof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L232",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rolecolorof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L232",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rolecolorof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L232",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_contentornull",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "target": "kotlinx",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L244",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_contentornull",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_banner",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_validorder",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_category",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_trusted",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_role",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_builtinlook",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_trusted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L197",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L197",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_roles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L131",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_styleof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "callee": "mutableSetOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rootspaceof",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L25",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "it.children"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_parentof",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L32",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "node.children"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_bannerof",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L55",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "BANNER_PRESETS"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_explicitautojoinof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_validorder",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_validorder",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "sortedWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L75",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "node.children"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "thenBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "thenBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "compareBy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "nullsLast",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "associateBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "mutableSetOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_categories",
+      "callee": "walk",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_arrange",
+      "callee": "filterNot",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_arrange",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "orEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L140",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_levelneeded",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "ifEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "mutableSetOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "mutableMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "ifEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "mutableMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "associate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "withIndex",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L183",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L184",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "toSortedSet",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "mapNotNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_readroles",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_memberstatekey",
+      "callee": "removePrefix",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L200",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_roleschainof",
+      "callee": "any",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L206",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_powerlevelof",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_rolecolorof",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern_strictboolean",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_spacemodern_spacemodern",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/SpaceModern.kt",
+      "source_location": "L135",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

@@ -1,0 +1,3126 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "label": "WatchTogetherUi.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "label": "YouTubeSyncPlayer()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "watchstate",
+      "label": "WatchState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "modifier",
+      "label": "Modifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "composable",
+      "label": "Composable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "label": "YouTubeCoordinator",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L108",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "label": "YT",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L109",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_unstarted",
+      "label": "unstarted",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_ended",
+      "label": "ended",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_playing",
+      "label": "playing",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_paused",
+      "label": "paused",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_buffering",
+      "label": "buffering",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_cued",
+      "label": "cued",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_of",
+      "label": ".of()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_steady",
+      "label": "Steady",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L117",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "webview",
+      "label": "WebView",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "label": ".makeView()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "_callable": true
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "suppresslint",
+      "label": "SuppressLint",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge",
+      "label": "Bridge",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L152",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "label": ".postMessage()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L153",
+      "_callable": true
+    },
+    {
+      "id": "javascriptinterface",
+      "label": "JavascriptInterface",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L160",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L164",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "label": ".received()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L184",
+      "_callable": true
+    },
+    {
+      "id": "jsonobject",
+      "label": "JsonObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "label": ".handle()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L207",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "label": ".tick()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L230",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_html",
+      "label": ".html()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L264",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_text",
+      "label": "text()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L303",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_number",
+      "label": "number()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L305",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "label": "WatchTogetherStage()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L308",
+      "_callable": true
+    },
+    {
+      "id": "watchtogether",
+      "label": "WatchTogether",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "label": "WatchPlayer()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L319",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "label": "WatchInvite()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L372",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "label": "SmallButton()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L401",
+      "_callable": true
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "label": "WatchTogetherStartSheet()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L417",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "suppresslint",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.annotation.SuppressLint" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "clipboardmanager",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.ClipboardManager" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "context",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.Context" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "handler",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.os.Handler" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "looper",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.os.Looper" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "javascriptinterface",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.webkit.JavascriptInterface" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "webview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.webkit.WebView" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "background",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.background" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "clickable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.clickable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "arrangement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Arrangement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "box",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Box" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "column",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Column" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "row",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.Row" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "aspectratio",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.aspectRatio" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "fillmaxsize",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxSize" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "fillmaxwidth",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.fillMaxWidth" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "height",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.height" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "imepadding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.imePadding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "navigationbarspadding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.navigationBarsPadding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "padding",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.padding" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "size",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.layout.size" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "circleshape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.shape.CircleShape" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "roundedcornershape",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.shape.RoundedCornerShape" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "keyboardactions",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.text.KeyboardActions" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "keyboardoptions",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.foundation.text.KeyboardOptions" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "text",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.Text" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "textfield",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.TextField" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "textfielddefaults",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.material3.TextFieldDefaults" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "composable",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.Composable" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "launchedeffect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.LaunchedEffect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "sideeffect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.SideEffect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "getvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.getValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "mutablestateof",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.mutableStateOf" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "remember",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.remember" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "setvalue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.runtime.setValue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "alignment",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Alignment" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "modifier",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.Modifier" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "clip",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.draw.clip" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L41",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.graphics.Color" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "localcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L42",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.platform.LocalContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "localurihandler",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L43",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.platform.LocalUriHandler" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "contentdescription",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L44",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.semantics.contentDescription" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "semantics",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.semantics.semantics" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "fontweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L46",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.font.FontWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "imeaction",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L47",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.input.ImeAction" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "keyboardtype",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L48",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.input.KeyboardType" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "textalign",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L49",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.text.style.TextAlign" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "androidview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L50",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.viewinterop.AndroidView" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "abs",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L51",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.math.abs" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "delay",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L52",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.delay" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "isactive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L53",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.isActive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L54",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.Json" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L55",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "doubleornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L57",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.doubleOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "intornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L58",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.intOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L59",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.jsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "watchstate",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L60",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.rtc.WatchState" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "watchtogether",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L61",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.rtc.WatchTogether" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "bartextbutton",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L62",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.BarTextButton" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "confirmdialog",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L63",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.ConfirmDialog" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "groupedrow",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L64",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedRow" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "groupedsection",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L65",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.GroupedSection" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "phicon",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L66",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhIcon" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "phweight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L67",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.PhWeight" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "rowdivider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L68",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.RowDivider" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "wizardsheet",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L69",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.WizardSheet" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "theme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L70",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.theme" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "wizardfont",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L71",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.theme.wizardFont" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "tr",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L72",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.ui.tr" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "roomsummary",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L73",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.RoomSummary" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L74",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "watchstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "modifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_unstarted",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_ended",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_playing",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_paused",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_buffering",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_cued",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_of",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_of",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_steady",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "webview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "watchstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_steady",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "watchstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "webview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "suppresslint",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "target": "javascriptinterface",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L153",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L207",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_html",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_text",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L303",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_number",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L305",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L308",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "target": "watchtogether",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L308",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L308",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L308",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "target": "watchtogether",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "target": "watchstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L372",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "target": "watchtogether",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L372",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "target": "watchstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L372",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L372",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L401",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L401",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L401",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L417",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "target": "watchtogether",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L417",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "target": "composable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L417",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_html",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_text",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_number",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_of",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_steady",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L313",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L329",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L355",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "SideEffect",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "LaunchedEffect",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "delay",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "AndroidView",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "removeJavascriptInterface",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubesyncplayer",
+      "callee": "destroy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_yt_of",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "callee": "WebView",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L134",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "callee": "setBackgroundColor",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "callee": "addJavascriptInterface",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "callee": "loadDataWithBaseURL",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_makeview",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "callee": "parseToJsonElement",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L155",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Json"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_bridge_postmessage",
+      "callee": "post",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_run",
+      "callee": "evaluateJavascript",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "callee": "currentTimeMillis",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L167",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "System"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_apply",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_received",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "currentTimeMillis",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L211",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "System"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "currentTimeMillis",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L216",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "System"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L222",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_handle",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "callee": "currentTimeMillis",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L233",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "System"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "callee": "invoke",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_tick",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L248",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_html",
+      "callee": "trimIndent",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L264",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator_html",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L286",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_text",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L303",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_number",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstage",
+      "callee": "rememberMemberProfile",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L311",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L322",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L322",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L323",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L324",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L324",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "clip",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "aspectRatio",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L326",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "RoundedCornerShape",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "update",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L331",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "fillMaxSize",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L333",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L336",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L337",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L338",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L339",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L345",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L345",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "IconLabel",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L346",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L347",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "weight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L353",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L355",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "openUri",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "watchUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L356",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "WatchTogether"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "expectedPosition",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L356",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L358",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L359",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "ConfirmDialog",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L363",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L364",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L365",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchplayer",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L366",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L374",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L375",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L375",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "clip",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L375",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L375",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "RoundedCornerShape",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L377",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L380",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "Row",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L382",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "spacedBy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L382",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Arrangement"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "PhIcon",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L383",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L384",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L384",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L384",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L387",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L387",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L387",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "LabelButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L389",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchinvite",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L390",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L403",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "semantics",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "clickable",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "clip",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "size",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L404",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_smallbutton",
+      "callee": "PhIcon",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L412",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L420",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L420",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "mutableStateOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "remember",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L422",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "getSystemService",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L422",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "hasPrimaryClip",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L423",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "WizardSheet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L435",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L436",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L436",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "height",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L436",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L436",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L437",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "align",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L437",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L437",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L437",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L438",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L439",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "align",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L440",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L441",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Box",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L444",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "align",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L444",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "BarTextButton",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "isNotBlank",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Column",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "navigationBarsPadding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "imePadding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L448",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "GroupedSection",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L449",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L449",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L450",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "fillMaxWidth",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L456",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L457",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L457",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "copy",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L458",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L458",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "KeyboardOptions",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L460",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "KeyboardActions",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L461",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "start",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L461",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "colors",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L462",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "TextFieldDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "RowDivider",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L471",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "GroupedRow",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L472",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L473",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L478",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "toString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L478",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "coerceToText",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L478",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "getItemAt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L478",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L478",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "clipboard.primaryClip"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L486",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L487",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "tr",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L487",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L488",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Modifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_watchtogetherstartsheet",
+      "callee": "wizardFont",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L489",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "callee": "Handler",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_voice_watchtogetherui_youtubecoordinator",
+      "callee": "getMainLooper",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/voice/WatchTogetherUi.kt",
+      "source_location": "L131",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Looper"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.voice"
+}

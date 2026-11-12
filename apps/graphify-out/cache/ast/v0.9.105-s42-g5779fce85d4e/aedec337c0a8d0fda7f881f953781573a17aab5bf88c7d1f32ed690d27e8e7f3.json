@@ -1,0 +1,1474 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "label": "VideoCompressor.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "label": "VideoCompressor",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L50",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "label": ".frameRate()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L68",
+      "_callable": true
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "uri",
+      "label": "Uri",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "label": ".compress()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L96",
+      "_callable": true
+    },
+    {
+      "id": "videometa",
+      "label": "VideoMeta",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "compresstarget",
+      "label": "CompressTarget",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "label": ".transform()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L124",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171",
+      "label": "Listener",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L171",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "listener",
+      "label": "Listener",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_oncompleted",
+      "label": ".onCompleted()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L172",
+      "_callable": true
+    },
+    {
+      "id": "composition",
+      "label": "Composition",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "exportresult",
+      "label": "ExportResult",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "label": ".onError()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L176",
+      "_callable": true
+    },
+    {
+      "id": "exportexception",
+      "label": "ExportException",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "context",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.content.Context" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mediacodecinfo",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.media.MediaCodecInfo" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mediacodeclist",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.media.MediaCodecList" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mediaextractor",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.media.MediaExtractor" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mediaformat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.media.MediaFormat" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "uri",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.net.Uri" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "handler",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.os.Handler" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "looper",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "android.os.Looper" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "effect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.common.Effect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mediaitem",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.common.MediaItem" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "mimetypes",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.common.MimeTypes" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "audioprocessor",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.common.audio.AudioProcessor" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "framedropeffect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.effect.FrameDropEffect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "presentation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.effect.Presentation" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "defaultencoderfactory",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.DefaultEncoderFactory" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "editedmediaitem",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L18",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.EditedMediaItem" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "effects",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.Effects" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "exportexception",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.ExportException" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "exportresult",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.ExportResult" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "progressholder",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.ProgressHolder" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "composition",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L23",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.Composition" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "transformer",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.Transformer" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "videoencodersettings",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.media3.transformer.VideoEncoderSettings" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "file",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.io.File" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "uuid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L27",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.util.UUID" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "resume",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.coroutines.resume" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "resumewithexception",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L29",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.coroutines.resumeWithException" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "dispatchers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.Dispatchers" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "coroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.coroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "currentcoroutinecontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.currentCoroutineContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "delay",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L33",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.delay" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "ensureactive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.ensureActive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "isactive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L35",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.isActive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "launch",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.launch" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "suspendcancellablecoroutine",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L37",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.suspendCancellableCoroutine" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "withcontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.withContext" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "target": "uri",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "target": "videometa",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "target": "compresstarget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171",
+      "target": "listener",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_oncompleted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_oncompleted",
+      "target": "composition",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L172",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_oncompleted",
+      "target": "exportresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L172",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "target": "composition",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "target": "exportresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "target": "exportexception",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L112",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "MediaExtractor",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "setDataSource",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "getTrackFormat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "startsWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "getString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "containsKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "recoverCatching",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "toFloat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "getInteger",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "getFloat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_framerate",
+      "callee": "release",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "planCompression",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L104",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "VideoPlan"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "apply",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "toString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "randomUUID",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L105",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UUID"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "mkdirs",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "scaledSize",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L109",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "VideoPlan"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "fromFile",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L110",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Uri"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "withContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L111",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "ensureActive",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "currentCoroutineContext",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "apply",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L115",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Mp4FastStart"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "length",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "length",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "length",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_compress",
+      "callee": "deleteRecursively",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "build",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setEnableFallback",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setRequestedVideoEncoderSettings",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Builder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L134",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "DefaultEncoderFactory"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "build",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setiFrameIntervalSeconds",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setBitrate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Builder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L136",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "VideoEncoderSettings"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "createDefaultFrameDropEffect",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L146",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FrameDropEffect"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "toFloat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L146",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "VideoPlan.MAX_FRAME_RATE"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "createForWidthAndHeight",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L148",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Presentation"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "build",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setEffects",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Builder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L149",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "EditedMediaItem"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "fromUri",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L149",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "MediaItem"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "fromFile",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L149",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Uri"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Effects",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Handler",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "getMainLooper",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L153",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Looper"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "coroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "ProgressHolder",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "launch",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "getProgress",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "onProgress",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "delay",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "suspendCancellableCoroutine",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "build",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "addListener",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setEncoderFactory",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setAudioMimeType",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "setVideoMimeType",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "Builder",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L167",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Transformer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "invokeOnCancellation",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "post",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L183",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform",
+      "callee": "onProgress",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_oncompleted",
+      "callee": "resume",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor_transform_object_listener_l171_onerror",
+      "callee": "resumeWithException",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "lazy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "getOrDefault",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "apply",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "createVideoFormat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L54",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "MediaFormat"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "setInteger",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "setInteger",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "getValue",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L56",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "VideoPlan.FIXED_BITRATE"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "setInteger",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "setInteger",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "findEncoderForFormat",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videocompressor_videocompressor",
+      "callee": "MediaCodecList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoCompressor.kt",
+      "source_location": "L60",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.media"
+}

@@ -1,0 +1,370 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_swift",
+      "label": "UndecryptableRuns.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "label": "UndecryptableRuns",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "label": "Run",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L9",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/UndecryptableRuns.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/UndecryptableRuns.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "label": ".compute()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L15",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "label": "HelpKind",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L35",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_notjoined",
+      "label": "notJoined",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_withheld",
+      "label": "withheld",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_senderuntrusted",
+      "label": "senderUntrusted",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_unverified",
+      "label": "unverified",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_nobackup",
+      "label": "noBackup",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_waiting",
+      "label": "waiting",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "label": ".helpKind()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L42",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_run",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "string",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_notjoined",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_withheld",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_senderuntrusted",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_unverified",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_nobackup",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind_waiting",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_helpkind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_helpkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L23",
+      "receiver": "unreadable"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "flush",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_undecryptableruns_undecryptableruns_compute",
+      "callee": "flush",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/UndecryptableRuns.swift",
+      "source_location": "L30",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/UndecryptableRuns.swift",
+    "table": {
+      "count": "Int",
+      "isFirst": "Bool",
+      "unreadable": "Bool",
+      "reason": "String",
+      "sessionVerified": "Bool"
+    }
+  }
+}

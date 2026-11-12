@@ -1,0 +1,1206 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "label": "PinnedAndSource.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "label": "PinnedMessagesView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "timelinemodel",
+      "label": "TimelineModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "chatentry",
+      "label": "ChatEntry",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_messages",
+      "label": ".messages",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L18"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L29"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "label": "SourceView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L59",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L64"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "label": "SelectTextView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L90",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L95"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "label": "SelectableText",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L116",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uiviewrepresentable",
+      "label": "UIViewRepresentable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "uicolor",
+      "label": "UIColor",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "label": ".makeUIView()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "uitextview",
+      "label": "UITextView",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_updateuiview",
+      "label": ".updateUIView()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L140",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "timelinemodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "chatentry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_messages",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "uiviewrepresentable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "uicolor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L118",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "uicolor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_updateuiview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_updateuiview",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_updateuiview",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "callee": "StateObject",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_init",
+      "callee": "TimelineModel",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L15",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_messages",
+      "callee": "reversed",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_messages",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_messages",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L19",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "listStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "List",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "swipeActions",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "MessageRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "togglePin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L37",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "ContentUnavailableView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_pinnedmessagesview_body",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L55",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "textSelection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "CopyToastView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "copyToClipboard",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_sourceview_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "presentationDetents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "UIColor",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "UIColor",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L97",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "CopyToastView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "copyToClipboard",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selecttextview_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "UITextView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L122",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "wizardUIFont",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L126",
+      "receiver": "Font"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "UIEdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L133",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "becomeFirstResponder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L134",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_pinnedandsource_selectabletext_makeuiview",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+      "source_location": "L135",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/PinnedAndSource.swift",
+    "table": {
+      "room": "RoomSummary",
+      "canPin": "Bool",
+      "timeline": "TimelineModel",
+      "client": "WizardClient",
+      "messages": "ChatEntry",
+      "body": "View",
+      "json": "String",
+      "text": "String",
+      "color": "UIColor",
+      "tint": "UIColor",
+      "context": "Context",
+      "view": "UITextView"
+    }
+  }
+}

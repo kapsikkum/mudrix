@@ -1,0 +1,1105 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_swift",
+      "label": "ThreadListView.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "label": "ThreadListView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "threadinfo",
+      "label": "ThreadInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L17"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L69",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "label": "ThreadRow",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L87",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L96"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_date",
+      "label": ".date()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L139",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "threadinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L69",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "threadinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_date",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_date",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L139",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_date",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L139",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_date",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "List",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "pickerStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "onOpen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L56",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "callee": "threads",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L78",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadlistview_load",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L79",
+      "receiver": "page"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L115",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L118",
+      "receiver": "thread"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L119",
+      "receiver": "latestName"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "memberProfile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L130",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_threadlistview_threadrow_body",
+      "callee": "memberProfile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/ThreadListView.swift",
+      "source_location": "L134",
+      "receiver": "session"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/ThreadListView.swift",
+    "table": {
+      "room": "RoomSummary",
+      "client": "WizardClient",
+      "onOpen": "String",
+      "threads": "ThreadInfo",
+      "next": "String",
+      "error": "String",
+      "body": "View",
+      "more": "Bool",
+      "thread": "ThreadInfo",
+      "roomId": "String",
+      "session": "MatrixSession",
+      "name": "String",
+      "avatarUrl": "String",
+      "latestName": "String",
+      "milliseconds": "Int"
+    }
+  }
+}

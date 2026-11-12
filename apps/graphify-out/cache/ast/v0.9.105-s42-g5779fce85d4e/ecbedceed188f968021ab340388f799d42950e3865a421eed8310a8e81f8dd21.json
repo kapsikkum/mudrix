@@ -1,0 +1,1362 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_swift",
+      "label": "GifPicker.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "label": "GiphyGif",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "codable",
+      "label": "Codable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "hashable",
+      "label": "Hashable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/GifPicker.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/GifPicker.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "label": "GifPicker",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/GifPicker.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_favourites",
+      "label": ".favourites",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L27"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "label": ".grid()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L93",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L134",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "label": ".toggleFavourite()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L156",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "label": "RemoteAnimatedImage",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L163",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uiimage",
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/GifPicker.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L168"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "hashable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_favourites",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L164",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_giphygif",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L150",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_favourites",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "SearchBar",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "toggle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L53",
+      "receiver": "showFavourites"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "ZStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_body",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L86",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "LazyVGrid",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "GridItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "GridItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "accessibilityAddTraits",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "onTapGesture",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "allowsHitTesting",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "clipShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "aspectRatio",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "CGFloat",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "onPick",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L114",
+      "receiver": "favourites"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_grid",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L122",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L137",
+      "receiver": "search"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "addingPercentEncoding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L140",
+      "receiver": "query"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "data",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L142",
+      "receiver": "URLSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "jsonObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L143",
+      "receiver": "JSONSerialization"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "json",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L145",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "images",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "images",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "images",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "full",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "preview",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "full",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_load",
+      "callee": "full",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L158",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L158",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L158",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "callee": "encode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_gifpicker_togglefavourite",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L159",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "callee": "AnimatedImageView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "callee": "data",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L173",
+      "receiver": "URLSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_gifpicker_remoteanimatedimage_body",
+      "callee": "image",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/GifPicker.swift",
+      "source_location": "L174",
+      "receiver": "AnimatedImage"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Composer/GifPicker.swift",
+    "table": {
+      "id": "String",
+      "title": "String",
+      "url": "String",
+      "previewUrl": "String",
+      "width": "Int",
+      "height": "Int",
+      "onPick": "GiphyGif",
+      "favouritesData": "Data",
+      "results": "GiphyGif",
+      "favourites": "GiphyGif",
+      "body": "View",
+      "gifs": "GiphyGif",
+      "gif": "GiphyGif",
+      "image": "UIImage"
+    }
+  }
+}

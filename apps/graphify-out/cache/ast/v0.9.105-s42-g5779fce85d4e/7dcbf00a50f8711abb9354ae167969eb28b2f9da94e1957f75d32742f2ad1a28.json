@@ -1,0 +1,2117 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "label": "ComposerSheets.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "avfoundation",
+      "label": "AVFoundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "corelocation",
+      "label": "CoreLocation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "mapkit",
+      "label": "MapKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "label": "PollCreatorSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_cansend",
+      "label": ".canSend",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L15"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "label": "OneShotLocation",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L89",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "nsobject",
+      "label": "NSObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "cllocationmanagerdelegate",
+      "label": "CLLocationManagerDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "cllocationcoordinate2d",
+      "label": "CLLocationCoordinate2D",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L96",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_request",
+      "label": ".request()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L102",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanagerdidchangeauthorization",
+      "label": ".locationManagerDidChangeAuthorization()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L112",
+      "_callable": true
+    },
+    {
+      "id": "cllocationmanager",
+      "label": "CLLocationManager",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "label": ".locationManager()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L124",
+      "_callable": true
+    },
+    {
+      "id": "cllocation",
+      "label": "CLLocation",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "label": "LocationShareSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L139",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "mapcameraposition",
+      "label": "MapCameraPosition",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_coordinate",
+      "label": ".coordinate",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L149"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L155"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "label": "VoiceRecorder",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L215",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "label": "State",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_idle",
+      "label": "idle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_requesting",
+      "label": "requesting",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_recording",
+      "label": "recording",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_paused",
+      "label": "paused",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_denied",
+      "label": "denied",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_failed",
+      "label": "failed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217"
+    },
+    {
+      "id": "timeinterval",
+      "label": "TimeInterval",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "float",
+      "label": "Float",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "avaudiorecorder",
+      "label": "AVAudioRecorder",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "timer",
+      "label": "Timer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L226",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_togglepause",
+      "label": ".togglePause()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L258",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "label": ".finish()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L263",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_cancel",
+      "label": ".cancel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L271",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "label": ".reset()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L277",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "label": ".tick()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L285",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "avfoundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "corelocation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "mapkit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_cansend",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "nsobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "observableobject",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "cllocationmanagerdelegate",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "cllocationcoordinate2d",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_request",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanagerdidchangeauthorization",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanagerdidchangeauthorization",
+      "target": "cllocationmanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "target": "cllocationmanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "target": "cllocation",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "target": "cllocationmanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "target": "error",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "mapcameraposition",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L147",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "cllocationcoordinate2d",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L149",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_coordinate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "nsobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "observableobject",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_idle",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_requesting",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_recording",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_paused",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_denied",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_state_failed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "avaudiorecorder",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "timer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L223",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_togglepause",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L258",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L263",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L263",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L263",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L263",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_cancel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L277",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_request",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L251",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_cancel",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L274",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Form",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "$options",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L32",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L35",
+      "receiver": "options"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L46",
+      "receiver": "options"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L65",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "fontWeight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "onSend",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L74",
+      "receiver": "question"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L75",
+      "receiver": "options"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L75",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_pollcreatorsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_init",
+      "callee": "init",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_request",
+      "callee": "requestWhenInUseAuthorization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L106",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_request",
+      "callee": "requestLocation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L108",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanagerdidchangeauthorization",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanagerdidchangeauthorization",
+      "callee": "requestLocation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L115",
+      "receiver": "manager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation_locationmanager",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_coordinate",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_coordinate",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_coordinate",
+      "callee": "CLLocationCoordinate2D",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L152",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Form",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Marker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L185",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L190",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L191",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "fontWeight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L191",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L191",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "onSend",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L195",
+      "receiver": "note"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_locationsharesheet_body",
+      "callee": "MKCoordinateRegion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "requestRecordPermission",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L228",
+      "receiver": "AVAudioApplication"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "sharedInstance",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L233",
+      "receiver": "AVAudioSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "setCategory",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L234",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "setActive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L235",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L236",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "AVAudioRecorder",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L237",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "record",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L244",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "scheduledTimer",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L250",
+      "receiver": "Timer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L251",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_togglepause",
+      "callee": "pause",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L260",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_togglepause",
+      "callee": "record",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L260",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L266",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_finish",
+      "callee": "resample",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L268",
+      "receiver": "WaveformView"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_cancel",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L272",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_cancel",
+      "callee": "deleteRecording",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L273",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "callee": "invalidate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L278",
+      "receiver": "timer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "callee": "setActive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L282",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_reset",
+      "callee": "sharedInstance",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L282",
+      "receiver": "AVAudioSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "callee": "updateMeters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L287",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "callee": "averagePower",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L288",
+      "receiver": "recorder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L289",
+      "receiver": "samples"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_voicerecorder_tick",
+      "callee": "pow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L289",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composersheets_oneshotlocation",
+      "callee": "CLLocationManager",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerSheets.swift",
+      "source_location": "L94",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerSheets.swift",
+    "table": {
+      "onSend": "Double",
+      "canSend": "Bool",
+      "body": "View",
+      "coordinate": "CLLocationCoordinate2D",
+      "error": "Error",
+      "manager": "CLLocationManager",
+      "locations": "CLLocation",
+      "location": "OneShotLocation",
+      "camera": "MapCameraPosition",
+      "state": "State",
+      "elapsed": "TimeInterval",
+      "samples": "Float",
+      "recorder": "AVAudioRecorder",
+      "timer": "Timer",
+      "fileURL": "URL"
+    },
+    "factory": { "session": ["AVAudioSession", "sharedInstance"] }
+  }
+}

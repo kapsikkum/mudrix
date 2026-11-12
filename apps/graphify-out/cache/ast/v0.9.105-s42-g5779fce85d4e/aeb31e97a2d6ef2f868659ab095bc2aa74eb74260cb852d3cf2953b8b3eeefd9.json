@@ -1,0 +1,623 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_swift",
+      "label": "ListDiff.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff",
+      "label": "ListDiff",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L4",
+      "_callable": true
+    },
+    {
+      "id": "t",
+      "label": "T",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ListDiff.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "label": ".map()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "listchange",
+      "label": "ListChange",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ListDiff.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "label": "ListChange",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L37",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_append",
+      "label": "append",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L38"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_insert",
+      "label": "insert",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L39"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ListDiff.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_set",
+      "label": "set",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L40"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_remove",
+      "label": "remove",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L41"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_removelast",
+      "label": "removeLast",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L42"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_truncate",
+      "label": "truncate",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L43"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_reset",
+      "label": "reset",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L44"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_array",
+      "label": "Array",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L59",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L60",
+      "_callable": true
+    },
+    {
+      "id": "element",
+      "label": "Element",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ListDiff.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "target": "t",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "target": "t",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "target": "listchange",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_append",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_insert",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_set",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_remove",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_removelast",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_truncate",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_reset",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_array",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_array",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "target": "element",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L6",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L7",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L8",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L9",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L10",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "removeLast",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L11",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L12",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L13",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "items",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L14",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L14",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_apply",
+      "callee": "removeSubrange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L15",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L22",
+      "receiver": "diff"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "transform",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "transform",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "transform",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "transform",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff_map",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L32",
+      "receiver": "diff"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L48",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L49",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L50",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "items",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L51",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L51",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "removeLast",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L52",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listchange_apply",
+      "callee": "removeSubrange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L53",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_array_apply",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ListDiff.swift",
+      "source_location": "L61",
+      "receiver": "changes"
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_listdiff", "label": "ListDiff" },
+    { "nid": "$graphify-root$_ios_wizardchat_matrix_listdiff_array", "label": "Array" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ListDiff.swift",
+    "table": { "items": "T", "transform": "T", "changes": "ListChange" }
+  }
+}

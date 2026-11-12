@@ -1,0 +1,2321 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "label": "macos.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_1ab8ed",
+      "label": "AUDIO",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L35"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_supported",
+      "label": "supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L37"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_max_width",
+      "label": "MAX_WIDTH",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L42"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_max_height",
+      "label": "MAX_HEIGHT",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L43"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_min_window_size",
+      "label": "MIN_WINDOW_SIZE",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L44"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_timeout",
+      "label": "TIMEOUT",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L45"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "label": "error_text()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L47"
+    },
+    {
+      "id": "nserror",
+      "label": "NSError",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_foundation"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "label": "content()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L53"
+    },
+    {
+      "id": "retained",
+      "label": "Retained",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2"]
+    },
+    {
+      "id": "scshareablecontent",
+      "label": "SCShareableContent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_screen_capture_kit"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "label": "windows()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L65"
+    },
+    {
+      "id": "scwindow",
+      "label": "SCWindow",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_screen_capture_kit"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_fit",
+      "label": "fit()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L81"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "label": "display_filter()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L89"
+    },
+    {
+      "id": "scdisplay",
+      "label": "SCDisplay",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_screen_capture_kit"]
+    },
+    {
+      "id": "sccontentfilter",
+      "label": "SCContentFilter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_screen_capture_kit"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "label": "window_filter()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L99"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "label": "bgra()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L104"
+    },
+    {
+      "id": "cgimage",
+      "label": "CGImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_core_graphics"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "label": "snapshot()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L130"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "label": "sources()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L157"
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "label": "video()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L194"
+    },
+    {
+      "id": "sink",
+      "label": "Sink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "cmsamplebuffer",
+      "label": "CMSampleBuffer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_core_media"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_stereobufferlist",
+      "label": "StereoBufferList",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L216",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "audiobuffer",
+      "label": "AudioBuffer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_core_audio_types"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "label": "audio()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L222"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_outputivars",
+      "label": "OutputIvars",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L267",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output",
+      "label": "Output",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L297"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "label": ".new()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L298"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "label": "Capture",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L304",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "scstream",
+      "label": "SCStream",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["objc2_screen_capture_kit"]
+    },
+    {
+      "id": "dispatchretained",
+      "label": "DispatchRetained",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["dispatch2"]
+    },
+    {
+      "id": "dispatchqueue",
+      "label": "DispatchQueue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["dispatch2"]
+    },
+    {
+      "id": "session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/macos.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L314"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "label": "start()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L319"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "std",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "c_void",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "null_mut",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "nonnull",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "mpsc",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "duration",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "rcblock",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "dispatch2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "dispatchqueue",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "dispatchretained",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "define_class",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "msg_send",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "retained",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "protocolobject",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "allocanythread",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "definedclass",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_core_audio_types",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "audiobuffer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "audiobufferlist",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_core_foundation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cfretained",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgpoint",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgrect",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgsize",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_core_graphics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgbitmapcontextcreate",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgcolorspace",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgcontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgimage",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgimagealphainfo",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cgimagebyteorderinfo",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_core_media",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cmblockbuffer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cmsamplebuffer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cmtime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_core_video",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "kcvpixelformattype_32bgra",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbuffergetbaseaddress",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbuffergetbytesperrow",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbuffergetheight",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbuffergetwidth",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbufferlockbaseaddress",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbufferlockflags",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "cvpixelbufferunlockbaseaddress",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_foundation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "nsarray",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "nserror",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "nsobject",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "nsobjectprotocol",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "objc2_screen_capture_kit",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "sccontentfilter",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scdisplay",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scscreenshotmanager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scshareablecontent",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scstream",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scstreamconfiguration",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scstreamoutput",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scstreamoutputtype",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "scwindow",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "super",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "super",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "thumbnail",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "thumbnail",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "session",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Session",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "sink",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Sink",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "source",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Source",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_1ab8ed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_max_width",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_max_height",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_min_window_size",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_timeout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "target": "nserror",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "target": "scshareablecontent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "target": "scshareablecontent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "target": "scwindow",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_fit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "target": "scdisplay",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "target": "sccontentfilter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "target": "scwindow",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "target": "sccontentfilter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "target": "cgimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "target": "sccontentfilter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "source",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L194",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "target": "cmsamplebuffer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L194",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_stereobufferlist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_stereobufferlist",
+      "target": "audiobuffer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L218",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L222",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "target": "cmsamplebuffer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_outputivars",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_outputivars",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L268",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L298",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L298",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L298",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L304",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L305",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "scstream",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L305",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "retained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L306",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L306",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "dispatchretained",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L307",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "dispatchqueue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L307",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "session",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L313",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L314",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "session",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_fit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L320",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_display_filter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L329",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_window_filter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L336",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_fit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L341",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L366",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L392",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "callee": "unwrap_or_else",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "callee": "as_ref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_error_text",
+      "callee": "localizedDescription",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "callee": "ok_or_else",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L57"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_content",
+      "callee": "recv_timeout",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "windows",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L67"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L70"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "isOnScreen",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L71"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "windowLayer",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "is_some_and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L73"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "title",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L73"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L73"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "owningApplication",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_windows",
+      "callee": "processID",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "callee": "CGBitmapContextCreate",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "callee": "as_mut_ptr",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_bgra",
+      "callee": "drop",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L125"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "callee": "setWidth",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L136"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "callee": "setHeight",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L137"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "callee": "setShowsCursor",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L138"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "callee": "recv_timeout",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L152"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_snapshot",
+      "callee": "thumbnail",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L154"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L159"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "displays",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L160"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L161"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L171"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L176"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "title",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L185"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L186"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "owningApplication",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L187"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_sources",
+      "callee": "applicationName",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L188"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "image_buffer",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L195"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferLockBaseAddress",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L198"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferGetBaseAddress",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L201"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferGetWidth",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L203"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferGetHeight",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L204"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferGetBytesPerRow",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L206"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "is_null",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L207"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "video",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L209"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_video",
+      "callee": "CVPixelBufferUnlockBaseAddress",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L211"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "null_mut",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L228"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "null_mut",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L231"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "audio_buffer_list_with_retained_block_buffer",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L233"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "null_mut",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L234"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "is_null",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L250"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "as_slice",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L255"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "flat_map",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L256"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "flat_map",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L261"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_audio_a06a49",
+      "callee": "audio",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L264"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "callee": "set_ivars",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L299"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_output_new",
+      "callee": "alloc",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Self",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L299"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_capture_stop",
+      "callee": "stopCaptureWithCompletionHandler",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L315"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L321"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "split_once",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L321"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L322"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L325"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "find",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L325"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "displays",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L325"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "displayID",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L327"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L329"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L332"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "find",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L332"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "windows",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L332"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "windowID",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L334"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L336"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setWidth",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L349"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setHeight",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L350"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setPixelFormat",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L351"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setMinimumFrameInterval",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L352"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setShowsCursor",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L353"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setQueueDepth",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L354"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setCapturesAudio",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L356"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setSampleRate",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L357"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setChannelCount",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L358"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "setExcludesCurrentProcessAudio",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L360"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L370"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "addStreamOutput_type_sampleHandlerQueue_error",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L370"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "localizedDescription",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L376"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L378"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "addStreamOutput_type_sampleHandlerQueue_error",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L378"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "localizedDescription",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L384"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "is_null",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L389"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "startCaptureWithCompletionHandler",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L395"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L396"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "recv_timeout",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L396"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_macos_start",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Box",
+      "source_file": "desktop/src-tauri/src/screen_share/macos.rs",
+      "source_location": "L397"
+    }
+  ]
+}

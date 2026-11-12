@@ -1,0 +1,474 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_emoticons_swift",
+      "label": "Emoticons.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "label": "Emoticons",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Emoticons.swift"
+    },
+    {
+      "id": "nsregularexpression",
+      "label": "NSRegularExpression",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Emoticons.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "label": ".replaceTokens()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L49",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "label": ".replaceInText()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "label": ".replaceInMessage()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L81",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "nsregularexpression",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "nsregularexpression",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "target": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L91",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L54",
+      "receiver": "emoticon"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L55",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "range",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L55",
+      "receiver": "match"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L56",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "range",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L56",
+      "receiver": "match"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L57",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "table",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replacetokens",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L61",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L71",
+      "receiver": "inlineCode"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L72",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L73",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceintext",
+      "callee": "substring",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L76",
+      "receiver": "ns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "components",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L84",
+      "receiver": "message"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L85",
+      "receiver": "line"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "toggle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L86",
+      "receiver": "inFence"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L87",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L89",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L91",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons_replaceinmessage",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L94",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L40",
+      "receiver": "table"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L43",
+      "receiver": "keys"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "callee": "escapedPattern",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L43",
+      "receiver": "NSRegularExpression"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_emoticons_emoticons",
+      "callee": "NSRegularExpression",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Emoticons.swift",
+      "source_location": "L44",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Support/Emoticons.swift",
+    "table": {
+      "table": "String",
+      "emoticon": "NSRegularExpression",
+      "inlineCode": "NSRegularExpression",
+      "text": "String",
+      "message": "String"
+    }
+  }
+}

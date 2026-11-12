@@ -1,0 +1,1448 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "label": "CustomThemes.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "label": "ThemeSpec",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_tomap",
+      "label": ".toMap()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L28",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "label": ".with()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "label": ".fromMap()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L56",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "label": ".of()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L72",
+      "_callable": true
+    },
+    {
+      "id": "wz",
+      "label": "WZ",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "label": "CustomTheme",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L87",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "label": ".toJson()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L90",
+      "_callable": true
+    },
+    {
+      "id": "jsonobject",
+      "label": "JsonObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "label": "CustomThemes",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L98",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomname",
+      "label": ".isCustomName()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L107",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomthemename",
+      "label": ".isCustomThemeName()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L110",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "label": ".newId()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L112",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "label": ".colorsOf()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L117",
+      "_callable": true
+    },
+    {
+      "id": "jsonelement",
+      "label": "JsonElement",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "label": ".cleanName()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "label": ".sanitize()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L130",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "label": ".toJson()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "_callable": true
+    },
+    {
+      "id": "jsonarray",
+      "label": "JsonArray",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "label": ".parseShared()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "label": ".serialize()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L158",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "label": ".find()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L167",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "label": ".swatch()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L171",
+      "_callable": true
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "color",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.compose.ui.graphics.Color" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "securerandom",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.security.SecureRandom" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.Json" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "jsonarray",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonArray" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "jsonelement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonElement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "buildjsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.buildJsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "contentornull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.contentOrNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "put",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.put" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "wz",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.tokens.WZ" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_tomap",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "target": "wz",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L87",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "target": "jsonobject",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomthemename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "target": "jsonelement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L117",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "target": "jsonelement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "target": "jsonarray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L158",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L171",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L171",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_tomap",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_tomap",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L168",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_tomap",
+      "callee": "linkedMapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_with",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_frommap",
+      "callee": "get",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L73",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L74",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L75",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L76",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L77",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L78",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L79",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L80",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec_of",
+      "callee": "hexOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L81",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "buildJsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "put",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "put",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "put",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "JsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L93",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "mapValues",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customtheme_tojson",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomname",
+      "callee": "startsWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_iscustomthemename",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L110",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "THEME_NAME"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "also",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "ByteArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "nextBytes",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "SecureRandom",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "joinToString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_newid",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "callee": "HashMap",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_colorsof",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "callee": "orEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_cleanname",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "ArrayList",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "HashSet",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L140",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_sanitize",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "callee": "JsonArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_tojson",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "callee": "runCatching",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "callee": "parseToJsonElement",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L152",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Json"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_parseshared",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "buildJsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "put",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "put",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "JsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L161",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "mapValues",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "encodeToString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_serialize",
+      "callee": "serializer",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L163",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "JsonObject"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_find",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L172",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes_swatch",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L172",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ThemeDerive"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_themespec",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_ui_theme_customthemes_customthemes",
+      "callee": "Json",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/ui/theme/CustomThemes.kt",
+      "source_location": "L105",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.ui.theme"
+}

@@ -2928,6 +2928,7 @@
   "update": {
     "action": "Mudrix'i güncelle",
     "checkNow": "Güncellemeleri denetle",
+    "includePrereleases": "Ön sürümleri dahil et",
     "upToDate": "Güncelsiniz.",
     "checkFailed": "Güncellemeler denetlenemedi.",
     "checking": "Denetleniyor…",

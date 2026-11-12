@@ -1,0 +1,361 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "label": "LeftoversTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest",
+      "label": "LeftoversTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "label": ".aThreadIsUnreadWhenSomebodyElseRepliedAfterItWasSeen()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "label": ".roomBoardsComeFromTheSpacesAboveFirstAndTheRoomLast()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L21",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "assertfalse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertFalse" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "asserttrue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertTrue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "roomsoundboards",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.rtc.RoomSoundboards" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "spacelink",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceLink" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "spacenode",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceNode" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "attribute"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "rule",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "rule",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "assertFalse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "rule",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "assertFalse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "rule",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "assertFalse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_athreadisunreadwhensomebodyelserepliedafteritwasseen",
+      "callee": "rule",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "link",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "link",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "boardRoomIds",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L24",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "RoomSoundboards"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_leftoverstest_leftoverstest_roomboardscomefromthespacesabovefirstandtheroomlast",
+      "callee": "boardRoomIds",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/LeftoversTest.kt",
+      "source_location": "L25",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "RoomSoundboards"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

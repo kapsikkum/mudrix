@@ -1,0 +1,1414 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "label": "MudrixRoomState.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "label": "MudrixTypes",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "label": ".typeAndLegacy()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L17",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "label": "MudrixRoomState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L25",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "label": "Entry",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L26",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L37",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L49",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "label": ".all()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L59",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "label": "MudrixRoomStates",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L76",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "timeinterval",
+      "label": "TimeInterval",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "label": ".states",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L83"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "label": "Slot",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L87",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L100",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L104",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L112",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "label": ".onStateChange()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L122",
+      "_callable": true
+    },
+    {
+      "id": "statechange",
+      "label": "StateChange",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "label": ".state()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L126",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "label": ".ensure()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L131",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "label": ".ensureAll()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L142",
+      "_callable": true
+    },
+    {
+      "id": "collection",
+      "label": "Collection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "label": ".pump()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L146",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "label": ".set()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L168",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "target": "statechange",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "target": "collection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_entry",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_states",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L170",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_slot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "target": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L19",
+      "receiver": "type"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L20",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes_typeandlegacy",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L20",
+      "receiver": "type"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L38",
+      "receiver": "raw"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "callee": "row",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "callee": "row",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_init",
+      "callee": "row",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_get",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L51",
+      "receiver": "entries"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L65",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstate_all",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L66",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_init",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L101",
+      "receiver": "MudrixTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "callee": "watchStateChanges",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L107",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L108",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L113",
+      "receiver": "subscription"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L123",
+      "receiver": "relevant"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_onstatechange",
+      "callee": "slots",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L123",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_state",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L127",
+      "receiver": "roomId"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "callee": "slots",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "callee": "timeIntervalSince",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "callee": "slots",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensure",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L138",
+      "receiver": "queue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_ensureall",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L143",
+      "receiver": "roomIds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L149",
+      "receiver": "queue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "stateEventsOfTypes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L153",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L156",
+      "receiver": "loaded"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "slots",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_pump",
+      "callee": "slots",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "setStateEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L169",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L173",
+      "receiver": "current"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L174",
+      "receiver": "kept"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L177",
+      "receiver": "kept"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "slots",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates_set",
+      "callee": "slots",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L6",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L7",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L8",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L9",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L10",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L11",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixtypes",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L12",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_mudrixroomstate_mudrixroomstates",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MudrixRoomState.swift",
+      "source_location": "L97",
+      "receiver": "MudrixTypes"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/MudrixRoomState.swift",
+    "table": {
+      "type": "String",
+      "stateKey": "String",
+      "content": "JSONValue",
+      "entries": "Entry",
+      "empty": "MudrixRoomState",
+      "raw": "JSONValue",
+      "shared": "MudrixRoomStates",
+      "freshSeconds": "TimeInterval",
+      "states": "String",
+      "at": "Date",
+      "slots": "String",
+      "queue": "String",
+      "client": "WizardClient",
+      "subscription": "Subscription",
+      "relevant": "Set",
+      "change": "StateChange",
+      "roomId": "String",
+      "force": "Bool",
+      "roomIds": "Collection"
+    },
+    "factory": {
+      "spaceListStyle": ["Namespace", "mudrixKey"],
+      "spaceBanner": ["Namespace", "mudrixKey"],
+      "spaceAutoJoin": ["Namespace", "mudrixKey"],
+      "spaceRoles": ["Namespace", "mudrixKey"],
+      "spaceMemberRoles": ["Namespace", "mudrixKey"],
+      "voiceChannel": ["Namespace", "mudrixKey"],
+      "voiceMove": ["Namespace", "mudrixKey"]
+    }
+  }
+}

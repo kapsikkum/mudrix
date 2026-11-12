@@ -1,0 +1,690 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_swift",
+      "label": "RemindersTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "label": "RemindersTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/RemindersTests.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/RemindersTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "label": ".testParsesSortedAndDropsIncompleteEntries()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "label": ".testPresetsFallDueRelativeToNow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L21",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "label": ".testSavedMessagesToggleAndRoundTrip()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L36",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "label": ".testPreviewReadsTheDecryptedEvent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "label": ".testThreadsAreUnreadWhenSomeoneElseRepliedAfterTheLastLook()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L62",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "target": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_json",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L11",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L16",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L17",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L18",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testparsessortedanddropsincompleteentries",
+      "callee": "toContent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L18",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "date",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L24",
+      "receiver": "calendar"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "DateComponents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L26",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L27",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "time",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L29",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "dateComponents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L30",
+      "receiver": "calendar"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpresetsfallduerelativetonow",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L33",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "toggled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L37",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "SavedMessage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "toggled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L40",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L43",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "toContent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L43",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "toggled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L44",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testsavedmessagestoggleandroundtrip",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L45",
+      "receiver": "newest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "EventSource",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "preview",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L53",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "EventSource",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testpreviewreadsthedecryptedevent",
+      "callee": "preview",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L59",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "isUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L63",
+      "receiver": "ThreadLastSeen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "isUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L64",
+      "receiver": "ThreadLastSeen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "isUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L65",
+      "receiver": "ThreadLastSeen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_reminderstests_reminderstests_testthreadsareunreadwhensomeoneelserepliedafterthelastlook",
+      "callee": "isUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/RemindersTests.swift",
+      "source_location": "L66",
+      "receiver": "ThreadLastSeen"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/RemindersTests.swift",
+    "table": {
+      "text": "String",
+      "tomorrow": "Date",
+      "nowMs": "Int64",
+      "calendar": "Calendar",
+      "empty": "EventSource",
+      "source": "EventSource"
+    },
+    "factory": { "items": ["Reminders", "parse"], "preview": ["SavedMessages", "preview"] }
+  }
+}

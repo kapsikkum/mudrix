@@ -1,0 +1,1385 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "label": "WizardChatApp.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "backgroundtasks",
+      "label": "BackgroundTasks",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "label": "WizardChatApp",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    { "id": "app", "label": "App", "file_type": "code", "source_file": "", "source_location": "" },
+    {
+      "id": "settingssyncer",
+      "label": "SettingsSyncer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/WizardChatApp.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "scene",
+      "label": "Scene",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/WizardChatApp.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L24"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "label": ".scheduleRefresh()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L110",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "label": ".backgroundRefresh()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L116",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "label": ".onLoginChanged()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L126",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "label": ".openNotificationAccount()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L164",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/WizardChatApp.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_applyappicon",
+      "label": ".applyAppIcon()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L179",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "label": "ThemedRoot",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L191",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/WizardChatApp.swift"
+    },
+    {
+      "id": "wizardtheme",
+      "label": "WizardTheme",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/WizardChatApp.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L196"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "target": "backgroundtasks",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "app",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "settingssyncer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "scene",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L164",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_applyappicon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_swift",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L192",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "target": "wizardtheme",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L193",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L196",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_applyappicon",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L118",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "target": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_init",
+      "callee": "registerFonts",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L21",
+      "receiver": "FontRegistry"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "backgroundTask",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "WindowGroup",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "transaction",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environmentObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environmentObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environmentObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environmentObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "environmentObject",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "id",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "ZStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L31",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "WizardLogo",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "restore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L34",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "LoginView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "WizardLogo",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "retryRestore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L47",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L53",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "id",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "MainTabView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "VerificationSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "cancelBrowserLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L60",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "AddAccountSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "reducesMotion",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L75",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "setPassiveBlocked",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L87",
+      "receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "applyPresence",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L90",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "ignoreSnapshotOnNextApplicationLaunch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L96",
+      "receiver": "UIApplication"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "pauseSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L98",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_body",
+      "callee": "resumeSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L100",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "callee": "BGAppRefreshTaskRequest",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L111",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_schedulerefresh",
+      "callee": "submit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L113",
+      "receiver": "BGTaskScheduler"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "callee": "restore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L119",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L121",
+      "receiver": "notifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "callee": "startSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L122",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_backgroundrefresh",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L123",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L127",
+      "receiver": "notifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L128",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L129",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stopWatchingIncoming",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L130",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L131",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L132",
+      "receiver": "recentEmoji"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L133",
+      "receiver": "MudrixRoomStates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L134",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L135",
+      "receiver": "verificationRequests"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "reset",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L136",
+      "receiver": "MemberDirectory"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L137",
+      "receiver": "syncer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "SettingsSyncer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L142",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L144",
+      "receiver": "next"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "applyPresence",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L146",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "ensureMudrixUserFlag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L147",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L149",
+      "receiver": "notifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "watchIncoming",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L152",
+      "receiver": "calls"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L153",
+      "receiver": "SavedMessages"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L154",
+      "receiver": "Reminders"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L154",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L155",
+      "receiver": "recentEmoji"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L156",
+      "receiver": "MudrixRoomStates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L158",
+      "receiver": "VoiceMoves"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_onloginchanged",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L160",
+      "receiver": "verificationRequests"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L171",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_opennotificationaccount",
+      "callee": "switchAccount",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L175",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp_applyappicon",
+      "callee": "setAlternateIconName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L187",
+      "receiver": "UIApplication"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "effectiveThemeName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L197",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L198",
+      "receiver": "Themes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "preferredColorScheme",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "toggleStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "environment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "SwitchToggleStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L204",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_themedroot_body",
+      "callee": "saveTheme",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L205",
+      "receiver": "ShareInbox"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "MatrixSession",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "AppPreferences",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L8",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "MessageNotifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "CallManager",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L10",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "RecentEmoji",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_wizardchatapp_wizardchatapp",
+      "callee": "VerificationRequests",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/WizardChatApp.swift",
+      "source_location": "L12",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/WizardChatApp.swift",
+    "table": {
+      "session": "MatrixSession",
+      "prefs": "AppPreferences",
+      "notifier": "MessageNotifier",
+      "calls": "CallManager",
+      "recentEmoji": "RecentEmoji",
+      "verificationRequests": "VerificationRequests",
+      "syncer": "SettingsSyncer",
+      "body": "View",
+      "content": "WizardTheme",
+      "request": "BGAppRefreshTaskRequest",
+      "next": "SettingsSyncer"
+    },
+    "factory": { "theme": ["Themes", "resolve"] }
+  }
+}

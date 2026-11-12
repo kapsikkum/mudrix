@@ -1,0 +1,2844 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "label": "IntegrationNetworkTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "label": "IntegrationNetworkTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_clearblocker",
+      "label": ".clearBlocker()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "after",
+      "label": "After",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "label": "Answer",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L22",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_response",
+      "label": "Response",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L23",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_fails",
+      "label": "Fails",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "label": "Scripted",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L28",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "label": ".answer()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L39",
+      "_callable": true
+    },
+    {
+      "id": "bytearray",
+      "label": "ByteArray",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L44",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "label": ".redirect()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "label": ".req()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "expect",
+      "label": "Expect",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "label": ".fetch()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "_callable": true
+    },
+    {
+      "id": "integrationnetwork",
+      "label": "IntegrationNetwork",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "label": ".failure()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "label": ".onlyHttpsOnAnAllowedHostAndTheDefaultPortIsRequested()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L64",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "label": ".localAndPrivateLookingHostsAreNeverAllowedEvenWhenListed()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L82",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "label": ".aRefusedAddressNeverReachesTheNetwork()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L91",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "label": ".theRequestCarriesNoCookiesReferrerOrExtraHeaders()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L98",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "label": ".aConfirmedPostSendsExactlyItsJsonBodyAndNothingElse()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L106",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "label": ".onlyAWellFormedEntityTagIsSentAndOnlyOnAGet()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L120",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "label": ".aRedirectInsideTheAllowListIsFollowedOneOutsideItIsRefused()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L136",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "label": ".aRedirectToHttpAnotherPortCredentialsOrAnAddressIsRefused()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L150",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "label": ".aMissingLocationAPostRedirectAndARedirectLoopAreRefused()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L161",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "label": ".anAnswerOverTheCapIsRefusedByItsDeclaredLengthAndWhileStreaming()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L171",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "label": ".nothingAbove1MBIsAcceptedWhateverTheCallerAsksFor()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L179",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "label": ".theAnswerMustBeJsonUnlessARepositoryFileOrASignatureWasAskedFor()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L184",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "label": ".aJsonAnswerThatDoesNotParseOrIsNotUtf8IsRefused()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L199",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "label": ".anHttpErrorReportsItsStatusAndA304IsPassedOn()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L206",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "label": ".aRequestThatNeverAnswersTimesOutANetworkErrorSaysSo()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L213",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "label": ".requestsNobodyAskedForAreRefusedWhileTheBlockerIsOnAskedOnesAreNot()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L220",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "ioexception",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.io.IOException" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "sockettimeoutexception",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.net.SocketTimeoutException" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "runblocking",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.runBlocking" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "after",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.After" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "assertnull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "asserttrue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertTrue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "expect",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.integrations.IntegrationNetwork.Expect" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "reason",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L14",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.integrations.IntegrationNetwork.Reason" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "wirerequest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L15",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "org.wizardchat.android.integrations.IntegrationNetwork.WireRequest"
+      }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "wireresponse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "metadata": {
+        "target_fqn": "org.wizardchat.android.integrations.IntegrationNetwork.WireResponse"
+      }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_clearblocker",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_clearblocker",
+      "target": "after",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_response",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_response",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_fails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_fails",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "target": "bytearray",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "target": "expect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "target": "integrationnetwork",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "target": "integrationnetwork",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L150",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L171",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L179",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L199",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L213",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L213",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_fails",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L223",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_clearblocker",
+      "callee": "setPassiveBlocker",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L20",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "callee": "Response",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L40",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Answer"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "callee": "WireResponse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "callee": "emptyMap",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_answer",
+      "callee": "inputStream",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_json",
+      "callee": "toByteArray",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "callee": "ByteArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "callee": "arrayOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_redirect",
+      "callee": "emptyArray",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_req",
+      "callee": "Request",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L58",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_fetch",
+      "callee": "runBlocking",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L66",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L67",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L76",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L78",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L79",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "repeat",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "isForbiddenHost",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L84",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "isForbiddenHost",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L87",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "checkRequestUrl",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L88",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_localandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arefusedaddressneverreachesthenetwork",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_therequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "toList",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "decodeToString",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L111",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "setOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L111",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "toList",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "repeat",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L121",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L122",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L122",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L123",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L123",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L124",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_onlyawellformedentitytagissentandonlyonaget",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L139",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L140",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_aredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_amissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "repeat",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "callee": "repeat",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_nothingabove1mbisacceptedwhateverthecallerasksfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "JsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "JsonObject",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_theanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L200",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L201",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "byteArrayOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "toByte",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_ajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "toByteArray",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "containsMatchIn",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_anhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "SocketTimeoutException",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "IOException",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L216",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_arequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "setPassiveBlocker",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L222",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "setPassiveBlocker",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L226",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "IllegalStateException",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "setPassiveBlocker",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L228",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_integrationnetworktest_requestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "callee": "Transport",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L30",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "callee": "minOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_integrations_integrationnetworktest_scripted",
+      "callee": "make",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/integrations/IntegrationNetworkTest.kt",
+      "source_location": "L33",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.integrations"
+}

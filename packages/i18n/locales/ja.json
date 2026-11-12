@@ -2928,6 +2928,7 @@
   "update": {
     "action": "Mudrixを更新",
     "checkNow": "アップデートを確認",
+    "includePrereleases": "プレリリース版を含める",
     "upToDate": "最新の状態です。",
     "checkFailed": "アップデートを確認できませんでした。",
     "checking": "確認中…",

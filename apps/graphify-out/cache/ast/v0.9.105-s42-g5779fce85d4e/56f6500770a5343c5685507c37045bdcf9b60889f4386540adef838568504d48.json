@@ -1,0 +1,916 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_swift",
+      "label": "RoleEditSheet.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "label": "RoleEditSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_validcolor",
+      "label": ".validColor",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L27"
+    },
+    {
+      "id": "binding",
+      "label": "Binding",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_pickercolor",
+      "label": ".pickerColor",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L29"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "label": ".hex()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L113",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_validcolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "binding",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_pickercolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_pickercolor",
+      "target": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_validcolor",
+      "callee": "isValidRoleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L27",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_pickercolor",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L30",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_pickercolor",
+      "callee": "isValidRoleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L31",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Form",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "autocorrectionDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "textInputAutocapitalization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L49",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "labelsHidden",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "ColorPicker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Toggle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onMove",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onMove",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onReset",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onDelete",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L95",
+      "receiver": "color"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "onSave",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "callee": "getRed",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "callee": "UIColor",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "callee": "part",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "callee": "part",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_roleeditsheet_roleeditsheet_hex",
+      "callee": "part",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RoleEditSheet.swift",
+      "source_location": "L120",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/RoleEditSheet.swift",
+    "table": {
+      "title": "String",
+      "initialName": "String",
+      "initialColor": "String",
+      "namePlaceholder": "String",
+      "hoist": "Bool",
+      "canMoveUp": "Bool",
+      "canMoveDown": "Bool",
+      "canReset": "Bool",
+      "canDelete": "Bool",
+      "onSave": "String",
+      "onMove": "Int",
+      "onDelete": "Void",
+      "onReset": "Void",
+      "validColor": "Bool",
+      "pickerColor": "Binding",
+      "body": "View",
+      "color": "Color"
+    }
+  }
+}

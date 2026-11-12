@@ -1,0 +1,1141 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "label": "IntegrationRepository.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "label": "IntegrationRepository",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "label": "UrlResult",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "label": "Ok",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "label": "FetchResult",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "repomanifest",
+      "label": "RepoManifest",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "label": ".parseRepoUrl()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L36",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "label": ".repoHost()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "label": ".signatureUrl()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_isofficialsource",
+      "label": ".isOfficialSource()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "label": ".fetch()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L99",
+      "_callable": true
+    },
+    {
+      "id": "integrationnetwork",
+      "label": "IntegrationNetwork",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "uri",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.net.URI" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "urisyntaxexception",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "java.net.URISyntaxException" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "async",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.async" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "coroutinescope",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.coroutines.coroutineScope" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_error",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_error",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "target": "repomanifest",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_error",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_error",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_urlresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_isofficialsource",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "integrationnetwork",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_fetchresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_isofficialsource",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_ok",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_isofficialsource",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L133",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L38",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L39",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "URI",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L43",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L45",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L46",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "u.host"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L46",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L47",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "u.scheme"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L47",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L48",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "isForbiddenHost",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L49",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L49",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "isNotEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "removeSuffix",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "getOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Regex",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "isNullOrEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L56",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L59",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "joinToString",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "drop",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L62",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "UrlResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "takeUnless",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L66",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "u.rawPath"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "isNullOrEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "buildString",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "append",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L69",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "u.rawQuery"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_parserepourl",
+      "callee": "append",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "callee": "lowercase",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_repohost",
+      "callee": "URI",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "URI",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "buildString",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "let",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L81",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "u.rawQuery"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_signatureurl",
+      "callee": "append",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_isofficialsource",
+      "callee": "isOfficialKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L101",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "coroutineScope",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "async",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Request",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L106",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "async",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Request",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L112",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "await",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "await",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L118",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "endsWith",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L121",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L122",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "takeIf",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "isValidKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L126",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "verifyRepoSignature",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L127",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L128",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L129",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L130",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "fingerprintKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L131",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "IntegrationSignature"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_integrations_integrationrepository_integrationrepository_fetch",
+      "callee": "Error",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/integrations/IntegrationRepository.kt",
+      "source_location": "L132",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "FetchResult"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.integrations"
+}

@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_build_gradle_kts",
+      "label": "build.gradle.kts",
+      "file_type": "code",
+      "source_file": "android/app/build.gradle.kts",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_build_gradle_kts",
+      "callee": "dir",
+      "is_member_call": true,
+      "source_file": "android/app/build.gradle.kts",
+      "source_location": "L8",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "rootProject.layout.projectDirectory"
+    }
+  ]
+}

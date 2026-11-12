@@ -1,0 +1,1241 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "label": "ThemeDerive.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "label": "DerivedColors",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "label": "ThemeDerive",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L37",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "label": ".isHexColor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L38",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "label": ".rgb()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L47",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "label": ".jsRound()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L53",
+      "_callable": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "label": ".channel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L57",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "label": ".mixHex()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "label": ".withAlpha()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L73",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "label": ".luminance()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "label": ".isLightColor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L86",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "label": ".parse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L91",
+      "_callable": true
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "label": ".hexOf()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L108",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "label": ".derive()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L119",
+      "_callable": true
+    },
+    {
+      "id": "themespec",
+      "label": "ThemeSpec",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "label": ".firstBuiltin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "wz",
+      "label": "WZ",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "label": ".build()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L156",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "target": "wz",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "themespec",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "wz",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_channel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_derivedcolors",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_withalpha",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_islightcolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_derive",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "target": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L162",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "callee": "chars",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_ishexcolor",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L41",
+      "receiver": "chars"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_rgb",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L48",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_jsround",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "callee": "from",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_mixhex",
+      "callee": "to",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_luminance",
+      "callee": "pow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_parse",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L92",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "callee": "getRed",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_hexof",
+      "callee": "UIColor",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_firstbuiltin",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_themederive_themederive_build",
+      "callee": "ThemeColors",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/ThemeDerive.swift",
+      "source_location": "L161",
+      "receiver": "WZ"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/ThemeDerive.swift",
+    "table": {
+      "bgApp": "String",
+      "bgSurface": "String",
+      "bgRaised": "String",
+      "bgInput": "String",
+      "bgHover": "String",
+      "bgActive": "String",
+      "bgOverlay": "String",
+      "textPrimary": "String",
+      "textSecondary": "String",
+      "textMuted": "String",
+      "textDisabled": "String",
+      "textOnAccent": "String",
+      "textLink": "String",
+      "accentDefault": "String",
+      "accentHover": "String",
+      "accentSoft": "String",
+      "accentGlow1": "String",
+      "accentGlow2": "String",
+      "borderDefault": "String",
+      "borderStrong": "String",
+      "borderFocus": "String",
+      "messageMine": "String",
+      "messageOther": "String",
+      "messageHighlight": "String",
+      "value": "Double",
+      "hex": "String",
+      "a": "String",
+      "b": "String",
+      "t": "Double",
+      "alpha": "Double",
+      "color": "Color",
+      "spec": "ThemeSpec",
+      "mentionHex": "String",
+      "light": "Bool",
+      "chars": "Array",
+      "text": "String"
+    }
+  }
+}

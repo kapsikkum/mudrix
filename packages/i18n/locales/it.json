@@ -2928,6 +2928,7 @@
   "update": {
     "action": "Aggiorna Mudrix",
     "checkNow": "Controlla aggiornamenti",
+    "includePrereleases": "Includi le versioni di anteprima",
     "upToDate": "Sei aggiornato.",
     "checkFailed": "Impossibile controllare gli aggiornamenti.",
     "checking": "Controllo…",

@@ -1,0 +1,1019 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "label": "SessionStore.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "label": "StoredSession",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "codable",
+      "label": "Codable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "storeconfig",
+      "label": "StoreConfig",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_store",
+      "label": ".store",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L13"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "label": ".newStore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "label": "StoredAccounts",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L28",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "label": "SessionStore",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L33",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_all",
+      "label": ".all()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L38",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_active",
+      "label": ".active()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L45",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "label": ".setActive()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L56",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "label": ".remove()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L63",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "label": ".read()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L71",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "label": ".write()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L84",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "label": ".item()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L99",
+      "_callable": true
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_deleteitem",
+      "label": ".deleteItem()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L111",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "label": ".storePath()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L120",
+      "_callable": true
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "label": ".removeStore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L125",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "security",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "session",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "storeconfig",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_store",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "target": "storeconfig",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "target": "codable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_all",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_all",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_active",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_active",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_deleteitem",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_deleteitem",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L111",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L125",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_store",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_all",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_active",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedaccounts",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_deleteitem",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L126",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_store",
+      "callee": "StoreConfig",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L14",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "callee": "SecRandomCopyBytes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "callee": "createDirectory",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L23",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "callee": "StoreConfig",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L24",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_storedsession_newstore",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_active",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L42",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L47",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "callee": "accounts",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L48",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_save",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L50",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_setactive",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L58",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_remove",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L66",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_read",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "callee": "encode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "callee": "SecItemUpdate",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_write",
+      "callee": "SecItemAdd",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_item",
+      "callee": "SecItemCopyMatching",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_deleteitem",
+      "callee": "SecItemDelete",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "callee": "urls",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L121",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_storepath",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L122",
+      "receiver": "base"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sessionstore_sessionstore_removestore",
+      "callee": "removeItem",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SessionStore.swift",
+      "source_location": "L126",
+      "receiver": "FileManager"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/SessionStore.swift",
+    "table": {
+      "session": "Session",
+      "storeFolder": "String",
+      "passphrase": "String",
+      "excludeInsecureDevices": "Bool",
+      "displayName": "String",
+      "avatarUrl": "String",
+      "store": "StoreConfig",
+      "active": "String",
+      "accounts": "StoredSession",
+      "stored": "StoredSession",
+      "userId": "String",
+      "state": "StoredAccounts",
+      "account": "String",
+      "folder": "String",
+      "migrated": "StoredAccounts"
+    },
+    "factory": { "path": ["SessionStore", "storePath"] }
+  }
+}

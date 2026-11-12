@@ -1,0 +1,609 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_swift",
+      "label": "SoundPacksTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "label": "SoundPacksTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SoundPacksTests.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/SoundPacksTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "label": ".testEveryResourceIsAFileInThePackage()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "label": ".testFallsBackLikeTheWeb()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "label": ".testOverridesBeatThePackAndOffSilences()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L34",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "label": ".testVolumeFollowsTheSliderOnlyForMessagesAndCalls()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L42",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "label": ".testSyncedOverridesKeepOnlyKnownSounds()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L48",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "target": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_json",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "appendingPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "deletingLastPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "deletingLastPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "deletingLastPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "deletingLastPathComponent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "contentsOfDirectory",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L15",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testeveryresourceisafileinthepackage",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L19",
+      "receiver": "names"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L25",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L27",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L28",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L29",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L30",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testfallsbackliketheweb",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L31",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L36",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L37",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L38",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testoverridesbeatthepackandoffsilences",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L39",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "volume",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L43",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "volume",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L44",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testvolumefollowstheslideronlyformessagesandcalls",
+      "callee": "volume",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L45",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "sanitizeOverrides",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L52",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "sanitizeOverrides",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L54",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "overridesJson",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L54",
+      "receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_soundpackstests_soundpackstests_testsyncedoverrideskeeponlyknownsounds",
+      "callee": "sanitizeOverrides",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SoundPacksTests.swift",
+      "source_location": "L55",
+      "receiver": "SoundPacks"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/SoundPacksTests.swift",
+    "table": { "text": "String", "names": "Set" },
+    "factory": { "clean": ["SoundPacks", "sanitizeOverrides"] }
+  }
+}

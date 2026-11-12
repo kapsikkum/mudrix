@@ -1,0 +1,4242 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "label": "CallManager.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "avfoundation",
+      "label": "AVFoundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "livekit",
+      "label": "LiveKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "label": "CallParticipantInfo",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "videotrack",
+      "label": "VideoTrack",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "label": "CallManager",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L29",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "nsobject",
+      "label": "NSObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "label": "State",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_idle",
+      "label": "idle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_joining",
+      "label": "joining",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_joined",
+      "label": "joined",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_failed",
+      "label": "failed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31"
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "watchtogether",
+      "label": "WatchTogether",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "label": "RingState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_ringing",
+      "label": "ringing",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_declined",
+      "label": "declined",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_unanswered",
+      "label": "unanswered",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48"
+    },
+    {
+      "id": "ringingcall",
+      "label": "RingingCall",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "callsounds",
+      "label": "CallSounds",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_micmuted",
+      "label": ".micMuted",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L58"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_deafened",
+      "label": ".deafened",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L59"
+    },
+    {
+      "id": "callsession",
+      "label": "CallSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "callmember",
+      "label": "CallMember",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "basekeyprovider",
+      "label": "BaseKeyProvider",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "timer",
+      "label": "Timer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L78",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "label": ".isInCall",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L88",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "label": ".join()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "_callable": true
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "label": ".leave()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L144",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "label": ".leaveAndWait()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L148",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "label": ".tearDown()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L157",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "label": ".handle()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L190",
+      "_callable": true
+    },
+    {
+      "id": "callevent",
+      "label": "CallEvent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "label": ".membersChanged()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L211",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "label": ".connect()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L236",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "label": ".syncRemoteConnections()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L269",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_publisher",
+      "label": ".publisher",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L288"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "label": ".sendData()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L290",
+      "_callable": true
+    },
+    {
+      "id": "any",
+      "label": "Any",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglemic",
+      "label": ".toggleMic()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L302",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_toggledeafen",
+      "label": ".toggleDeafen()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L312",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "label": ".applyMic()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L325",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "label": ".toggleCamera()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L332",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "label": ".toggleScreenShare()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L347",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "label": ".setVolume()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L361",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "label": ".toggleLocalMute()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L366",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "label": ".sendReaction()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L371",
+      "_callable": true
+    },
+    {
+      "id": "callreaction",
+      "label": "CallReaction",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "label": ".toggleHand()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L383",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "label": ".show()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L392",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "label": ".startRefreshing()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L401",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "label": ".refresh()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L408",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "label": "RingingCall",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L457",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "callactivityattributes",
+      "label": "CallActivityAttributes",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "label": ".activityState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L466"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startringing",
+      "label": ".startRinging()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L476",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "label": ".ringAgain()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L481",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "label": ".endRinging()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L488",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "label": ".stopRinging()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L494",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "label": ".watchIncoming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L500",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopwatchingincoming",
+      "label": ".stopWatchingIncoming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L513",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "label": ".ringIn()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L521",
+      "_callable": true
+    },
+    {
+      "id": "incomingcall",
+      "label": "IncomingCall",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "label": ".acceptIncoming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L536",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "label": ".declineIncoming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L543",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "label": ".dismissIncoming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L549",
+      "_callable": true
+    },
+    {
+      "id": "roomdelegate",
+      "label": "RoomDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "label": ".room()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L559",
+      "_callable": true
+    },
+    {
+      "id": "connectionstate",
+      "label": "ConnectionState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "remoteparticipant",
+      "label": "RemoteParticipant",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "encryptiontype",
+      "label": "EncryptionType",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "livekiterror",
+      "label": "LiveKitError",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "label": "CallReaction",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L587",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "hashable",
+      "label": "Hashable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L588"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "avfoundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "livekit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "videotrack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "videotrack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "nsobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "observableobject",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_idle",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_joining",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_joined",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_state_failed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_state",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "watchtogether",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_ringing",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_declined",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate_unanswered",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "ringingcall",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "callsounds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "callsounds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_micmuted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_deafened",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "callsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L61",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "callmember",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "basekeyprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L69",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L69",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "timer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "target": "callevent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "target": "callmember",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L211",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L236",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L236",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L236",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L236",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L269",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L288",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_publisher",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L288",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L290",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L290",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "target": "any",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L290",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglemic",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L302",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_toggledeafen",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L312",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L325",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L332",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L347",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L361",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L361",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L361",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L366",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L366",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L371",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "target": "callreaction",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L371",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L383",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L392",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L392",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L401",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L408",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L457",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L457",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L458",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L459",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L460",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L461",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L462",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L465",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L466",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L466",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startringing",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L476",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L481",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L488",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L488",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L494",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L500",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L500",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopwatchingincoming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L513",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L521",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "target": "incomingcall",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L521",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L536",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L536",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L543",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L543",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L549",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L558",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "roomdelegate",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L558",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L559",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L559",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "connectionstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L559",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "remoteparticipant",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "encryptiontype",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L566",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L575",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "livekit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L575",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "livekiterror",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L575",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L587",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L587",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "hashable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L587",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L588",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L588",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L589",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callreaction",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L590",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglemic",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_toggledeafen",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_isincall",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L198",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L232",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L260",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L276",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglemic",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L309",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_toggledeafen",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L322",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L329",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L357",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L363",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L373",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L376",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L388",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L394",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L404",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callparticipantinfo",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L420",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L484",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L484",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L489",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L503",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L508",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopwatchingincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L518",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_ringingcall",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L525",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L532",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L537",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L538",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L540",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L545",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L579",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "target": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L580",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_micmuted",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L58",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_deafened",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L59",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "callee": "bool",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L79",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "callee": "bool",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L80",
+      "receiver": "UserDefaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "callee": "init",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_init",
+      "callee": "end",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L85",
+      "receiver": "liveActivity"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "requestRecordPermission",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L95",
+      "receiver": "AVAudioApplication"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "joinCall",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L104",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "encrypted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L106",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "BaseKeyProvider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L107",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "KeyProviderOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "run",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L110",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L111",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "WatchTogether",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L115",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L121",
+      "receiver": "soundboard"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L124",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "mapValues",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L126",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "setMicrophone",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L128",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L129",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_join",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L130",
+      "receiver": "liveActivity"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leave",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L145",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_leaveandwait",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L149",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "end",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L158",
+      "receiver": "liveActivity"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "close",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L164",
+      "receiver": "watch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L166",
+      "receiver": "soundboard"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "invalidate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L168",
+      "receiver": "refreshTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L170",
+      "receiver": "run"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_teardown",
+      "callee": "disconnect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L175",
+      "receiver": "connection"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "callee": "setKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L196",
+      "receiver": "keyProvider"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L204",
+      "receiver": "raisedHands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L204",
+      "receiver": "raisedHands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_handle",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "min",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L213",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L216",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "displayNames",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L216",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "displayNames",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "localpart",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L217",
+      "receiver": "TimelineModel"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L218",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "userProfile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L219",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "displayNames",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L219",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L222",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L222",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L224",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_memberschanged",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L225",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "CancellationError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "sfuConfig",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L239",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L240",
+      "receiver": "connections"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "RoomOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L241",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "CameraCaptureOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L242",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "ScreenShareCaptureOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "AudioCaptureOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "VideoPublishOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L250",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "VideoEncoding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L250",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "AudioPublishOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L258",
+      "receiver": "keyProvider"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "EncryptionOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L258",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "Room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L259",
+      "receiver": "LiveKit"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "disconnect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L262",
+      "receiver": "livekit"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "CancellationError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L263",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_connect",
+      "callee": "connections",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L265",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L272",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L272",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "connections",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L273",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L274",
+      "receiver": "pendingServices"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L275",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L277",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L279",
+      "receiver": "pendingServices"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "connections",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L283",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L284",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_syncremoteconnections",
+      "callee": "disconnect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L284",
+      "receiver": "connection"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_publisher",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L288",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_publisher",
+      "callee": "connections",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L288",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "callee": "data",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L291",
+      "receiver": "JSONSerialization"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L292",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "callee": "publish",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L294",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "callee": "DataPublishOptions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L294",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_senddata",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglemic",
+      "callee": "toggle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L307",
+      "receiver": "micMuted"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_toggledeafen",
+      "callee": "stopAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L320",
+      "receiver": "soundboard"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L327",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L328",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_applymic",
+      "callee": "setMicrophone",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L328",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L334",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "callee": "requestAccess",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L335",
+      "receiver": "AVCaptureDevice"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "callee": "setCamera",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L337",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L339",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglecamera",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L341",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L349",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "callee": "setScreenShare",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L351",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L354",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglescreenshare",
+      "callee": "isScreenShareEnabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L355",
+      "receiver": "publisher"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_setvolume",
+      "callee": "userVolumes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L362",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L367",
+      "receiver": "mutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L367",
+      "receiver": "mutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglelocalmute",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L367",
+      "receiver": "mutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L374",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_sendreaction",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "callee": "toggle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L385",
+      "receiver": "handRaised"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L387",
+      "receiver": "raisedHands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L387",
+      "receiver": "raisedHands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L389",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_togglehand",
+      "callee": "setHandRaised",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L389",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "callee": "reactions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L393",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L395",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L396",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "callee": "reactions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L397",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_show",
+      "callee": "reactions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L397",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "callee": "invalidate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L402",
+      "receiver": "refreshTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "callee": "scheduledTimer",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L403",
+      "receiver": "Timer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startrefreshing",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L404",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "remotes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L412",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L418",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "remotes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L422",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L427",
+      "receiver": "participant"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L429",
+      "receiver": "participant"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L433",
+      "receiver": "raisedHands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "reactions",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L434",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "userVolumes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L435",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L436",
+      "receiver": "mutedUsers"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L437",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "appliedVolumes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "appliedVolumes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L446",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_refresh",
+      "callee": "update",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L453",
+      "receiver": "liveActivity"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L467",
+      "receiver": "participants"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "callee": "ContentState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L468",
+      "receiver": "CallActivityAttributes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L471",
+      "receiver": "speaker"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "callee": "displayNames",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L471",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_activitystate",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L472",
+      "receiver": "participants"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_startringing",
+      "callee": "loop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L478",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringagain",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L483",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_endringing",
+      "callee": "play",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L491",
+      "receiver": "CallSounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopringing",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L495",
+      "receiver": "ringback"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L501",
+      "receiver": "incomingWatch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "watchIncomingCalls",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L502",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L503",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L505",
+      "receiver": "handledElsewhereWatch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "watchCallsHandledElsewhere",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L506",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_watchincoming",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L507",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopwatchingincoming",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L514",
+      "receiver": "incomingWatch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_stopwatchingincoming",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L516",
+      "receiver": "handledElsewhereWatch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "callee": "loop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L527",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L528",
+      "receiver": "incomingTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L529",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_ringin",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L530",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_acceptincoming",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L540",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L546",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_declineincoming",
+      "callee": "declineCall",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L546",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L550",
+      "receiver": "incomingTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_dismissincoming",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L552",
+      "receiver": "ringtone"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L561",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L569",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L570",
+      "receiver": "WatchTogether"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "receive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L570",
+      "receiver": "watch"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L571",
+      "receiver": "SoundboardFormat"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "receive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L571",
+      "receiver": "soundboard"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager_room",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L576",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "callee": "Soundboard",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "callee": "CallLiveActivityController",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/CallManager.swift",
+      "source_location": "L56",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "label": "CallManager"
+    },
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_callmanager_callmanager",
+      "label": "CallManager"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/CallManager.swift",
+    "table": {
+      "id": "String",
+      "identity": "String",
+      "userId": "String",
+      "deviceId": "String",
+      "isLocal": "Bool",
+      "cameraTrack": "VideoTrack",
+      "screenTrack": "VideoTrack",
+      "reaction": "CallReaction",
+      "volume": "Double",
+      "state": "State",
+      "room": "LiveKit",
+      "participants": "CallParticipantInfo",
+      "watch": "WatchTogether",
+      "soundboard": "Soundboard",
+      "callStartedAt": "Int64",
+      "ring": "Bool",
+      "incoming": "RingingCall",
+      "ringback": "CallSounds",
+      "ringtone": "CallSounds",
+      "incomingTimer": "Task",
+      "knownOthers": "Set",
+      "liveActivity": "CallLiveActivityController",
+      "displayNames": "String",
+      "micMuted": "Bool",
+      "deafened": "Bool",
+      "session": "MatrixSession",
+      "run": "Subscription",
+      "incomingWatch": "Subscription",
+      "handledElsewhereWatch": "Subscription",
+      "members": "CallMember",
+      "client": "WizardClient",
+      "keyProvider": "BaseKeyProvider",
+      "connections": "String",
+      "pendingServices": "Set",
+      "refreshTimer": "Timer",
+      "userVolumes": "String",
+      "mutedUsers": "Set",
+      "appliedVolumes": "String",
+      "reactions": "String",
+      "raisedHands": "Set",
+      "isInCall": "Bool",
+      "roomId": "String",
+      "app": "MatrixSession",
+      "intent": "String",
+      "event": "CallEvent",
+      "service": "String",
+      "publisher": "LiveKit",
+      "message": "String",
+      "topic": "String",
+      "emoji": "String",
+      "eventId": "String",
+      "callerId": "String",
+      "callerName": "String",
+      "voiceOnly": "Bool",
+      "activityState": "CallActivityAttributes",
+      "result": "RingState",
+      "call": "IncomingCall",
+      "connectionState": "ConnectionState",
+      "oldConnectionState": "ConnectionState",
+      "participant": "RemoteParticipant",
+      "data": "Data",
+      "encryptionType": "EncryptionType",
+      "error": "LiveKitError",
+      "name": "String",
+      "all": "CallReaction",
+      "others": "Set",
+      "options": "RoomOptions",
+      "wanted": "Set",
+      "info": "CallParticipantInfo"
+    },
+    "factory": { "livekit": ["LiveKit", "Room"] }
+  }
+}

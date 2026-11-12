@@ -1,0 +1,2467 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "label": "ProfileFields.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "label": "ProfileActivity",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "label": "ExtendedProfile",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "label": "ProfileFields",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L27",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "label": ".mudrix()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L45",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "label": ".first()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L56",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "label": ".isControl()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L63",
+      "_callable": true
+    },
+    {
+      "id": "unicode",
+      "label": "Unicode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "label": ".stripControl()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L70",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "label": ".collapseSpaces()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "label": ".limit()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L82",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "label": ".trimEnd()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L88",
+      "_callable": true
+    },
+    {
+      "id": "substring",
+      "label": "Substring",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "label": ".sanitizeBio()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L95",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "label": ".stripHtml()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "label": ".parseBio()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L127",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_biovalue",
+      "label": ".bioValue()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L148",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "label": ".sanitizePronoun()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L152",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "label": ".parsePronouns()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L156",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_pronounsvalue",
+      "label": ".pronounsValue()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L168",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "label": ".parsePronounInput()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L173",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_isvalidtimezone",
+      "label": ".isValidTimeZone()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L178",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "label": ".normalizeHex()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L184",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "label": ".activityText()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L193",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_positive",
+      "label": ".positive()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L197",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "label": ".parseActivities()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L202",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "label": ".live()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L224",
+      "_callable": true
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "label": ".cosmeticId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L230",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "label": ".parse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L236",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "label": ".localTime()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "_callable": true
+    },
+    {
+      "id": "timezone",
+      "label": "TimeZone",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "label": "KnownSoftware",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L264",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uint32",
+      "label": "UInt32",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "label": ".describeSoftware()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L285",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "label": ".serverName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L292",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "label": ".parseNotes()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L302",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "label": ".notesValue()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L311",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "target": "unicode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "target": "substring",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_biovalue",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_biovalue",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_biovalue",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_pronounsvalue",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_pronounsvalue",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_pronounsvalue",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_isvalidtimezone",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_isvalidtimezone",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L178",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_isvalidtimezone",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L178",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L193",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L193",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_positive",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L197",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_positive",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L197",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_positive",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L197",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L202",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L202",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L230",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L230",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L236",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L236",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L236",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "target": "timezone",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L265",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "target": "uint32",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L267",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L268",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L285",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L285",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L292",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L292",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L302",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L302",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L302",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L311",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L311",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L311",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizepronoun",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_activitytext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L213",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_positive",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profileactivity",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_extendedprofile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_isvalidtimezone",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L242",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_knownsoftware",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L289",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L46",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_mudrix",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L46",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_first",
+      "callee": "raw",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_iscontrol",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "callee": "UnicodeScalarView",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L72",
+      "receiver": "String"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_stripcontrol",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L73",
+      "receiver": "scalars"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_collapsespaces",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L78",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "callee": "UnicodeScalarView",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L83",
+      "receiver": "String"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L84",
+      "receiver": "scalars"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_limit",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L84",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_trimend",
+      "callee": "dropLast",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L90",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L96",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L107",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L110",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "removeLast",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L111",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_sanitizebio",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L112",
+      "receiver": "lines"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_striphtml",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L116",
+      "receiver": "html"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "callee": "value",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsebio",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouns",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L162",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_pronounsvalue",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L169",
+      "receiver": "pronouns"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L174",
+      "receiver": "input"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L175",
+      "receiver": "parts"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsepronouninput",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L175",
+      "receiver": "JSONValue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L185",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L186",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L186",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L187",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L188",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_normalizehex",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L189",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L217",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parseactivities",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L220",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_live",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L226",
+      "receiver": "activities"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_cosmeticid",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L231",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L239",
+      "receiver": "bioKeys"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L239",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L240",
+      "receiver": "pronounKeys"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L240",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parse",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L241",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "callee": "secondsFromGMT",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L258",
+      "receiver": "zone"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_localtime",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L259",
+      "receiver": "formatter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L286",
+      "receiver": "name"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "known",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L287",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L287",
+      "receiver": "trimmed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L288",
+      "receiver": "trimmed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "uppercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L288",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_describesoftware",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L289",
+      "receiver": "trimmed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L293",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L293",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_servername",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L293",
+      "receiver": "userId"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L303",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "callee": "out",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_parsenotes",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L306",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "callee": "mapValues",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L312",
+      "receiver": "notes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields_notesvalue",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L312",
+      "receiver": "JSONValue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L299",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilefields_profilefields",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileFields.swift",
+      "source_location": "L300",
+      "receiver": "Namespace"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ProfileFields.swift",
+    "table": {
+      "type": "String",
+      "name": "String",
+      "details": "String",
+      "startedAt": "Int64",
+      "expiresAt": "Int64",
+      "pronouns": "String",
+      "timezone": "String",
+      "activities": "ProfileActivity",
+      "accent": "String",
+      "avatarDecoration": "String",
+      "nameplate": "String",
+      "profileFrame": "String",
+      "raw": "JSONValue",
+      "keys": "String",
+      "scalar": "Unicode",
+      "text": "String",
+      "max": "Int",
+      "line": "Substring",
+      "html": "String",
+      "value": "JSONValue",
+      "input": "String",
+      "tz": "String",
+      "now": "Date",
+      "viewer": "TimeZone",
+      "label": "String",
+      "color": "UInt32",
+      "glyph": "String",
+      "known": "String",
+      "userId": "String",
+      "content": "JSONValue",
+      "notes": "String",
+      "ms": "Int64",
+      "profile": "ExtendedProfile",
+      "formatter": "DateFormatter"
+    },
+    "factory": {
+      "notesType": ["Namespace", "mudrixKey"],
+      "legacyNotesType": ["Namespace", "legacyMudrixKey"],
+      "scalars": ["String", "UnicodeScalarView"]
+    }
+  }
+}

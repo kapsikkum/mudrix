@@ -1,0 +1,747 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_swift",
+      "label": "Formats.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_displayformats",
+      "label": "DisplayFormats",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "label": ".numericDate()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "dateformatstyle",
+      "label": "DateFormatStyle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_displayformats_twodigits",
+      "label": ".twoDigits()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L17",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_displayformats_isonlyemoji",
+      "label": ".isOnlyEmoji()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L23",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "label": "Formats",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L35",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "dateformatter",
+      "label": "DateFormatter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "label": ".formatter()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "label": ".time()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "timeformat",
+      "label": "TimeFormat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Formats.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "label": ".numericText()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "label": ".abbreviatedDate()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L67",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "label": ".abbreviatedDateTime()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "label": ".longDate()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L79",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "target": "dateformatstyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats_twodigits",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_twodigits",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_twodigits",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats_isonlyemoji",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_isonlyemoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_isonlyemoji",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "dateformatter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "target": "dateformatter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "target": "timeformat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "target": "dateformatstyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "target": "dateformatstyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "target": "dateformatstyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "target": "timeformat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "target": "dateformatstyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats_twodigits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_displayformats_numericdate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "target": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L42",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L43",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "formatters",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "setLocalizedDateFormatFromTemplate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L48",
+      "receiver": "made"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_formatter",
+      "callee": "formatters",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "callee": "formatted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L56",
+      "receiver": "date"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_time",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_numerictext",
+      "callee": "dateComponents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L63",
+      "receiver": "Calendar"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddate",
+      "callee": "formatted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L68",
+      "receiver": "date"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_abbreviateddatetime",
+      "callee": "formatted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L75",
+      "receiver": "date"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_formats_formats_longdate",
+      "callee": "string",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Formats.swift",
+      "source_location": "L80",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Support/Formats.swift",
+    "table": {
+      "year": "Int",
+      "month": "Int",
+      "day": "Int",
+      "style": "DateFormatStyle",
+      "value": "Int",
+      "text": "String",
+      "lock": "NSLock",
+      "formatters": "String",
+      "template": "String",
+      "date": "Date",
+      "format": "TimeFormat",
+      "timeFormat": "TimeFormat",
+      "made": "DateFormatter"
+    }
+  }
+}

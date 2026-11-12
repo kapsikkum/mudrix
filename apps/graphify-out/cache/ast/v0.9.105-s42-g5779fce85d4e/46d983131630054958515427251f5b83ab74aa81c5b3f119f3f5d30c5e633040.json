@@ -1,0 +1,1557 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "label": "InboxExtras.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "label": "InboxThread",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "threadinfo",
+      "label": "ThreadInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L12"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread_time",
+      "label": ".time",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L13"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "label": "relativeTime()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "label": "InboxEmptyText",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L22",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L26"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "label": "InboxThreadsList",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L38",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_activity",
+      "label": ".activity",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L49"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "label": ".row()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L92",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "label": "InboxSavedList",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L117",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "eventpreview",
+      "label": "EventPreview",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L127"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "label": ".title()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L137",
+      "_callable": true
+    },
+    {
+      "id": "savedmessage",
+      "label": "SavedMessage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "label": ".row()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L144",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "threadinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread_time",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_activity",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L118",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L125",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "eventpreview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L125",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "target": "savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L137",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L137",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "target": "savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L144",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L144",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "target": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "callee": "RelativeDateTimeFormatter",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_relativetime",
+      "callee": "localizedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L19",
+      "receiver": "formatter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "multilineTextAlignment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxemptytext_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_activity",
+      "callee": "reduce",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L49",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "isUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L67",
+      "receiver": "lastSeen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "onTapGesture",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L74",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_row",
+      "callee": "onOpen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L94",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "stride",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "rooms",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "withTaskGroup",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "addTask",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L104",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "threads",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L105",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxthreadslist_load",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L112",
+      "receiver": "found"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "callee": "previews",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_title",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L141",
+      "receiver": "preview"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L145",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "previews",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "onTapGesture",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "toggle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L162",
+      "receiver": "saved"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "onOpen",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "previews",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "previews",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_inboxextras_inboxsavedlist_row",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/InboxExtras.swift",
+      "source_location": "L177",
+      "receiver": "SavedMessages"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/InboxExtras.swift",
+    "table": {
+      "room": "RoomSummary",
+      "thread": "ThreadInfo",
+      "id": "String",
+      "time": "Int",
+      "milliseconds": "Int",
+      "text": "String",
+      "body": "View",
+      "roomList": "RoomListModel",
+      "onOpen": "String",
+      "session": "MatrixSession",
+      "lastSeen": "ThreadLastSeen",
+      "threads": "InboxThread",
+      "activity": "Int",
+      "item": "InboxThread",
+      "saved": "SavedMessages",
+      "previews": "String",
+      "message": "SavedMessage",
+      "formatter": "RelativeDateTimeFormatter",
+      "batch": "Array",
+      "rooms": "Array"
+    }
+  }
+}

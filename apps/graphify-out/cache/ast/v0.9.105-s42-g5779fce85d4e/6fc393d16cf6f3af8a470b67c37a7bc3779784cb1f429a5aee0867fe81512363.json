@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_scripts_build_core_sh",
+      "label": "build-core.sh",
+      "file_type": "code",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L1",
+      "metadata": { "language": "bash", "kind": "file" }
+    },
+    {
+      "id": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "label": "build-core.sh script",
+      "file_type": "code",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L1",
+      "metadata": { "language": "bash", "kind": "bash_entrypoint" }
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_scripts_build_core_sh",
+      "target": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "language": "bash",
+      "callee": "set",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L4"
+    },
+    {
+      "language": "bash",
+      "callee": "cd",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L6"
+    },
+    {
+      "language": "bash",
+      "callee": "dirname",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L6"
+    },
+    {
+      "language": "bash",
+      "callee": "pwd",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L6"
+    },
+    {
+      "language": "bash",
+      "callee": "rustup",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L19"
+    },
+    {
+      "language": "bash",
+      "callee": "cargo",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L20"
+    },
+    {
+      "language": "bash",
+      "callee": "rm",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L25"
+    },
+    {
+      "language": "bash",
+      "callee": "mkdir",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L25"
+    },
+    {
+      "language": "bash",
+      "callee": "cp",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L28"
+    },
+    {
+      "language": "bash",
+      "callee": "xcodebuild",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L33"
+    },
+    {
+      "language": "bash",
+      "callee": "echo",
+      "caller_nid": "$graphify-root$_ios_scripts_build_core_sh__entry",
+      "source_file": "ios/scripts/build-core.sh",
+      "source_location": "L38"
+    }
+  ],
+  "bash_sources": []
+}

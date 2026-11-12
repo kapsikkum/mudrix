@@ -1,0 +1,488 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_swift",
+      "label": "SlashCommand.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "label": "SlashCommand",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/SlashCommand.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result",
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result_handled",
+      "label": "handled",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result_unknown",
+      "label": "unknown",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "_callable": true
+    },
+    {
+      "id": "timelinemodel",
+      "label": "TimelineModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/SlashCommand.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/SlashCommand.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result_handled",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result_unknown",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "target": "timelinemodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_result",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "return_type"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L27",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L28",
+      "receiver": "body"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L29",
+      "receiver": "body"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "send",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L42",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "sendNotice",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L44",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L48",
+      "receiver": "args"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L48",
+      "receiver": "args"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "args",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "index",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L49",
+      "receiver": "args"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "args",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "index",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L50",
+      "receiver": "args"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L52",
+      "receiver": "message"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L53",
+      "receiver": "reason"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "send",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L55",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L57",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L59",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "invite",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L61",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "firstWord",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "firstWord",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "kick",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L64",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "firstWord",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "ban",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L67",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "unban",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L69",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "firstWord",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "setRoomTopic",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L71",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "setRoomName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L73",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_slashcommand_slashcommand_run",
+      "callee": "setDisplayName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/SlashCommand.swift",
+      "source_location": "L75",
+      "receiver": "session"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Composer/SlashCommand.swift",
+    "table": {
+      "name": "String",
+      "description": "String",
+      "all": "SlashCommand",
+      "text": "String",
+      "timeline": "TimelineModel",
+      "session": "MatrixSession",
+      "replyTo": "String"
+    }
+  }
+}

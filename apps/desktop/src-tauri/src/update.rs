@@ -12,6 +12,8 @@ use tauri_plugin_updater::{Update, UpdaterExt};
 /// public half is `plugins.updater.pubkey`). GitHub's "latest" is the newest release that is not a
 /// pre-release, so `-next` builds follow it too until pre-releases get a feed of their own.
 const FEED: &str = "https://github.com/kapsikkum/mudrix/releases/latest/download/latest.json";
+/// Feed of the pre-release channel: the release tagged `next`, whose assets CI replaces on every `-next` build.
+const NEXT_FEED: &str = "https://github.com/kapsikkum/mudrix/releases/download/next/latest.json";
 const RELEASES: &str = "https://github.com/kapsikkum/mudrix/releases";
 const INTERVAL: Duration = Duration::from_secs(10 * 60);
 
@@ -45,17 +47,35 @@ fn can_install() -> bool {
     )
 }
 
-async fn check(app: &AppHandle, feed: &Url, install: bool) -> tauri_plugin_updater::Result<()> {
+/// What a check found
+#[derive(Debug, PartialEq, Eq, serde::Serialize)]
+#[serde(tag = "status", rename_all = "camelCase")]
+pub enum CheckOutcome {
+    UpToDate,
+    /// A newer version was found and is now downloaded (or, where updates can't install, linked)
+    Available {
+        version: String,
+    },
+    /// An update was already waiting from an earlier check
+    Ready,
+}
+
+async fn check(
+    app: &AppHandle,
+    feed: &Url,
+    install: bool,
+) -> tauri_plugin_updater::Result<CheckOutcome> {
     if app.state::<PendingUpdate>().0.lock().unwrap().is_some() {
-        return Ok(());
+        return Ok(CheckOutcome::Ready);
     }
     let updater = app
         .updater_builder()
         .endpoints(vec![feed.clone()])?
         .build()?;
     let Some(update) = updater.check().await? else {
-        return Ok(());
+        return Ok(CheckOutcome::UpToDate);
     };
+    let version = update.version.clone();
     let pending = if install {
         let bytes = update.download(|_, _| {}, || {}).await?;
         Pending::Install(Box::new(update), bytes)
@@ -64,7 +84,27 @@ async fn check(app: &AppHandle, feed: &Url, install: bool) -> tauri_plugin_updat
     };
     *app.state::<PendingUpdate>().0.lock().unwrap() = Some(pending);
     let _ = app.emit("update-downloaded", ());
-    Ok(())
+    Ok(CheckOutcome::Available { version })
+}
+
+/// The feed to ask: the stable one, or with pre-releases the `next` channel (which carries newer `-next` builds)
+fn feed_url(include_prereleases: bool) -> Option<Url> {
+    Url::parse(if include_prereleases { NEXT_FEED } else { FEED }).ok()
+}
+
+/// "Check for updates" in About: asks now instead of waiting for the next poll
+#[tauri::command]
+pub async fn check_for_update(
+    app: AppHandle,
+    include_prereleases: bool,
+) -> Result<CheckOutcome, String> {
+    if cfg!(debug_assertions) || !has_pubkey(&app) {
+        return Err("updates are not available in this build".into());
+    }
+    let feed = feed_url(include_prereleases).ok_or("bad feed")?;
+    check(&app, &feed, can_install())
+        .await
+        .map_err(|e| e.to_string())
 }
 
 pub fn start(app: AppHandle) {
@@ -106,5 +146,29 @@ pub fn install_update(app: AppHandle, pending: State<'_, PendingUpdate>) -> Resu
             opened.map_err(|e| e.to_string())
         }
         None => Err("no update".into()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn stable_and_next_feeds_differ() {
+        assert_eq!(feed_url(false).unwrap().as_str(), FEED);
+        assert_eq!(feed_url(true).unwrap().as_str(), NEXT_FEED);
+    }
+
+    #[test]
+    fn outcomes_serialise_with_a_status() {
+        let json = |o: CheckOutcome| serde_json::to_string(&o).unwrap();
+        assert_eq!(json(CheckOutcome::UpToDate), r#"{"status":"upToDate"}"#);
+        assert_eq!(json(CheckOutcome::Ready), r#"{"status":"ready"}"#);
+        assert_eq!(
+            json(CheckOutcome::Available {
+                version: "1.2.3".into()
+            }),
+            r#"{"status":"available","version":"1.2.3"}"#
+        );
     }
 }

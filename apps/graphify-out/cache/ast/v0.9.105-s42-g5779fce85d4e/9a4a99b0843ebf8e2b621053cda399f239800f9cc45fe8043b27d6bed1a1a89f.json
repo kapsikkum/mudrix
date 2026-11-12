@@ -1,0 +1,756 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_swift",
+      "label": "SoundboardSheet.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "label": "CallTimerText",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/SoundboardSheet.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "label": "SoundboardSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "soundboard",
+      "label": "Soundboard",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/SoundboardSheet.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/SoundboardSheet.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L23"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "label": ".section()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L49",
+      "_callable": true
+    },
+    {
+      "id": "soundboardclip",
+      "label": "SoundboardClip",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Voice/SoundboardSheet.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "label": ".tile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "label": ".press()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L83",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "soundboard",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "target": "soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "target": "soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "target": "soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "target": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_press",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "callee": "TimelineView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "callee": "monospacedDigit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_calltimertext_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L9",
+      "receiver": "CallTimer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "ScrollView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L38",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "LazyVGrid",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "GridItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_section",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_voice_soundboardsheet_soundboardsheet_tile",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+      "source_location": "L80",
+      "receiver": "L10n"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Voice/SoundboardSheet.swift",
+    "table": {
+      "startedAt": "Int64",
+      "body": "View",
+      "soundboard": "Soundboard",
+      "notice": "String",
+      "title": "String",
+      "clips": "SoundboardClip",
+      "empty": "String",
+      "clip": "SoundboardClip"
+    }
+  }
+}

@@ -1,0 +1,2094 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "label": "SpaceModernTest.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "label": "SpaceModernTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "label": ".state()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "label": ".link()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L22",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "label": ".`state is read under the current name first and the legacy name as a fallback`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "label": ".`legacy and current keys count once with the current one winning`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L34",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "label": ".`banner needs an address or a known preset`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L47",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "label": ".`auto join is only explicit when set`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L56",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "label": ".`voice channels are flagged only with enabled true`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "label": ".`children are ordered by a valid order, then by link age, then by id`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L73",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "label": ".`categories are the sub-spaces with the space's own rooms first`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L80",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "label": ".`the root space follows the first parent upward`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L100",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "label": ".`voice channels sit below text channels`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L108",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "label": ".rolesState()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "label": ".`roles are validated and ordered`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L124",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "label": ".`roles are ignored when setting them takes less than level 50`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L132",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "label": ".`a person's colour is the admin look, then their own roles, then the member look`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L142",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "label": ".`state rows from the core are read as type, key and content`()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L155",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "json",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.Json" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "jsonelement",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonElement" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "jsonobject",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonObject" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "jsonprimitive",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlinx.serialization.json.JsonPrimitive" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "assertequals",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertEquals" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "assertfalse",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L8",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertFalse" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "assertnull",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L9",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertNull" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "asserttrue",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L10",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Assert.assertTrue" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L11",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.junit.Test" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "spacelink",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L12",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceLink" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "spacenode",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L13",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.core.SpaceNode" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_kt",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L132",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "target": "test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "attribute"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest",
+      "target": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L113",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_json",
+      "callee": "parseToJsonElement",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L16",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Json"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "callee": "MudrixRoomState",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "callee": "Entry",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L19",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "MudrixRoomState"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state",
+      "callee": "parseToJsonElement",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L19",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Json"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "callee": "SpaceLink",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_link",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L27",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "styleOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L28",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "styleOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L29",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "styleOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L30",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "styleOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L31",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_is_read_under_the_current_name_first_and_the_legacy_name_as_a_fallback",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L38",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L40",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_legacy_and_current_keys_count_once_with_the_current_one_winning",
+      "callee": "toString",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Banner",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L50",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "bannerOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L50",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Banner",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L51",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "bannerOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L51",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "bannerOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L52",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "bannerOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L53",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_banner_needs_an_address_or_a_known_preset",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "explicitAutoJoinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L59",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "explicitAutoJoinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L60",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "explicitAutoJoinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L61",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_auto_join_is_only_explicit_when_set",
+      "callee": "explicitAutoJoinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L62",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L68",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "assertFalse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L69",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "assertFalse",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_are_flagged_only_with_enabled_true",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L70",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_children_are_ordered_by_a_valid_order_then_by_link_age_then_by_id",
+      "callee": "orderedChildren",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L77",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "categories",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L88",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "Category",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L91",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "Category",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L92",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "Category",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L93",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "Category",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L94",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_categories_are_the_sub_spaces_with_the_space_s_own_rooms_first",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "SpaceNode",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "rootSpaceOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L103",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "rootSpaceOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L104",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L105",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_the_root_space_follows_the_first_parent_upward",
+      "callee": "rolesChainOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L105",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "callee": "arrange",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L110",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_voice_channels_sit_below_text_channels",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_rolesstate",
+      "callee": "Triple",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L126",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "Role",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L127",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "Role",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L127",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "BuiltinLook",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L128",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_validated_and_ordered",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L134",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L135",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L137",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L139",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_roles_are_ignored_when_setting_them_takes_less_than_level_50",
+      "callee": "isEmpty",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L139",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "onlyRoles.byUser"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L144",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "roleColorOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L145",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "roleColorOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L146",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "roleColorOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L147",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertNull",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "roleColorOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L148",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "builtinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L149",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "setOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "builtinOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L150",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "emptySet",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L150",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "powerLevelOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L151",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "assertEquals",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_a_person_s_colour_is_the_admin_look_then_their_own_roles_then_the_member_look",
+      "callee": "powerLevelOf",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L152",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "JsonPrimitive",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "assertTrue",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L158",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "from",
+      "is_member_call": true,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L158",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "MudrixRoomState"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_test_kotlin_org_wizardchat_android_matrix_spacemoderntest_spacemoderntest_state_rows_from_the_core_are_read_as_type_key_and_content",
+      "callee": "emptyList",
+      "is_member_call": false,
+      "source_file": "android/app/src/test/kotlin/org/wizardchat/android/matrix/SpaceModernTest.kt",
+      "source_location": "L158",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix"
+}

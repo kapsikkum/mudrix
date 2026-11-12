@@ -1,0 +1,1988 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "label": "RolesPermissions.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "label": "RoleLevel",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "caseiterable",
+      "label": "CaseIterable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_member",
+      "label": "member",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_moderator",
+      "label": "moderator",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_admin",
+      "label": "admin",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "localizedstringkey",
+      "label": "LocalizedStringKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_title",
+      "label": ".title",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_whotitle",
+      "label": ".whoTitle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L16"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "label": "Member",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L25",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member_level",
+      "label": ".level",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L26"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "label": "RoleRights",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L29",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canchange",
+      "label": ".canChange()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L33",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canassign",
+      "label": ".canAssign()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L37",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L39",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "label": "RoleMenu",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L48",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_isself",
+      "label": ".isSelf",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L60"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L62"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_confirmtitle",
+      "label": ".confirmTitle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L100"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "label": ".name()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L104",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_set",
+      "label": ".set()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L114",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "label": "RolesPermissionsView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L125",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "label": "Permission",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L136",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L157"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "label": ".value()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "label": ".permissionRow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L216",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_closest",
+      "label": ".closest()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L229",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L233",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L241",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "int64",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "caseiterable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_member",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_moderator",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_admin",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_title",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel_whotitle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member_level",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canchange",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canchange",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canchange",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canchange",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canassign",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canassign",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_canassign",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_isself",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_confirmtitle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_set",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_set",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L134",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L137",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L139",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L145",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L216",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L216",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L216",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_closest",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_closest",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L229",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_closest",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolelevel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L229",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_permission",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L241",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L241",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_closest",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L253",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L132",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member_level",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L26",
+      "receiver": "powerLevel"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "callee": "roomDetails",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L40",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolerights_load",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L43",
+      "receiver": "details"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "alert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "LabeledContent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "callee": "LocalizedStringKey",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L110",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_name",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L110",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_set",
+      "callee": "setPowerLevel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L116",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolemenu_set",
+      "callee": "onChanged",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Form",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L158",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L184",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L197",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L204",
+      "receiver": "selected"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "UserProfileSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L205",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L210",
+      "receiver": "permission"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_value",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L221",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_permissionrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "callee": "stateEvent",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L236",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "callee": "members",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L237",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_load",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L238",
+      "receiver": "members"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "callee": "events",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L246",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L248",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_rolespermissionsview_apply",
+      "callee": "setPowerLevels",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/RolesPermissions.swift",
+      "source_location": "L251",
+      "receiver": "client"
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_views_people_rolespermissions_member",
+      "label": "Member"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/RolesPermissions.swift",
+    "table": {
+      "id": "String",
+      "title": "LocalizedStringKey",
+      "whoTitle": "LocalizedStringKey",
+      "level": "Int64",
+      "ownLevel": "Int64",
+      "canEditLevels": "Bool",
+      "targetLevel": "Int64",
+      "isSelf": "Bool",
+      "client": "WizardClient",
+      "roomId": "String",
+      "userId": "String",
+      "currentLevel": "Int64",
+      "rights": "RoleRights",
+      "onChanged": "Void",
+      "session": "MatrixSession",
+      "confirmLevel": "RoleLevel",
+      "error": "String",
+      "body": "View",
+      "confirmTitle": "String",
+      "levels": "String",
+      "staff": "Member",
+      "selected": "String",
+      "icon": "String",
+      "key": "String",
+      "event": "String",
+      "fallback": "Int64",
+      "permissions": "Permission",
+      "permission": "Permission",
+      "current": "Int64"
+    }
+  }
+}

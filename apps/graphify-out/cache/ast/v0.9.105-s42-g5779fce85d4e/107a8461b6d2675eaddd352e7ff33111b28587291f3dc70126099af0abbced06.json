@@ -1,0 +1,2624 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "label": "MatrixSession.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "label": "State",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_restoring",
+      "label": "restoring",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_loggedout",
+      "label": "loggedOut",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L9"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_loggedin",
+      "label": "loggedIn",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L10"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_restorefailed",
+      "label": "restoreFailed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_displayname",
+      "label": ".displayName",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L16"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_avatarurl",
+      "label": ".avatarUrl",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L17"
+    },
+    {
+      "id": "customstatus",
+      "label": "CustomStatus",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "syncstate",
+      "label": "SyncState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "encryptionstatus",
+      "label": "EncryptionStatus",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "account",
+      "label": "Account",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "label": "Account",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L32",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L36"
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "medialoader",
+      "label": "MediaLoader",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "storedsession",
+      "label": "StoredSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "pendinglogin",
+      "label": "PendingLogin",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "storeconfig",
+      "label": "StoreConfig",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_requireclient",
+      "label": ".requireClient",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "label": ".restore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "label": ".reloadAccounts()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L87",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "label": ".switchAccount()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L93",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_retryrestore",
+      "label": ".retryRestore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L101",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "label": ".discover()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L106",
+      "_callable": true
+    },
+    {
+      "id": "serverinfo",
+      "label": "ServerInfo",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "label": ".login()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L110",
+      "_callable": true
+    },
+    {
+      "id": "loginidentifier",
+      "label": "LoginIdentifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "label": ".register()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L124",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "label": ".loginWithQr()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "_callable": true
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "qrlogincontrol",
+      "label": "QrLoginControl",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "sendable",
+      "label": "Sendable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "label": ".startBrowserLogin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "identityprovider",
+      "label": "IdentityProvider",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "label": ".finishBrowserLogin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L173",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_cancelbrowserlogin",
+      "label": ".cancelBrowserLogin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L185",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_pausesync",
+      "label": ".pauseSync()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L194",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_resumesync",
+      "label": ".resumeSync()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L199",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "label": ".syncStateChanged()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L205",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "label": ".rememberProfile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L215",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_excludesinsecuredevices",
+      "label": ".excludesInsecureDevices",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L224"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setexcludeinsecuredevices",
+      "label": ".setExcludeInsecureDevices()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L227",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restart",
+      "label": ".restart()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L235",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_logout",
+      "label": ".logout()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L242",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_applypresence",
+      "label": ".applyPresence()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L247",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "label": ".setCustomStatus()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L252",
+      "_callable": true
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "label": ".showCustomStatus()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L265",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_refreshprofile",
+      "label": ".refreshProfile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L281",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "label": ".remember()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L288",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "label": ".close()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L300",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L319",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "label": ".sessionChanged()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L361",
+      "_callable": true
+    },
+    {
+      "id": "sessionevent",
+      "label": "SessionEvent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "label": ".forget()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L373",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_matrixsession_wizarderror",
+      "label": "WizardError",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L383",
+      "_callable": true,
+      "_callable_class": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_restoring",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_loggedout",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_loggedin",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state_restorefailed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_state",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_displayname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_avatarurl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "customstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "syncstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "encryptionstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "account",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "medialoader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "pendinglogin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "storeconfig",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_requireclient",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L93",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_retryrestore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "target": "serverinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "target": "loginidentifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L124",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "qrlogincontrol",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "target": "identityprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_cancelbrowserlogin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_pausesync",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_pausesync",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L194",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_resumesync",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L205",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "target": "syncstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L205",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L215",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L224",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_excludesinsecuredevices",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setexcludeinsecuredevices",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L227",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setexcludeinsecuredevices",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L227",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restart",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_logout",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L242",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_applypresence",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L247",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_applypresence",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L247",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L252",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "target": "customstatus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L265",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_refreshprofile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L281",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L288",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L288",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L288",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "storeconfig",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L288",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L300",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L319",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L319",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L361",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "target": "sessionevent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L361",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L373",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "target": "storedsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L373",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_wizarderror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L383",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_displayname",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_avatarurl",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_account",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_retryrestore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_discover",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L131",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_cancelbrowserlogin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restart",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restart",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_logout",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_logout",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_logout",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L260",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L277",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_refreshprofile",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L285",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L290",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L297",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L330",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L347",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L349",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_refreshprofile",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L355",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L369",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L374",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L377",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L379",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_matrixsession_wizarderror",
+      "target": "$graphify-root$_ios_wizardchat_matrix_matrixsession_wizarderror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L384",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L61",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "active",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L67",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "setActive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L70",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L76",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_restore",
+      "callee": "removeDelivered",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L77",
+      "receiver": "MessageNotifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_reloadaccounts",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L88",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L94",
+      "receiver": "accounts"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_switchaccount",
+      "callee": "setActive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L96",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "callee": "newStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L111",
+      "receiver": "StoredSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "callee": "loginPassword",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L113",
+      "receiver": "WizardClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_login",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L119",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "callee": "newStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L125",
+      "receiver": "StoredSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_register",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L133",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "callee": "newStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L140",
+      "receiver": "StoredSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_loginwithqr",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L146",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "callee": "newStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L153",
+      "receiver": "StoredSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "callee": "startSsoLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L158",
+      "receiver": "WizardClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "callee": "startOAuthLogin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L160",
+      "receiver": "WizardClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_startbrowserlogin",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L168",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "callee": "finish",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L177",
+      "receiver": "pending"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_finishbrowserlogin",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L180",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_cancelbrowserlogin",
+      "callee": "abort",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L188",
+      "receiver": "pending"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_cancelbrowserlogin",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L189",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_pausesync",
+      "callee": "stopSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L196",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_resumesync",
+      "callee": "startSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L201",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L209",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L210",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_syncstatechanged",
+      "callee": "startSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L211",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_rememberprofile",
+      "callee": "save",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L220",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setexcludeinsecuredevices",
+      "callee": "save",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L231",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_applypresence",
+      "callee": "setPresence",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L249",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L253",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "clearCustomStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L256",
+      "receiver": "requireClient"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L259",
+      "receiver": "expiresAt"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L259",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "CustomStatus",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L261",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_setcustomstatus",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L261",
+      "receiver": "millis"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L266",
+      "receiver": "statusExpiry"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L267",
+      "receiver": "status"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L274",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_showcustomstatus",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L275",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_refreshprofile",
+      "callee": "ownProfile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L282",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "StoredSession",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L289",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L291",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L291",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "removeStore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L292",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "save",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L293",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_remember",
+      "callee": "setActive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L294",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L301",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L301",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L303",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L312",
+      "receiver": "statusExpiry"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_close",
+      "callee": "stopSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L316",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "RoomListModel",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L325",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "MediaLoader",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L326",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "watchSession",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L329",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L330",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "watchEncryptionStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L332",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L333",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L336",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "startSync",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L340",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L343",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L346",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "watchSyncState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L346",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L347",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "encryptionStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L350",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "serverCapabilities",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L352",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L357",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "callee": "save",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L367",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_sessionchanged",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L369",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L375",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession_forget",
+      "callee": "removeDelivered",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L376",
+      "receiver": "MessageNotifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_matrixsession",
+      "callee": "AppInfo",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MatrixSession.swift",
+      "source_location": "L49",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_matrixsession_wizarderror",
+      "label": "WizardError"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/MatrixSession.swift",
+    "table": {
+      "state": "SyncState",
+      "userId": "String",
+      "displayName": "String",
+      "avatarUrl": "String",
+      "customStatus": "CustomStatus",
+      "statusExpiry": "Task",
+      "syncState": "SyncState",
+      "encryption": "EncryptionStatus",
+      "accounts": "Account",
+      "defaultUploadLimit": "Int64",
+      "uploadLimit": "Int64",
+      "id": "String",
+      "client": "WizardClient",
+      "roomList": "RoomListModel",
+      "media": "MediaLoader",
+      "stored": "StoredSession",
+      "subscriptions": "Subscription",
+      "pendingLogin": "PendingLogin",
+      "app": "AppInfo",
+      "requireClient": "WizardClient",
+      "server": "String",
+      "identifier": "LoginIdentifier",
+      "password": "String",
+      "username": "String",
+      "scanned": "Data",
+      "control": "QrLoginControl",
+      "listener": "Sendable",
+      "sso": "IdentityProvider",
+      "createAccount": "Bool",
+      "callbackUrl": "URL",
+      "keepRunning": "Bool",
+      "excludesInsecureDevices": "Bool",
+      "exclude": "Bool",
+      "visible": "Bool",
+      "text": "String",
+      "expiresAt": "Date",
+      "status": "CustomStatus",
+      "folder": "String",
+      "store": "StoreConfig",
+      "event": "SessionEvent",
+      "notSignedIn": "WizardError",
+      "invalidLoginUrl": "WizardError",
+      "noPendingLogin": "WizardError"
+    }
+  }
+}

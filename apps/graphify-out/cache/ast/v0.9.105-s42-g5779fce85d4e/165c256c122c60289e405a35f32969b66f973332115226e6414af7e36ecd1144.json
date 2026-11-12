@@ -1,0 +1,176 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_namespace_swift",
+      "label": "Namespace.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace",
+      "label": "Namespace",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L9",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_mudrixkey",
+      "label": ".mudrixKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L15",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/Namespace.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_legacymudrixkey",
+      "label": ".legacyMudrixKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_wizardchatkey",
+      "label": ".wizardchatKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L21",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace",
+      "target": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_mudrixkey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_mudrixkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_mudrixkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace",
+      "target": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_legacymudrixkey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_legacymudrixkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_legacymudrixkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace",
+      "target": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_wizardchatkey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_wizardchatkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_namespace_namespace_wizardchatkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/Namespace.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    }
+  ],
+  "raw_calls": [],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/Namespace.swift",
+    "table": { "name": "String" }
+  }
+}

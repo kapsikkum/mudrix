@@ -229,6 +229,7 @@ pub fn run() {
             global_keys::global_keys_permission,
             keep_awake::keep_awake,
             update::update_ready,
+            update::check_for_update,
             update::install_update,
             screen_share::screen_capture_supported,
             screen_share::desktop_sources,

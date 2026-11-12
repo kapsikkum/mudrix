@@ -72,6 +72,7 @@ export const desktopApi: DesktopAPI = {
   installUpdate() {
     void invoke('install_update');
   },
+  checkForUpdate: (includePrereleases) => invoke('check_for_update', { includePrereleases }),
   getDesktopSources,
   onOpenDesktopPicker,
   selectDesktopSource,

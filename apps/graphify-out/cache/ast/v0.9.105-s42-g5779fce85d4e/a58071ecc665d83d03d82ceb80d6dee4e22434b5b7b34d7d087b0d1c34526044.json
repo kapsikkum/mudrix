@@ -1,0 +1,1044 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_swift",
+      "label": "IntegrationSignatureTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "cryptokit",
+      "label": "CryptoKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "label": "IntegrationSignatureTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "label": ".hex()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L9",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationSignatureTests.swift"
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationSignatureTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_key",
+      "label": ".key",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_message",
+      "label": ".message",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L22"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_signature",
+      "label": ".signature",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L23"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "label": ".flip()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationSignatureTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "label": ".testAGoodSignatureVerifiesAndWhitespaceAroundItIsIgnored()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L33",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "label": ".testAnythingElseIsRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L38",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "label": ".testASignatureMadeHereVerifies()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "label": ".testFingerprintAndKeys()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L61",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "label": ".testSerialsAndKeyChanges()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L73",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_swift",
+      "target": "cryptokit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_key",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_message",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_signature",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_key",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_message",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_signature",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_signature",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "target": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "callee": "index",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L13",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L14",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_hex",
+      "callee": "text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_key",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_flip",
+      "callee": "copy",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L34",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L34",
+      "receiver": "signature"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L35",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testagoodsignatureverifiesandwhitespacearounditisignored",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L35",
+      "receiver": "signature"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L39",
+      "receiver": "signature"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L40",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L41",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L43",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L44",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L44",
+      "receiver": "signature"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L45",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L46",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L47",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L48",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testanythingelseisrefused",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L49",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "PrivateKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L53",
+      "receiver": "Curve25519"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L57",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L57",
+      "receiver": "sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "verify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L58",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testasignaturemadehereverifies",
+      "callee": "base64EncodedString",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L58",
+      "receiver": "sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "officialKeys",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L62",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "fingerprint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L63",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "fingerprint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L64",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L65",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L66",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "base64ToBytes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L67",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "isValidKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L68",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "isOfficialKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L69",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testfingerprintandkeys",
+      "callee": "isOfficialKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L70",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkUpdate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L76",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkUpdate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L77",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkUpdate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L78",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkUpdate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L79",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkSerial",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L80",
+      "receiver": "Sig"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationsignaturetests_integrationsignaturetests_testserialsandkeychanges",
+      "callee": "checkSerial",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationSignatureTests.swift",
+      "source_location": "L81",
+      "receiver": "Sig"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/IntegrationSignatureTests.swift",
+    "table": {
+      "text": "String",
+      "key": "String",
+      "message": "Data",
+      "signature": "Data",
+      "data": "Data",
+      "index": "Int",
+      "out": "Data",
+      "body": "Data"
+    },
+    "factory": { "official": ["Sig", "officialKeys"] }
+  }
+}
