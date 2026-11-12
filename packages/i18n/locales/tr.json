@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "Bu, daveti reddeder ve {{id}} kullanıcısını yok sayar. Bu kişinin mesajlarını görmez ve bu kişiden yeni davet almazsınız. Bunu profilinden geri alabilirsiniz.",
     "declineAndBlockFailed": "Engellenemedi: {{error}}"
   },
+  "spellcheck": {
+    "title": "Yazım denetimi",
+    "enabled": "Yazımı denetle",
+    "enabledNote": "İleti kutusunda yanlış yazılmış sözcüklerin altını çizer ve sağ tıklayınca düzeltme önerir.",
+    "languages": "Diller",
+    "languagesNote": "Seçilen dillerden herhangi birinde doğru olan sözcük kabul edilir.",
+    "yourDictionary": "Sözlüğünüz",
+    "empty": "\"Sözlüğe ekle\" ile eklediğiniz sözcükler burada görünür.",
+    "remove": "Kaldır",
+    "addToDictionary": "Sözlüğe ekle",
+    "ignore": "Yoksay",
+    "noSuggestions": "Öneri yok",
+    "cut": "Kes",
+    "paste": "Yapıştır",
+    "selectAll": "Tümünü seç"
+  },
   "settings": {
     "title": "Ayarlar",
     "languageHint": "Mudrix'in gösterildiği dil.",

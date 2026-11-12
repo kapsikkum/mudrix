@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "Die Einladung wird abgelehnt und {{id}} ignoriert. Du siehst keine Nachrichten und erhältst keine weiteren Einladungen von dieser Person. Du kannst das im Profil rückgängig machen.",
     "declineAndBlockFailed": "Blockieren fehlgeschlagen: {{error}}"
   },
+  "spellcheck": {
+    "title": "Rechtschreibprüfung",
+    "enabled": "Rechtschreibung prüfen",
+    "enabledNote": "Falsch geschriebene Wörter im Nachrichtenfeld unterstreichen und per Rechtsklick Korrekturen vorschlagen.",
+    "languages": "Sprachen",
+    "languagesNote": "Ein Wort gilt als richtig, wenn es in einer der ausgewählten Sprachen korrekt ist.",
+    "yourDictionary": "Dein Wörterbuch",
+    "empty": "Wörter, die du mit „Zum Wörterbuch hinzufügen“ aufnimmst, erscheinen hier.",
+    "remove": "Entfernen",
+    "addToDictionary": "Zum Wörterbuch hinzufügen",
+    "ignore": "Ignorieren",
+    "noSuggestions": "Keine Vorschläge",
+    "cut": "Ausschneiden",
+    "paste": "Einfügen",
+    "selectAll": "Alles auswählen"
+  },
   "settings": {
     "title": "Benutzereinstellungen",
     "languageHint": "Die Sprache, in der Mudrix angezeigt wird.",

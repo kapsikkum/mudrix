@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "Hiermee wijs je de uitnodiging af en negeer je {{id}}. Je ziet hun berichten niet en ontvangt geen verdere uitnodigingen van hen. Je kunt dit ongedaan maken via hun profiel.",
     "declineAndBlockFailed": "Blokkeren mislukt: {{error}}"
   },
+  "spellcheck": {
+    "title": "Spellingcontrole",
+    "enabled": "Spelling controleren",
+    "enabledNote": "Onderstreep verkeerd gespelde woorden in het berichtvak en stel verbeteringen voor via rechtsklikken.",
+    "languages": "Talen",
+    "languagesNote": "Een woord wordt geaccepteerd als het in een van de geselecteerde talen correct is.",
+    "yourDictionary": "Je woordenboek",
+    "empty": "Woorden die je toevoegt met \"Toevoegen aan woordenboek\" verschijnen hier.",
+    "remove": "Verwijderen",
+    "addToDictionary": "Toevoegen aan woordenboek",
+    "ignore": "Negeren",
+    "noSuggestions": "Geen suggesties",
+    "cut": "Knippen",
+    "paste": "Plakken",
+    "selectAll": "Alles selecteren"
+  },
   "settings": {
     "title": "Instellingen",
     "languageHint": "De taal waarin Mudrix wordt getoond.",

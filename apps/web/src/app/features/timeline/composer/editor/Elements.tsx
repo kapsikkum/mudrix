@@ -126,8 +126,12 @@ export function Leaf({ attributes, children, leaf }: RenderLeafProps) {
   if (text.strikethrough) node = <s>{node}</s>;
   if (text.code) node = <code>{node}</code>;
 
+  const className = [text.url && css.url, text.misspelled && css.misspelled]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <span {...attributes} className={text.url ? css.url : undefined}>
+    <span {...attributes} className={className || undefined}>
       {node}
     </span>
   );

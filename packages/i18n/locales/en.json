@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "This declines the invite and ignores {{id}}. You won't see their messages or receive further invites from them. You can undo this from their profile.",
     "declineAndBlockFailed": "Failed to block: {{error}}"
   },
+  "spellcheck": {
+    "title": "Spellcheck",
+    "enabled": "Check spelling",
+    "enabledNote": "Underline misspelled words in the message box and suggest corrections on right-click.",
+    "languages": "Languages",
+    "languagesNote": "A word is accepted if it is correct in any selected language.",
+    "yourDictionary": "Your dictionary",
+    "empty": "Words you add with \"Add to dictionary\" show up here.",
+    "remove": "Remove",
+    "addToDictionary": "Add to dictionary",
+    "ignore": "Ignore",
+    "noSuggestions": "No suggestions",
+    "cut": "Cut",
+    "paste": "Paste",
+    "selectAll": "Select all"
+  },
   "settings": {
     "title": "User Settings",
     "languageHint": "The language Mudrix is shown in.",

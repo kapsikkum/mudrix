@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "Isto recusa o convite e ignora {{id}}. Você não verá as mensagens dele nem receberá novos convites. Você pode desfazer isso no perfil dele.",
     "declineAndBlockFailed": "Falha ao bloquear: {{error}}"
   },
+  "spellcheck": {
+    "title": "Verificação ortográfica",
+    "enabled": "Verificar ortografia",
+    "enabledNote": "Sublinha palavras escritas incorretamente na caixa de mensagem e sugere correções ao clicar com o botão direito.",
+    "languages": "Idiomas",
+    "languagesNote": "Uma palavra é aceita se estiver correta em qualquer um dos idiomas selecionados.",
+    "yourDictionary": "Seu dicionário",
+    "empty": "As palavras que você adicionar com \"Adicionar ao dicionário\" aparecem aqui.",
+    "remove": "Remover",
+    "addToDictionary": "Adicionar ao dicionário",
+    "ignore": "Ignorar",
+    "noSuggestions": "Sem sugestões",
+    "cut": "Recortar",
+    "paste": "Colar",
+    "selectAll": "Selecionar tudo"
+  },
   "settings": {
     "title": "Configurações",
     "languageHint": "O idioma em que o Mudrix é apresentado.",

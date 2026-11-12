@@ -64,6 +64,10 @@ const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
   'soundboardEnabled',
   'soundboardVolume',
   'soundboardMutedUsers',
+  // Phones default to off (they keep the keyboard's own), and the dictionaries follow the display
+  // language of this device.
+  'spellcheckEnabled',
+  'spellcheckLanguages',
 ]);
 
 export interface SyncedSettings {

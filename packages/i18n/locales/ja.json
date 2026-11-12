@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "この招待を辞退し、{{id}} を無視します。そのユーザーのメッセージは表示されず、今後の招待も届きません。ユーザーのプロフィールからいつでも取り消せます。",
     "declineAndBlockFailed": "ブロックに失敗しました: {{error}}"
   },
+  "spellcheck": {
+    "title": "スペルチェック",
+    "enabled": "スペルをチェック",
+    "enabledNote": "メッセージ欄でつづりの間違った単語に下線を引き、右クリックで修正候補を表示します。",
+    "languages": "言語",
+    "languagesNote": "選択した言語のいずれかで正しければ、その単語は受け入れられます。",
+    "yourDictionary": "自分の辞書",
+    "empty": "「辞書に追加」で追加した単語がここに表示されます。",
+    "remove": "削除",
+    "addToDictionary": "辞書に追加",
+    "ignore": "無視",
+    "noSuggestions": "候補なし",
+    "cut": "切り取り",
+    "paste": "貼り付け",
+    "selectAll": "すべて選択"
+  },
   "settings": {
     "title": "設定",
     "languageHint": "Mudrixの表示言語です。",

@@ -5,6 +5,13 @@ export const url = style({
   color: vars.color.link,
 });
 
+/** A misspelled word in the composer. */
+export const misspelled = style({
+  textDecoration: 'underline wavy',
+  textDecorationColor: vars.color.danger,
+  textUnderlineOffset: '2px',
+});
+
 const headingBase = style({
   fontWeight: 600,
   lineHeight: 1.3,

@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "To odrzuca zaproszenie i ignoruje {{id}}. Nie zobaczysz jego wiadomości ani nie będziesz otrzymywać od niego kolejnych zaproszeń. Możesz to cofnąć w jego profilu.",
     "declineAndBlockFailed": "Nie udało się zablokować: {{error}}"
   },
+  "spellcheck": {
+    "title": "Sprawdzanie pisowni",
+    "enabled": "Sprawdzaj pisownię",
+    "enabledNote": "Podkreśla błędnie napisane słowa w polu wiadomości i podpowiada poprawki po kliknięciu prawym przyciskiem myszy.",
+    "languages": "Języki",
+    "languagesNote": "Słowo jest akceptowane, jeśli jest poprawne w którymkolwiek z wybranych języków.",
+    "yourDictionary": "Twój słownik",
+    "empty": "Słowa dodane przez „Dodaj do słownika” pojawią się tutaj.",
+    "remove": "Usuń",
+    "addToDictionary": "Dodaj do słownika",
+    "ignore": "Ignoruj",
+    "noSuggestions": "Brak podpowiedzi",
+    "cut": "Wytnij",
+    "paste": "Wklej",
+    "selectAll": "Zaznacz wszystko"
+  },
   "settings": {
     "title": "Ustawienia",
     "languageHint": "Język, w którym wyświetlane jest Mudrix.",

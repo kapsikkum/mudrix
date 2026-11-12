@@ -45,6 +45,7 @@ export const STORAGE_KEY_GIF_FAVOURITES = 'wz_gif_favourites';
 export const STORAGE_KEY_GIF_SEARCH_CONSENT = 'wz_gif_search_consent';
 export const STORAGE_KEY_YOUTUBE_CONSENT = 'wz_youtube_consent';
 export const STORAGE_KEY_CALL_RTC_OVERRIDE = 'wz_call_rtc_override';
+export const STORAGE_KEY_SPELLCHECK_WORDS = 'wz_spellcheck_words';
 
 // Developer
 export const STORAGE_KEY_DEVELOPER_MODE = 'wz_developer_mode';

@@ -1676,6 +1676,22 @@
     "declineAndBlockBody": "Questo rifiuta l'invito e ignora {{id}}. Non vedrai i suoi messaggi né riceverai altri inviti da lui. Puoi annullare l'operazione dal suo profilo.",
     "declineAndBlockFailed": "Blocco non riuscito: {{error}}"
   },
+  "spellcheck": {
+    "title": "Controllo ortografico",
+    "enabled": "Controlla l’ortografia",
+    "enabledNote": "Sottolinea le parole errate nella casella del messaggio e suggerisce correzioni con il clic destro.",
+    "languages": "Lingue",
+    "languagesNote": "Una parola è accettata se è corretta in almeno una delle lingue selezionate.",
+    "yourDictionary": "Il tuo dizionario",
+    "empty": "Le parole aggiunte con «Aggiungi al dizionario» compaiono qui.",
+    "remove": "Rimuovi",
+    "addToDictionary": "Aggiungi al dizionario",
+    "ignore": "Ignora",
+    "noSuggestions": "Nessun suggerimento",
+    "cut": "Taglia",
+    "paste": "Incolla",
+    "selectAll": "Seleziona tutto"
+  },
   "settings": {
     "title": "Impostazioni",
     "languageHint": "La lingua in cui viene mostrato Mudrix.",

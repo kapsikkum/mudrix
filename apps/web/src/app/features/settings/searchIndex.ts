@@ -103,6 +103,9 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
   ),
 
   ['language', 'settings.language.languageDisplay'],
+  ['language', 'spellcheck.title'],
+  ['language', 'spellcheck.enabled', 'spellcheck.enabledNote'],
+  ['language', 'spellcheck.languages', 'spellcheck.languagesNote'],
 
   ['sessions', 'settings.sessions.currentDevice'],
   ['sessions', 'settings.sessions.yourDevices', 'settings.sessions.devicesDescription'],
