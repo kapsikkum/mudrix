@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Pack size {{used}} of {{max}}",
+        "sizeInfo": "Pack size {{used}}",
+        "sizeWarn": "This pack is close to the Matrix limit of 64 KB per state event. Consider splitting it.",
+        "sizeOver": "This pack is too large to save. Remove images or split it into several packs.",
+        "splitPack": "Split pack",
+        "splitDone_one": "Pack saved.",
+        "splitDone_other": "Pack split into {{count}} packs.",
+        "splitFailed": "Failed to split pack: {{error}}",
+        "serverTooLarge": "The server rejected the pack because it is too large (limit 64 KB per event). Remove images or split the pack."
       },
       "members": {
         "searchMembers": "Search members",

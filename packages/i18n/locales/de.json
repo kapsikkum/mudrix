@@ -586,7 +586,16 @@
         "pack": "Paket",
         "useAsEmoji": "Als Emoji verwenden",
         "useAsStickers": "Als Sticker verwenden",
-        "imageActionsHint": "Halte ein Bild gedrückt, um es umzubenennen oder zu entfernen."
+        "imageActionsHint": "Halte ein Bild gedrückt, um es umzubenennen oder zu entfernen.",
+        "sizeMeter": "Packgröße {{used}} von {{max}}",
+        "sizeInfo": "Packgröße {{used}}",
+        "sizeWarn": "Dieses Pack nähert sich dem Matrix-Limit von 64 KB pro Zustandsereignis. Erwäge, es aufzuteilen.",
+        "sizeOver": "Dieses Pack ist zu groß zum Speichern. Entferne Bilder oder teile es in mehrere Packs auf.",
+        "splitPack": "Pack aufteilen",
+        "splitDone_one": "Pack gespeichert.",
+        "splitDone_other": "Pack in {{count}} Packs aufgeteilt.",
+        "splitFailed": "Pack konnte nicht aufgeteilt werden: {{error}}",
+        "serverTooLarge": "Der Server hat das Pack abgelehnt, weil es zu groß ist (Limit 64 KB pro Ereignis). Entferne Bilder oder teile das Pack auf."
       },
       "members": {
         "searchMembers": "Mitglieder suchen",

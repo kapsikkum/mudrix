@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Размер набора: {{used}} из {{max}}",
+        "sizeInfo": "Размер набора: {{used}}",
+        "sizeWarn": "Этот набор близок к лимиту Matrix в 64 КБ на событие состояния. Попробуйте разделить его.",
+        "sizeOver": "Этот набор слишком большой для сохранения. Удалите изображения или разделите его на несколько наборов.",
+        "splitPack": "Разделить набор",
+        "splitDone_one": "Набор сохранён.",
+        "splitDone_other": "Набор разделён на наборов: {{count}}.",
+        "splitFailed": "Не удалось разделить набор: {{error}}",
+        "serverTooLarge": "Сервер отклонил набор, так как он слишком большой (лимит 64 КБ на событие). Удалите изображения или разделите набор."
       },
       "members": {
         "searchMembers": "Поиск участников",

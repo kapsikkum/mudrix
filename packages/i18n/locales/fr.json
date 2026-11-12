@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Taille du pack {{used}} sur {{max}}",
+        "sizeInfo": "Taille du pack {{used}}",
+        "sizeWarn": "Ce pack approche la limite Matrix de 64 Ko par événement d'état. Pensez à le scinder.",
+        "sizeOver": "Ce pack est trop volumineux pour être enregistré. Retirez des images ou scindez-le en plusieurs packs.",
+        "splitPack": "Scinder le pack",
+        "splitDone_one": "Pack enregistré.",
+        "splitDone_other": "Pack scindé en {{count}} packs.",
+        "splitFailed": "Échec de la scission du pack : {{error}}",
+        "serverTooLarge": "Le serveur a rejeté le pack car il est trop volumineux (limite de 64 Ko par événement). Retirez des images ou scindez le pack."
       },
       "members": {
         "searchMembers": "Rechercher des membres",

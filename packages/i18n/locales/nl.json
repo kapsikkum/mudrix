@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Pakketgrootte {{used}} van {{max}}",
+        "sizeInfo": "Pakketgrootte {{used}}",
+        "sizeWarn": "Dit pakket nadert de Matrix-limiet van 64 KB per statusgebeurtenis. Overweeg het te splitsen.",
+        "sizeOver": "Dit pakket is te groot om op te slaan. Verwijder afbeeldingen of splits het in meerdere pakketten.",
+        "splitPack": "Pakket splitsen",
+        "splitDone_one": "Pakket opgeslagen.",
+        "splitDone_other": "Pakket gesplitst in {{count}} pakketten.",
+        "splitFailed": "Pakket splitsen mislukt: {{error}}",
+        "serverTooLarge": "De server heeft het pakket geweigerd omdat het te groot is (limiet 64 KB per gebeurtenis). Verwijder afbeeldingen of splits het pakket."
       },
       "members": {
         "searchMembers": "Leden zoeken",

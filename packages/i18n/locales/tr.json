@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Paket boyutu {{used}} / {{max}}",
+        "sizeInfo": "Paket boyutu {{used}}",
+        "sizeWarn": "Bu paket, durum olayı başına Matrix sınırı olan 64 KB'a yaklaşıyor. Bölmeyi düşünün.",
+        "sizeOver": "Bu paket kaydedilemeyecek kadar büyük. Görselleri kaldırın veya birkaç pakete bölün.",
+        "splitPack": "Paketi böl",
+        "splitDone_one": "Paket kaydedildi.",
+        "splitDone_other": "Paket {{count}} pakete bölündü.",
+        "splitFailed": "Paket bölünemedi: {{error}}",
+        "serverTooLarge": "Sunucu paketi çok büyük olduğu için reddetti (olay başına 64 KB sınırı). Görselleri kaldırın veya paketi bölün."
       },
       "members": {
         "searchMembers": "Üyelerde ara",

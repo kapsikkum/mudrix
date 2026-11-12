@@ -19,6 +19,7 @@ import {
 } from '@/app/features/settings/emojis/imagePackTypes';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { PackEditor, type PackData } from './PackEditor';
+import { buildPackContent } from './packSize';
 import * as css from './RoomSettingsEmojiSticker.css';
 import * as panelCss from '@/app/components/Settings/Settings.css';
 
@@ -237,6 +238,26 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
     [client, roomId, reload]
   );
 
+  const handleSplitPack = useCallback(
+    async (parts: PackData[]) => {
+      for (let i = 0; i < parts.length; i += 1) {
+        const part = parts[i];
+        const stateKey = part.stateKey || crypto.randomUUID();
+        const content = buildPackContent({ ...part, stateKey });
+
+        await Promise.all([
+          client.setStateEvent(roomId, ROOM_PACK_UNSTABLE, stateKey, content),
+          client.setStateEvent(roomId, ROOM_PACK_STABLE, stateKey, content),
+        ]);
+      }
+      toast.success(t('room.settings.emojis.splitDone', { count: parts.length }));
+      void reload();
+      invalidateImagePacks();
+      setEditing(null);
+    },
+    [client, roomId, reload, toast, t]
+  );
+
   const handleDelete = useCallback(
     async (pack: PackData) => {
       const ok = await confirmDialog({
@@ -269,6 +290,7 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
           roomId={roomId}
           pack={editing}
           onSave={handleSavePack}
+          onSplit={handleSplitPack}
           onBack={() => setEditing(null)}
           readOnly={!canManage}
         />

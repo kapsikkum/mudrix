@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "Tamaño del paquete {{used}} de {{max}}",
+        "sizeInfo": "Tamaño del paquete {{used}}",
+        "sizeWarn": "Este paquete está cerca del límite de Matrix de 64 KB por evento de estado. Considera dividirlo.",
+        "sizeOver": "Este paquete es demasiado grande para guardarlo. Quita imágenes o divídelo en varios paquetes.",
+        "splitPack": "Dividir paquete",
+        "splitDone_one": "Paquete guardado.",
+        "splitDone_other": "Paquete dividido en {{count}} paquetes.",
+        "splitFailed": "No se pudo dividir el paquete: {{error}}",
+        "serverTooLarge": "El servidor rechazó el paquete porque es demasiado grande (límite de 64 KB por evento). Quita imágenes o divide el paquete."
       },
       "members": {
         "searchMembers": "Buscar miembros",

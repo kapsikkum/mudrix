@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo, useDeferredValue } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowLeftIcon,
@@ -23,6 +23,16 @@ import { vars } from '@/theme/vars.css';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { probeIsAnimated } from '@/app/features/timeline/utils/imageAnimation';
 import { getImageDimensions } from '@/app/features/timeline/encryptedMedia';
+import {
+  PACK_BUDGET_BYTES,
+  PACK_WARN_RATIO,
+  formatKb,
+  isTooLargeError,
+  numberedPackName,
+  packContentSize,
+  splitImagesBySize,
+} from './packSize';
+import { PackBar } from './PackStatus';
 
 export type ImageEntry = {
   shortcode: string;
@@ -47,8 +57,12 @@ interface Props {
   roomId: string;
   pack: PackData;
   onSave: (updated: PackData) => Promise<void>;
+  /** Saves the pack as several smaller packs (the first keeps this pack's state key). */
+  onSplit?: (parts: PackData[]) => Promise<void>;
   onBack: () => void;
   readOnly?: boolean;
+  /** Max serialised content size in bytes; null shows the size but never blocks saving. */
+  sizeCap?: number | null;
 }
 
 const SHORTCODE_RE = /^[a-zA-Z0-9_-]+$/;
@@ -83,8 +97,10 @@ export function PackEditor({
   roomId: _roomId,
   pack,
   onSave,
+  onSplit,
   onBack,
   readOnly = false,
+  sizeCap = PACK_BUDGET_BYTES,
 }: Props) {
   const { t } = useTranslation();
   const toast = useToast();
@@ -293,6 +309,76 @@ export function PackEditor({
   }, [displayName, usageMode, images, avatarUrl, attribution, pack.stateKey, onSave, toast, t]);
 
   const imageCount = Object.keys(images).length;
+  const usageArray = useMemo(
+    () => (usageMode === 'both' ? ['emoticon', 'sticker'] : [usageMode]),
+    [usageMode]
+  );
+  const deferredImages = useDeferredValue(images);
+  const contentBytes = useMemo(
+    () =>
+      packContentSize({
+        stateKey: pack.stateKey,
+        displayName: displayName.trim() || pack.displayName,
+        usage: usageArray,
+        images: deferredImages,
+        avatarUrl,
+        attribution: attribution.trim() || undefined,
+      }),
+    [
+      pack.stateKey,
+      pack.displayName,
+      displayName,
+      usageArray,
+      deferredImages,
+      avatarUrl,
+      attribution,
+    ]
+  );
+  const overCap = sizeCap !== null && contentBytes > sizeCap;
+  const nearCap = sizeCap !== null && !overCap && contentBytes > sizeCap * PACK_WARN_RATIO;
+
+  const handleSplit = useCallback(async () => {
+    if (!onSplit) return;
+    setSaving(true);
+    try {
+      const base: PackData = {
+        stateKey: pack.stateKey,
+        displayName: displayName.trim() || pack.displayName,
+        usage: usageArray,
+        images,
+        avatarUrl,
+        attribution: attribution.trim() || undefined,
+      };
+      const chunks = splitImagesBySize(base, sizeCap ?? PACK_BUDGET_BYTES);
+      const parts: PackData[] = chunks.map((chunk, i) => ({
+        ...base,
+        stateKey: i === 0 ? pack.stateKey : '',
+        displayName: numberedPackName(base.displayName, i, chunks.length),
+        images: chunk,
+      }));
+      await onSplit(parts);
+    } catch (err) {
+      toast.error(
+        isTooLargeError(err)
+          ? t('room.settings.emojis.serverTooLarge')
+          : t('room.settings.emojis.splitFailed', { error: getErrorMessage(err) })
+      );
+    } finally {
+      setSaving(false);
+    }
+  }, [
+    onSplit,
+    pack.stateKey,
+    pack.displayName,
+    displayName,
+    usageArray,
+    images,
+    avatarUrl,
+    attribution,
+    sizeCap,
+    toast,
+    t,
+  ]);
 
   return (
     <div>
@@ -499,6 +585,59 @@ export function PackEditor({
         )}
       </div>
 
+      {imageCount > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, margin: '8px 0' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+              fontSize: '0.8rem',
+              color: overCap
+                ? vars.color.danger
+                : nearCap
+                  ? vars.color.warning
+                  : vars.color.textSecondary,
+            }}
+          >
+            <span>
+              {sizeCap === null
+                ? t('room.settings.emojis.sizeInfo', { used: formatKb(contentBytes) })
+                : t('room.settings.emojis.sizeMeter', {
+                    used: formatKb(contentBytes),
+                    max: formatKb(sizeCap),
+                  })}
+            </span>
+            {overCap && onSplit && !readOnly && (
+              <Button variant="secondary" size="sm" loading={saving} onClick={handleSplit}>
+                {t('room.settings.emojis.splitPack')}
+              </Button>
+            )}
+          </div>
+          {sizeCap !== null && (
+            <PackBar
+              value={contentBytes}
+              max={sizeCap}
+              tone={overCap ? 'danger' : nearCap ? 'warning' : 'accent'}
+              label={t('room.settings.emojis.sizeMeter', {
+                used: formatKb(contentBytes),
+                max: formatKb(sizeCap),
+              })}
+            />
+          )}
+          {overCap && (
+            <span style={{ fontSize: '0.78rem', color: vars.color.danger }}>
+              {t('room.settings.emojis.sizeOver')}
+            </span>
+          )}
+          {nearCap && (
+            <span style={{ fontSize: '0.78rem', color: vars.color.warning }}>
+              {t('room.settings.emojis.sizeWarn')}
+            </span>
+          )}
+        </div>
+      )}
       <div className={css.actions}>
         <Button variant="secondary" onClick={onBack}>
           {t('common.cancel')}
@@ -508,7 +647,7 @@ export function PackEditor({
           loading={saving}
           spinnerWhileLoading
           onClick={handleSave}
-          disabled={readOnly || !displayName.trim()}
+          disabled={readOnly || !displayName.trim() || overCap || uploading}
         >
           {t('common.save')}
         </Button>

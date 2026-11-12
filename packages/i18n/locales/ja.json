@@ -586,7 +586,16 @@
         "pack": "Pack",
         "useAsEmoji": "Use as emoji",
         "useAsStickers": "Use as stickers",
-        "imageActionsHint": "Long-press an image to rename or remove it."
+        "imageActionsHint": "Long-press an image to rename or remove it.",
+        "sizeMeter": "パックのサイズ {{used}} / {{max}}",
+        "sizeInfo": "パックのサイズ {{used}}",
+        "sizeWarn": "このパックはMatrixの制限（状態イベントあたり64 KB）に近づいています。分割することを検討してください。",
+        "sizeOver": "このパックは大きすぎて保存できません。画像を削除するか、複数のパックに分割してください。",
+        "splitPack": "パックを分割",
+        "splitDone_one": "パックを保存しました。",
+        "splitDone_other": "パックを {{count}} 個に分割しました。",
+        "splitFailed": "パックの分割に失敗しました: {{error}}",
+        "serverTooLarge": "パックが大きすぎるため、サーバーに拒否されました（イベントあたり64 KBの制限）。画像を削除するか、パックを分割してください。"
       },
       "members": {
         "searchMembers": "メンバーを検索",
