@@ -216,6 +216,9 @@ const DOCS_ABOUT_UPSTREAM = new Set([
   'PORT.md',
   'MISSING.md',
   'PARITY_PLAN.md',
+  'PARITY_MATRIX.md',
+  'SECRETS.md',
+  'DECISIONS.md',
   'UPSTREAM_SYNC.md',
   'CONTRIBUTING.md',
 ]);
@@ -309,7 +312,7 @@ const STRICT_SKIP = [
   // legitimately about upstream
   'LICENSE',
   'CONTRIBUTING.md',
-  'docs/{BRANDING,PORT,MISSING,PARITY_PLAN,UPSTREAM_SYNC}.md',
+  'docs/{BRANDING,PORT,MISSING,PARITY_PLAN,PARITY_MATRIX,SECRETS,DECISIONS,UPSTREAM_SYNC}.md',
   // this gate and its allow-list name the string by design
   'tools/ci/branding-*',
   // upstream's GitLab files, deleted once GitHub Actions replaces them

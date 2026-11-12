@@ -20,3 +20,11 @@ docs/CODEBASE.md
 # CI.md quotes the exact commands the workflows run, and those still use the unrenamed workspace, scheme and binary
 # names. Remove this entry together with the rename (the commands in the doc change then anyway).
 docs/CI.md
+
+# Engineering doc that names the upstream account-data types the apps still read for migration. Not user-facing text; the paths go away with the internal rename.
+docs/WEB_LOOK_FIXES.md :: org\.wizardchat
+
+# Build docs quote the unrenamed internal names (WizardChat.app, the wizardchat-core crate, upstream's feed) that the
+# build still produces. Remove these entries together with the internal rename.
+docs/BUILDING.md
+docs/DEVELOPMENT.md :: wizardchat-core
