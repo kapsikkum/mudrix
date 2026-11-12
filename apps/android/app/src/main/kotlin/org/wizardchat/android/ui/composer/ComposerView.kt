@@ -24,6 +24,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.content.MediaType
 import androidx.compose.foundation.content.consume
 import androidx.compose.foundation.content.contentReceiver
@@ -111,6 +112,7 @@ import org.wizardchat.android.media.VideoMeta
 import org.wizardchat.android.media.VideoPlan
 import org.wizardchat.android.media.VideoQuality
 import org.wizardchat.android.matrix.PacksStore
+import org.wizardchat.android.matrix.ScheduledMessages
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.text
@@ -128,6 +130,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.room.RoomLinks
+import org.wizardchat.android.ui.room.ScheduleSheet
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.Member
 import org.wizardchat.core.PackImage
@@ -192,6 +195,7 @@ fun ComposerView(
     var clipboardHasImages by remember { mutableStateOf(false) }
     var showPoll by remember { mutableStateOf(false) }
     var showLocation by remember { mutableStateOf(false) }
+    var showSchedule by remember { mutableStateOf(false) }
     val recorder = remember { VoiceRecorder(context.applicationContext, scope) }
     var focused by remember { mutableStateOf(false) }
     // The formatting bar stays open, picked from the + menu (it also shows while text is selected)
@@ -414,6 +418,26 @@ fun ComposerView(
         timeline.send(body, html = html, replyTo = reply)
     }
 
+    /** Has the homeserver send the draft after [delayMs] (send later); throws when it can't, leaving the draft alone */
+    suspend fun scheduleSend(delayMs: Long) {
+        val message = trimmed
+        if (message.isEmpty()) throw IllegalStateException(L10n.format("composer.schedule.noDraft"))
+        if (message.startsWith("/") && !message.startsWith("//")) throw IllegalStateException(L10n.format("composer.schedule.noCommands"))
+        val prepared = if (prefs.emoticonsToEmoji) Emoticons.replaceInMessage(message) else message
+        val links = roomLinks.filterKeys { prepared.contains(it) }.entries.sortedByDescending { it.key.length }
+        val body = links.fold(prepared) { text, (label, link) -> text.replace(label, RoomLinks.target(link) ?: link) }
+        val html = richHtml(body, usedEmotes, mentions, timeline.client, links.associate { (_, link) -> (RoomLinks.target(link) ?: link) to link })
+            ?: runCatching { timeline.client.markdownToHtml(body) }.getOrNull()
+        val mentioned = mentions.filterKeys { body.contains(it) }.values.toList()
+        val content = ScheduledMessages.content(body, html, mentioned, replyTo?.eventId, threadRoot)
+        timeline.client.sendDelayedEvent(room.id, "m.room.message", content, delayMs, null)
+        usedEmotes.clear()
+        mentions.clear()
+        roomLinks.clear()
+        setDraft("")
+        onReplyToChange(null)
+    }
+
     suspend fun submit() {
         val message = trimmed
         val reply = replyTo?.eventId
@@ -608,6 +632,7 @@ fun ComposerView(
                                 add(MenuItem(tr("composer.poll.create"), "chart-bar-horizontal") { showPoll = true })
                                 add(MenuItem(tr("composer.location.share"), "map-pin") { showLocation = true })
                                 add(MenuItem(tr("composer.voice.record"), "microphone") { startRecording() })
+                                add(MenuItem(tr("composer.schedule.menu").trimEnd('.', '…'), "alarm") { showSchedule = true })
                                 integrationInserts.forEachIndexed { index, entry ->
                                     val icon = when (entry.action.icon) { "send" -> "paper-plane-right"; "download" -> "download-simple"; "link" -> "link"; else -> "plus" }
                                     add(MenuItem(tr("integrations.composer.actionLabel", entry.action.label, entry.integrationName), icon, divider = index == 0) {
@@ -680,7 +705,15 @@ fun ComposerView(
                                 .alpha(if (canSend) 1f else 0.5f)
                                 .clip(CircleShape)
                                 .background(theme.accent)
-                                .clickable(enabled = canSend) { scope.launch { submit() } }
+                                .combinedClickable(
+                                    enabled = canSend,
+                                    onLongClick = if (editing == null) ({
+                                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        showSchedule = true
+                                    }) else null,
+                                    onLongClickLabel = tr("composer.schedule.menu").trimEnd('.', '…'),
+                                    onClick = { scope.launch { submit() } },
+                                )
                                 .semantics { contentDescription = label },
                             contentAlignment = Alignment.Center,
                         ) {
@@ -717,6 +750,16 @@ fun ComposerView(
         PollCreatorSheet(
             onSend = { question, answers, disclosed -> timeline.createPoll(question, answers, disclosed) },
             onDismiss = { showPoll = false },
+        )
+    }
+    if (showSchedule) {
+        ScheduleSheet(
+            client = timeline.client,
+            roomId = room.id,
+            roomEncrypted = room.isEncrypted,
+            draftPreview = trimmed,
+            onSchedule = { delayMs -> scheduleSend(delayMs) },
+            onDismiss = { showSchedule = false },
         )
     }
     if (showLocation) {
