@@ -440,6 +440,10 @@ struct RoomView: View {
                         EmptyView()
                     } else if timeline.reachedStart {
                         TimelineStart(room: room)
+                    } else if timeline.historyPaused {
+                        UndecryptableHistoryNotice(loading: timeline.isPaginating) {
+                            Task { await timeline.paginateBackwards(manual: true) }
+                        }
                     } else {
                         // Skeleton rows that load the next page of history only once they
                         // actually scroll into view.
@@ -527,7 +531,7 @@ struct RoomView: View {
             repeat {
                 await timeline.paginateBackwards()
                 try? await Task.sleep(for: .milliseconds(80))
-            } while !fillsScreen && !timeline.reachedStart && !Task.isCancelled
+            } while !fillsScreen && !timeline.reachedStart && !timeline.historyPaused && !Task.isCancelled
         }
     }
 }

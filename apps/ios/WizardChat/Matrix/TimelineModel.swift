@@ -322,18 +322,30 @@ final class TimelineModel: ObservableObject {
                 return true
             }
             guard !reachedStart else { return false }
-            await paginateBackwards()
+            await paginateBackwards(manual: true)
             try? await Task.sleep(for: .milliseconds(50))
         }
         return entries.contains { $0.eventId == eventId }
     }
 
-    func paginateBackwards() async {
+    private var unreadable = UnreadableHistory()
+    /// Older history stopped loading by itself because it is all messages this device cannot read
+    @Published private(set) var historyPaused = false
+
+    /// Loads a page of older messages; `manual` loads even while paused (the person asked for it)
+    func paginateBackwards(manual: Bool = false) async {
         guard let timeline, !isPaginating, !reachedStart else { return }
+        if historyPaused && !manual { return }
         isPaginating = true
         defer { isPaginating = false }
         do {
+            let known = Set(entries.map(\.id))
             reachedStart = try await timeline.paginateBack(events: 80)
+            // Entries arrive through the timeline subscription, a moment after the page is loaded
+            try? await Task.sleep(for: .milliseconds(150))
+            let added = entries.filter { !known.contains($0.id) && $0.isContent }
+            unreadable.record(added: added.count, unreadable: added.filter { if case .undecryptable = $0.kind { true } else { false } }.count)
+            historyPaused = unreadable.paused
         } catch {
             sendError = error.localizedDescription
         }
