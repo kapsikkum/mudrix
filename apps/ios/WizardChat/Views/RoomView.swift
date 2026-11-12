@@ -17,6 +17,7 @@ struct RoomView: View {
 
     @State private var openThread: IdentifiedString?
     @State private var showThreads = false
+    @State private var showJumpToDate = false
 
     @State private var backAnchorVisible = false
     @State private var isAtBottom = true
@@ -229,6 +230,10 @@ struct RoomView: View {
                         Image("ph-chat-dots-regular").foregroundStyle(theme.textPrimary)
                     }
                         .accessibilityLabel(String(localized: "timeline.threads"))
+                    Button { showJumpToDate = true } label: {
+                        Image("ph-calendar-blank-regular").foregroundStyle(theme.textPrimary)
+                    }
+                    .accessibilityLabel(String(localized: "room.jumpToDate.title"))
                     Menu {
                         Button { startCall(video: false) } label: {
                             Label(menu: String(localized: "timeline.voiceCall"), icon: "ph-phone-regular")
@@ -246,6 +251,10 @@ struct RoomView: View {
         }
         .navigationDestination(item: $openThread) { root in
             RoomView(room: room, client: timeline.client, threadRoot: root.id)
+        }
+        .sheet(isPresented: $showJumpToDate) {
+            JumpToDateSheet(client: timeline.client, roomId: room.id) { eventId in notifier.eventToFocus = (room.id, eventId) }
+                .presentationDetents([.large])
         }
         .sheet(isPresented: $showThreads) {
             ThreadListView(room: room, client: timeline.client) { root in
