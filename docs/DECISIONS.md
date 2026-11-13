@@ -21,7 +21,10 @@ Decisions from the project owner that every port package follows. Newest at the 
 
 ## Content and assets
 
-- **Discord cosmetics sync script stays.**
+- **Discord cosmetics sync script stays.** Running it is up to each user and is not a supported feature. The art
+  shipped in the repo is original. No scraped packs in the repo or default config.
+- **Cosmetic packs are ported everywhere.** Settings > Cosmetics lists them, with an option to turn packs off, and
+  pack cosmetics render on web, desktop, Android and iOS.
 - **Game detection stays and should be built upon** (`games.json`, desktop activity detection).
 - **Sound packs** came from each chat app respectively (Element, Cinny, FluffyChat, Commet, ...); credit each in
   `packages/sounds/LICENSES.md`.
