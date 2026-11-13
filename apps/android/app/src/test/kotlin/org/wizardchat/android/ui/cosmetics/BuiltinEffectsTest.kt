@@ -14,9 +14,10 @@ class BuiltinEffectsTest {
     @Test
     fun idsMatchTheWebList() {
         assertEquals(webIds, BuiltinEffects.IDS)
+        assertEquals(webIds, BuiltinEffects.DRAWN_IDS)
         assertTrue(BuiltinEffects.draws("falling-stars"))
         assertTrue(BuiltinEffects.isBuiltin("eevee-stars"))
-        assertEquals(false, BuiltinEffects.draws("eevee-stars"))
+        assertTrue(BuiltinEffects.draws("eevee-stars"))
     }
 
     @Test
@@ -54,5 +55,17 @@ class BuiltinEffectsTest {
         assertEquals(still, BuiltinEffects.still("snow", 200f, 150f, seed = 3L))
         assertEquals(still, BuiltinEffects.Field("snow", 200f, 150f, seed = 3L).particles)
         assertEquals(18, BuiltinEffects.still("signal-intrusion", 200f, 150f, seed = 3L).size)
+        assertEquals(14, BuiltinEffects.still("eevee-stars", 200f, 150f, seed = 3L).size)
+    }
+
+    @Test
+    fun theEeveeStripAdvancesAndWraps() {
+        assertEquals(0, BuiltinEffects.eeveeFrame(0f, 0f))
+        assertEquals(1, BuiltinEffects.eeveeFrame(0.1f, 0f))
+        assertEquals(62, BuiltinEffects.eeveeFrame(3.7f, 0f))
+        assertEquals(124, BuiltinEffects.eeveeFrame(7.39f, 0f))
+        assertEquals(BuiltinEffects.eeveeFrame(1f, 0f), BuiltinEffects.eeveeFrame(1f + BuiltinEffects.EEVEE_CYCLE, 0f))
+        assertEquals(16, BuiltinEffects.eeveeFrame(0f, 0.95f))
+        assertEquals(0, BuiltinEffects.eeveeFrame(3.7f, 1.5f, animate = false))
     }
 }

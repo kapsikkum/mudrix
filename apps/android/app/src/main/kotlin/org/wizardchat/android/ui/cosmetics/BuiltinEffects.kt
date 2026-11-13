@@ -26,16 +26,23 @@ object BuiltinEffects {
         "eevee-stars",
     )
 
-    /** The effects drawn as vectors; `eevee-stars` needs the web's bitmap sprite strip and is not drawn */
-    val DRAWN_IDS = IDS - "eevee-stars"
+    /** The effects the app draws, including `eevee-stars`, whose sprites come from the web's strip */
+    val DRAWN_IDS = IDS
 
     const val MAX_PARTICLES = 28
 
     const val MIST_SHAPE = 9
 
+    /** One frame of the Eevee sprite strip, and how many frames one loop of it holds */
+    const val EEVEE_FRAME_W = 49
+    const val EEVEE_FRAME_H = 47
+    const val EEVEE_FRAMES = 125
+    const val EEVEE_CYCLE = 7.4f
+
     private const val TWO_PI = (PI * 2).toFloat()
     private val CONFETTI_COLORS = listOf("#f87171", "#fbbf24", "#34d399", "#60a5fa", "#a78bfa", "#f472b6")
     private val LEAF_COLORS = listOf("#e0792b", "#c2410c", "#b45309", "#a16207", "#9a3412")
+    private val EEVEE_STAR_COLORS = listOf("#FEF08A", "#93C5FD", "#F9A8D4", "#A7F3D0", "#C4B5FD")
 
     /** One particle at one moment of its life; `life` is infinite for effects that never fade */
     data class Particle(
@@ -58,6 +65,13 @@ object BuiltinEffects {
 
     /** Whether an id is one of the drawn effects */
     fun draws(id: String): Boolean = id in DRAWN_IDS
+
+    /** The Eevee sprite frame showing at an age and phase, wrapping every cycle; a still holds the first */
+    fun eeveeFrame(age: Float, phase: Float, animate: Boolean = true): Int {
+        if (!animate) return 0
+        val cycle = ((age + phase) % EEVEE_CYCLE + EEVEE_CYCLE) % EEVEE_CYCLE
+        return (cycle / EEVEE_CYCLE * EEVEE_FRAMES).toInt().coerceIn(0, EEVEE_FRAMES - 1)
+    }
 
     /** A still frame, used when motion is reduced and in the picker's tiles */
     fun still(effect: String, width: Float, height: Float, seed: Long = 0L): List<Particle> =
@@ -236,6 +250,32 @@ object BuiltinEffects {
                     )
                 }
             }
+            "eevee-stars" -> {
+                val roll = random.nextFloat()
+                when {
+                    roll < 0.36f -> {
+                        val shiny = random.nextFloat() < 0.2f
+                        Spawn(
+                            x = rand(26f, max(26f, w - 26f)), y = rand(28f, max(28f, h - 28f)),
+                            vx = (if (random.nextFloat() < 0.5f) -1f else 1f) * rand(8f, 16f),
+                            vy = rand(-3f, 3f), size = rand(15f, 19f), rot = 0f, vr = 0f,
+                            life = rand(4.5f, 7.5f), shape = if (shiny) 1 else 0,
+                        )
+                    }
+                    roll < 0.64f -> Spawn(
+                        x = rand(14f, max(14f, w - 14f)),
+                        y = if (initial) rand(14f, max(14f, h - 14f)) else h + rand(6f, 18f),
+                        vx = rand(-4f, 4f), vy = -rand(14f, 24f), size = rand(6.5f, 9.5f),
+                        rot = 0f, vr = 0f, life = rand(3.2f, 5.2f), shape = 2,
+                    )
+                    else -> Spawn(
+                        x = rand(12f, max(12f, w - 12f)), y = rand(12f, max(12f, h - 12f)),
+                        vx = rand(-3f, 3f), vy = rand(-8f, -2f), size = rand(5.5f, 9.5f),
+                        rot = 0f, vr = 0f, life = rand(1.8f, 3.4f), shape = 3,
+                        tint = pick(EEVEE_STAR_COLORS),
+                    )
+                }
+            }
             else -> Spawn(x = 0f, y = 0f, vx = 0f, vy = 0f, size = 0f, rot = 0f, vr = 0f)
         }
 
@@ -260,6 +300,7 @@ object BuiltinEffects {
         "creeping-hands" -> 8
         "signal-intrusion" -> 18
         "broadcast-hijack" -> 16
+        "eevee-stars" -> 14
         else -> 0
     }
 

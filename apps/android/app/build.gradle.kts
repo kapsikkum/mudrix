@@ -140,6 +140,7 @@ val syncCosmetics = tasks.register<Sync>("syncCosmetics") {
     from(web.dir("public/assets/decorations")) { into("decorations") }
     from(web.dir("public/assets/frames")) { into("frames") }
     from(web.dir("public/assets/nameplates")) { into("nameplates") }
+    from(web.dir("public/assets/effects")) { include("eevee-anim*.png"); into("effects") }
     from(web.dir("src/util/builtinCosmetics")) { include("*.json") }
 }
 tasks.named("preBuild") { dependsOn(syncCosmetics) }

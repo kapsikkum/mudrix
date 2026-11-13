@@ -1,5 +1,7 @@
 package org.wizardchat.android.ui.cosmetics
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +15,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -22,9 +27,12 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -33,6 +41,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
 import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.WizardApplication
 
 /** Draws one built-in effect over its bounds, following the web app's canvas effects */
 @Composable
@@ -43,6 +52,11 @@ fun BuiltinEffect(id: String, modifier: Modifier = Modifier, animate: Boolean = 
     val resumed = lifecycleState == androidx.lifecycle.Lifecycle.State.RESUMED
     var size by remember { mutableStateOf(IntSize.Zero) }
     var particles by remember(id) { mutableStateOf(emptyList<BuiltinEffects.Particle>()) }
+    var art by remember(id) { mutableStateOf<EeveeArt?>(null) }
+
+    LaunchedEffect(id) {
+        if (id == "eevee-stars" && art == null) art = EeveeArt.load()
+    }
 
     LaunchedEffect(id, size, animate, reduceMotion, resumed) {
         if (size.width <= 0 || size.height <= 0) return@LaunchedEffect
@@ -64,7 +78,8 @@ fun BuiltinEffect(id: String, modifier: Modifier = Modifier, animate: Boolean = 
     }
 
     Canvas(modifier.onSizeChanged { size = it }) {
-        for (particle in particles) drawParticle(id, particle)
+        val moving = animate && !reduceMotion
+        for (particle in particles) drawParticle(id, particle, art, moving)
     }
 }
 
@@ -99,6 +114,10 @@ private val SIGNAL_BLACK = Color(0xFF050108)
 private val BROADCAST_BLACK = Color(0xFF020204)
 private val BROADCAST_PALE = Color(0xFFF4F4F0)
 private val BROADCAST_LINE = Color(0xFFD6D3CD)
+private val EEVEE_OUTLINE = Color(0xFF140B06)
+private val EEVEE_HEART = Color(0xFFFB7185)
+private val EEVEE_HEART_LIGHT = Color(0xFFFFE4E6)
+private val EEVEE_SPARKLE_STROKE = Color(0xFF5C3818)
 
 private val COLOR_CACHE = HashMap<String, Color>()
 
@@ -109,7 +128,12 @@ private fun tint(tint: String?, fallback: Color): Color {
     }
 }
 
-private fun DrawScope.drawParticle(id: String, p: BuiltinEffects.Particle) {
+private fun DrawScope.drawParticle(
+    id: String,
+    p: BuiltinEffects.Particle,
+    art: EeveeArt?,
+    moving: Boolean,
+) {
     val alpha = if (p.life.isFinite()) {
         sin(p.age / p.life * PI).toFloat().coerceIn(0f, 1f) * 0.95f
     } else {
@@ -119,11 +143,17 @@ private fun DrawScope.drawParticle(id: String, p: BuiltinEffects.Particle) {
         translate(p.x, p.y)
         rotate(p.rot * DEGREES, pivot = Offset.Zero)
     }) {
-        drawEffect(id, p, alpha)
+        drawEffect(id, p, alpha, art, moving)
     }
 }
 
-private fun DrawScope.drawEffect(id: String, p: BuiltinEffects.Particle, alpha: Float) {
+private fun DrawScope.drawEffect(
+    id: String,
+    p: BuiltinEffects.Particle,
+    alpha: Float,
+    art: EeveeArt?,
+    moving: Boolean,
+) {
     when (id) {
         "falling-stars" -> {
             val path = starPath(p.size)
@@ -176,6 +206,7 @@ private fun DrawScope.drawEffect(id: String, p: BuiltinEffects.Particle, alpha: 
         "creeping-hands" -> drawHand(p, alpha)
         "signal-intrusion" -> drawSignal(p, alpha)
         "broadcast-hijack" -> drawBroadcast(p, alpha)
+        "eevee-stars" -> drawEevee(p, alpha, art, moving)
     }
 }
 
@@ -481,6 +512,116 @@ private fun DrawScope.drawBroadcastHead(p: BuiltinEffects.Particle, alpha: Float
             drawRect(BROADCAST_BLACK.copy(alpha = alpha), Offset(-r * 0.72f, top), Size(r * 1.44f, eyeRadiusY * 2.4f))
             drawRect(BROADCAST_PALE.copy(alpha = alpha), Offset(-r * 0.72f, top), Size(r * 1.44f, eyeRadiusY * 2.4f), style = Stroke(0.8f))
             drawRect(BROADCAST_LINE.copy(alpha = 0.82f * alpha), Offset(-r * 0.5f, eyeY - 1f + slipY), Size(r, 2f))
+        }
+    }
+}
+
+private fun DrawScope.drawEevee(p: BuiltinEffects.Particle, alpha: Float, art: EeveeArt?, moving: Boolean) {
+    when (p.shape) {
+        0, 1 -> drawEeveeSprite(p, alpha, art, moving)
+        2 -> drawEeveeHeart(p, alpha)
+        else -> {
+            val twinkle = 0.78f + 0.22f * sin(p.age * 4.5f + p.phase)
+            val path = sparklePath(p.size * twinkle)
+            drawPath(path, tint(p.tint, Color(0xFFFEF08A)).copy(alpha = alpha))
+            drawPath(path, EEVEE_SPARKLE_STROKE.copy(alpha = 0.65f * alpha), style = Stroke(1f))
+        }
+    }
+}
+
+private fun DrawScope.drawEeveeSprite(p: BuiltinEffects.Particle, alpha: Float, art: EeveeArt?, moving: Boolean) {
+    val strip = art?.strip(p.shape == 1) ?: return
+    val hop = -abs(sin(p.age * 5.2f + p.phase)) * 7f
+    val tilt = sin(p.age * 5.2f + p.phase) * 0.08f
+    val frame = BuiltinEffects.eeveeFrame(p.age, p.phase, moving)
+    val k = p.size * 2.3f / BuiltinEffects.EEVEE_FRAME_H
+    withTransform({
+        translate(0f, hop)
+        rotate(tilt * DEGREES, pivot = Offset.Zero)
+        if (p.vx > 0f) scale(-1f, 1f, pivot = Offset.Zero)
+    }) {
+        scale(k, k, pivot = Offset.Zero) {
+            drawImage(
+                strip.tile(frame),
+                srcOffset = IntOffset(strip.offset(frame), 0),
+                srcSize = IntSize(BuiltinEffects.EEVEE_FRAME_W, BuiltinEffects.EEVEE_FRAME_H),
+                dstOffset = IntOffset(-BuiltinEffects.EEVEE_FRAME_W / 2, -BuiltinEffects.EEVEE_FRAME_H / 2),
+                dstSize = IntSize(BuiltinEffects.EEVEE_FRAME_W, BuiltinEffects.EEVEE_FRAME_H),
+                alpha = alpha,
+                filterQuality = FilterQuality.None,
+            )
+        }
+    }
+}
+
+private fun DrawScope.drawEeveeHeart(p: BuiltinEffects.Particle, alpha: Float) {
+    val u = max(1.2f, p.size * 0.22f)
+    val bob = sin(p.age * 4 + p.phase) * 2f
+    translate(-3.5f * u, -3.5f * u + bob) {
+        val outline = EEVEE_OUTLINE.copy(alpha = alpha)
+        drawRect(outline, Offset(u, 0f), Size(2 * u, u))
+        drawRect(outline, Offset(4 * u, 0f), Size(2 * u, u))
+        drawRect(outline, Offset(0f, u), Size(7 * u, 2 * u))
+        drawRect(outline, Offset(u, 3 * u), Size(5 * u, u))
+        drawRect(outline, Offset(2 * u, 4 * u), Size(3 * u, u))
+        drawRect(outline, Offset(3 * u, 5 * u), Size(u, u))
+        val fill = EEVEE_HEART.copy(alpha = alpha)
+        drawRect(fill, Offset(u, u), Size(2 * u, 2 * u))
+        drawRect(fill, Offset(4 * u, u), Size(2 * u, 2 * u))
+        drawRect(fill, Offset(2 * u, 2 * u), Size(3 * u, 2 * u))
+        drawRect(fill, Offset(3 * u, 4 * u), Size(u, u))
+        drawRect(EEVEE_HEART_LIGHT.copy(alpha = alpha), Offset(u, u), Size(u, u))
+    }
+}
+
+/** One Eevee sprite strip, cut into tiles of a few frames each so no bitmap is wider than a GPU texture */
+private class EeveeStrip(private val tiles: List<ImageBitmap>) {
+    /** The tile holding a frame index */
+    fun tile(frame: Int): ImageBitmap = tiles[frame / EEVEE_TILE_FRAMES]
+
+    /** The frame's left edge inside that tile, in pixels */
+    fun offset(frame: Int): Int = (frame % EEVEE_TILE_FRAMES) * BuiltinEffects.EEVEE_FRAME_W
+}
+
+private const val EEVEE_TILE_FRAMES = 32
+
+/** The Eevee strips, decoded from the APK's assets once and kept: 49x47 frames, 125 to a strip */
+private class EeveeArt(private val normal: EeveeStrip?, private val shiny: EeveeStrip?) {
+    /** The strip for the shiny Eevee or the normal one; null when that art is missing */
+    fun strip(shiny: Boolean): EeveeStrip? = if (shiny) this.shiny else normal
+
+    companion object {
+        @Volatile private var cached: EeveeArt? = null
+
+        /** Both strips, decoded on the first call and then reused */
+        suspend fun load(): EeveeArt = cached ?: withContext(Dispatchers.IO) {
+            cached ?: EeveeArt(decode("cosmetics/effects/eevee-anim.png"), decode("cosmetics/effects/eevee-anim-shiny.png"))
+                .also { cached = it }
+        }
+
+        private fun decode(path: String): EeveeStrip? = runCatching {
+            val strip = BitmapFactory.decodeStream(WizardApplication.instance.assets.open(path))
+            strip?.let { EeveeStrip(tiles(it)) }
+        }.getOrNull()
+
+        private fun tiles(strip: Bitmap): List<ImageBitmap> {
+            val frames = strip.width / BuiltinEffects.EEVEE_FRAME_W
+            val tiles = ArrayList<ImageBitmap>()
+            var first = 0
+            while (first < frames) {
+                val count = min(first + EEVEE_TILE_FRAMES, frames) - first
+                val tile = Bitmap.createBitmap(
+                    strip,
+                    first * BuiltinEffects.EEVEE_FRAME_W,
+                    0,
+                    count * BuiltinEffects.EEVEE_FRAME_W,
+                    strip.height,
+                )
+                tiles += tile.asImageBitmap()
+                first += count
+            }
+            strip.recycle()
+            return tiles
         }
     }
 }
