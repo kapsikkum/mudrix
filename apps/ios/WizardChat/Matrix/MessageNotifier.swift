@@ -77,6 +77,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|\(notification.eventId)",
                                             content: await withAvatar(content, for: notification), trigger: nil)
         try? await UNUserNotificationCenter.current().add(request)
+        Self.removeDeliveredPushes(eventId: notification.eventId)
     }
 
     /// Shows a message a push told the app about
@@ -170,6 +171,24 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         }
     }
 
+    /// A push iOS already delivered for the event is the generic one; the local notice replaces it
+    private static func removeDeliveredPushes(eventId: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getDeliveredNotifications { delivered in
+            let ids = NotificationDedup.remoteDuplicates(
+                of: delivered.map {
+                    NotificationDedup.Delivered(
+                        identifier: $0.request.identifier,
+                        eventId: ($0.request.content.userInfo["event_id"] as? String)
+                            ?? ($0.request.content.userInfo["eventId"] as? String),
+                        isRemote: ($0.request.trigger is UNPushNotificationTrigger))
+                },
+                eventId: eventId)
+            guard !ids.isEmpty else { return }
+            center.removeDeliveredNotifications(withIdentifiers: ids)
+        }
+    }
+
     func updateBadge(_ count: Int) {
         UNUserNotificationCenter.current().setBadgeCount(count)
     }
@@ -180,7 +199,15 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         let done = Unchecked(value: completionHandler)
         let hasSound = notification.request.content.sound != nil
         let priority = notification.request.content.userInfo["priority"] as? String == "1"
+        // The sync path shows its own notification for the same event, so the push adds nothing
+        let suppress = NotificationDedup.suppressRemote(
+            isRemote: (notification.request.trigger is UNPushNotificationTrigger),
+            hasEventId: PushPayload.parse(notification.request.content.userInfo)?.eventId != nil)
         Task { @MainActor in
+            guard !suppress else {
+                done.value([])
+                return
+            }
             var options: UNNotificationPresentationOptions = []
             if prefs?.notificationBanners == true { options.formUnion([.banner, .list]) }
             // The app is on screen, so the chosen pack's sound is played here, at the volume setting

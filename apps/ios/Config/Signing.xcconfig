@@ -3,6 +3,9 @@
 WZ_TEAM = QLN374H4MT
 WZ_BUNDLE_PREFIX = chat.mudrix
 WZ_APP_GROUP = group.$(WZ_BUNDLE_PREFIX).mobile
+// Keychain access group the app and the notification service share, as <team prefix>.<this>;
+// the team prefix comes from the provisioning profile at build time and lands in Info.plist
+WZ_KEYCHAIN_GROUP = $(WZ_BUNDLE_PREFIX).mobile
 
 // apns mode: point this at WizardChat/WizardChat-Push.entitlements (adds the Push Notifications capability)
 WZ_ENTITLEMENTS = WizardChat/WizardChat.entitlements

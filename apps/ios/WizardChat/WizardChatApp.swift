@@ -17,6 +17,8 @@ struct WizardChatApp: App {
 
 
     init() {
+        // Before any client is restored: the store the notification extension needs is in the app group
+        SessionStore.prepare()
         FontRegistry.registerFonts()
     }
 

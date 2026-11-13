@@ -51,5 +51,7 @@
 	<string>$(WZ_APP_GROUP)</string>
 	<key>WZGiphyApiKey</key>
 	<string>$(GIPHY_API_KEY)</string>
+	<key>WZKeychainAccessGroup</key>
+	<string>$(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)</string>
 </dict>
 </plist>

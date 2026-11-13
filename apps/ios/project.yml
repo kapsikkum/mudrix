@@ -70,6 +70,7 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
+        WZKeychainAccessGroup: $(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)
         # GIF search key from Config/Secrets.xcconfig or the GIPHY_API_KEY build setting; empty turns the GIF picker off
         WZGiphyApiKey: $(GIPHY_API_KEY)
         CFBundleLocalizations: [en, de, es, fr, it, pt, ru, ja, tr, nl, pl]
@@ -112,7 +113,10 @@ targets:
     platform: iOS
     sources:
       - WizardChatWidgets
-      - Shared
+      # The account store helper needs the core package, which the widgets don't link
+      - path: Shared
+        excludes:
+          - StoredSession.swift
       - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
       - ../../packages/icons/dist/apple/Icons.xcassets
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
@@ -183,6 +187,7 @@ targets:
       - path: Shared/ShareInbox.swift
       - path: Shared/PushPayload.swift
       - path: Shared/NotificationPreview.swift
+      - path: Shared/StoredSession.swift
       - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
@@ -192,9 +197,12 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
+        WZKeychainAccessGroup: $(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.usernotifications.service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).NotificationService
+    dependencies:
+      - package: WizardChatCore
     postBuildScripts:
       - name: Version from package.json
         script: ./scripts/set-version.sh
