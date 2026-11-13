@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "スタンプ",
+      "call": "通話"
+    },
     "addFavourite": "お気に入りに追加",
     "removeFavourite": "お気に入りから削除",
     "toggleFavouriteFailed": "お気に入りを更新できませんでした: {{error}}",

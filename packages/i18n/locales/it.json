@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Adesivo",
+      "call": "Chiamata"
+    },
     "addFavourite": "Aggiungi ai preferiti",
     "removeFavourite": "Rimuovi dai preferiti",
     "toggleFavouriteFailed": "Impossibile aggiornare il preferito: {{error}}",

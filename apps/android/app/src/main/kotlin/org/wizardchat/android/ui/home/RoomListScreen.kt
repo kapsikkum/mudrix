@@ -49,12 +49,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.matrix.Density
 import org.wizardchat.android.matrix.RoomGroup
 import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.MudrixTypes
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.RoomListStyle
 import org.wizardchat.android.matrix.RoomMenu
+import org.wizardchat.android.matrix.RoomPreview
+import org.wizardchat.android.matrix.RoomPreviewLabels
 import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.matrix.SidebarSelection
 import org.wizardchat.android.matrix.canSendState
@@ -85,6 +88,7 @@ import org.wizardchat.android.ui.people.SpaceSettingsSheet
 import org.wizardchat.android.ui.people.UserPickerMode
 import org.wizardchat.android.ui.people.UserPickerSheet
 import org.wizardchat.android.ui.search.GlobalSearchResults
+import org.wizardchat.android.ui.sensitive
 import org.wizardchat.android.ui.settings.SessionsSheet
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -593,6 +597,9 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
     val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
     val dmCosmetics = room.dmUserId?.let { org.wizardchat.android.ui.cosmetics.rememberCosmetics(it) }
+    val preview = if (prefs.uiDensity == Density.compact) null else room.lastMessage?.let {
+        RoomPreview.line(it, room.isDirect, previewLabels())
+    }
 
     @Composable
     fun TypeIcon(size: androidx.compose.ui.unit.Dp) {
@@ -649,6 +656,16 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
+            preview?.let { line ->
+                Text(
+                    line,
+                    Modifier.fillMaxWidth().sensitive(),
+                    style = wizardFont(WZ.FontSize.sm, if (hasUnread) FontWeight.Medium else FontWeight.Normal),
+                    color = if (hasUnread) theme.textPrimary else theme.textMuted,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (inCall && room.isVoice) ParticipantStack(room.id, room.callParticipants)
         }
         }
@@ -669,6 +686,20 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
         }
     }
 }
+
+/** The words a room list preview is built from, in the current language */
+@Composable
+private fun previewLabels() = RoomPreviewLabels(
+    you = tr("nav.you"),
+    photo = tr("timeline.photo"),
+    video = tr("timeline.summary.video"),
+    audio = tr("composer.voice.record"),
+    file = tr("composer.file"),
+    sticker = tr("room.preview.sticker"),
+    poll = tr("timeline.poll.title"),
+    call = tr("room.preview.call"),
+    newMessage = tr("common.newMessage"),
+)
 
 /** "just now", "5m ago", "3h ago" or "2d ago" for a room's latest activity */
 private fun relativeTimeText(millis: Long): String {

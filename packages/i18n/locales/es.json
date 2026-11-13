@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Sticker",
+      "call": "Llamada"
+    },
     "addFavourite": "Añadir a favoritos",
     "removeFavourite": "Quitar de favoritos",
     "toggleFavouriteFailed": "No se pudo actualizar el favorito: {{error}}",

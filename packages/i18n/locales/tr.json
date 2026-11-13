@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Çıkartma",
+      "call": "Arama"
+    },
     "addFavourite": "Favorilere ekle",
     "removeFavourite": "Favorilerden çıkar",
     "toggleFavouriteFailed": "Favori güncellenemedi: {{error}}",

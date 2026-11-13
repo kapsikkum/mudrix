@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Figurinha",
+      "call": "Chamada"
+    },
     "addFavourite": "Adicionar aos favoritos",
     "removeFavourite": "Remover dos favoritos",
     "toggleFavouriteFailed": "Não foi possível atualizar o favorito: {{error}}",

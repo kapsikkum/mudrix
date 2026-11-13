@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Стикер",
+      "call": "Звонок"
+    },
     "addFavourite": "Добавить в избранное",
     "removeFavourite": "Убрать из избранного",
     "toggleFavouriteFailed": "Не удалось обновить избранное: {{error}}",

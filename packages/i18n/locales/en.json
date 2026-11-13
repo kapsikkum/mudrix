@@ -362,6 +362,10 @@
     "newRoom": "New room"
   },
   "room": {
+    "preview": {
+      "sticker": "Sticker",
+      "call": "Call"
+    },
     "addFavourite": "Add to Favourites",
     "removeFavourite": "Remove from Favourites",
     "toggleFavouriteFailed": "Couldn't update favourite: {{error}}",
