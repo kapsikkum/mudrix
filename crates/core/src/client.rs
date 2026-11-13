@@ -117,6 +117,14 @@ impl WizardClient {
                     backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
                     auto_enable_backups: !store.manual_encryption_setup,
                 });
+        // Another process on this store (the iOS notification extension) must not share our lock
+        // holder name, or the SDK's locks would let both write at once
+        let builder = match store.process_name.as_deref() {
+            Some(name) => builder.cross_process_store_config(
+                matrix_sdk::cross_process_lock::CrossProcessLockConfig::multi_process(name),
+            ),
+            None => builder,
+        };
         let builder = if store.exclude_insecure_devices {
             builder
                 .with_decryption_settings(matrix_sdk_crypto::DecryptionSettings {

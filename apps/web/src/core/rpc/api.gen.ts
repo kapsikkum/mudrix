@@ -529,6 +529,40 @@ export type KeyRestoreProgress = {
 };
 
 /**
+ * The one-line preview of a room's latest message
+ */
+export type LastMessage = {
+  /**
+   * Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+   * Empty for every non-text kind, and for an event that can't be shown.
+   */
+  body: string;
+  senderId: string;
+  /**
+   * The sender's display name, omitted when it's the user's own message
+   */
+  senderName: string | null;
+  /**
+   * Sent by the user, from this or another of their devices
+   */
+  isOwn: boolean;
+  /**
+   * Milliseconds since the Unix epoch of the message
+   */
+  timestamp: number;
+  kind: LastMessageKind;
+};
+
+/**
+ * What the latest message of a room is, so the app can show a localized label when [`body`] is
+ * empty.
+ *
+ * [`body`]: LastMessage::body
+ */
+export type LastMessageKind =
+  'text' | 'image' | 'video' | 'audio' | 'file' | 'sticker' | 'poll' | 'call' | 'other';
+
+/**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
  */
@@ -1088,6 +1122,11 @@ export type RoomSummary = {
    */
   dmUserName: string | null;
   dmUserAvatar: string | null;
+  /**
+   * The latest message, for a one-line preview in the room list; `null` for a room with
+   * nothing to show yet (an invite, or a latest event that isn't a message)
+   */
+  lastMessage: LastMessage | null;
 };
 
 /**
@@ -1357,6 +1396,19 @@ export type StoreConfig = {
    */
   excludeInsecureDevices?: boolean;
   manualEncryptionSetup?: boolean;
+  /**
+   * Which process this client is, for the store locks two processes share (the SDK's
+   * cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+   * itself keeps the current behaviour.
+   *
+   * A second process that restores the same store while the app runs — the iOS
+   * `NotificationService` extension — must pass a different, stable name, e.g.
+   * `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+   * give two concurrently running processes the same name: they would both think they hold
+   * the lock. The value must not be `notifications`, which the SDK's notification client uses
+   * for its own store access.
+   */
+  processName?: string | null;
 };
 
 /**
@@ -2683,6 +2735,19 @@ export class WizardClient extends Remote {
 
   pushedNotification(roomId: string, eventId: string): Promise<Notification | null> {
     return runtime.call('WizardClient.pushedNotification', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
+  }
+
+  /**
+   * Like `pushedNotification`, for the iOS notification service extension: a second
+   * process restored over the same store with its own `StoreConfig.processName`, safe
+   * while the app runs. It never starts the sync; an event whose keys this process
+   * doesn't have comes back with `encrypted: true` and an empty body.
+   */
+  pushedNotificationFromExtension(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('WizardClient.pushedNotificationFromExtension', this, [
       roomId,
       eventId,
     ]) as Promise<Notification | null>;

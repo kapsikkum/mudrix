@@ -917,6 +917,46 @@ public struct KeyRestoreProgress: Codable, Hashable, Sendable {
     }
 }
 
+/// The one-line preview of a room's latest message
+public struct LastMessage: Codable, Hashable, Sendable {
+    /// Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+    /// Empty for every non-text kind, and for an event that can't be shown.
+    public var body: String
+    public var senderId: String
+    /// The sender's display name, omitted when it's the user's own message
+    public var senderName: String?
+    /// Sent by the user, from this or another of their devices
+    public var isOwn: Bool
+    /// Milliseconds since the Unix epoch of the message
+    public var timestamp: Int
+    public var kind: LastMessageKind
+
+    public init(body: String, senderId: String, senderName: String? = nil, isOwn: Bool, timestamp: Int, kind: LastMessageKind) {
+        self.body = body
+        self.senderId = senderId
+        self.senderName = senderName
+        self.isOwn = isOwn
+        self.timestamp = timestamp
+        self.kind = kind
+    }
+}
+
+/// What the latest message of a room is, so the app can show a localized label when [`body`] is
+/// empty.
+///
+/// [`body`]: LastMessage::body
+public enum LastMessageKind: String, Codable, Hashable, Sendable, CaseIterable {
+    case text = "text"
+    case image = "image"
+    case video = "video"
+    case audio = "audio"
+    case file = "file"
+    case sticker = "sticker"
+    case poll = "poll"
+    case call = "call"
+    case other = "other"
+}
+
 /// A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
 /// plain values so apps can apply it to their own list type.
 public enum ListDiff<T: Codable & Hashable & Sendable>: Codable, Hashable, Sendable {
@@ -1985,8 +2025,11 @@ public struct RoomSummary: Codable, Hashable, Sendable {
     /// The other person's name in a direct chat (or the inviter's for a DM invite)
     public var dmUserName: String?
     public var dmUserAvatar: String?
+    /// The latest message, for a one-line preview in the room list; `null` for a room with
+    /// nothing to show yet (an invite, or a latest event that isn't a message)
+    public var lastMessage: LastMessage?
 
-    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], inCall: Bool, inCallElsewhere: Bool, lastActivity: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil) {
+    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], inCall: Bool, inCallElsewhere: Bool, lastActivity: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil, lastMessage: LastMessage? = nil) {
         self.id = id
         self.name = name
         self.avatarUrl = avatarUrl
@@ -2014,6 +2057,7 @@ public struct RoomSummary: Codable, Hashable, Sendable {
         self.isKnocked = isKnocked
         self.dmUserName = dmUserName
         self.dmUserAvatar = dmUserAvatar
+        self.lastMessage = lastMessage
     }
 }
 
@@ -2388,12 +2432,24 @@ public struct StoreConfig: Codable, Hashable, Sendable {
     /// Don't share keys with, or read messages from, devices their owner hasn't verified
     public var excludeInsecureDevices: Bool?
     public var manualEncryptionSetup: Bool?
+    /// Which process this client is, for the store locks two processes share (the SDK's
+    /// cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+    /// itself keeps the current behaviour.
+    ///
+    /// A second process that restores the same store while the app runs — the iOS
+    /// `NotificationService` extension — must pass a different, stable name, e.g.
+    /// `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+    /// give two concurrently running processes the same name: they would both think they hold
+    /// the lock. The value must not be `notifications`, which the SDK's notification client uses
+    /// for its own store access.
+    public var processName: String?
 
-    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil, manualEncryptionSetup: Bool? = nil) {
+    public init(location: String, passphrase: String? = nil, excludeInsecureDevices: Bool? = nil, manualEncryptionSetup: Bool? = nil, processName: String? = nil) {
         self.location = location
         self.passphrase = passphrase
         self.excludeInsecureDevices = excludeInsecureDevices
         self.manualEncryptionSetup = manualEncryptionSetup
+        self.processName = processName
     }
 }
 
@@ -3803,6 +3859,14 @@ public final class WizardClient: Remote, @unchecked Sendable {
 
     public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
         try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
+    }
+
+    /// Like `pushedNotification`, for the iOS notification service extension: a second
+    /// process restored over the same store with its own `StoreConfig.processName`, safe
+    /// while the app runs. It never starts the sync; an event whose keys this process
+    /// doesn't have comes back with `encrypted: true` and an empty body.
+    public func pushedNotificationFromExtension(roomId: String, eventId: String) async throws -> Notification? {
+        try await call("WizardClient.pushedNotificationFromExtension", [.value(roomId), .value(eventId)])
     }
 
     public func logout() async throws {

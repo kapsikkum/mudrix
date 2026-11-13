@@ -35,11 +35,20 @@ iOS shows and hands to the `NotificationService` extension in `apps/ios/Notifica
   Sygnal-style gateways merge into the APNs payload as-is; the gateway must not strip `aps` and must send the push as an
   alert (`push_type: alert` in Sygnal, that is the `apns-push-type: alert` header).
 
-The extension cannot decrypt the message yet: the core's store, its keys and the session live in the app's own
-container and keychain access group, and a second process opening the same SQLite store is not safe (the core sets no
-`cross_process_store_locks_holder_name`, and `pushedNotification` builds a `SingleProcess` notification client). Until
-that changes, the extension shows the room's name from the app group (`rooms.json`) over the generic text, plus the
-ids that open the room on tap.
+The core now supports the extension decrypting the notification itself: the extension restores the same session over the
+app's store with its own `StoreConfig.processName` (the SDK's cross-process lock holder name; the app keeps the default
+`main`, the extension uses `notification-service`) and calls `pushedNotificationFromExtension`, which builds a
+`MultipleProcesses` notification client and never starts a sync service. Two conditions remain:
+
+- **The store and the session must be reachable from the extension**: the store path has to live in the App Group
+  container and the session (access token, device id) in a keychain item shared with the app through an access group.
+- **Keys that haven't reached this device can't be fetched while the app holds the crypto store lock.** The extension
+  then gets the notification with `encrypted: true` and an empty body, and shows the generic text (plus the room name
+  from `rooms.json`) instead of the message.
+
+Until the iOS app implements that (app + extension: App Group store path, shared keychain item, `processName`s, the
+call above), the extension keeps showing the room's name from the app group (`rooms.json`) over the generic text, plus
+the ids that open the room on tap.
 
 ## Content and assets
 

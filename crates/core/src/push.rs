@@ -61,17 +61,58 @@ impl WizardClient {
         Ok(())
     }
 
+    /// The notification for a push, in the process that runs the app's sync.
     pub async fn pushed_notification(
         &self,
+        room_id: &str,
+        event_id: &str,
+    ) -> Result<Option<Notification>> {
+        let setup = NotificationProcessSetup::SingleProcess {
+            sync_service: self.built_sync_service().await?,
+        };
+        self.notification_for_push(setup, room_id, event_id).await
+    }
+
+    /// The notification for a push, in a second process that restored the same account and store
+    /// (the iOS `NotificationService` extension).
+    ///
+    /// Restore the client with [`crate::WizardClient::restore`] over the app's store path and
+    /// session first, with a [`crate::StoreConfig::process_name`] of its own, then call this. It
+    /// never creates or starts the background sync: it makes one short sliding-sync request for
+    /// the notified event (with a `/context` fallback), and, if the event is still encrypted,
+    /// asks for its room key for a few seconds.
+    ///
+    /// It is safe to call while the app is running: the store writes both processes do are
+    /// coordinated by the SDK's cross-process locks, which only work when each process has its
+    /// own lock holder name (that is what `process_name` sets). No sync service is created: the
+    /// notification client it builds lives only for the call.
+    ///
+    /// What it cannot do: decrypt an event whose room key this device hasn't received. When the
+    /// app process holds the crypto store lock, the encryption sync for the notification doesn't
+    /// run at all, and the event comes back undecrypted (`encrypted: true`, empty body), so the
+    /// app has to show a placeholder. The room must also be in the restored store already.
+    pub async fn pushed_notification_from_extension(
+        &self,
+        room_id: &str,
+        event_id: &str,
+    ) -> Result<Option<Notification>> {
+        self.notification_for_push(
+            NotificationProcessSetup::MultipleProcesses,
+            room_id,
+            event_id,
+        )
+        .await
+    }
+
+    async fn notification_for_push(
+        &self,
+        setup: NotificationProcessSetup,
         room_id: &str,
         event_id: &str,
     ) -> Result<Option<Notification>> {
         let room_id = parse_room_id(room_id)?;
         let event_id = parse_event_id(event_id)?;
         let own_user = self.sdk().user_id().ok_or(Error::NotSignedIn)?.to_owned();
-        let setup = NotificationProcessSetup::SingleProcess {
-            sync_service: self.built_sync_service().await?,
-        };
         let client = NotificationClient::new(self.sdk().clone(), setup)
             .await
             .map_err(|e| Error::Sdk(e.to_string()))?;

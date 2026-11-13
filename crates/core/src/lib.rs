@@ -90,7 +90,9 @@ pub use room_admin::{
 pub use room_details::{Member, RoomDetails, RoomPermissions};
 pub use room_events::{RoomEvent, RoomEventsPage};
 pub use rooms::UnreadMention;
-pub use rooms::{CreateRoomOptions, InviteInfo, RoomFilter, RoomKind, RoomSummary};
+pub use rooms::{
+    CreateRoomOptions, InviteInfo, LastMessage, LastMessageKind, RoomFilter, RoomKind, RoomSummary,
+};
 pub use sections::RoomSection;
 pub use session::{Session, StoreConfig};
 pub use settings::{MentionRule, NotificationMode, NotificationPrefs};

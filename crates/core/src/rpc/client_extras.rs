@@ -210,6 +210,14 @@ rpc_methods! {
             this.pushed_notification(&room_id, &event_id).await
         }
 
+        /// Like `pushedNotification`, for the iOS notification service extension: a second
+        /// process restored over the same store with its own `StoreConfig.processName`, safe
+        /// while the app runs. It never starts the sync; an event whose keys this process
+        /// doesn't have comes back with `encrypted: true` and an empty body.
+        call fn pushedNotificationFromExtension(room_id: String, event_id: String) -> Option<Notification> {
+            this.pushed_notification_from_extension(&room_id, &event_id).await
+        }
+
         call fn logout() -> () {
             this.logout().await
         }

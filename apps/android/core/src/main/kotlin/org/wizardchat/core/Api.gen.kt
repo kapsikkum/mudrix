@@ -587,6 +587,43 @@ data class KeyRestoreProgress(
     val keysRestored: Long,
 )
 
+/** The one-line preview of a room's latest message */
+@Serializable
+data class LastMessage(
+    /**
+     * Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+     * Empty for every non-text kind, and for an event that can't be shown.
+     */
+    val body: String,
+    val senderId: String,
+    /** The sender's display name, omitted when it's the user's own message */
+    val senderName: String? = null,
+    /** Sent by the user, from this or another of their devices */
+    val isOwn: Boolean,
+    /** Milliseconds since the Unix epoch of the message */
+    val timestamp: Long,
+    val kind: LastMessageKind,
+)
+
+/**
+ * What the latest message of a room is, so the app can show a localized label when [`body`] is
+ * empty.
+ *
+ * [`body`]: LastMessage::body
+ */
+@Serializable
+enum class LastMessageKind {
+    @SerialName("text") text,
+    @SerialName("image") image,
+    @SerialName("video") video,
+    @SerialName("audio") audio,
+    @SerialName("file") file,
+    @SerialName("sticker") sticker,
+    @SerialName("poll") poll,
+    @SerialName("call") call,
+    @SerialName("other") other,
+}
+
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
@@ -1287,6 +1324,11 @@ data class RoomSummary(
     /** The other person's name in a direct chat (or the inviter's for a DM invite) */
     val dmUserName: String? = null,
     val dmUserAvatar: String? = null,
+    /**
+     * The latest message, for a one-line preview in the room list; `null` for a room with
+     * nothing to show yet (an invite, or a latest event that isn't a message)
+     */
+    val lastMessage: LastMessage? = null,
 )
 
 /** A room tag with its sort order (favourites, low priority, custom `u.*` tags) */
@@ -1546,6 +1588,19 @@ data class StoreConfig(
     /** Don't share keys with, or read messages from, devices their owner hasn't verified */
     val excludeInsecureDevices: Boolean? = null,
     val manualEncryptionSetup: Boolean? = null,
+    /**
+     * Which process this client is, for the store locks two processes share (the SDK's
+     * cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+     * itself keeps the current behaviour.
+     *
+     * A second process that restores the same store while the app runs — the iOS
+     * `NotificationService` extension — must pass a different, stable name, e.g.
+     * `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+     * give two concurrently running processes the same name: they would both think they hold
+     * the lock. The value must not be `notifications`, which the SDK's notification client uses
+     * for its own store access.
+     */
+    val processName: String? = null,
 )
 
 /** The state of the background sync, as shown to the user. */
@@ -2713,6 +2768,15 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
         Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
+    /**
+     * Like `pushedNotification`, for the iOS notification service extension: a second
+     * process restored over the same store with its own `StoreConfig.processName`, safe
+     * while the app runs. It never starts the sync; an event whose keys this process
+     * doesn't have comes back with `encrypted: true` and an empty body.
+     */
+    suspend fun pushedNotificationFromExtension(roomId: String, eventId: String): Notification? =
+        Runtime.call("WizardClient.pushedNotificationFromExtension", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     suspend fun logout() {
         Runtime.callUnit("WizardClient.logout", handle, listOf())
