@@ -256,6 +256,7 @@ fun ImageMessageView(
     isPrivateRoom: Boolean = true,
     spoiler: String? = null,
     onStickerTap: (() -> Unit)? = null,
+    radius: Dp = 14.dp,
 ) {
     val prefs = LocalPrefs.current
     val loader = LocalMedia.current
@@ -285,7 +286,7 @@ fun ImageMessageView(
     val width = media.width ?: maxWidth
     val height = media.height ?: (maxWidth * 0.75f)
     val scale = minOf(maxWidth / maxOf(width, 1f), maxHeight / maxOf(height, 1f), 1f)
-    val shape = RoundedCornerShape(if (isSticker) 0.dp else 14.dp)
+    val shape = RoundedCornerShape(if (isSticker) 0.dp else radius)
 
     Box(
         Modifier
@@ -432,7 +433,7 @@ fun ImageViewer(
 private const val DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000L
 
 @Composable
-fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
+fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null, radius: Dp = WZ.Radius.lg) {
     val loader = LocalMedia.current
     val scope = rememberCoroutineScope()
     var revealed by remember { mutableStateOf(false) }
@@ -451,7 +452,7 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
     Box(
         Modifier
             .size(width.dp, minOf(width * ratio, 340f).dp)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .clip(RoundedCornerShape(radius))
             .background(theme.fill)
             .messageTap {
                 if (spoiler != null && !revealed) {
@@ -579,16 +580,16 @@ fun VideoPlayer(file: File, onDismiss: () -> Unit) {
 }
 
 @Composable
-fun FileMessageView(media: ChatEntry.MediaContent) {
+fun FileMessageView(media: ChatEntry.MediaContent, bubble: Boolean = false, ownBubble: Boolean = false) {
     if (TextFile.showsCard(media.filename, media.mimetype, media.size)) {
-        TextFileCard(media)
+        TextFileCard(media, bubble, ownBubble)
     } else {
-        FileRow(media)
+        FileRow(media, bubble, ownBubble)
     }
 }
 
 @Composable
-private fun FileRow(media: ChatEntry.MediaContent) {
+private fun FileRow(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: Boolean) {
     val loader = LocalMedia.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -596,7 +597,7 @@ private fun FileRow(media: ChatEntry.MediaContent) {
     Row(
         Modifier
             .widthIn(max = WZ.Size.sidebar)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.sm else WZ.Radius.lg))
             .background(theme.fill)
             .messageTap {
                 if (loader == null || loading) return@messageTap
@@ -621,12 +622,12 @@ private fun FileRow(media: ChatEntry.MediaContent) {
             Text(
                 media.filename,
                 style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                color = theme.textPrimary,
+                color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             media.size?.let {
-                Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = if (ownBubble) theme.textOnAccent.copy(alpha = 0.75f) else theme.textMuted)
             }
         }
         Spacer(Modifier.weight(0.001f))
@@ -636,7 +637,7 @@ private fun FileRow(media: ChatEntry.MediaContent) {
 
 /** The start of a small text file in a monospace card, with the whole file one tap away */
 @Composable
-private fun TextFileCard(media: ChatEntry.MediaContent) {
+private fun TextFileCard(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: Boolean) {
     val session = LocalSession.current
     val loader = LocalMedia.current
     val context = LocalContext.current
@@ -692,7 +693,7 @@ private fun TextFileCard(media: ChatEntry.MediaContent) {
     Column(
         Modifier
             .widthIn(max = WZ.Size.sidebar)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.sm else WZ.Radius.lg))
             .background(theme.fill)
             .padding(WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
@@ -706,7 +707,7 @@ private fun TextFileCard(media: ChatEntry.MediaContent) {
             Text(
                 (if (expanded) full ?: head else head).orEmpty(),
                 style = TextStyle(fontFamily = FontFamily.Monospace, fontSize = WZ.FontSize.sm),
-                color = theme.textPrimary,
+                color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
                 maxLines = if (expanded) Int.MAX_VALUE else 5,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -719,12 +720,12 @@ private fun TextFileCard(media: ChatEntry.MediaContent) {
                 Text(
                     media.filename,
                     style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                    color = theme.textPrimary,
+                    color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 media.size?.let {
-                    Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                    Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = if (ownBubble) theme.textOnAccent.copy(alpha = 0.75f) else theme.textMuted)
                 }
             }
             if (head != null) {
@@ -732,7 +733,7 @@ private fun TextFileCard(media: ChatEntry.MediaContent) {
                     tr(if (expanded) "common.collapse" else "common.expand"),
                     Modifier.clickable { toggle() },
                     style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
-                    color = theme.accent,
+                    color = if (ownBubble) theme.textOnAccent else theme.accent,
                     maxLines = 1,
                 )
             }
@@ -1030,9 +1031,10 @@ internal fun bubbleFill(own: Boolean): Color =
 
 /** A quoted message on one line: the sender's colour, then the text. Tapping it jumps to the original. */
 @Composable
-fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, onJump: (() -> Unit)? = null) {
+fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, bubble: Boolean = false, onJump: (() -> Unit)? = null) {
     val scale = LocalPrefs.current.chatScale
     val roles = LocalRoomRoles.current
+    val bar = if (bubble) 2.dp else 3.dp
     Row(
         Modifier
             .then(if (end) Modifier else Modifier.fillMaxWidth())
@@ -1041,31 +1043,32 @@ fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, onJump: ((
             .then(if (onJump != null) Modifier.clickable(onClick = onJump) else Modifier),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        if (!end) Box(Modifier.width(3.dp).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
+        if (!end) Box(Modifier.width(bar).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
         Text(
             buildAnnotatedString {
                 if (quote.senderName.isNotEmpty()) {
-                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = roles.colorOf(quote.sender) ?: nameColor(quote.sender))) {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = if (bubble) theme.textMuted else (roles.colorOf(quote.sender) ?: nameColor(quote.sender)))) {
                         append(quote.senderName)
                     }
                     append(": ")
                 }
                 append(quote.text.ifEmpty { tr("timeline.originalMessage") })
             },
-            style = wizardFont(WZ.FontSize.md * scale),
+            style = wizardFont((if (bubble) WZ.FontSize.sm else WZ.FontSize.md) * scale),
             color = theme.textMuted,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             textAlign = if (end) TextAlign.End else TextAlign.Start,
         )
-        if (end) Box(Modifier.width(3.dp).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
+        if (end) Box(Modifier.width(bar).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, onToggle: (String) -> Unit) {
+fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, bubble: Boolean = false, onToggle: (String) -> Unit) {
     var reactors by remember { mutableStateOf<ChatEntry.ReactionGroup?>(null) }
+    val chipShape = if (bubble) RoundedCornerShape(WZ.Radius.lg) else CircleShape
     FlowRow(
         Modifier.padding(top = WZ.Space.space2),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
@@ -1089,11 +1092,11 @@ fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = nul
             ) {
                 Row(
                     Modifier
-                        .height(WZ.Space.space8)
-                        .clip(CircleShape)
+                        .then(if (bubble) Modifier else Modifier.height(WZ.Space.space8))
+                        .clip(chipShape)
                         .background(if (mine) theme.accent.copy(alpha = 0.18f) else theme.fill)
-                        .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, CircleShape)
-                        .padding(horizontal = WZ.Space.space4),
+                        .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, chipShape)
+                        .padding(horizontal = WZ.Space.space4, vertical = if (bubble) WZ.Space.space1 else 0.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
                 ) {
@@ -1102,7 +1105,7 @@ fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = nul
                     } else {
                         Text(reaction.key, fontSize = WZ.SizeIcon.sm.value.sp)
                     }
-                    Text(
+                    if (!bubble || reaction.count != 1) Text(
                         "${reaction.count}",
                         style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                         color = if (mine) theme.accent else theme.textMuted,
@@ -1211,7 +1214,7 @@ fun ReadReceiptsView(roomId: String, userIds: List<String>, readAt: Map<String, 
 }
 
 @Composable
-fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> Unit) {
+fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, bubble: Boolean = false, onOpen: () -> Unit) {
     val latest = thread.latestSummary?.lineSequence()?.firstOrNull()?.trim()?.takeIf { it.isNotEmpty() }
     val preview = when {
         thread.latestRedacted -> tr("timeline.messageDeleted")
@@ -1222,8 +1225,8 @@ fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> 
     val hint = tr("timeline.openThread")
     Row(
         Modifier
-            .widthIn(max = WZ.Size.panel)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .then(if (bubble) Modifier.fillMaxWidth() else Modifier.widthIn(max = WZ.Size.panel))
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.xl else WZ.Radius.lg))
             .background(theme.fill)
             .messageTap(onClick = onOpen)
             .semantics { onClick(label = hint) { onOpen(); true } }

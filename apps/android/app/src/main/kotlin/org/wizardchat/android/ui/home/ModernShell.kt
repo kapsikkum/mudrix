@@ -4,6 +4,7 @@ package org.wizardchat.android.ui.home
 
 import android.content.Context
 import android.provider.Settings
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -32,6 +33,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -88,6 +90,7 @@ import org.wizardchat.android.ui.UnreadDot
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
 import org.wizardchat.android.ui.people.UserProfileSheet
+import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -142,8 +145,9 @@ internal fun SpaceRailBar(
     onCreateSpace: () -> Unit,
     onExplore: () -> Unit,
     bottomInset: Dp,
+    listState: LazyListState,
 ) {
-    val slots = railSlots(roomList)
+    val slots = remember(roomList.spaces, roomList.spaceRooms, roomList.joinedRooms) { railSlots(roomList) }
     Column(
         Modifier
             .width(railWidth)
@@ -166,6 +170,7 @@ internal fun SpaceRailBar(
         Box(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6).height(1.dp).background(theme.border))
         LazyColumn(
             Modifier.weight(1f).fillMaxWidth(),
+            state = listState,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(top = WZ.Space.space2, bottom = WZ.Space.space2 + bottomInset),
@@ -350,7 +355,7 @@ internal fun ModernDock(
     keyboardVisible: Boolean,
     inboxBadge: Boolean,
     inboxMention: Boolean,
-    onYou: () -> Unit,
+    onProfile: () -> Unit,
     onInbox: () -> Unit,
     onInset: (Dp) -> Unit,
     callBar: @Composable () -> Unit,
@@ -359,17 +364,18 @@ internal fun ModernDock(
     Column(
         modifier
             .fillMaxWidth()
-            .navigationBarsPadding()
-            .onSizeChanged { onInset(with(density) { it.height.toDp() }) },
+            // Measured before the navigation-bar padding, so the reported height includes the inset the dock sits above
+            .onSizeChanged { onInset(with(density) { it.height.toDp() }) }
+            .navigationBarsPadding(),
     ) {
         callBar()
-        if (!keyboardVisible) ModernUserPanel(inboxBadge, inboxMention, onYou, onInbox)
+        if (!keyboardVisible) ModernUserPanel(inboxBadge, inboxMention, onProfile, onInbox)
     }
 }
 
 /** Your card in the dock: your avatar and status open your own profile (Settings is in there), the bell opens the inbox */
 @Composable
-internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: () -> Unit, onInbox: () -> Unit) {
+internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onProfile: () -> Unit, onInbox: () -> Unit) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
     val name = session.displayName ?: session.userId ?: ""
@@ -384,7 +390,6 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: 
         )
     val inboxLabel = tr("inbox.title")
     val shape = RoundedCornerShape(16.dp)
-    var ownProfile by remember { mutableStateOf(false) }
     Row(
         Modifier
             .fillMaxWidth()
@@ -397,7 +402,7 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: 
         Row(
             Modifier
                 .weight(1f)
-                .clickable { ownProfile = true }
+                .clickable(onClick = onProfile)
                 .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
@@ -422,19 +427,22 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: 
             }
         }
     }
-    session.userId?.let { userId ->
-        if (ownProfile) {
-            UserProfileSheet(userId, null, onDismiss = { ownProfile = false }, onOpenSettings = {
-                ownProfile = false
-                onYou()
-            })
-        }
+}
+
+/** Your own profile as a full-screen page over the shell: no rail or dock, and back or close returns to the shell */
+@Composable
+internal fun OwnProfilePage(userId: String, onClose: () -> Unit, onOpenSettings: () -> Unit) {
+    BackHandler(onBack = onClose)
+    Box(Modifier.fillMaxSize().background(theme.bgPrimary)) {
+        UserProfileSheet(userId, null, onDismiss = onClose, onOpenSettings = onOpenSettings, fullScreen = true)
+        BarButton("caret-left", tr("common.back"), onClose, Modifier.align(Alignment.TopStart).statusBarsPadding().padding(WZ.Space.space3), weight = PhWeight.bold, tint = Color.White)
     }
 }
 
 /**
  * A screen that follows a finger to the right and goes back past a distance or velocity threshold, with
- * [underlay] showing through as the list peeks. A left drag is left to the rows and scrollers underneath.
+ * [underlay] showing through as the list peeks. A drag that the content takes first (a row or scroller that can still
+ * move that way) is left to it.
  */
 @Composable
 internal fun SwipeBack(onBack: () -> Unit, underlay: @Composable () -> Unit, content: @Composable () -> Unit) {
@@ -468,7 +476,8 @@ internal fun SwipeBack(onBack: () -> Unit, underlay: @Composable () -> Unit, con
                 .graphicsLayer { translationX = offset }
                 .pointerInput(maxPx) {
                     awaitEachGesture {
-                        val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                        // Main pass, after the content: a scroller or row that takes the drag first keeps it
+                        val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Main)
                         val tracker = VelocityTracker()
                         tracker.addPosition(down.uptimeMillis, down.position)
                         var last = down.position
@@ -477,13 +486,17 @@ internal fun SwipeBack(onBack: () -> Unit, underlay: @Composable () -> Unit, con
                         var dragging = false
                         var giveUp = false
                         while (true) {
-                            val event = awaitPointerEvent(PointerEventPass.Initial)
+                            val event = awaitPointerEvent(PointerEventPass.Main)
                             val change = event.changes.firstOrNull { it.id == down.id } ?: break
                             val dx = change.position.x - last.x
                             val dy = change.position.y - last.y
                             last = change.position
                             tracker.addPosition(change.uptimeMillis, change.position)
                             if (!dragging) {
+                                if (change.isConsumed) {
+                                    giveUp = true
+                                    break
+                                }
                                 totalX += dx
                                 totalY += dy
                                 if (totalX > viewConfiguration.touchSlop && totalX > abs(totalY)) {

@@ -27,7 +27,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -309,7 +314,7 @@ fun RoomListScreen(
                     }
                 }
                 Box {
-                    RoundToolButton("plus", tr("nav.new"), { menuOpen = true }, accent = true)
+                    RoundToolButton("plus", tr("nav.new"), { menuOpen = true }, accent = true, weight = PhWeight.bold)
                     newMenu()
                 }
             }
@@ -319,7 +324,33 @@ fun RoomListScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
                 ) {
-                    WizardTextField(search, { search = it }, tr("nav.searchPlaceholder"), Modifier.weight(1f).focusRequester(searchFocus))
+                    TextField(
+                        value = search,
+                        onValueChange = { search = it },
+                        modifier = Modifier.weight(1f).heightIn(min = WZ.Space.space11).focusRequester(searchFocus),
+                        placeholder = {
+                            Text(
+                                tr("nav.searchPlaceholder"),
+                                color = theme.textMuted,
+                                style = wizardFont(WZ.FontSize.lg),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        },
+                        textStyle = wizardFont(WZ.FontSize.lg).copy(color = theme.textPrimary),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        shape = RoundedCornerShape(WZ.Radius.lg),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = theme.fill,
+                            unfocusedContainerColor = theme.fill,
+                            disabledContainerColor = theme.fill,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent,
+                            cursorColor = theme.accent,
+                        ),
+                    )
                     BarButton("x", tr("common.close"), { search = ""; searchOpen = false })
                 }
             }
@@ -546,6 +577,7 @@ private fun RoundToolButton(
     onClick: () -> Unit,
     accent: Boolean = false,
     badge: (@Composable () -> Unit)? = null,
+    weight: PhWeight = PhWeight.regular,
 ) {
     Box(Modifier.size(WZ.Space.space9)) {
         Box(
@@ -556,7 +588,7 @@ private fun RoundToolButton(
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center,
         ) {
-            PhIcon(icon, PhWeight.bold, WZ.SizeIcon.sm, tint = if (accent) theme.textOnAccent else theme.textPrimary, contentDescription = label)
+            PhIcon(icon, weight, WZ.SizeIcon.sm, tint = if (accent) theme.textOnAccent else theme.textPrimary, contentDescription = label)
         }
         badge?.let {
             Box(Modifier.align(Alignment.TopEnd).offset(WZ.Space.space1, -WZ.Space.space1)) { it() }
@@ -606,6 +638,7 @@ private fun SwipeableRoomRow(
     )
     SwipeToDismissBox(
         state,
+        modifier = Modifier.clip(RoundedCornerShape(WZ.Radius.md)),
         backgroundContent = {
             val leading = state.dismissDirection == SwipeToDismissBoxValue.StartToEnd
             Row(

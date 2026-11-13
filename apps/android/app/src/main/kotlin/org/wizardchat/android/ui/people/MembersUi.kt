@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
@@ -45,7 +47,6 @@ import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhWeight
-import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.SecondaryButton
 import org.wizardchat.android.ui.Spinner
@@ -208,9 +209,19 @@ private fun MemberRow(member: Member, nameColor: androidx.compose.ui.graphics.Co
 
 private enum class ProfileAction { Kick, Ban, Ignore }
 
-/** A user's profile and actions */
+/**
+ * A user's profile and actions. [fullScreen] shows the same content as a page with no sheet handle or bar,
+ * for a host that is a full-screen route and provides its own back navigation.
+ */
 @Composable
-fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onChanged: () -> Unit = {}, onOpenSettings: (() -> Unit)? = null) {
+fun UserProfileSheet(
+    userId: String,
+    roomId: String?,
+    onDismiss: () -> Unit,
+    onChanged: () -> Unit = {},
+    onOpenSettings: (() -> Unit)? = null,
+    fullScreen: Boolean = false,
+) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
     val navigator = LocalNavigator.current
@@ -348,8 +359,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
         }
     }
 
-    WizardSheet(onDismiss) {
-        SheetBar("", trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
+    val body: @Composable ColumnScope.() -> Unit = {
         val cosmetics = org.wizardchat.android.ui.cosmetics.resolveCosmetics(extended)
         val moderation = buildList {
             if (!isMe) {
@@ -378,7 +388,8 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             item {
                 org.wizardchat.android.ui.cosmetics.FrameBox(cosmetics?.frame.orEmpty(), Modifier.fillMaxWidth()) {
                     Column(Modifier.fillMaxWidth()) {
-                        Box(Modifier.fillMaxWidth()) {
+                        // Above the nameplate, so the lower half of the avatar that overlaps it is not washed out
+                        Box(Modifier.fillMaxWidth().zIndex(1f)) {
                             Box(Modifier.fillMaxWidth().aspectRatio(BANNER_RATIO).background(theme.fill)) {
                                 ProfileBanner(userId)
                                 org.wizardchat.android.ui.cosmetics.EffectOverlay(
@@ -454,8 +465,8 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                                 }
                                 if (!isMe) {
                                     Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space1), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                                        PrimaryButton(tr("profile.message"), ::message, Modifier.weight(1f), enabled = !busy)
-                                        if (dmRoom != null) SecondaryButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
+                                        ProfileActionButton(tr("profile.message"), ::message, Modifier.weight(1f), enabled = !busy)
+                                        if (dmRoom != null) ProfileActionButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
                                     }
                                 }
                                 if (isMe && onOpenSettings != null) {
@@ -521,6 +532,14 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             item { ErrorText(error) }
         }
     }
+    if (fullScreen) {
+        SheetPage(body)
+    } else {
+        WizardSheet(onDismiss) {
+            SheetBar("", trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
+            body()
+        }
+    }
 
     confirm?.let { action ->
         val who = name ?: userId
@@ -545,6 +564,14 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             destructive = true,
             showField = action != ProfileAction.Ignore,
         )
+    }
+}
+
+/** A profile action on a solid surface, so it reads over any nameplate */
+@Composable
+private fun ProfileActionButton(text: String, onClick: () -> Unit, modifier: Modifier, enabled: Boolean) {
+    Box(modifier.clip(CircleShape).background(theme.bgTertiary)) {
+        SecondaryButton(text, onClick, enabled = enabled, color = theme.textPrimary)
     }
 }
 

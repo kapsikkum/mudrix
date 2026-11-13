@@ -21,8 +21,7 @@ import org.wizardchat.core.WizardClient
 
 /**
  * Recently used emoji, kept in the `m.recent_emoji` account data like the web, so they're the
- * same on every device. The picker offers the most used first; the recent order also fills the
- * quick reactions, like the keyboard's recent emoji.
+ * same on every device. The picker offers the most used first, and the quick reactions use the same ranking.
  */
 class RecentEmoji private constructor() {
     /**
@@ -56,7 +55,7 @@ class RecentEmoji private constructor() {
     private var legacy = emptyList<Entry>()
 
     val quickReactions: List<String>
-        get() = (entries.filter { it.url == null }.map { it.emoji } + DEFAULT_REACTIONS).distinct().take(QUICK_COUNT)
+        get() = (frequent.filter { it.url == null }.map { it.emoji } + DEFAULT_REACTIONS).distinct().take(QUICK_COUNT)
 
     fun start(client: WizardClient) {
         this.client = client
@@ -86,22 +85,31 @@ class RecentEmoji private constructor() {
         saveJob?.cancel()
         saveJob = scope.launch {
             delay(1000)
-            val client = client ?: return@launch
-            val snapshot = entries
-            val content = JsonObject(mapOf("recent_emoji" to json.encodeToJsonElement(snapshot)))
-            runCatching { client.setAccountData(EVENT_TYPE, content) }
-            val legacyList = snapshot.filter { it.url == null }
-            val legacyContent = JsonObject(
-                mapOf(
-                    "recent_emoji" to JsonArray(
-                        legacyList.map { JsonArray(listOf(JsonPrimitive(it.emoji), JsonPrimitive(RecentEmojiRanking.count(it)))) }
+            var retry = SAVE_RETRY_MIN
+            while (true) {
+                val client = client ?: return@launch
+                val snapshot = entries
+                val content = JsonObject(mapOf("recent_emoji" to json.encodeToJsonElement(snapshot)))
+                val saved = runCatching { client.setAccountData(EVENT_TYPE, content) }.isSuccess
+                val legacyList = snapshot.filter { it.url == null }
+                val legacyContent = JsonObject(
+                    mapOf(
+                        "recent_emoji" to JsonArray(
+                            legacyList.map { JsonArray(listOf(JsonPrimitive(it.emoji), JsonPrimitive(RecentEmojiRanking.count(it)))) }
+                        )
                     )
                 )
-            )
-            runCatching { client.setAccountData(LEGACY_EVENT_TYPE, legacyContent) }
-            stored = snapshot
-            legacy = legacyList.map { Entry(it.emoji, total = RecentEmojiRanking.count(it)) }
-            unsaved = false
+                val legacySaved = runCatching { client.setAccountData(LEGACY_EVENT_TYPE, legacyContent) }.isSuccess
+                if (saved && legacySaved) {
+                    stored = snapshot
+                    legacy = legacyList.map { Entry(it.emoji, total = RecentEmojiRanking.count(it)) }
+                    unsaved = false
+                    return@launch
+                }
+                // The pick stays pending (not overwritten by the server's copy) and the write is tried again
+                delay(retry)
+                retry = (retry * 2).coerceAtMost(SAVE_RETRY_MAX)
+            }
         }
     }
 
@@ -138,6 +146,8 @@ class RecentEmoji private constructor() {
         private const val EVENT_TYPE = "m.recent_emoji"
         private const val LEGACY_EVENT_TYPE = "io.element.recent_emoji"
         private const val QUICK_COUNT = 6
+        private const val SAVE_RETRY_MIN = 5_000L
+        private const val SAVE_RETRY_MAX = 60_000L
         private val DEFAULT_REACTIONS = listOf("👍", "❤️", "😂", "😮", "😢", "🎉")
         private val json = Json {
             ignoreUnknownKeys = true

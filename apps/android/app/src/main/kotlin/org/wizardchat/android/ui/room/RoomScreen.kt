@@ -157,6 +157,7 @@ import org.wizardchat.android.ui.composer.MediaPickerTab
 import org.wizardchat.android.ui.copyToClipboard
 import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
 import org.wizardchat.android.ui.home.LocalCalls
+import org.wizardchat.android.ui.people.MembersScreen
 import org.wizardchat.android.ui.people.RoomInfoSheet
 import org.wizardchat.android.ui.people.SheetPage
 import org.wizardchat.android.ui.people.UserProfileSheet
@@ -282,6 +283,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     val expandedFolds = UndecryptableFolds.expandedRooms
     val timelineItems = remember(timeline.entries, room.id in expandedFolds) { foldTimeline(timeline.entries, room.id in expandedFolds) }
     val reversedItems = remember(timelineItems) { timelineItems.asReversed() }
+    val seenByLast = remember(timeline.entries) { seenByLastOwn(timeline.entries) }
 
     /** Index in the reversed list of an entry (0 is the bottom anchor, then the uploads) */
     fun listIndex(id: String): Int? {
@@ -507,7 +509,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                             Column(Modifier.fillMaxWidth()) {
                                 if (entry.id == unreadDividerId) NewMessagesDivider()
                                 HighlightBox(highlightedId == entry.id) {
-                                    TimelineRow(entry, actions, room.isDirect, joinCall)
+                                    TimelineRow(entry, actions, room.isDirect, joinCall, seen = seenByLast?.takeIf { it.id == entry.id })
                                 }
                                 if (item.collapsible) UndecryptableCollapseRow(room.id)
                             }
@@ -684,8 +686,10 @@ private fun RoomTopBar(
         room.memberCount > 0 -> trPlural("room.settings.roles.memberCount", room.memberCount.toInt(), room.memberCount.toInt())
         else -> room.topic?.takeIf { it.isNotBlank() }
     }
-    val hint = tr("timeline.showsRoomInfoMembers")
+    val hint = if (partnerId != null) tr("call.viewProfile") else tr("timeline.showsRoomInfoMembers")
     val badge: (@Composable () -> Unit)? = if (mentions > 0) ({ UnreadBadge(mentions, isMention = true) }) else null
+    var profileUserId by remember { mutableStateOf<String?>(null) }
+    var showMembers by remember { mutableStateOf(false) }
     Row(
         Modifier
             .fillMaxWidth()
@@ -699,7 +703,9 @@ private fun RoomTopBar(
         Row(
             Modifier
                 .weight(1f)
-                .clickable(enabled = !inThread, onClick = onShowInfo)
+                .clickable(enabled = !inThread) {
+                    if (partnerId != null) profileUserId = partnerId else onShowInfo()
+                }
                 .then(if (inThread) Modifier else Modifier.semantics { contentDescription = "${room.displayName}. $hint" })
                 .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
             verticalAlignment = Alignment.CenterVertically,
@@ -758,12 +764,20 @@ private fun RoomTopBar(
                 WizardMenu(
                     moreMenu,
                     { moreMenu = false },
-                    listOf(
-                        MenuItem(tr("timeline.threads"), "chat-dots") { onShowThreads() },
-                        MenuItem(tr("room.jumpToDate.title"), "calendar-blank") { onJumpToDate() },
-                    ),
+                    buildList<MenuItem> {
+                        if (room.isDirect) add(MenuItem(tr("room.info.title"), "info") { onShowInfo() })
+                        add(MenuItem(tr("common.members"), "users") { showMembers = true })
+                        add(MenuItem(tr("timeline.threads"), "chat-dots") { onShowThreads() })
+                        add(MenuItem(tr("room.jumpToDate.title"), "calendar-blank") { onJumpToDate() })
+                    },
                 )
             }
+        }
+    }
+    profileUserId?.let { UserProfileSheet(it, room.id, onDismiss = { profileUserId = null }) }
+    if (showMembers) {
+        WizardSheet(onDismiss = { showMembers = false }) {
+            SheetPage { MembersScreen(room.id) { showMembers = false } }
         }
     }
 }
@@ -782,9 +796,12 @@ internal fun RoomHeader(
     actions: @Composable RowScope.() -> Unit,
 ) {
     val hint = tr("timeline.showsRoomInfoMembers")
+    val session = LocalSession.current
+    val mentions = session.roomList?.mentionRooms.orEmpty().filter { it.id != room.id }.sumOf { it.mentionCount }
+    val badge: (@Composable () -> Unit)? = if (mentions > 0) ({ UnreadBadge(mentions, isMention = true) }) else null
     Box(Modifier.fillMaxWidth().background(theme.bgSecondary).statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
         Box(Modifier.align(Alignment.CenterStart)) {
-            BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold)
+            BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold, badge = badge)
         }
         Box(
             Modifier
@@ -925,7 +942,7 @@ private fun TimelineStart(room: RoomSummary) {
 }
 
 @Composable
-private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean, joinCall: (() -> Unit)?) {
+private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean, joinCall: (() -> Unit)?, seen: SeenBy? = null) {
     when (val kind = entry.kind) {
         is ChatEntry.Kind.DateDivider -> Text(
             when {
@@ -946,7 +963,7 @@ private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom
             textAlign = TextAlign.Center,
         )
         is ChatEntry.Kind.Call -> CallRow(kind.call, joinCall)
-        else -> MessageRow(entry, actions, isPrivateRoom)
+        else -> MessageRow(entry, actions, isPrivateRoom, seen = seen)
     }
 }
 
@@ -1058,10 +1075,27 @@ private fun CallRow(call: CallHistoryView, joinCall: (() -> Unit)?) {
     }
 }
 
+/** Bubble layout: who has read your last message, most recent first, and when; `id` is that message */
+class SeenBy(val id: String, val userIds: List<String>, val readAt: Map<String, java.time.Instant>)
+
+/** Your last sent message and everyone who has read it: a read receipt sits on the latest message a person has read */
+private fun seenByLastOwn(entries: List<ChatEntry>): SeenBy? {
+    val index = entries.indexOfLast { it.isOwn && it.isContent && !it.isSending && !it.sendFailed }
+    if (index < 0) return null
+    val later = entries.subList(index, entries.size)
+    val readAt = HashMap<String, java.time.Instant>()
+    later.forEach { readAt.putAll(it.readAt) }
+    // Someone who posted after your message has seen it, like on the web
+    val readers = (later.flatMap { it.readBy } + later.filter { !it.isOwn && it.isContent }.map { it.sender })
+        .distinct()
+        .sortedByDescending { readAt[it] ?: java.time.Instant.MIN }
+    return SeenBy(entries[index].id, readers, readAt)
+}
+
 /** One message: avatar, name and time, content, link preview, reactions and read receipts */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom: Boolean = true, modifier: Modifier = Modifier) {
+fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom: Boolean = true, modifier: Modifier = Modifier, seen: SeenBy? = null) {
     val prefs = LocalPrefs.current
     val haptics = LocalHapticFeedback.current
     val density = LocalDensity.current
@@ -1197,7 +1231,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         }
                     }
                     entry.replyTo?.let { quote ->
-                        ReplyQuoteView(quote, end = ownBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
+                        ReplyQuoteView(quote, end = ownBubble, bubble = isBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
                     }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
                         Shields.display(entry.shield)?.let { display ->
@@ -1224,7 +1258,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         val sending = entry.isSending && !entry.sendFailed
                         Box(
                             Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
-                            contentAlignment = if (ownTextBubble) Alignment.CenterEnd else Alignment.Center,
+                            contentAlignment = if (ownBubble) Alignment.CenterEnd else if (isBubble) Alignment.CenterStart else Alignment.Center,
                         ) {
                             MessageContent(entry, actions, isPrivateRoom, isText)
                             if (sending && !isText) UploadProgressRing(null)
@@ -1259,17 +1293,19 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     IntegrationCards(body, actions?.isEncrypted ?: true)
                     if (entry.reactions.isNotEmpty() && entry.allowsActions) {
-                        ReactionsBar(entry.reactions, actions?.roomId) { key -> actions?.react?.invoke(key, entry) }
+                        ReactionsBar(entry.reactions, actions?.roomId, bubble = isBubble) { key -> actions?.react?.invoke(key, entry) }
                     }
                     val thread = entry.thread
                     val openThread = actions?.openThread
                     if (thread != null && thread.replies > 0 && actions != null && openThread != null) {
-                        ThreadSummaryBadge(thread, actions.roomId) { openThread(entry) }
+                        ThreadSummaryBadge(thread, actions.roomId, bubble = isBubble) { openThread(entry) }
                     }
                     val roomId = actions?.roomId
-                    if (entry.readBy.isNotEmpty() && roomId != null) {
+                    // Bubble layout: only your last message shows who has read it
+                    val readers = if (isBubble) seen?.userIds.orEmpty() else entry.readBy
+                    if (readers.isNotEmpty() && roomId != null) {
                         Box(Modifier.fillMaxWidth(), contentAlignment = if (isBubble && !entry.isOwn) Alignment.CenterStart else Alignment.CenterEnd) {
-                            ReadReceiptsView(roomId, entry.readBy, entry.readAt)
+                            ReadReceiptsView(roomId, readers, if (isBubble) seen?.readAt.orEmpty() else entry.readAt)
                         }
                     }
                 }
@@ -1284,12 +1320,31 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     }
 }
 
+/** Bubble layout: pictures, videos and files sit in a bubble-coloured frame, at most 90% of the column (and 620 dp) wide */
+@Composable
+private fun BubbleFrame(enabled: Boolean, own: Boolean, content: @Composable () -> Unit) {
+    if (!enabled) {
+        content()
+        return
+    }
+    BoxWithConstraints(Modifier.fillMaxWidth(), contentAlignment = if (own) Alignment.CenterEnd else Alignment.CenterStart) {
+        Column(
+            Modifier
+                .widthIn(max = minOf(maxWidth * 0.9f, 620.dp))
+                .background(bubbleFill(own), RoundedCornerShape(WZ.Radius.xl))
+                .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+        ) {
+            content()
+        }
+    }
+}
+
 @Composable
 private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivateRoom: Boolean, isText: Boolean) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
+    val isClassic = prefs.messageLayout == MessageLayout.classic
     if (isText) {
-        val isClassic = prefs.messageLayout == MessageLayout.classic
         if (!isClassic) {
             TextContent(
                 entry,
@@ -1334,14 +1389,17 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
         return
     }
     val captionStyle = wizardFont(WZ.FontSize.lg * scale)
+    val captionColor = if (isClassic && entry.isOwn) theme.textOnAccent else theme.textPrimary
     when (val kind = entry.kind) {
-        is ChatEntry.Kind.Image -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-            if (entry.galleryItems.size >= 2) {
-                GalleryGridView(entry.galleryItems, isPrivateRoom)
-            } else {
-                ImageMessageView(kind.media, isPrivateRoom = isPrivateRoom, spoiler = entry.mediaSpoiler)
+        is ChatEntry.Kind.Image -> BubbleFrame(isClassic, entry.isOwn) {
+            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                if (entry.galleryItems.size >= 2) {
+                    GalleryGridView(entry.galleryItems, isPrivateRoom)
+                } else {
+                    ImageMessageView(kind.media, isPrivateRoom = isPrivateRoom, spoiler = entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else 14.dp)
+                }
+                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
             }
-            kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }
         }
         is ChatEntry.Kind.Sticker -> ImageMessageView(
             kind.media,
@@ -1349,12 +1407,14 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
             isPrivateRoom = isPrivateRoom,
             onStickerTap = actions?.let { messageActions -> ({ messageActions.stickerPack(entry) }) },
         )
-        is ChatEntry.Kind.Video -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-            VideoMessageView(kind.media, entry.mediaSpoiler)
-            kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }
+        is ChatEntry.Kind.Video -> BubbleFrame(isClassic, entry.isOwn) {
+            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                VideoMessageView(kind.media, entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else WZ.Radius.lg)
+                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
+            }
         }
         is ChatEntry.Kind.Audio -> AudioMessageView(kind.media, kind.isVoice, kind.waveform)
-        is ChatEntry.Kind.File -> FileMessageView(kind.media)
+        is ChatEntry.Kind.File -> BubbleFrame(isClassic, entry.isOwn) { FileMessageView(kind.media, bubble = isClassic, ownBubble = isClassic && entry.isOwn) }
         is ChatEntry.Kind.Location -> LocationMessageView(kind.geoUri, kind.description)
         is ChatEntry.Kind.Poll -> PollMessageView(
             kind.poll,
@@ -1392,7 +1452,7 @@ private fun TextContent(
     }
     val size = if (emojiOnlySize == null) (if (bubble) WZ.FontSize.md else WZ.FontSize.lg) * scale else (emojiOnlySize * scale).sp
     val textColor = if (ownBubble) theme.textOnAccent else theme.textPrimary
-    val style = wizardFont(size).copy(lineHeight = (size.value + 3 * scale + 4).sp)
+    val style = wizardFont(size).copy(lineHeight = if (bubble && emojiOnlySize == null) (23.5f * scale).sp else (size.value + 3 * scale + 4).sp)
     val rich = entry.rich
     val message = entry.kind as? ChatEntry.Kind.Message
     if (rich != null && message != null && !message.isEmote) {

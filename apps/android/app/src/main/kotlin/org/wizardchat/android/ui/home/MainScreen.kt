@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -132,8 +133,12 @@ fun MainScreen(roomList: RoomListModel) {
     val notifier = remember { MessageNotifier.shared }
 
     var tab by remember { mutableStateOf(Tab.home) }
+    // The tab You was opened from, so closing You returns there with its rail selection (kept in paths)
+    var youFrom by remember { mutableStateOf(Tab.home) }
     val paths = remember { mutableStateMapOf<Tab, List<Route>>() }
     var showInbox by remember { mutableStateOf(false) }
+    var ownProfile by remember { mutableStateOf(false) }
+    val railListState = rememberLazyListState()
     var showCreateSpace by remember { mutableStateOf(false) }
     var showExplore by remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -173,6 +178,16 @@ fun MainScreen(roomList: RoomListModel) {
 
     fun select(item: Tab) {
         if (item == tab) paths[item] = emptyList() else tab = item
+    }
+
+    fun openYou() {
+        if (tab == Tab.me) return
+        youFrom = tab
+        tab = Tab.me
+    }
+
+    fun closeYou() {
+        tab = youFrom
     }
 
     fun showsIsland(item: Tab) = !keyboardVisible && paths[item].orEmpty().none { it is Route.Room || it is Route.Chat || it is Route.Thread }
@@ -243,6 +258,7 @@ fun MainScreen(roomList: RoomListModel) {
         showInbox = false
         showCreateSpace = false
         showExplore = false
+        ownProfile = false
         show(roomId)
     }
     val totalUnread = roomList.joinedRooms.sumOf { it.unreadCount }
@@ -267,7 +283,9 @@ fun MainScreen(roomList: RoomListModel) {
             RailSelectionStore.save(context, null)
         }
     }
-    BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) { tab = Tab.home }
+    BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) {
+        if (modern && tab == Tab.me) closeYou() else tab = Tab.home
+    }
 
     val stateHolder = rememberSaveableStateHolder()
     CompositionLocalProvider(
@@ -299,70 +317,66 @@ fun MainScreen(roomList: RoomListModel) {
                 val selectedSpaceId = (top as? Route.Space)?.id
                 val homeSelected = selectedSpaceId == null && tab != Tab.me
                 val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
-                // Chats and the You screen take the whole screen: no rail, no user panel
-                if (chatOpen || tab == Tab.me) {
-                    CompositionLocalProvider(LocalBottomBarInset provides 0.dp) {
-                        stateHolder.SaveableStateProvider(tab) {
-                            TabContent(
-                                tab,
-                                path,
+                // Chats and the You screen take the whole screen: no rail, no dock. The rail and dock come and go
+                // around the content, which stays composed in one place so its push and pop slides keep running
+                val showShell = !chatOpen && tab != Tab.me
+                val contentInset = if (showShell) dockInset else 0.dp
+                Row(Modifier.fillMaxSize()) {
+                    Row(Modifier.fillMaxHeight()) {
+                        if (showShell) {
+                            SpaceRailBar(
                                 roomList,
-                                onOpenInbox = { showInbox = true },
+                                selectedSpaceId = selectedSpaceId,
+                                homeSelected = homeSelected,
+                                onHome = {
+                                    select(Tab.home)
+                                    RailSelectionStore.save(context, null)
+                                },
+                                onSpace = ::showSpace,
                                 onCreateSpace = { showCreateSpace = true },
                                 onExplore = { showExplore = true },
-                                onCloseYou = { select(Tab.home) },
+                                bottomInset = dockInset,
+                                listState = railListState,
                             )
+                            Box(Modifier.width(1.dp).fillMaxHeight().background(theme.border))
                         }
                     }
-                    Column(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1)) {
-                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                            callBar()
-                        }
-                    }
-                } else {
-                    Row(Modifier.fillMaxSize()) {
-                        SpaceRailBar(
-                            roomList,
-                            selectedSpaceId = selectedSpaceId,
-                            homeSelected = homeSelected,
-                            onHome = {
-                                select(Tab.home)
-                                RailSelectionStore.save(context, null)
-                            },
-                            onSpace = ::showSpace,
-                            onCreateSpace = { showCreateSpace = true },
-                            onExplore = { showExplore = true },
-                            bottomInset = dockInset,
-                        )
-                        Box(Modifier.width(1.dp).fillMaxHeight().background(theme.border))
-                        Column(Modifier.weight(1f)) {
-                            CompositionLocalProvider(LocalBottomBarInset provides dockInset) {
-                                Box(Modifier.weight(1f)) {
-                                    stateHolder.SaveableStateProvider(tab) {
-                                        TabContent(
-                                            tab,
-                                            path,
-                                            roomList,
-                                            onOpenInbox = { showInbox = true },
-                                            onCreateSpace = { showCreateSpace = true },
-                                            onExplore = { showExplore = true },
-                                        )
-                                    }
+                    Column(Modifier.weight(1f)) {
+                        CompositionLocalProvider(LocalBottomBarInset provides contentInset) {
+                            Box(Modifier.weight(1f)) {
+                                stateHolder.SaveableStateProvider(tab) {
+                                    TabContent(
+                                        tab,
+                                        path,
+                                        roomList,
+                                        onOpenInbox = { showInbox = true },
+                                        onCreateSpace = { showCreateSpace = true },
+                                        onExplore = { showExplore = true },
+                                        onCloseYou = ::closeYou,
+                                    )
                                 }
                             }
                         }
                     }
+                }
+                if (showShell) {
                     ModernDock(
                         Modifier.align(Alignment.BottomCenter),
                         keyboardVisible = keyboardVisible,
                         inboxBadge = inboxBadge,
                         inboxMention = roomList.mentionRooms.isNotEmpty(),
-                        onYou = { select(Tab.me) },
+                        onProfile = { ownProfile = true },
                         onInbox = { showInbox = true },
                         onInset = { dockInset = it },
                     ) {
                         AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
                             Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
+                        }
+                    }
+                } else {
+                    Column(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1)) {
+                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                            callBar()
                         }
                     }
                 }
@@ -394,6 +408,12 @@ fun MainScreen(roomList: RoomListModel) {
                 }
             }
 
+            session.userId?.takeIf { ownProfile }?.let { userId ->
+                OwnProfilePage(userId, onClose = { ownProfile = false }, onOpenSettings = {
+                    ownProfile = false
+                    openYou()
+                })
+            }
             Column(
                 Modifier.align(Alignment.TopCenter).statusBarsPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally,
