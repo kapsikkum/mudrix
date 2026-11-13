@@ -148,7 +148,9 @@ export function RoomSettings() {
       {shownTab === 'permissions' && room && <RoomPermissionsMatrix roomId={roomId!} />}
       {shownTab === 'widgets' && <Widgets roomId={roomId!} client={client!} />}
       {shownTab === 'emojis' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
-      {shownTab === 'cosmetics' && <EmojiStickerPanel roomId={roomId!} client={client!} />}
+      {shownTab === 'cosmetics' && (
+        <EmojiStickerPanel roomId={roomId!} client={client!} scope="cosmetic" />
+      )}
       {shownTab === 'audit' && <AuditLogPanel roomId={roomId!} />}
       {shownTab === 'developer' && <DeveloperPanel roomId={roomId!} client={client!} />}
     </div>

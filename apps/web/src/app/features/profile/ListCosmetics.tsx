@@ -9,7 +9,7 @@ import {
   type NameplateId,
   type ProfileStatus,
 } from '@/util/profileCosmetics';
-import { useResolvedNameplate } from './ProfileCosmetics';
+import { useResolvedNameplate, useResolveCosmetic } from './ProfileCosmetics';
 import * as css from './ListCosmetics.css';
 
 /** Decorations in lists are drawn from a small thumbnail (96px covers a 48px avatar at 2x). */
@@ -78,15 +78,16 @@ export function useStaticDecorationSrc(
   client?: MatrixClient | null
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const isMxc = !!decoration && decoration.startsWith('mxc://');
-  const { src: thumb } = useMediaBlobUrl(c, isMxc ? decoration : null, {
+  const shown = useResolveCosmetic(decoration);
+  const isMxc = !!shown && shown.startsWith('mxc://');
+  const { src: thumb } = useMediaBlobUrl(c, isMxc ? shown : null, {
     width: STATIC_THUMB_SIZE,
     height: STATIC_THUMB_SIZE,
     resizeMethod: 'scale',
   });
-  if (!decoration) return undefined;
+  if (!shown) return undefined;
   if (isMxc) return thumb;
-  return avatarDecorationSrc(decoration);
+  return avatarDecorationSrc(shown);
 }
 
 /**

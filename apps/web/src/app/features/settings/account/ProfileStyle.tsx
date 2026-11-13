@@ -100,7 +100,7 @@ import { zIndex } from '@/theme/zIndex';
 
 const DEFAULT_PICKER_COLOR = '#5865f2';
 
-const BUILTIN_EFFECT_LABELS: Record<string, string> = {
+export const BUILTIN_EFFECT_LABELS: Record<string, string> = {
   'falling-stars': 'profile.effect.fallingStars',
   hearts: 'profile.effect.hearts',
   snow: 'profile.effect.snow',

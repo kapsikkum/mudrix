@@ -4,6 +4,7 @@ import { profileEffectsAtom } from '@/app/store/atoms';
 import { useReducedMotion } from '@/app/hooks/useReducedMotion';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
+import { useResolveCosmetic } from './ProfileCosmetics';
 import { type BuiltinProfileEffectId, type ProfileEffectId } from '@/util/profileCosmetics';
 import { lookupEffectIntro } from '@/app/hooks/useUserPacks';
 import { apngDurationMs } from '@/util/apng';
@@ -1193,22 +1194,25 @@ function MxcProfileEffect({
 export function ProfileEffect({ effect }: { effect: ProfileEffectId }) {
   const enabled = useAtomValue(profileEffectsAtom);
   const reducedMotion = useReducedMotion();
+  const shown = useResolveCosmetic(effect);
 
-  if (effect.startsWith('mxc://')) {
+  if (!shown) return null;
+
+  if (shown.startsWith('mxc://')) {
     return (
       <MxcProfileEffect
-        key={effect}
-        mxcUrl={effect}
+        key={shown}
+        mxcUrl={shown}
         enabled={enabled}
         reducedMotion={reducedMotion}
       />
     );
   }
 
-  if ((effect as string) in EFFECTS) {
+  if ((shown as string) in EFFECTS) {
     return (
       <BuiltinParticleEffect
-        effect={effect as BuiltinProfileEffectId}
+        effect={shown as BuiltinProfileEffectId}
         enabled={enabled}
         reducedMotion={reducedMotion}
       />

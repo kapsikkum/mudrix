@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { RoomSettings, SpaceNode, WizardClient } from '@wizardchat/core';
-import { useSpaceGraph, useUserId } from '@/app/data';
+import { useRoomSettings, useSpaceGraph, useUserId } from '@/app/data';
 import { getRoomCreators } from '@/app/features/room/memberRoles';
 import { findParentSpaceId } from '@/util/matrix';
 import { mudrixKey } from '@/util/namespace';
@@ -261,6 +261,22 @@ export function roleColorOf(
   else if (builtinKey !== '0') high = roles.builtin[builtinKey]?.color;
   return (
     high ?? roles.byUser.get(userId)?.find((role) => role.color)?.color ?? roles.builtin['0']?.color
+  );
+}
+
+/**
+ * [`roleColorOf`] for a room's people outside the timeline (call tiles, threads, reply previews),
+ * where no provider holds the roles: call the returned function with the person's power level.
+ */
+export function useRoleNameColor(
+  roomId: string | null | undefined
+): (userId: string, powerLevel?: number) => string | undefined {
+  const roles = useRoomRoles(roomId);
+  const { data: settings } = useRoomSettings(roomId);
+  return useCallback(
+    (userId: string, powerLevel = 0) =>
+      roleColorOf(roles, userId, builtinKeyOf(settings, userId, powerLevel)),
+    [roles, settings]
   );
 }
 

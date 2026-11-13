@@ -9,6 +9,7 @@ import {
   ShieldIcon,
   TagIcon,
   SmileyStickerIcon,
+  SparkleIcon,
   ClockCounterClockwiseIcon,
   XIcon,
   type Icon as PhosphorIcon,
@@ -61,6 +62,11 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     tab: 'emojis',
     labelKey: 'room.settings.emojis.title',
     Icon: SmileyStickerIcon,
+  },
+  {
+    tab: 'cosmetics',
+    labelKey: 'room.settings.cosmetics.title',
+    Icon: SparkleIcon,
   },
   {
     tab: 'audit',
@@ -135,6 +141,9 @@ export function SpaceSettings() {
       {activeTab === 'permissions' && space && <RoomPermissionsMatrix roomId={spaceId!} />}
       {activeTab === 'emojis' && space && client && (
         <EmojiStickerPanel roomId={spaceId!} client={client} />
+      )}
+      {activeTab === 'cosmetics' && space && client && (
+        <EmojiStickerPanel roomId={spaceId!} client={client} scope="cosmetic" />
       )}
       {activeTab === 'audit' && space && <AuditLogPanel roomId={spaceId!} />}
     </div>

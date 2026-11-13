@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { HardDrivesIcon, SealCheckIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { Tooltip } from '@/app/components/Tooltip';
-import { showHomeserverSoftwareAtom } from '@/app/store/atoms';
+import { showCosmeticPacksAtom, showHomeserverSoftwareAtom } from '@/app/store/atoms';
+import { resolveCosmetic } from '@/util/cosmeticPacks';
 import {
   describeSoftware,
   getHomeserverSoftware,
@@ -221,6 +222,15 @@ export interface CosmeticSrcOptions {
   enabled?: boolean;
 }
 
+/**
+ * The one gate every drawing of a cosmetic goes through: with cosmetic packs switched off in
+ * Settings > Cosmetics, pack items are not drawn for anyone while built-in ones still are.
+ */
+export function useResolveCosmetic<T>(value: T | null | undefined): T | null {
+  const showPacks = useAtomValue(showCosmeticPacksAtom);
+  return resolveCosmetic(value, showPacks);
+}
+
 /** Resolves a decoration to an image source; `mxc://` media is fetched with the session's login. */
 export function useDecorationSrc(
   decoration: AvatarDecorationId | null | undefined,
@@ -228,15 +238,16 @@ export function useDecorationSrc(
   options: CosmeticSrcOptions = {}
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const isMxc = !!decoration && decoration.startsWith('mxc://');
-  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? decoration : null, {
+  const shown = useResolveCosmetic(decoration);
+  const isMxc = !!shown && shown.startsWith('mxc://');
+  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? shown : null, {
     width: options.thumb,
     height: options.thumb,
     enabled: options.enabled,
     queue: true,
   });
-  if (!decoration) return undefined;
-  return isMxc ? blobUrl : avatarDecorationSrc(decoration);
+  if (!shown) return undefined;
+  return isMxc ? blobUrl : avatarDecorationSrc(shown);
 }
 
 /** Resolves a profile effect thumbnail or preview source with authenticated blob support for mxc://. */
@@ -246,16 +257,17 @@ export function useEffectSrc(
   options: CosmeticSrcOptions = {}
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const isMxc = !!effect && effect.startsWith('mxc://');
-  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? effect : null, {
+  const shown = useResolveCosmetic(effect);
+  const isMxc = !!shown && shown.startsWith('mxc://');
+  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? shown : null, {
     width: options.thumb,
     height: options.thumb,
     enabled: options.enabled,
     queue: true,
   });
-  if (!effect) return undefined;
+  if (!shown) return undefined;
   if (isMxc) return blobUrl;
-  return profileEffectThumbnailSrc(effect);
+  return profileEffectThumbnailSrc(shown);
 }
 
 /** Wraps an avatar and draws an avatar decoration around it. */
@@ -269,7 +281,8 @@ export function DecoratedAvatar({
   client?: MatrixClient | null;
 }) {
   const src = useRestartingSrc(useDecorationSrc(decoration, client));
-  if (!decoration) return <>{children}</>;
+  const shown = useResolveCosmetic(decoration);
+  if (!shown) return <>{children}</>;
   return (
     <span className={css.decorated} style={{ display: 'inline-flex' }}>
       {children}
@@ -296,8 +309,8 @@ export function useNameplateSrc(
   options: CosmeticSrcOptions = {}
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const url =
-    typeof nameplate === 'object' && nameplate !== null ? nameplate.url : (nameplate ?? null);
+  const shown = useResolveCosmetic(nameplate);
+  const url = typeof shown === 'object' && shown !== null ? shown.url : (shown ?? null);
   const isMxc = !!url && url.startsWith('mxc://');
   const builtin = isMxc ? undefined : getBuiltinNameplate(url);
   const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? url : null, {
@@ -317,21 +330,22 @@ export function useResolvedNameplate(
 ): { src: string | undefined; palette?: string; active: boolean } {
   const c = client ?? getMatrixClientOrNull();
   const packs = useNameplatePacks(c);
+  const shown = useResolveCosmetic(nameplate);
   const { url, palette } = ((): { url: string | null; palette?: string } => {
-    if (!nameplate) return { url: null };
-    if (typeof nameplate === 'object') return { url: nameplate.url, palette: nameplate.palette };
-    const builtin = getBuiltinNameplate(nameplate);
+    if (!shown) return { url: null };
+    if (typeof shown === 'object') return { url: shown.url, palette: shown.palette };
+    const builtin = getBuiltinNameplate(shown);
     if (builtin) return { url: builtin.id, palette: builtin.palette };
     for (const group of packs) {
       for (const item of group.nameplates) {
-        if (item.id === nameplate || item.url === nameplate) {
+        if (item.id === shown || item.url === shown) {
           return { url: item.url, palette: item.palette };
         }
       }
     }
-    return { url: nameplate };
+    return { url: shown };
   })();
-  const src = useNameplateSrc(url, c);
+  const src = useNameplateSrc(shown, c);
   return { src, palette, active: !!url };
 }
 

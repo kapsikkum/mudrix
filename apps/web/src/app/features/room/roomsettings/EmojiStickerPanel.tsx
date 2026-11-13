@@ -1,6 +1,7 @@
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  EyeIcon,
   PlusIcon,
   StickerIcon,
   TrashIcon,
@@ -12,7 +13,7 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useRoomDetails } from '@/app/data';
-import { invalidateImagePacks } from '@/app/hooks/useUserPacks';
+import { invalidateImagePacks, packKindOf, type PackKind } from '@/app/hooks/useUserPacks';
 import { getErrorMessage } from '@/util/error';
 import { Button, IconButton } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
@@ -47,11 +48,26 @@ import {
   type UploadedImage,
 } from './packUpload';
 import { PackBar } from './PackStatus';
+import { CosmeticPackPreview } from './CosmeticPackPreview';
+import * as previewCss from './CosmeticPackPreview.css';
 import * as css from './RoomSettingsEmojiSticker.css';
 import * as panelCss from '@/app/components/Settings/Settings.css';
 
 const PONIES_ROOM_EMOTES = 'im.ponies.room_emotes';
 const ALLOWED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'image/apng'];
+
+const COSMETIC_USAGE_OPTIONS = [
+  { value: 'profile_decoration', label: 'Avatar Decorations' },
+  { value: 'profile_effect', label: 'Profile Effects' },
+  { value: 'nameplate', label: 'Nameplates' },
+  { value: 'profile_frame', label: 'Profile Frames' },
+];
+
+/** The cosmetic kinds in the order their packs are listed. */
+const COSMETIC_KINDS: PackKind[] = ['decoration', 'effect', 'nameplate', 'profile_frame'];
+
+/** Emoji and sticker packs share a room's pack events with cosmetic packs; each gets its own page. */
+type Scope = 'emoji' | 'cosmetic';
 
 function usageModeToArray(mode: string): string[] {
   if (mode === 'both') return ['emoticon', 'sticker'];
@@ -159,29 +175,38 @@ function parsePacks(packEvents: Map<string, Record<string, unknown>[]>): PackDat
 interface Props {
   client: WizardClient;
   roomId: string;
+  /** Which packs this page manages (emoji and stickers unless told otherwise). */
+  scope?: Scope;
 }
 
-export function EmojiStickerPanel({ client, roomId }: Props) {
+export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
   const { t } = useTranslation();
   const toast = useToast();
   const confirmDialog = useConfirm();
   const details = useRoomDetails(roomId);
   const isSpace = details?.isSpace ?? false;
+  const cosmetic = scope === 'cosmetic';
 
   const usageOptions = useMemo(
-    () => [
-      { value: 'both', label: t('room.settings.emojis.usageBoth') },
-      { value: 'emoticon', label: t('room.settings.emojis.usageEmoji') },
-      { value: 'sticker', label: t('room.settings.emojis.usageSticker') },
-    ],
-    [t]
+    () =>
+      cosmetic
+        ? COSMETIC_USAGE_OPTIONS
+        : [
+            { value: 'both', label: t('room.settings.emojis.usageBoth') },
+            { value: 'emoticon', label: t('room.settings.emojis.usageEmoji') },
+            { value: 'sticker', label: t('room.settings.emojis.usageSticker') },
+          ],
+    [cosmetic, t]
   );
   const defaultUsage = usageOptions[0].value;
+  const title = t(cosmetic ? 'room.settings.cosmetics.title' : 'room.settings.emojis.title');
 
   const can = useCanSendState(roomId);
   const canManage = can(PONIES_ROOM_EMOTES);
   const [packs, setPacks] = useState<PackData[]>([]);
   const [editing, setEditing] = useState<PackData | null>(null);
+  // The pack open in the read-only preview (cosmetics only).
+  const [previewing, setPreviewing] = useState<{ pack: PackData; kind: PackKind } | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newPackName, setNewPackName] = useState('');
   const [newPackUsage, setNewPackUsage] = useState(defaultUsage);
@@ -475,7 +500,7 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
   if (editing) {
     return (
       <div>
-        <h2 className={panelCss.panelTitle}>{t('room.settings.emojis.title')}</h2>
+        <h2 className={panelCss.panelTitle}>{title}</h2>
         <PackEditor
           client={client}
           roomId={roomId}
@@ -498,12 +523,27 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
   };
 
   const hasPartialUpload = uploadedRef.current.size > 0 || uploadFailed.length > 0;
+  const visiblePacks = cosmetic
+    ? packs
+        .filter((pack) => packKindOf(pack.usage) !== 'emoji')
+        .sort(
+          (a, b) =>
+            COSMETIC_KINDS.indexOf(packKindOf(a.usage)) -
+              COSMETIC_KINDS.indexOf(packKindOf(b.usage)) ||
+            a.displayName.localeCompare(b.displayName)
+        )
+    : packs.filter((pack) => packKindOf(pack.usage) === 'emoji');
+  const emptyText = cosmetic
+    ? t('room.settings.cosmetics.noPacks')
+    : t('room.settings.emojis.noPacks');
 
   return (
     <div>
-      <h2 className={panelCss.panelTitle}>{t('room.settings.emojis.title')}</h2>
+      <h2 className={panelCss.panelTitle}>{title}</h2>
       <p className={panelCss.settingNote} style={{ marginBottom: 16 }}>
-        {t('room.settings.emojis.description')}
+        {cosmetic
+          ? t('room.settings.cosmetics.description')
+          : t('room.settings.emojis.description')}
       </p>
 
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -519,57 +559,91 @@ export function EmojiStickerPanel({ client, roomId }: Props) {
 
       <div className={panelCss.divider} />
 
-      {packs.length === 0 ? (
-        <div className={css.emptyPacks}>{t('room.settings.emojis.noPacks')}</div>
+      {visiblePacks.length === 0 ? (
+        <div className={css.emptyPacks}>{emptyText}</div>
       ) : (
         <div className={css.packList}>
-          {packs.map((pack) => {
+          {visiblePacks.map((pack, index) => {
+            const kind = packKindOf(pack.usage);
             const previewEntries = pack.avatarUrl ? [] : Object.entries(pack.images).slice(0, 1);
             const previewUrl = pack.avatarUrl ?? previewEntries[0]?.[1]?.url;
             return (
-              <div key={pack.stateKey} className={css.packCard}>
-                <div className={css.packCardPreview}>
-                  {previewUrl ? (
-                    <AuthMediaImg
-                      client={client}
-                      mxcUrl={previewUrl}
-                      width={28}
-                      height={28}
-                      alt={pack.displayName}
-                      className={css.packCardPreviewImg}
-                      title={pack.displayName}
-                    />
-                  ) : (
-                    <StickerIcon size={20} />
-                  )}
+              <Fragment key={pack.stateKey}>
+                {cosmetic && kind !== packKindOf(visiblePacks[index - 1]?.usage ?? []) && (
+                  <h3 className={previewCss.sectionHeading}>
+                    {t(`settings.cosmetics.kindPlural.${kind}`)}
+                  </h3>
+                )}
+                <div className={css.packCard}>
+                  <div className={css.packCardPreview}>
+                    {previewUrl ? (
+                      <AuthMediaImg
+                        client={client}
+                        mxcUrl={previewUrl}
+                        width={28}
+                        height={28}
+                        alt={pack.displayName}
+                        className={css.packCardPreviewImg}
+                        title={pack.displayName}
+                      />
+                    ) : (
+                      <StickerIcon size={20} />
+                    )}
+                  </div>
+                  <div className={css.packCardInfo}>
+                    <span className={css.packCardName}>{pack.displayName}</span>
+                    {cosmetic && (
+                      <span className={css.packCardMeta}>
+                        {t('room.settings.cosmetics.items', {
+                          count: Object.keys(pack.images).length,
+                        })}
+                      </span>
+                    )}
+                  </div>
+                  <div className={css.packCardActions}>
+                    {cosmetic && (
+                      <IconButton
+                        size="sm"
+                        onClick={() => setPreviewing({ pack, kind })}
+                        aria-label={t('room.settings.cosmetics.preview')}
+                        tooltip={t('room.settings.cosmetics.preview')}
+                      >
+                        <EyeIcon size={14} />
+                      </IconButton>
+                    )}
+                    <IconButton
+                      size="sm"
+                      onClick={() => setEditing(pack)}
+                      aria-label={t('common.edit')}
+                      tooltip={t('common.edit')}
+                      disabled={!canManage}
+                    >
+                      <PencilSimpleIcon size={14} />
+                    </IconButton>
+                    <IconButton
+                      size="sm"
+                      onClick={() => handleDelete(pack)}
+                      aria-label={t('common.delete')}
+                      tooltip={t('common.delete')}
+                      disabled={!canManage}
+                    >
+                      <TrashIcon size={14} className={css.dangerIcon} />
+                    </IconButton>
+                  </div>
                 </div>
-                <div className={css.packCardInfo}>
-                  <span className={css.packCardName}>{pack.displayName}</span>
-                </div>
-                <div className={css.packCardActions}>
-                  <IconButton
-                    size="sm"
-                    onClick={() => setEditing(pack)}
-                    aria-label={t('common.edit')}
-                    tooltip={t('common.edit')}
-                    disabled={!canManage}
-                  >
-                    <PencilSimpleIcon size={14} />
-                  </IconButton>
-                  <IconButton
-                    size="sm"
-                    onClick={() => handleDelete(pack)}
-                    aria-label={t('common.delete')}
-                    tooltip={t('common.delete')}
-                    disabled={!canManage}
-                  >
-                    <TrashIcon size={14} className={css.dangerIcon} />
-                  </IconButton>
-                </div>
-              </div>
+              </Fragment>
             );
           })}
         </div>
+      )}
+
+      {cosmetic && (
+        <CosmeticPackPreview
+          client={client}
+          pack={previewing?.pack ?? null}
+          kind={previewing?.kind ?? 'effect'}
+          onClose={() => setPreviewing(null)}
+        />
       )}
 
       <Modal
