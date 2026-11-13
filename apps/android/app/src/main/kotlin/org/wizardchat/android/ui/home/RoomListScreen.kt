@@ -51,10 +51,13 @@ import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.matrix.RoomGroup
 import org.wizardchat.android.matrix.MudrixRoomStates
+import org.wizardchat.android.matrix.MudrixTypes
 import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.RoomListStyle
+import org.wizardchat.android.matrix.RoomMenu
 import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.matrix.SidebarSelection
+import org.wizardchat.android.matrix.canSendState
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.matrix.unreadCount
@@ -166,6 +169,27 @@ fun RoomListScreen(
     }
     val banner = if (modern) SpaceModern.bannerOf(stores.state(spaceId)) ?: SpaceModern.bannerOf(stores.state(rootSpace)) else null
 
+    fun action(key: String, work: suspend () -> Unit) = scope.launch {
+        try {
+            work()
+        } catch (e: Exception) {
+            sectionError = L10n.format(key, e.message ?: "")
+        }
+    }
+
+    fun markUnread(room: RoomSummary) = action("room.markUnreadFailed") {
+        roomList.client.setMarkedUnread(room.id, true)
+    }
+
+    fun setLowPriority(room: RoomSummary, low: Boolean) = action("room.toggleLowPriorityFailed") {
+        roomList.client.setLowPriority(room.id, low)
+    }
+
+    fun setVoiceChannel(room: RoomSummary, enabled: Boolean) = action("room.voiceChannelFailed") {
+        stores.set(roomList.client, room.id, MudrixTypes.VOICE_CHANNEL, RoomMenu.voiceChannelContent(enabled))
+    }
+
+
     fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||
         (group.kind == RoomGroup.Kind.Rooms && selection == SidebarSelection.Home))
 
@@ -265,10 +289,15 @@ fun RoomListScreen(
                                 room,
                                 showsHashIcon = !room.isDirect,
                                 voiceChannel = voice,
+                                voiceFlagged = SpaceModern.isVoiceChannelFlagged(stores.states[room.id]),
+                                modern = true,
                                 onOpen = { navigator.push(Route.Room(room.id)) },
                                 onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                                onMarkUnread = { markUnread(room) },
                                 onLeave = { leaving = room },
                                 onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                                onSetLowPriority = { low -> setLowPriority(room, low) },
+                                onSetVoiceChannel = { enabled -> setVoiceChannel(room, enabled) },
                                 onMoveToSection = { movingRoom = room },
                                 notificationMode = roomList.notificationMode(room),
                                 onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
@@ -284,8 +313,10 @@ fun RoomListScreen(
                             showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
                             onOpen = { navigator.push(Route.Room(room.id)) },
                             onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                            onMarkUnread = { markUnread(room) },
                             onLeave = { leaving = room },
                             onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                            onSetLowPriority = { low -> setLowPriority(room, low) },
                             onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
                             notificationMode = roomList.notificationMode(room),
                             onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
@@ -383,18 +414,29 @@ private fun SwipeableRoomRow(
     room: RoomSummary,
     showsHashIcon: Boolean,
     voiceChannel: Boolean = false,
+    voiceFlagged: Boolean = false,
+    modern: Boolean = false,
     onOpen: () -> Unit,
     onToggleRead: (Boolean) -> Unit,
+    onMarkUnread: () -> Unit,
     onLeave: () -> Unit,
     onToggleFavourite: () -> Unit,
+    onSetLowPriority: (Boolean) -> Unit,
+    onSetVoiceChannel: (Boolean) -> Unit = {},
     onMoveToSection: (() -> Unit)?,
     notificationMode: NotificationMode?,
     onSetNotificationMode: (NotificationMode?) -> Unit,
     reorder: ((Int) -> Unit)?,
 ) {
     val unread = room.unreadCount > 0 || room.mentionCount > 0
+    val session = org.wizardchat.android.LocalSession.current
     var menuOpen by remember { mutableStateOf(false) }
     var notificationsOpen by remember { mutableStateOf(false) }
+    var canFlagVoice by remember(room.id) { mutableStateOf(false) }
+    val actions = RoomMenu.actions(room.unreadCount, room.mentionCount)
+    LaunchedEffect(menuOpen, modern, room.isVoice) {
+        if (menuOpen && modern && !room.isVoice) canFlagVoice = session.canSendState(MudrixTypes.VOICE_CHANNEL, room.id)
+    }
     val state = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
             when (value) {
@@ -443,16 +485,34 @@ private fun SwipeableRoomRow(
             WizardMenu(
                 menuOpen,
                 { menuOpen = false },
-                listOfNotNull(
-                    MenuItem(tr("common.markRead"), "envelope-open") { onToggleRead(true) },
-                    MenuItem(tr("room.notifications.title"), "bell") { notificationsOpen = true },
-                    MenuItem(tr(if (room.isFavourite) "room.removeFavourite" else "room.addFavourite"), "star", onClick = onToggleFavourite),
-                    onMoveToSection?.let { MenuItem(tr("room.sections.moveTo"), "list-bullets", onClick = it) },
-                    MenuItem(tr("common.copyLink"), "link-simple") {
-                        copyToClipboard("https://matrix.to/#/${room.id}", L10n.format("timeline.linkCopied"))
-                    },
-                    MenuItem(tr("common.leave"), "sign-out", destructive = true, divider = true, onClick = onLeave),
-                ),
+                buildList {
+                    if (RoomMenu.offersVoiceChannel(modern, room.isVoice, canFlagVoice)) {
+                        add(
+                            MenuItem(
+                                tr(if (voiceFlagged) "room.makeTextChannel" else "room.makeVoiceChannel"),
+                                if (voiceFlagged) "hash-straight" else "speaker-high",
+                            ) { onSetVoiceChannel(!voiceFlagged) },
+                        )
+                    }
+                    if (actions.markRead) add(MenuItem(tr("common.markRead"), "envelope-open") { onToggleRead(true) })
+                    if (actions.markUnread) add(MenuItem(tr("room.markUnread"), "envelope-simple") { onMarkUnread() })
+                    add(MenuItem(tr("room.notifications.title"), "bell") { notificationsOpen = true })
+                    add(MenuItem(tr(if (room.isFavourite) "room.removeFavourite" else "room.addFavourite"), "star", onClick = onToggleFavourite))
+                    add(
+                        MenuItem(
+                            tr(if (room.isLowPriority) "room.removeLowPriority" else "room.addLowPriority"),
+                            "arrow-line-down",
+                            checked = room.isLowPriority,
+                        ) { onSetLowPriority(!room.isLowPriority) },
+                    )
+                    onMoveToSection?.let { add(MenuItem(tr("room.sections.moveTo"), "list-bullets", onClick = it)) }
+                    add(
+                        MenuItem(tr("common.copyLink"), "link-simple") {
+                            copyToClipboard("https://matrix.to/#/${room.id}", L10n.format("timeline.linkCopied"))
+                        },
+                    )
+                    add(MenuItem(tr("common.leave"), "sign-out", destructive = true, divider = true, onClick = onLeave))
+                },
             )
             WizardMenu(
                 notificationsOpen,

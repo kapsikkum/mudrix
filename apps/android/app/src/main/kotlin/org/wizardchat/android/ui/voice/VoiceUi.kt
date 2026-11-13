@@ -189,6 +189,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
     var showMenu by remember { mutableStateOf(false) }
     var showWatchSheet by remember { mutableStateOf(false) }
     var showSoundboard by remember { mutableStateOf(false) }
+    var showStats by remember { mutableStateOf(false) }
     val prefs = LocalPrefs.current
     val moreHighlighted = calls.handRaised || calls.screenSharing
 
@@ -274,6 +275,10 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                         showSoundboard = true
                     }
                 }
+                MenuRow(tr("voice.stats.title"), "plugs-connected") {
+                    showMenu = false
+                    showStats = true
+                }
                 val watch = calls.watch
                 if (watch != null) {
                     if (watch.state != null) {
@@ -305,6 +310,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
     if (showSoundboard) {
         calls.room?.let { SoundboardSheet(it.id) { showSoundboard = false } }
     }
+    if (showStats) ConnectionStatsSheet { showStats = false }
 }
 
 @Composable

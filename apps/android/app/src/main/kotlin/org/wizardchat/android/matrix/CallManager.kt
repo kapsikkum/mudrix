@@ -38,7 +38,9 @@ import io.livekit.android.room.track.VideoPreset169
 import io.livekit.android.room.track.VideoTrack
 import io.livekit.android.room.track.screencapture.ScreenCaptureParams
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.coroutines.resume
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.TimeoutCancellationException
@@ -46,14 +48,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.JsonObject
 import livekit.org.webrtc.FrameCryptorKeyDerivationAlgorithm
+import livekit.org.webrtc.RTCStatsCollectorCallback
 import livekit.org.webrtc.RtpParameters
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.rtc.CallActivityState
 import org.wizardchat.android.matrix.rtc.CallNotificationController
 import org.wizardchat.android.matrix.rtc.CallSounds
+import org.wizardchat.android.matrix.rtc.ConnectionStats
 import org.wizardchat.android.matrix.rtc.Soundboard
 import org.wizardchat.android.matrix.rtc.Sounds
 import org.wizardchat.android.matrix.rtc.WatchParticipant
@@ -623,6 +629,28 @@ class CallManager {
 
     private val publisher: LiveKitRoom? get() = session?.let { connections[it.serviceUrl] }
 
+    /** A sample of the call's connection stats, for the connection info sheet; null when not connected */
+    suspend fun connectionStats(): ConnectionStats.Sample? {
+        val room = publisher ?: connections.values.firstOrNull() ?: return null
+        if (room.state != LiveKitRoom.State.CONNECTED) return null
+        val sent = runCatching { withTimeout(STATS_TIMEOUT_MILLIS) { rtcStats { room.getPublisherRTCStats(it) } } }.getOrDefault(emptyList())
+        val received = runCatching { withTimeout(STATS_TIMEOUT_MILLIS) { rtcStats { room.getSubscriberRTCStats(it) } } }.getOrDefault(emptyList())
+        if (sent.isEmpty() && received.isEmpty()) return null
+        val server = connectionRooms[room]?.substringBefore('|')?.let { url -> runCatching { java.net.URI(url).host }.getOrNull() }
+        return ConnectionStats.Sample(System.currentTimeMillis(), server, sent, received)
+    }
+
+    /** One stats report's entries, each with its type among its members */
+    private suspend fun rtcStats(get: (RTCStatsCollectorCallback) -> Unit): List<Map<String, Any?>> =
+        withContext(Dispatchers.Default) {
+            suspendCancellableCoroutine { continuation ->
+                get { report ->
+                    val entries = report.statsMap.values.map { stats -> stats.members + ("type" to stats.type) }
+                    if (continuation.isActive) continuation.resume(entries)
+                }
+            }
+        }
+
     private fun sendData(message: JsonObject, topic: String) {
         val publisher = publisher ?: return
         val data = message.toString().encodeToByteArray()
@@ -1013,6 +1041,7 @@ class CallManager {
         private const val CONNECT_TIMEOUT_MILLIS = 30_000L
         private const val RECONNECT_GIVE_UP_MILLIS = 120_000L
         private const val SUBSCRIBE_RETRY_MILLIS = 5000L
+        private const val STATS_TIMEOUT_MILLIS = 3_000L
 
         val shared = CallManager()
     }

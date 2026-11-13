@@ -245,6 +245,7 @@ fun ImageMessageView(
     isSticker: Boolean = false,
     isPrivateRoom: Boolean = true,
     spoiler: String? = null,
+    onStickerTap: (() -> Unit)? = null,
 ) {
     val prefs = LocalPrefs.current
     val loader = LocalMedia.current
@@ -288,6 +289,7 @@ fun ImageMessageView(
                         attempt += 1
                     }
                     canAnimate && !animate && !isSticker -> playing = true
+                    isSticker -> onStickerTap?.invoke()
                     !isSticker -> showViewer = true
                 }
             }

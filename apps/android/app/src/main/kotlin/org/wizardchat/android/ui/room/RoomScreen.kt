@@ -128,6 +128,7 @@ import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.ReminderPreset
 import org.wizardchat.android.matrix.Reminders
 import org.wizardchat.android.matrix.SavedMessages
+import org.wizardchat.android.matrix.StickerPacks
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
@@ -196,6 +197,8 @@ class MessageActions(
     /** Decides whether an integration card looks its link up on its own (never in an encrypted room) */
     val isEncrypted: Boolean = true,
     val retry: () -> Unit = {},
+    /** Opens the sticker pack a sticker came from */
+    val stickerPack: (ChatEntry) -> Unit = {},
 )
 
 /** A room's timeline and composer, or with `threadRoot` one of its threads */
@@ -230,6 +233,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     var profileUserId by remember { mutableStateOf<String?>(null) }
     var highlightedId by remember { mutableStateOf<String?>(null) }
     var unreadDividerId by remember { mutableStateOf<String?>(null) }
+    var stickerPack by remember { mutableStateOf<StickerPacks.Lookup.Found?>(null) }
 
     var positioned by remember { mutableStateOf(false) }
     var userScrolledAway by remember { mutableStateOf(false) }
@@ -399,6 +403,19 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
 
     // One instance while nothing it reads changes, so rows that did not change are skipped when this screen recomposes
     val pinnedIds = timeline.pinnedIds
+    // A sticker's pack is looked for in this room first, then the others, and only shown when it is public
+    fun openStickerPack(entry: ChatEntry) {
+        val media = (entry.kind as? ChatEntry.Kind.Sticker)?.media ?: return
+        val url = StickerPacks.imageUrl(media.source) ?: return
+        scope.launch {
+            val others = session.roomList?.joinedRooms.orEmpty().map { it.id }
+            when (val found = StickerPacks.find(client, url, StickerPacks.roomOrder(room.id, others))) {
+                is StickerPacks.Lookup.Found -> stickerPack = found
+                StickerPacks.Lookup.Unknown -> CopyToast.show(L10n.format("timeline.stickerPack.unknown"))
+                StickerPacks.Lookup.NotPublic -> CopyToast.show(L10n.format("timeline.stickerPack.notPublic"))
+            }
+        }
+    }
     val actions = remember(timeline, room.id, threadRoot, pinnedIds, canPin, canRedactOthers, linkPreviews, room.isEncrypted, navigator) {
         MessageActions(
         reply = {
@@ -429,6 +446,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         linkPreviews = linkPreviews,
         isEncrypted = room.isEncrypted,
         retry = { timeline.retrySending() },
+        stickerPack = { entry -> openStickerPack(entry) },
         )
     }
 
@@ -579,6 +597,9 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     }
     forwarding?.let { entry -> entry.eventId?.let { ForwardSheet(room.id, it) { forwarding = null } } }
     sourceText?.let { SourceSheet(it) { sourceText = null } }
+    stickerPack?.let { found ->
+        StickerPackSheet(found.pack, onOpenRoom = { navigator.openRoom(it) }, onDismiss = { stickerPack = null })
+    }
     reporting?.let { entry -> ReportDialog(onDismiss = { reporting = null }) { reason ->
         scope.launch { if (timeline.reportMessage(entry, reason)) CopyToast.show(L10n.format("timeline.reported")) }
     } }
@@ -1207,7 +1228,12 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
             }
             kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }
         }
-        is ChatEntry.Kind.Sticker -> ImageMessageView(kind.media, isSticker = true, isPrivateRoom = isPrivateRoom)
+        is ChatEntry.Kind.Sticker -> ImageMessageView(
+            kind.media,
+            isSticker = true,
+            isPrivateRoom = isPrivateRoom,
+            onStickerTap = actions?.let { messageActions -> ({ messageActions.stickerPack(entry) }) },
+        )
         is ChatEntry.Kind.Video -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
             VideoMessageView(kind.media, entry.mediaSpoiler)
             kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }

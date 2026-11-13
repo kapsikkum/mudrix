@@ -245,6 +245,9 @@ class TimelineModel(
         private set
     var uploads by mutableStateOf<List<PendingUpload>>(emptyList())
         private set
+    /** The membership and state changes of the timeline, as the audit log lists them; filled when asked for */
+    var auditChanges by mutableStateOf<List<AuditLog.Change>>(emptyList())
+        private set
 
     private val kind: TimelineKind = threadRoot?.let { TimelineKind.Thread(it) }
         ?: if (pinnedOnly) TimelineKind.Pinned else TimelineKind.Main
@@ -458,6 +461,9 @@ class TimelineModel(
         prep: SendPrep? = null,
     ) {
         if (timeline == null) return
+        val mimeTypes = files.map { mimeTypeOf(it.first) }
+        // Two or more pictures sent together are tagged so every client of ours shows them as one set
+        val tags = GalleryTags.plan(mimeTypes, java.util.UUID.randomUUID().toString())
         val pending = files.map { (uri, preview) ->
             val mimetype = mimeTypeOf(uri)
             PendingUpload(
@@ -475,6 +481,7 @@ class TimelineModel(
                 replyTo = if (index == 0) replyTo else null,
                 spoiler = spoiler,
                 prep = prep,
+                gallery = tags.getOrNull(index),
             )
             uploads = uploads.filter { it.id != item.id }
         }
@@ -518,7 +525,15 @@ class TimelineModel(
         }
     }
 
-    private suspend fun upload(uri: Uri, id: Long, caption: String?, replyTo: String?, spoiler: Boolean, prep: SendPrep?) {
+    private suspend fun upload(
+        uri: Uri,
+        id: Long,
+        caption: String?,
+        replyTo: String?,
+        spoiler: Boolean,
+        prep: SendPrep?,
+        gallery: GalleryTags.Tag? = null,
+    ) {
         val timeline = timeline ?: return
         val temporary = mutableListOf<File>()
         report {
@@ -569,6 +584,7 @@ class TimelineModel(
                     spoiler = spoiler,
                     isAnimated = mimetype == "image/gif",
                     replyTo = replyTo,
+                    extraContent = gallery?.let { GalleryTags.content(it) },
                 )
                 when {
                     mimetype.startsWith("image/") -> MediaMetadata.imageSize(source)?.let { (w, h) ->
@@ -712,6 +728,8 @@ class TimelineModel(
             null
         }
         if (items.any { it is TimelineEntry.TimelineStart }) reachedStart = true
+        // The audit log reads the state and membership changes that the rows leave out
+        auditChanges = AuditLog.changes(items)
         // Receipts on events that aren't shown move to the message above them
         var entries = mutableListOf<ChatEntry>()
         for ((item, entry) in items.zip(converted)) {
