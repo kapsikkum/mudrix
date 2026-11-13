@@ -50,4 +50,7 @@ tools/parity/user-data/
 tools/parity/*.json
 !tools/parity/package.json
 
+# Local test server state (tools/test-server): generated configs, seeded ids, bot state
+tools/test-server/.generated/
+
 /target-*/

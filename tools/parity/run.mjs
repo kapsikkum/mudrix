@@ -574,22 +574,25 @@ async function main() {
   const seedFile = join(here, 'seed-data.json');
   const seed = existsSync(seedFile) ? JSON.parse(readFileSync(seedFile, 'utf8')) : await runSeed();
 
-  const envFile = 'E:/code/web/mudrix-web/dev/test-server/.generated/env.json';
+  const envFile =
+    process.env.MUDRIX_TEST_ENV ?? join(here, '..', 'test-server', '.generated', 'env.json');
   if (!existsSync(envFile)) {
-    throw new Error('Test server env.json not found! Run up.mjs in mudrix-web/dev/test-server.');
+    throw new Error(
+      'Test server env.json not found. Run `npm run test-server` and `npm run test-server:seed` first.'
+    );
   }
   const env = JSON.parse(readFileSync(envFile, 'utf8'));
 
-  const sessionsFile = 'E:/code/web/mudrix-web/dev/test-server/.generated/sessions.json';
+  const sessionsFile = join(dirname(envFile), 'sessions.json');
   if (!existsSync(sessionsFile)) {
-    throw new Error('Test server sessions.json not found!');
+    throw new Error('Test server sessions.json not found. Run `npm run test-server:seed` first.');
   }
   const sessions = JSON.parse(readFileSync(sessionsFile, 'utf8'));
 
   // 2. Check the test server and the apps that are going to be captured
   if (!(await checkServer(`${env.homeserver}/_matrix/client/versions`))) {
     throw new Error(
-      `Test homeserver is not reachable at ${env.homeserver}! Start it: podman machine start, then node dev/test-server/up.mjs in mudrix-web.`
+      `Test homeserver is not reachable at ${env.homeserver}! Start it: npm run test-server (then npm run test-server:seed).`
     );
   }
   if (appsToRun.includes('old') && !(await checkServer('http://localhost:8080/')))

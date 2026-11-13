@@ -83,6 +83,11 @@ npm run dev            # web app on http://localhost:5180
 
 `npm run desktop`, `npm run android` and `npm run ios` run the other apps.
 
+To try the apps against a server you can wipe, `tools/test-server` starts a local homeserver with
+calls and seeded accounts, rooms and fixtures: `npm run test-server`, `npm run test-server:seed`,
+then sign in at `http://localhost:5180/welcome/<address>`. Its README has the commands, the
+accounts and the manual parity checks it was built for.
+
 #### GIF search keys
 
 The GIF picker calls GIPHY and KLIPY directly from the client. The API keys are supplied at **build time** and are not in

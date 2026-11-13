@@ -17,8 +17,10 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const envPath = 'E:/code/web/mudrix-web/dev/test-server/.generated/env.json';
-const seedPath = 'E:/code/web/mudrix-web/dev/test-server/.generated/seed.json';
+const generated =
+  process.env.MUDRIX_TEST_GENERATED ?? join(here, '..', 'test-server', '.generated');
+const envPath = join(generated, 'env.json');
+const seedPath = join(generated, 'seed.json');
 
 const env = JSON.parse(readFileSync(envPath, 'utf8'));
 const seed = JSON.parse(readFileSync(seedPath, 'utf8'));

@@ -71,6 +71,21 @@ Don't run cargo and Gradle at the same time on a small machine; both are memory-
 | iOS     | `npm run ios`     | builds the core and opens the Xcode project; run it from there          |
 | Android | `npm run android` | builds the core and installs the app on the running emulator or a phone |
 
+## A local server to test against
+
+`tools/test-server` starts a throwaway homeserver (tuwunel) with LiveKit, lk-jwt-service and seeded
+accounts, rooms and fixtures. It runs in Docker or Podman, listens only on this machine, and is
+wiped with one command:
+
+```sh
+npm run test-server        # or `npm run test-server:down` / `npm run test-server:reset`
+npm run test-server:seed
+```
+
+Sign in at `http://localhost:5180/welcome/<address from tools/test-server/.generated/env.json>`. The
+folder's README lists the accounts, the fixture rooms, how to reach it from the Android emulator or
+a USB phone, and the N4/R8/R10 parity checks it exists for.
+
 ## After a change
 
 | You changed                            | Web                            | iOS                        | Android                    |
