@@ -55,6 +55,7 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog
+import org.wizardchat.android.ui.cosmetics.BuiltinEffects
 import org.wizardchat.android.ui.cosmetics.CosmeticImage
 import org.wizardchat.android.ui.cosmetics.DecorationOverlay
 import org.wizardchat.android.ui.cosmetics.FrameBox
@@ -296,7 +297,9 @@ private fun CosmeticGrid(
             CosmeticKind.decoration -> CosmeticCatalog.decorations(context).map { id ->
                 GridEntry.Item(id, decorationName(id), CosmeticPacks.Value.Id(id))
             }
-            CosmeticKind.effect -> emptyList()
+            CosmeticKind.effect -> BuiltinEffects.DRAWN_IDS.map { id ->
+                GridEntry.Item(id, builtinName(CosmeticKind.effect, id), CosmeticPacks.Value.Id(id))
+            }
             CosmeticKind.nameplate -> CosmeticCatalog.nameplates(context).map { plate ->
                 GridEntry.Item(plate.id, plate.name, CosmeticPacks.Value.Id(plate.id))
             }

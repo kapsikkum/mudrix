@@ -562,6 +562,11 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 if (room.dmUserId != null) {
                     Avatar(room.displayName, room.avatarUrl, avatarSize)
                     org.wizardchat.android.ui.cosmetics.DecorationOverlay(dmCosmetics?.decoration, avatarSize)
+                    org.wizardchat.android.ui.cosmetics.CosmeticStatusDot(
+                        dmCosmetics?.status,
+                        avatarSize,
+                        Modifier.align(Alignment.BottomEnd).offset(WZ.Space.space1, WZ.Space.space1),
+                    )
                 } else {
                     Avatar(room.displayName, room.avatarUrl, avatarSize)
                 }

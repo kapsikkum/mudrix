@@ -282,6 +282,11 @@ private fun RoomAvatar(room: RoomSummary) {
             val cosmetics = org.wizardchat.android.ui.cosmetics.rememberCosmetics(room.dmUserId)
             Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
             org.wizardchat.android.ui.cosmetics.DecorationOverlay(cosmetics?.decoration, WZ.SizeAvatar.md)
+            org.wizardchat.android.ui.cosmetics.CosmeticStatusDot(
+                cosmetics?.status,
+                WZ.SizeAvatar.md,
+                Modifier.align(Alignment.BottomEnd).offset(WZ.Space.space1, WZ.Space.space1),
+            )
         } else {
             Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
         }

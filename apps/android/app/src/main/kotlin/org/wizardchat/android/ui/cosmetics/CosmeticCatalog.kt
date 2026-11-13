@@ -9,6 +9,7 @@ import org.wizardchat.android.matrix.CosmeticPacks
 import org.wizardchat.android.matrix.ExtendedProfile
 import org.wizardchat.android.matrix.ProfileActivity
 import org.wizardchat.android.matrix.ProfileFields
+import org.wizardchat.android.matrix.ProfileStatus
 
 /** The nameplates, frames and decorations that ship with the app (the web app's built-in art) */
 object CosmeticCatalog {
@@ -18,10 +19,11 @@ object CosmeticCatalog {
 
     data class Frame(val id: String, val name: String, val pieces: List<FramePiece>)
 
-    /** Where a cosmetic's picture comes from: shipped art, or media fetched with the viewer's login */
+    /** Where a cosmetic's picture comes from: shipped art, media fetched with the viewer's login, or a drawn effect */
     sealed interface Image {
         data class Asset(val path: String) : Image
         data class Media(val mxc: String) : Image
+        data class Builtin(val id: String) : Image
     }
 
     data class NameplateArt(val image: Image, val palette: String)
@@ -36,10 +38,12 @@ object CosmeticCatalog {
         val effect: Image? = null,
         /** The one-shot image a pack effect opens with */
         val effectIntro: String? = null,
+        /** Their custom status, whose mode overrides the presence dot */
+        val status: ProfileStatus? = null,
         /** What they are playing or listening to (read in the same request) */
         val activities: List<ProfileActivity> = emptyList(),
     ) {
-        val isEmpty get() = decoration == null && nameplate == null && frame.isEmpty() && effect == null && activities.isEmpty()
+        val isEmpty get() = decoration == null && nameplate == null && frame.isEmpty() && effect == null && status == null && activities.isEmpty()
     }
 
     /** Nameplate palette names to the "r, g, b" the web tints with */
@@ -95,6 +99,7 @@ object CosmeticCatalog {
         nameplate = nameplate(context, CosmeticPacks.resolve(profile.nameplate, showPacks)),
         frame = frame(context, CosmeticPacks.resolve(profile.profileFrame, showPacks)),
         effect = effect(CosmeticPacks.resolve(profile.profileEffect, showPacks)),
+        status = profile.status,
         activities = ProfileFields.live(profile.activities),
     )
 
@@ -123,9 +128,12 @@ object CosmeticCatalog {
         null -> emptyList()
     }
 
-    /** A profile effect's art; only pack media is drawn (the shipped effects are web-only particle drawings) */
-    fun effect(value: CosmeticPacks.Value?): Image? =
-        (value as? CosmeticPacks.Value.Media)?.url?.takeIf { it.isNotEmpty() }?.let(Image::Media)
+    /** A profile effect's art: a built-in particle effect, or pack media */
+    fun effect(value: CosmeticPacks.Value?): Image? = when (value) {
+        is CosmeticPacks.Value.Id -> value.id.takeIf(BuiltinEffects::isBuiltin)?.let(Image::Builtin)
+        is CosmeticPacks.Value.Media -> value.url.takeIf { it.isNotEmpty() }?.let(Image::Media)
+        null -> null
+    }
 
     private fun JsonObject.text(key: String) = (this[key] as? JsonPrimitive)?.takeIf { it.isString }?.content
 }

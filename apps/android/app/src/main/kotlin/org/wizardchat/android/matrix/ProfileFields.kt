@@ -24,6 +24,19 @@ data class ProfileActivity(
     val expiresAt: Long,
 )
 
+/** A Mudrix custom status: an emoji, a line of text and an optional dot override */
+data class ProfileStatus(
+    val emoji: String = "",
+    val text: String = "",
+    /** `idle` or `dnd`, or null to leave presence alone */
+    val mode: String? = null,
+    /** Epoch ms after which the status is cleared, or null */
+    val expiresAt: Long? = null,
+)
+
+/** The colour a presence dot takes once the status mode is applied */
+enum class DotPresence { online, unavailable, offline, dnd }
+
 /** What a profile shows beyond name and picture; `profileFields.ts` and `profileCosmetics.ts` in Kotlin */
 data class ExtendedProfile(
     val bio: String = "",
@@ -35,6 +48,7 @@ data class ExtendedProfile(
     val nameplate: CosmeticPacks.Value? = null,
     val profileFrame: CosmeticPacks.Value? = null,
     val profileEffect: CosmeticPacks.Value? = null,
+    val status: ProfileStatus? = null,
     val isMudrixUser: Boolean = false,
 )
 
@@ -63,6 +77,12 @@ object ProfileFields {
     val FRAME_KEYS = mudrix("profile_frame")
     val IS_USER_KEYS = mudrix("is_user")
     val ACTIVITY_KEYS = mudrix("activity")
+    val STATUS_KEYS = mudrix("status")
+
+    const val STATUS_IDLE = "idle"
+    const val STATUS_DND = "dnd"
+    const val MAX_STATUS_TEXT_CHARS = 80
+    private const val MAX_STATUS_EMOJI_CHARS = 32
 
     private val CONTROL = Regex("[\\u0000-\\u0009\\u000B-\\u001F\\u007F-\\u009F\\u202A-\\u202E\\u2066-\\u2069]")
     private val HEX = Regex("^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
@@ -189,8 +209,61 @@ object ProfileFields {
     /** The activities that have not run out yet */
     fun live(activities: List<ProfileActivity>, now: Long = System.currentTimeMillis()) = activities.filter { it.expiresAt > now }
 
+    // --- Custom status ---
+
+    /** The emoji of a status, kept whole or dropped when it is implausibly long */
+    fun sanitizeStatusEmoji(text: String): String {
+        val trimmed = text.replace(CONTROL, "").trim()
+        return if (trimmed.length <= MAX_STATUS_EMOJI_CHARS) trimmed else ""
+    }
+
+    /** One line of status text, whitespace collapsed */
+    fun sanitizeStatusText(text: String): String =
+        limit(text.replace(CONTROL, " ").replace(Regex("\\s+"), " ").trim(), MAX_STATUS_TEXT_CHARS)
+
+    /** The status stored in a profile field, or null when it says nothing */
+    fun parseStatus(value: JsonElement?): ProfileStatus? {
+        val obj = value as? JsonObject ?: return null
+        val emoji = sanitizeStatusEmoji(obj["emoji"].text().orEmpty())
+        val text = sanitizeStatusText(obj["text"].text().orEmpty())
+        val mode = obj["mode"].text()?.takeIf { it == STATUS_IDLE || it == STATUS_DND }
+        if (emoji.isEmpty() && text.isEmpty() && mode == null) return null
+        val expires = (obj["expires"] as? JsonPrimitive)?.doubleOrNull?.takeIf { it > 0 && it.isFinite() }?.toLong()
+        return ProfileStatus(emoji, text, mode, expires)
+    }
+
+    /** The value written for a status, or null to clear the field */
+    fun statusValue(status: ProfileStatus?): JsonElement? {
+        if (status == null) return null
+        val emoji = sanitizeStatusEmoji(status.emoji)
+        val text = sanitizeStatusText(status.text)
+        if (emoji.isEmpty() && text.isEmpty() && status.mode == null) return null
+        return buildJsonObject {
+            if (emoji.isNotEmpty()) put("emoji", emoji)
+            if (text.isNotEmpty()) put("text", text)
+            status.mode?.let { put("mode", it) }
+            status.expiresAt?.takeIf { it > 0 }?.let { put("expires", it) }
+        }
+    }
+
+    fun isStatusExpired(status: ProfileStatus?, now: Long = System.currentTimeMillis()): Boolean =
+        status != null && status.expiresAt != null && status.expiresAt <= now
+
+    fun activeStatus(status: ProfileStatus?, now: Long = System.currentTimeMillis()): ProfileStatus? =
+        status?.takeIf { !isStatusExpired(it, now) }
+
+    /** The dot once the status mode is applied: offline wins, then DND, then idle, then presence */
+    fun effectiveDotPresence(presence: String?, mode: String?): DotPresence? {
+        if (presence == DotPresence.offline.name) return DotPresence.offline
+        if (mode == STATUS_DND) return DotPresence.dnd
+        if (mode == STATUS_IDLE) return DotPresence.unavailable
+        return DotPresence.entries.firstOrNull { it.name == presence }
+    }
+
     /** Only shipped ids or `mxc://` media are read from a profile, never anything that could become another URL */
-    private fun cosmetic(value: JsonElement?): CosmeticPacks.Value? = CosmeticPacks.parseValue(value)    fun parse(raw: JsonElement?): ExtendedProfile {
+    private fun cosmetic(value: JsonElement?): CosmeticPacks.Value? = CosmeticPacks.parseValue(value)
+
+    fun parse(raw: JsonElement?): ExtendedProfile {
         val obj = raw as? JsonObject ?: return ExtendedProfile()
         val tz = obj[TZ].text()
         return ExtendedProfile(
@@ -203,6 +276,7 @@ object ProfileFields {
             nameplate = cosmetic(first(obj, NAMEPLATE_KEYS)),
             profileFrame = cosmetic(first(obj, FRAME_KEYS)),
             profileEffect = CosmeticPacks.parseString(first(obj, EFFECT_KEYS)),
+            status = parseStatus(first(obj, STATUS_KEYS)),
             isMudrixUser = (first(obj, IS_USER_KEYS) as? JsonPrimitive)?.booleanOrNull == true,
         )
     }

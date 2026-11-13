@@ -204,6 +204,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     var name by remember { mutableStateOf<String?>(null) }
     var avatarUrl by remember { mutableStateOf<String?>(null) }
     var statusText by remember { mutableStateOf<String?>(null) }
+    var presenceState by remember { mutableStateOf<String?>(null) }
     var rights by remember { mutableStateOf(RoleRights(0, false)) }
     var level by remember { mutableStateOf(0L) }
     var isMember by remember { mutableStateOf(false) }
@@ -250,6 +251,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
         }
         // The whole profile in one request; a server without extended profiles just has nothing extra
         client?.let { c -> runCatching { c.profileFields(userId) }.getOrNull() }?.let { extended = ProfileFields.parse(it) }
+        presenceState = client?.let { c -> runCatching { c.presence(userId) }.getOrNull() }?.state?.name
         run {
             session.profile(userId)?.let { profile ->
                 name = name ?: profile.displayName
@@ -336,7 +338,19 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                             Modifier.matchParentSize(),
                         )
                     }
-                    AccentAvatar(name ?: userId, avatarUrl, extended.accent, cosmetics?.decoration)
+                    Box(contentAlignment = Alignment.BottomEnd) {
+                        AccentAvatar(name ?: userId, avatarUrl, extended.accent, cosmetics?.decoration)
+                        if (prefs.showPresence) {
+                            org.wizardchat.android.ui.cosmetics.PresenceDot(
+                                ProfileFields.effectiveDotPresence(
+                                    presenceState,
+                                    ProfileFields.activeStatus(extended.status)?.mode,
+                                ),
+                                WZ.SizeAvatar.xl,
+                                Modifier.padding(WZ.Space.space2),
+                            )
+                        }
+                    }
                     Text(
                         name ?: userId,
                         style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),

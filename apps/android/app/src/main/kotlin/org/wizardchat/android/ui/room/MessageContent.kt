@@ -52,8 +52,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -84,6 +86,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -113,6 +117,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.MediaVisibility
 import org.wizardchat.android.matrix.memberProfile
+import org.wizardchat.android.media.TextFile
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
@@ -570,6 +575,15 @@ fun VideoPlayer(file: File, onDismiss: () -> Unit) {
 
 @Composable
 fun FileMessageView(media: ChatEntry.MediaContent) {
+    if (TextFile.showsCard(media.filename, media.mimetype, media.size)) {
+        TextFileCard(media)
+    } else {
+        FileRow(media)
+    }
+}
+
+@Composable
+private fun FileRow(media: ChatEntry.MediaContent) {
     val loader = LocalMedia.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -612,6 +626,122 @@ fun FileMessageView(media: ChatEntry.MediaContent) {
         }
         Spacer(Modifier.weight(0.001f))
         if (loading) Spinner(size = WZ.SizeIcon.md) else PhIcon("download-simple", tint = theme.textMuted)
+    }
+}
+
+/** The start of a small text file in a monospace card, with the whole file one tap away */
+@Composable
+private fun TextFileCard(media: ChatEntry.MediaContent) {
+    val session = LocalSession.current
+    val loader = LocalMedia.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var head by remember(media.source) { mutableStateOf<String?>(null) }
+    var full by remember(media.source) { mutableStateOf<String?>(null) }
+    var expanded by remember(media.source) { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(media.source, session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        head = withContext(Dispatchers.IO) {
+            runCatching { client.mediaHead(media.source, TextFile.PREVIEW_BYTES.toLong()) }
+                .getOrNull()?.let(TextFile::decodeHead)
+        }
+    }
+
+    fun open() {
+        if (loader == null || loading) return
+        scope.launch {
+            loading = true
+            val file = runCatching { loader.file(media.source, media.filename) }.getOrNull()
+            loading = false
+            if (file != null) openFile(context, file, media.mimetype)
+        }
+    }
+
+    fun toggle() {
+        if (loading) return
+        if (expanded) {
+            expanded = false
+            return
+        }
+        val size = media.size
+        if (full != null || (size != null && size <= TextFile.PREVIEW_BYTES)) {
+            expanded = true
+            return
+        }
+        scope.launch {
+            loading = true
+            val text = withContext(Dispatchers.IO) {
+                runCatching { loader?.file(media.source, media.filename)?.readText() }
+                    .getOrNull()?.let(TextFile::clampForCard)
+            }
+            loading = false
+            if (text != null) {
+                full = text
+                expanded = true
+            }
+        }
+    }
+
+    Column(
+        Modifier
+            .widthIn(max = WZ.Size.sidebar)
+            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .background(theme.fill)
+            .padding(WZ.Space.space4),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .heightIn(max = if (expanded) 360.dp else 108.dp)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            Text(
+                (if (expanded) full ?: head else head).orEmpty(),
+                style = TextStyle(fontFamily = FontFamily.Monospace, fontSize = WZ.FontSize.sm),
+                color = theme.textPrimary,
+                maxLines = if (expanded) Int.MAX_VALUE else 5,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+            Column(
+                Modifier.weight(1f).clickable { open() },
+                verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+            ) {
+                Text(
+                    media.filename,
+                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                    color = theme.textPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                media.size?.let {
+                    Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                }
+            }
+            if (head != null) {
+                Text(
+                    tr(if (expanded) "common.collapse" else "common.expand"),
+                    Modifier.clickable { toggle() },
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.accent,
+                    maxLines = 1,
+                )
+            }
+            if (loading) {
+                Spinner(size = WZ.SizeIcon.md)
+            } else {
+                PhIcon(
+                    "download-simple",
+                    tint = theme.textMuted,
+                    contentDescription = tr("common.download"),
+                    modifier = Modifier.clickable { open() },
+                )
+            }
+        }
     }
 }
 

@@ -65,10 +65,12 @@ import org.wizardchat.android.matrix.InviteBlocking
 import org.wizardchat.android.matrix.PresenceChoice
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageMention
+import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.ReducedMotion
 import org.wizardchat.android.matrix.StreamerMode
 import org.wizardchat.android.matrix.TimeFormat
 import org.wizardchat.android.matrix.deviceId
+import org.wizardchat.android.matrix.writeStatusMode
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
@@ -436,6 +438,20 @@ internal fun AccessibilitySettings(onBack: () -> Unit) {
 @Composable
 internal fun PrivacySettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    // Do not disturb lives in the extended-profile status field, so it is only offered where that exists
+    var statusMode by remember { mutableStateOf<String?>(null) }
+    var supportsStatus by remember { mutableStateOf(false) }
+    LaunchedEffect(session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        supportsStatus = runCatching { client.supportsExtendedProfiles() }.getOrDefault(false)
+        val me = session.userId
+        if (!supportsStatus || me == null) return@LaunchedEffect
+        statusMode = runCatching { client.profileFields(me) }.getOrNull()
+            ?.let(ProfileFields::parse)
+            ?.let { ProfileFields.activeStatus(it.status)?.mode }
+    }
     SettingsPage(tr("settings.privacy.title"), onBack) {
         SettingsSection(tr("settings.privacy.chat")) {
             ToggleRow(
@@ -464,16 +480,35 @@ internal fun PrivacySettings(onBack: () -> Unit) {
             ToggleRow(tr("settings.privacy.showPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.showPresenceNote"))
             if (prefs.showPresence) {
                 SettingsDivider()
+                val statusDnd = statusMode == ProfileFields.STATUS_DND
                 PickerRow(
                     tr("presence.changeStatus"),
-                    prefs.presenceChoice,
-                    listOf(
-                        PresenceChoice.auto to tr("presence.auto"),
-                        PresenceChoice.online to tr("presence.online"),
-                        PresenceChoice.away to tr("presence.away"),
-                        PresenceChoice.invisible to tr("mobile.presence.invisible"),
-                    ),
-                    { prefs.presenceChoice = it },
+                    if (statusDnd) ProfileFields.STATUS_DND else prefs.presenceChoice.name,
+                    buildList {
+                        add(PresenceChoice.auto.name to tr("presence.auto"))
+                        add(PresenceChoice.online.name to tr("presence.online"))
+                        add(PresenceChoice.away.name to tr("presence.away"))
+                        add(PresenceChoice.invisible.name to tr("mobile.presence.invisible"))
+                        if (supportsStatus) add(ProfileFields.STATUS_DND to tr("profile.status.modeDnd"))
+                    },
+                    { choice ->
+                        if (choice == ProfileFields.STATUS_DND) {
+                            // Like the web: Matrix presence stays online and the dot comes from the status field
+                            prefs.presenceChoice = PresenceChoice.online
+                            scope.launch {
+                                runCatching { session.writeStatusMode(ProfileFields.STATUS_DND) }
+                                    .onSuccess { statusMode = ProfileFields.STATUS_DND }
+                                    .onFailure { CopyToast.show(L10n.format("common.saveFailed", it.message ?: "")) }
+                            }
+                        } else {
+                            prefs.presenceChoice = PresenceChoice.entries.firstOrNull { it.name == choice } ?: PresenceChoice.auto
+                            if (statusDnd) {
+                                scope.launch {
+                                    runCatching { session.writeStatusMode(null) }.onSuccess { statusMode = null }
+                                }
+                            }
+                        }
+                    },
                 )
             }
             SettingsDivider()

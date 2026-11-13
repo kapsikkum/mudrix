@@ -50,6 +50,8 @@ import org.wizardchat.android.matrix.removeEmail
 import org.wizardchat.android.matrix.requestEmailToken
 import org.wizardchat.android.matrix.setAvatar
 import org.wizardchat.android.matrix.setDisplayName
+import org.wizardchat.android.matrix.ProfileFields
+import org.wizardchat.android.matrix.writeStatusMode
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.Chip
 import org.wizardchat.android.ui.BarTextButton
@@ -451,6 +453,17 @@ private fun CustomStatusSheet(onDismiss: () -> Unit) {
     }
     var saving by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    var statusMode by remember { mutableStateOf<String?>(null) }
+    var supportsStatus by remember { mutableStateOf(false) }
+    LaunchedEffect(session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        supportsStatus = runCatching { client.supportsExtendedProfiles() }.getOrDefault(false)
+        val me = session.userId
+        if (!supportsStatus || me == null) return@LaunchedEffect
+        statusMode = runCatching { client.profileFields(me) }.getOrNull()
+            ?.let(ProfileFields::parse)
+            ?.let { ProfileFields.activeStatus(it.status)?.mode }
+    }
     fun label(choice: ClearAfter) = when (choice) {
         ClearAfter.Today -> L10n.format("status.clearToday")
         ClearAfter.FourHours -> L10n.plural("status.clearHours", 4, 4)
@@ -491,6 +504,22 @@ private fun CustomStatusSheet(onDismiss: () -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
             ) {
                 ClearAfter.entries.forEach { choice -> Chip(label(choice), clearAfter == choice, { clearAfter = choice }) }
+            }
+            if (supportsStatus) {
+                Text(tr("profile.status.modeDnd"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
+                Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    Chip(tr("profile.status.modeDnd"), statusMode == ProfileFields.STATUS_DND, {
+                        val next = if (statusMode == ProfileFields.STATUS_DND) null else ProfileFields.STATUS_DND
+                        scope.launch {
+                            try {
+                                session.writeStatusMode(next)
+                                statusMode = next
+                            } catch (e: Exception) {
+                                error = e.text
+                            }
+                        }
+                    })
+                }
             }
             error?.let { StatusText(it, true) }
             PrimaryButton(tr("common.save"), {

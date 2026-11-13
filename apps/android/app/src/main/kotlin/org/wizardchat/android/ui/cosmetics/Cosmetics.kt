@@ -7,8 +7,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
@@ -38,14 +41,17 @@ import kotlinx.serialization.json.JsonPrimitive
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.DotPresence
 import org.wizardchat.android.matrix.ExtendedProfile
 import org.wizardchat.android.matrix.ProfileFields
+import org.wizardchat.android.matrix.ProfileStatus
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Cosmetics
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.FrameArt
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Image as CosmeticImageSource
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.NameplateArt
 import org.wizardchat.android.ui.room.AnimatedDrawable
+import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.core.WizardClient
 
 /** Other people's profiles, asked once per person for a few minutes (one request each) */
@@ -114,7 +120,7 @@ fun rememberCosmetics(userId: String?): Cosmetics? {
     return resolveCosmetics(profile)
 }
 
-/** An avatar with the person's decoration around it */
+/** An avatar with the person's decoration around it, and their presence dot when one is shown */
 @Composable
 fun CosmeticAvatar(
     userId: String?,
@@ -123,12 +129,46 @@ fun CosmeticAvatar(
     size: Dp,
     modifier: Modifier = Modifier,
     animateDecoration: Boolean = false,
+    presence: String? = null,
 ) {
     val cosmetics = rememberCosmetics(userId)
+    val prefs = LocalPrefs.current
     Box(modifier.size(size), contentAlignment = Alignment.Center) {
         Avatar(name, url, size)
         DecorationOverlay(cosmetics?.decoration, size, animateDecoration)
+        if (prefs.showPresence) {
+            CosmeticStatusDot(cosmetics?.status, size, Modifier.align(Alignment.BottomEnd), presence)
+        }
     }
+}
+
+/** The status-mode presence dot for a loaded profile, drawn only while presence is shared */
+@Composable
+fun CosmeticStatusDot(status: ProfileStatus?, size: Dp, modifier: Modifier = Modifier, presence: String? = null) {
+    if (!LocalPrefs.current.showPresence) return
+    PresenceDot(ProfileFields.effectiveDotPresence(presence, ProfileFields.activeStatus(status)?.mode), size, modifier)
+}
+
+/** The presence dot on an avatar's corner, with the app's own colours */
+@Composable
+fun PresenceDot(dot: DotPresence?, size: Dp, modifier: Modifier = Modifier) {
+    val color = when (dot) {
+        DotPresence.online -> theme.presenceOnline
+        DotPresence.unavailable -> theme.presenceAway
+        DotPresence.offline -> theme.presenceOffline
+        DotPresence.dnd -> theme.presenceBusy
+        null -> return
+    }
+    val diameter = size * 0.3f
+    Box(
+        modifier
+            .size(diameter)
+            .clip(CircleShape)
+            .background(theme.bgPrimary)
+            .padding(diameter * 0.14f)
+            .clip(CircleShape)
+            .background(color),
+    )
 }
 
 /** The picture of a cosmetic, through the app's authenticated media loading; animated pictures play when asked */
@@ -157,10 +197,12 @@ fun CosmeticImage(
                 }
                 if (drawable == null) bitmap = media.thumbnail(image.mxc, width)
             }
+            is CosmeticImageSource.Builtin -> Unit
             null -> Unit
         }
     }
     when {
+        image is CosmeticImageSource.Builtin -> BuiltinEffect(image.id, modifier, animate = false)
         drawable != null -> AnimatedDrawable(drawable!!, fit = true, modifier = modifier)
         bitmap != null -> Image(bitmap!!.asImageBitmap(), null, modifier, contentScale = contentScale)
     }
@@ -250,9 +292,13 @@ fun rememberEffectIntro(effect: CosmeticImageSource?): String? {
     return intro
 }
 
-/** A pack effect as a looping overlay over a profile, opening with its intro when the pack has one */
+/** A profile effect as an overlay: a built-in particle effect, or a pack effect with its intro */
 @Composable
 fun EffectOverlay(effect: CosmeticImageSource?, intro: String?, modifier: Modifier = Modifier) {
+    if (effect is CosmeticImageSource.Builtin) {
+        BuiltinEffect(effect.id, modifier)
+        return
+    }
     val media = effect as? CosmeticImageSource.Media ?: return
     val introMedia = intro?.let(CosmeticImageSource::Media)
     var introDone by remember(media.mxc) { mutableStateOf(introMedia == null) }

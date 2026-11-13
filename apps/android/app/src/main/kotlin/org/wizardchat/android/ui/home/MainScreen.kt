@@ -376,6 +376,7 @@ private fun TabContent(
 @Composable
 private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) -> Unit, modifier: Modifier = Modifier) {
     val session = LocalSession.current
+    val prefs = LocalPrefs.current
     val spacesUnread = roomList.spaces.fold(UnreadState()) { state, space ->
         val unread = roomList.unreadState(SidebarSelection.Space(space.id))
         UnreadState(state.unread || unread.unread, state.mention || unread.mention)
@@ -403,6 +404,7 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
                     session.avatarUrl,
                     WZ.SizeAvatar.sm,
                     modifier = Modifier.border(WZ.BorderWidth.thick, if (isSelected) theme.accent else androidx.compose.ui.graphics.Color.Transparent, CircleShape),
+                    presence = prefs.presenceChoice.presence(true).name,
                 )
                 Text(tr("nav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
             }

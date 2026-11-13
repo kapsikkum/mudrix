@@ -3,6 +3,7 @@ package org.wizardchat.android.matrix
 import android.net.Uri
 import java.security.SecureRandom
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
@@ -176,6 +177,17 @@ suspend fun MatrixSession.writeProfileField(keys: List<String>, value: JsonEleme
         runCatching { if (value == null) client.deleteProfileField(key) else client.setProfileField(key, value) }.exceptionOrNull()
     }
     if (value != null && failures.size == keys.size) throw failures.first()
+}
+
+/** Writes the custom status mode, keeping the emoji, text and expiry other clients stored */
+suspend fun MatrixSession.writeStatusMode(mode: String?) {
+    val client = requireClient
+    val userId = client.userId ?: return
+    val current = ProfileFields.STATUS_KEYS.firstNotNullOfOrNull { key ->
+        runCatching { client.profileField(userId, key) }.getOrNull()?.takeIf { it !is JsonNull }
+    }.let(ProfileFields::parseStatus)
+    val next = current?.copy(mode = mode) ?: mode?.let { ProfileStatus(mode = it) }
+    writeProfileField(ProfileFields.STATUS_KEYS, ProfileFields.statusValue(next))
 }
 
 /**

@@ -4,6 +4,8 @@ import java.time.Instant
 import java.time.ZoneId
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.longOrNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -102,5 +104,41 @@ class ProfileFieldsTest {
         val notes = ProfileFields.parseNotes(json("""{"notes":{"@a:b":"hello","@c:d":""}}"""))
         assertEquals(mapOf("@a:b" to "hello"), notes)
         assertEquals(notes, ProfileFields.parseNotes(ProfileFields.notesValue(notes)))
+    }
+
+    @Test
+    fun readsTheStatusModeFromEitherKeyName() {
+        val profile = ProfileFields.parse(
+            json("""{"io.github.kapsikkum.mudrix.status":{"emoji":"🎧","text":"  a   b ","mode":"dnd","expires":1234}}"""),
+        )
+        assertEquals(ProfileStatus("🎧", "a b", "dnd", 1234), profile.status)
+        assertEquals("idle", ProfileFields.parse(json("""{"chat.mudrix.status":{"mode":"idle"}}""")).status?.mode)
+        assertNull(ProfileFields.parse(json("""{"io.github.kapsikkum.mudrix.status":{"mode":"away","text":" "}}""")).status)
+    }
+
+    @Test
+    fun writesAStatusBackInTheWebShape() {
+        val status = ProfileStatus("🎧", "Listening", "dnd", 99)
+        val value = ProfileFields.statusValue(status) as JsonObject
+        assertEquals("🎧", value["emoji"]?.jsonPrimitive?.content)
+        assertEquals("Listening", value["text"]?.jsonPrimitive?.content)
+        assertEquals("dnd", value["mode"]?.jsonPrimitive?.content)
+        assertEquals(99L, value["expires"]?.jsonPrimitive?.longOrNull)
+        assertNull(ProfileFields.statusValue(null))
+        assertEquals(status, ProfileFields.parseStatus(value))
+    }
+
+    @Test
+    fun statusesExpireAndDotPresenceFollowsTheWebRule() {
+        assertTrue(ProfileFields.isStatusExpired(ProfileStatus(expiresAt = 5), now = 5))
+        assertNull(ProfileFields.activeStatus(ProfileStatus(mode = "dnd", expiresAt = 5), now = 10))
+        assertEquals("dnd", ProfileFields.activeStatus(ProfileStatus(mode = "dnd"), now = 10)?.mode)
+
+        assertEquals(DotPresence.offline, ProfileFields.effectiveDotPresence("offline", "dnd"))
+        assertEquals(DotPresence.dnd, ProfileFields.effectiveDotPresence("online", "dnd"))
+        assertEquals(DotPresence.dnd, ProfileFields.effectiveDotPresence(null, "dnd"))
+        assertEquals(DotPresence.unavailable, ProfileFields.effectiveDotPresence("online", "idle"))
+        assertEquals(DotPresence.online, ProfileFields.effectiveDotPresence("online", null))
+        assertNull(ProfileFields.effectiveDotPresence(null, null))
     }
 }
