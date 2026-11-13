@@ -17,7 +17,7 @@ use matrix_sdk::{
         },
         push::{Action, HighlightTweakValue, RuleKind, Tweak},
         serde::Raw,
-        MilliSecondsSinceUnixEpoch, OwnedEventId, OwnedUserId, UserId,
+        MilliSecondsSinceUnixEpoch, OwnedEventId, OwnedUserId, UInt, UserId,
     },
     Room,
 };
@@ -37,6 +37,16 @@ pub struct SearchHit {
     pub sender: String,
     pub body: String,
     pub timestamp: u64,
+}
+
+/// One page of server-side search results
+#[derive(Clone, Debug, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct SearchResults {
+    pub hits: Vec<SearchHit>,
+    /// Pass as `from` for the next page of results; `None` when there are no more
+    pub next: Option<String>,
 }
 
 /// An emoji/sticker pack (MSC2545: the user's own, or one shared in a room)
@@ -88,6 +98,8 @@ pub struct Notification {
 
 const ROOM_PACK_TYPES: [&str; 2] = ["im.ponies.room_emotes", "m.room.image_pack"];
 const MAX_SPACE_DEPTH: usize = 5;
+/// The most results one search page asks the server for
+const SEARCH_PAGE: u32 = 30;
 const USER_PACK: &str = "im.ponies.user_emotes";
 const ENABLED_ROOM_PACKS: &str = "im.ponies.emote_rooms";
 
@@ -202,18 +214,47 @@ impl WizardClient {
         term: &str,
         room_id: Option<&str>,
     ) -> Result<Vec<SearchHit>> {
+        Ok(self
+            .search_room_events(term, room_id, None, None)
+            .await?
+            .hits)
+    }
+
+    /// One page of the messages a server-side search finds, newest matches first. Encrypted
+    /// rooms can't be searched this way. Pass a page's `next` as `from` for the page after it;
+    /// `next` is `None` once the last page has been read.
+    pub async fn search_messages_page(
+        &self,
+        term: &str,
+        room_id: Option<&str>,
+        from: Option<&str>,
+    ) -> Result<SearchResults> {
+        self.search_room_events(term, room_id, from, Some(SEARCH_PAGE))
+            .await
+    }
+
+    /// The search itself: `limit` is left to the server when it is `None`.
+    async fn search_room_events(
+        &self,
+        term: &str,
+        room_id: Option<&str>,
+        from: Option<&str>,
+        limit: Option<u32>,
+    ) -> Result<SearchResults> {
         let mut filter = RoomEventFilter::default();
         if let Some(room_id) = room_id {
             filter.rooms = Some(vec![parse_room_id(room_id)?.to_owned()]);
         }
+        filter.limit = limit.map(UInt::from);
         let mut criteria = Criteria::new(term.to_owned());
         criteria.filter = filter;
         let mut categories = Categories::new();
         categories.room_events = Some(criteria);
-        let response = self.sdk().send(SearchRequest::new(categories)).await?;
-        let hits = response
-            .search_categories
-            .room_events
+        let mut request = SearchRequest::new(categories);
+        request.next_batch = from.map(ToOwned::to_owned);
+        let response = self.sdk().send(request).await?;
+        let room_events = response.search_categories.room_events;
+        let hits = room_events
             .results
             .into_iter()
             .filter_map(|result| {
@@ -227,7 +268,10 @@ impl WizardClient {
                 })
             })
             .collect();
-        Ok(hits)
+        Ok(SearchResults {
+            hits,
+            next: room_events.next_batch,
+        })
     }
 
     pub async fn emoji_packs(&self, room_id: Option<&str>) -> Result<Vec<EmojiPack>> {

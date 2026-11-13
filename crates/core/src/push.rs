@@ -26,6 +26,10 @@ pub struct PusherConfig {
     pub app_name: String,
     pub device_name: String,
     pub lang: String,
+    /// Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+    /// (Sygnal and the like) merge them into what they send, so the app can give iOS an
+    /// `aps.alert` to show even though it only ever gets the event's ids.
+    pub default_payload: Option<serde_json::Value>,
 }
 
 impl WizardClient {
@@ -33,8 +37,10 @@ impl WizardClient {
         let user_id = self.user_id().ok_or(Error::NotSignedIn)?;
         let mut data = HttpPusherData::new(config.gateway_url);
         data.format = Some(PushFormat::EventIdOnly);
-        data.data
-            .insert("default_payload".into(), json!({ "user_id": user_id }));
+        data.data.insert(
+            "default_payload".into(),
+            pusher_default_payload(&user_id, config.default_payload),
+        );
         let pusher = PusherInit {
             ids: PusherIds::new(config.pushkey, config.app_id),
             kind: PusherKind::Http(data),
@@ -127,4 +133,52 @@ fn undecrypted_notification(
         sound: true,
         is_direct: false,
     })
+}
+
+/// What the gateway gets as `default_payload`: the pusher's extra fields (the app sends an
+/// `aps.alert` there, since a push gateway knows nothing about the message) and, always last,
+/// the account the notification is for.
+fn pusher_default_payload(user_id: &str, extra: Option<serde_json::Value>) -> serde_json::Value {
+    let mut payload = match extra {
+        Some(serde_json::Value::Object(fields)) => fields,
+        _ => serde_json::Map::new(),
+    };
+    payload.insert("user_id".into(), json!(user_id));
+    serde_json::Value::Object(payload)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::pusher_default_payload;
+
+    #[test]
+    fn the_alert_reaches_the_gateway() {
+        let payload = pusher_default_payload(
+            "@me:x",
+            Some(serde_json::json!({
+                "aps": { "alert": { "title": "Mudrix", "body": "New message" }, "mutable-content": 1 }
+            })),
+        );
+        assert_eq!(payload["aps"]["alert"]["body"], "New message");
+        assert_eq!(payload["aps"]["mutable-content"], 1);
+        assert_eq!(payload["user_id"], "@me:x");
+    }
+
+    #[test]
+    fn the_account_always_wins() {
+        let payload = pusher_default_payload(
+            "@me:x",
+            Some(serde_json::json!({ "user_id": "@someone-else:x" })),
+        );
+        assert_eq!(payload["user_id"], "@me:x");
+    }
+
+    #[test]
+    fn a_missing_or_odd_payload_still_carries_the_account() {
+        assert_eq!(pusher_default_payload("@me:x", None)["user_id"], "@me:x");
+        assert_eq!(
+            pusher_default_payload("@me:x", Some(serde_json::json!("nonsense")))["user_id"],
+            "@me:x"
+        );
+    }
 }

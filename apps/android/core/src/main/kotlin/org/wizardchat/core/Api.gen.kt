@@ -900,6 +900,12 @@ data class PusherConfig(
     val appName: String,
     val deviceName: String,
     val lang: String,
+    /**
+     * Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+     * (Sygnal and the like) merge them into what they send, so the app can give iOS an
+     * `aps.alert` to show even though it only ever gets the event's ids.
+     */
+    val defaultPayload: JsonElement? = null,
 )
 
 @Serializable(with = QrLoginStatus.Serializer::class)
@@ -1305,6 +1311,14 @@ data class SearchHit(
     val sender: String,
     val body: String,
     val timestamp: Long,
+)
+
+/** One page of server-side search results */
+@Serializable
+data class SearchResults(
+    val hits: List<SearchHit>,
+    /** Pass as `from` for the next page of results; `None` when there are no more */
+    val next: String? = null,
 )
 
 @Serializable
@@ -2307,6 +2321,14 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     /** Searches messages on the server (not possible for encrypted rooms). */
     suspend fun searchMessages(term: String, roomId: String? = null): List<SearchHit> =
         Runtime.call("WizardClient.searchMessages", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId)))
+
+    /**
+     * Searches messages on the server one page at a time (not possible for encrypted
+     * rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+     * last page has been read.
+     */
+    suspend fun searchMessagesPage(term: String, roomId: String? = null, from: String? = null): SearchResults =
+        Runtime.call("WizardClient.searchMessagesPage", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId), Arg.value<String?>(from)))
 
     suspend fun emojiPacks(roomId: String? = null): List<EmojiPack> =
         Runtime.call("WizardClient.emojiPacks", handle, listOf(Arg.value<String?>(roomId)))

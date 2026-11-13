@@ -160,6 +160,17 @@ rpc_methods! {
             this.search_messages(&term, room_id.as_deref()).await
         }
 
+        /// Searches messages on the server one page at a time (not possible for encrypted
+        /// rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+        /// last page has been read.
+        call fn searchMessagesPage(
+            term: String,
+            room_id: Option<String>,
+            from: Option<String>,
+        ) -> crate::SearchResults {
+            this.search_messages_page(&term, room_id.as_deref(), from.as_deref()).await
+        }
+
         call fn emojiPacks(room_id: Option<String>) -> Vec<EmojiPack> {
             this.emoji_packs(room_id.as_deref()).await
         }

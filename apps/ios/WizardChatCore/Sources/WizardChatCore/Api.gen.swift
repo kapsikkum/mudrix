@@ -1397,14 +1397,19 @@ public struct PusherConfig: Codable, Hashable, Sendable {
     public var appName: String
     public var deviceName: String
     public var lang: String
+    /// Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+    /// (Sygnal and the like) merge them into what they send, so the app can give iOS an
+    /// `aps.alert` to show even though it only ever gets the event's ids.
+    public var defaultPayload: JSONValue?
 
-    public init(appId: String, pushkey: String, gatewayUrl: String, appName: String, deviceName: String, lang: String) {
+    public init(appId: String, pushkey: String, gatewayUrl: String, appName: String, deviceName: String, lang: String, defaultPayload: JSONValue? = nil) {
         self.appId = appId
         self.pushkey = pushkey
         self.gatewayUrl = gatewayUrl
         self.appName = appName
         self.deviceName = deviceName
         self.lang = lang
+        self.defaultPayload = defaultPayload
     }
 }
 
@@ -2043,6 +2048,18 @@ public struct SearchHit: Codable, Hashable, Sendable {
         self.sender = sender
         self.body = body
         self.timestamp = timestamp
+    }
+}
+
+/// One page of server-side search results
+public struct SearchResults: Codable, Hashable, Sendable {
+    public var hits: [SearchHit]
+    /// Pass as `from` for the next page of results; `None` when there are no more
+    public var next: String?
+
+    public init(hits: [SearchHit], next: String? = nil) {
+        self.hits = hits
+        self.next = next
     }
 }
 
@@ -3356,6 +3373,13 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// Searches messages on the server (not possible for encrypted rooms).
     public func searchMessages(term: String, roomId: String? = nil) async throws -> [SearchHit] {
         try await call("WizardClient.searchMessages", [.value(term), .value(roomId)])
+    }
+
+    /// Searches messages on the server one page at a time (not possible for encrypted
+    /// rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+    /// last page has been read.
+    public func searchMessagesPage(term: String, roomId: String? = nil, from: String? = nil) async throws -> SearchResults {
+        try await call("WizardClient.searchMessagesPage", [.value(term), .value(roomId), .value(from)])
     }
 
     public func emojiPacks(roomId: String? = nil) async throws -> [EmojiPack] {

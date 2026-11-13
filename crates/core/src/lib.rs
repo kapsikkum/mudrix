@@ -71,7 +71,7 @@ pub use encryption::{
 pub use error::{Error, Result};
 pub use event_history::{EventVersion, SearchDirection, TimestampEvent};
 pub use extras::{ThreadInfo, ThreadPage, UrlPreview};
-pub use features::{EmojiPack, Notification, PackImage, SearchHit};
+pub use features::{EmojiPack, Notification, PackImage, SearchHit, SearchResults};
 pub use homeserver::HomeserverSoftware;
 pub use key_export::KeyImportResult;
 pub use key_recovery::KeyRestoreProgress;

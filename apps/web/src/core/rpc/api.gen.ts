@@ -749,6 +749,12 @@ export type PusherConfig = {
   appName: string;
   deviceName: string;
   lang: string;
+  /**
+   * Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+   * (Sygnal and the like) merge them into what they send, so the app can give iOS an
+   * `aps.alert` to show even though it only ever gets the event's ids.
+   */
+  defaultPayload: JsonValue | null;
 };
 
 export type QrLoginStatus =
@@ -1103,6 +1109,17 @@ export type SearchHit = {
   sender: string;
   body: string;
   timestamp: number;
+};
+
+/**
+ * One page of server-side search results
+ */
+export type SearchResults = {
+  hits: Array<SearchHit>;
+  /**
+   * Pass as `from` for the next page of results; `None` when there are no more
+   */
+  next: string | null;
 };
 
 export type SendState = 'sending' | 'failed' | 'sent';
@@ -2068,6 +2085,23 @@ export class WizardClient extends Remote {
     return runtime.call('WizardClient.searchMessages', this, [term, roomId]) as Promise<
       Array<SearchHit>
     >;
+  }
+
+  /**
+   * Searches messages on the server one page at a time (not possible for encrypted
+   * rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+   * last page has been read.
+   */
+  searchMessagesPage(
+    term: string,
+    roomId?: string | null,
+    from?: string | null
+  ): Promise<SearchResults> {
+    return runtime.call('WizardClient.searchMessagesPage', this, [
+      term,
+      roomId,
+      from,
+    ]) as Promise<SearchResults>;
   }
 
   emojiPacks(roomId?: string | null): Promise<Array<EmojiPack>> {
