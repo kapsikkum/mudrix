@@ -11,7 +11,7 @@ enum RoomAccess: String, CaseIterable {
     static func of(_ rule: String) -> RoomAccess {
         switch rule {
         case "public": .publicAccess
-        case "restricted": .restricted
+        case "restricted": .spaceMembers
         case "knock", "knock_restricted": .knock
         default: .invite
         }
