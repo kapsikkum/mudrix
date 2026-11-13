@@ -153,9 +153,9 @@ struct InboxView: View {
         .listRowBackground(Color.clear)
     }
 
-    /// The room's avatar with the same type badge the room list shows
+    /// The room's avatar with the same type badge the room list shows (a direct chat shows the other person's decoration)
     private func avatar(_ room: RoomSummary) -> some View {
-        AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.md)
+        CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.md)
             .overlay(alignment: .bottomTrailing) {
                 if !room.isDirect {
                     Image(room.isSpace ? "ph-stack-regular" : room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-bold")

@@ -126,6 +126,8 @@ final class AppPreferences: ObservableObject {
 
     @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
     @Published var showHomeserverSoftware: Bool { didSet { save("showHomeserverSoftware", showHomeserverSoftware); syncIfNeeded() } }
+    /// Draw cosmetics that come from packs, anyone's; built-in ones always draw
+    @Published var showCosmeticPacks: Bool { didSet { save("showCosmeticPacks", showCosmeticPacks); syncIfNeeded() } }
     @Published var notificationSounds: Bool { didSet { save("notificationSounds", notificationSounds); syncIfNeeded() } }
     /// Message sounds also play while the app is open on screen
     @Published var notificationSoundsWhenFocused: Bool {
@@ -233,6 +235,7 @@ final class AppPreferences: ObservableObject {
         // Off until chosen, like Mudrix: you appear offline and nobody sees your status
         showPresence = d.object(forKey: "showPresence") as? Bool ?? false
         showHomeserverSoftware = d.object(forKey: "showHomeserverSoftware") as? Bool ?? true
+        showCosmeticPacks = d.object(forKey: "showCosmeticPacks") as? Bool ?? true
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
         notificationSoundsWhenFocused = d.object(forKey: "notificationSoundsWhenFocused") as? Bool ?? false
         let storedPack = d.string(forKey: "notificationSoundPack")
@@ -356,6 +359,7 @@ final class AppPreferences: ObservableObject {
             boolKey("emoticonsToEmoji", \.emoticonsToEmoji),
             boolKey("showPresence", \.showPresence),
             boolKey("showHomeserverSoftware", \.showHomeserverSoftware),
+            boolKey("showCosmeticPacks", \.showCosmeticPacks),
             boolKey("notificationSounds", \.notificationSounds),
             boolKey("notificationSoundsWhenFocused", \.notificationSoundsWhenFocused),
             packKey("notificationSoundPack", \.notificationSoundPack),

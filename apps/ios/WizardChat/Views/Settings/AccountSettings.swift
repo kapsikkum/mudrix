@@ -65,6 +65,24 @@ struct AccountSettings: View {
 
             AboutMeSection()
 
+            SettingsSection {
+                NavigationLink {
+                    CosmeticSettings()
+                } label: {
+                    HStack {
+                        Text(String(localized: "settings.cosmetics.title"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                        Spacer()
+                        Image("ph-caret-right-bold")
+                            .font(.system(size: WZ.SizeIcon.sm))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                    .frame(minHeight: WZ.Space.space11)
+                    .contentShape(Rectangle())
+                }
+            }
+
             SettingsSection(title: "status.title") {
                 HStack(spacing: WZ.Space.space4) {
                     VStack(alignment: .leading, spacing: WZ.Space.space1) {

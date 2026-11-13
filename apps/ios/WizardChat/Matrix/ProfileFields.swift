@@ -18,9 +18,10 @@ struct ExtendedProfile: Equatable {
     var timezone: String?
     var activities: [ProfileActivity] = []
     var accent: String?
-    var avatarDecoration: String?
-    var nameplate: String?
-    var profileFrame: String?
+    var avatarDecoration: CosmeticValue?
+    var profileEffect: CosmeticValue?
+    var nameplate: CosmeticValue?
+    var profileFrame: CosmeticValue?
     var isMudrixUser = false
 }
 
@@ -48,6 +49,7 @@ enum ProfileFields {
 
     static let accentKeys = mudrix("accent")
     static let decorationKeys = mudrix("avatar_decoration")
+    static let effectKeys = mudrix("profile_effect")
     static let nameplateKeys = mudrix("nameplate")
     static let frameKeys = mudrix("profile_frame")
     static let isUserKeys = mudrix("is_user")
@@ -226,13 +228,7 @@ enum ProfileFields {
         return activities.filter { $0.expiresAt > ms }
     }
 
-    /// Only an id is read from a profile, never anything that could become a URL
-    private static func cosmeticId(_ value: JSONValue?) -> String? {
-        let id = (value?.string ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !id.isEmpty, id.count <= 128, !id.contains("://"), !id.hasPrefix("{") else { return nil }
-        return id
-    }
-
+    /// Only an id or a pack value is read from a profile, never anything that could become a URL
     static func parse(_ raw: JSONValue?) -> ExtendedProfile {
         guard let object = raw?.object else { return ExtendedProfile() }
         var profile = ExtendedProfile()
@@ -241,9 +237,10 @@ enum ProfileFields {
         if let zone = object[tz]?.string, isValidTimeZone(zone) { profile.timezone = zone }
         profile.activities = parseActivities(first(object, activityKeys))
         profile.accent = normalizeHex(first(object, accentKeys)?.string)
-        profile.avatarDecoration = cosmeticId(first(object, decorationKeys))
-        profile.nameplate = cosmeticId(first(object, nameplateKeys))
-        profile.profileFrame = cosmeticId(first(object, frameKeys))
+        profile.avatarDecoration = CosmeticPacks.parseDecoration(first(object, decorationKeys))
+        profile.profileEffect = CosmeticPacks.parseEffect(first(object, effectKeys))
+        profile.nameplate = CosmeticPacks.parseNameplate(first(object, nameplateKeys))
+        profile.profileFrame = CosmeticPacks.parseFrame(first(object, frameKeys))
         profile.isMudrixUser = first(object, isUserKeys)?.bool == true
         return profile
     }

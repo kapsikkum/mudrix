@@ -16,6 +16,8 @@ struct AvatarView: View {
     let url: String?
     var size: CGFloat = WZ.SizeAvatar.md
     var cornerRadius: CGFloat? = nil
+    /// A resolved avatar decoration drawn around the picture; opt-in, so other avatars are unchanged
+    var decoration: CosmeticValue? = nil
 
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
@@ -45,6 +47,7 @@ struct AvatarView: View {
                 }
                 image = await mediaLoader.thumbnail(url, size: Int(size * 3))
             }
+            .overlay { CosmeticDecoration(value: decoration, size: size) }
     }
 
     private var shape: RoundedRectangle {

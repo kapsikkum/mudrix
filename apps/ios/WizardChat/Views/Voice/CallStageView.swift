@@ -87,7 +87,8 @@ private struct ParticipantTile: View {
                 SwiftUIVideoView(track, layoutMode: .fill)
                     .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             } else {
-                AvatarView(name: name ?? participant.userId, url: avatarUrl, size: WZ.SizeAvatar.lg)
+                CosmeticAvatar(userId: participant.userId, name: name ?? participant.userId,
+                               url: avatarUrl, size: WZ.SizeAvatar.lg)
                     .opacity(participant.connected ? 1 : 0.5)
             }
             if let reaction = participant.reaction {

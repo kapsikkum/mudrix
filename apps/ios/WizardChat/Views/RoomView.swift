@@ -906,7 +906,7 @@ struct MessageRow: View {
             } else if entry.isGrouped {
                 Color.clear.frame(width: WZ.SizeAvatar.md, height: WZ.Space.space0)
             } else {
-                AvatarView(name: entry.senderName, url: entry.senderAvatarUrl, size: WZ.SizeAvatar.md)
+                CosmeticAvatar(userId: entry.sender, name: entry.senderName, url: entry.senderAvatarUrl, size: WZ.SizeAvatar.md)
                     .padding(.top, WZ.Space.space1)
                     .onTapGesture { actions?.openProfile(entry.sender) }
                     .accessibilityAddTraits(.isButton)

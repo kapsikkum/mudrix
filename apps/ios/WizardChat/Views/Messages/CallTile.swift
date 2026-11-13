@@ -101,7 +101,8 @@ struct CallTile: View {
         if !shown.isEmpty {
             HStack(spacing: -WZ.Space.space3) {
                 ForEach(shown, id: \.userId) { person in
-                    AvatarView(name: person.displayName ?? person.userId, url: person.avatarUrl, size: WZ.SizeAvatar.xs)
+                    CosmeticAvatar(userId: person.userId, name: person.displayName ?? person.userId,
+                                   url: person.avatarUrl, size: WZ.SizeAvatar.xs)
                         .overlay(Circle().stroke(theme.bgSecondary, lineWidth: WZ.BorderWidth.thick))
                 }
                 if call.participants.count > Self.visibleAvatars {

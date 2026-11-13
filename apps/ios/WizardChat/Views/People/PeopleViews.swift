@@ -96,11 +96,14 @@ private struct MemberRow: View {
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
-            AvatarView(name: member.displayName ?? member.userId, url: member.avatarUrl, size: WZ.SizeAvatar.md)
+            CosmeticAvatar(userId: member.userId, name: member.displayName ?? member.userId,
+                           url: member.avatarUrl, size: WZ.SizeAvatar.md)
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
-                Text(member.displayName ?? member.userId)
-                    .font(.wizard(WZ.FontSize.lg, .medium))
-                    .foregroundStyle(roomRoles.color(of: member.userId) ?? theme.textPrimary)
+                CosmeticName(userId: member.userId) {
+                    Text(member.displayName ?? member.userId)
+                        .font(.wizard(WZ.FontSize.lg, .medium))
+                        .foregroundStyle(roomRoles.color(of: member.userId) ?? theme.textPrimary)
+                }
                 if member.displayName != nil {
                     Text(member.userId).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
                 }
@@ -171,11 +174,18 @@ struct UserProfileSheet: View {
             ThemedList {
                 Section {
                     VStack(spacing: WZ.Space.space4) {
-                        AccentAvatar(name: name ?? userId, url: avatarUrl, accent: extended.accent)
-                        Text(name ?? userId)
-                            .font(.wizard(WZ.FontSize.xxl, .bold))
-                            .foregroundStyle(theme.textPrimary)
-                            .multilineTextAlignment(.center)
+                        AccentAvatar(name: name ?? userId, url: avatarUrl, accent: extended.accent,
+                                     decoration: CosmeticPacks.resolve(extended.avatarDecoration,
+                                                                       showPacks: prefs.showCosmeticPacks),
+                                     frame: CosmeticPacks.resolve(extended.profileFrame,
+                                                                  showPacks: prefs.showCosmeticPacks))
+                        CosmeticNameplate(value: CosmeticPacks.resolve(extended.nameplate,
+                                                                       showPacks: prefs.showCosmeticPacks)) {
+                            Text(name ?? userId)
+                                .font(.wizard(WZ.FontSize.xxl, .bold))
+                                .foregroundStyle(theme.textPrimary)
+                                .multilineTextAlignment(.center)
+                        }
                         Text(userId)
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textMuted)
@@ -191,6 +201,10 @@ struct UserProfileSheet: View {
                         ProfileAboutView(profile: extended)
                     }
                     .frame(maxWidth: .infinity)
+                    .overlay {
+                        CosmeticEffect(value: CosmeticPacks.resolve(extended.profileEffect,
+                                                                   showPacks: prefs.showCosmeticPacks))
+                    }
                     .listRowBackground(Color.clear)
                 }
                 if !isMe { ProfileNoteSection(userId: userId) }

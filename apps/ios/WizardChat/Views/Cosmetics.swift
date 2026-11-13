@@ -1,0 +1,194 @@
+import SwiftUI
+import WizardChatCore
+
+extension CosmeticPacks {
+    /// A nameplate palette as a colour
+    static func paletteColor(_ palette: String?) -> Color {
+        let rgb = paletteRGB(palette)
+        return Color(red: rgb.red, green: rgb.green, blue: rgb.blue)
+    }
+}
+
+/// A pack cosmetic's image, fetched with the session's own login
+struct CosmeticImage: View {
+    let url: String
+    var contentMode: ContentMode = .fit
+
+    @Environment(\.mediaLoader) private var mediaLoader
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image {
+                Image(uiImage: image).resizable().aspectRatio(contentMode: contentMode)
+            } else {
+                Color.clear
+            }
+        }
+        .task(id: url) { image = await mediaLoader?.thumbnail(url, size: 320) }
+    }
+}
+
+/// A pack cosmetic that plays when it is animated (GIF, APNG, WebP)
+struct CosmeticAnimatedImage: View {
+    let url: String
+
+    @Environment(\.mediaLoader) private var mediaLoader
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image, image.images != nil {
+                AnimatedImageView(image: image, contentMode: .scaleAspectFit)
+                    .allowsHitTesting(false)
+            } else if let image {
+                Image(uiImage: image).resizable().scaledToFit()
+            } else {
+                Color.clear
+            }
+        }
+        .task(id: url) {
+            image = await mediaLoader?.thumbnail(url, size: 320)
+            if let full = await mediaLoader?.image(for: .object(["url": .string(url)]), thumbnailSize: nil, animated: true) {
+                image = full
+            }
+        }
+    }
+}
+
+/// The avatar decoration of a resolved cosmetic, drawn over the avatar (built-in art is not in this bundle)
+struct CosmeticDecoration: View {
+    let value: CosmeticValue?
+    let size: CGFloat
+
+    var body: some View {
+        if let url = CosmeticPacks.mediaURL(value) {
+            CosmeticImage(url: url)
+                .frame(width: size * 1.2, height: size * 1.2)
+                .allowsHitTesting(false)
+        }
+    }
+}
+
+/// The avatar of a person, with their decoration when cosmetic packs are on
+struct CosmeticAvatar: View {
+    let userId: String
+    let name: String
+    let url: String?
+    var size: CGFloat = WZ.SizeAvatar.md
+    var cornerRadius: CGFloat? = nil
+
+    @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
+    @State private var profile: ExtendedProfile?
+
+    var body: some View {
+        AvatarView(name: name, url: url, size: size, cornerRadius: cornerRadius,
+                   decoration: CosmeticPacks.resolve(profile?.avatarDecoration, showPacks: prefs.showCosmeticPacks))
+            .task(id: "\(userId)|\(prefs.showCosmeticPacks)") {
+                guard prefs.showCosmeticPacks, !userId.isEmpty, let client = session.client else { return }
+                if let cached = CosmeticCache.shared.cached(userId) {
+                    profile = cached
+                } else {
+                    profile = await CosmeticCache.shared.profile(userId, client: client)
+                }
+            }
+    }
+}
+
+/// A nameplate's tint and art behind a name; the content alone without one
+struct CosmeticNameplate<Content: View>: View {
+    let value: CosmeticValue?
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        if let value {
+            let palette = CosmeticPacks.paletteColor(CosmeticPacks.nameplatePalette(value))
+            content()
+                .padding(.horizontal, WZ.Space.space3)
+                .padding(.vertical, WZ.Space.space1)
+                .background {
+                    ZStack {
+                        LinearGradient(colors: [palette.opacity(0.2), palette.opacity(0.55)], startPoint: .leading,
+                                       endPoint: .trailing)
+                        if let url = CosmeticPacks.mediaURL(value) {
+                            CosmeticImage(url: url, contentMode: .fill)
+                        }
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.sm, style: .continuous))
+        } else {
+            content()
+        }
+    }
+}
+
+/// A person's name with their nameplate, loaded once per person
+struct CosmeticName<Content: View>: View {
+    let userId: String
+    @ViewBuilder let content: () -> Content
+
+    @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
+    @State private var nameplate: CosmeticValue?
+
+    var body: some View {
+        CosmeticNameplate(value: CosmeticPacks.resolve(nameplate, showPacks: prefs.showCosmeticPacks), content: content)
+            .task(id: "\(userId)|\(prefs.showCosmeticPacks)") {
+                guard prefs.showCosmeticPacks, !userId.isEmpty, let client = session.client else { return }
+                if let cached = CosmeticCache.shared.cached(userId) {
+                    nameplate = cached.nameplate
+                } else {
+                    nameplate = await CosmeticCache.shared.profile(userId, client: client)?.nameplate
+                }
+            }
+    }
+}
+
+/// A profile frame's pieces for one layer, placed around the avatar by position
+struct CosmeticFramePieces: View {
+    let value: CosmeticValue?
+    let layer: String
+    let size: CGFloat
+
+    private var pieces: [CosmeticFramePiece] {
+        switch value {
+        case .frame(let url, let pieces)?:
+            if !pieces.isEmpty { return pieces.filter { ($0.layer ?? "front") == layer } }
+            guard !url.isEmpty, layer == "front" else { return [] }
+            return [CosmeticFramePiece(url: url, pos: "center", layer: "front")]
+        case .id(let url)? where url.hasPrefix("mxc://"):
+            return layer == "front" ? [CosmeticFramePiece(url: url, pos: "center", layer: "front")] : []
+        default: return []
+        }
+    }
+
+    var body: some View {
+        if !pieces.isEmpty {
+            ZStack {
+                ForEach(Array(pieces.enumerated()), id: \.offset) { _, piece in
+                    CosmeticImage(url: piece.url)
+                        .frame(width: size, height: piece.pos == "center" ? size : max(1, size * 0.45))
+                        .offset(y: piece.pos == "top" ? -size * 0.3 : piece.pos == "bottom" ? size * 0.3 : 0)
+                }
+            }
+            .frame(width: size, height: size)
+            .allowsHitTesting(false)
+        }
+    }
+}
+
+/// A person's profile effect, looping over their profile card
+struct CosmeticEffect: View {
+    let value: CosmeticValue?
+
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
+
+    var body: some View {
+        if let url = CosmeticPacks.mediaURL(value), !prefs.reducesMotion(systemSetting: systemReduceMotion) {
+            CosmeticAnimatedImage(url: url)
+                .allowsHitTesting(false)
+        }
+    }
+}
