@@ -4,6 +4,7 @@ import { ArrowBendUpLeftIcon, XIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { formatUserId } from '@/util/matrix';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 import { useMember } from '@/app/data';
 import { buildReplyContent } from '../message/textContent';
 import type { ReplyTarget } from './sendMessageContent';
@@ -19,10 +20,12 @@ interface ReplyPreviewProps {
 export function ReplyPreview({ replyTo, onClear, roomId }: ReplyPreviewProps) {
   const { t } = useTranslation();
   const colorFor = useUsernameColor();
+  const roleColorFor = useRoleNameColor(roomId);
   const preview = buildReplyContent(replyTo);
   const senderId = preview?.senderId ?? replyTo.sender;
   const member = useMember(roomId, senderId);
   const displayName = member?.displayName ?? replyTo.senderName ?? formatUserId(senderId);
+  const nameColor = roleColorFor(senderId, member?.powerLevel ?? 0) ?? colorFor(senderId);
   const body =
     preview?.isUndecryptable || replyTo.content.type === 'unableToDecrypt'
       ? t('timeline.couldNotDecrypt')
@@ -36,7 +39,7 @@ export function ReplyPreview({ replyTo, onClear, roomId }: ReplyPreviewProps) {
           i18nKey="composer.replyingTo"
           values={{ name: displayName }}
           components={{
-            name: <span className={css.replyName} style={{ color: colorFor(senderId) }} />,
+            name: <span className={css.replyName} style={{ color: nameColor }} />,
           }}
         />
         {body && <span className={css.replySnippet}>{body.substring(0, 200)}</span>}

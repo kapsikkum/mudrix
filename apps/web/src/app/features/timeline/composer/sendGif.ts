@@ -23,6 +23,21 @@ export async function sendGif(
   item: GifItem,
   { client, timeline, isEncrypted, threadId, replyTo }: SendGifOptions
 ): Promise<void> {
+  // A GIF favourited from a message is already on the homeserver: send it as it is.
+  if (item.sendUrl.startsWith('mxc://')) {
+    await sendRawEvent(
+      'm.sticker',
+      {
+        body: item.title || 'GIF',
+        info: { mimetype: 'image/gif', is_animated: true },
+        url: item.sendUrl,
+        [GIF_SOURCE_FIELD]: { provider: item.provider, id: item.id },
+      },
+      { timeline, threadId, replyTo: replyTo ?? null, myId: client.userId() ?? '' }
+    );
+    return;
+  }
+
   const { blob, fileName } = await downloadGif(item);
   const file = new File([blob], fileName, { type: blob.type || 'image/gif' });
 

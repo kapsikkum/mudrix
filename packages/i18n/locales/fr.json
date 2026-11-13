@@ -467,6 +467,9 @@
       "searchBanner_one": "Affichage de {{count}} résultat pour « {{query}} »",
       "searchBanner_other": "Affichage de {{count}} résultats pour « {{query}} »",
       "searchEmpty": "Aucun message trouvé pour « {{query}} »",
+      "loadMoreResults": "Charger plus de résultats",
+      "serverSearchFailed": "Échec de la recherche : {{error}}",
+      "searchEncryptedNote": "La recherche sur le serveur n'est pas disponible dans les salons chiffrés. Seules les correspondances des messages chargés sur cet appareil sont affichées.",
       "prevMatch": "Résultat précédent (Maj+Entrée)",
       "nextMatch": "Résultat suivant (Entrée)",
       "typing_one": "{{names}} est en train d'écrire...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favoris",
     "noFavourites": "Aucun favori pour le moment : appuyez sur l'étoile d'un GIF pour le retrouver ici",
+    "gifTabRecent": "Récents",
+    "noRecent": "Aucun GIF récent pour le moment : les GIF que vous envoyez apparaîtront ici",
     "addFavourite": "Ajouter aux favoris",
     "removeFavourite": "Retirer des favoris",
     "favouritesFull": "Favoris complets",
@@ -2618,6 +2623,9 @@
       "note": "Tout ce auquel vous êtes abonné : décorations d'avatar, effets de profil, plaques de nom et cadres de profil de vos salons et espaces.",
       "hint": "Les packs que vous choisissez ici deviennent disponibles pour votre profil.",
       "empty": "Aucun abonnement pour le moment.",
+      "showPacks": "Afficher les packs de cosmétiques",
+      "showPacksDescription": "Affiche les décorations, plaques de nom, cadres et effets issus de packs, les vôtres comme ceux des autres. Les cosmétiques intégrés restent toujours visibles.",
+      "packsOff": "Les packs de cosmétiques sont désactivés : seuls les cosmétiques intégrés sont affichés. Votre sélection enregistrée est conservée.",
       "kindPlural": {
         "decoration": "Décorations d'avatar",
         "effect": "Effets de profil",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Impossible de lancer la vérification : {{error}}"
   },
   "update": {
+    "downloading": "Téléchargement de la mise à jour… {{percent}} %",
     "action": "Mettre à jour Mudrix",
     "checkNow": "Rechercher des mises à jour",
     "includePrereleases": "Inclure les préversions",

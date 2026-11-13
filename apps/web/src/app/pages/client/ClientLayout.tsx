@@ -523,8 +523,9 @@ export function ClientLayout() {
   const tabletDrawerOpen = isTablet && drawerOpen;
   useSwipePanels({
     enabled: touchFirst && (isMobile || isTablet),
-    leftDrawer: isTablet,
-    leftOpen: tabletDrawerOpen,
+    // The sidebar is a drawer on touch tablets and in the browser's phone layout.
+    leftDrawer: isTablet || !isNativeApp(),
+    leftOpen: tabletDrawerOpen || drawerOpen,
     setLeftOpen: setDrawerOpen,
     canOpenRight:
       !mobileListOpen &&

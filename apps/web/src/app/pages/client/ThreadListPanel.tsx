@@ -29,6 +29,7 @@ import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import * as css from './ThreadListPanel.css';
 import * as panelCss from './SidePanel.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 
 interface ThreadListPanelProps {
   client: WizardClient;
@@ -68,6 +69,7 @@ export function ThreadListPanel({
 }: ThreadListPanelProps) {
   const { t, i18n } = useTranslation();
   const colorFor = useUsernameColor();
+  const roleColorFor = useRoleNameColor(roomId);
   const [filter, setFilter] = useAtom(threadFilterAtom);
   const [threadLastSeen, setThreadLastSeen] = useAtom(threadLastSeenAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
@@ -313,7 +315,13 @@ export function ThreadListPanel({
                 </div>
                 <div className={css.threadItemContent}>
                   <div className={css.threadItemMeta}>
-                    <span className={css.threadItemSender} style={{ color: colorFor(senderId) }}>
+                    <span
+                      className={css.threadItemSender}
+                      style={{
+                        color:
+                          roleColorFor(senderId, member?.powerLevel ?? 0) ?? colorFor(senderId),
+                      }}
+                    >
                       {senderName}
                     </span>
                     <span className={css.threadItemTime}>

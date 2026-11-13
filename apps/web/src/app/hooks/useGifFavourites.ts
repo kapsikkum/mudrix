@@ -15,7 +15,8 @@ function parseFavourites(content: unknown): string[] {
   const urls = (content as Record<string, unknown>).urls;
   if (!Array.isArray(urls)) return [];
   const valid = urls.filter(
-    (url): url is string => typeof url === 'string' && /^https:\/\//.test(url)
+    (url): url is string =>
+      typeof url === 'string' && (/^https:\/\//.test(url) || /^mxc:\/\//.test(url))
   );
   return Array.from(new Set(valid)).slice(0, GIF_FAVOURITES_CAP);
 }

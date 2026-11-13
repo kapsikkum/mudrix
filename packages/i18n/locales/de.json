@@ -467,6 +467,9 @@
       "searchBanner_one": "{{count}} Ergebnis für \"{{query}}\"",
       "searchBanner_other": "{{count}} Ergebnisse für \"{{query}}\"",
       "searchEmpty": "Keine Nachrichten gefunden für \"{{query}}\"",
+      "loadMoreResults": "Weitere Ergebnisse laden",
+      "serverSearchFailed": "Suche fehlgeschlagen: {{error}}",
+      "searchEncryptedNote": "Die Serversuche ist in verschlüsselten Räumen nicht verfügbar. Es werden nur auf diesem Gerät geladene Nachrichten durchsucht.",
       "prevMatch": "Vorherige Übereinstimmung (Umschalt+Enter)",
       "nextMatch": "Nächste Übereinstimmung (Enter)",
       "typing_one": "{{names}} tippt...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favoriten",
     "noFavourites": "Noch keine Favoriten - tippe auf den Stern eines GIFs, um es hier zu sehen",
+    "gifTabRecent": "Zuletzt",
+    "noRecent": "Noch keine zuletzt verwendeten GIFs - gesendete GIFs erscheinen hier",
     "addFavourite": "Zu Favoriten hinzufügen",
     "removeFavourite": "Aus Favoriten entfernen",
     "favouritesFull": "Favoriten voll",
@@ -2618,6 +2623,9 @@
       "note": "Alles, was du abonniert hast: Avatar-Dekorationen, Profileffekte, Namensschilder und Profilrahmen aus deinen Räumen und Spaces.",
       "hint": "Pakete, die du hier auswählst, stehen für dein Profil zur Verfügung.",
       "empty": "Noch nichts abonniert.",
+      "showPacks": "Cosmetic-Packs anzeigen",
+      "showPacksDescription": "Dekorationen, Namensschilder, Rahmen und Effekte aus Packs anzeigen, deine und die aller anderen. Mitgelieferte Kosmetik wird immer angezeigt.",
+      "packsOff": "Cosmetic-Packs sind aus: Es wird nur die mitgelieferte Kosmetik angezeigt. Deine gespeicherte Auswahl bleibt erhalten.",
       "kindPlural": {
         "decoration": "Avatar-Dekorationen",
         "effect": "Profileffekte",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Verifizierung konnte nicht gestartet werden: {{error}}"
   },
   "update": {
+    "downloading": "Update wird heruntergeladen… {{percent}} %",
     "action": "Mudrix aktualisieren",
     "checkNow": "Nach Updates suchen",
     "includePrereleases": "Vorabversionen einbeziehen",

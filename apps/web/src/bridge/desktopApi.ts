@@ -105,6 +105,11 @@ export const desktopApi: DesktopAPI = {
     onDesktopEvent('update-downloaded', listener);
     void invoke<boolean>('update_ready').then((ready) => ready && listener());
   },
+  onUpdateProgress: (listener) =>
+    onDesktopEvent<{ downloaded: number; total: number | null; percent: number | null }>(
+      'update-progress',
+      listener
+    ),
   installUpdate() {
     void invoke('install_update');
   },

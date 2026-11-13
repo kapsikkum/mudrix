@@ -1109,6 +1109,7 @@ export const Message = memo(function Message({
       tabIndex={0}
       role="group"
       data-hovered={showActions ? 'true' : 'false'}
+      data-swipe-reply={canSwipeReply ? '' : undefined}
     >
       {canSwipeReply && (
         <span ref={swipeIconRef} className={css.swipeReplyIcon} aria-hidden>

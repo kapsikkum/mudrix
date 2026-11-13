@@ -166,6 +166,8 @@ export interface Preferences {
   spellcheckEnabled: boolean;
   /** Dictionary codes to check against; empty follows the display language. */
   spellcheckLanguages: string[];
+  /** Draw cosmetics that come from packs; the built-in ones are always drawn. */
+  showCosmeticPacks: boolean;
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
@@ -257,6 +259,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
   voiceSounds: {},
   spellcheckEnabled: !isMobileDevice(),
   spellcheckLanguages: [],
+  showCosmeticPacks: true,
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -393,6 +396,7 @@ const rawStringStorage = {
 export const languageAtom = atomWithStorage<string>(STORAGE_KEY_LANGUAGE, 'en', rawStringStorage);
 
 export const spellcheckEnabledAtom = preferenceFieldAtom('spellcheckEnabled');
+export const showCosmeticPacksAtom = preferenceFieldAtom('showCosmeticPacks');
 
 const storedSpellcheckLanguagesAtom = preferenceFieldAtom('spellcheckLanguages');
 

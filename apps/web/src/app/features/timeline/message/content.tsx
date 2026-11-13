@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { watchRoomPills } from '../roomPills';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useStore } from 'jotai';
@@ -35,6 +36,7 @@ import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import { VideoPlaceholder } from './VideoPlaceholder';
 import { GifLinkEmbed } from './GifLinkEmbed';
+import { GifFavouriteButton } from './GifFavouriteButton';
 import {
   FilePreviewModal,
   TextFileCard,
@@ -425,6 +427,8 @@ interface StickerBoxProps {
   height?: number | null;
   requestFullRes?: (force?: boolean) => Promise<string | null>;
   onClick?: () => void;
+  /** An overlay inside the box, like the GIF favourite's star. */
+  overlay?: ReactNode;
 }
 
 function StickerBox({
@@ -437,6 +441,7 @@ function StickerBox({
   height,
   requestFullRes,
   onClick,
+  overlay,
 }: StickerBoxProps) {
   const [measured, setMeasured] = useState<{ src: string; w: number; h: number } | null>(null);
   const infoW = typeof width === 'number' && width > 0 ? width : undefined;
@@ -475,6 +480,7 @@ function StickerBox({
           <StickerIcon size={32} className={css.stickerPulseGlyph} />
         </div>
       )}
+      {overlay}
     </div>
   );
 }
@@ -702,6 +708,7 @@ export function MessageContent({
     const src =
       mediaSrc ??
       (mxcUrl && mxcUrl.startsWith('mxc://') ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
+    const gifUrl = media.mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') ? mxcUrl : null;
     return (
       <StickerContent
         client={client}
@@ -715,6 +722,7 @@ export function MessageContent({
         width={media.width}
         height={media.height}
         requestFullRes={requestFullRes}
+        overlay={gifUrl ? <GifFavouriteButton client={client} url={gifUrl} /> : undefined}
       />
     );
   }
@@ -778,6 +786,9 @@ export function MessageContent({
           onClick={() => onMediaClick?.(src)}
           requestFullRes={requestFullRes}
         />
+        {mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') && (
+          <GifFavouriteButton client={client} url={mxcUrl} />
+        )}
       </div>
     ) : mediaFailed ? (
       <MediaError />
@@ -1099,7 +1110,7 @@ export function MessageContent({
 
   return (
     <div style={{ display: 'block' }}>
-      <GifLinkEmbed body={body}>
+      <GifLinkEmbed body={body} client={client}>
         <RichHtml
           html={html}
           client={client}

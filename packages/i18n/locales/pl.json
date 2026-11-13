@@ -467,6 +467,9 @@
       "searchBanner_one": "Wyświetlono {{count}} wynik dla „{{query}}”",
       "searchBanner_other": "Wyniki dla „{{query}}”: {{count}}",
       "searchEmpty": "Nie znaleziono wiadomości pasujących do „{{query}}”",
+      "loadMoreResults": "Wczytaj więcej wyników",
+      "serverSearchFailed": "Wyszukiwanie nie powiodło się: {{error}}",
+      "searchEncryptedNote": "Wyszukiwanie na serwerze nie jest dostępne w zaszyfrowanych pokojach. Pokazano dopasowania tylko z wiadomości załadowanych na tym urządzeniu.",
       "prevMatch": "Poprzednie dopasowanie (Shift+Enter)",
       "nextMatch": "Następne dopasowanie (Enter)",
       "typing_one": "{{names}} pisze...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Ulubione",
     "noFavourites": "Brak ulubionych - kliknij gwiazdkę przy dowolnym GIF-ie, aby zobaczyć go tutaj",
+    "gifTabRecent": "Ostatnie",
+    "noRecent": "Brak ostatnich GIF-ów - wysłane GIF-y pojawią się tutaj",
     "addFavourite": "Dodaj do ulubionych",
     "removeFavourite": "Usuń z ulubionych",
     "favouritesFull": "Ulubione są pełne",
@@ -2618,6 +2623,9 @@
       "note": "Wszystko, co subskrybujesz: dekoracje awatara, efekty profilu, tabliczki z nazwą i ramki profilu z twoich pokoi i przestrzeni.",
       "hint": "Paczki wybrane tutaj będą dostępne dla twojego profilu.",
       "empty": "Nic jeszcze nie subskrybujesz.",
+      "showPacks": "Pokaż paczki kosmetyków",
+      "showPacksDescription": "Pokazuj dekoracje, tabliczki z nazwą, ramki i efekty pochodzące z paczek — Twoje i innych osób. Wbudowane kosmetyki są zawsze widoczne.",
+      "packsOff": "Paczki kosmetyków są wyłączone: pokazywane są tylko wbudowane kosmetyki. Twoje zapisane wybory pozostają zachowane.",
       "kindPlural": {
         "decoration": "Dekoracje awatara",
         "effect": "Efekty profilu",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Nie udało się rozpocząć weryfikacji: {{error}}"
   },
   "update": {
+    "downloading": "Pobieranie aktualizacji… {{percent}}%",
     "action": "Zaktualizuj Mudrix",
     "checkNow": "Sprawdź aktualizacje",
     "includePrereleases": "Uwzględniaj wersje wstępne",

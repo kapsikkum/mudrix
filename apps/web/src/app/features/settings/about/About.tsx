@@ -28,7 +28,15 @@ export function About() {
   const hasWhatsNew = !!latestWhatsNew('en');
   const setUpdateAvailable = useSetAtom(updateAvailableAtom);
   const [updateCheck, setUpdateCheck] = useState<UpdateCheck | 'checking' | null>(null);
+  const [downloadPercent, setDownloadPercent] = useState<number | null>(null);
   const checking = updateCheck === 'checking';
+
+  useEffect(() => {
+    const stop = window.desktopAPI?.onUpdateProgress?.(({ percent }) =>
+      setDownloadPercent(percent)
+    );
+    return () => stop?.();
+  }, []);
 
   const [prereleases, setPrereleases] = useState(
     () => localStorage.getItem('mudrix.updates.prereleases') === '1'
@@ -40,6 +48,7 @@ export function About() {
 
   const handleCheck = async () => {
     setUpdateCheck('checking');
+    setDownloadPercent(null);
     let result: UpdateCheck;
     if (isTauriDesktop() && window.desktopAPI?.checkForUpdate) {
       try {
@@ -96,7 +105,11 @@ export function About() {
                       size={16}
                       className={checking ? heroCss.spinning : undefined}
                     />
-                    {checking ? t('update.checking') : t('update.checkNow')}
+                    {checking
+                      ? downloadPercent !== null
+                        ? t('update.downloading', { percent: downloadPercent })
+                        : t('update.checking')
+                      : t('update.checkNow')}
                   </>
                 )}
               </button>

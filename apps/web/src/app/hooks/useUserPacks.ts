@@ -12,6 +12,7 @@ import {
   parsePackInfo,
 } from '@/app/features/settings/emojis/imagePackTypes';
 import { mudrixKey } from '@/util/namespace';
+import { mergeSubscriptions, subscriptionRooms } from '@/util/cosmeticPacks';
 
 const DEFAULT_USAGE: PackUsage[] = ['emoticon', 'sticker'];
 
@@ -319,17 +320,7 @@ export function parseUserPack(content: PackContent | null | undefined): UserPack
 export function mergeSubscriptionRooms(
   ...contents: (PackContent | null | undefined)[]
 ): Record<string, PackContent> {
-  const merged: Record<string, PackContent> = {};
-  for (const content of contents) {
-    const rooms = content?.rooms as Record<string, PackContent> | undefined;
-    if (!rooms) continue;
-    for (const [roomId, stateKeys] of Object.entries(rooms)) {
-      if (!stateKeys || typeof stateKeys !== 'object') continue;
-      const existing = merged[roomId] ?? {};
-      merged[roomId] = { ...existing, ...stateKeys };
-    }
-  }
-  return merged;
+  return mergeSubscriptions(...contents);
 }
 
 interface FavoritePack {
@@ -424,12 +415,20 @@ export async function saveFavoritePacks(
   client: MatrixClient,
   favorites: RoomPackSummary[]
 ): Promise<void> {
-  const rooms: Record<string, PackContent> = {};
-  for (const fav of favorites) {
-    const roomToState = rooms[fav.roomId] ?? {};
-    roomToState[fav.stateKey] = {};
-    rooms[fav.roomId] = roomToState;
-  }
+  const existing = mergeSubscriptions(
+    ((await client.accountData(EMOTE_ROOMS_UNSTABLE)) as PackContent | null) ?? null,
+    ((await client.accountData(EMOTE_ROOMS_STABLE)) as PackContent | null) ?? null
+  );
+  // Subscriptions to rooms this client cannot read (left, or not synced) cannot be listed in the
+  // UI; keep them rather than silently dropping them on every save.
+  const unreadable = new Set<string>();
+  await Promise.all(
+    Object.keys(existing).map(async (roomId) => {
+      const contents = await readRoomPackContents(client, roomId);
+      if (contents.size === 0) unreadable.add(roomId);
+    })
+  );
+  const rooms = subscriptionRooms(existing, favorites, (roomId) => unreadable.has(roomId));
   await Promise.all([
     client.setAccountData(EMOTE_ROOMS_UNSTABLE, { rooms }),
     client.setAccountData(EMOTE_ROOMS_STABLE, { rooms }),

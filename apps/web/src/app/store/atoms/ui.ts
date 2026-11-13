@@ -195,6 +195,8 @@ export interface RoomSearchResults {
   activeMatch: number;
   next: () => void;
   prev: () => void;
+  /** False while the homeserver's results are shown: there is no match to step through */
+  showNav?: boolean;
 }
 export const roomSearchResultsAtom = atom<RoomSearchResults | null>(null);
 export const exploreOpenAtom = atom(false);
@@ -259,6 +261,7 @@ export type SettingsPage =
   | 'notifications'
   | 'voice-video'
   | 'emojis-stickers'
+  | 'cosmetics'
   | 'integrations'
   | 'media'
   | 'voice'

@@ -467,6 +467,9 @@
       "searchBanner_one": "Visualizzazione di {{count}} risultato per \"{{query}}\"",
       "searchBanner_other": "Visualizzazione di {{count}} risultati per \"{{query}}\"",
       "searchEmpty": "Nessun messaggio trovato per \"{{query}}\"",
+      "loadMoreResults": "Carica altri risultati",
+      "serverSearchFailed": "Ricerca non riuscita: {{error}}",
+      "searchEncryptedNote": "La ricerca sul server non è disponibile nelle stanze crittografate. Vengono mostrati solo i risultati dei messaggi caricati su questo dispositivo.",
       "prevMatch": "Risultato precedente (Maiusc+Invio)",
       "nextMatch": "Risultato successivo (Invio)",
       "typing_one": "{{names}} sta scrivendo...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Preferiti",
     "noFavourites": "Nessun preferito per ora: tocca la stella su una GIF per vederla qui",
+    "gifTabRecent": "Recenti",
+    "noRecent": "Nessuna GIF recente per ora: le GIF che invii appariranno qui",
     "addFavourite": "Aggiungi ai preferiti",
     "removeFavourite": "Rimuovi dai preferiti",
     "favouritesFull": "Preferiti pieni",
@@ -2618,6 +2623,9 @@
       "note": "Tutto ciò a cui sei iscritto: decorazioni avatar, effetti profilo, targhette nome e cornici profilo delle tue stanze e dei tuoi spazi.",
       "hint": "I pacchetti che scegli qui diventano disponibili per il tuo profilo.",
       "empty": "Nessuna iscrizione per ora.",
+      "showPacks": "Mostra i pacchetti di cosmetici",
+      "showPacksDescription": "Mostra decorazioni, targhette, cornici ed effetti che provengono dai pacchetti, tuoi e degli altri. I cosmetici integrati sono sempre visibili.",
+      "packsOff": "I pacchetti di cosmetici sono disattivati: vengono mostrati solo i cosmetici integrati. La tua selezione salvata viene conservata.",
       "kindPlural": {
         "decoration": "Decorazioni avatar",
         "effect": "Effetti profilo",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Impossibile avviare la verifica: {{error}}"
   },
   "update": {
+    "downloading": "Download dell'aggiornamento… {{percent}}%",
     "action": "Aggiorna Mudrix",
     "checkNow": "Controlla aggiornamenti",
     "includePrereleases": "Includi le versioni di anteprima",

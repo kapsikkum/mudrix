@@ -467,6 +467,9 @@
       "searchBanner_one": "{{count}} resultaat voor “{{query}}” wordt getoond",
       "searchBanner_other": "{{count}} resultaten voor “{{query}}” worden getoond",
       "searchEmpty": "Geen berichten gevonden die overeenkomen met “{{query}}”",
+      "loadMoreResults": "Meer resultaten laden",
+      "serverSearchFailed": "Zoeken mislukt: {{error}}",
+      "searchEncryptedNote": "Zoeken op de server is niet beschikbaar in versleutelde kamers. Er worden alleen overeenkomsten getoond uit berichten die op dit apparaat zijn geladen.",
       "prevMatch": "Vorige overeenkomst (Shift+Enter)",
       "nextMatch": "Volgende overeenkomst (Enter)",
       "typing_one": "{{names}} is aan het typen...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favorieten",
     "noFavourites": "Nog geen favorieten - tik op de ster bij een GIF om die hier te zien",
+    "gifTabRecent": "Recent",
+    "noRecent": "Nog geen recente GIF's - GIF's die je verstuurt, verschijnen hier",
     "addFavourite": "Toevoegen aan favorieten",
     "removeFavourite": "Verwijderen uit favorieten",
     "favouritesFull": "Favorieten vol",
@@ -2618,6 +2623,9 @@
       "note": "Alles waarop je bent geabonneerd: avatardecoraties, profieleffecten, naamplaatjes en profielframes uit je kamers en spaces.",
       "hint": "Packs die je hier kiest zijn beschikbaar voor je profiel.",
       "empty": "Nog nergens op geabonneerd.",
+      "showPacks": "Cosmeticapakketten tonen",
+      "showPacksDescription": "Toon decoraties, naamplaten, kaders en effecten uit pakketten, van jou en van anderen. Ingebouwde cosmetica wordt altijd getoond.",
+      "packsOff": "Cosmeticapakketten staan uit: alleen de ingebouwde cosmetica wordt getoond. Je opgeslagen keuze blijft bewaard.",
       "kindPlural": {
         "decoration": "Avatardecoraties",
         "effect": "Profieleffecten",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Verificatie kon niet worden gestart: {{error}}"
   },
   "update": {
+    "downloading": "Update downloaden… {{percent}}%",
     "action": "Mudrix bijwerken",
     "checkNow": "Controleren op updates",
     "includePrereleases": "Voorlopige versies meenemen",

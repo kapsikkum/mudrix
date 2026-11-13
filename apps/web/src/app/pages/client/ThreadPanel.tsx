@@ -46,6 +46,7 @@ import {
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
 import * as css from './ThreadPanel.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 
 const MAX_PAGES = 10;
 
@@ -99,6 +100,7 @@ export function ThreadPanel({
 }: ThreadPanelProps) {
   const { t, i18n } = useTranslation();
   const colorFor = useUsernameColor();
+  const roleColorFor = useRoleNameColor(roomId);
   const toast = useToast();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const confirmDialog = useConfirm();
@@ -393,7 +395,13 @@ export function ThreadPanel({
             size="sm"
             placeholder="logo"
           />
-          <span className={css.threadRootSender} style={{ color: colorFor(rootSenderId) }}>
+          <span
+            className={css.threadRootSender}
+            style={{
+              color:
+                roleColorFor(rootSenderId, rootMember?.powerLevel ?? 0) ?? colorFor(rootSenderId),
+            }}
+          >
             {rootSenderName}
           </span>
           <span className={css.threadRootTime}>

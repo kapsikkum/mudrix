@@ -467,6 +467,9 @@
       "searchBanner_one": "「{{query}}」の検索結果を {{count}} 件表示中",
       "searchBanner_other": "「{{query}}」の検索結果を {{count}} 件表示中",
       "searchEmpty": "「{{query}}」に一致するメッセージは見つかりませんでした",
+      "loadMoreResults": "さらに結果を読み込む",
+      "serverSearchFailed": "検索に失敗しました: {{error}}",
+      "searchEncryptedNote": "暗号化されたルームではサーバー上の検索を利用できません。このデバイスに読み込まれているメッセージからのみ一致を表示しています。",
       "prevMatch": "前の一致 (Shift+Enter)",
       "nextMatch": "次の一致 (Enter)",
       "typing_one": "{{names}} が入力中...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "お気に入り",
     "noFavourites": "お気に入りはまだありません。GIFの星印をタップするとここに表示されます",
+    "gifTabRecent": "最近",
+    "noRecent": "最近のGIFはまだありません。送信したGIFがここに表示されます",
     "addFavourite": "お気に入りに追加",
     "removeFavourite": "お気に入りから削除",
     "favouritesFull": "お気に入りがいっぱいです",
@@ -2618,6 +2623,9 @@
       "note": "ルームやスペースから登録しているものすべて：アバターデコレーション、プロフィールエフェクト、ネームプレート、プロフィールフレーム。",
       "hint": "ここで選んだパックがプロフィールで使えるようになります。",
       "empty": "まだ登録していません。",
+      "showPacks": "コスメパックを表示",
+      "showPacksDescription": "パックの装飾、ネームプレート、フレーム、エフェクトを表示します（自分のものも他の人のものも）。内蔵のコスメは常に表示されます。",
+      "packsOff": "コスメパックはオフです。内蔵のコスメだけが表示され、保存した選択はそのまま残ります。",
       "kindPlural": {
         "decoration": "アバターデコレーション",
         "effect": "プロフィールエフェクト",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "認証を開始できませんでした: {{error}}"
   },
   "update": {
+    "downloading": "アップデートをダウンロード中… {{percent}}%",
     "action": "Mudrixを更新",
     "checkNow": "アップデートを確認",
     "includePrereleases": "プレリリース版を含める",

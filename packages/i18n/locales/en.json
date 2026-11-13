@@ -467,6 +467,9 @@
       "searchBanner_one": "Showing {{count}} result for \"{{query}}\"",
       "searchBanner_other": "Showing {{count}} results for \"{{query}}\"",
       "searchEmpty": "No messages found matching \"{{query}}\"",
+      "loadMoreResults": "Load more results",
+      "serverSearchFailed": "Search failed: {{error}}",
+      "searchEncryptedNote": "Search on the server isn't available in encrypted rooms. Showing matches from messages loaded on this device only.",
       "prevMatch": "Previous match (Shift+Enter)",
       "nextMatch": "Next match (Enter)",
       "typing_one": "{{names}} is typing...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favourites",
     "noFavourites": "No favourites yet - tap the star on any GIF to see it here",
+    "gifTabRecent": "Recent",
+    "noRecent": "No recent GIFs yet - GIFs you send show up here",
     "addFavourite": "Add to favourites",
     "removeFavourite": "Remove from favourites",
     "favouritesFull": "Favourites full",
@@ -2618,6 +2623,9 @@
       "note": "Everything you are subscribed to: avatar decorations, profile effects, nameplates and profile frames from your rooms and spaces.",
       "hint": "Packs you pick here become available for your profile.",
       "empty": "Not subscribed to any yet.",
+      "showPacks": "Show cosmetic packs",
+      "showPacksDescription": "Draw decorations, nameplates, frames and effects that come from packs, yours and everyone else's. Built-in cosmetics always show.",
+      "packsOff": "Cosmetic packs are off: only the built-in cosmetics are shown. Your saved pack selection is kept.",
       "kindPlural": {
         "decoration": "Avatar decorations",
         "effect": "Profile effects",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Could not start verification: {{error}}"
   },
   "update": {
+    "downloading": "Downloading update… {{percent}}%",
     "action": "Update Mudrix",
     "checkNow": "Check for updates",
     "includePrereleases": "Include pre-releases",

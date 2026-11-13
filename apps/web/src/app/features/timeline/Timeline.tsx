@@ -44,6 +44,9 @@ import { useWidgets } from '@/app/hooks/useWidgets';
 import { useVirtualPaginator } from '@/app/hooks/useVirtualPaginator';
 import { MessageSkeletonList } from './MessageSkeleton';
 import { ROW_KEY_ATTR, useTimelineScrollAnchor } from './useTimelineScrollAnchor';
+import { SearchResults } from './SearchResults';
+import { useRoomServerSearch } from '@/app/hooks/useRoomServerSearch';
+import * as searchCss from './SearchResults.css';
 import {
   UndecryptableCollapse,
   UndecryptableFold,
@@ -306,6 +309,11 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     isSearching,
   } = useSearch(searchItems);
 
+  // Unencrypted rooms are searched on the homeserver, which can page through every message;
+  // encrypted ones can only be matched against what this device has loaded.
+  const serverSearchEnabled = isSearching && !room?.isEncrypted;
+  const serverSearch = useRoomServerSearch(client, roomId, search.query, serverSearchEnabled);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const stickToBottomRef = useRef(false);
@@ -493,6 +501,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     handleJumpToLatest();
   }, [clearSearch, handleJumpToLatest]);
 
+  const handleSearchResultJump = useCallback(
+    (result: { eventId: string }) => {
+      clearSearch();
+      // Let the regular timeline render again before scrolling/loading around the event.
+      setTimeout(() => void handleJumpToEvent(result.eventId), 50);
+    },
+    [clearSearch, handleJumpToEvent]
+  );
+
   const [roomSearch, setRoomSearch] = useAtom(roomSearchAtom);
   const setRoomSearchResults = useSetAtom(roomSearchResultsAtom);
   const setGlobalSearchOpen = useSetAtom(globalSearchOpenAtom);
@@ -512,15 +529,22 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     if (searchQueryForRoom === null) return;
     setRoomSearchResults({
       roomId,
-      matchCount: isSearching ? search.matchIndices.length : 0,
-      activeMatch: search.activeMatch,
+      matchCount: serverSearchEnabled
+        ? serverSearch.hits.length
+        : isSearching
+          ? search.matchIndices.length
+          : 0,
+      activeMatch: serverSearchEnabled ? 0 : search.activeMatch,
       next: goToNext,
       prev: goToPrev,
+      showNav: !serverSearchEnabled,
     });
   }, [
     searchQueryForRoom,
     roomId,
     isSearching,
+    serverSearchEnabled,
+    serverSearch.hits.length,
     search.matchIndices.length,
     search.activeMatch,
     goToNext,
@@ -1199,12 +1223,18 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
               />
             )}
 
-            {isSearching && filteredItems.length > 0 && (
+            {isSearching && !serverSearchEnabled && filteredItems.length > 0 && (
               <div className={css.searchBanner} role="status">
                 {t('room.header.searchBanner', {
                   count: filteredItems.length,
                   query: search.query,
                 })}
+              </div>
+            )}
+
+            {isSearching && room?.isEncrypted && (
+              <div className={searchCss.encryptedNote} role="status">
+                {t('room.header.searchEncryptedNote')}
               </div>
             )}
 
@@ -1261,9 +1291,23 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                   </div>
                 )}
 
-                {isSearching
-                  ? filteredItems.map((timelineItem) => renderMessage(timelineItem))
-                  : getItems().map(eventRenderer)}
+                {serverSearchEnabled ? (
+                  <SearchResults
+                    roomId={roomId}
+                    query={search.query}
+                    status={serverSearch.status}
+                    results={serverSearch.hits}
+                    loadingMore={serverSearch.loadingMore}
+                    next={serverSearch.next}
+                    error={serverSearch.error}
+                    onLoadMore={serverSearch.loadMore}
+                    onJump={handleSearchResultJump}
+                  />
+                ) : isSearching ? (
+                  filteredItems.map((timelineItem) => renderMessage(timelineItem))
+                ) : (
+                  getItems().map(eventRenderer)
+                )}
 
                 {!isSearching && (!liveTimelineLinked || !rangeAtEnd) && (
                   <div ref={observeFrontAnchor} className={css.timelinePlaceholder}>
@@ -1275,7 +1319,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
               </div>
             </div>
 
-            {isSearching && filteredItems.length === 0 && (
+            {isSearching && !serverSearchEnabled && filteredItems.length === 0 && (
               <div className={css.searchEmpty}>
                 {t('room.header.searchEmpty', { query: search.query })}
               </div>

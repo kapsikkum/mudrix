@@ -72,6 +72,10 @@ interface DesktopAPI {
     { video: MediaStreamTrack; audio: MediaStreamTrack | null; stop(): void } | null | undefined
   >;
   onUpdateDownloaded?: (cb: () => void) => void;
+  /** How far the update download has come; `percent` is absent while its size is unknown */
+  onUpdateProgress?: (
+    cb: (progress: { downloaded: number; total: number | null; percent: number | null }) => void
+  ) => () => void;
   installUpdate?: () => void;
   /** Asks the update feed now (stable, or with pre-releases the `next` channel) */
   checkForUpdate?: (

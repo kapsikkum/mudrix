@@ -14,6 +14,7 @@ import {
   BellIcon,
   HeadphonesIcon,
   SmileyStickerIcon,
+  SparkleIcon,
   FilmStripIcon,
   PuzzlePieceIcon,
   MicrophoneIcon,
@@ -55,6 +56,7 @@ import { Language } from './language';
 import { Notifications } from './notifications';
 import { VoiceVideo } from './voiceVideo';
 import { EmojisStickers } from './emojis';
+import { Cosmetics } from './cosmetics';
 import { Media } from './media';
 import { Integrations } from './integrations';
 import { VoiceAudio } from './voice';
@@ -203,6 +205,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <VoiceVideo />;
     case 'emojis-stickers':
       return <EmojisStickers />;
+    case 'cosmetics':
+      return <Cosmetics />;
     case 'integrations':
       return <Integrations />;
     case 'media':
@@ -246,6 +250,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       Icon: SmileyStickerIcon,
     },
     { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
+    { key: 'cosmetics', label: t('settings.cosmetics.title'), Icon: SparkleIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
     { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
     { key: 'voice-video', label: t('settings.voiceVideo.title'), Icon: HeadphonesIcon },

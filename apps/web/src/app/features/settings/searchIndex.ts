@@ -45,6 +45,14 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
     'settings.emojisStickers.favoritePacksNote',
   ],
 
+  ['cosmetics', 'settings.cosmetics.title', 'settings.cosmetics.note'],
+  ['cosmetics', 'settings.cosmetics.showPacks', 'settings.cosmetics.showPacksDescription'],
+  ['cosmetics', 'settings.cosmetics.kindPlural.decoration'],
+  ['cosmetics', 'settings.cosmetics.kindPlural.effect'],
+  ['cosmetics', 'settings.cosmetics.kindPlural.nameplate'],
+  ['cosmetics', 'settings.cosmetics.kindPlural.profile_frame'],
+  ['cosmetics', 'settings.cosmetics.empty', 'settings.cosmetics.hint'],
+
   [
     'notifications',
     'settings.notifications.notificationSounds',

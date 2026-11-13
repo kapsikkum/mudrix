@@ -20,3 +20,9 @@ export const button = style({
     backgroundColor: vars.color.bgHover,
   },
 });
+
+export const percent = style({
+  fontSize: '0.7rem',
+  fontWeight: 700,
+  fontVariantNumeric: 'tabular-nums',
+});

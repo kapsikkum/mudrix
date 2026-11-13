@@ -460,6 +460,35 @@ export const stickerBox = style({
   borderRadius: vars.radius.sm,
 });
 
+export const gifFavouriteBtn = style({
+  position: 'absolute',
+  top: '8px',
+  right: '8px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '26px',
+  height: '26px',
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  color: '#fff',
+  cursor: 'pointer',
+  zIndex: 1,
+  opacity: 0,
+  transition: `background-color ${fast}, color ${fast}, opacity ${fast}`,
+  selectors: {
+    [`${stickerBox}:hover &, ${mediaBox}:hover &`]: { opacity: 1 },
+    '&:hover': { backgroundColor: 'rgba(0,0,0,0.75)' },
+    '&[data-active="true"]': { color: '#fbbf24' },
+    '&:focus-visible': {
+      opacity: 1,
+      outline: `2px solid ${vars.color.accent}`,
+    },
+    '&[data-coarse="true"]': { opacity: 1 },
+  },
+});
+
 export const mediaBoxPulse = style({
   position: 'absolute',
   inset: 0,
@@ -1472,7 +1501,7 @@ export const msgActions = style({
 
 export const swipeReplyIcon = style({
   position: 'absolute',
-  left: '16px',
+  right: '16px',
   top: '50%',
   width: '32px',
   height: '32px',

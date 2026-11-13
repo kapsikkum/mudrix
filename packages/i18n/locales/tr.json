@@ -467,6 +467,9 @@
       "searchBanner_one": "“{{query}}” için {{count}} sonuç gösteriliyor",
       "searchBanner_other": "“{{query}}” için {{count}} sonuç gösteriliyor",
       "searchEmpty": "“{{query}}” ile eşleşen mesaj bulunamadı",
+      "loadMoreResults": "Daha fazla sonuç yükle",
+      "serverSearchFailed": "Arama başarısız: {{error}}",
+      "searchEncryptedNote": "Şifreli odalarda sunucu araması kullanılamaz. Yalnızca bu cihazda yüklenmiş mesajlardaki eşleşmeler gösteriliyor.",
       "prevMatch": "Önceki eşleşme (Shift+Enter)",
       "nextMatch": "Sonraki eşleşme (Enter)",
       "typing_one": "{{names}} yazıyor...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favoriler",
     "noFavourites": "Henüz favori yok - herhangi bir GIF'teki yıldıza dokunun, burada görünsün",
+    "gifTabRecent": "Son kullanılanlar",
+    "noRecent": "Henüz son GIF yok - gönderdiğiniz GIF'ler burada görünür",
     "addFavourite": "Favorilere ekle",
     "removeFavourite": "Favorilerden çıkar",
     "favouritesFull": "Favoriler dolu",
@@ -2618,6 +2623,9 @@
       "note": "Abone olduğun her şey: odalarından ve alanlarından avatar dekorasyonları, profil efektleri, isim plakaları ve profil çerçeveleri.",
       "hint": "Burada seçtiğin paketler profilin için kullanılabilir olur.",
       "empty": "Henüz hiçbirine abone değilsin.",
+      "showPacks": "Kozmetik paketlerini göster",
+      "showPacksDescription": "Paketlerden gelen süslemeleri, isim etiketlerini, çerçeveleri ve efektleri göster (sizinkiler ve başkalarınınkiler). Yerleşik kozmetikler her zaman görünür.",
+      "packsOff": "Kozmetik paketleri kapalı: yalnızca yerleşik kozmetikler gösterilir. Kayıtlı seçiminiz korunur.",
       "kindPlural": {
         "decoration": "Avatar dekorasyonları",
         "effect": "Profil efektleri",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Doğrulama başlatılamadı: {{error}}"
   },
   "update": {
+    "downloading": "Güncelleme indiriliyor… %{{percent}}",
     "action": "Mudrix'i güncelle",
     "checkNow": "Güncellemeleri denetle",
     "includePrereleases": "Ön sürümleri dahil et",

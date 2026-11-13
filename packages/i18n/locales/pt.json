@@ -467,6 +467,9 @@
       "searchBanner_one": "Mostrando {{count}} resultado para \"{{query}}\"",
       "searchBanner_other": "Mostrando {{count}} resultados para \"{{query}}\"",
       "searchEmpty": "Nenhuma mensagem encontrada para \"{{query}}\"",
+      "loadMoreResults": "Carregar mais resultados",
+      "serverSearchFailed": "Falha na pesquisa: {{error}}",
+      "searchEncryptedNote": "A pesquisa no servidor não está disponível em salas criptografadas. Mostrando apenas resultados das mensagens carregadas neste dispositivo.",
       "prevMatch": "Resultado anterior (Shift+Enter)",
       "nextMatch": "Próximo resultado (Enter)",
       "typing_one": "{{names}} está digitando...",
@@ -1062,6 +1065,8 @@
     },
     "favourites": "Favoritos",
     "noFavourites": "Nenhum favorito ainda - toque na estrela de qualquer GIF para vê-lo aqui",
+    "gifTabRecent": "Recentes",
+    "noRecent": "Nenhum GIF recente ainda - os GIFs que você enviar aparecerão aqui",
     "addFavourite": "Adicionar aos favoritos",
     "removeFavourite": "Remover dos favoritos",
     "favouritesFull": "Favoritos cheios",
@@ -2618,6 +2623,9 @@
       "note": "Tudo em que você está inscrito: decorações de avatar, efeitos de perfil, placas de nome e molduras de perfil das suas salas e espaços.",
       "hint": "Os pacotes que você escolher aqui ficam disponíveis para o seu perfil.",
       "empty": "Ainda não está inscrito em nenhum.",
+      "showPacks": "Mostrar pacotes de cosméticos",
+      "showPacksDescription": "Mostra decorações, placas de nome, molduras e efeitos que vêm de pacotes, seus e dos outros. Os cosméticos integrados aparecem sempre.",
+      "packsOff": "Os pacotes de cosméticos estão desligados: só os cosméticos integrados são mostrados. A sua seleção guardada é mantida.",
       "kindPlural": {
         "decoration": "Decorações de avatar",
         "effect": "Efeitos de perfil",
@@ -2985,6 +2993,7 @@
     "verifyFailed": "Não foi possível iniciar a verificação: {{error}}"
   },
   "update": {
+    "downloading": "Baixando atualização… {{percent}}%",
     "action": "Atualizar o Mudrix",
     "checkNow": "Verificar atualizações",
     "includePrereleases": "Incluir pré-lançamentos",

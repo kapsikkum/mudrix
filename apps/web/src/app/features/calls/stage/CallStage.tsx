@@ -16,6 +16,8 @@ import {
 import type { CallParticipant, RingState, TrackHandle } from '@/call/media';
 import { useClient, useMembers, useRoom } from '@/app/data';
 import { isDmRoom } from '@/util/matrix';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 import { Avatar, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { SoundboardTileChip } from '@/app/features/soundboard/SoundboardPersonUi';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
@@ -117,6 +119,7 @@ function participantInfo(
 function Tile({
   tile,
   lookup,
+  colorFor,
   focused,
   onSelect,
   onMenu,
@@ -124,6 +127,8 @@ function Tile({
 }: {
   tile: ParticipantTile;
   lookup: (userId: string) => MemberInfo;
+  /** The sender-name colour of a person: their role's, or the one everyone gets */
+  colorFor: (userId: string) => string | undefined;
   focused?: boolean;
   onSelect?: () => void;
   onMenu?: (x: number, y: number) => void;
@@ -136,6 +141,7 @@ function Tile({
   const client = useClient();
   const { participant, screen } = tile;
   const { name, avatarUrl: mxc } = participantInfo(participant, lookup, client.userId(), t);
+  const nameColor = colorFor(participant.userId);
   const previewHidden = screen && participant.isLocal && !showOwnScreen;
   const unwatched = screen && !participant.watchingScreen;
   const track = screen ? participant.screen : participant.camera;
@@ -295,7 +301,9 @@ function Tile({
         {!screen && participant.audioMuted && (
           <MicrophoneSlashIcon size={13} weight="fill" className={css.mutedIcon} />
         )}
-        <span className={css.labelName}>{name}</span>
+        <span className={css.labelName} style={nameColor ? { color: nameColor } : undefined}>
+          {name}
+        </span>
         {!screen && !participant.connected && (
           <span
             className={css.connectingSpinner}
@@ -477,6 +485,15 @@ export function CallStage() {
   const closeUserMenu = useCallback(() => setUserMenu(null), []);
   const roomId = session?.roomId ?? null;
   const lookup = useMemberLookup(roomId);
+  const roleColorFor = useRoleNameColor(roomId);
+  const nameColorFor = useUsernameColor();
+  const colorFor = useCallback(
+    (userId: string) => {
+      const member = lookup(userId).member;
+      return roleColorFor(userId, member?.powerLevel ?? 0) ?? nameColorFor(userId);
+    },
+    [lookup, roleColorFor, nameColorFor]
+  );
   const client = useClient();
   const background = buildCallBackground(theme);
 
@@ -584,6 +601,7 @@ export function CallStage() {
       <Tile
         tile={tile}
         lookup={lookup}
+        colorFor={colorFor}
         focused={opts.focused}
         onSelect={opts.onSelect}
         onWatch={watchFor(tile)}

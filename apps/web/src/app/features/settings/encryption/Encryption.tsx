@@ -15,6 +15,7 @@ import { activeAccount, saveAccount } from '@/core/storage';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { Button } from '@/app/components/Button';
 import { useSessionVerificationActions } from '@/app/features/device/useSessionVerificationActions';
+import { KeyBackupStatus } from './KeyBackupStatus';
 import * as css from '../Settings.css';
 import * as encryptionCss from './Encryption.css';
 
@@ -117,6 +118,13 @@ export function Encryption() {
               </Button>
             </div>
           </div>
+        </>
+      )}
+
+      {client && status !== 'no-identity' && status !== 'checking' && (
+        <>
+          <div className={css.divider} />
+          <KeyBackupStatus client={client} />
         </>
       )}
 
