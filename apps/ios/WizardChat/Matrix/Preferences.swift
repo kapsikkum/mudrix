@@ -94,6 +94,10 @@ final class AppPreferences: ObservableObject {
     @Published var colorUsernames: Bool { didSet { save("colorUsernames", colorUsernames); syncIfNeeded() } }
     /// Show images sent together as one gallery; off shows every image as its own message
     @Published var groupImages: Bool { didSet { save("groupImages", groupImages); syncIfNeeded() } }
+    /// Leave join, leave, kick and ban notices out of timelines
+    @Published var hideMembershipEvents: Bool { didSet { save("hideMembershipEvents", hideMembershipEvents); syncIfNeeded() } }
+    /// Leave display name and picture changes out of timelines
+    @Published var hideProfileEvents: Bool { didSet { save("hideProfileEvents", hideProfileEvents); syncIfNeeded() } }
     @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon); syncIfNeeded() } }
     @Published var showRoomAvatars: Bool { didSet { save("showRoomAvatars", showRoomAvatars); syncIfNeeded() } }
     @Published var reducedMotion: ReducedMotion { didSet { save("reducedMotion", reducedMotion.rawValue); syncIfNeeded() } }
@@ -201,6 +205,8 @@ final class AppPreferences: ObservableObject {
         uiDensity = Self.stored(d, "uiDensity", .default)
         prettifyLinks = d.object(forKey: "prettifyLinks") as? Bool ?? true
         groupImages = d.object(forKey: "groupImages") as? Bool ?? true
+        hideMembershipEvents = d.object(forKey: "hideMembershipEvents") as? Bool ?? false
+        hideProfileEvents = d.object(forKey: "hideProfileEvents") as? Bool ?? true
         colorUsernames = d.object(forKey: "colorUsernames") as? Bool ?? true
         themedAppIcon = d.bool(forKey: "themedAppIcon")
         showRoomAvatars = d.object(forKey: "showRoomAvatars") as? Bool ?? true
@@ -328,6 +334,8 @@ final class AppPreferences: ObservableObject {
             boolKey("prettifyLinks", \.prettifyLinks),
             boolKey("colorUsernames", \.colorUsernames),
             boolKey("groupImages", \.groupImages),
+            boolKey("hideMembershipEvents", \.hideMembershipEvents),
+            boolKey("hideProfileEvents", \.hideProfileEvents),
             boolKey("themedAppIcon", \.themedAppIcon),
             boolKey("showRoomAvatars", \.showRoomAvatars),
             enumKey("reducedMotion", \.reducedMotion),

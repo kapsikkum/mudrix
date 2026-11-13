@@ -96,6 +96,7 @@ struct MainTabView: View {
         }
         .animation(.easeOut(duration: WZ.MotionDuration.normal), value: calls.isInCall)
         .onChange(of: notifier.roomToOpen) { _, _ in openNotificationRoom() }
+        .onChange(of: notifier.spaceToOpen) { _, _ in openNotificationSpace() }
         .onAppear(perform: openNotificationRoom)
         .onChange(of: roomList.isLoaded) { _, _ in openNotificationRoom() }
         .sheet(item: $whatsNew) { entry in
@@ -260,6 +261,13 @@ struct MainTabView: View {
         notifier.roomToOpen = nil
         showInbox = false; showCreateSpace = false; showExplore = false
         show(roomId)
+    }
+
+    private func openNotificationSpace() {
+        guard let spaceId = notifier.spaceToOpen else { return }
+        notifier.spaceToOpen = nil
+        showInbox = false; showCreateSpace = false; showExplore = false
+        showSpace(spaceId)
     }
 }
 

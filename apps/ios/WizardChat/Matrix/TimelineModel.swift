@@ -224,6 +224,16 @@ final class TimelineModel: ObservableObject {
         didSet { if groupImages != oldValue { apply([]) } }
     }
 
+    /// Whether join, leave, kick and ban notices are shown (the "Hide joins and leaves" setting)
+    var hideMembershipEvents = false {
+        didSet { if hideMembershipEvents != oldValue { apply([]) } }
+    }
+
+    /// Whether display name and picture changes are shown (the "Hide profile changes" setting)
+    var hideProfileEvents = true {
+        didSet { if hideProfileEvents != oldValue { apply([]) } }
+    }
+
     init(client: WizardClient, roomId: String, threadRoot: String? = nil, pinnedOnly: Bool = false,
          onlyTypes: Set<ChatEntry.ContentType>? = nil) {
         self.client = client
@@ -637,9 +647,14 @@ final class TimelineModel: ObservableObject {
     }
 
     private func apply(_ diffs: [ListDiff<TimelineEntry>]) {
+        let me = ownUserId
+        let hideMembership = hideMembershipEvents
+        let hideProfile = hideProfileEvents
         for diff in diffs {
             diff.apply(to: &items)
-            converted.apply(diff.map { [ownUserId] in Self.makeEntry($0, ownUserId: ownUserId) })
+            converted.apply(diff.map { entry in
+                Self.makeEntry(entry, ownUserId: me, hideMembership: hideMembership, hideProfile: hideProfile)
+            })
         }
         // The read marker is a virtual item; the first message after it is the first unread
         if let marker = items.firstIndex(where: { if case .readMarker = $0 { return true }; return false }) {
@@ -682,7 +697,8 @@ final class TimelineModel: ObservableObject {
         self.entries = kind == .main && onlyTypes == nil && groupImages ? Self.collapseGalleries(entries) : entries
     }
 
-    private static func makeEntry(_ item: TimelineEntry, ownUserId: String) -> ChatEntry? {
+    private static func makeEntry(_ item: TimelineEntry, ownUserId: String,
+                                  hideMembership: Bool, hideProfile: Bool) -> ChatEntry? {
         let event: TimelineEntry.Event
         switch item {
         case .dateDivider(let divider):
@@ -757,8 +773,12 @@ final class TimelineModel: ObservableObject {
         case .unableToDecrypt(let utd):
             kind = .undecryptable(reason: utd.reason)
         case .membership(let membership):
+            guard !hideMembership else { return nil }
             guard let text = describe(membership, sender: event.senderName ?? event.sender) else { return nil }
             kind = .system(text)
+        case .profileChange:
+            guard !hideProfile else { return nil }
+            kind = .system(L10n.plain("timeline.profileChanged", event.senderName ?? event.sender))
         case .call(let call):
             kind = .call(call.call)
         default:

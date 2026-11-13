@@ -6,6 +6,8 @@ import UserNotifications
 final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     var activeRoomId: String?
     @Published var roomToOpen: String?
+    /// A space to open once the main tab view can show it (from a profile's mutual spaces)
+    @Published var spaceToOpen: String?
     @Published var eventToFocus: (roomId: String, eventId: String)?
     /// A thread to open once its room is on screen (from the inbox)
     @Published var threadToOpen: (roomId: String, rootId: String)?

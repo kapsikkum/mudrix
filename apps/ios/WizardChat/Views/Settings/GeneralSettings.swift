@@ -134,6 +134,14 @@ struct AppearanceSettings: View {
                 ToggleRow(label: "settings.appearance.groupImages",
                           note: "settings.appearance.groupImagesNote",
                           isOn: $prefs.groupImages)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.hideMembershipEvents",
+                          note: "settings.appearance.hideMembershipEventsNote",
+                          isOn: $prefs.hideMembershipEvents)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.hideProfileEvents",
+                          note: "settings.appearance.hideProfileEventsNote",
+                          isOn: $prefs.hideProfileEvents)
             }
         }
     }
@@ -250,7 +258,50 @@ struct PrivacySettings: View {
                 ToggleRow(label: "settings.privacy.showHomeserverSoftware",
                           note: "settings.privacy.showHomeserverSoftwareNote",
                           isOn: $prefs.showHomeserverSoftware)
+                BlockInvitesToggle()
             }
+        }
+    }
+}
+
+/// "Block all invites" (MSC4380), shown only when the homeserver has the setting
+private struct BlockInvitesToggle: View {
+    @EnvironmentObject private var session: MatrixSession
+    @State private var eventType: String?
+    @State private var blocked = false
+
+    var body: some View {
+        Group {
+            if let eventType {
+                SettingsDivider()
+                ToggleRow(label: "settings.privacy.blockInvites",
+                          note: "settings.privacy.blockInvitesNote",
+                          isOn: Binding(get: { blocked }, set: { next in
+                              blocked = next
+                              Task { await save(next, eventType: eventType) }
+                          }))
+            }
+        }
+        .task { await load() }
+    }
+
+    private func load() async {
+        guard let client = session.client,
+              let type = (try? await client.serverFeatures()).flatMap({
+                  InviteBlocking.eventType(unstableFeatures: $0.unstableFeatures)
+              }) else { return }
+        blocked = InviteBlocking.isBlocked((try? await client.accountData(eventType: type)) ?? nil)
+        eventType = type
+    }
+
+    private func save(_ next: Bool, eventType: String) async {
+        guard let client = session.client else { return }
+        let before = blocked
+        do {
+            try await client.setAccountData(eventType: eventType, content: InviteBlocking.content(blocked: next))
+        } catch {
+            blocked = before
+            CopyToast.shared.show(L10n.format("settings.privacy.blockInvitesFailed", error.localizedDescription))
         }
     }
 }

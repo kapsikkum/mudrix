@@ -35,6 +35,8 @@ struct AccountSettings: View {
                     Spacer()
                 }
                 SettingsDivider()
+                BannerSection { status = ($0, true) }
+                SettingsDivider()
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {
                     Text(String(localized: "settings.account.displayName"))
                         .font(.wizard(WZ.FontSize.sm, .semibold))

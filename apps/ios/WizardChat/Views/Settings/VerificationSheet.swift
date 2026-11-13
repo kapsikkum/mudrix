@@ -6,6 +6,7 @@ final class VerificationModel: ObservableObject, Identifiable {
     enum Start {
         case ownDevice
         case device(String)
+        case user(String)
         case incoming(VerificationFlow)
     }
 
@@ -45,6 +46,9 @@ final class VerificationModel: ObservableObject, Identifiable {
             case .device(let deviceId):
                 guard let client else { throw WizardError.notSignedIn }
                 flow = try await client.requestDeviceVerification(deviceId: deviceId)
+            case .user(let userId):
+                guard let client else { throw WizardError.notSignedIn }
+                flow = try await client.requestUserVerification(userId: userId)
             case .incoming(let incoming):
                 flow = incoming
             }
@@ -122,6 +126,7 @@ struct VerificationSheet: View {
 
     private var title: String {
         if case .ownDevice = model.start { return String(localized: "settings.encryption.verifyWithDevice") }
+        if case .user = model.start { return String(localized: "verification.verifyUser") }
         return String(localized: "verification.verifyDevice")
     }
 
@@ -132,7 +137,9 @@ struct VerificationSheet: View {
                 case .starting, .waitingForOtherDevice:
                     ProgressView().tint(theme.accent)
                     Group {
-                        if case .ownDevice = model.start {
+                        if case .user(let userId) = model.start {
+                            Text(L10n.format("verification.waitingFor", userId))
+                        } else if case .ownDevice = model.start {
                             Text(String(localized: "verification.otherDeviceHint"))
                         } else {
                             Text(String(localized: "verification.waitingForOther"))
@@ -157,8 +164,13 @@ struct VerificationSheet: View {
                     ProgressView().tint(theme.accent)
                     Text(String(localized: "verification.waitingForOtherDevice"))
                 case .compare(let emojis):
-                    Text(String(localized: "verification.compareEmojis"))
-                        .multilineTextAlignment(.center)
+                    if case .user(let userId) = model.start {
+                        Text(L10n.format("verification.compareEmojisUser", userId))
+                            .multilineTextAlignment(.center)
+                    } else {
+                        Text(String(localized: "verification.compareEmojis"))
+                            .multilineTextAlignment(.center)
+                    }
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: WZ.Space.space5) {
                         ForEach(Array(emojis.enumerated()), id: \.offset) { _, emoji in
                             VStack(spacing: WZ.Space.space2) {
@@ -178,7 +190,11 @@ struct VerificationSheet: View {
                     }
                 case .done:
                     Image("ph-shield-check-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.success)
-                    Text(String(localized: "common.verified")).font(.wizard(WZ.FontSize.lg, .bold))
+                    if case .user(let userId) = model.start {
+                        Text(L10n.format("verification.deviceVerified", userId)).font(.wizard(WZ.FontSize.lg, .bold))
+                    } else {
+                        Text(String(localized: "common.verified")).font(.wizard(WZ.FontSize.lg, .bold))
+                    }
                     Button(String(localized: "common.done")) { dismiss() }.buttonStyle(PrimaryButtonStyle())
                 case .failed(let message):
                     Image("ph-x-circle-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.error)

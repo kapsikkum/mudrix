@@ -315,6 +315,8 @@ struct RoomView: View {
             UserProfileSheet(userId: item.id, roomId: room.id)
         }
         .onChange(of: prefs.groupImages, initial: true) { _, group in timeline.groupImages = group }
+        .onChange(of: prefs.hideMembershipEvents, initial: true) { _, hide in timeline.hideMembershipEvents = hide }
+        .onChange(of: prefs.hideProfileEvents, initial: true) { _, hide in timeline.hideProfileEvents = hide }
         .task { await timeline.start() }
         .fullScreenCover(item: $menuTarget, onDismiss: {
             afterMenu?()

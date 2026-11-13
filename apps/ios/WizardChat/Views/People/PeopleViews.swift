@@ -194,6 +194,8 @@ struct UserProfileSheet: View {
                     .listRowBackground(Color.clear)
                 }
                 if !isMe { ProfileNoteSection(userId: userId) }
+                if !isMe { ProfileVerificationSection(userId: userId) }
+                if !isMe { MutualRoomsSection(userId: userId, name: name ?? userId) }
                 if let roomId, isMember, rights.canChange(targetLevel: level, isSelf: isMe) {
                     Section {
                         RoleMenu(roomId: roomId, userId: userId, currentLevel: level, rights: rights) {

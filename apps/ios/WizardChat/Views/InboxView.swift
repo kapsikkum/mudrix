@@ -15,6 +15,8 @@ struct InboxView: View {
     @State private var busyId: String?
     @State private var errorMessage: String?
     @State private var inviters: [String: String] = [:]
+    @State private var inviterIds: [String: String] = [:]
+    @State private var blocking: RoomSummary?
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
     @ObservedObject private var saved = SavedMessages.shared
@@ -86,6 +88,16 @@ struct InboxView: View {
             .tint(theme.control)
         }
         .presentationDetents([.medium, .large])
+        .alert(L10n.format("invite.declineAndBlockTitle", blockName),
+               isPresented: Binding(get: { blocking != nil }, set: { if !$0 { blocking = nil } }),
+               presenting: blocking) { invite in
+            Button(String(localized: "invite.declineAndBlock"), role: .destructive) {
+                Task { await declineAndBlock(invite) }
+            }
+            Button(String(localized: "common.cancel"), role: .cancel) {}
+        } message: { _ in
+            Text(blockMessage)
+        }
     }
 
     /// Equal parts, the active one raised, each with its count
@@ -185,6 +197,10 @@ struct InboxView: View {
             }
             .lineLimit(1)
             Spacer(minLength: WZ.Space.space4)
+            if inviterIds[invite.id] != nil {
+                roundButton("ph-prohibit-regular", label: String(localized: "invite.declineAndBlock"),
+                            background: theme.fill, foreground: theme.danger) { blocking = invite }
+            }
             roundButton("ph-x-bold", label: String(localized: "common.decline"), background: theme.fill,
                         foreground: theme.textPrimary) { Task { await decline(invite) } }
             roundButton("ph-check-bold", label: String(localized: "common.accept"), background: theme.accent,
@@ -193,6 +209,7 @@ struct InboxView: View {
         .task(id: invite.id) {
             if let info = try? await session.client?.inviteInfo(roomId: invite.id) {
                 inviters[invite.id] = info.inviterName ?? info.inviterId
+                inviterIds[invite.id] = info.inviterId
             }
         }
         .disabled(busyId == invite.id)
@@ -248,6 +265,29 @@ struct InboxView: View {
             try await roomList.decline(invite)
         } catch {
             errorMessage = L10n.format("inbox.failedToDeclineInvite", "\(error)")
+        }
+    }
+
+    private var blockName: String {
+        guard let invite = blocking else { return "" }
+        return inviters[invite.id] ?? inviterIds[invite.id] ?? invite.id
+    }
+
+    private var blockMessage: String {
+        guard let invite = blocking else { return "" }
+        return L10n.format("invite.declineAndBlockBody", blockName, inviterIds[invite.id] ?? "")
+    }
+
+    private func declineAndBlock(_ invite: RoomSummary) async {
+        guard let inviter = inviterIds[invite.id] else { return }
+        busyId = invite.id
+        errorMessage = nil
+        defer { busyId = nil }
+        do {
+            try await roomList.decline(invite)
+            try await session.ignore(inviter)
+        } catch {
+            errorMessage = L10n.format("invite.declineAndBlockFailed", "\(error)")
         }
     }
 }
