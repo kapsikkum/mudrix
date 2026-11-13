@@ -45,6 +45,10 @@ ids that open the room on tap.
 
 - **Discord cosmetics sync script stays.** Running it is up to each user and is not a supported feature. The art
   shipped in the repo is original. No scraped packs in the repo or default config.
+- **Mobile shell has two styles.** "Modern" is the default: a persistent space rail plus one content pane, matching
+  the desktop look, with sheets and docked pickers as in `docs/MOBILE_BEHAVIOUR_NOTES.md`. "Classic" keeps the
+  current shell (bottom pill navigation). The choice is a setting on Android and iOS.
+- **Mobile swipes.** Swiping a message to the left replies. Swiping right in a chat goes back.
 - **Cosmetic packs are ported everywhere.** Settings > Cosmetics lists them, with an option to turn packs off, and
   pack cosmetics render on web, desktop, Android and iOS.
 - **Game detection stays and should be built upon** (`games.json`, desktop activity detection).

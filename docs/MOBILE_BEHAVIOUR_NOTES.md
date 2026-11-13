@@ -1,5 +1,8 @@
 # Mobile behaviour notes: the reference app, and where Mudrix Android differs
 
+> Correction from the owner: the reference app does have swipe-to-reply. Swiping a message to the left replies;
+> swiping right goes back. Statements below that say it has no swipe-to-reply are wrong.
+
 Written 2026-11-13 from a running Android phone (1080×2424 px at 420 dpi, so 411 × 923 dp; 1 dp = 2.625 px),
 one hand-set dark theme, left-to-right. Numbers below are converted from on-screen bounds, rounded to whole dp.
 "the reference app" is the popular voice/chat client that was observed; no product, server, channel or person is
