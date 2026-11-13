@@ -23,6 +23,8 @@ import org.wizardchat.android.ui.theme.CustomThemes
 import org.wizardchat.android.ui.theme.Themes
 
 enum class MessageLayout { modern, classic, compact }
+/** The mobile shell: the space rail, or the earlier bottom pill navigation */
+enum class NavigationStyle { rail, classic }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
 
@@ -138,6 +140,17 @@ class AppPreferences(context: Context) {
         get() = if ((phoneMessageLayout ?: mainMessageLayout) == "classic") MessageLayout.classic else MessageLayout.modern
         set(value) {
             phoneMessageLayout = value.name
+        }
+
+    // Absent until chosen, then synced like the main message layout; a rail is the default
+    private var phoneNavigationStyle by pref(
+        defaults.getString("navigationStyle", null)?.takeIf { it in NAVIGATION_STYLES },
+        nullableStringCodec("navigationStyle", NAVIGATION_STYLES),
+    ) { if (it == null) remove("navigationStyle") else putString("navigationStyle", it) }
+    var navigationStyle: NavigationStyle
+        get() = if (phoneNavigationStyle == NavigationStyle.classic.name) NavigationStyle.classic else NavigationStyle.rail
+        set(value) {
+            phoneNavigationStyle = value.name
         }
 
     var chatFontSize by pref(defaults.getFloat("chatFontSize", DEFAULT_CHAT_FONT_SIZE), numberCodec("chatFontSize", 8f..40f)) { putFloat("chatFontSize", it) }
@@ -473,6 +486,7 @@ class AppPreferences(context: Context) {
         val LANGUAGES = listOf("en", "de", "es", "fr", "it", "pt", "ru", "ja", "tr", "nl", "pl")
 
         private val LAYOUTS = setOf("classic", "modern", "compact")
+        private val NAVIGATION_STYLES = setOf("rail", "classic")
 
         /** Names this app used before it followed the web's settings, by the key they are now under */
         private val LEGACY_KEYS = mapOf("sendTyping" to "typingIndicators", "notificationSound" to "notificationSounds")

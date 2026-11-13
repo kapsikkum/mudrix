@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Tema in modalità chiara",
       "messageLayoutMobile": "Layout dei messaggi sui telefoni",
       "messageLayoutMobileNote": "Usato su telefoni e tablet, separatamente da questo dispositivo.",
+      "navigation": {
+        "title": "Navigazione",
+        "modern": "Moderna",
+        "modernNote": "Barra degli spazi con un unico pannello.",
+        "classic": "Classica",
+        "classicNote": "Schede in basso, come prima."
+      },
       "dateFormat": "Formato data",
       "dateFormatDmy": "GG/MM/AAAA",
       "dateFormatLong": "Esteso (martedì 20 ottobre)",

@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Tema no modo claro",
       "messageLayoutMobile": "Layout das mensagens em telemóveis",
       "messageLayoutMobileNote": "Usado em telemóveis e tablets, em separado deste dispositivo.",
+      "navigation": {
+        "title": "Navegação",
+        "modern": "Moderno",
+        "modernNote": "Barra de espaços com um único painel.",
+        "classic": "Clássica",
+        "classicNote": "Abas inferiores, como antes."
+      },
       "dateFormat": "Formato de data",
       "dateFormatDmy": "DD/MM/AAAA",
       "dateFormatLong": "Longo (terça-feira, 20 de outubro)",

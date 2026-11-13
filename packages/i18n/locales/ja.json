@@ -2132,6 +2132,13 @@
       "systemLightTheme": "ライトモード時のテーマ",
       "messageLayoutMobile": "スマートフォンでのメッセージ表示",
       "messageLayoutMobileNote": "スマートフォンとタブレットで使われ、このデバイスの設定とは別です。",
+      "navigation": {
+        "title": "ナビゲーション",
+        "modern": "モダン",
+        "modernNote": "スペースレールと単一のコンテンツペイン。",
+        "classic": "クラシック",
+        "classicNote": "これまでどおり下部タブ。"
+      },
       "dateFormat": "日付の形式",
       "dateFormatDmy": "DD/MM/YYYY",
       "dateFormatLong": "長い形式（火曜日、10月20日）",

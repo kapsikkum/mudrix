@@ -119,17 +119,23 @@ private fun SpaceGridItem(space: SpaceSummary, unread: UnreadState, onMarkRead: 
         SpaceTile(space.name, unread, Modifier.combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true })) {
             Avatar(space.name, space.avatarUrl, WZ.SizeAvatar.xl, cornerRadius = WZ.Radius.xl)
         }
-        WizardMenu(
-            menuOpen,
-            { menuOpen = false },
-            listOfNotNull(
-                if (unread.unread) MenuItem(tr("common.markRead"), "envelope-open") { onMarkRead() } else null,
-                MenuItem(tr("common.copyLink"), "link-simple") {
-                    copyToClipboard("https://matrix.to/#/${space.id}", L10n.format("timeline.linkCopied"))
-                },
-            ),
-        )
+        SpaceMenu(menuOpen, space.id, unread, onMarkRead) { menuOpen = false }
     }
+}
+
+/** The menu a space offers when long-pressed, in the grid and on the rail */
+@Composable
+internal fun SpaceMenu(expanded: Boolean, spaceId: String, unread: UnreadState, onMarkRead: () -> Unit, onDismiss: () -> Unit) {
+    WizardMenu(
+        expanded,
+        onDismiss,
+        listOfNotNull(
+            if (unread.unread) MenuItem(tr("common.markRead"), "envelope-open") { onMarkRead() } else null,
+            MenuItem(tr("common.copyLink"), "link-simple") {
+                copyToClipboard("https://matrix.to/#/$spaceId", L10n.format("timeline.linkCopied"))
+            },
+        ),
+    )
 }
 
 @Composable

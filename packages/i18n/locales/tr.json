@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Açık moddaki tema",
       "messageLayoutMobile": "Telefonlarda mesaj düzeni",
       "messageLayoutMobileNote": "Telefonlarda ve tabletlerde kullanılır, bu cihazdan ayrıdır.",
+      "navigation": {
+        "title": "Gezinme",
+        "modern": "Modern",
+        "modernNote": "Tek içerik panelli alan çubuğu.",
+        "classic": "Klasik",
+        "classicNote": "Önceki gibi alt sekmeler."
+      },
       "dateFormat": "Tarih biçimi",
       "dateFormatDmy": "GG/AA/YYYY",
       "dateFormatLong": "Uzun (Salı, 20 Ekim)",

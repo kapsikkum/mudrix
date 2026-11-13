@@ -65,6 +65,7 @@ import org.wizardchat.android.matrix.InviteBlocking
 import org.wizardchat.android.matrix.PresenceChoice
 import org.wizardchat.android.matrix.MessageLayout
 import org.wizardchat.android.matrix.MessageMention
+import org.wizardchat.android.matrix.NavigationStyle
 import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.ReducedMotion
 import org.wizardchat.android.matrix.StreamerMode
@@ -75,6 +76,7 @@ import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.theme.CustomTheme
 import org.wizardchat.android.ui.theme.Themes
@@ -151,6 +153,20 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 { prefs.messageLayout = it },
                 note = tr("settings.appearance.messageLayoutMobileNote"),
             )
+            SettingsDivider()
+            SettingsItem(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                Text(tr("settings.appearance.navigation.title"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
+                NavigationOption(
+                    tr("settings.appearance.navigation.modern"),
+                    tr("settings.appearance.navigation.modernNote"),
+                    prefs.navigationStyle == NavigationStyle.rail,
+                ) { prefs.navigationStyle = NavigationStyle.rail }
+                NavigationOption(
+                    tr("settings.appearance.navigation.classic"),
+                    tr("settings.appearance.navigation.classicNote"),
+                    prefs.navigationStyle == NavigationStyle.classic,
+                ) { prefs.navigationStyle = NavigationStyle.classic }
+            }
             SettingsDivider()
             SettingsItem {
                 Row(
@@ -697,6 +713,34 @@ internal fun AboutSettings(onBack: () -> Unit) {
         }
     }
     if (showWhatsNew && whatsNew != null) WhatsNewSheet(whatsNew) { showWhatsNew = false }
+}
+
+@Composable
+private fun NavigationOption(title: String, note: String, selected: Boolean, onSelect: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .heightIn(min = WZ.Space.space11)
+            .clip(RoundedCornerShape(WZ.Radius.md))
+            .clickable(onClick = onSelect)
+            .semantics {
+                this.selected = selected
+                role = Role.RadioButton
+            }
+            .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+    ) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
+            Text(
+                title,
+                style = wizardFont(WZ.FontSize.lg, if (selected) FontWeight.SemiBold else FontWeight.Normal),
+                color = theme.textPrimary,
+            )
+            Text(note, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        }
+        if (selected) PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.accent)
+    }
 }
 
 @Composable

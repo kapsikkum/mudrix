@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -29,6 +31,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -56,6 +60,7 @@ import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.ListeningSharing
 import org.wizardchat.android.matrix.MessageNotifier
+import org.wizardchat.android.matrix.NavigationStyle
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.Reminders
@@ -66,6 +71,7 @@ import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.ensureMudrixUserFlag
 import org.wizardchat.android.matrix.SettingsSyncer
 import org.wizardchat.android.matrix.SidebarSelection
+import org.wizardchat.android.matrix.SpaceRail
 import org.wizardchat.android.matrix.UnreadState
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
@@ -120,6 +126,7 @@ private val callBarHeight = WZ.Size.callControl + WZ.Space.space5
 fun MainScreen(roomList: RoomListModel) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
+    val modern = prefs.navigationStyle == NavigationStyle.rail
     val calls = remember { CallManager.shared }
     val notifier = remember { MessageNotifier.shared }
 
@@ -158,6 +165,7 @@ fun MainScreen(roomList: RoomListModel) {
     fun showSpace(spaceId: String) {
         tab = Tab.spaces
         paths[Tab.spaces] = listOf(Route.Space(spaceId))
+        RailSelectionStore.save(context, spaceId)
     }
 
     fun select(item: Tab) {
@@ -237,8 +245,24 @@ fun MainScreen(roomList: RoomListModel) {
     val totalUnread = roomList.joinedRooms.sumOf { it.unreadCount }
     LaunchedEffect(totalUnread) { notifier.updateBadge(totalUnread) }
 
+    // Back to the space that was open when the app last closed, once the spaces have loaded
+    var startupHandled by remember { mutableStateOf(false) }
+    LaunchedEffect(roomList.isLoaded, roomList.spaces) {
+        if (startupHandled || !roomList.isLoaded) return@LaunchedEffect
+        if (modern && roomList.spaces.isEmpty()) return@LaunchedEffect
+        startupHandled = true
+        if (!modern) return@LaunchedEffect
+        val target = SpaceRail.selected(RailSelectionStore.load(context), railSpaces(roomList)) ?: return@LaunchedEffect
+        showSpace(target.id)
+    }
+
     BackHandler(enabled = paths[tab].orEmpty().isNotEmpty()) {
+        val leavingSpaceRoot = modern && tab == Tab.spaces && paths[tab].orEmpty().size == 1 && paths[tab]?.lastOrNull() is Route.Space
         paths[tab] = paths[tab].orEmpty().dropLast(1)
+        if (leavingSpaceRoot) {
+            tab = Tab.home
+            RailSelectionStore.save(context, null)
+        }
     }
     BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) { tab = Tab.home }
 
@@ -249,36 +273,123 @@ fun MainScreen(roomList: RoomListModel) {
         LocalNotifier provides notifier,
         LocalSpaceGraph provides roomList.graph,
     ) {
-        Box(Modifier.fillMaxSize().background(theme.bgPrimary)) {
-            val inset = (if (showsIsland(tab)) islandHeight else 0.dp) + (if (showsCallBar(tab)) callBarHeight else 0.dp)
-            CompositionLocalProvider(LocalBottomBarInset provides inset) {
-                stateHolder.SaveableStateProvider(tab) {
-                    TabContent(
-                        tab,
-                        paths[tab].orEmpty(),
-                        roomList,
-                        onOpenInbox = { showInbox = true },
-                        onCreateSpace = { showCreateSpace = true },
-                        onExplore = { showExplore = true },
-                    )
-                }
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(theme.bgPrimary)
+                .then(if (modern) Modifier.windowInsetsPadding(WindowInsets.displayCutout) else Modifier),
+        ) {
+            val path = paths[tab].orEmpty()
+            val top = path.lastOrNull()
+            val chatOpen = top is Route.Room || top is Route.Chat || top is Route.Thread
+            val callBar: @Composable () -> Unit = {
+                CallBar(
+                    onClick = {
+                        val room = calls.room
+                        if (room?.isDirect == true) calls.showCallScreen = true else room?.let { show(it.id) }
+                    },
+                    modifier = Modifier.padding(horizontal = WZ.Space.space6),
+                )
             }
-
-            Column(
-                Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1),
-                verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
-            ) {
-                AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                    CallBar(
-                        onClick = {
-                            val room = calls.room
-                            if (room?.isDirect == true) calls.showCallScreen = true else room?.let { show(it.id) }
-                        },
-                        modifier = Modifier.padding(horizontal = WZ.Space.space6),
-                    )
+            if (modern) {
+                val selectedSpaceId = (top as? Route.Space)?.id
+                val homeSelected = selectedSpaceId == null && tab != Tab.me
+                val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
+                if (chatOpen) {
+                    CompositionLocalProvider(LocalBottomBarInset provides 0.dp) {
+                        stateHolder.SaveableStateProvider(tab) {
+                            TabContent(
+                                tab,
+                                path,
+                                roomList,
+                                onOpenInbox = { showInbox = true },
+                                onCreateSpace = { showCreateSpace = true },
+                                onExplore = { showExplore = true },
+                            )
+                        }
+                    }
+                    Column(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1)) {
+                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                            callBar()
+                        }
+                    }
+                } else {
+                    Row(Modifier.fillMaxSize()) {
+                        SpaceRailBar(
+                            roomList,
+                            selectedSpaceId = selectedSpaceId,
+                            homeSelected = homeSelected,
+                            onHome = {
+                                select(Tab.home)
+                                RailSelectionStore.save(context, null)
+                            },
+                            onSpace = ::showSpace,
+                            onCreateSpace = { showCreateSpace = true },
+                            onExplore = { showExplore = true },
+                        )
+                        Box(Modifier.width(1.dp).fillMaxHeight().background(theme.border))
+                        Column(Modifier.weight(1f)) {
+                            CompositionLocalProvider(LocalBottomBarInset provides 0.dp) {
+                                Box(Modifier.weight(1f)) {
+                                    stateHolder.SaveableStateProvider(tab) {
+                                        TabContent(
+                                            tab,
+                                            path,
+                                            roomList,
+                                            onOpenInbox = { showInbox = true },
+                                            onCreateSpace = { showCreateSpace = true },
+                                            onExplore = { showExplore = true },
+                                        )
+                                    }
+                                }
+                            }
+                            AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                                Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
+                            }
+                            if (showsIsland(tab)) {
+                                ModernBottomBar(
+                                    tab = tab,
+                                    homeUnread = roomList.unreadState(SidebarSelection.Home),
+                                    dmsUnread = roomList.unreadState(SidebarSelection.Dms),
+                                    inboxMention = roomList.mentionRooms.isNotEmpty(),
+                                    inboxBadge = inboxBadge,
+                                    onHome = {
+                                        select(Tab.home)
+                                        RailSelectionStore.save(context, null)
+                                    },
+                                    onMessages = { select(Tab.dms) },
+                                    onInbox = { showInbox = true },
+                                    onYou = { select(Tab.me) },
+                                )
+                            }
+                        }
+                    }
                 }
-                AnimatedVisibility(showsIsland(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                    TabIsland(roomList, tab, ::select, Modifier.padding(horizontal = WZ.Space.space6))
+            } else {
+                val inset = (if (showsIsland(tab)) islandHeight else 0.dp) + (if (showsCallBar(tab)) callBarHeight else 0.dp)
+                CompositionLocalProvider(LocalBottomBarInset provides inset) {
+                    stateHolder.SaveableStateProvider(tab) {
+                        TabContent(
+                            tab,
+                            path,
+                            roomList,
+                            onOpenInbox = { showInbox = true },
+                            onCreateSpace = { showCreateSpace = true },
+                            onExplore = { showExplore = true },
+                        )
+                    }
+                }
+
+                Column(
+                    Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1),
+                    verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                ) {
+                    AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        callBar()
+                    }
+                    AnimatedVisibility(showsIsland(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        TabIsland(roomList, tab, ::select, Modifier.padding(horizontal = WZ.Space.space6))
+                    }
                 }
             }
 
@@ -330,6 +441,7 @@ private fun TabContent(
     }
     val navigator = LocalNavigator.current
     val stateHolder = rememberSaveableStateHolder()
+    val modernHeader = LocalPrefs.current.navigationStyle == NavigationStyle.rail
     AnimatedContent(
         targetState = path,
         transitionSpec = {
@@ -343,31 +455,61 @@ private fun TabContent(
         label = "navigation",
     ) { stack ->
         val route = stack.lastOrNull()
-        stateHolder.SaveableStateProvider(route?.toString() ?: "root-$tab") {
-            when (route) {
-                null -> when (tab) {
-                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox, onCreateSpace, onExplore)
-                    Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox)
-                    else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
+        val key = route?.toString() ?: "root-$tab"
+        stateHolder.SaveableStateProvider(key) {
+            val previous = stack.getOrNull(stack.lastIndex - 1)
+            val isChat = route is Route.Room || route is Route.Chat || route is Route.Thread
+            if (isChat) {
+                SwipeBack(
+                    onBack = navigator.pop,
+                    underlay = {
+                        stateHolder.SaveableStateProvider("peek-$tab-$key") {
+                            RouteView(tab, previous, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+                        }
+                    },
+                ) {
+                    RouteView(tab, route, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
                 }
-                is Route.Space -> RoomListScreen(roomList, SidebarSelection.Space(route.id), null)
-                is Route.Room, is Route.Chat -> {
-                    val id = if (route is Route.Room) route.id else (route as Route.Chat).id
-                    val room = roomList.room(id)
-                    when {
-                        room == null -> Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
-                        room.isVoice && route is Route.Room -> VoiceRoomScreen(room, onBack = navigator.pop, onOpenChat = { navigator.push(Route.Chat(id)) })
-                        else -> RoomScreen(room, roomList.client, onBack = navigator.pop)
-                    }
-                }
-                is Route.Thread -> {
-                    val room = roomList.room(route.roomId)
-                    if (room == null) {
-                        Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
-                    } else {
-                        RoomScreen(room, roomList.client, onBack = navigator.pop, threadRoot = route.rootEventId)
-                    }
-                }
+            } else {
+                RouteView(tab, route, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+            }
+        }
+    }
+}
+
+@Composable
+private fun RouteView(
+    tab: Tab,
+    route: Route?,
+    roomList: RoomListModel,
+    onOpenInbox: () -> Unit,
+    onCreateSpace: () -> Unit,
+    onExplore: () -> Unit,
+    modernHeader: Boolean,
+) {
+    val navigator = LocalNavigator.current
+    when (route) {
+        null -> when (tab) {
+            Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+            Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox, modernHeader = modernHeader)
+            else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
+        }
+        is Route.Space -> RoomListScreen(roomList, SidebarSelection.Space(route.id), null, modernHeader = modernHeader)
+        is Route.Room, is Route.Chat -> {
+            val id = if (route is Route.Room) route.id else (route as Route.Chat).id
+            val room = roomList.room(id)
+            when {
+                room == null -> Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
+                room.isVoice && route is Route.Room -> VoiceRoomScreen(room, onBack = navigator.pop, onOpenChat = { navigator.push(Route.Chat(id)) })
+                else -> RoomScreen(room, roomList.client, onBack = navigator.pop)
+            }
+        }
+        is Route.Thread -> {
+            val room = roomList.room(route.roomId)
+            if (room == null) {
+                Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
+            } else {
+                RoomScreen(room, roomList.client, onBack = navigator.pop, threadRoot = route.rootEventId)
             }
         }
     }

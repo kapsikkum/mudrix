@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Theme in light mode",
       "messageLayoutMobile": "Message layout on phones",
       "messageLayoutMobileNote": "Used on phones and tablets, separately from this device.",
+      "navigation": {
+        "title": "Navigation",
+        "modern": "Modern",
+        "modernNote": "Space rail with one content pane.",
+        "classic": "Classic",
+        "classicNote": "Bottom tabs, as before."
+      },
       "dateFormat": "Date format",
       "dateFormatDmy": "DD/MM/YYYY",
       "dateFormatLong": "Long (Tuesday, October 20)",

@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Thema im hellen Modus",
       "messageLayoutMobile": "Nachrichtenlayout auf Handys",
       "messageLayoutMobileNote": "Gilt auf Handys und Tablets, getrennt von diesem Gerät.",
+      "navigation": {
+        "title": "Navigation",
+        "modern": "Modern",
+        "modernNote": "Space-Leiste mit einem Inhaltsbereich.",
+        "classic": "Klassisch",
+        "classicNote": "Untere Tabs wie bisher."
+      },
       "dateFormat": "Datumsformat",
       "dateFormatDmy": "TT/MM/JJJJ",
       "dateFormatLong": "Lang (Dienstag, 20. Oktober)",

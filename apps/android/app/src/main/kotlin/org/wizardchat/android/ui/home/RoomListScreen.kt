@@ -102,6 +102,7 @@ fun RoomListScreen(
     onOpenInbox: (() -> Unit)?,
     onCreateSpace: (() -> Unit)? = null,
     onExplore: (() -> Unit)? = null,
+    modernHeader: Boolean = false,
 ) {
     val prefs = LocalPrefs.current
     val navigator = LocalNavigator.current
@@ -203,11 +204,38 @@ fun RoomListScreen(
     }
 
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
+        val space = spaceId?.let { roomList.space(it) }
         WizardTopBar(
             title,
-            large = true,
-            titleInRow = spaceId == null,
-            onBack = if (spaceId != null) navigator.pop else null,
+            large = !modernHeader,
+            titleInRow = modernHeader || spaceId == null,
+            titleContent = if (modernHeader) {
+                {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(WZ.Radius.md))
+                            .clickable(enabled = space != null) { showSpaceSettings = true }
+                            .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+                    ) {
+                        if (space != null) Avatar(space.name, space.avatarUrl, WZ.SizeAvatar.sm, cornerRadius = WZ.Radius.md)
+                        Text(
+                            title,
+                            Modifier.weight(1f, fill = false),
+                            style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        if (space != null) PhIcon("caret-right", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted)
+                    }
+                }
+            } else {
+                null
+            },
+            onBack = if (spaceId != null && !modernHeader) navigator.pop else null,
         ) {
             Box {
                 BarButton("plus", tr("nav.new"), { menuOpen = true })
@@ -256,9 +284,37 @@ fun RoomListScreen(
                     item(key = "welcome") { HomeWelcome(roomList, onOpenInbox, { showNewMessage = true }, onCreateSpace, onExplore) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
                 }
+                // The Modern rail's Home slot is both homes: the direct messages, then the rooms outside spaces
+                val homeDms = if (modernHeader && selection == SidebarSelection.Home) roomList.rooms(SidebarSelection.Dms) else emptyList()
+                if (homeDms.isNotEmpty()) {
+                    item(key = "home-dms-header") {
+                        Text(
+                            tr("room.dm.directMessages").uppercase(),
+                            Modifier.fillMaxWidth().padding(start = WZ.Space.space6, top = WZ.Space.space6, bottom = WZ.Space.space2),
+                            style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                            color = theme.textMuted,
+                        )
+                    }
+                    items(homeDms, key = { "home-dm-${it.id}" }) { room ->
+                        SwipeableRoomRow(
+                            room,
+                            showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
+                            onOpen = { navigator.push(Route.Room(room.id)) },
+                            onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                            onMarkUnread = { markUnread(room) },
+                            onLeave = { leaving = room },
+                            onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                            onSetLowPriority = { low -> setLowPriority(room, low) },
+                            onMoveToSection = null,
+                            notificationMode = roomList.notificationMode(room),
+                            onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
+                            reorder = null,
+                        )
+                    }
+                }
                 if (!roomList.isLoaded) {
                     items(8) { Box(Modifier.padding(horizontal = WZ.Space.space6)) { SkeletonRow() } }
-                } else if (rooms.isEmpty()) {
+                } else if (rooms.isEmpty() && homeDms.isEmpty()) {
                     item(key = "empty") {
                         Note(
                             tr(if (selection == SidebarSelection.Dms) "nav.noDirectMessagesYet" else "nav.noRoomsHereYet"),
@@ -597,6 +653,11 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
         }
         }
         if (inCall) RoomCallTimer(room.id)
+        if (room.isDirect) {
+            room.lastActivity?.let { activity ->
+                Text(relativeTimeText(activity), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1)
+            }
+        }
         Spacer(Modifier.width(6.dp))
         if (muted) {
             PhIcon("bell-slash", size = WZ.SizeIcon.sm, tint = theme.textMuted, contentDescription = tr("room.notifications.mute"))
@@ -606,6 +667,17 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
             room.mentionCount > 0 -> UnreadBadge(room.mentionCount, isMention = true)
             room.unreadCount > 0 -> UnreadBadge(room.unreadCount, isMention = false)
         }
+    }
+}
+
+/** "just now", "5m ago", "3h ago" or "2d ago" for a room's latest activity */
+private fun relativeTimeText(millis: Long): String {
+    val minutes = ((System.currentTimeMillis() - millis) / 60_000L).coerceAtLeast(0L).toInt()
+    return when {
+        minutes < 1 -> L10n.format("time.justNow")
+        minutes < 60 -> L10n.plural("time.minutesAgo", minutes, minutes)
+        minutes < 24 * 60 -> L10n.plural("time.hoursAgo", minutes / 60, minutes / 60)
+        else -> L10n.plural("time.daysAgo", minutes / (24 * 60), minutes / (24 * 60))
     }
 }
 

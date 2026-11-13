@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Thema in lichte modus",
       "messageLayoutMobile": "Berichtindeling op telefoons",
       "messageLayoutMobileNote": "Gebruikt op telefoons en tablets, los van dit apparaat.",
+      "navigation": {
+        "title": "Navigatie",
+        "modern": "Modern",
+        "modernNote": "Ruimteregel met één inhoudsvenster.",
+        "classic": "Klassiek",
+        "classicNote": "Onderste tabbladen, zoals voorheen."
+      },
       "dateFormat": "Datumnotatie",
       "dateFormatDmy": "DD-MM-JJJJ",
       "dateFormatLong": "Lang (dinsdag 20 oktober)",

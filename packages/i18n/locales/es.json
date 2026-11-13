@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Tema en modo claro",
       "messageLayoutMobile": "Diseño de mensajes en teléfonos",
       "messageLayoutMobileNote": "Se usa en teléfonos y tabletas, por separado de este dispositivo.",
+      "navigation": {
+        "title": "Navegación",
+        "modern": "Moderno",
+        "modernNote": "Barra de espacios con un solo panel.",
+        "classic": "Clásica",
+        "classicNote": "Pestañas inferiores, como antes."
+      },
       "dateFormat": "Formato de fecha",
       "dateFormatDmy": "DD/MM/AAAA",
       "dateFormatLong": "Largo (martes, 20 de octubre)",

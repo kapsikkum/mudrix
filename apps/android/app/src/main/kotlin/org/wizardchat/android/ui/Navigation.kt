@@ -48,6 +48,7 @@ fun WizardTopBar(
     modifier: Modifier = Modifier,
     large: Boolean = false,
     titleInRow: Boolean = false,
+    titleContent: (@Composable () -> Unit)? = null,
     onBack: (() -> Unit)? = null,
     backLabel: String? = null,
     background: Color = theme.bgPrimary,
@@ -61,7 +62,9 @@ fun WizardTopBar(
             if (onBack != null) {
                 BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold)
             }
-            if (large && titleInRow) {
+            if (titleContent != null) {
+                Box(Modifier.weight(1f)) { titleContent() }
+            } else if (large && titleInRow) {
                 Text(
                     title,
                     Modifier.weight(1f).padding(horizontal = WZ.Space.space3),
@@ -84,7 +87,7 @@ fun WizardTopBar(
             }
             Row(verticalAlignment = Alignment.CenterVertically, content = actions)
         }
-        if (large && !titleInRow) {
+        if (large && !titleInRow && titleContent == null) {
             Text(
                 title,
                 Modifier.padding(horizontal = WZ.Space.space6).padding(bottom = WZ.Space.space3),

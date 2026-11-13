@@ -863,11 +863,11 @@ private fun ReplySwipeHint(progress: () -> Float, modifier: Modifier = Modifier)
     val tint = if (over) theme.accent else theme.textMuted
     Box(
         modifier
-            .padding(start = WZ.Space.space5)
+            .padding(end = WZ.Space.space5)
             .size(WZ.Space.space9)
             .graphicsLayer {
                 val p = progress().coerceIn(0f, 1f)
-                scaleX = p
+                scaleX = -p
                 scaleY = p
             }
             .background(theme.fill, CircleShape),
@@ -1004,7 +1004,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
     val replyThreshold = 64f
-    val showReplyHint by remember { derivedStateOf { swipe > 8f } }
+    val showReplyHint by remember { derivedStateOf { swipe < -8f } }
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
     // Only timeline rows have the menu
     val longPress: (() -> Unit)? = if (actions != null && entry.isContent && entry.allowsActions) {
@@ -1021,7 +1021,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     CompositionLocalProvider(LocalMessageLongPress provides longPress) {
         Box(modifier.fillMaxWidth()) {
             if (showReplyHint) {
-                ReplySwipeHint({ swipe / replyThreshold }, Modifier.align(Alignment.CenterStart))
+                ReplySwipeHint({ -swipe / replyThreshold }, Modifier.align(Alignment.CenterEnd))
             }
             Row(
                 Modifier
@@ -1032,14 +1032,14 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             Modifier.draggable(
                                 rememberDraggableState { delta ->
                                     val dx = delta / density.density
-                                    swipe = (swipe + dx * 0.6f).coerceIn(0f, replyThreshold + 20f)
-                                    val over = swipe >= replyThreshold
+                                    swipe = (swipe + dx * 0.6f).coerceIn(-(replyThreshold + 20f), 0f)
+                                    val over = swipe <= -replyThreshold
                                     if (over && !crossed) haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                                     crossed = over
                                 },
                                 Orientation.Horizontal,
                                 onDragStopped = {
-                                    if (swipe >= replyThreshold) actions?.reply?.invoke(entry)
+                                    if (swipe <= -replyThreshold) actions?.reply?.invoke(entry)
                                     crossed = false
                                     scope.launch { animate(swipe, 0f, animationSpec = spring()) { value, _ -> swipe = value } }
                                 },

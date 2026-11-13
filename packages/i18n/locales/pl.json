@@ -2132,6 +2132,13 @@
       "systemLightTheme": "Motyw w trybie jasnym",
       "messageLayoutMobile": "Układ wiadomości na telefonach",
       "messageLayoutMobileNote": "Używany na telefonach i tabletach, oddzielnie od tego urządzenia.",
+      "navigation": {
+        "title": "Nawigacja",
+        "modern": "Nowoczesny",
+        "modernNote": "Pasek przestrzeni z jednym panelem treści.",
+        "classic": "Klasyczny",
+        "classicNote": "Dolne karty, jak dotychczas."
+      },
       "dateFormat": "Format daty",
       "dateFormatDmy": "DD.MM.RRRR",
       "dateFormatLong": "Długi (wtorek, 20 października)",
