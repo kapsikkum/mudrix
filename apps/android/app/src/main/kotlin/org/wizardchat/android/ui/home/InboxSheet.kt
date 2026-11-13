@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
@@ -339,33 +340,64 @@ private fun InviteRow(
     onDecline: () -> Unit,
     onBlock: (() -> Unit)?,
 ) {
-    Row(
+    Column(
         Modifier.fillMaxWidth().alpha(if (busy) 0.5f else 1f).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
-        RoomAvatar(invite)
-        Column(Modifier.weight(1f)) {
-            Text(
-                invite.displayName,
-                style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                color = theme.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            inviterName?.let {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+        ) {
+            RoomAvatar(invite)
+            Column(Modifier.weight(1f)) {
                 Text(
-                    tr("inbox.invitedBy", it),
-                    style = wizardFont(WZ.FontSize.sm),
-                    color = theme.textMuted,
+                    invite.displayName,
+                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                    color = theme.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
+                inviterName?.let {
+                    Text(
+                        tr("inbox.invitedBy", it),
+                        style = wizardFont(WZ.FontSize.sm),
+                        color = theme.textMuted,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
         }
-        if (onBlock != null) RoundButton("prohibit", tr("invite.declineAndBlock"), theme.fill, theme.danger, !busy, onBlock, PhWeight.regular)
-        RoundButton("x", tr("common.decline"), theme.fill, theme.textPrimary, !busy, onDecline)
-        RoundButton("check", tr("common.accept"), theme.accent, theme.textOnAccent, !busy, onAccept)
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+        ) {
+            if (onBlock != null) {
+                RoundButton("prohibit", tr("invite.declineAndBlock"), theme.fill, theme.danger, !busy, onBlock, PhWeight.regular)
+                Spacer(Modifier.width(WZ.Space.space2))
+            }
+            LabelledButton("x", tr("common.decline"), theme.fill, theme.textPrimary, !busy, onDecline)
+            Spacer(Modifier.width(WZ.Space.space2))
+            LabelledButton("check", tr("common.accept"), theme.accent, theme.textOnAccent, !busy, onAccept)
+        }
+    }
+}
+
+@Composable
+private fun LabelledButton(icon: String, label: String, background: Color, tint: Color, enabled: Boolean, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .height(WZ.Space.space10)
+            .clip(CircleShape)
+            .background(background)
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(horizontal = WZ.Space.space4),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+    ) {
+        PhIcon(icon, PhWeight.bold, size = WZ.SizeIcon.sm, tint = tint)
+        Text(label, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = tint)
     }
 }
 

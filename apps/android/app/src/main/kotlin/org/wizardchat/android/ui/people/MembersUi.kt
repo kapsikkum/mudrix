@@ -44,6 +44,7 @@ import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.MenuItem
+import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.SecondaryButton
@@ -209,7 +210,7 @@ private enum class ProfileAction { Kick, Ban, Ignore }
 
 /** A user's profile and actions */
 @Composable
-fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onChanged: () -> Unit = {}) {
+fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onChanged: () -> Unit = {}, onOpenSettings: (() -> Unit)? = null) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
     val navigator = LocalNavigator.current
@@ -457,6 +458,9 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                                         if (dmRoom != null) SecondaryButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
                                     }
                                 }
+                                if (isMe && onOpenSettings != null) {
+                                    SecondaryButton(tr("common.settings"), onOpenSettings, Modifier.padding(top = WZ.Space.space1))
+                                }
                             }
                         }
                     }
@@ -598,7 +602,7 @@ private fun ProfileTabs(selected: ProfileTab, mutualCount: Int, onSelect: (Profi
 @Composable
 private fun ProfileMenuButton(expanded: Boolean, onExpanded: (Boolean) -> Unit, items: List<MenuItem>, modifier: Modifier) {
     Box(modifier.clip(CircleShape).background(theme.bgPrimary.copy(alpha = 0.6f))) {
-        BarButton("dots-three-vertical", tr("common.more"), { onExpanded(true) }, tint = theme.textPrimary)
+        BarButton("dots-three", tr("common.more"), { onExpanded(true) }, weight = PhWeight.bold, tint = theme.textPrimary)
         WizardMenu(expanded, { onExpanded(false) }, items)
     }
 }

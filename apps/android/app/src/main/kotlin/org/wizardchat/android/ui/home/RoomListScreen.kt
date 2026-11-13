@@ -38,7 +38,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.heading
@@ -124,6 +127,8 @@ fun RoomListScreen(
     var deleting by remember { mutableStateOf<RoomSection?>(null) }
     var movingRoom by remember { mutableStateOf<RoomSummary?>(null) }
     var sectionError by remember { mutableStateOf<String?>(null) }
+    var searchOpen by remember { mutableStateOf(false) }
+    val searchFocus = remember { FocusRequester() }
 
     fun sectionTask(work: suspend () -> Unit) = scope.launch {
         try {
@@ -134,6 +139,8 @@ fun RoomListScreen(
     }
 
     val spaceId = (selection as? SidebarSelection.Space)?.id
+    // The Modern shell's direct-messages pane: a toolbar under the title instead of the top bar's + and inbox
+    val dmPane = modernHeader && selection == SidebarSelection.Home
     val title = when (selection) {
         SidebarSelection.Home -> if (modernHeader) tr("room.dm.directMessages") else tr("nav.home")
         SidebarSelection.Dms -> tr("room.dm.directMessages")
@@ -211,6 +218,25 @@ fun RoomListScreen(
         }
     }
 
+    LaunchedEffect(searchOpen) {
+        if (searchOpen) searchFocus.requestFocus()
+    }
+    val newMenu: @Composable () -> Unit = {
+        WizardMenu(
+            menuOpen,
+            { menuOpen = false },
+            buildList {
+                add(MenuItem(tr("common.newDm"), "chat-circle") { showNewMessage = true })
+                if (selection != SidebarSelection.Dms) add(MenuItem(tr("nav.newRoom"), "hash-straight") { showNewRoom = true })
+                if (selection != SidebarSelection.Dms) {
+                    add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
+                    add(MenuItem(tr("nav.reorderRooms"), "caret-up-down") { reordering = true })
+                }
+                if (spaceId != null) add(MenuItem(tr("space.settingsTitle"), "gear", divider = true) { showSpaceSettings = true })
+            },
+        )
+    }
+
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
         val space = spaceId?.let { roomList.space(it) }
         WizardTopBar(
@@ -245,32 +271,67 @@ fun RoomListScreen(
             },
             onBack = if (spaceId != null && !modernHeader) navigator.pop else null,
         ) {
-            Box {
-                BarButton("plus", tr("nav.new"), { menuOpen = true })
-                WizardMenu(
-                    menuOpen,
-                    { menuOpen = false },
-                    buildList {
-                        add(MenuItem(tr("common.newDm"), "chat-circle") { showNewMessage = true })
-                        if (selection != SidebarSelection.Dms) add(MenuItem(tr("nav.newRoom"), "hash-straight") { showNewRoom = true })
-                        if (selection != SidebarSelection.Dms) {
-                            add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
-                            add(MenuItem(tr("nav.reorderRooms"), "caret-up-down") { reordering = true })
-                        }
-                        if (spaceId != null) add(MenuItem(tr("space.settingsTitle"), "gear", divider = true) { showSpaceSettings = true })
-                    },
-                )
+            if (!dmPane) {
+                Box {
+                    BarButton("plus", tr("nav.new"), { menuOpen = true })
+                    newMenu()
+                }
             }
             if (reordering) BarTextButton(tr("common.done"), { reordering = false }, bold = true)
-            if (onOpenInbox != null) InboxButton(roomList, onOpenInbox)
+            if (!dmPane && onOpenInbox != null) InboxButton(roomList, onOpenInbox)
         }
-        // Typing searches everything, not just this list
-        WizardTextField(
-            search,
-            { search = it },
-            tr("nav.searchPlaceholder"),
-            Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
-        )
+        if (dmPane) {
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+            ) {
+                RoundToolButton("magnifying-glass", tr("common.search"), {
+                    if (searchOpen) {
+                        searchFocus.requestFocus()
+                    } else {
+                        searchOpen = true
+                    }
+                })
+                if (onOpenInbox != null) InboxButton(roomList, onOpenInbox, round = true)
+                Box(
+                    Modifier
+                        .weight(1f)
+                        .height(WZ.Space.space9)
+                        .clip(CircleShape)
+                        .background(theme.fill)
+                        .clickable { showNewMessage = true },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                        PhIcon("chat-circle", size = WZ.SizeIcon.sm, tint = theme.textPrimary)
+                        Text(tr("common.newMessage"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
+                    }
+                }
+                Box {
+                    RoundToolButton("plus", tr("nav.new"), { menuOpen = true }, accent = true)
+                    newMenu()
+                }
+            }
+            if (searchOpen) {
+                Row(
+                    Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                ) {
+                    WizardTextField(search, { search = it }, tr("nav.searchPlaceholder"), Modifier.weight(1f).focusRequester(searchFocus))
+                    BarButton("x", tr("common.close"), { search = ""; searchOpen = false })
+                }
+            }
+        } else {
+            // Typing searches everything, not just this list
+            WizardTextField(
+                search,
+                { search = it },
+                tr("nav.searchPlaceholder"),
+                Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+            )
+        }
         Box(Modifier.weight(1f)) {
             LazyColumn(
                 Modifier.fillMaxSize(),
@@ -466,10 +527,41 @@ fun RoomListScreen(
 }
 
 @Composable
-private fun InboxButton(roomList: RoomListModel, onClick: () -> Unit) {
+private fun InboxButton(roomList: RoomListModel, onClick: () -> Unit, round: Boolean = false) {
     val mentions = roomList.mentionRooms.isNotEmpty()
     val badge = mentions || roomList.invites.isNotEmpty()
-    BarButton("tray", tr("inbox.title"), onClick, badge = if (badge) ({ UnreadDot(mentions) }) else null)
+    val dot: (@Composable () -> Unit)? = if (badge) ({ UnreadDot(mentions) }) else null
+    if (round) {
+        RoundToolButton("tray", tr("inbox.title"), onClick, badge = dot)
+    } else {
+        BarButton("tray", tr("inbox.title"), onClick, badge = dot)
+    }
+}
+
+/** A round 32 dp button for the direct-messages toolbar; the accent one is the new-item "+" */
+@Composable
+private fun RoundToolButton(
+    icon: String,
+    label: String,
+    onClick: () -> Unit,
+    accent: Boolean = false,
+    badge: (@Composable () -> Unit)? = null,
+) {
+    Box(Modifier.size(WZ.Space.space9)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .clip(CircleShape)
+                .background(if (accent) theme.accent else theme.fill)
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            PhIcon(icon, PhWeight.bold, WZ.SizeIcon.sm, tint = if (accent) theme.textOnAccent else theme.textPrimary, contentDescription = label)
+        }
+        badge?.let {
+            Box(Modifier.align(Alignment.TopEnd).offset(WZ.Space.space1, -WZ.Space.space1)) { it() }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -498,6 +590,7 @@ private fun SwipeableRoomRow(
     var notificationsOpen by remember { mutableStateOf(false) }
     var canFlagVoice by remember(room.id) { mutableStateOf(false) }
     val actions = RoomMenu.actions(room.unreadCount, room.mentionCount)
+    val cosmetics = room.dmUserId?.let { org.wizardchat.android.ui.cosmetics.rememberCosmetics(it) }
     LaunchedEffect(menuOpen, modern, room.isVoice) {
         if (menuOpen && modern && !room.isVoice) canFlagVoice = session.canSendState(MudrixTypes.VOICE_CHANNEL, room.id)
     }
@@ -528,18 +621,23 @@ private fun SwipeableRoomRow(
             }
         },
     ) {
-        Box(
+        // The nameplate is the whole row's background, so it is drawn behind the avatar, name, preview and time
+        org.wizardchat.android.ui.cosmetics.NameplateBox(
+            cosmetics?.nameplate,
             Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(WZ.Radius.md))
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 RoomRow(
                     room,
                     showsHashIcon,
                     Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0),
                     voiceChannel = voiceChannel || room.isVoice,
                     muted = notificationMode == NotificationMode.mute,
+                    cosmetics = cosmetics,
                 )
                 if (reorder != null) {
                     BarButton("caret-left", tr("room.sections.moveUp"), { reorder(-1) }, modifier = Modifier.rotate(90f), weight = PhWeight.bold, tint = theme.textPrimary)
@@ -595,12 +693,18 @@ private fun SwipeableRoomRow(
 }
 
 @Composable
-fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modifier, voiceChannel: Boolean = room.isVoice, muted: Boolean = false) {
+fun RoomRow(
+    room: RoomSummary,
+    showsHashIcon: Boolean,
+    modifier: Modifier = Modifier,
+    voiceChannel: Boolean = room.isVoice,
+    muted: Boolean = false,
+    cosmetics: org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Cosmetics? = null,
+) {
     val prefs = LocalPrefs.current
     val avatarSize = prefs.roomAvatarSize
     val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
-    val dmCosmetics = room.dmUserId?.let { org.wizardchat.android.ui.cosmetics.rememberCosmetics(it) }
     val preview = if (prefs.uiDensity == Density.compact) null else room.lastMessage?.let {
         RoomPreview.line(it, room.isDirect, previewLabels())
     }
@@ -628,9 +732,9 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
             Box {
                 if (room.dmUserId != null) {
                     Avatar(room.displayName, room.avatarUrl, avatarSize)
-                    org.wizardchat.android.ui.cosmetics.DecorationOverlay(dmCosmetics?.decoration, avatarSize)
+                    org.wizardchat.android.ui.cosmetics.DecorationOverlay(cosmetics?.decoration, avatarSize)
                     org.wizardchat.android.ui.cosmetics.CosmeticStatusDot(
-                        dmCosmetics?.status,
+                        cosmetics?.status,
                         avatarSize,
                         Modifier.align(Alignment.BottomEnd).offset(WZ.Space.space1, WZ.Space.space1),
                     )
@@ -651,8 +755,7 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 }
             }
         }
-        org.wizardchat.android.ui.cosmetics.NameplateBox(dmCosmetics?.nameplate, Modifier.weight(1f)) {
-        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
             Text(
                 room.displayName,
                 style = wizardFont(WZ.FontSize.lg, if (hasUnread) FontWeight.SemiBold else FontWeight.Normal),
@@ -671,7 +774,6 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 )
             }
             if (inCall && room.isVoice) ParticipantStack(room.id, room.callParticipants)
-        }
         }
         if (inCall) RoomCallTimer(room.id)
         if (room.isDirect) {

@@ -48,11 +48,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
@@ -62,6 +64,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.abs
@@ -84,6 +87,7 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.UnreadDot
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
+import org.wizardchat.android.ui.people.UserProfileSheet
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -137,6 +141,7 @@ internal fun SpaceRailBar(
     onSpace: (String) -> Unit,
     onCreateSpace: () -> Unit,
     onExplore: () -> Unit,
+    bottomInset: Dp,
 ) {
     val slots = railSlots(roomList)
     Column(
@@ -144,8 +149,7 @@ internal fun SpaceRailBar(
             .width(railWidth)
             .fillMaxHeight()
             .background(theme.bgSecondary)
-            .statusBarsPadding()
-            .navigationBarsPadding(),
+            .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(Modifier.padding(top = WZ.Space.space4, bottom = WZ.Space.space2)) {
@@ -164,7 +168,7 @@ internal fun SpaceRailBar(
             Modifier.weight(1f).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = WZ.Space.space2),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(top = WZ.Space.space2, bottom = WZ.Space.space2 + bottomInset),
         ) {
             items(roomList.spaces, key = { it.id }) { space ->
                 val slot = slots.firstOrNull { it.space?.id == space.id }
@@ -179,9 +183,8 @@ internal fun SpaceRailBar(
                     onMarkRead = { roomList.markAsRead(roomList.rooms(SidebarSelection.Space(space.id))) },
                 )
             }
+            item { RailAddButton(onCreateSpace, onExplore) }
         }
-        Box(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6).height(1.dp).background(theme.border))
-        RailAddButton(onCreateSpace, onExplore)
     }
 }
 
@@ -337,7 +340,34 @@ private fun RailAddButton(onCreateSpace: () -> Unit, onExplore: () -> Unit) {
     }
 }
 
-/** The panel under the content pane: your avatar and status opens You, the bell opens the inbox */
+/**
+ * The floating dock over the whole width, rail included: the call bar and your card above the navigation bar.
+ * It reports its height so the rail and the content can pad past it and their last items stay reachable.
+ */
+@Composable
+internal fun ModernDock(
+    modifier: Modifier,
+    keyboardVisible: Boolean,
+    inboxBadge: Boolean,
+    inboxMention: Boolean,
+    onYou: () -> Unit,
+    onInbox: () -> Unit,
+    onInset: (Dp) -> Unit,
+    callBar: @Composable () -> Unit,
+) {
+    val density = LocalDensity.current
+    Column(
+        modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .onSizeChanged { onInset(with(density) { it.height.toDp() }) },
+    ) {
+        callBar()
+        if (!keyboardVisible) ModernUserPanel(inboxBadge, inboxMention, onYou, onInbox)
+    }
+}
+
+/** Your card in the dock: your avatar and status open your own profile (Settings is in there), the bell opens the inbox */
 @Composable
 internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: () -> Unit, onInbox: () -> Unit) {
     val session = LocalSession.current
@@ -353,26 +383,28 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: 
             },
         )
     val inboxLabel = tr("inbox.title")
+    val shape = RoundedCornerShape(16.dp)
+    var ownProfile by remember { mutableStateOf(false) }
     Row(
         Modifier
             .fillMaxWidth()
-            .background(theme.bgPrimary)
-            .navigationBarsPadding()
+            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+            .shadow(6.dp, shape, clip = false)
+            .background(theme.bgTertiary, shape)
             .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space2),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(
             Modifier
                 .weight(1f)
-                .clip(RoundedCornerShape(WZ.Radius.md))
-                .clickable(onClick = onYou)
+                .clickable { ownProfile = true }
                 .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
         ) {
-            CosmeticAvatar(session.userId, name, session.avatarUrl, WZ.SizeAvatar.sm, presence = presence.name)
+            CosmeticAvatar(session.userId, name, session.avatarUrl, WZ.SizeAvatar.md, presence = presence.name)
             Column(Modifier.weight(1f)) {
-                Text(name, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(name, style = wizardFont(WZ.FontSize.md, FontWeight.Bold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(status, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
@@ -388,6 +420,14 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: 
                 PhIcon("bell", size = WZ.SizeIcon.md, tint = theme.textMuted)
                 if (inboxBadge) UnreadDot(inboxMention, Modifier.align(Alignment.TopEnd).offset(x = WZ.Space.space3, y = -WZ.Space.space1))
             }
+        }
+    }
+    session.userId?.let { userId ->
+        if (ownProfile) {
+            UserProfileSheet(userId, null, onDismiss = { ownProfile = false }, onOpenSettings = {
+                ownProfile = false
+                onYou()
+            })
         }
     }
 }

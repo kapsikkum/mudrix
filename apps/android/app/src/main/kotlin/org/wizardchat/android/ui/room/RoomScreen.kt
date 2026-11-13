@@ -84,7 +84,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -132,6 +131,7 @@ import org.wizardchat.android.matrix.StickerPacks
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
+import org.wizardchat.android.matrix.profile
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
@@ -149,25 +149,32 @@ import org.wizardchat.android.ui.space.LocalRoomRoles
 import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
+import org.wizardchat.android.ui.UnreadBadge
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
 import org.wizardchat.android.ui.composer.MediaPicker
 import org.wizardchat.android.ui.composer.MediaPickerTab
 import org.wizardchat.android.ui.copyToClipboard
+import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
 import org.wizardchat.android.ui.home.LocalCalls
 import org.wizardchat.android.ui.people.RoomInfoSheet
+import org.wizardchat.android.ui.people.SheetPage
 import org.wizardchat.android.ui.people.UserProfileSheet
+import org.wizardchat.android.ui.search.RoomSearchScreen
 import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.android.ui.trPlural
 import org.wizardchat.android.ui.voice.JoinCallBar
 import org.wizardchat.core.CallHistoryView
 import org.wizardchat.core.CallOutcome
+import org.wizardchat.core.Presence
 import org.wizardchat.core.RichBlock
 import org.wizardchat.core.RichSpan
 import org.wizardchat.core.RoomSummary
+import org.wizardchat.core.UserProfile
 import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
 
@@ -224,6 +231,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     val reactionPacks = remember { PacksStore() }
     var showInfo by remember { mutableStateOf(false) }
     var showJumpToDate by remember { mutableStateOf(false) }
+    var showSearch by remember { mutableStateOf(false) }
     var editHistoryFor by remember { mutableStateOf<ChatEntry?>(null) }
     var canPin by remember { mutableStateOf(false) }
     var canRedactOthers by remember { mutableStateOf(false) }
@@ -472,7 +480,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
             inCall = room.inCall || calls.isInCall(room.id),
             inThread = threadRoot != null, onShowThreads = { showThreads = true },
-            onJumpToDate = { showJumpToDate = true })
+            onJumpToDate = { showJumpToDate = true }, onSearch = { showSearch = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
             CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
             LazyColumn(
@@ -532,7 +540,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             }
         }
         Column(
-            Modifier.fillMaxWidth().padding(bottom = LocalBottomBarInset.current).navigationBarsPadding().imePadding(),
+            Modifier.fillMaxWidth().padding(bottom = LocalBottomBarInset.current),
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
         ) {
             if (threadRoot != null && timeline.reachedStart && timeline.entries.count { it.isContent } <= 1) {
@@ -579,6 +587,16 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             },
         )
     }
+    if (showSearch) {
+        WizardSheet(onDismiss = { showSearch = false }) {
+            SheetPage {
+                RoomSearchScreen(room, client, { eventId ->
+                    showSearch = false
+                    scope.launch { jump(eventId) }
+                }, { showSearch = false })
+            }
+        }
+    }
     if (showJumpToDate) {
         JumpToDateSheet(            client = client,
             roomId = room.id,
@@ -624,7 +642,11 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
 private const val BOTTOM_ID = "timeline-bottom"
 private const val TOP_ID = "timeline-top"
 
-/** The room's title capsule (opens the room info) and, in DMs, the call buttons */
+/**
+ * The chat header, flat on the header background: back (with the mentions waiting in other rooms), avatar, name
+ * and subtitle, then call, search and more. Tapping the avatar, name or chevron opens the room info; a thread
+ * shows its own title and the room name, without the info tap.
+ */
 @Composable
 private fun RoomTopBar(
     room: RoomSummary,
@@ -635,17 +657,83 @@ private fun RoomTopBar(
     inThread: Boolean,
     onShowThreads: () -> Unit,
     onJumpToDate: () -> Unit,
+    onSearch: () -> Unit,
 ) {
-    RoomHeader(
-        room,
-        onBack,
-        onShowInfo = if (inThread) null else onShowInfo,
-        buttons = if (inThread) 0 else 3,
-        title = { if (inThread) ThreadTitle(room) else RoomTitle(room) },
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
+    val mentions = session.roomList?.mentionRooms.orEmpty().filter { it.id != room.id }.sumOf { it.mentionCount }
+    val partnerId = room.dmUserId?.takeIf { room.isDirect && !inThread }
+    var partner by remember(partnerId) { mutableStateOf<UserProfile?>(null) }
+    LaunchedEffect(partnerId) { partner = partnerId?.let { session.profile(it) } }
+    val name = if (inThread) tr("timeline.threadPanel") else room.displayName
+    val status = partner?.customStatus?.takeIf { (it.expiresAt ?: Long.MAX_VALUE) > System.currentTimeMillis() }?.text
+    val presence = if (!prefs.showPresence) null else when (partner?.presence?.state) {
+        Presence.online -> tr("presence.online")
+        Presence.unavailable -> tr("presence.away")
+        Presence.offline -> tr("presence.offline")
+        else -> null
+    }
+    val subtitle = when {
+        inThread -> room.displayName
+        partnerId != null -> status ?: presence
+        room.memberCount > 0 -> trPlural("room.settings.roles.memberCount", room.memberCount.toInt(), room.memberCount.toInt())
+        else -> room.topic?.takeIf { it.isNotBlank() }
+    }
+    val hint = tr("timeline.showsRoomInfoMembers")
+    val badge: (@Composable () -> Unit)? = if (mentions > 0) ({ UnreadBadge(mentions, isMention = true) }) else null
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(theme.bgSecondary)
+            .statusBarsPadding()
+            .heightIn(min = WZ.Space.space11)
+            .padding(horizontal = WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+        BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold, badge = badge)
+        Row(
+            Modifier
+                .weight(1f)
+                .clickable(enabled = !inThread, onClick = onShowInfo)
+                .then(if (inThread) Modifier else Modifier.semantics { contentDescription = "${room.displayName}. $hint" })
+                .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            when {
+                partnerId != null -> CosmeticAvatar(
+                    partnerId,
+                    room.displayName,
+                    partner?.avatarUrl ?: room.dmUserAvatar,
+                    WZ.SizeAvatar.sm,
+                    presence = partner?.presence?.state?.name,
+                )
+                prefs.showRoomAvatars || room.isDirect -> Avatar(room.displayName, room.avatarUrl ?: room.dmUserAvatar, WZ.SizeAvatar.sm)
+                else -> Box(
+                    Modifier.size(WZ.SizeAvatar.sm).clip(CircleShape).background(theme.fill),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PhIcon(if (room.isVoice) "speaker-high" else "hash-straight", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+                }
+            }
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                    Text(
+                        name,
+                        Modifier.weight(1f, fill = false),
+                        style = wizardFont(WZ.FontSize.lg, FontWeight.Bold),
+                        color = theme.textPrimary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    if (!inThread) PhIcon("caret-right", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted)
+                }
+                subtitle?.let {
+                    Text(it, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+            }
+        }
         if (!inThread) {
-            BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
-            BarButton("calendar-blank", tr("room.jumpToDate.title"), onJumpToDate, tint = theme.textPrimary)
             Box {
                 var callMenu by remember { mutableStateOf(false) }
                 BarButton("phone", tr("call.startCall"), { callMenu = true }, enabled = !inCall)
@@ -658,11 +746,27 @@ private fun RoomTopBar(
                     ),
                 )
             }
+            BarButton("magnifying-glass", tr("common.search"), onSearch, tint = theme.textPrimary)
+            Box {
+                var moreMenu by remember { mutableStateOf(false) }
+                BarButton("dots-three", tr("common.more"), { moreMenu = true }, weight = PhWeight.bold, tint = theme.textPrimary)
+                WizardMenu(
+                    moreMenu,
+                    { moreMenu = false },
+                    listOf(
+                        MenuItem(tr("timeline.threads"), "chat-dots") { onShowThreads() },
+                        MenuItem(tr("room.jumpToDate.title"), "calendar-blank") { onJumpToDate() },
+                    ),
+                )
+            }
         }
     }
 }
 
-/** Back, the room's title capsule (opens the room info when `onShowInfo` is set) and `buttons` bar buttons on the right */
+/**
+ * Back, the room title and `buttons` bar buttons on the right, flat on the header background (no capsule).
+ * Shared with the voice room; the title is tappable when `onShowInfo` is set.
+ */
 @Composable
 internal fun RoomHeader(
     room: RoomSummary,
@@ -681,32 +785,14 @@ internal fun RoomHeader(
             Modifier
                 .align(Alignment.CenterStart)
                 .padding(start = WZ.Space.space11 + WZ.Space.space2, end = WZ.Space.space11 * buttons)
-                .defaultMinSize(minHeight = WZ.Space.space10)
-                .shadow(2.dp, CircleShape)
-                .clip(CircleShape)
-                .background(theme.bgTertiary)
                 .clickable(enabled = onShowInfo != null, onClick = { onShowInfo?.invoke() })
                 .semantics { contentDescription = "${room.displayName}. $hint" }
-                .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+                .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
             contentAlignment = Alignment.Center,
         ) {
             title()
         }
         Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically, content = actions)
-    }
-}
-
-@Composable
-private fun ThreadTitle(room: RoomSummary) {
-    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
-        Text(tr("timeline.threadPanel"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
-        Text(
-            room.displayName,
-            style = wizardFont(WZ.FontSize.xs),
-            color = theme.textMuted,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
     }
 }
 
@@ -859,27 +945,6 @@ private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom
     }
 }
 
-/** The reply arrow behind a row being dragged; [progress] is read while drawing (1 is where a release replies) */
-@Composable
-private fun ReplySwipeHint(progress: () -> Float, modifier: Modifier = Modifier) {
-    val over by remember { derivedStateOf { progress() >= 1f } }
-    val tint = if (over) theme.accent else theme.textMuted
-    Box(
-        modifier
-            .padding(end = WZ.Space.space5)
-            .size(WZ.Space.space9)
-            .graphicsLayer {
-                val p = progress().coerceIn(0f, 1f)
-                scaleX = -p
-                scaleY = p
-            }
-            .background(theme.fill, CircleShape),
-        contentAlignment = Alignment.Center,
-    ) {
-        PhIcon("arrow-bend-up-left", size = WZ.SizeIcon.sm, tint = tint)
-    }
-}
-
 /** Tints a row while it is the jumped-to one; only that row runs an animation */
 @Composable
 private fun HighlightBox(active: Boolean, content: @Composable () -> Unit) {
@@ -1008,7 +1073,6 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
     val replyThreshold = 64f
-    val showReplyHint by remember { derivedStateOf { swipe < -8f } }
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
     // Bubble layout: your rows sit on the right without an avatar; your text bubbles are right-aligned
     val ownBubble = isBubble && entry.isOwn
@@ -1027,9 +1091,6 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
 
     CompositionLocalProvider(LocalMessageLongPress provides longPress) {
         Box(modifier.fillMaxWidth()) {
-            if (showReplyHint) {
-                ReplySwipeHint({ -swipe / replyThreshold }, Modifier.align(Alignment.CenterEnd))
-            }
             Row(
                 Modifier
                     .fillMaxWidth()

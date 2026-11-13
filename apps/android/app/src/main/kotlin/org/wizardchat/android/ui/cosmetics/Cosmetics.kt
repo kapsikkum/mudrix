@@ -208,12 +208,17 @@ fun CosmeticImage(
     }
 }
 
-/** The decoration art, 120% of the avatar and centred on it (it may reach past the avatar's own bounds) */
+/**
+ * The decoration art, 120% of the avatar and centred on it (the web's `.decoration`: 120%, centred with translate).
+ * It sits in an avatar-sized box, so the caller's layout is the avatar's and the art may reach past that box.
+ */
 @Composable
 fun DecorationOverlay(image: CosmeticImageSource?, size: Dp, animate: Boolean = false) {
     if (image == null) return
     val px = with(LocalDensity.current) { (size * DECORATION_SCALE).roundToPx() }
-    CosmeticImage(image, Modifier.requiredSize(size * DECORATION_SCALE), animate = animate, width = px)
+    Box(Modifier.size(size), contentAlignment = Alignment.Center) {
+        CosmeticImage(image, Modifier.requiredSize(size * DECORATION_SCALE), animate = animate, width = px)
+    }
 }
 
 private const val DECORATION_SCALE = 1.2f

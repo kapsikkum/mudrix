@@ -295,6 +295,7 @@ fun MainScreen(roomList: RoomListModel) {
                 )
             }
             if (modern) {
+                var dockInset by remember { mutableStateOf(0.dp) }
                 val selectedSpaceId = (top as? Route.Space)?.id
                 val homeSelected = selectedSpaceId == null && tab != Tab.me
                 val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
@@ -331,10 +332,11 @@ fun MainScreen(roomList: RoomListModel) {
                             onSpace = ::showSpace,
                             onCreateSpace = { showCreateSpace = true },
                             onExplore = { showExplore = true },
+                            bottomInset = dockInset,
                         )
                         Box(Modifier.width(1.dp).fillMaxHeight().background(theme.border))
                         Column(Modifier.weight(1f)) {
-                            CompositionLocalProvider(LocalBottomBarInset provides 0.dp) {
+                            CompositionLocalProvider(LocalBottomBarInset provides dockInset) {
                                 Box(Modifier.weight(1f)) {
                                     stateHolder.SaveableStateProvider(tab) {
                                         TabContent(
@@ -348,17 +350,19 @@ fun MainScreen(roomList: RoomListModel) {
                                     }
                                 }
                             }
-                            AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                                Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
-                            }
-                            if (!keyboardVisible) {
-                                ModernUserPanel(
-                                    inboxBadge = inboxBadge,
-                                    inboxMention = roomList.mentionRooms.isNotEmpty(),
-                                    onYou = { select(Tab.me) },
-                                    onInbox = { showInbox = true },
-                                )
-                            }
+                        }
+                    }
+                    ModernDock(
+                        Modifier.align(Alignment.BottomCenter),
+                        keyboardVisible = keyboardVisible,
+                        inboxBadge = inboxBadge,
+                        inboxMention = roomList.mentionRooms.isNotEmpty(),
+                        onYou = { select(Tab.me) },
+                        onInbox = { showInbox = true },
+                        onInset = { dockInset = it },
+                    ) {
+                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                            Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
                         }
                     }
                 }

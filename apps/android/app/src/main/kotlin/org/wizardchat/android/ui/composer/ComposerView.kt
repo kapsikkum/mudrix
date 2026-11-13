@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -64,6 +65,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -82,9 +84,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
@@ -96,8 +101,12 @@ import androidx.compose.ui.unit.sp
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -167,6 +176,9 @@ private sealed interface Suggestion {
     data class Command(val name: String, val description: String) : Suggestion
 }
 
+/** The soft keyboard's settled height by screen width (portrait and landscape differ); the docked picker takes its place */
+private val keyboardHeights = mutableStateMapOf<Int, Dp>()
+
 /**
  * The message bar under the timeline: draft (saved per room), mention, emoji and command
  * suggestions, reply/edit banners, attachments, formatting, voice messages, stickers and GIFs.
@@ -190,6 +202,9 @@ fun ComposerView(
     val haptics = LocalHapticFeedback.current
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+    val density = LocalDensity.current
+    val configuration = LocalConfiguration.current
 
     val draft = rememberTextFieldState()
     val attachments = remember { mutableStateListOf<PendingAttachment>() }
@@ -209,6 +224,12 @@ fun ComposerView(
     // The formatting bar stays open, picked from the + menu (it also shows while text is selected)
     var formatting by remember { mutableStateOf(false) }
     var preparing by remember { mutableIntStateOf(0) }
+    // Set while the keyboard comes back in the picker's place, so the composer does not jump
+    var holdingDock by remember { mutableStateOf(false) }
+    val pickerOpen = pickerTab != null
+    val docked = pickerOpen || holdingDock
+    val pickerHeight = (keyboardHeights[configuration.screenWidthDp] ?: (configuration.screenHeightDp * 0.45f).dp) +
+        WZ.Space.space4 - WZ.Space.space3
 
     val text = draft.text.toString()
     val trimmed = text.trim()
@@ -237,6 +258,24 @@ fun ComposerView(
     fun focus(on: Boolean) {
         if (on) runCatching { focusRequester.requestFocus() } else focusManager.clearFocus()
     }
+
+    /** The picker takes the keyboard's place, so the keyboard goes away first */
+    fun openPicker(tab: MediaPickerTab) {
+        keyboard?.hide()
+        focusManager.clearFocus()
+        pickerTab = tab
+    }
+
+    fun closePicker(showKeyboard: Boolean) {
+        if (pickerTab == null) return
+        pickerTab = null
+        if (showKeyboard) {
+            holdingDock = true
+            focus(true)
+        }
+    }
+
+    BackHandler(enabled = pickerOpen) { closePicker(showKeyboard = false) }
 
     fun setDraft(value: String) = draft.setTextAndPlaceCursorAtEnd(value)
 
@@ -595,6 +634,25 @@ fun ComposerView(
         focus(true)
     }
     LaunchedEffect(replyTo?.id) { if (replyTo != null) focus(true) }
+    LaunchedEffect(focused) { if (focused) closePicker(showKeyboard = true) }
+    val imeInsets = WindowInsets.ime
+    LaunchedEffect(configuration.screenWidthDp) {
+        snapshotFlow { imeInsets.getBottom(density) }
+            .distinctUntilChanged()
+            .debounce(160)
+            .collect { px -> if (px > 0) keyboardHeights[configuration.screenWidthDp] = with(density) { px.toDp() } }
+    }
+    LaunchedEffect(holdingDock) {
+        if (holdingDock) {
+            withTimeoutOrNull(1_000) {
+                snapshotFlow { imeInsets.getBottom(density) }
+                    .distinctUntilChanged()
+                    .debounce(120)
+                    .first { it > 0 }
+            }
+            holdingDock = false
+        }
+    }
     LaunchedEffect(timeline.sendError) {
         if (timeline.sendError != null) {
             delay(5000)
@@ -602,12 +660,13 @@ fun ComposerView(
         }
     }
 
+    // While docked, the picker fills the keyboard's space, so the composer drops its keyboard/gesture-bar inset
     Column(
         Modifier
             .fillMaxWidth()
-            .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
+            .then(if (docked) Modifier else Modifier.windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime)))
             .padding(horizontal = WZ.Space.space4)
-            .padding(top = WZ.Space.space2, bottom = WZ.Space.space4)
+            .padding(top = WZ.Space.space2, bottom = if (docked) 0.dp else WZ.Space.space4)
             .animateContentSize(tween(WZ.MotionDuration.slow)),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
@@ -768,25 +827,28 @@ fun ComposerView(
                                 PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.md, tint = theme.textOnAccent)
                             }
                         }
+                    } else if (pickerOpen) {
+                        Bubble("keyboard", tr("common.close"), iconSize = WZ.Space.space7) { closePicker(showKeyboard = true) }
                     } else {
-                        Bubble("sticker", tr("room.settings.widgets.stickers"), iconSize = WZ.Space.space7) {
-                            pickerTab = MediaPickerTab.stickers
-                        }
+                        Bubble("smiley", tr("common.emoji"), iconSize = WZ.Space.space7) { openPicker(MediaPickerTab.emoji) }
                     }
                 }
             }
         }
-    }
-
-    pickerTab?.let { tab ->
-        MediaPicker(
-            tab = tab,
-            store = packStore,
-            onEmoji = ::insertEmoji,
-            onSticker = { sticker -> scope.launch { sendSticker(sticker) } },
-            onGif = { gif -> sendGif(gif) },
-            onDismiss = { pickerTab = null },
-        )
+        if (docked) {
+            Box(Modifier.fillMaxWidth().height(pickerHeight)) {
+                pickerTab?.let { tab ->
+                    DockedMediaPicker(
+                        tab = tab,
+                        store = packStore,
+                        onEmoji = ::insertEmoji,
+                        onSticker = { sticker -> scope.launch { sendSticker(sticker) } },
+                        onGif = { gif -> sendGif(gif) },
+                        onDismiss = { closePicker(showKeyboard = false) },
+                    )
+                }
+            }
+        }
     }
     apiRequest?.let { request ->
         ApiConfirmSheet(request, onDismiss = { apiRequest = null }, onInsertLink = { insertAtCursor(it) })
