@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
@@ -169,9 +170,12 @@ fun RoomListScreen(
     val stores = MudrixRoomStates.shared
     val rootSpace = remember(roomList.graph, spaceId) { spaceId?.let { SpaceModern.rootSpaceOf(roomList.graph, it) } }
     val modern = spaceId != null && SpaceModern.styleOf(stores.state(rootSpace)) == RoomListStyle.modern
-    val modernCategories = remember(roomList.graph, spaceId, modern) {
-        if (modern && spaceId != null) SpaceModern.categories(roomList.graph, spaceId) else emptyList()
+    val categories = remember(roomList.graph, spaceId) {
+        if (spaceId != null) SpaceModern.categories(roomList.graph, spaceId) else emptyList()
     }
+    val modernCategories = if (modern) categories else emptyList()
+    // The Matrix style groups its rooms under sub-space headers too, like the web's
+    val matrixCategories = !modern && categories.any { it.spaceId != null }
     LaunchedEffect(rootSpace, spaceId) {
         stores.keepFresh { listOfNotNull(rootSpace, spaceId) }
     }
@@ -182,8 +186,8 @@ fun RoomListScreen(
         modernCategories.flatMap { it.roomIds }.filter { SpaceModern.isVoiceChannelFlagged(stores.states[it]) }.toSet()
     }
     val roomsLabel = tr("nav.rooms")
-    val categoryHeaders = remember(modernCategories, roomList.spaces, roomList.allSpaces, roomList.joinedRooms) {
-        modernCategories.mapNotNull { it.spaceId }.distinct().associateWith { roomList.categoryHeaderOf(it, roomsLabel) }
+    val categoryHeaders = remember(categories, roomList.spaces, roomList.allSpaces, roomList.joinedRooms) {
+        categories.mapNotNull { it.spaceId }.distinct().associateWith { roomList.categoryHeaderOf(it, roomsLabel) }
     }
     val modernContent = remember(modernCategories, voiceChannels, categoryHeaders) {
         ModernSpaceContent(modernCategories, categoryHeaders, voiceChannels)
@@ -462,6 +466,27 @@ fun RoomListScreen(
                         }
                         return@forEach
                     }
+                    if (matrixCategories && group.kind == RoomGroup.Kind.Rooms) {
+                        if (!(headers && collapseKey(group) in collapsed && !reordering)) {
+                            matrixCategoryRooms(categories, group.rooms, categoryHeaders, roomsLabel) { room ->
+                                SwipeableRoomRow(
+                                    room,
+                                    showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
+                                    onOpen = { navigator.push(Route.Room(room.id)) },
+                                    onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
+                                    onMarkUnread = { markUnread(room) },
+                                    onLeave = { leaving = room },
+                                    onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
+                                    onSetLowPriority = { low -> setLowPriority(room, low) },
+                                    onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
+                                    notificationMode = roomList.notificationMode(room),
+                                    onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
+                                    reorder = null,
+                                )
+                            }
+                        }
+                        return@forEach
+                    }
                     val shown = if (headers && collapseKey(group) in collapsed && !reordering) emptyList() else group.rooms
                     itemsIndexed(shown, key = { _, room -> room.id }) { index, room ->
                         SwipeableRoomRow(
@@ -640,17 +665,21 @@ private fun SwipeableRoomRow(
         state,
         modifier = Modifier.clip(RoundedCornerShape(WZ.Radius.md)),
         backgroundContent = {
-            val leading = state.dismissDirection == SwipeToDismissBoxValue.StartToEnd
-            Row(
-                Modifier.fillMaxSize().background(if (leading) theme.control else theme.danger).padding(horizontal = WZ.Space.space8),
-                horizontalArrangement = if (leading) Arrangement.Start else Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                PhIcon(
-                    if (!leading) "sign-out" else if (unread) "envelope-open" else "envelope-simple",
-                    tint = if (leading) theme.bgPrimary else theme.textOnAccent,
-                    size = WZ.SizeIcon.lg,
-                )
+            // Drawn only mid-swipe: at rest a coloured layer under the row would show its anti-aliased corners
+            val direction = state.dismissDirection
+            if (direction != SwipeToDismissBoxValue.Settled) {
+                val leading = direction == SwipeToDismissBoxValue.StartToEnd
+                Row(
+                    Modifier.fillMaxSize().background(if (leading) theme.control else theme.danger).padding(horizontal = WZ.Space.space8),
+                    horizontalArrangement = if (leading) Arrangement.Start else Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    PhIcon(
+                        if (!leading) "sign-out" else if (unread) "envelope-open" else "envelope-simple",
+                        tint = if (leading) theme.bgPrimary else theme.textOnAccent,
+                        size = WZ.SizeIcon.lg,
+                    )
+                }
             }
         },
     ) {
@@ -912,6 +941,36 @@ private fun GroupHeader(
                     ),
                 )
             }
+        }
+    }
+}
+
+/** The Matrix style's rooms of a space under each sub-space heading (empty ones skipped); rooms in no category come first, unheaded */
+private fun LazyListScope.matrixCategoryRooms(
+    categories: List<SpaceModern.Category>,
+    rooms: List<RoomSummary>,
+    headers: Map<String, String>,
+    generic: String,
+    row: @Composable (RoomSummary) -> Unit,
+) {
+    val byId = rooms.associateBy { it.id }
+    val claimed = categories.flatMapTo(mutableSetOf()) { it.roomIds }
+    val loose = rooms.filter { it.id !in claimed }
+    for (category in categories) {
+        val listed = (if (category.spaceId == null) loose else emptyList()) + category.roomIds.mapNotNull { byId[it] }
+        if (listed.isEmpty()) continue
+        category.spaceId?.let { id ->
+            item(key = "matrix-category-$id", contentType = "category") {
+                Text(
+                    (headers[id] ?: generic).uppercase(),
+                    Modifier.fillMaxWidth().padding(start = WZ.Space.space6 + 12.dp * (category.depth - 1).coerceAtLeast(0), top = WZ.Space.space6, bottom = WZ.Space.space2),
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.textMuted,
+                )
+            }
+        }
+        for (room in listed) {
+            item(key = "matrix-${category.spaceId}-${room.id}", contentType = "room") { row(room) }
         }
     }
 }
