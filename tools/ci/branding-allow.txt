@@ -24,6 +24,9 @@ docs/CI.md
 # Engineering doc that names the upstream account-data types the apps still read for migration. Not user-facing text; the paths go away with the internal rename.
 docs/WEB_LOOK_FIXES.md :: org\.wizardchat
 
+# The mobile behaviour notes quote Android source paths, which still use the unrenamed internal package until the rename.
+docs/MOBILE_BEHAVIOUR_NOTES.md :: org[/.]wizardchat
+
 # Build docs quote the unrenamed internal names (WizardChat.app, the wizardchat-core crate, upstream's feed) that the
 # build still produces. Remove these entries together with the internal rename.
 docs/BUILDING.md

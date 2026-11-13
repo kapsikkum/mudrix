@@ -219,13 +219,40 @@ private struct CosmeticBuiltinPreview: View {
     let id: String
     let kind: CosmeticKind
 
+    @Environment(\.theme) private var theme
+
     var body: some View {
-        if kind == .nameplate {
-            NameplateStrip(palette: CosmeticPacks.nameplatePalette(.id(id)), url: nil)
-        } else {
-            Image("ph-sparkle-regular")
-                .font(.system(size: WZ.SizeIcon.lg))
-                .foregroundStyle(.secondary)
+        switch kind {
+        case .decoration:
+            if let image = BuiltinCosmetics.decoration(id) {
+                Image(image).resizable().scaledToFit()
+            } else {
+                fallback
+            }
+        case .nameplate:
+            NameplateStrip(palette: CosmeticPacks.nameplatePalette(.id(id)),
+                           image: BuiltinCosmetics.nameplate(id)?.image)
+        case .profileFrame:
+            if BuiltinCosmetics.frame(id).isEmpty { fallback } else { framePreview }
+        case .effect:
+            if BuiltinEffectArt.draws(id) { BuiltinEffectPreview(id: id) } else { fallback }
+        }
+    }
+
+    private var fallback: some View {
+        Image("ph-sparkle-regular")
+            .font(.system(size: WZ.SizeIcon.lg))
+            .foregroundStyle(.secondary)
+    }
+
+    private var framePreview: some View {
+        ZStack {
+            Circle()
+                .fill(theme.textMuted.opacity(0.25))
+                .frame(width: 22, height: 22)
+            ForEach(["back", "front"], id: \.self) { layer in
+                BuiltinFrameArtLayer(pieces: BuiltinCosmetics.frame(id).filter { $0.layer == layer }, size: 40)
+            }
         }
     }
 }
@@ -253,7 +280,8 @@ private struct CosmeticItemPreview: View {
 /// A small nameplate: its art under its palette tint
 private struct NameplateStrip: View {
     let palette: String?
-    let url: String?
+    var url: String? = nil
+    var image: String? = nil
 
     var body: some View {
         let color = CosmeticPacks.paletteColor(palette)
@@ -261,7 +289,11 @@ private struct NameplateStrip: View {
             .fill(LinearGradient(colors: [color.opacity(0.25), color.opacity(0.75)], startPoint: .leading,
                                  endPoint: .trailing))
             .overlay {
-                if let url { CosmeticImage(url: url, contentMode: .fill).clipped() }
+                if let image {
+                    Image(image).resizable().scaledToFill().clipped()
+                } else if let url {
+                    CosmeticImage(url: url, contentMode: .fill).clipped()
+                }
             }
     }
 }

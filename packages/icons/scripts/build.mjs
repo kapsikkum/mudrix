@@ -1,9 +1,11 @@
-// Exports the Phosphor icons the native apps use (src/icons.json) for each platform:
+// Exports the shared art the native apps embed from the web app's originals:
 //   dist/apple/Icons.xcassets/ph-<name>-<weight>.symbolset  custom SF Symbols, so they size with
 //                                                            text, menus and labels like Apple's
 //   dist/android/drawable/ph_<name>_<weight>.xml             vector drawables
-// Fails if an icon or weight in the list doesn't exist.
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+//   dist/apple/Cosmetics.xcassets/cosmetic-*.imageset        the built-in cosmetics' SVG art for iOS
+//   dist/ios/cosmetics.json                                  their ids, palettes and frame pieces for iOS
+// Fails if an icon, weight or art file doesn't exist.
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -99,6 +101,153 @@ ${paths}
 }
 
 console.log(`icons: ${svgs.length} exported`);
+exportCosmetics();
+
+/** The built-in decorations, nameplates and frames from apps/web, as an iOS asset catalog and one JSON list */
+function exportCosmetics() {
+  const assets = join(root, '../../apps/web/public/assets');
+  const manifests = join(root, '../../apps/web/src/util/builtinCosmetics');
+  const problems = [];
+  const images = new Map();
+  const safeId = (id) => typeof id === 'string' && /^[a-z0-9-]{1,64}$/.test(id);
+
+  const add = (name, file, maxWidth) => {
+    if (images.has(name)) problems.push(`two cosmetics named ${name}`);
+    const path = join(assets, `${file}`.replace(/^assets\//, ''));
+    if (!existsSync(path)) {
+      problems.push(`no such art: ${file}`);
+      return null;
+    }
+    const cleaned = cosmeticSvg(readFileSync(path, 'utf8'));
+    if (/<image\b/.test(cleaned)) {
+      console.log(`cosmetics: skipped ${file} (embedded bitmap; left out of the asset catalog)`);
+      return null;
+    }
+    const original = svgSize(cleaned);
+    if (!original) {
+      problems.push(`no size in: ${file}`);
+      return null;
+    }
+    const { svg, size } = scaledSvg(cleaned, original, maxWidth);
+    images.set(name, svg);
+    return size;
+  };
+
+  const decorations = readdirSync(join(assets, 'decorations'))
+    .filter((file) => file.endsWith('.svg'))
+    .map((file) => file.slice(0, -'.svg'.length))
+    .filter((id) => {
+      if (safeId(id)) return true;
+      problems.push(`unsafe decoration id: ${id}`);
+      return false;
+    })
+    .sort();
+
+  const decorationArt = [];
+  for (const id of decorations) {
+    const image = `cosmetic-decorations-${id}`;
+    if (add(image, `assets/decorations/${id}.svg`, 120)) decorationArt.push({ id, image });
+  }
+
+  const readJson = (name) => JSON.parse(readFileSync(join(manifests, name), 'utf8'));
+  const nameplates = readJson('nameplates.json').flatMap((plate) => {
+    if (!safeId(plate.id)) {
+      problems.push(`unsafe nameplate id: ${plate.id}`);
+      return [];
+    }
+    const image = `cosmetic-nameplates-${plate.id}`;
+    const palette = typeof plate.palette === 'string' ? plate.palette : null;
+    return add(image, plate.file, 400)
+      ? [{ id: plate.id, name: plate.name ?? plate.id, palette, image }]
+      : [];
+  });
+
+  const frames = readJson('frames.json').flatMap((frame) => {
+    if (!safeId(frame.id)) {
+      problems.push(`unsafe frame id: ${frame.id}`);
+      return [];
+    }
+    const pieces = (frame.pieces ?? []).flatMap((piece) => {
+      if (
+        !['top', 'bottom', 'center'].includes(piece.pos) ||
+        !['back', 'front'].includes(piece.layer)
+      ) {
+        problems.push(`bad piece: ${frame.id} ${piece.pos}/${piece.layer}`);
+        return [];
+      }
+      const image = `cosmetic-frames-${frame.id}-${piece.pos}-${piece.layer}`;
+      const size = add(image, piece.file, 400);
+      return size
+        ? [{ pos: piece.pos, layer: piece.layer, image, width: size.width, height: size.height }]
+        : [];
+    });
+    return pieces.length ? [{ id: frame.id, name: frame.name ?? frame.id, pieces }] : [];
+  });
+
+  if (problems.length) {
+    console.error(problems.join('\n'));
+    process.exit(1);
+  }
+
+  const catalog = join(dist, 'apple/Cosmetics.xcassets');
+  mkdirSync(catalog, { recursive: true });
+  writeFileSync(join(catalog, 'Contents.json'), json({ info }));
+  for (const [name, svg] of images) {
+    const set = join(catalog, `${name}.imageset`);
+    mkdirSync(set);
+    writeFileSync(join(set, 'art.svg'), svg);
+    writeFileSync(
+      join(set, 'Contents.json'),
+      json({
+        images: [{ filename: 'art.svg', idiom: 'universal' }],
+        info,
+        properties: { 'preserves-vector-representation': true },
+      })
+    );
+  }
+
+  const ios = join(dist, 'ios');
+  mkdirSync(ios, { recursive: true });
+  writeFileSync(
+    join(ios, 'cosmetics.json'),
+    json({ decorations: decorationArt, nameplates, frames })
+  );
+  console.log(`cosmetics: ${images.size} imagesets exported`);
+}
+
+/** An SVG stripped of the web-only animation styles and blur filters no native renderer draws */
+function cosmeticSvg(svg) {
+  return svg
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, '')
+    .replace(/<filter\b[^>]*>[\s\S]*?<\/filter>/g, '')
+    .replace(/\s+filter="url\([^)]*\)"/g, '')
+    .replace(/\s+style="[^"]*"/g, '');
+}
+
+/** An SVG's root size brought down to `maxWidth`, so actool does not rasterise it at poster size */
+function scaledSvg(svg, size, maxWidth) {
+  if (!(maxWidth > 0) || size.width <= maxWidth) return { svg, size };
+  const factor = maxWidth / size.width;
+  const width = Math.round(size.width * factor);
+  const height = Math.round(size.height * factor);
+  const root = /<svg\b[^>]*>/.exec(svg)?.[0] ?? '';
+  const resized = root
+    .replace(/\swidth="[\d.]+"/, ` width="${width}"`)
+    .replace(/\sheight="[\d.]+"/, ` height="${height}"`);
+  return { svg: svg.replace(root, resized), size: { width, height } };
+}
+
+/** The width and height an SVG asks to be drawn at, from its root tag or viewBox */
+function svgSize(svg) {
+  const tag = /<svg\b[^>]*>/.exec(svg)?.[0] ?? '';
+  const width = /\swidth="([\d.]+)"/.exec(tag)?.[1];
+  const height = /\sheight="([\d.]+)"/.exec(tag)?.[1];
+  if (Number(width) > 0 && Number(height) > 0)
+    return { width: Number(width), height: Number(height) };
+  const box = /\sviewBox="([-\d.\s]+)"/.exec(tag)?.[1]?.trim().split(/\s+/).map(Number);
+  if (box && box.length === 4 && box[2] > 0 && box[3] > 0) return { width: box[2], height: box[3] };
+  return null;
+}
 
 /** One Phosphor SVG as a symbol template, the same outline in every weight and scale */
 function symbolTemplate(svg) {

@@ -56,7 +56,37 @@ struct CosmeticAnimatedImage: View {
     }
 }
 
-/// The avatar decoration of a resolved cosmetic, drawn over the avatar (built-in art is not in this bundle)
+/// A pack effect's one-shot intro, played once and then handing over to the loop
+struct CosmeticIntroImage: View {
+    let url: String
+    let onFinished: () -> Void
+
+    @Environment(\.mediaLoader) private var mediaLoader
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image {
+                AnimatedImageView(image: image, contentMode: .scaleAspectFit, loops: 1)
+            } else {
+                Color.clear
+            }
+        }
+        .task(id: url) {
+            guard let loaded = await mediaLoader?.image(for: .object(["url": .string(url)]),
+                                                        thumbnailSize: nil, animated: true) else {
+                onFinished()
+                return
+            }
+            image = loaded
+            let seconds = max(loaded.duration, 0.4)
+            try? await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+            onFinished()
+        }
+    }
+}
+
+/// The avatar decoration of a resolved cosmetic, drawn over the avatar
 struct CosmeticDecoration: View {
     let value: CosmeticValue?
     let size: CGFloat
@@ -64,6 +94,12 @@ struct CosmeticDecoration: View {
     var body: some View {
         if let url = CosmeticPacks.mediaURL(value) {
             CosmeticImage(url: url)
+                .frame(width: size * 1.2, height: size * 1.2)
+                .allowsHitTesting(false)
+        } else if case .id(let id)? = value, let image = BuiltinCosmetics.decoration(id) {
+            Image(image)
+                .resizable()
+                .scaledToFit()
                 .frame(width: size * 1.2, height: size * 1.2)
                 .allowsHitTesting(false)
         }
@@ -101,9 +137,12 @@ struct CosmeticNameplate<Content: View>: View {
     let value: CosmeticValue?
     @ViewBuilder let content: () -> Content
 
+    @EnvironmentObject private var session: MatrixSession
+    @State private var packPalette: String?
+
     var body: some View {
         if let value {
-            let palette = CosmeticPacks.paletteColor(CosmeticPacks.nameplatePalette(value))
+            let palette = CosmeticPacks.paletteColor(CosmeticPacks.nameplatePalette(value) ?? packPalette)
             content()
                 .padding(.horizontal, WZ.Space.space3)
                 .padding(.vertical, WZ.Space.space1)
@@ -113,13 +152,26 @@ struct CosmeticNameplate<Content: View>: View {
                                        endPoint: .trailing)
                         if let url = CosmeticPacks.mediaURL(value) {
                             CosmeticImage(url: url, contentMode: .fill)
+                        } else if let image = builtinArt(value) {
+                            Image(image).resizable().scaledToFill()
                         }
                     }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.sm, style: .continuous))
+                .task(id: "\(value.url)|\(CosmeticPacks.nameplatePalette(value) ?? "")") {
+                    packPalette = nil
+                    guard CosmeticPacks.nameplatePalette(value) == nil,
+                          let url = CosmeticPacks.mediaURL(value) else { return }
+                    packPalette = await CosmeticPackLibrary.nameplatePalette(for: url, session: session)
+                }
         } else {
             content()
         }
+    }
+
+    private func builtinArt(_ value: CosmeticValue) -> String? {
+        guard case .id(let id) = value else { return nil }
+        return BuiltinCosmetics.nameplate(id)?.image
     }
 }
 
@@ -163,6 +215,11 @@ struct CosmeticFramePieces: View {
         }
     }
 
+    private var builtinPieces: [BuiltinFrameArt] {
+        guard case .id(let id)? = value, !id.hasPrefix("mxc://") else { return [] }
+        return BuiltinCosmetics.frame(id).filter { $0.layer == layer }
+    }
+
     var body: some View {
         if !pieces.isEmpty {
             ZStack {
@@ -174,6 +231,8 @@ struct CosmeticFramePieces: View {
             }
             .frame(width: size, height: size)
             .allowsHitTesting(false)
+        } else if !builtinPieces.isEmpty {
+            BuiltinFrameArtLayer(pieces: builtinPieces, size: size)
         }
     }
 }
@@ -182,13 +241,40 @@ struct CosmeticFramePieces: View {
 struct CosmeticEffect: View {
     let value: CosmeticValue?
 
+    @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
+    @State private var intro: String?
+    @State private var introDone = false
+    @State private var introResolved = false
+
+    private var reducedMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
+
     var body: some View {
-        if let url = CosmeticPacks.mediaURL(value), !prefs.reducesMotion(systemSetting: systemReduceMotion) {
-            CosmeticAnimatedImage(url: url)
-                .allowsHitTesting(false)
+        Group {
+            if reducedMotion {
+                EmptyView()
+            } else if let url = CosmeticPacks.mediaURL(value) {
+                if !introResolved {
+                    Color.clear
+                } else if let intro, !introDone {
+                    CosmeticIntroImage(url: intro) { introDone = true }
+                } else {
+                    CosmeticAnimatedImage(url: url)
+                }
+            } else if case .id(let id)? = value, BuiltinEffectArt.draws(id) {
+                BuiltinProfileEffect(id: id)
+            }
+        }
+        .allowsHitTesting(false)
+        .task(id: "\(value?.url ?? "")|\(reducedMotion)") {
+            intro = nil
+            introDone = false
+            introResolved = reducedMotion || CosmeticPacks.mediaURL(value) == nil
+            guard !reducedMotion, let url = CosmeticPacks.mediaURL(value) else { return }
+            intro = await CosmeticPackLibrary.effectIntro(for: url, session: session)
+            introResolved = true
         }
     }
 }

@@ -186,4 +186,27 @@ final class CosmeticPacksTests: XCTestCase {
         let refs = CosmeticPacks.subscribedRefs(rooms).map { "\($0.roomId)/\($0.stateKey)" }
         XCTAssertEqual(refs.sorted(), ["!a:example.org/one", "!a:example.org/two", "!b:example.org/three"])
     }
+
+    func testAPackEffectCarriesItsOneShotIntro() throws {
+        let pack = try XCTUnwrap(CosmeticPacks.parsePack(roomId: nil, stateKey: "p", contents: [
+            json("""
+                {"pack":{"display_name":"Effects","usage":["profile_effect"]},
+                 "images":{"burst":{"url":"mxc://example.org/burst",
+                   "info":{"io.github.kapsikkum.mudrix.effect_intro":"mxc://example.org/burst-intro"}},
+                   "remote":{"url":"mxc://example.org/remote",
+                     "info":{"io.github.kapsikkum.mudrix.effect_intro":"https://example.org/intro.gif"}}}}
+                """),
+        ]))
+        XCTAssertEqual(pack.items.first(where: { $0.shortcode == "burst" })?.intro, mxc("burst-intro"))
+        XCTAssertEqual(CosmeticPacks.effectIntro(for: mxc("burst"), in: [pack]), mxc("burst-intro"))
+        XCTAssertNil(CosmeticPacks.effectIntro(for: mxc("remote"), in: [pack]))
+        XCTAssertNil(CosmeticPacks.effectIntro(for: mxc("none"), in: [pack]))
+    }
+
+    func testABareMediaNameplateFindsItsPaletteAmongLoadedPacks() throws {
+        let pack = try XCTUnwrap(CosmeticPacks.parsePack(roomId: nil, stateKey: "p", contents: [nameplatePack()]))
+        XCTAssertEqual(CosmeticPacks.nameplatePalette(for: mxc("sunset"), in: [pack]), "berry")
+        XCTAssertNil(CosmeticPacks.nameplatePalette(for: mxc("aurora"), in: [pack]))
+        XCTAssertNil(CosmeticPacks.nameplatePalette(for: mxc("unknown"), in: [pack]))
+    }
 }

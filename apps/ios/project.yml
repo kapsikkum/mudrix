@@ -37,6 +37,9 @@ targets:
       - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
       - ../../packages/design-tokens/dist/apple/Tokens.xcassets
       - ../../packages/icons/dist/apple/Icons.xcassets
+      - ../../packages/icons/dist/apple/Cosmetics.xcassets
+      - path: ../../packages/icons/dist/ios/cosmetics.json
+        buildPhase: resources
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
       - path: ../../packages/emoji/dist/emoji.json
         buildPhase: resources

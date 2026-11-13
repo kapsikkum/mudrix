@@ -43,6 +43,7 @@ struct CosmeticPackItem: Equatable {
     let kind: CosmeticKind
     let palette: String?
     let pieces: [CosmeticFramePiece]
+    var intro: String? = nil
 }
 
 /// A room's or the account's cosmetic pack
@@ -78,6 +79,8 @@ enum CosmeticPacks {
     static let defaultUsage = ["emoticon", "sticker"]
     private static let decorationUsage = ["avatar_decoration", "profile_decoration", "avatar_frame"]
     private static let framePositions: Set<String> = ["top", "bottom", "center"]
+    /// `info` key of the image a pack effect plays once before its loop
+    private static let effectIntroKey = "io.github.kapsikkum.mudrix.effect_intro"
 
     static let decorationIds = [
         "ring", "thorns", "sparkle", "flame", "pixel-hearts", "stars", "halo", "cat-ears",
@@ -229,6 +232,26 @@ enum CosmeticPacks {
         }
     }
 
+    /// The palette a loaded pack gave an `mxc://` nameplate, for one stored without its palette
+    static func nameplatePalette(for url: String, in packs: [CosmeticPack]) -> String? {
+        for pack in packs {
+            guard let item = pack.items.first(where: { $0.kind == .nameplate && $0.url == url }),
+                  let name = item.palette?.lowercased(), palettes[name] != nil else { continue }
+            return name
+        }
+        return nil
+    }
+
+    /// The one-shot intro a loaded pack gave an `mxc://` effect
+    static func effectIntro(for url: String, in packs: [CosmeticPack]) -> String? {
+        for pack in packs {
+            if let intro = pack.items.first(where: { $0.kind == .effect && $0.url == url })?.intro {
+                return intro
+            }
+        }
+        return nil
+    }
+
     /// A nameplate palette's colour as 0...1 components (`nameplatePaletteRgb` on the web)
     static func paletteRGB(_ palette: String?) -> (red: Double, green: Double, blue: Double) {
         guard let name = palette?.lowercased(), let rgb = palettes[name] else { return (0, 0, 0) }
@@ -303,10 +326,12 @@ enum CosmeticPacks {
             let usage = image.usage?.isEmpty == false ? (image.usage ?? packUsage) : packUsage
             guard let kind = kind(of: usage) else { continue }
             let rawInfo = image.info
+            let intro = rawInfo?[effectIntroKey]?.string
             items.append(CosmeticPackItem(shortcode: image.shortcode, name: image.body ?? image.shortcode,
                                           url: image.url, kind: kind,
                                           palette: rawInfo?["palette"]?.string,
-                                          pieces: framePieces(rawInfo?["pieces"])))
+                                          pieces: framePieces(rawInfo?["pieces"]),
+                                          intro: intro?.hasPrefix("mxc://") == true ? intro : nil))
         }
         guard !items.isEmpty else { return nil }
         let name = info.displayName.flatMap { $0.isEmpty ? nil : $0 } ?? stateKey

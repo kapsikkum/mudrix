@@ -73,6 +73,33 @@ enum CosmeticPackLibrary {
         return found
     }
 
+    private static var visible: [CosmeticPack] = []
+    private static var visibleAt: Date?
+    private static var visiblePending: Task<[CosmeticPack], Never>?
+
+    /// The personal and subscribed packs, read at most once every few minutes
+    static func visiblePacks(session: MatrixSession) async -> [CosmeticPack] {
+        if let visibleAt, Date().timeIntervalSince(visibleAt) < 300 { return visible }
+        if let pending = visiblePending { return await pending.value }
+        let task = Task { await subscribedPacks(session: session) }
+        visiblePending = task
+        let packs = await task.value
+        visiblePending = nil
+        visible = packs
+        visibleAt = Date()
+        return packs
+    }
+
+    /// The palette a loaded pack gave a bare `mxc://` nameplate
+    static func nameplatePalette(for url: String, session: MatrixSession) async -> String? {
+        CosmeticPacks.nameplatePalette(for: url, in: await visiblePacks(session: session))
+    }
+
+    /// The intro a loaded pack gave a pack effect
+    static func effectIntro(for url: String, session: MatrixSession) async -> String? {
+        CosmeticPacks.effectIntro(for: url, in: await visiblePacks(session: session))
+    }
+
     /// The subscriptions of both account data events, merged
     static func subscriptions(session: MatrixSession) async -> [String: [String: JSONValue]] {
         var contents: [JSONValue] = []
@@ -94,6 +121,7 @@ enum CosmeticPackLibrary {
         for type in CosmeticPacks.subscriptionTypes {
             try await session.setAccountDataJSON(type, content.any as? [String: Any] ?? [:])
         }
+        visibleAt = nil
     }
 
     /// Every cosmetic pack in the rooms the account is in, for the subscription picker
