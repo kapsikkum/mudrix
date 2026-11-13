@@ -55,6 +55,9 @@ export const desktopApi: DesktopAPI = {
     invoke<string>('save_download', bytes, {
       headers: { 'x-filename': encodeURIComponent(filename) },
     }),
+  pickKeyFileToSave: (defaultName) =>
+    invoke<string | null>('pick_key_file_to_save', { defaultName }),
+  pickKeyFileToOpen: () => invoke<string | null>('pick_key_file_to_open'),
   getSettings: () => invoke<DesktopSettings>('get_desktop_settings'),
   setSettings: (patch) => invoke<DesktopSettings>('set_desktop_settings', { patch }),
   onSettingsChange: (listener) =>

@@ -83,6 +83,10 @@ interface DesktopAPI {
   ) => Promise<{ status: 'upToDate' | 'ready' } | { status: 'available'; version: string }>;
   /** Saves bytes into the Downloads folder and resolves with the saved path; needs a native command. */
   saveDownload?: (bytes: Uint8Array, filename: string) => Promise<string>;
+  /** The native save dialog for a room key export: the chosen path, or null when cancelled */
+  pickKeyFileToSave?: (defaultName: string) => Promise<string | null>;
+  /** The native open dialog for a room key file: the chosen path, or null when cancelled */
+  pickKeyFileToOpen?: () => Promise<string | null>;
   getSettings?: () => Promise<DesktopSettings>;
   setSettings?: (patch: Partial<DesktopSettings>) => Promise<DesktopSettings>;
   /** Called when the shell changes a setting itself (the tray's mute switch); returns a stopper */

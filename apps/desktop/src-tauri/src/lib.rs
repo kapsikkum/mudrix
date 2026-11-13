@@ -6,6 +6,7 @@ mod dev;
 mod downloads;
 mod global_keys;
 mod keep_awake;
+mod keyfile;
 mod links;
 mod loopback;
 mod popout;
@@ -120,6 +121,7 @@ pub fn run() {
         .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_notification::init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
@@ -232,6 +234,8 @@ pub fn run() {
             loopback::loopback_wait,
             loopback::loopback_cancel,
             downloads::save_download,
+            keyfile::pick_key_file_to_save,
+            keyfile::pick_key_file_to_open,
             shell::get_desktop_settings,
             shell::set_desktop_settings,
             shell::set_unread_count,
