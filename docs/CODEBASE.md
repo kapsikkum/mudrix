@@ -107,10 +107,10 @@ still say WizardChat (or Wizard). Do not rename them without a decision to drop 
 - **Android:** the Kotlin `namespace` and packages `org.wizardchat.android` and `org.wizardchat.core`, `WizardApplication`,
   `WizardLogo`, `Theme.WizardChat`, intent action strings and the Gradle project name. The `applicationId` is
   `chat.mudrix.mobile`.
-- **iOS:** the Xcode project, targets and folders `WizardChat`, `WizardChatCore`, `WizardChatShare`, `WizardChatWidgets`
-  and `WizardChatTests`, the `WizardChat.app` product and the Swift types `WizardLogo`, `WizardMark` and
-  `WizardChatTokens`. The `WZ_*` build settings (`WZ_TEAM`, `WZ_BUNDLE_PREFIX`, `WZ_APP_GROUP`) keep their names; their
-  values are Mudrix's, except `WZ_TEAM`, which is still upstream's Apple team id and has to be set to your own.
+- **iOS:** the Xcode project, targets and folders `WizardChat`, `WizardChatCore`, `WizardChatShare`, `WizardChatWidgets`,
+  `WizardChatTests` and `NotificationService`, the `WizardChat.app` product and the Swift types `WizardLogo`, `WizardMark`
+  and `WizardChatTokens`. The `WZ_*` build settings (`WZ_TEAM`, `WZ_BUNDLE_PREFIX`, `WZ_APP_GROUP`) keep their names;
+  their values are Mudrix's, except `WZ_TEAM`, which is still upstream's Apple team id and has to be set to your own.
 - **Web:** `WizardMark` (the component draws the Mudrix logo), `wizardchat:state` and similar DOM event names,
   `wizardchat.*` storage keys, `wizardchat-*` channel and log prefixes, the `@wizardchat/core` import alias and the
   `WizardChat` native bridge name.

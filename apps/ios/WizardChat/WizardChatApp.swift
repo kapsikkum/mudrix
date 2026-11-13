@@ -81,12 +81,19 @@ struct WizardChatApp: App {
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
             .onChange(of: prefs.followSystemTheme) { _, _ in applyAppIcon() }
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
-            // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork)
+            // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork),
+            // and the notification service extension shows no text when it is on
             .onChange(of: prefs.streamerModeActive, initial: true) { _, active in
                 IntegrationNetwork.setPassiveBlocked(active)
+                ShareInbox.saveHideContent(active)
             }
             .onChange(of: prefs.showPresence) { _, visible in
                 Task { await session.applyPresence(visible) }
+            }
+            // The notification service extension can't read these, and the gateway's alerts would
+            // otherwise always play the system sound
+            .onChange(of: prefs.notificationSounds, initial: true) { _, on in
+                ShareInbox.saveNotificationSounds(on)
             }
         }
         .onChange(of: scenePhase) { _, phase in
@@ -128,7 +135,6 @@ struct WizardChatApp: App {
             notifier.start(roomList: roomList, prefs: prefs)
         }
         Push.client = { [weak session] in session?.client }
-        Push.show = { [weak notifier] in notifier?.show($0) }
         Push.resume = { [weak session] in await session?.resumeSync() }
         Push.pause = { [weak session] in await session?.pauseSync(keepRunning: false) }
         Push.requestToken()

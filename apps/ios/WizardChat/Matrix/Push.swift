@@ -24,43 +24,13 @@ enum PushMode: String {
     }
 }
 
-/// What a push gateway forwards: the ids the app needs to fetch the message itself
-struct PushPayload: Equatable {
-    var roomId: String?
-    var eventId: String?
-    var unread: Int?
-
-    /// Reads the keys a gateway puts on the notification (top level, or inside `notification`)
-    static func parse(_ userInfo: [AnyHashable: Any]) -> PushPayload? {
-        let source = (userInfo["notification"] as? [AnyHashable: Any]) ?? userInfo
-        func text(_ key: String) -> String? {
-            guard let value = source[key] as? String, !value.isEmpty else { return nil }
-            return value
-        }
-        var unread: Int?
-        if let counts = source["counts"] as? [AnyHashable: Any] {
-            unread = (counts["unread"] as? Int) ?? (counts["unread"] as? String).flatMap(Int.init)
-        } else if let value = source["unread"] {
-            unread = (value as? Int) ?? (value as? String).flatMap(Int.init)
-        }
-        let payload = PushPayload(roomId: text("room_id"), eventId: text("event_id"), unread: unread)
-        return payload.roomId == nil && payload.eventId == nil && payload.unread == nil ? nil : payload
-    }
-
-    /// The device token as the hex string a push gateway expects as pushkey
-    static func pushkey(from token: Data) -> String {
-        token.map { String(format: "%02x", $0) }.joined()
-    }
-}
-
 /// Registers the pusher (apns) or keeps the app syncing in the background (keepalive)
 @MainActor
 enum Push {
     static let refreshTaskId = "chat.mudrix.mobile.refresh"
     private static let lastKeyDefaults = "push.pushkey"
-    /// Set by the app: the signed-in client, and what to do with a message that arrived while closed
+    /// Set by the app: the signed-in client, and how to start or stop syncing from a background task
     static var client: () -> WizardClient? = { nil }
-    static var show: (WizardChatCore.Notification) -> Void = { _ in }
     static var resume: () async -> Void = {}
     static var pause: () async -> Void = {}
 
@@ -75,30 +45,51 @@ enum Push {
         guard PushMode.current == .apns, !PushMode.gateway.isEmpty, let client = client() else { return }
         let pushkey = PushPayload.pushkey(from: token)
         let appId = Bundle.main.bundleIdentifier ?? "chat.mudrix.mobile"
-        let marker = "\(client.userId ?? "")|\(pushkey)|\(PushMode.gateway)"
+        // Bumped when the payload below changes, so phones that registered the old one register again
+        let marker = "2|\(client.userId ?? "")|\(pushkey)|\(PushMode.gateway)"
         guard UserDefaults.standard.string(forKey: lastKeyDefaults) != marker else { return }
         do {
             try await client.setPusher(config: PusherConfig(
                 appId: appId, pushkey: pushkey, gatewayUrl: PushMode.gateway,
                 appName: "Mudrix", deviceName: MatrixSession.deviceName,
-                lang: Locale.current.identifier))
+                lang: Locale.current.identifier,
+                defaultPayload: Self.defaultPayload))
             UserDefaults.standard.set(marker, forKey: lastKeyDefaults)
         } catch {
             NSLog("Push: couldn't register the pusher: \(error)")
         }
     }
 
-    /// A silent push arrived: fetch the message it is about and show it unless the app is syncing already
+    /// What the gateway adds to every notification (`default_payload`): iOS only shows, and only
+    /// runs the notification service extension for, a push with an `aps.alert`. `mutable-content`
+    /// lets the extension replace the generic text with the room's name; `content-available` keeps
+    /// the app's chance to fetch the message early while it is running.
+    ///
+    /// The text is the app's own, in the user's language, because the gateway has neither: it only
+    /// sees the event's ids (`event_id_only` format), which is also why message text never reaches
+    /// it. The notification service extension replaces what it can (the room's name).
+    private static var defaultPayload: JSONValue {
+        .object([
+            "aps": .object([
+                "alert": .object([
+                    "title": .string(String(localized: "app.name")),
+                    "body": .string(String(localized: "common.newMessage")),
+                ]),
+                "sound": .string("default"),
+                "mutable-content": .number(1),
+                "content-available": .number(1),
+            ]),
+        ])
+    }
+
+    /// A push arrived while the app is running. In apns mode the gateway's alert is what iOS shows
+    /// (and the notification service extension fills in), so nothing is posted here: a local copy
+    /// would show the same message twice. Only a "you have read everything" push still clears the
+    /// delivered notifications. Keep-alive mode never gets here.
     static func handle(_ userInfo: [AnyHashable: Any]) async {
         guard let payload = PushPayload.parse(userInfo), let client = client() else { return }
-        guard let roomId = payload.roomId, let eventId = payload.eventId else {
-            if payload.unread == 0 { MessageNotifier.removeDelivered(userId: client.userId ?? "") }
-            return
-        }
-        guard UIApplication.shared.applicationState != .active else { return }
-        if let notification = try? await client.pushedNotification(roomId: roomId, eventId: eventId) {
-            show(notification)
-        }
+        guard payload.roomId == nil || payload.eventId == nil else { return }
+        if payload.unread == 0 { MessageNotifier.removeDelivered(userId: client.userId ?? "") }
     }
 
     // MARK: keep-alive

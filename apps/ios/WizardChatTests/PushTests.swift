@@ -32,4 +32,10 @@ final class PushTests: XCTestCase {
     func testPushkeyIsLowercaseHex() {
         XCTAssertEqual(PushPayload.pushkey(from: Data([0x00, 0xAB, 0x0F, 0xFF])), "00ab0fff")
     }
+
+    /// Sygnal's `event_id_only` payload calls it `unread_count`, next to the ids
+    func testUnreadCountFromTheGateway() {
+        XCTAssertEqual(PushPayload.parse(["room_id": "!r:x", "event_id": "$e", "unread_count": 3])?.unread, 3)
+        XCTAssertEqual(PushPayload.parse(["unread_count": 0])?.unread, 0)
+    }
 }

@@ -118,8 +118,8 @@ future workflow work.
 
 Installs upgrade in place only if the ids match what the old Mudrix apps used:
 
-| App                                                                                                            | Id                    |
-| -------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Desktop (Tauri `identifier`, deep-link scheme)                                                                 | `chat.mudrix.desktop` |
-| Android `applicationId` (the Kotlin `namespace` is still `org.wizardchat.android`)                             | `chat.mudrix.mobile`  |
-| iOS bundle id (`WZ_BUNDLE_PREFIX` `chat.mudrix` + `.mobile`, extensions `.mobile.widgets` and `.mobile.share`) | `chat.mudrix.mobile`  |
+| App                                                                                                                                     | Id                    |
+| --------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Desktop (Tauri `identifier`, deep-link scheme)                                                                                          | `chat.mudrix.desktop` |
+| Android `applicationId` (the Kotlin `namespace` is still `org.wizardchat.android`)                                                      | `chat.mudrix.mobile`  |
+| iOS bundle id (`WZ_BUNDLE_PREFIX` `chat.mudrix` + `.mobile`, extensions `.mobile.widgets`, `.mobile.share` and `.mobile.notifications`) | `chat.mudrix.mobile`  |

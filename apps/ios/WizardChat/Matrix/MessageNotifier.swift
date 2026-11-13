@@ -16,7 +16,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
     private weak var roomList: RoomListModel?
     private var subscription: Subscription?
 
-    static let messageCategory = "message"
+    static let messageCategory = NotificationPreviewBuilder.messageCategory
 
     override init() {
         super.init()

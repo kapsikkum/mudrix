@@ -19,6 +19,28 @@ Decisions from the project owner that every port package follows. Newest at the 
   channel, like APNs on iOS). A compile-time flag (Gradle flavour/property) picks one.
 - No Apple or Firebase credentials exist yet; builds must work with the credential-free options.
 
+### Notifications after a force-quit (APNs mode)
+
+Silent (content-available) pushes are not delivered once the app has been force-quit, so `apns` mode registered a
+pusher that asked for them and nothing was ever shown. The pusher now also asks for a visible, mutable alert
+(`aps.alert` with a generic title and "New message", `mutable-content: 1`, ids still in `event_id_only` format), which
+iOS shows and hands to the `NotificationService` extension in `apps/ios/NotificationService`. What the owner must do:
+
+- **Push Notifications capability** on the app target: build with `WZ_ENTITLEMENTS = WizardChat/WizardChat-Push.entitlements`
+  (the default `WizardChat/WizardChat.entitlements` has no `aps-environment`, so no device token arrives).
+- **App Group on the new target's provisioning profile.** `NotificationService` uses `$(WZ_APP_GROUP)` like the app, the
+  widget and the share extension; the App Group capability has to be enabled for all four bundle ids
+  (`...mobile`, `...mobile.widgets`, `...mobile.share`, `...mobile.notifications`).
+- **A gateway that forwards `mutable-content`.** The app sends the alert in the pusher's `default_payload`, which
+  Sygnal-style gateways merge into the APNs payload as-is; the gateway must not strip `aps` and must send the push as an
+  alert (`push_type: alert` in Sygnal, that is the `apns-push-type: alert` header).
+
+The extension cannot decrypt the message yet: the core's store, its keys and the session live in the app's own
+container and keychain access group, and a second process opening the same SQLite store is not safe (the core sets no
+`cross_process_store_locks_holder_name`, and `pushedNotification` builds a `SingleProcess` notification client). Until
+that changes, the extension shows the room's name from the app group (`rooms.json`) over the generic text, plus the
+ids that open the room on tap.
+
 ## Content and assets
 
 - **Discord cosmetics sync script stays.** Running it is up to each user and is not a supported feature. The art
