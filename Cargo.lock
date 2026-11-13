@@ -8375,10 +8375,12 @@ version = "0.1.0"
 dependencies = [
  "jni 0.22.4",
  "libsqlite3-sys",
+ "ndk-sys",
  "rustls-platform-verifier",
  "serde_json",
  "thiserror 2.0.21",
  "tokio",
+ "tracing",
  "tracing-subscriber",
  "uniffi",
  "wizardchat-core",

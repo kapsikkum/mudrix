@@ -352,7 +352,12 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             timeline.close()
         }
     }
-    LaunchedEffect(timeline) { timeline.start() }
+    LaunchedEffect(timeline) {
+        timeline.start()
+        // A room whose cached history has no message shows nothing to scroll, and positioning waits for a row: load a page
+        delay(1_500)
+        if (timeline.entries.isEmpty() && !timeline.reachedStart) loadOlder()
+    }
     // Looking at a thread marks its replies as seen (the unread dot in the inbox)
     if (threadRoot != null) LaunchedEffect(threadRoot, timeline.entries.size) { org.wizardchat.android.matrix.ThreadLastSeen.markSeen(threadRoot) }
     LaunchedEffect(room.id, room.isTombstoned) {

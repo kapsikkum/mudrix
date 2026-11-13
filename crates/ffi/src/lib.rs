@@ -17,7 +17,17 @@ static RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(|| {
         .expect("a Tokio runtime")
 });
 
+#[cfg(target_os = "android")]
+mod logcat;
+
+/// Android sends the core's logs to logcat, under the tag `MudrixCore`
+#[cfg(target_os = "android")]
+fn init_logging() {
+    logcat::init();
+}
+
 /// Debug builds log the SDK to stderr (the Xcode console); `WIZARDCHAT_LOG` takes a tracing filter
+#[cfg(not(target_os = "android"))]
 fn init_logging() {
     if cfg!(debug_assertions) {
         let filter = std::env::var("WIZARDCHAT_LOG")

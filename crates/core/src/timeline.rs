@@ -1,7 +1,7 @@
 use std::{
     collections::{HashMap, HashSet},
     future::IntoFuture,
-    sync::Arc,
+    sync::{Arc, Mutex, PoisonError},
 };
 
 use eyeball_im::{Vector, VectorDiff};
@@ -446,7 +446,10 @@ impl TimelineEntry {
 
 /// A live timeline of one room. Keep it alive as long as the room is shown.
 pub struct RoomTimeline {
-    timeline: Arc<Timeline>,
+    /// Replaced by a fresh SDK timeline when its updates end (see `watch`)
+    current: Mutex<Arc<Timeline>>,
+    room: matrix_sdk::Room,
+    kind: TimelineKind,
     own_user: Option<OwnedUserId>,
     thread_root: Option<OwnedEventId>,
 }
@@ -485,33 +488,11 @@ impl WizardClient {
             TimelineKind::Thread { root_event_id } => Some(parse_event_id(root_event_id)?),
             _ => None,
         };
-        let focus = match kind {
-            TimelineKind::Main => TimelineFocus::Live {
-                hide_threaded_events: true,
-            },
-            TimelineKind::Thread { root_event_id } => TimelineFocus::Thread {
-                root_event_id: parse_event_id(&root_event_id)?,
-            },
-            TimelineKind::Pinned => TimelineFocus::PinnedEvents,
-            TimelineKind::Event { event_id } => TimelineFocus::Event {
-                target: parse_event_id(&event_id)?,
-                num_context_events: 40,
-                thread_mode: matrix_sdk_ui::timeline::TimelineEventFocusThreadMode::Automatic {
-                    hide_threaded_events: true,
-                },
-            },
-        };
-        let timeline = room
-            .timeline_builder()
-            .with_focus(focus)
-            .track_read_marker_and_receipts(
-                matrix_sdk_ui::timeline::TimelineReadReceiptTracking::AllEvents,
-            )
-            .event_filter(|event, rules| default_event_filter(event, rules) || shown_too(event))
-            .build()
-            .await?;
+        let timeline = build_timeline(&room, &kind).await?;
         Ok(RoomTimeline {
-            timeline: Arc::new(timeline),
+            current: Mutex::new(Arc::new(timeline)),
+            room,
+            kind,
             own_user: self.sdk().user_id().map(ToOwned::to_owned),
             thread_root,
         })
@@ -556,6 +537,35 @@ impl WizardClient {
         let joined = self.sdk().join_room_by_id_or_alias(&target, &via).await?;
         Ok(joined.room_id().to_string())
     }
+}
+
+/// The SDK timeline for one view of a room; `watch` builds the same one again when it must
+async fn build_timeline(room: &matrix_sdk::Room, kind: &TimelineKind) -> Result<Timeline> {
+    let focus = match kind {
+        TimelineKind::Main => TimelineFocus::Live {
+            hide_threaded_events: true,
+        },
+        TimelineKind::Thread { root_event_id } => TimelineFocus::Thread {
+            root_event_id: parse_event_id(root_event_id)?,
+        },
+        TimelineKind::Pinned => TimelineFocus::PinnedEvents,
+        TimelineKind::Event { event_id } => TimelineFocus::Event {
+            target: parse_event_id(event_id)?,
+            num_context_events: 40,
+            thread_mode: matrix_sdk_ui::timeline::TimelineEventFocusThreadMode::Automatic {
+                hide_threaded_events: true,
+            },
+        },
+    };
+    Ok(room
+        .timeline_builder()
+        .with_focus(focus)
+        .track_read_marker_and_receipts(
+            matrix_sdk_ui::timeline::TimelineReadReceiptTracking::AllEvents,
+        )
+        .event_filter(|event, rules| default_event_filter(event, rules) || shown_too(event))
+        .build()
+        .await?)
 }
 
 /// What the SDK hides by default but should be shown: custom msgtypes and stable polls
@@ -882,51 +892,117 @@ pub struct MentionsInput {
     pub room: bool,
 }
 
+/// History loaded when a timeline opens with no message to show
+const FIRST_PAGE: u16 = 40;
+
+/// Updates that end without a single update, in a row, before a watch gives up on rebuilding
+const MAX_IDLE_REBUILDS: u32 = 3;
+
+/// Whether a timeline whose updates ended should be built again, given how many times in a row its
+/// updates ended without delivering anything
+fn should_rebuild(idle_ends: u32) -> bool {
+    idle_ends < MAX_IDLE_REBUILDS
+}
+
+/// Whether the items hold a message, or another message-like event, to show
+fn has_messages(items: &Vector<Arc<TimelineItem>>) -> bool {
+    items.iter().any(|item| {
+        item.as_event()
+            .is_some_and(|event| matches!(event.content(), TimelineItemContent::MsgLike(_)))
+    })
+}
+
 impl RoomTimeline {
-    /// Streams the timeline as diffs, starting with a `Reset` of the current items.
+    /// The SDK timeline as it is now
+    fn timeline(&self) -> Arc<Timeline> {
+        self.current
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .clone()
+    }
+
+    /// Replaces the SDK timeline with a fresh one for the same view
+    async fn rebuild(&self) -> Result<()> {
+        let timeline = build_timeline(&self.room, &self.kind).await?;
+        *self.current.lock().unwrap_or_else(PoisonError::into_inner) = Arc::new(timeline);
+        Ok(())
+    }
+
+    /// Streams the timeline as diffs, starting with a `Reset` of the current items. A timeline with
+    /// no message yet loads a page of history first, and a fresh one replaces it when the SDK ends
+    /// its updates while the watch still runs.
     pub async fn watch(&self, mut on_update: impl FnMut(Vec<ListDiff<TimelineEntry>>)) {
         let own = self.own_user.as_ref();
-        let (items, stream) = self.timeline.subscribe().await;
-        let mut shown = items.clone();
-        let mut calls = self.call_tiles(&shown).await;
-        on_update(vec![ListDiff::Reset {
-            values: items
-                .iter()
-                .map(|item| TimelineEntry::from_item(item, own).with_call(calls.get(item_id(item))))
-                .collect(),
-        }]);
-        pin_mut!(stream);
-        while let Some(diffs) = stream.next().await {
-            let mut touched: HashSet<String> = HashSet::new();
-            for diff in &diffs {
-                diff_values(diff, |item| {
-                    touched.insert(item_id(item).to_owned());
-                });
-                diff.clone().apply(&mut shown);
-            }
-            let mut mapped: Vec<ListDiff<TimelineEntry>> = diffs
-                .into_iter()
-                .map(|diff| {
-                    ListDiff::map(diff, |item: &Arc<TimelineItem>| {
-                        TimelineEntry::from_item(item, own)
-                    })
-                })
-                .collect();
-            let fresh = self.call_tiles(&shown).await;
-            if !fresh.is_empty() || !calls.is_empty() {
-                for (index, item) in shown.iter().enumerate() {
-                    let id = item_id(item);
-                    let tile = fresh.get(id);
-                    if tile != calls.get(id) || (tile.is_some() && touched.contains(id)) {
-                        mapped.push(ListDiff::Set {
-                            index,
-                            value: TimelineEntry::from_item(item, own).with_call(tile),
-                        });
-                    }
+        let mut ends_without_updates = 0;
+        loop {
+            let timeline = self.timeline();
+            if !has_messages(&timeline.items().await) {
+                if let Err(error) = self.paginate_back(FIRST_PAGE).await {
+                    tracing::debug!(room = %self.room.room_id(), %error, "couldn't load the first page");
                 }
             }
-            calls = fresh;
-            on_update(mapped);
+            let (items, stream) = timeline.subscribe().await;
+            tracing::debug!(room = %self.room.room_id(), items = items.len(), "timeline subscribed");
+            let mut shown = items.clone();
+            let mut calls = self.call_tiles(&shown).await;
+            on_update(vec![ListDiff::Reset {
+                values: items
+                    .iter()
+                    .map(|item| {
+                        TimelineEntry::from_item(item, own).with_call(calls.get(item_id(item)))
+                    })
+                    .collect(),
+            }]);
+            pin_mut!(stream);
+            let mut delivered = false;
+            while let Some(diffs) = stream.next().await {
+                delivered = true;
+                tracing::debug!(room = %self.room.room_id(), diffs = diffs.len(), "timeline updates");
+                let mut touched: HashSet<String> = HashSet::new();
+                for diff in &diffs {
+                    diff_values(diff, |item| {
+                        touched.insert(item_id(item).to_owned());
+                    });
+                    diff.clone().apply(&mut shown);
+                }
+                let mut mapped: Vec<ListDiff<TimelineEntry>> = diffs
+                    .into_iter()
+                    .map(|diff| {
+                        ListDiff::map(diff, |item: &Arc<TimelineItem>| {
+                            TimelineEntry::from_item(item, own)
+                        })
+                    })
+                    .collect();
+                let fresh = self.call_tiles(&shown).await;
+                if !fresh.is_empty() || !calls.is_empty() {
+                    for (index, item) in shown.iter().enumerate() {
+                        let id = item_id(item);
+                        let tile = fresh.get(id);
+                        if tile != calls.get(id) || (tile.is_some() && touched.contains(id)) {
+                            mapped.push(ListDiff::Set {
+                                index,
+                                value: TimelineEntry::from_item(item, own).with_call(tile),
+                            });
+                        }
+                    }
+                }
+                calls = fresh;
+                on_update(mapped);
+            }
+            ends_without_updates = if delivered {
+                0
+            } else {
+                ends_without_updates + 1
+            };
+            if !should_rebuild(ends_without_updates) {
+                tracing::warn!(room = %self.room.room_id(), "timeline updates keep ending, not rebuilding");
+                return;
+            }
+            tracing::warn!(room = %self.room.room_id(), "timeline updates ended, rebuilding the timeline");
+            if let Err(error) = self.rebuild().await {
+                tracing::warn!(room = %self.room.room_id(), %error, "couldn't rebuild the timeline");
+                return;
+            }
         }
     }
 
@@ -939,7 +1015,8 @@ impl RoomTimeline {
         if calls.is_empty() {
             return HashMap::new();
         }
-        let room = self.timeline.room();
+        let timeline = self.timeline();
+        let room = timeline.room();
         let client = room.client();
         let own = (
             client
@@ -959,12 +1036,12 @@ impl RoomTimeline {
 
     /// Loads older events. Returns `true` once the start of the room has been reached.
     pub async fn paginate_back(&self, events: u16) -> Result<bool> {
-        Ok(self.timeline.paginate_backwards(events).await?)
+        Ok(self.timeline().paginate_backwards(events).await?)
     }
 
     /// Loads newer messages in a timeline opened at an event; true once it reached the latest.
     pub async fn paginate_forward(&self, events: u16) -> Result<bool> {
-        Ok(self.timeline.paginate_forwards(events).await?)
+        Ok(self.timeline().paginate_forwards(events).await?)
     }
 
     /// Sends a text message (Markdown is rendered to HTML), optionally as a reply.
@@ -992,12 +1069,12 @@ impl RoomTimeline {
         }
         match reply_to {
             Some(event_id) => {
-                self.timeline
+                self.timeline()
                     .send_reply(content, parse_event_id(event_id)?)
                     .await?;
             }
             None => {
-                self.timeline
+                self.timeline()
                     .send(content.with_relation(None).into())
                     .await?;
             }
@@ -1017,7 +1094,7 @@ impl RoomTimeline {
             == Some("m.replace");
         if is_edit {
             // Sent as given: typed contents drop the fallback text and stable blocks of edits
-            self.timeline
+            self.timeline()
                 .room()
                 .send_queue()
                 .send_raw(Raw::from_json(raw), event_type.to_owned())
@@ -1031,7 +1108,9 @@ impl RoomTimeline {
             serde_json::Value::Object(map) => Some(map),
             _ => None,
         };
-        self.timeline.send_with_extra_content(typed, extra).await?;
+        self.timeline()
+            .send_with_extra_content(typed, extra)
+            .await?;
         Ok(())
     }
 
@@ -1039,7 +1118,7 @@ impl RoomTimeline {
     pub async fn retry_send(&self, item_key: &str) -> Result<()> {
         let id = parse_item_key(item_key)?;
         let item = self
-            .timeline
+            .timeline()
             .items()
             .await
             .iter()
@@ -1074,7 +1153,7 @@ impl RoomTimeline {
         details.description = description.map(ToOwned::to_owned);
         location.location = Some(details);
         let content = RoomMessageEventContent::new(MessageType::Location(location));
-        self.timeline.send(content.into()).await?;
+        self.timeline().send(content.into()).await?;
         Ok(())
     }
 
@@ -1082,12 +1161,12 @@ impl RoomTimeline {
         match reply_to {
             Some(event_id) => {
                 let content = RoomMessageEventContentWithoutRelation::text_markdown(body);
-                self.timeline
+                self.timeline()
                     .send_reply(content, parse_event_id(event_id)?)
                     .await?;
             }
             None => {
-                self.timeline
+                self.timeline()
                     .send(RoomMessageEventContent::text_markdown(body).into())
                     .await?;
             }
@@ -1100,12 +1179,12 @@ impl RoomTimeline {
         match reply_to {
             Some(event_id) => {
                 let content = RoomMessageEventContentWithoutRelation::text_html(body, html);
-                self.timeline
+                self.timeline()
                     .send_reply(content, parse_event_id(event_id)?)
                     .await?;
             }
             None => {
-                self.timeline
+                self.timeline()
                     .send(RoomMessageEventContent::text_html(body, html).into())
                     .await?;
             }
@@ -1117,14 +1196,14 @@ impl RoomTimeline {
     pub async fn send_sticker(&self, body: &str, url: &str) -> Result<()> {
         use matrix_sdk::ruma::events::{room::ImageInfo, sticker::StickerEventContent};
         let content = StickerEventContent::new(body.to_owned(), ImageInfo::new(), url.into());
-        self.timeline.send(content.into()).await?;
+        self.timeline().send(content.into()).await?;
         Ok(())
     }
 
     /// Replaces the text of one of the user's own messages.
     pub async fn edit_text(&self, item_key: &str, body: &str) -> Result<()> {
         let content = RoomMessageEventContentWithoutRelation::text_markdown(body);
-        self.timeline
+        self.timeline()
             .edit(
                 &parse_item_key(item_key)?,
                 EditedContent::RoomMessage(content),
@@ -1146,7 +1225,7 @@ impl RoomTimeline {
             Some(html) => Some(FormattedBody::html(html)),
             None => FormattedBody::markdown(c),
         });
-        self.timeline
+        self.timeline()
             .edit(
                 &parse_item_key(item_key)?,
                 EditedContent::MediaCaption {
@@ -1161,7 +1240,7 @@ impl RoomTimeline {
 
     /// Deletes (redacts) a message.
     pub async fn redact(&self, item_key: &str, reason: Option<&str>) -> Result<()> {
-        self.timeline
+        self.timeline()
             .redact(&parse_item_key(item_key)?, reason)
             .await?;
         Ok(())
@@ -1169,7 +1248,7 @@ impl RoomTimeline {
 
     /// Adds the reaction, or removes it if the user already reacted with it.
     pub async fn toggle_reaction(&self, item_key: &str, key: &str) -> Result<()> {
-        self.timeline
+        self.timeline()
             .toggle_reaction(&parse_item_key(item_key)?, key)
             .await?;
         Ok(())
@@ -1177,7 +1256,7 @@ impl RoomTimeline {
 
     /// Fetches the message a reply points at when its preview is `unavailable`.
     pub async fn load_reply_details(&self, event_id: &str) -> Result<()> {
-        self.timeline
+        self.timeline()
             .fetch_details_for_event(&parse_event_id(event_id)?)
             .await?;
         Ok(())
@@ -1278,7 +1357,7 @@ impl RoomTimeline {
             bytes: attachment.bytes,
             filename: attachment.filename,
         };
-        self.timeline
+        self.timeline()
             .send_attachment(source, mimetype, config)
             .await?;
         Ok(())
@@ -1292,7 +1371,8 @@ impl RoomTimeline {
         mimetype: &str,
         mut on_progress: impl FnMut(UploadProgress),
     ) -> Result<serde_json::Value> {
-        let room = self.timeline.room();
+        let timeline = self.timeline();
+        let room = timeline.room();
         let client = room.client();
         let total = data.len() as u64;
         let encrypted = room.latest_encryption_state().await?.is_encrypted();
@@ -1347,7 +1427,7 @@ impl RoomTimeline {
                     },
                     add_mentions: AddMentions::Yes,
                 };
-                self.timeline
+                self.timeline()
                     .room()
                     .make_reply_event(typed, reply)
                     .await
@@ -1355,7 +1435,7 @@ impl RoomTimeline {
             }
             None => typed.with_relation(None),
         };
-        self.timeline
+        self.timeline()
             .send_with_extra_content(content.into(), extra)
             .await?;
         Ok(())
@@ -1394,7 +1474,7 @@ impl RoomTimeline {
         block.max_selections = UInt::new(max_selections.max(1)).unwrap_or(UInt::MIN);
         let content =
             UnstablePollStartEventContent::New(NewUnstablePollStartEventContent::new(block));
-        self.timeline.send(content.into()).await?;
+        self.timeline().send(content.into()).await?;
         Ok(())
     }
 
@@ -1405,7 +1485,7 @@ impl RoomTimeline {
             answer_ids.to_vec(),
             parse_event_id(poll_event_id)?,
         );
-        self.timeline.send(content.into()).await?;
+        self.timeline().send(content.into()).await?;
         Ok(())
     }
 
@@ -1413,12 +1493,12 @@ impl RoomTimeline {
         use matrix_sdk::ruma::events::poll::unstable_end::UnstablePollEndEventContent;
         let content =
             UnstablePollEndEventContent::new("The poll has ended", parse_event_id(poll_event_id)?);
-        self.timeline.send(content.into()).await?;
+        self.timeline().send(content.into()).await?;
         Ok(())
     }
 
     pub async fn pin(&self, event_id: &str) -> Result<()> {
-        self.timeline
+        self.timeline()
             .room()
             .pin_event(&parse_event_id(event_id)?)
             .await?;
@@ -1426,7 +1506,7 @@ impl RoomTimeline {
     }
 
     pub async fn unpin(&self, event_id: &str) -> Result<()> {
-        self.timeline
+        self.timeline()
             .room()
             .unpin_event(&parse_event_id(event_id)?)
             .await?;
@@ -1436,12 +1516,13 @@ impl RoomTimeline {
     /// Marks the room read up to its latest message (receipt and fully-read marker); in a
     /// thread, sends a threaded and an unthreaded receipt on its latest message.
     pub async fn mark_as_read(&self, private: bool) -> Result<()> {
-        let room = self.timeline.room();
+        let timeline = self.timeline();
+        let room = timeline.room();
         let Some(root) = &self.thread_root else {
             return mark_room_read(room, private).await;
         };
         use matrix_sdk::ruma::events::receipt::{ReceiptThread, ReceiptType as StoredReceiptType};
-        let latest = self.timeline.items().await.iter().rev().find_map(|item| {
+        let latest = self.timeline().items().await.iter().rev().find_map(|item| {
             item.as_event()
                 .and_then(|event| event.original_json())
                 .and_then(|raw| receiptable(raw, true))
@@ -1472,13 +1553,14 @@ impl RoomTimeline {
 
     /// Tells the room the user is (or stopped) typing.
     pub async fn set_typing(&self, typing: bool) -> Result<()> {
-        self.timeline.room().typing_notice(typing).await?;
+        self.timeline().room().typing_notice(typing).await?;
         Ok(())
     }
 
     /// Reports who else is typing, on every change.
     pub async fn watch_typing(&self, mut on_change: impl FnMut(Vec<TypingUser>)) {
-        let room = self.timeline.room();
+        let timeline = self.timeline();
+        let room = timeline.room();
         let (_guard, mut receiver) = room.subscribe_to_typing_notifications();
         loop {
             match receiver.recv().await {
@@ -1524,6 +1606,13 @@ mod tests {
     use serde_json::json;
 
     use super::*;
+
+    #[test]
+    fn a_timeline_is_built_again_until_its_updates_keep_ending_empty() {
+        assert!(should_rebuild(0));
+        assert!(should_rebuild(MAX_IDLE_REBUILDS - 1));
+        assert!(!should_rebuild(MAX_IDLE_REBUILDS));
+    }
 
     #[test]
     fn shield_states_map_to_a_colour_and_a_reason() {
