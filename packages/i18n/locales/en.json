@@ -875,6 +875,12 @@
       "unsupported": "Your homeserver doesn't support jumping to a date.",
       "failed": "Couldn't jump to that date."
     },
+    "report": {
+      "button": "Report room",
+      "title": "Report this room?",
+      "sent": "Room reported",
+      "failed": "Failed to report room: {{error}}"
+    },
     "lowPriority": "Low priority",
     "addLowPriority": "Mark as low priority",
     "removeLowPriority": "Remove low priority",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Forward message",
     "forwardSearchPlaceholder": "Search rooms and DMs...",
     "forwardHint": "Forward to this room",
+    "forwarded": "Forwarded to {{room}}",
     "readReceipts_one": "Read by {{count}} person",
     "readReceipts_other": "Read by {{count}} people",
     "readReceiptsOverflow": "Show all {{count}} readers",

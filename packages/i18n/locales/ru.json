@@ -875,6 +875,12 @@
       "unsupported": "Ваш домашний сервер не поддерживает переход к дате.",
       "failed": "Не удалось перейти к этой дате."
     },
+    "report": {
+      "button": "Пожаловаться на комнату",
+      "title": "Пожаловаться на эту комнату?",
+      "sent": "Жалоба отправлена",
+      "failed": "Не удалось отправить жалобу: {{error}}"
+    },
     "lowPriority": "Низкий приоритет",
     "addLowPriority": "Отметить как низкий приоритет",
     "removeLowPriority": "Убрать низкий приоритет",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Переслать сообщение",
     "forwardSearchPlaceholder": "Поиск комнат и личных сообщений...",
     "forwardHint": "Переслать в эту комнату",
+    "forwarded": "Переслано в {{room}}",
     "readReceipts_one": "Прочитал(-а) {{count}} человек",
     "readReceipts_other": "Прочитали: {{count}}",
     "readReceiptsOverflow": "Показать всех читателей: {{count}}",

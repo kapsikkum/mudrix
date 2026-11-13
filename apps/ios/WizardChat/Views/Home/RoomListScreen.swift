@@ -251,8 +251,16 @@ struct RoomListScreen: View {
             .tint(theme.danger)
         }
         .contextMenu {
-            Button { Task { await roomList.setRead(room, read: true) } } label: {
-                Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+            let readActions = RoomMenu.actions(readCount: room.unreadCount, mentionCount: room.mentionCount)
+            if readActions.markRead {
+                Button { Task { await roomList.setRead(room, read: true) } } label: {
+                    Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+                }
+            }
+            if readActions.markUnread {
+                Button { Task { await roomList.setRead(room, read: false) } } label: {
+                    Label(menu: String(localized: "room.markUnread"), icon: "ph-envelope-simple-regular")
+                }
             }
             Menu {
                 Picker(selection: Binding(get: { roomList.notificationMode(of: room) },
@@ -273,6 +281,14 @@ struct RoomListScreen: View {
             } label: {
                 Label(menu: String(localized: room.isFavourite ? "room.removeFavourite" : "room.addFavourite"),
                       icon: room.isFavourite ? "ph-star-fill" : "ph-star-regular")
+            }
+            Button {
+                lowPriorityTask {
+                    try await roomList.client.setLowPriority(roomId: room.id, lowPriority: !room.isLowPriority)
+                }
+            } label: {
+                Label(menu: String(localized: room.isLowPriority ? "room.removeLowPriority" : "room.addLowPriority"),
+                      icon: "ph-arrow-line-down-regular")
             }
             if selection != .dms { sectionMenu(for: room) }
             Button { copyToClipboard("https://matrix.to/#/\(room.id)", message: String(localized: "timeline.linkCopied")) } label: {
@@ -315,7 +331,12 @@ struct RoomListScreen: View {
 
     @ViewBuilder
     private func groupHeader(_ group: RoomGroup, in groups: [RoomGroup]) -> some View {
-        let anchors = groups.filter { if case .favourites = $0.kind { false } else { true } }.map(\.id)
+        let anchors = groups.compactMap { group -> String? in
+            switch group.kind {
+            case .favourites, .lowPriority: return nil
+            default: return group.id
+            }
+        }
         let index = anchors.firstIndex(of: group.id)
         let closed = isCollapsed(group) && !reordering
         HStack(spacing: WZ.Space.space0) {
@@ -402,6 +423,7 @@ struct RoomListScreen: View {
         case .favourites: String(localized: "nav.favourites")
         case .section(let section): section.name
         case .rooms: String(localized: "nav.rooms")
+        case .lowPriority: String(localized: "room.lowPriority")
         }
     }
 
@@ -410,7 +432,7 @@ struct RoomListScreen: View {
         switch group.kind {
         case .favourites: return true
         case .rooms: return selection == .home
-        case .section: return false
+        case .section, .lowPriority: return false
         }
     }
 
@@ -459,6 +481,14 @@ struct RoomListScreen: View {
         Task {
             do { try await work() } catch {
                 sectionError = L10n.format("room.sections.failed", error.localizedDescription)
+            }
+        }
+    }
+
+    private func lowPriorityTask(_ work: @escaping () async throws -> Void) {
+        Task {
+            do { try await work() } catch {
+                sectionError = L10n.format("room.toggleLowPriorityFailed", error.localizedDescription)
             }
         }
     }

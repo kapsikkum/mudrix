@@ -5,6 +5,8 @@ import SwiftUI
 struct RoomInfoView: View {
     let room: RoomSummary
     let client: WizardClient
+    /// Gets the new room after an upgrade
+    var onRoomReplaced: ((String) -> Void)?
     var onJump: ((String) -> Void)?
 
     @EnvironmentObject private var session: MatrixSession
@@ -32,6 +34,8 @@ struct RoomInfoView: View {
     @State private var pinnedCount = 0
     @State private var showInvite = false
     @State private var confirmLeave = false
+    @State private var reporting = false
+    @State private var reportReason = ""
     @State private var photo: PhotosPickerItem?
     @State private var saving = false
     @State private var error: String?
@@ -114,6 +118,11 @@ struct RoomInfoView: View {
                     } label: {
                         LabeledContent { Text("\(memberCount)") } label: { Label(String(localized: "common.members"), image: "ph-users-regular") }
                     }
+                    NavigationLink {
+                        RoomGeneralView(roomId: room.id, onUpgraded: onRoomReplaced)
+                    } label: {
+                        Label(String(localized: "room.settings.general.title"), image: "ph-gear-regular")
+                    }
                     if let onJump {
                         NavigationLink {
                             RoomSearchView(room: room, client: client, onJump: onJump)
@@ -176,6 +185,10 @@ struct RoomInfoView: View {
                 }
 
                 Section {
+                    Button(role: .destructive) { reporting = true } label: {
+                        Label(String(localized: "room.report.button"), image: "ph-flag-regular")
+                            .foregroundStyle(theme.danger)
+                    }
                     Button(role: .destructive) { confirmLeave = true } label: {
                         Label(room.isDirect ? String(localized: "room.info.leaveConversation") : String(localized: "room.leaveRoom"),
                               image: "ph-sign-out-regular")
@@ -220,10 +233,18 @@ struct RoomInfoView: View {
             .sheet(isPresented: $showInvite) {
                 UserPickerView(mode: .invite(room.id)) { Task { await load() } }
             }
+            .overlay(alignment: .top) { CopyToastView().padding(.top, WZ.Space.space2) }
             .onChange(of: photo) { _, item in
                 guard let item else { return }
                 Task { await setAvatar(item) }
             }
+        }
+        .alert(String(localized: "room.report.title"), isPresented: $reporting) {
+            TextField(String(localized: "common.reasonOptional"), text: $reportReason)
+            Button(String(localized: "room.report.button"), role: .destructive) {
+                Task { await report() }
+            }
+            Button(String(localized: "common.cancel"), role: .cancel) { reportReason = "" }
         }
         .task { await load() }
     }
@@ -327,6 +348,17 @@ struct RoomInfoView: View {
             encrypted = true
         } catch {
             self.error = L10n.format("room.settings.general.encryptionEnableFailed", error.localizedDescription)
+        }
+    }
+
+    private func report() async {
+        let reason = RoomModeration.reportReason(reportReason)
+        reportReason = ""
+        do {
+            try await client.reportRoom(roomId: room.id, reason: reason)
+            CopyToast.shared.show(String(localized: "room.report.sent"))
+        } catch {
+            CopyToast.shared.show(L10n.format("room.report.failed", error.localizedDescription))
         }
     }
 

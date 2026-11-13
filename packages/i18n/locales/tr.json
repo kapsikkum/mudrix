@@ -875,6 +875,12 @@
       "unsupported": "Ana sunucunuz tarihe geçişi desteklemiyor.",
       "failed": "Bu tarihe geçilemedi."
     },
+    "report": {
+      "button": "Odayı bildir",
+      "title": "Bu oda bildirilsin mi?",
+      "sent": "Oda bildirildi",
+      "failed": "Oda bildirilemedi: {{error}}"
+    },
     "lowPriority": "Düşük öncelik",
     "addLowPriority": "Düşük öncelikli olarak işaretle",
     "removeLowPriority": "Düşük önceliği kaldır",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Mesajı ilet",
     "forwardSearchPlaceholder": "Oda ve DM'lerde ara...",
     "forwardHint": "Bu odaya ilet",
+    "forwarded": "{{room}} odasına iletildi",
     "readReceipts_one": "{{count}} kişi tarafından okundu",
     "readReceipts_other": "{{count}} kişi tarafından okundu",
     "readReceiptsOverflow": "{{count}} okuyucunun tümünü göster",

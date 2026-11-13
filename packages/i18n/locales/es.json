@@ -875,6 +875,12 @@
       "unsupported": "Tu servidor doméstico no admite saltar a una fecha.",
       "failed": "No se pudo ir a esa fecha."
     },
+    "report": {
+      "button": "Denunciar sala",
+      "title": "¿Denunciar esta sala?",
+      "sent": "Sala denunciada",
+      "failed": "No se pudo denunciar la sala: {{error}}"
+    },
     "lowPriority": "Baja prioridad",
     "addLowPriority": "Marcar como baja prioridad",
     "removeLowPriority": "Quitar de baja prioridad",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Reenviar mensaje",
     "forwardSearchPlaceholder": "Buscar salas y MD...",
     "forwardHint": "Reenviar a esta sala",
+    "forwarded": "Reenviado a {{room}}",
     "readReceipts_one": "Leído por {{count}} persona",
     "readReceipts_other": "Leído por {{count}} personas",
     "readReceiptsOverflow": "Mostrar los {{count}} lectores",

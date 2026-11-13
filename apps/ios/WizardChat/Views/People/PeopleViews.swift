@@ -17,6 +17,9 @@ struct MembersView: View {
     @State private var selected: String?
     @State private var showInvite = false
     @State private var canInvite = false
+    @State private var canKick = false
+    @State private var knockers: [MemberEntry] = []
+    @State private var knockError: String?
     @StateObject private var roleManager = SpaceRoleManager()
 
     private struct Group: Identifiable {
@@ -51,6 +54,43 @@ struct MembersView: View {
                     Label(String(localized: "room.members.invite"), image: "ph-user-plus-regular").foregroundStyle(theme.control)
                 }
             }
+            if !knockers.isEmpty {
+                Section {
+                    ForEach(knockers, id: \.userId) { knocker in
+                        HStack(spacing: WZ.Space.space5) {
+                            AvatarView(name: knocker.displayName ?? knocker.userId, url: knocker.avatarUrl, size: WZ.SizeAvatar.md)
+                            Text(knocker.displayName ?? knocker.userId)
+                                .font(.wizard(WZ.FontSize.lg, .medium))
+                                .foregroundStyle(theme.textPrimary)
+                                .lineLimit(1)
+                            Spacer(minLength: 0)
+                            if RoomModeration.answersKnock(accept: false, canInvite: canInvite, canKick: canKick) {
+                                Button { Task { await answer(knocker, accept: false) } } label: {
+                                    Image("ph-x-circle-regular")
+                                        .font(.system(size: WZ.SizeIcon.md))
+                                        .foregroundStyle(theme.danger)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(String(localized: "room.members.reject"))
+                            }
+                            if RoomModeration.answersKnock(accept: true, canInvite: canInvite, canKick: canKick) {
+                                Button { Task { await answer(knocker, accept: true) } } label: {
+                                    Image("ph-check-bold")
+                                        .font(.system(size: WZ.SizeIcon.md))
+                                        .foregroundStyle(theme.accent)
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(String(localized: "common.accept"))
+                            }
+                        }
+                    }
+                    if let knockError {
+                        Text(knockError).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
+                    }
+                } header: {
+                    Text("room.members.pending") + Text("  \(knockers.count)").foregroundStyle(theme.textMuted.opacity(0.7))
+                }
+            }
             ForEach(groups) { group in
                 Section {
                     ForEach(group.members, id: \.userId) { member in
@@ -82,8 +122,29 @@ struct MembersView: View {
         guard let client = session.client else { return }
         MemberDirectory.shared.forget(roomId: roomId)
         members = (try? await client.members(roomId: roomId)) ?? []
-        canInvite = (try? await client.roomDetails(roomId: roomId))?.permissions.invite ?? false
+        let permissions = (try? await client.roomDetails(roomId: roomId))?.permissions
+        canInvite = permissions?.invite ?? false
+        canKick = permissions?.kick ?? false
+        knockers = RoomModeration.showsKnocks(canInvite: canInvite, canKick: canKick)
+            ? ((try? await client.membersInState(roomId: roomId, membership: "knock")) ?? [])
+            : []
         loaded = true
+    }
+
+    private func answer(_ knocker: MemberEntry, accept: Bool) async {
+        guard let client = session.client else { return }
+        do {
+            if accept {
+                try await client.acceptKnock(roomId: roomId, userId: knocker.userId)
+            } else {
+                try await client.rejectKnock(roomId: roomId, userId: knocker.userId)
+            }
+            knockError = nil
+            await load()
+        } catch {
+            knockError = accept ? error.localizedDescription
+                : L10n.format("room.members.rejectFailed", error.localizedDescription)
+        }
     }
 }
 

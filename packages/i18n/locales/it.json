@@ -875,6 +875,12 @@
       "unsupported": "Il tuo homeserver non supporta il salto a una data.",
       "failed": "Impossibile saltare a quella data."
     },
+    "report": {
+      "button": "Segnala stanza",
+      "title": "Segnalare questa stanza?",
+      "sent": "Stanza segnalata",
+      "failed": "Impossibile segnalare la stanza: {{error}}"
+    },
     "lowPriority": "Bassa priorità",
     "addLowPriority": "Segna come bassa priorità",
     "removeLowPriority": "Rimuovi da bassa priorità",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Inoltra messaggio",
     "forwardSearchPlaceholder": "Cerca stanze e DM...",
     "forwardHint": "Inoltra a questa stanza",
+    "forwarded": "Inoltrato a {{room}}",
     "readReceipts_one": "Letto da {{count}} persona",
     "readReceipts_other": "Letto da {{count}} persone",
     "readReceiptsOverflow": "Mostra tutti i {{count}} lettori",

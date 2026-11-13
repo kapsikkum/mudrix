@@ -875,6 +875,12 @@
       "unsupported": "Dein Homeserver unterstützt das Springen zu einem Datum nicht.",
       "failed": "Sprung zu diesem Datum fehlgeschlagen."
     },
+    "report": {
+      "button": "Raum melden",
+      "title": "Diesen Raum melden?",
+      "sent": "Raum gemeldet",
+      "failed": "Raum konnte nicht gemeldet werden: {{error}}"
+    },
     "lowPriority": "Niedrige Priorität",
     "addLowPriority": "Als niedrige Priorität markieren",
     "removeLowPriority": "Niedrige Priorität entfernen",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Nachricht weiterleiten",
     "forwardSearchPlaceholder": "Räume und DMs durchsuchen...",
     "forwardHint": "In diesen Raum weiterleiten",
+    "forwarded": "Weitergeleitet an {{room}}",
     "readReceipts_one": "Von {{count}} Person gelesen",
     "readReceipts_other": "Von {{count}} Personen gelesen",
     "readReceiptsOverflow": "Alle {{count}} Leser anzeigen",

@@ -875,6 +875,12 @@
       "unsupported": "Je homeserver ondersteunt niet springen naar een datum.",
       "failed": "Kon niet naar die datum springen."
     },
+    "report": {
+      "button": "Kamer melden",
+      "title": "Deze kamer melden?",
+      "sent": "Kamer gemeld",
+      "failed": "Kamer melden mislukt: {{error}}"
+    },
     "lowPriority": "Lage prioriteit",
     "addLowPriority": "Markeren als lage prioriteit",
     "removeLowPriority": "Lage prioriteit verwijderen",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Bericht doorsturen",
     "forwardSearchPlaceholder": "Kamers en DM's zoeken...",
     "forwardHint": "Doorsturen naar deze kamer",
+    "forwarded": "Doorgestuurd naar {{room}}",
     "readReceipts_one": "Gelezen door {{count}} persoon",
     "readReceipts_other": "Gelezen door {{count}} personen",
     "readReceiptsOverflow": "Alle {{count}} lezers tonen",

@@ -163,6 +163,7 @@ struct MessageMenuOverlay: View {
                 main.append(.init(title: pinned ? String(localized: "timeline.unpin") : String(localized: "timeline.pin"),
                                   icon: pinned ? "ph-push-pin-slash-regular" : "ph-push-pin-regular") { actions.togglePin(entry) })
             }
+            main.append(.init(title: String(localized: "timeline.forward"), icon: "ph-arrow-circle-right-regular") { actions.forward(entry) })
             let isSaved = saved.ids.contains(eventId)
             main.append(.init(title: isSaved ? String(localized: "timeline.unsaveMessage") : String(localized: "timeline.saveMessage"),
                               icon: isSaved ? "ph-bookmark-simple-fill" : "ph-bookmark-simple-regular") { toggleSaved(eventId) })

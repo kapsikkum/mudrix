@@ -875,6 +875,12 @@
       "unsupported": "Seu homeserver não permite ir para uma data.",
       "failed": "Não foi possível ir para essa data."
     },
+    "report": {
+      "button": "Denunciar sala",
+      "title": "Denunciar esta sala?",
+      "sent": "Sala denunciada",
+      "failed": "Falha ao denunciar a sala: {{error}}"
+    },
     "lowPriority": "Baixa prioridade",
     "addLowPriority": "Marcar como baixa prioridade",
     "removeLowPriority": "Remover da baixa prioridade",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Encaminhar mensagem",
     "forwardSearchPlaceholder": "Pesquisar salas e mensagens diretas...",
     "forwardHint": "Encaminhar para esta sala",
+    "forwarded": "Reencaminhado para {{room}}",
     "readReceipts_one": "Lida por {{count}} pessoa",
     "readReceipts_other": "Lida por {{count}} pessoas",
     "readReceiptsOverflow": "Mostrar todos os {{count}} leitores",

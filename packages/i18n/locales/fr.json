@@ -875,6 +875,12 @@
       "unsupported": "Votre serveur d'accueil ne permet pas d'aller à une date.",
       "failed": "Impossible d'aller à cette date."
     },
+    "report": {
+      "button": "Signaler le salon",
+      "title": "Signaler ce salon ?",
+      "sent": "Salon signalé",
+      "failed": "Impossible de signaler le salon : {{error}}"
+    },
     "lowPriority": "Priorité basse",
     "addLowPriority": "Marquer comme priorité basse",
     "removeLowPriority": "Retirer de la priorité basse",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Transférer le message",
     "forwardSearchPlaceholder": "Rechercher des salons et des messages privés...",
     "forwardHint": "Transférer vers ce salon",
+    "forwarded": "Transféré à {{room}}",
     "readReceipts_one": "Lu par {{count}} personne",
     "readReceipts_other": "Lu par {{count}} personnes",
     "readReceiptsOverflow": "Afficher les {{count}} lecteurs",

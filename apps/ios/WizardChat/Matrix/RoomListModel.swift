@@ -21,6 +21,8 @@ struct RoomGroup: Identifiable {
         case favourites
         case section(RoomSection)
         case rooms
+        /// Rooms flagged low priority that are in no section; always last, not movable
+        case lowPriority
     }
 
     let kind: Kind
@@ -33,6 +35,7 @@ struct RoomGroup: Identifiable {
         case .favourites: "favourites"
         case .section(let section): section.tag
         case .rooms: RoomListModel.roomsAnchor
+        case .lowPriority: "low-priority"
         }
     }
 }
@@ -46,6 +49,8 @@ struct UnreadState {
 final class RoomListModel: ObservableObject {
     @Published private(set) var joinedRooms: [RoomSummary] = [] { didSet { roomsCache = [:] } }
     @Published private(set) var invites: [RoomSummary] = []
+    /// Rooms asked to join by knocking, waiting for an answer
+    @Published private(set) var knockedIds: Set<String> = []
     @Published private(set) var mentionRooms: [RoomSummary] = []
     /// Notification settings just picked here, shown until the room list catches up (as on the web)
     @Published private var notificationOverrides: [String: NotificationMode?] = [:]
@@ -226,8 +231,16 @@ final class RoomListModel: ObservableObject {
         }
         var bySection: [String: [RoomSummary]] = [:]
         var rest: [RoomSummary] = []
+        var lowPriority: [RoomSummary] = []
         for room in rooms where !room.isFavourite {
-            if let tag = sectionTag(of: room.id) { bySection[tag, default: []].append(room) } else { rest.append(room) }
+            let tag = sectionTag(of: room.id)
+            if RoomMenu.inLowPriorityGroup(flagged: room.isLowPriority, isFavourite: room.isFavourite, sectionTag: tag) {
+                lowPriority.append(room)
+            } else if let tag {
+                bySection[tag, default: []].append(room)
+            } else {
+                rest.append(room)
+            }
         }
         if selection == .home, !homeOrder.isEmpty {
             let position = Dictionary(homeOrder.enumerated().map { ($1, $0) }, uniquingKeysWith: { a, _ in a })
@@ -249,6 +262,7 @@ final class RoomListModel: ObservableObject {
         groups += block(above: true)
         groups.append(RoomGroup(kind: .rooms, rooms: rest))
         groups += block(above: false)
+        if !lowPriority.isEmpty { groups.append(RoomGroup(kind: .lowPriority, rooms: lowPriority)) }
         return groups
     }
 
@@ -264,8 +278,10 @@ final class RoomListModel: ObservableObject {
 
     func moveGroup(_ anchor: String, by offset: Int, in groups: [RoomGroup]) async throws {
         var anchors = groups.compactMap { group -> String? in
-            if case .favourites = group.kind { return nil }
-            return group.id
+            switch group.kind {
+            case .favourites, .lowPriority: return nil
+            default: return group.id
+            }
         }
         guard let index = anchors.firstIndex(of: anchor), anchors.indices.contains(index + offset) else { return }
         anchors.swapAt(index, index + offset)
@@ -318,7 +334,8 @@ final class RoomListModel: ObservableObject {
 
     private func apply(_ diffs: [ListDiff<RoomSummary>]) {
         diffs.forEach { $0.apply(to: &rooms) }
-        joinedRooms = rooms.filter { !$0.isInvite }
+        joinedRooms = rooms.filter { !$0.isInvite && !$0.isKnocked }
+        knockedIds = Set(rooms.filter { $0.isKnocked && !$0.isInvite }.map(\.id))
         notificationOverrides = notificationOverrides.filter { id, mode in
             joinedRooms.first { $0.id == id }?.notificationMode != mode
         }

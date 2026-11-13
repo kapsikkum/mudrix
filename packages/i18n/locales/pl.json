@@ -875,6 +875,12 @@
       "unsupported": "Twój serwer domowy nie obsługuje przechodzenia do daty.",
       "failed": "Nie udało się przejść do tej daty."
     },
+    "report": {
+      "button": "Zgłoś pokój",
+      "title": "Zgłosić ten pokój?",
+      "sent": "Pokój zgłoszony",
+      "failed": "Nie udało się zgłosić pokoju: {{error}}"
+    },
     "lowPriority": "Niski priorytet",
     "addLowPriority": "Oznacz jako niski priorytet",
     "removeLowPriority": "Usuń niski priorytet",
@@ -1177,6 +1183,7 @@
     "forwardPickerTitle": "Przekaż wiadomość dalej",
     "forwardSearchPlaceholder": "Szukaj pokojów i wiadomości bezpośrednich...",
     "forwardHint": "Przekaż do tego pokoju",
+    "forwarded": "Przekazano do {{room}}",
     "readReceipts_one": "Przeczytane przez {{count}} osobę",
     "readReceipts_other": "Przeczytało: {{count}}",
     "readReceiptsOverflow": "Pokaż wszystkich czytelników: {{count}}",

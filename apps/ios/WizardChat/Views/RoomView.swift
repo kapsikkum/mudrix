@@ -66,6 +66,7 @@ struct RoomView: View {
     @State private var canRedactOthers = false
     @State private var reporting: ChatEntry?
     @State private var reportReason = ""
+    @State private var forwarding: ChatEntry?
     @State private var sourceText: IdentifiedString?
     @State private var editHistoryFor: IdentifiedString?
     @State private var selectingText: IdentifiedString?
@@ -269,7 +270,10 @@ struct RoomView: View {
             }
         }
         .sheet(isPresented: $showInfo, onDismiss: { Task { await timeline.loadPinned() } }) {
-            RoomInfoView(room: room, client: timeline.client) { eventId in
+            RoomInfoView(room: room, client: timeline.client, onRoomReplaced: { newRoom in
+                showInfo = false
+                openRoom(newRoom, notifier: notifier)
+            }) { eventId in
                 showInfo = false
                 notifier.eventToFocus = (room.id, eventId)
             }
@@ -283,6 +287,11 @@ struct RoomView: View {
             Button(String(localized: "common.cancel"), role: .cancel) {}
         }
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
+        .sheet(item: $forwarding) { entry in
+            if let eventId = entry.eventId {
+                ForwardSheet(client: timeline.client, fromRoomId: room.id, eventId: eventId)
+            }
+        }
         .sheet(item: $editHistoryFor) { target in EditHistorySheet(client: timeline.client, roomId: room.id, eventId: target.id) }
         .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
@@ -388,6 +397,7 @@ struct RoomView: View {
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
+            forward: { forwarding = $0 },
             editHistory: { editHistoryFor = $0.eventId.map(IdentifiedString.init) },
             selectText: { selectingText = IdentifiedString(id: $0.summary) },
             openThread: threadRoot != nil ? nil : { entry in
@@ -1274,6 +1284,7 @@ struct MessageActions {
     var togglePin: (ChatEntry) -> Void = { _ in }
     var report: (ChatEntry) -> Void = { _ in }
     var viewSource: (ChatEntry) -> Void = { _ in }
+    var forward: (ChatEntry) -> Void = { _ in }
     var editHistory: (ChatEntry) -> Void = { _ in }
     var selectText: (ChatEntry) -> Void = { _ in }
     var openThread: ((ChatEntry) -> Void)?
