@@ -1,3 +1,6 @@
+import Foundation
+import WizardChatCore
+
 /// "Block all invites" (MSC4380): the account data event a homeserver reads to reject invites
 enum InviteBlocking {
     static let stableType = "m.invite_permission_config"
