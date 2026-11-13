@@ -13,6 +13,7 @@ import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { CopyButton, IconButton } from '@/app/components/Button';
 import { AccountDataExplorer } from './AccountDataExplorer';
+import { DeveloperTools } from './DeveloperTools';
 import * as css from '../Settings.css';
 
 export function DeveloperOptions() {
@@ -117,6 +118,7 @@ export function DeveloperOptions() {
             <>
               <div className={css.divider} />
               <AccountDataExplorer client={client} />
+              <DeveloperTools client={client} />
             </>
           )}
         </>

@@ -62,6 +62,30 @@ export const desktopApi: DesktopAPI = {
   setUnreadCount(total, highlight) {
     void invoke('set_unread_count', { total, highlight }).catch(() => {});
   },
+  // The window and taskbar icon follow the theme; null restores the bundled icons
+  async setAppIcon(logoUrl) {
+    try {
+      if (!logoUrl) {
+        await invoke('set_app_icon', { png: null });
+        return;
+      }
+      const image = new Image();
+      image.src = logoUrl;
+      await image.decode();
+      const size = 256;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      context.drawImage(image, 0, 0, size, size);
+      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) return;
+      await invoke('set_app_icon', { png: Array.from(new Uint8Array(await blob.arrayBuffer())) });
+    } catch (error) {
+      console.warn('[desktop] set_app_icon failed', error);
+    }
+  },
   onFullscreenChange: (listener) => onDesktopEvent<boolean>('fullscreen-changed', listener),
   // The call's window of its own is opened by the web app with window.open; the shell answers it
   // and says when the window is gone, however it went

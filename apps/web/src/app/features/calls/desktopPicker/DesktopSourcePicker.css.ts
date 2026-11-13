@@ -84,3 +84,39 @@ export const audioToggle = style({
   fontSize: '0.88rem',
   cursor: 'pointer',
 });
+
+export const options = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'flex-end',
+  gap: '12px 20px',
+  marginTop: '4px',
+});
+
+export const optionSelect = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+  minWidth: '130px',
+  flex: '1 1 130px',
+});
+
+export const optionLabel = style({
+  color: vars.color.textMuted,
+  fontSize: '0.78rem',
+  fontWeight: 600,
+});
+
+export const optionToggle = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  minHeight: '36px',
+  fontSize: '0.88rem',
+  color: vars.color.textPrimary,
+});
+
+export const optionToggleLabel = style({
+  cursor: 'pointer',
+  userSelect: 'none',
+});

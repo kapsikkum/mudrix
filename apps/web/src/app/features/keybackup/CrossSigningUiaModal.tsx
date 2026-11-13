@@ -7,6 +7,7 @@ import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { vars } from '@/theme/vars.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 
 type CloseResult =
   { type: 'password'; password: string } | { type: 'sso' } | { type: 'reset' } | null;
@@ -54,7 +55,7 @@ export function CrossSigningUiaModal() {
             <Button
               variant="primary"
               onClick={() => {
-                window.open(state.resetUrl, '_blank', 'noopener,noreferrer');
+                openSafeExternalUrl(state.resetUrl);
               }}
             >
               <ArrowSquareOutIcon size={14} style={{ marginRight: 6 }} />

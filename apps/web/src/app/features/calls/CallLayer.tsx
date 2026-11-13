@@ -21,6 +21,7 @@ import { useSoundboardReceiver } from '@/app/features/soundboard/useSoundboardRe
 import { IncomingCallOverlay } from './IncomingCallOverlay';
 import { CallControlBar } from './CallControlBar';
 import { CallReactionsRail } from './CallReactionsRail';
+import { ScreenShareNotice } from './ScreenShareNotice';
 import { CallStage } from './stage/CallStage';
 import { CallPopoutWindow, CallWindowProvider, callPopoutRootAtom } from './CallPopoutWindow';
 import * as css from './CallLayer.css';
@@ -444,6 +445,13 @@ export function CallLayer({ client }: Props) {
       {inCall && joined && showUi && inUi(<CallControlBar />)}
 
       {inCall && joined && showUi && (popoutOpen || !isPip) && inUi(<CallReactionsRail />)}
+
+      {inCall &&
+        joined &&
+        ui.isScreenSharing &&
+        showUi &&
+        (popoutOpen || !isPip) &&
+        inUi(<ScreenShareNotice />)}
 
       <CallPopoutWindow />
 

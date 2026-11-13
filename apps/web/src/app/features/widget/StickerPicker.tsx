@@ -19,6 +19,7 @@ import {
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import { isLightTheme } from '@/theme/customThemes';
 import { usePickerDrawer } from '@/app/hooks/usePickerShell';
+import { isSafeMatrixMediaUrl } from '@/util/safeUrl';
 import * as css from './StickerPicker.css';
 
 interface Props {
@@ -37,9 +38,6 @@ function getThemedUrl(base: string, appTheme: ThemeName): string {
   if (base.includes('theme=')) return base;
   return `${base}${sep}theme=${theme}`;
 }
-
-/** Only an mxc:// URI from the picker may become a sticker. */
-const MXC_URI = /^mxc:\/\/[a-zA-Z0-9.\-_]+(\/[a-zA-Z0-9.\-_]+)+$/;
 
 // Minimal WidgetDriver subclass that grants sticker-sending capability
 class StickerWidgetDriver extends WidgetDriver {
@@ -124,7 +122,7 @@ export function StickerPicker({
         const name: string = stickerData.name ?? content.body ?? 'Sticker';
         const url: string = content.url;
         const info = content.info ?? {};
-        if (!url || typeof url !== 'string' || !MXC_URI.test(url)) return;
+        if (!url || typeof url !== 'string' || !isSafeMatrixMediaUrl(url)) return;
 
         const mimetype: string = info.mimetype ?? 'image/png';
 

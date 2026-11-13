@@ -36,6 +36,7 @@ import type { DeviceEntry } from './DeviceCard';
 import { LinkDeviceModal } from '@/app/features/qrLogin/LinkDeviceModal';
 import { useSessionVerificationActions } from '@/app/features/device/useSessionVerificationActions';
 import * as css from './Sessions.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 import * as layoutCss from '../Settings.css';
 
 export function Sessions() {
@@ -228,7 +229,7 @@ export function Sessions() {
     async (deviceId: string, displayName: string, managementUrl: string | null) => {
       if (!client) return;
       if (managementUrl) {
-        window.open(managementUrl, '_blank', 'noopener,noreferrer');
+        openSafeExternalUrl(managementUrl);
         toastRef.current.info(t('settings.sessions.accountManagementOpened'));
         return;
       }

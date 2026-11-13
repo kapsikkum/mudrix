@@ -1133,6 +1133,7 @@
     "userLeft": "<name>{{name}}</name> left the room.",
     "userKicked": "<user>{{user}}</user> was kicked by <kicker>{{kicker}}</kicker>.",
     "userBanned": "<name>{{name}}</name> was banned.",
+    "profileChanged": "{{name}} updated their profile.",
     "deleteMessage": "Delete message",
     "deleteMessageConfirm": "Permanently delete this message? This cannot be undone.",
     "deleteFailed": "Delete failed: {{error}}",
@@ -1466,6 +1467,7 @@
     "controls": "Call controls",
     "shareScreen": "Share screen",
     "stopShare": "Stop sharing",
+    "youAreSharing": "You're sharing your screen",
     "sharingTitle": "Mudrix is sharing your screen",
     "switchToSpotlight": "Switch to spotlight",
     "switchToGrid": "Switch to grid",
@@ -2510,6 +2512,12 @@
     },
     "search": "Search settings",
     "developer": {
+      "title": "Developer",
+      "enable": "Enable developer mode",
+      "enableDescription": "Shows additional debugging information throughout the app.",
+      "accessToken": "Access Token",
+      "accessTokenWarning": "Never share your access token, it grants full control of your account.",
+      "homeserverUrl": "Homeserver URL",
       "slidingSync": "Sliding sync (experimental)",
       "slidingSyncDescription": "Faster startup and lighter syncing on large accounts. Needs a homeserver with simplified sliding sync (MSC4186). Reload to apply.",
       "reload": "Reload app",
@@ -2532,6 +2540,7 @@
       "notReady": "Not ready",
       "cryptoUnavailable": "Encryption is not available.",
       "serverFeatures": "Server features ({{count}})",
+      "accountData": "Account data",
       "tools": "Tools",
       "copyDebugInfo": "Copy debug info",
       "clearMedia": "Clear media cache",
@@ -2539,7 +2548,17 @@
       "resetSyncCache": "Reset sync cache",
       "resetSyncCacheAction": "Reset",
       "resetSyncCacheNote": "Deletes the local room and message cache and reloads. Encryption keys and settings are kept.",
-      "resetSyncCacheConfirm": "This deletes the local copy of your rooms and messages and reloads the app. Everything is downloaded again from the server. Encryption keys are not touched."
+      "resetSyncCacheConfirm": "This deletes the local copy of your rooms and messages and reloads the app. Everything is downloaded again from the server. Encryption keys are not touched.",
+      "accountDataAdd": "Add",
+      "accountDataNew": "New account data",
+      "accountDataEmpty": "No account data yet.",
+      "accountDataType": "Event type",
+      "accountDataContent": "Content (JSON)",
+      "accountDataNotObject": "Content must be a JSON object.",
+      "accountDataSaved": "Account data saved.",
+      "accountDataSaveFailed": "Couldn't save account data: {{error}}",
+      "accountDataCount_one": "{{count}} event type",
+      "accountDataCount_other": "{{count}} event types"
     },
     "roomKeys": {
       "title": "Encryption keys backup",
@@ -3006,7 +3025,11 @@
     "screens": "Screens",
     "windows": "Windows",
     "shareAudio": "Share audio",
-    "screenNumber": "Screen {{number}}"
+    "screenNumber": "Screen {{number}}",
+    "quality": "Quality",
+    "qualitySource": "Source",
+    "frameRate": "Frame rate",
+    "showCursor": "Show cursor"
   },
   "status": {
     "title": "Status",

@@ -25,6 +25,9 @@ import {
   noiseSuppressionAtom,
   echoCancellationAtom,
   autoGainControlAtom,
+  screenShareQualityAtom,
+  screenShareFpsAtom,
+  screenShareCursorAtom,
   preferencesAtom,
   DEFAULT_PREFERENCES,
   type Preferences,
@@ -383,8 +386,18 @@ export function CallController() {
   );
   const toggleVideo = useCallback(() => run((s, snap) => s.setCamera(!snap.camera)), [run]);
   const toggleScreenshare = useCallback(
-    () => run((s, snap) => s.setScreenShare(!snap.screenshare)),
-    [run]
+    () =>
+      run((s, snap) =>
+        s.setScreenShare(!snap.screenshare, {
+          maxHeight:
+            store.get(screenShareQualityAtom) === 'source'
+              ? null
+              : Number(store.get(screenShareQualityAtom)) || 1080,
+          fps: store.get(screenShareFpsAtom),
+          cursor: store.get(screenShareCursorAtom),
+        })
+      ),
+    [run, store]
   );
   const setSpotlight = useCallback(
     (spotlight: boolean) => setUi((prev) => ({ ...prev, isSpotlight: spotlight })),

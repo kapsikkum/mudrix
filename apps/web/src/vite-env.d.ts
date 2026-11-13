@@ -64,7 +64,11 @@ interface DesktopAPI {
   /** Whether the in-app picker offers sharing system audio */
   screenShareAudioSupported?: () => Promise<boolean>;
   /** Native capture with the in-app picker; undefined when this platform has none */
-  startScreenShare?: () => Promise<
+  startScreenShare?: (settings: {
+    /** Longest side, in pixels, frames are scaled down to; null keeps the source's own size */
+    maxHeight: number | null;
+    fps: number;
+  }) => Promise<
     { video: MediaStreamTrack; audio: MediaStreamTrack | null; stop(): void } | null | undefined
   >;
   onUpdateDownloaded?: (cb: () => void) => void;
@@ -81,6 +85,8 @@ interface DesktopAPI {
   onSettingsChange?: (cb: (settings: DesktopSettings) => void) => () => void;
   /** Tray icon and tooltip, taskbar overlay and dock badge: unread messages and rooms with a mention */
   setUnreadCount?: (total: number, highlight: number) => void;
+  /** The window and tray icon follow the theme; null restores the bundled icons */
+  setAppIcon?: (logoUrl: string | null) => Promise<void>;
   getPlatform?: () => string;
   setTitleBarTheme?: (background: string, foreground: string) => void;
   onFullscreenChange?: (cb: (fullscreen: boolean) => void) => () => void;

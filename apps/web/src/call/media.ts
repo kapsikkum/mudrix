@@ -175,6 +175,16 @@ const SCREEN_SHARE: ScreenShareCaptureOptions = {
   audio: { restrictOwnAudio: true } as AudioCaptureOptions,
   systemAudio: 'include',
 };
+
+/** What the screen share settings ask the capture for */
+export interface ScreenShareSettings {
+  /** Longest side, in pixels, the share is scaled down to; null keeps the source's own size */
+  maxHeight: number | null;
+  fps: number;
+  cursor: boolean;
+}
+
+const DEFAULT_SCREEN_SHARE: ScreenShareSettings = { maxHeight: 1080, fps: 30, cursor: true };
 const RECONNECT_GIVE_UP_MS = 120_000;
 const SUBSCRIBE_RETRY_MS = 5000;
 const REACTION_VISIBLE_MS = 3000;
@@ -272,8 +282,8 @@ export class CallMedia {
   private reactions = new Map<string, string>();
   private reactionTimers = new Set<ReturnType<typeof setTimeout>>();
   private disposed = false;
-  /** A desktop screen share captured natively (the in-app picker) */
-  private nativeShare: {
+  /** A screen share the app captures itself: the desktop picker's native capture, or the browser's */
+  private manualShare: {
     video: MediaStreamTrack;
     audio: MediaStreamTrack | null;
     stop(): void;
@@ -397,7 +407,7 @@ export class CallMedia {
     if (this.disposed) return;
     this.disposed = true;
     const session = this.session;
-    this.stopNativeShare();
+    this.stopManualShare();
     this.teardown();
     this.patch({ phase: 'left' });
     await session?.leave().catch(() => {});
@@ -496,9 +506,13 @@ export class CallMedia {
     this.scheduleUpdate();
   }
 
-  async setScreenShare(enabled: boolean) {
+  async setScreenShare(enabled: boolean, settings: ScreenShareSettings = DEFAULT_SCREEN_SHARE) {
     try {
-      if (await this.setNativeScreenShare(enabled)) {
+      if (await this.setNativeScreenShare(enabled, settings)) {
+        this.scheduleUpdate();
+        return;
+      }
+      if (await this.setBrowserScreenShare(enabled, settings)) {
         this.scheduleUpdate();
         return;
       }
@@ -514,21 +528,24 @@ export class CallMedia {
    * The desktop app's own picker and native capture; false when this platform has none, so the
    * webview's `getDisplayMedia()` picker is used instead
    */
-  private async setNativeScreenShare(enabled: boolean): Promise<boolean> {
+  private async setNativeScreenShare(
+    enabled: boolean,
+    settings: ScreenShareSettings
+  ): Promise<boolean> {
     const start = window.desktopAPI?.startScreenShare;
     if (!start) return false;
     if (!enabled) {
-      if (!this.nativeShare) return false;
-      this.stopNativeShare();
+      if (!this.manualShare) return false;
+      this.stopManualShare();
       return true;
     }
     const participant = this.localParticipant;
     if (!participant) return true;
-    const share = await start();
+    const share = await start({ maxHeight: settings.maxHeight, fps: settings.fps });
     if (share === undefined) return false;
     if (share === null) return true;
-    this.stopNativeShare();
-    this.nativeShare = share;
+    this.stopManualShare();
+    this.manualShare = share;
     share.video.addEventListener('ended', () => void this.setScreenShare(false));
     await participant.publishTrack(share.video, {
       source: Track.Source.ScreenShare,
@@ -545,10 +562,69 @@ export class CallMedia {
     return true;
   }
 
-  private stopNativeShare() {
-    const share = this.nativeShare;
+  /**
+   * The browser's own picker, with the quality, frame rate and cursor the settings ask for; false
+   * when the browser has no `getDisplayMedia`
+   */
+  private async setBrowserScreenShare(
+    enabled: boolean,
+    settings: ScreenShareSettings
+  ): Promise<boolean> {
+    const getDisplayMedia = navigator.mediaDevices?.getDisplayMedia;
+    if (!getDisplayMedia) return false;
+    if (!enabled) {
+      if (!this.manualShare) return false;
+      this.stopManualShare();
+      return true;
+    }
+    const participant = this.localParticipant;
+    if (!participant) return true;
+    const video = {
+      frameRate: { ideal: settings.fps },
+      ...(settings.maxHeight ? { height: { max: settings.maxHeight } } : {}),
+      cursor: settings.cursor ? 'always' : 'never',
+    } as MediaTrackConstraints;
+    const stream = await getDisplayMedia.call(navigator.mediaDevices, {
+      video,
+      audio: true,
+    });
+    const [videoTrack, audioTrack] = [
+      stream.getVideoTracks()[0],
+      stream.getAudioTracks()[0] ?? null,
+    ];
+    this.stopManualShare();
+    const share = {
+      video: videoTrack,
+      audio: audioTrack,
+      stop: () => stream.getTracks().forEach((track) => track.stop()),
+    };
+    this.manualShare = share;
+    videoTrack.addEventListener('ended', () => void this.setScreenShare(false));
+    const preset =
+      settings.maxHeight === 720
+        ? ScreenSharePresets.h720fps30
+        : settings.maxHeight
+          ? ScreenSharePresets.h1080fps30
+          : ScreenSharePresets.original;
+    await participant.publishTrack(videoTrack, {
+      source: Track.Source.ScreenShare,
+      videoEncoding: preset.encoding,
+      simulcast: false,
+    });
+    if (audioTrack) {
+      await participant.publishTrack(audioTrack, {
+        source: Track.Source.ScreenShareAudio,
+        audioPreset: AudioPresets.music,
+        dtx: false,
+      });
+    }
+    return true;
+  }
+
+  private stopManualShare() {
+    const share = this.manualShare;
     if (!share) return;
-    this.nativeShare = null;
+    this.manualShare = null;
     const participant = this.localParticipant;
     for (const track of [share.video, share.audio]) {
       if (track) void participant?.unpublishTrack(track).catch(() => {});

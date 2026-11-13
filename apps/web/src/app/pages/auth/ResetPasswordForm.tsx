@@ -16,6 +16,7 @@ import { PasswordChecklist } from './PasswordChecklist';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 
 type ResetStep = 'email' | 'password' | 'done';
 
@@ -61,7 +62,7 @@ export function ResetPasswordForm({
 
   const handleOpenAccountPortal = () => {
     if (capabilities?.accountManagementUri) {
-      window.open(capabilities.accountManagementUri, '_blank', 'noopener');
+      openSafeExternalUrl(capabilities.accountManagementUri);
     }
   };
 

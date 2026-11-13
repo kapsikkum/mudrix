@@ -256,6 +256,7 @@ pub fn run() {
             screenshare::hide_screen_share_bar,
             screenshare::screen_share_bar_stop,
             screenshare::screen_share_bar_return,
+            tray::set_app_icon,
         ])
         .build(tauri::generate_context!())
         .expect("error while running Mudrix");

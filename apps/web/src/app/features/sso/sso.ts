@@ -5,6 +5,7 @@ import { matrixErrcode } from '@/app/features/auth/matrixError';
 import { errorCode, knownOAuthClients } from '@/core/client';
 import { isNativeApp, openAuthUrlAndWaitForReturn } from '@/util/nativeApp';
 import { isDesktop } from '@/bridge/desktop';
+import { safeExternalUrl } from '@/util/safeUrl';
 
 export type { IdentityProvider };
 
@@ -193,7 +194,12 @@ export function waitForSsoFallback(fallbackUrl: string, homeserverUrl: string): 
   if (isDesktop) return waitForBrowserReturn(fallbackUrl);
 
   return new Promise((resolve, reject) => {
-    const popup = window.open(fallbackUrl, '_blank');
+    const safeFallback = safeExternalUrl(fallbackUrl);
+    if (!safeFallback) {
+      reject(new Error('invalid_fallback_url'));
+      return;
+    }
+    const popup = window.open(safeFallback, '_blank');
     if (!popup) {
       reject(new Error('popup_blocked'));
       return;

@@ -24,6 +24,7 @@ import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import { interpretIdentifier, toLoginIdentifier } from './signInIdentifier';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 
 interface Props {
   onSuccess: () => void;
@@ -155,7 +156,7 @@ export function LoginForm({
 
   const handleForgotPassword = () => {
     if (capabilities?.delegatedAuth && capabilities.accountManagementUri) {
-      window.open(capabilities.accountManagementUri, '_blank', 'noopener');
+      openSafeExternalUrl(capabilities.accountManagementUri);
     } else {
       onShowReset();
     }

@@ -49,6 +49,8 @@ export type YouTubeEmbeds = 'ask' | 'on' | 'off';
 export type GifProviderPreference = 'giphy' | 'klipy';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
+export type ScreenShareQuality = '720' | '1080' | 'source';
+export type ScreenShareFps = 15 | 30 | 60;
 export type { UiDensity, UiScale } from '@/theme/uiDensity';
 
 export interface Keybinds {
@@ -148,6 +150,9 @@ export interface Preferences {
   noiseSuppression: boolean;
   echoCancellation: boolean;
   autoGainControl: boolean;
+  screenShareQuality: ScreenShareQuality;
+  screenShareFps: ScreenShareFps;
+  screenShareCursor: boolean;
   /** Soundboard: hear and play clips in calls. Device-only (see settingsSync). */
   soundboardEnabled: boolean;
   /** 0-100, separate from voice and notification volume. Device-only. */
@@ -242,6 +247,9 @@ export const DEFAULT_PREFERENCES: Preferences = {
   noiseSuppression: true,
   echoCancellation: true,
   autoGainControl: true,
+  screenShareQuality: '1080',
+  screenShareFps: 30,
+  screenShareCursor: true,
   soundboardEnabled: true,
   soundboardVolume: 70,
   soundboardMutedUsers: [],
@@ -324,6 +332,9 @@ export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');
 export const noiseSuppressionAtom = preferenceFieldAtom('noiseSuppression');
 export const echoCancellationAtom = preferenceFieldAtom('echoCancellation');
 export const autoGainControlAtom = preferenceFieldAtom('autoGainControl');
+export const screenShareQualityAtom = preferenceFieldAtom('screenShareQuality');
+export const screenShareFpsAtom = preferenceFieldAtom('screenShareFps');
+export const screenShareCursorAtom = preferenceFieldAtom('screenShareCursor');
 export const soundboardEnabledAtom = preferenceFieldAtom('soundboardEnabled');
 export const soundboardVolumeAtom = preferenceFieldAtom('soundboardVolume');
 export const soundboardMutedUsersAtom = preferenceFieldAtom('soundboardMutedUsers');

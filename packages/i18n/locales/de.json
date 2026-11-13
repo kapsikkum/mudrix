@@ -1133,6 +1133,7 @@
     "userLeft": "<name>{{name}}</name> hat den Raum verlassen.",
     "userKicked": "<user>{{user}}</user> wurde von <kicker>{{kicker}}</kicker> gekickt.",
     "userBanned": "<name>{{name}}</name> wurde gesperrt.",
+    "profileChanged": "{{name}} hat das Profil aktualisiert.",
     "deleteMessage": "Nachricht löschen",
     "deleteMessageConfirm": "Diese Nachricht dauerhaft löschen? Dies kann nicht rückgängig gemacht werden.",
     "deleteFailed": "Löschen fehlgeschlagen: {{error}}",
@@ -1466,6 +1467,7 @@
     "controls": "Anrufssteuerung",
     "shareScreen": "Bildschirm freigeben",
     "stopShare": "Freigabe beenden",
+    "youAreSharing": "Du teilst deinen Bildschirm",
     "sharingTitle": "Mudrix teilt deinen Bildschirm",
     "switchToSpotlight": "Zu Spotlight wechseln",
     "switchToGrid": "Zu Raster wechseln",
@@ -2510,6 +2512,12 @@
     },
     "search": "Einstellungen durchsuchen",
     "developer": {
+      "title": "Entwickler",
+      "enable": "Entwicklermodus aktivieren",
+      "enableDescription": "Zeigt zusätzliche Debug-Informationen in der App an.",
+      "accessToken": "Access Token",
+      "accessTokenWarning": "Teile dein Access Token niemals, es gewährt vollständige Kontrolle über dein Konto.",
+      "homeserverUrl": "Homeserver-URL",
       "slidingSync": "Sliding Sync (experimentell)",
       "slidingSyncDescription": "Schnellerer Start und leichteres Synchronisieren bei großen Konten. Erfordert einen Homeserver mit Simplified Sliding Sync (MSC4186). Zum Anwenden neu laden.",
       "reload": "App neu laden",
@@ -2532,6 +2540,7 @@
       "notReady": "Nicht bereit",
       "cryptoUnavailable": "Verschlüsselung ist nicht verfügbar.",
       "serverFeatures": "Server-Funktionen ({{count}})",
+      "accountData": "Kontodaten",
       "tools": "Werkzeuge",
       "copyDebugInfo": "Debug-Infos kopieren",
       "clearMedia": "Medien-Cache leeren",
@@ -2539,7 +2548,17 @@
       "resetSyncCache": "Sync-Cache zurücksetzen",
       "resetSyncCacheAction": "Zurücksetzen",
       "resetSyncCacheNote": "Löscht den lokalen Raum- und Nachrichten-Cache und lädt neu. Verschlüsselungsschlüssel und Einstellungen bleiben erhalten.",
-      "resetSyncCacheConfirm": "Dadurch wird die lokale Kopie deiner Räume und Nachrichten gelöscht und die App neu geladen. Alles wird erneut vom Server geladen. Verschlüsselungsschlüssel bleiben unberührt."
+      "resetSyncCacheConfirm": "Dadurch wird die lokale Kopie deiner Räume und Nachrichten gelöscht und die App neu geladen. Alles wird erneut vom Server geladen. Verschlüsselungsschlüssel bleiben unberührt.",
+      "accountDataAdd": "Hinzufügen",
+      "accountDataNew": "Neue Kontodaten",
+      "accountDataEmpty": "Noch keine Kontodaten.",
+      "accountDataType": "Ereignistyp",
+      "accountDataContent": "Inhalt (JSON)",
+      "accountDataNotObject": "Der Inhalt muss ein JSON-Objekt sein.",
+      "accountDataSaved": "Kontodaten gespeichert.",
+      "accountDataSaveFailed": "Kontodaten konnten nicht gespeichert werden: {{error}}",
+      "accountDataCount_one": "{{count}} Ereignistyp",
+      "accountDataCount_other": "{{count}} Ereignistypen"
     },
     "roomKeys": {
       "title": "Verschlüsselungsschlüssel sichern",
@@ -3006,7 +3025,11 @@
     "screens": "Bildschirme",
     "windows": "Fenster",
     "shareAudio": "Audio teilen",
-    "screenNumber": "Bildschirm {{number}}"
+    "screenNumber": "Bildschirm {{number}}",
+    "quality": "Qualität",
+    "qualitySource": "Quelle",
+    "frameRate": "Bildrate",
+    "showCursor": "Mauszeiger anzeigen"
   },
   "status": {
     "title": "Status",
