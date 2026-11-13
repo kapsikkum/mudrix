@@ -217,15 +217,6 @@ export const replyConnector = style({
   pointerEvents: 'none',
 });
 
-export const replyLineSkeleton = style({
-  width: '45%',
-  maxWidth: '240px',
-  height: '0.7rem',
-  borderRadius: '6px',
-  backgroundColor: vars.color.bgTertiary,
-  animation: `${pulse} 1.5s ease-in-out infinite`,
-});
-
 export const replyLineButton = style({
   display: 'flex',
   alignItems: 'center',
@@ -443,8 +434,9 @@ export const mediaBox = style({
   overflow: 'hidden',
   width: '100%',
   maxWidth: '320px',
+  maxHeight: '420px',
   borderRadius: vars.radius.sm,
-  backgroundColor: vars.color.border,
+  backgroundColor: vars.color.bgTertiary,
   selectors: {
     [`${msgContentClassic} &, ${msgContentClassicOwn} &, ${msgContentClassicGrouped} &, ${msgContentClassicGroupedOwn} &`]:
       {
@@ -1288,6 +1280,19 @@ export const replyImage = style({
   display: 'inline',
 });
 
+// Placeholder shown while a reply's target event is still being fetched, so the
+// quote does not pop in and push the message down.
+export const replyQuoteSkeleton = style({
+  display: 'block',
+  width: '55%',
+  maxWidth: '260px',
+  height: '0.8rem',
+  margin: '0.35rem 0',
+  borderRadius: '6px',
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.5s ease-in-out infinite`,
+});
+
 export const replyMediaRow = style({
   display: 'inline-flex',
   alignItems: 'center',
@@ -1300,7 +1305,7 @@ export const replyMediaThumb = style({
   width: '36px',
   height: '36px',
   objectFit: 'cover',
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   flexShrink: 0,
   verticalAlign: 'middle',
 });
@@ -1320,7 +1325,7 @@ export const replyMediaIcon = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
   color: vars.color.accent,
@@ -2229,7 +2234,7 @@ export const threadBadgeName = style({
   display: 'flex',
   flexShrink: 0,
   fontWeight: 600,
-  color: vars.color.textPrimary,
+  color: vars.color.accent,
 });
 
 export const threadBadgeNameText = style({
@@ -2368,7 +2373,7 @@ export const receiptPopoverTime = style({
 });
 
 export const msgSending = style({
-  opacity: 0.6,
+  opacity: 0.5,
 });
 
 export const msgFailed = style({
@@ -2565,6 +2570,9 @@ globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${replyQuote}`, {
   paddingLeft: 0,
   paddingRight: '8px',
 });
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${replyQuoteSkeleton}`, {
+  alignSelf: 'flex-end',
+});
 
 // Bubbles with media get more room (the bubble grows toward the middle of the screen) and the media
 // is capped to the bubble's inner width so it never pokes out of the rounded edge.
@@ -2591,4 +2599,19 @@ globalStyle(
 // height follows the aspect ratio rather than being squashed.
 globalStyle(bubbleClasses.map((c) => `:root[data-bubble-layout] ${c} ${mediaBox}`).join(', '), {
   height: 'auto !important',
+});
+
+// Message text stays selectable and copyable even though the rest of the UI is not.
+globalStyle(`${msgContent}, ${msgContent} *`, { userSelect: 'text', WebkitUserSelect: 'text' });
+
+// On a touch screen a long press opens the message sheet; selecting the word under the finger (and
+// the callout, handles and search bar that come with it) would fight it. The sheet offers "Copy text".
+globalStyle(`${msgContent}, ${msgContent} *`, {
+  '@media': {
+    '(pointer: coarse)': {
+      userSelect: 'none',
+      WebkitUserSelect: 'none',
+      WebkitTouchCallout: 'none',
+    },
+  },
 });

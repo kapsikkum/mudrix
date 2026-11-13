@@ -1122,9 +1122,11 @@ export const Message = memo(function Message({
         data-flashing={isFlashing ? 'true' : undefined}
       >
         {hasReplyLine && !displayReply && (
-          <div className={css.replyLineRow} aria-hidden="true">
+          <div className={css.replyLineRow}>
             <span className={css.replyConnector} />
-            <span className={css.replyLineSkeleton} />
+            <div className={css.replyLineButton} aria-hidden="true" style={{ cursor: 'default' }}>
+              <span className={css.replyQuoteSkeleton} />
+            </div>
           </div>
         )}
         {hasReplyLine && displayReply && (
@@ -1195,6 +1197,12 @@ export const Message = memo(function Message({
               )}
             </div>
           ) : null}
+
+          {!hideReplyQuote && !hasReplyLine && !displayReply && inReplyTo?.state === 'pending' && (
+            <div className={css.replyQuote} aria-hidden="true" style={{ cursor: 'default' }}>
+              <span className={css.replyQuoteSkeleton} />
+            </div>
+          )}
 
           {!hideReplyQuote && !hasReplyLine && displayReply && (
             <button
