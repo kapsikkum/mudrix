@@ -80,17 +80,21 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -128,6 +132,7 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.composer.PackThumb
+import org.wizardchat.android.ui.space.LocalRoomRoles
 import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -1018,23 +1023,42 @@ fun PollMessageView(poll: ChatEntry.PollContent, isOwn: Boolean, onVote: (String
     }
 }
 
+/** The fill behind a bubble: yours a deep accent, others' a light tint of it on the raised surface */
 @Composable
-fun ReplyQuoteView(quote: ChatEntry.ReplyQuote) {
+internal fun bubbleFill(own: Boolean): Color =
+    if (own) lerp(Color.Black, theme.accent, 0.78f) else lerp(theme.bgTertiary, theme.accent, 0.14f)
+
+/** A quoted message on one line: the sender's colour, then the text. Tapping it jumps to the original. */
+@Composable
+fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, onJump: (() -> Unit)? = null) {
+    val scale = LocalPrefs.current.chatScale
+    val roles = LocalRoomRoles.current
     Row(
-        Modifier.height(IntrinsicSize.Min).padding(bottom = WZ.Space.space2),
+        Modifier
+            .then(if (end) Modifier else Modifier.fillMaxWidth())
+            .height(IntrinsicSize.Min)
+            .padding(bottom = WZ.Space.space2)
+            .then(if (onJump != null) Modifier.clickable(onClick = onJump) else Modifier),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Box(Modifier.width(WZ.Space.space1).fillMaxHeight().background(theme.accent, CircleShape))
-        Column {
-            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = nameColor(quote.sender), maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(
-                quote.text.ifEmpty { tr("timeline.originalMessage") },
-                style = wizardFont(WZ.FontSize.sm),
-                color = theme.textMuted,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        if (!end) Box(Modifier.width(3.dp).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
+        Text(
+            buildAnnotatedString {
+                if (quote.senderName.isNotEmpty()) {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = roles.colorOf(quote.sender) ?: nameColor(quote.sender))) {
+                        append(quote.senderName)
+                    }
+                    append(": ")
+                }
+                append(quote.text.ifEmpty { tr("timeline.originalMessage") })
+            },
+            style = wizardFont(WZ.FontSize.md * scale),
+            color = theme.textMuted,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = if (end) TextAlign.End else TextAlign.Start,
+        )
+        if (end) Box(Modifier.width(3.dp).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
     }
 }
 

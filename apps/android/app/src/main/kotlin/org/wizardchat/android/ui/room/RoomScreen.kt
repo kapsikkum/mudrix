@@ -192,6 +192,8 @@ class MessageActions(
     val viewSource: (ChatEntry) -> Unit = {},
     val onEditHistory: (ChatEntry) -> Unit = {},
     val openThread: ((ChatEntry) -> Unit)? = null,
+    /** Scrolls to a message by event id, e.g. the one a reply quotes */
+    val jumpTo: ((String) -> Unit)? = null,
     /** Set only in unencrypted rooms */
     val linkPreviews: LinkPreviewLoader? = null,
     /** Decides whether an integration card looks its link up on its own (never in an encrypted room) */
@@ -443,6 +445,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
         onEditHistory = { entry -> editHistoryFor = entry },
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
+        jumpTo = { eventId -> scope.launch { jump(eventId) } },
         linkPreviews = linkPreviews,
         isEncrypted = room.isEncrypted,
         retry = { timeline.retrySending() },
@@ -995,6 +998,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     val scale = prefs.chatScale
     val spacing = prefs.chatSpacing
     val isCompact = prefs.messageLayout == MessageLayout.compact
+    val isBubble = prefs.messageLayout == MessageLayout.classic
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showRemind by remember { mutableStateOf(false) }
@@ -1006,6 +1010,9 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     val replyThreshold = 64f
     val showReplyHint by remember { derivedStateOf { swipe < -8f } }
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
+    // Bubble layout: your rows sit on the right without an avatar; your text bubbles are right-aligned
+    val ownBubble = isBubble && entry.isOwn
+    val ownTextBubble = ownBubble && isText
     // Only timeline rows have the menu
     val longPress: (() -> Unit)? = if (actions != null && entry.isContent && entry.allowsActions) {
         {
@@ -1062,18 +1069,27 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     ),
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
             ) {
-                if (!isCompact && entry.isGrouped) {
-                    Spacer(Modifier.width(WZ.SizeAvatar.md))
-                } else if (!isCompact) {
-                    org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
-                        entry.sender,
-                        entry.senderName,
-                        entry.senderAvatarUrl,
-                        WZ.SizeAvatar.md,
-                        modifier = Modifier.padding(top = WZ.Space.space1).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
-                    )
+                if (!isCompact && !ownBubble) {
+                    // The avatar column is 24 dp in the bubble layout, with a 20 dp avatar centred in it
+                    val column = if (isBubble) 24.dp else WZ.SizeAvatar.md
+                    if (entry.isGrouped) {
+                        Spacer(Modifier.width(column))
+                    } else {
+                        Box(Modifier.width(column), contentAlignment = Alignment.Center) {
+                            org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                                entry.sender,
+                                entry.senderName,
+                                entry.senderAvatarUrl,
+                                if (isBubble) WZ.SizeAvatar.xs else WZ.SizeAvatar.md,
+                                modifier = Modifier.padding(top = WZ.Space.space1).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
+                            )
+                        }
+                    }
                 }
-                Column(Modifier.weight(1f).padding(end = WZ.Space.space5)) {
+                Column(
+                    Modifier.weight(1f).padding(end = if (ownBubble) WZ.Space.space6 else if (isBubble) 0.dp else WZ.Space.space5),
+                    horizontalAlignment = if (ownBubble) Alignment.End else Alignment.Start,
+                ) {
                     if (isCompact) {
                         if (entry.kind !is ChatEntry.Kind.Message) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
@@ -1093,12 +1109,16 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             Text(
                                 entry.senderName,
                                 Modifier.weight(1f, fill = false).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
-                                style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
+                                style = wizardFont((if (isBubble) WZ.FontSize.sm else WZ.FontSize.md) * scale, FontWeight.SemiBold),
                                 color = roleColor ?: nameColor(entry.sender),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            Text(Formats.time(entry.timestamp), style = wizardFont(WZ.FontSize.sm * scale), color = theme.textMuted)
+                            Text(
+                                Formats.time(entry.timestamp),
+                                style = wizardFont((if (isBubble) WZ.FontSize.xs else WZ.FontSize.sm) * scale),
+                                color = theme.textMuted,
+                            )
                             val eventId = entry.eventId
                             if (eventId != null && actions?.pinnedIds?.contains(eventId) == true) {
                                 PhIcon(
@@ -1110,7 +1130,9 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             }
                         }
                     }
-                    entry.replyTo?.let { ReplyQuoteView(it) }
+                    entry.replyTo?.let { quote ->
+                        ReplyQuoteView(quote, end = ownBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
+                    }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
                         Shields.display(entry.shield)?.let { display ->
                             val tint = when (display.kind) {
@@ -1134,7 +1156,10 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             }
                         }
                         val sending = entry.isSending && !entry.sendFailed
-                        Box(Modifier.weight(1f, fill = false).alpha(if (sending && isText) 0.5f else 1f), contentAlignment = Alignment.Center) {
+                        Box(
+                            Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
+                            contentAlignment = if (ownTextBubble) Alignment.CenterEnd else Alignment.Center,
+                        ) {
                             MessageContent(entry, actions, isPrivateRoom, isText)
                             if (sending && !isText) UploadProgressRing(null)
                         }
@@ -1177,7 +1202,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     val roomId = actions?.roomId
                     if (entry.readBy.isNotEmpty() && roomId != null) {
-                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                        Box(Modifier.fillMaxWidth(), contentAlignment = if (isBubble && !entry.isOwn) Alignment.CenterStart else Alignment.CenterEnd) {
                             ReadReceiptsView(roomId, entry.readBy, entry.readAt)
                         }
                     }
@@ -1199,22 +1224,46 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
     val scale = prefs.chatScale
     if (isText) {
         val isClassic = prefs.messageLayout == MessageLayout.classic
-        Box(
-            if (isClassic) {
-                Modifier
-                    .background(if (entry.isOwn) theme.msgMineBg else theme.msgOtherBg, RoundedCornerShape(WZ.Radius.xl))
-                    .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4)
-            } else {
-                Modifier
-            },
-        ) {
+        if (!isClassic) {
             TextContent(
                 entry,
-                linkOnAccent = isClassic && entry.isOwn && theme.isDark,
+                linkOnAccent = false,
                 onMention = actions?.openProfile,
                 onRoomLink = actions?.openRoomLink,
                 roomId = actions?.roomId,
             )
+            return
+        }
+        // Bubble layout: at most 78% of the column (and 620 dp), your own text on the accent colour
+        BoxWithConstraints(
+            if (entry.isOwn) Modifier.fillMaxWidth() else Modifier,
+            contentAlignment = if (entry.isOwn) Alignment.CenterEnd else Alignment.CenterStart,
+        ) {
+            Column(
+                Modifier
+                    .widthIn(max = minOf(maxWidth * 0.78f, 620.dp))
+                    .background(bubbleFill(entry.isOwn), RoundedCornerShape(WZ.Radius.xl))
+                    .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+            ) {
+                TextContent(
+                    entry,
+                    linkOnAccent = entry.isOwn,
+                    bubble = true,
+                    ownBubble = entry.isOwn,
+                    onMention = actions?.openProfile,
+                    onRoomLink = actions?.openRoomLink,
+                    roomId = actions?.roomId,
+                )
+                if (entry.isGrouped) {
+                    // Grouped bubbles carry their own time, right-aligned under the text
+                    Text(
+                        Formats.time(entry.timestamp),
+                        Modifier.align(Alignment.End).padding(top = WZ.Space.space1),
+                        style = wizardFont(WZ.FontSize.xs * scale),
+                        color = (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f),
+                    )
+                }
+            }
         }
         return
     }
@@ -1258,6 +1307,8 @@ private fun TextContent(
     onMention: ((String) -> Unit)?,
     onRoomLink: ((String) -> Unit)? = null,
     roomId: String? = null,
+    bubble: Boolean = false,
+    ownBubble: Boolean = false,
 ) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
@@ -1273,7 +1324,8 @@ private fun TextContent(
     } else {
         null
     }
-    val size = if (emojiOnlySize == null) WZ.FontSize.lg * scale else (emojiOnlySize * scale).sp
+    val size = if (emojiOnlySize == null) (if (bubble) WZ.FontSize.md else WZ.FontSize.lg) * scale else (emojiOnlySize * scale).sp
+    val textColor = if (ownBubble) theme.textOnAccent else theme.textPrimary
     val style = wizardFont(size).copy(lineHeight = (size.value + 3 * scale + 4).sp)
     val rich = entry.rich
     val message = entry.kind as? ChatEntry.Kind.Message
@@ -1300,7 +1352,7 @@ private fun TextContent(
                 rich,
                 RichStyle(
                     text = style,
-                    color = if (kind.isNotice) theme.textMuted else theme.textPrimary,
+                    color = if (kind.isNotice) theme.textMuted else textColor,
                     linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor,
                     mentionColors = MentionColors(theme.mention, if (linkOnAccent) theme.textOnAccent else theme.accent),
                     mentions = entry.mentions,
@@ -1360,7 +1412,7 @@ private fun TextContent(
                     .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
                     .then(if (hint != null) Modifier.semantics { contentDescription = "${text.text} $hint" } else Modifier),
                 style = textStyle,
-                color = if (kind.isNotice) theme.textMuted else theme.textPrimary,
+                color = if (kind.isNotice) theme.textMuted else textColor,
             )
         }
         is ChatEntry.Kind.Redacted -> DeletedLabel("trash", tr("timeline.messageDeleted"), style)

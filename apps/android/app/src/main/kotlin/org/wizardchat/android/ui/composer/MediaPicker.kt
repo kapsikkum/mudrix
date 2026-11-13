@@ -160,7 +160,7 @@ fun MediaPicker(
 private fun EmojiGrid(packs: List<ImagePack>, onPick: (String, PackImage?) -> Unit) {
     var search by remember { mutableStateOf("") }
     val recentEmoji = RecentEmoji.shared
-    val recent = recentEmoji.entries
+    val recent = recentEmoji.frequent
     val customEmoji = packs.flatMap { pack -> pack.images.filter { it.emoticon } }
     val gridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()

@@ -11,6 +11,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -82,6 +83,7 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.UnreadDot
 import org.wizardchat.android.ui.WizardMenu
+import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -92,7 +94,6 @@ private val railSlotHeight = 56.dp
 private val railAvatar = 44.dp
 private val railCorner = 16.dp
 private val railCornerSelected = 8.dp
-internal val modernBarHeight = WZ.Size.tabBar + WZ.Space.space2
 
 /** Which rail slot was last open, kept on this device so a restart returns to it */
 internal object RailSelectionStore {
@@ -126,7 +127,7 @@ private fun railRooms(roomList: RoomListModel): List<RailRoom> {
 /** The rail's unread and mention totals for Home and each space, in rail order */
 internal fun railSlots(roomList: RoomListModel) = SpaceRail.slots(railSpaces(roomList), railRooms(roomList))
 
-/** The left rail: Home, every space as its avatar, then add and explore */
+/** The left rail: direct messages and the rooms outside spaces, every space as its avatar, then add and explore */
 @Composable
 internal fun SpaceRailBar(
     roomList: RoomListModel,
@@ -149,13 +150,13 @@ internal fun SpaceRailBar(
     ) {
         Box(Modifier.padding(top = WZ.Space.space4, bottom = WZ.Space.space2)) {
             RailSlotItem(
-                label = tr("nav.home"),
+                label = tr("room.dm.directMessages"),
                 selected = homeSelected,
                 unread = slots.firstOrNull()?.unread == true,
                 mentions = slots.firstOrNull()?.mentions ?: 0,
                 onClick = onHome,
             ) {
-                RailHomeAvatar(homeSelected)
+                RailDmAvatar(homeSelected)
             }
         }
         Box(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6).height(1.dp).background(theme.border))
@@ -185,7 +186,7 @@ internal fun SpaceRailBar(
 }
 
 @Composable
-private fun RailHomeAvatar(selected: Boolean) {
+private fun RailDmAvatar(selected: Boolean) {
     val shape = RoundedCornerShape(if (selected) railCornerSelected else railCorner)
     Box(
         Modifier
@@ -194,7 +195,7 @@ private fun RailHomeAvatar(selected: Boolean) {
             .background(if (selected) theme.accent else theme.fill),
         contentAlignment = Alignment.Center,
     ) {
-        PhIcon("house", if (selected) PhWeight.fill else PhWeight.regular, size = WZ.SizeIcon.lg, tint = if (selected) theme.textOnAccent else theme.textMuted)
+        PhIcon("chat-circle", if (selected) PhWeight.fill else PhWeight.regular, size = WZ.SizeIcon.lg, tint = if (selected) theme.textOnAccent else theme.textMuted)
     }
 }
 
@@ -336,81 +337,58 @@ private fun RailAddButton(onCreateSpace: () -> Unit, onExplore: () -> Unit) {
     }
 }
 
-/** The flat bar under the content pane: the classic island's destinations, with labels */
+/** The panel under the content pane: your avatar and status opens You, the bell opens the inbox */
 @Composable
-internal fun ModernBottomBar(
-    tab: Tab,
-    homeUnread: UnreadState,
-    dmsUnread: UnreadState,
-    inboxMention: Boolean,
-    inboxBadge: Boolean,
-    onHome: () -> Unit,
-    onMessages: () -> Unit,
-    onInbox: () -> Unit,
-    onYou: () -> Unit,
-) {
-    Column(Modifier.fillMaxWidth().background(theme.bgPrimary).navigationBarsPadding()) {
-        Row(Modifier.fillMaxWidth().height(modernBarHeight), verticalAlignment = Alignment.CenterVertically) {
-            BarDestination(tr("nav.home"), "house", tab == Tab.home, homeUnread, onHome)
-            BarDestination(tr("search.switcher.prefixDms"), "chat-circle", tab == Tab.dms, dmsUnread, onMessages)
-            BarDestination(tr("inbox.title"), "tray", false, UnreadState(inboxBadge, inboxMention), onInbox)
-            YouDestination(tab == Tab.me, onYou)
-        }
-    }
-}
-
-@Composable
-private fun androidx.compose.foundation.layout.RowScope.YouDestination(selected: Boolean, onYou: () -> Unit) {
-    Box(
-        Modifier.weight(1f).fillMaxHeight().combinedClickable(onClick = onYou).semantics { this.selected = selected; role = Role.Tab },
-        contentAlignment = Alignment.Center,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            val session = LocalSession.current
-            Avatar(
-                session.displayName ?: session.userId ?: "",
-                session.avatarUrl,
-                WZ.SizeAvatar.sm,
-                modifier = if (selected) Modifier.border(2.dp, theme.accent, CircleShape) else Modifier,
-            )
-            Text(
-                tr("nav.you"),
-                style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
-                color = if (selected) theme.accent else theme.textMuted,
-                maxLines = 1,
-            )
-        }
-    }
-}
-
-@Composable
-private fun androidx.compose.foundation.layout.RowScope.BarDestination(
-    label: String,
-    icon: String,
-    selected: Boolean,
-    unread: UnreadState,
-    onClick: () -> Unit,
-) {
-    Column(
-        Modifier
-            .weight(1f)
-            .fillMaxHeight()
-            .combinedClickable(onClick = onClick)
-            .semantics { this.selected = selected; role = Role.Tab },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Box {
-            PhIcon(icon, if (selected) PhWeight.fill else PhWeight.regular, size = WZ.SizeIcon.md, tint = if (selected) theme.accent else theme.textMuted)
-            if (unread.unread) UnreadDot(unread.mention, Modifier.align(Alignment.TopEnd).offset(x = WZ.Space.space3, y = -WZ.Space.space1))
-        }
-        Text(
-            label,
-            style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
-            color = if (selected) theme.accent else theme.textMuted,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onYou: () -> Unit, onInbox: () -> Unit) {
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
+    val name = session.displayName ?: session.userId ?: ""
+    val presence = prefs.presenceChoice.presence(true)
+    val status = session.customStatus?.takeIf { (it.expiresAt ?: Long.MAX_VALUE) > System.currentTimeMillis() }?.text
+        ?: tr(
+            when (presence) {
+                org.wizardchat.core.Presence.online -> "presence.online"
+                org.wizardchat.core.Presence.unavailable -> "presence.away"
+                else -> "presence.offline"
+            },
         )
+    val inboxLabel = tr("inbox.title")
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(theme.bgPrimary)
+            .navigationBarsPadding()
+            .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space2),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(WZ.Radius.md))
+                .clickable(onClick = onYou)
+                .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            CosmeticAvatar(session.userId, name, session.avatarUrl, WZ.SizeAvatar.sm, presence = presence.name)
+            Column(Modifier.weight(1f)) {
+                Text(name, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(status, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+        }
+        Box(
+            Modifier
+                .size(WZ.Space.space11)
+                .clip(CircleShape)
+                .clickable(onClick = onInbox)
+                .semantics { contentDescription = inboxLabel },
+            contentAlignment = Alignment.Center,
+        ) {
+            Box {
+                PhIcon("bell", size = WZ.SizeIcon.md, tint = theme.textMuted)
+                if (inboxBadge) UnreadDot(inboxMention, Modifier.align(Alignment.TopEnd).offset(x = WZ.Space.space3, y = -WZ.Space.space1))
+            }
+        }
     }
 }
 

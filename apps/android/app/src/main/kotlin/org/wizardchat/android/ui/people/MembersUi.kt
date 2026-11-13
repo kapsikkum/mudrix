@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,10 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.ExtendedProfile
 import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.ignore
@@ -44,6 +46,7 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.RowDivider
+import org.wizardchat.android.ui.SecondaryButton
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardSheet
@@ -54,6 +57,7 @@ import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.android.ui.trPlural
 import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.core.HomeserverSoftware
@@ -234,6 +238,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     var tab by remember { mutableStateOf(ProfileTab.Details) }
     var modMenu by remember { mutableStateOf(false) }
     val mutual = rememberMutualRooms(userId, enabled = !isMe)
+    val dmRoom = session.roomList?.joinedRooms?.firstOrNull { it.isDirect && it.dmUserId == userId }
 
     LaunchedEffect(userId, roomId, reloads) {
         val client = session.client
@@ -299,6 +304,15 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
         }
     }
 
+    fun call() {
+        val room = dmRoom ?: return
+        val calls = CallManager.shared
+        onDismiss()
+        closeParents()
+        calls.showCallScreen = true
+        if (!calls.isInCall(room.id)) calls.launchJoin(room, session, "audio", ring = true)
+    }
+
     fun answerKnock(accept: Boolean) {
         val roomId = roomId ?: return
         scope.launch {
@@ -335,70 +349,123 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
 
     WizardSheet(onDismiss) {
         SheetBar("", trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
+        val cosmetics = org.wizardchat.android.ui.cosmetics.resolveCosmetics(extended)
+        val moderation = buildList {
+            if (!isMe) {
+                if (canKick) add(MenuItem(tr("profile.kick"), "user-minus", destructive = true) { confirm = ProfileAction.Kick })
+                if (canBan) add(MenuItem(tr("room.members.ban"), "prohibit", destructive = true) { confirm = ProfileAction.Ban })
+                add(MenuItem(tr("profile.ignoreUser"), "eye-slash", destructive = true) { confirm = ProfileAction.Ignore })
+            }
+        }
+        val menuItems = listOf(
+            MenuItem(tr("profile.copyId"), "copy") { copyToClipboard(userId, L10n.format("common.copied")) },
+            MenuItem(tr("common.copyLink"), "link-simple") { copyToClipboard("https://matrix.to/#/$userId", L10n.format("common.copied")) },
+        ) + moderation.mapIndexed { index, item -> if (index == 0) item.copy(divider = true) else item }
+        val pronouns = extended.pronouns.joinToString(", ")
+        val identity = listOf(userId, pronouns).filter { it.isNotEmpty() }.joinToString(" • ")
+        val mutualLine = mutual?.let { found ->
+            if (found.isEmpty) {
+                tr("profile.mutualEmpty")
+            } else {
+                listOfNotNull(
+                    if (found.rooms.isNotEmpty()) trPlural("profile.mutualRooms", found.rooms.size, found.rooms.size) else null,
+                    if (found.spaces.isNotEmpty()) trPlural("profile.mutualSpaces", found.spaces.size, found.spaces.size) else null,
+                ).joinToString(" · ")
+            }
+        }
         FormList {
             item {
-                val cosmetics = org.wizardchat.android.ui.cosmetics.resolveCosmetics(extended)
                 org.wizardchat.android.ui.cosmetics.FrameBox(cosmetics?.frame.orEmpty(), Modifier.fillMaxWidth()) {
-                org.wizardchat.android.ui.cosmetics.NameplateBox(cosmetics?.nameplate, Modifier.fillMaxWidth()) {
-                Column(
-                    Modifier.fillMaxWidth().padding(top = WZ.Space.space4, start = WZ.Space.space6, end = WZ.Space.space6),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
-                ) {
-                    Box(Modifier.fillMaxWidth()) {
-                        ProfileBanner(userId)
-                        org.wizardchat.android.ui.cosmetics.EffectOverlay(
-                            cosmetics?.effect,
-                            org.wizardchat.android.ui.cosmetics.rememberEffectIntro(cosmetics?.effect),
-                            Modifier.matchParentSize(),
-                        )
-                    }
-                    Box(contentAlignment = Alignment.BottomEnd) {
-                        AccentAvatar(name ?: userId, avatarUrl, extended.accent, cosmetics?.decoration)
-                        if (prefs.showPresence) {
-                            org.wizardchat.android.ui.cosmetics.PresenceDot(
-                                ProfileFields.effectiveDotPresence(
-                                    presenceState,
-                                    ProfileFields.activeStatus(extended.status)?.mode,
-                                ),
-                                WZ.SizeAvatar.xl,
-                                Modifier.padding(WZ.Space.space2),
+                    Column(Modifier.fillMaxWidth()) {
+                        Box(Modifier.fillMaxWidth()) {
+                            Box(Modifier.fillMaxWidth().aspectRatio(BANNER_RATIO).background(theme.fill)) {
+                                ProfileBanner(userId)
+                                org.wizardchat.android.ui.cosmetics.EffectOverlay(
+                                    cosmetics?.effect,
+                                    org.wizardchat.android.ui.cosmetics.rememberEffectIntro(cosmetics?.effect),
+                                    Modifier.matchParentSize(),
+                                )
+                            }
+                            ProfileMenuButton(
+                                modMenu,
+                                { modMenu = it },
+                                menuItems,
+                                Modifier.align(Alignment.TopEnd).padding(WZ.Space.space3),
                             )
+                            Box(
+                                Modifier.align(Alignment.BottomStart).padding(start = WZ.Space.space6).offset(y = WZ.SizeAvatar.xl / 2),
+                                contentAlignment = Alignment.BottomEnd,
+                            ) {
+                                AccentAvatar(name ?: userId, avatarUrl, extended.accent, cosmetics?.decoration)
+                                if (prefs.showPresence) {
+                                    org.wizardchat.android.ui.cosmetics.PresenceDot(
+                                        ProfileFields.effectiveDotPresence(
+                                            presenceState,
+                                            ProfileFields.activeStatus(extended.status)?.mode,
+                                        ),
+                                        WZ.SizeAvatar.xl,
+                                        Modifier.padding(WZ.Space.space2),
+                                    )
+                                }
+                            }
+                        }
+                        org.wizardchat.android.ui.cosmetics.NameplateBox(cosmetics?.nameplate, Modifier.fillMaxWidth()) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        start = WZ.Space.space6,
+                                        end = WZ.Space.space6,
+                                        top = WZ.SizeAvatar.xl / 2 + WZ.Space.space3,
+                                        bottom = WZ.Space.space4,
+                                    ),
+                                verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+                            ) {
+                                Text(
+                                    name ?: userId,
+                                    style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
+                                    color = theme.textPrimary,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                                    Text(
+                                        identity,
+                                        Modifier.weight(1f, fill = false),
+                                        style = wizardFont(WZ.FontSize.md),
+                                        color = theme.textMuted,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                    if (isMember) RoleBadge(level)
+                                }
+                                statusText?.let {
+                                    Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
+                                }
+                                ProfileBadges(extended.isMudrixUser, software)
+                                mutualLine?.let {
+                                    Text(
+                                        it,
+                                        Modifier.clickable { tab = ProfileTab.Mutual },
+                                        style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
+                                        color = theme.accent,
+                                    )
+                                }
+                                if (!isMe) {
+                                    Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space1), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                                        PrimaryButton(tr("profile.message"), ::message, Modifier.weight(1f), enabled = !busy)
+                                        if (dmRoom != null) SecondaryButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
+                                    }
+                                }
+                            }
                         }
                     }
-                    Text(
-                        name ?: userId,
-                        style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
-                        color = theme.textPrimary,
-                        textAlign = TextAlign.Center,
-                    )
-                    SelectionContainer {
-                        Text(userId, style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
-                    }
-                    statusText?.let {
-                        Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary, textAlign = TextAlign.Center)
-                    }
-                    if (isMember) RoleBadge(level)
-                    ProfileBadges(extended.isMudrixUser, software)
-                    ProfileAbout(extended, name ?: userId)
-                    ProfileActions(
-                        isMe = isMe,
-                        busy = busy,
-                        canKick = canKick,
-                        canBan = canBan,
-                        modMenu = modMenu,
-                        onModMenu = { modMenu = it },
-                        onMessage = ::message,
-                        onCopyLink = { copyToClipboard("https://matrix.to/#/$userId", L10n.format("common.copied")) },
-                        onAction = { confirm = it },
-                    )
-                }
-                }
                 }
             }
             item { ProfileTabs(tab, if (mutual == null) 0 else mutual.rooms.size + mutual.spaces.size) { tab = it } }
             when (tab) {
                 ProfileTab.Details -> {
+                    item { Column(Modifier.padding(horizontal = WZ.Space.space6)) { ProfileAbout(extended, name ?: userId) } }
                     if (roomId != null && isMember && rights.canChange(level, isMe)) {
                         item {
                             GroupedSection {
@@ -420,13 +487,6 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     }
                     if (!isMe) item { ProfileVerification(userId) }
                     if (!isMe) item { ProfileNote(userId) }
-                    item {
-                        GroupedSection {
-                            CopyRow(tr("profile.copyId"), "copy", userId)
-                            RowDivider()
-                            CopyRow(tr("common.copyLink"), "link-simple", "https://matrix.to/#/$userId")
-                        }
-                    }
                     if (roomId != null && knocking && (canInviteHere || canReject)) {
                         item {
                             GroupedSection(header = tr("room.members.pending")) {
@@ -445,7 +505,7 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                         }
                     }
                 }
-                ProfileTab.Activity -> item { ProfileActivities(ProfileFields.live(extended.activities)) }
+                ProfileTab.Activity -> item { Column(Modifier.padding(horizontal = WZ.Space.space6)) { ProfileActivities(ProfileFields.live(extended.activities)) } }
                 ProfileTab.Mutual -> item {
                     MutualRoomsList(mutual) { entry, isSpace ->
                         onDismiss()
@@ -534,40 +594,12 @@ private fun ProfileTabs(selected: ProfileTab, mutualCount: Int, onSelect: (Profi
     }
 }
 
-/** The header's buttons: message, copy the profile link, and the moderation menu (the web's card actions) */
+/** The "..." button over the banner: the moderation actions, then copying the ID and the link */
 @Composable
-private fun ProfileActions(
-    isMe: Boolean,
-    busy: Boolean,
-    canKick: Boolean,
-    canBan: Boolean,
-    modMenu: Boolean,
-    onModMenu: (Boolean) -> Unit,
-    onMessage: () -> Unit,
-    onCopyLink: () -> Unit,
-    onAction: (ProfileAction) -> Unit,
-) {
-    Row(
-        Modifier.fillMaxWidth().padding(top = WZ.Space.space2),
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (!isMe) PrimaryButton(tr("profile.message"), onMessage, Modifier.weight(1f), enabled = !busy)
-        BarButton("link-simple", tr("common.copyLink"), onCopyLink, tint = theme.textSecondary)
-        if (!isMe) {
-            Box {
-                BarButton("dots-three-vertical", tr("common.more"), { onModMenu(true) }, tint = theme.textSecondary)
-                WizardMenu(
-                    modMenu,
-                    { onModMenu(false) },
-                    buildList {
-                        if (canKick) add(MenuItem(tr("profile.kick"), "user-minus", destructive = true) { onAction(ProfileAction.Kick) })
-                        if (canBan) add(MenuItem(tr("room.members.ban"), "prohibit", destructive = true) { onAction(ProfileAction.Ban) })
-                        add(MenuItem(tr("profile.ignoreUser"), "eye-slash", destructive = true) { onAction(ProfileAction.Ignore) })
-                    },
-                )
-            }
-        }
+private fun ProfileMenuButton(expanded: Boolean, onExpanded: (Boolean) -> Unit, items: List<MenuItem>, modifier: Modifier) {
+    Box(modifier.clip(CircleShape).background(theme.bgPrimary.copy(alpha = 0.6f))) {
+        BarButton("dots-three-vertical", tr("common.more"), { onExpanded(true) }, tint = theme.textPrimary)
+        WizardMenu(expanded, { onExpanded(false) }, items)
     }
 }
 

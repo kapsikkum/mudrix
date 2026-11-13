@@ -60,20 +60,16 @@ import org.wizardchat.tokens.WZ
 internal fun accentColor(accent: String?): Color? =
     accent?.let { runCatching { Color(android.graphics.Color.parseColor(it)) }.getOrNull() }
 
-/** Pronouns, bio and what they are playing, under the name (the web's card body) */
+/** The bio and what they are playing (the web's card body; pronouns sit under the name) */
 @Composable
 internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
     var fullBio by remember { mutableStateOf(false) }
     val activities = ProfileFields.live(profile.activities)
-    if (profile.pronouns.isEmpty() && profile.bio.isEmpty() && activities.isEmpty()) return
+    if (profile.bio.isEmpty() && activities.isEmpty()) return
     Column(
         Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
-        if (profile.pronouns.isNotEmpty()) {
-            Text(profile.pronouns.joinToString(", "), style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
-        }
         ProfileActivities(activities)
         if (profile.bio.isNotEmpty()) {
             Column(

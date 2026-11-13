@@ -144,6 +144,13 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     fun space(id: String): SpaceSummary? = spaces.firstOrNull { it.id == id }
 
+    /** The header of a Modern category room [id]: its name (joined or not), its canonical alias, else [generic] */
+    fun categoryHeaderOf(id: String, generic: String): String = categoryHeader(
+        name = space(id)?.name ?: allSpaces.firstOrNull { it.id == id }?.name ?: room(id)?.name,
+        canonicalAlias = room(id)?.canonicalAlias,
+        generic = generic,
+    )
+
     fun spaceContaining(roomId: String): SpaceSummary? = spaces.firstOrNull { spaceRooms[it.id]?.contains(roomId) == true }
 
     fun unreadState(selection: SidebarSelection): UnreadState {

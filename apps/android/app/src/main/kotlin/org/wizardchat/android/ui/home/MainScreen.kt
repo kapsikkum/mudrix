@@ -6,6 +6,7 @@ import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -146,10 +147,12 @@ fun MainScreen(roomList: RoomListModel) {
     fun show(roomId: String) {
         val room = roomList.room(roomId)
         val space = roomList.spaceContaining(roomId)
+        // The Modern rail has no DM-only pane: direct messages live in the Home pane
+        val dmTab = if (modern) Tab.home else Tab.dms
         when {
             room?.isDirect == true -> {
-                tab = Tab.dms
-                paths[Tab.dms] = listOf(Route.Room(roomId))
+                tab = dmTab
+                paths[dmTab] = listOf(Route.Room(roomId))
             }
             space != null -> {
                 tab = Tab.spaces
@@ -295,7 +298,8 @@ fun MainScreen(roomList: RoomListModel) {
                 val selectedSpaceId = (top as? Route.Space)?.id
                 val homeSelected = selectedSpaceId == null && tab != Tab.me
                 val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
-                if (chatOpen) {
+                // Chats and the You screen take the whole screen: no rail, no user panel
+                if (chatOpen || tab == Tab.me) {
                     CompositionLocalProvider(LocalBottomBarInset provides 0.dp) {
                         stateHolder.SaveableStateProvider(tab) {
                             TabContent(
@@ -305,6 +309,7 @@ fun MainScreen(roomList: RoomListModel) {
                                 onOpenInbox = { showInbox = true },
                                 onCreateSpace = { showCreateSpace = true },
                                 onExplore = { showExplore = true },
+                                onCloseYou = { select(Tab.home) },
                             )
                         }
                     }
@@ -346,20 +351,12 @@ fun MainScreen(roomList: RoomListModel) {
                             AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
                                 Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
                             }
-                            if (showsIsland(tab)) {
-                                ModernBottomBar(
-                                    tab = tab,
-                                    homeUnread = roomList.unreadState(SidebarSelection.Home),
-                                    dmsUnread = roomList.unreadState(SidebarSelection.Dms),
-                                    inboxMention = roomList.mentionRooms.isNotEmpty(),
+                            if (!keyboardVisible) {
+                                ModernUserPanel(
                                     inboxBadge = inboxBadge,
-                                    onHome = {
-                                        select(Tab.home)
-                                        RailSelectionStore.save(context, null)
-                                    },
-                                    onMessages = { select(Tab.dms) },
-                                    onInbox = { showInbox = true },
+                                    inboxMention = roomList.mentionRooms.isNotEmpty(),
                                     onYou = { select(Tab.me) },
+                                    onInbox = { showInbox = true },
                                 )
                             }
                         }
@@ -426,6 +423,8 @@ fun MainScreen(roomList: RoomListModel) {
     }
 }
 
+private fun Route?.isChatRoute() = this is Route.Room || this is Route.Chat || this is Route.Thread
+
 @Composable
 private fun TabContent(
     tab: Tab,
@@ -434,21 +433,25 @@ private fun TabContent(
     onOpenInbox: () -> Unit,
     onCreateSpace: () -> Unit,
     onExplore: () -> Unit,
+    onCloseYou: () -> Unit = {},
 ) {
+    val modernHeader = LocalPrefs.current.navigationStyle == NavigationStyle.rail
     if (tab == Tab.me) {
-        SettingsScreen(isTab = true)
+        // Modern has no rail to go back to, so the You screen gets a Done button
+        if (modernHeader) SettingsScreen(isTab = false, onDismiss = onCloseYou) else SettingsScreen(isTab = true)
         return
     }
     val navigator = LocalNavigator.current
     val stateHolder = rememberSaveableStateHolder()
-    val modernHeader = LocalPrefs.current.navigationStyle == NavigationStyle.rail
     AnimatedContent(
         targetState = path,
         transitionSpec = {
-            if (targetState.size >= initialState.size) {
-                slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
-            } else {
-                slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
+            val chat = initialState.lastOrNull().isChatRoute() || targetState.lastOrNull().isChatRoute()
+            when {
+                // Rail switches swap in place; only moving into or out of a chat slides
+                modernHeader && !chat -> fadeIn(tween(120)) togetherWith fadeOut(tween(120))
+                targetState.size >= initialState.size -> slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
+                else -> slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
             }
         },
         contentKey = { it.size to it.lastOrNull() },

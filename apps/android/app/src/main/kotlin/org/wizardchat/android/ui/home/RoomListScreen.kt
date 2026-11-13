@@ -135,7 +135,7 @@ fun RoomListScreen(
 
     val spaceId = (selection as? SidebarSelection.Space)?.id
     val title = when (selection) {
-        SidebarSelection.Home -> tr("nav.home")
+        SidebarSelection.Home -> if (modernHeader) tr("room.dm.directMessages") else tr("nav.home")
         SidebarSelection.Dms -> tr("room.dm.directMessages")
         is SidebarSelection.Space -> roomList.space(selection.id)?.name ?: tr("explore.typeSpace")
     }
@@ -169,8 +169,12 @@ fun RoomListScreen(
     val voiceChannels = remember(stores.states, modernCategories) {
         modernCategories.flatMap { it.roomIds }.filter { SpaceModern.isVoiceChannelFlagged(stores.states[it]) }.toSet()
     }
-    val modernContent = remember(modernCategories, voiceChannels, roomList.spaces) {
-        ModernSpaceContent(modernCategories, roomList.spaces.associate { it.id to it.name }, voiceChannels)
+    val roomsLabel = tr("nav.rooms")
+    val categoryHeaders = remember(modernCategories, roomList.spaces, roomList.allSpaces, roomList.joinedRooms) {
+        modernCategories.mapNotNull { it.spaceId }.distinct().associateWith { roomList.categoryHeaderOf(it, roomsLabel) }
+    }
+    val modernContent = remember(modernCategories, voiceChannels, categoryHeaders) {
+        ModernSpaceContent(modernCategories, categoryHeaders, voiceChannels)
     }
     val banner = if (modern) SpaceModern.bannerOf(stores.state(spaceId)) ?: SpaceModern.bannerOf(stores.state(rootSpace)) else null
 
@@ -284,7 +288,7 @@ fun RoomListScreen(
                         SpaceBannerView(banner, Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2))
                     }
                 }
-                if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded) {
+                if (selection == SidebarSelection.Home && search.isBlank() && roomList.isLoaded && !modernHeader) {
                     item(key = "welcome") { HomeWelcome(roomList, onOpenInbox, { showNewMessage = true }, onCreateSpace, onExplore) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
                 }
