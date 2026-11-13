@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import org.wizardchat.android.matrix.CosmeticPacks
 import org.wizardchat.android.matrix.ExtendedProfile
 import org.wizardchat.android.matrix.ProfileActivity
 import org.wizardchat.android.matrix.ProfileFields
@@ -17,15 +18,28 @@ object CosmeticCatalog {
 
     data class Frame(val id: String, val name: String, val pieces: List<FramePiece>)
 
-    /** What a profile shows; only ids of the built-in art are ever kept */
+    /** Where a cosmetic's picture comes from: shipped art, or media fetched with the viewer's login */
+    sealed interface Image {
+        data class Asset(val path: String) : Image
+        data class Media(val mxc: String) : Image
+    }
+
+    data class NameplateArt(val image: Image, val palette: String)
+
+    data class FrameArt(val pos: String, val layer: String, val image: Image)
+
+    /** What a profile shows, already resolved: only shipped art or `mxc://` media is ever drawn */
     data class Cosmetics(
-        val decoration: String? = null,
-        val nameplate: Nameplate? = null,
-        val frame: Frame? = null,
+        val decoration: Image? = null,
+        val nameplate: NameplateArt? = null,
+        val frame: List<FrameArt> = emptyList(),
+        val effect: Image? = null,
+        /** The one-shot image a pack effect opens with */
+        val effectIntro: String? = null,
         /** What they are playing or listening to (read in the same request) */
         val activities: List<ProfileActivity> = emptyList(),
     ) {
-        val isEmpty get() = decoration == null && nameplate == null && frame == null && activities.isEmpty()
+        val isEmpty get() = decoration == null && nameplate == null && frame.isEmpty() && effect == null && activities.isEmpty()
     }
 
     /** Nameplate palette names to the "r, g, b" the web tints with */
@@ -35,6 +49,7 @@ object CosmeticCatalog {
         "cobalt" to "1, 49, 194", "clover" to "4, 123, 32", "lemon" to "246, 205, 18", "white" to "255, 255, 255",
     )
 
+    /** The effect ids the web app draws with particles; Android has no art for them, so they are neither listed nor drawn */
     private const val ROOT = "cosmetics"
     private val SAFE_ID = Regex("^[a-z0-9-]{1,64}$")
 
@@ -74,13 +89,43 @@ object CosmeticCatalog {
             Frame(id, o.text("name") ?: id, pieces).takeIf { pieces.isNotEmpty() }
         }
 
-    /** The art a profile asks for, limited to what is built in (a profile value is never turned into a path or URL otherwise) */
-    fun resolve(context: Context, profile: ExtendedProfile): Cosmetics {
-        val decoration = profile.avatarDecoration?.takeIf { it in decorations(context) }
-        val nameplate = profile.nameplate?.let { id -> nameplates(context).firstOrNull { it.id == id } }
-        val frame = profile.profileFrame?.let { id -> frames(context).firstOrNull { it.id == id } }
-        return Cosmetics(decoration, nameplate, frame, ProfileFields.live(profile.activities))
+    /** The art a profile asks for; every value goes through [CosmeticPacks.resolve] first */
+    fun resolve(context: Context, profile: ExtendedProfile, showPacks: Boolean): Cosmetics = Cosmetics(
+        decoration = decoration(context, CosmeticPacks.resolve(profile.avatarDecoration, showPacks)),
+        nameplate = nameplate(context, CosmeticPacks.resolve(profile.nameplate, showPacks)),
+        frame = frame(context, CosmeticPacks.resolve(profile.profileFrame, showPacks)),
+        effect = effect(CosmeticPacks.resolve(profile.profileEffect, showPacks)),
+        activities = ProfileFields.live(profile.activities),
+    )
+
+    /** A decoration's art, shipped or from a pack */
+    fun decoration(context: Context, value: CosmeticPacks.Value?): Image? = when (value) {
+        is CosmeticPacks.Value.Id -> value.id.takeIf { it in decorations(context) }?.let { Image.Asset("$ROOT/decorations/$it.svg") }
+        is CosmeticPacks.Value.Media -> value.url.takeIf { it.isNotEmpty() }?.let(Image::Media)
+        null -> null
     }
+
+    /** A nameplate's art and the palette its strip is tinted with */
+    fun nameplate(context: Context, value: CosmeticPacks.Value?): NameplateArt? = when (value) {
+        is CosmeticPacks.Value.Id -> nameplates(context).firstOrNull { it.id == value.id }
+            ?.let { NameplateArt(Image.Asset(assetPath(it.file)), it.palette) }
+        is CosmeticPacks.Value.Media -> value.url.takeIf { it.isNotEmpty() }
+            ?.let { NameplateArt(Image.Media(it), value.palette?.lowercase()?.takeIf(PALETTES::containsKey) ?: "none") }
+        null -> null
+    }
+
+    /** A profile frame's pieces, by position and layer; a pack frame without pieces is one centred picture */
+    fun frame(context: Context, value: CosmeticPacks.Value?): List<FrameArt> = when (value) {
+        is CosmeticPacks.Value.Id -> frames(context).firstOrNull { it.id == value.id }
+            ?.pieces.orEmpty().map { FrameArt(it.pos, it.layer, Image.Asset(assetPath(it.file))) }
+        is CosmeticPacks.Value.Media -> value.pieces.map { FrameArt(it.pos, it.layer ?: "front", Image.Media(it.url)) }
+            .ifEmpty { value.url.takeIf { it.isNotEmpty() }?.let { listOf(FrameArt("center", "front", Image.Media(it))) }.orEmpty() }
+        null -> emptyList()
+    }
+
+    /** A profile effect's art; only pack media is drawn (the shipped effects are web-only particle drawings) */
+    fun effect(value: CosmeticPacks.Value?): Image? =
+        (value as? CosmeticPacks.Value.Media)?.url?.takeIf { it.isNotEmpty() }?.let(Image::Media)
 
     private fun JsonObject.text(key: String) = (this[key] as? JsonPrimitive)?.takeIf { it.isString }?.content
 }

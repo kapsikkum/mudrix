@@ -42,6 +42,25 @@ class ProfileFieldsTest {
     }
 
     @Test
+    fun readsPackCosmeticsInEveryStoredShape() {
+        val profile = ProfileFields.parse(
+            json(
+                """{"io.github.kapsikkum.mudrix.avatar_decoration":"mxc://example.org/deco",
+                   "io.github.kapsikkum.mudrix.profile_effect":"mxc://example.org/fx",
+                   "chat.mudrix.nameplate":{"url":"mxc://example.org/plate","palette":"berry"},
+                   "io.github.kapsikkum.mudrix.profile_frame":{"url":"","pieces":[{"pos":"top","url":"mxc://example.org/top","layer":"back"}]}}""",
+            ),
+        )
+        assertEquals(CosmeticPacks.Value.Media("mxc://example.org/deco"), profile.avatarDecoration)
+        assertEquals(CosmeticPacks.Value.Media("mxc://example.org/fx"), profile.profileEffect)
+        assertEquals(CosmeticPacks.Value.Media("mxc://example.org/plate", "berry"), profile.nameplate)
+        assertEquals(
+            CosmeticPacks.Value.Media("", pieces = listOf(CosmeticPacks.FramePiece("top", "mxc://example.org/top", "back"))),
+            profile.profileFrame,
+        )
+    }
+
+    @Test
     fun htmlBioIsOnlyAFallback() {
         val value = json("""{"m.biography":{"m.text":[{"body":"<b>x</b><br>y","mimetype":"text/html"},{"body":"plain"}]}}""")
         assertEquals("plain", ProfileFields.parse(value).bio)

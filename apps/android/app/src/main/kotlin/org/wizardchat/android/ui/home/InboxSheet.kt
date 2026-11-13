@@ -278,7 +278,13 @@ private fun Empty(text: String, icon: String) {
 @Composable
 private fun RoomAvatar(room: RoomSummary) {
     Box {
-        Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
+        if (room.dmUserId != null) {
+            val cosmetics = org.wizardchat.android.ui.cosmetics.rememberCosmetics(room.dmUserId)
+            Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
+            org.wizardchat.android.ui.cosmetics.DecorationOverlay(cosmetics?.decoration, WZ.SizeAvatar.md)
+        } else {
+            Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.md)
+        }
         if (!room.isDirect) {
             Box(
                 Modifier

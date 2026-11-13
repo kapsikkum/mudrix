@@ -536,6 +536,7 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
     val avatarSize = prefs.roomAvatarSize
     val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
+    val dmCosmetics = room.dmUserId?.let { org.wizardchat.android.ui.cosmetics.rememberCosmetics(it) }
 
     @Composable
     fun TypeIcon(size: androidx.compose.ui.unit.Dp) {
@@ -558,7 +559,12 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
             }
         } else {
             Box {
-                Avatar(room.displayName, room.avatarUrl, avatarSize)
+                if (room.dmUserId != null) {
+                    Avatar(room.displayName, room.avatarUrl, avatarSize)
+                    org.wizardchat.android.ui.cosmetics.DecorationOverlay(dmCosmetics?.decoration, avatarSize)
+                } else {
+                    Avatar(room.displayName, room.avatarUrl, avatarSize)
+                }
                 if (!room.isDirect) {
                     Box(
                         Modifier
@@ -573,7 +579,8 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 }
             }
         }
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+        org.wizardchat.android.ui.cosmetics.NameplateBox(dmCosmetics?.nameplate, Modifier.weight(1f)) {
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
             Text(
                 room.displayName,
                 style = wizardFont(WZ.FontSize.lg, if (hasUnread) FontWeight.SemiBold else FontWeight.Normal),
@@ -582,6 +589,7 @@ fun RoomRow(room: RoomSummary, showsHashIcon: Boolean, modifier: Modifier = Modi
                 overflow = TextOverflow.Ellipsis,
             )
             if (inCall && room.isVoice) ParticipantStack(room.id, room.callParticipants)
+        }
         }
         if (inCall) RoomCallTimer(room.id)
         Spacer(Modifier.width(6.dp))

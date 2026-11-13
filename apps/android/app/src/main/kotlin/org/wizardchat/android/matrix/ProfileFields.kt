@@ -31,9 +31,10 @@ data class ExtendedProfile(
     val timezone: String? = null,
     val activities: List<ProfileActivity> = emptyList(),
     val accent: String? = null,
-    val avatarDecoration: String? = null,
-    val nameplate: String? = null,
-    val profileFrame: String? = null,
+    val avatarDecoration: CosmeticPacks.Value? = null,
+    val nameplate: CosmeticPacks.Value? = null,
+    val profileFrame: CosmeticPacks.Value? = null,
+    val profileEffect: CosmeticPacks.Value? = null,
     val isMudrixUser: Boolean = false,
 )
 
@@ -57,6 +58,7 @@ object ProfileFields {
 
     val ACCENT_KEYS = mudrix("accent")
     val DECORATION_KEYS = mudrix("avatar_decoration")
+    val EFFECT_KEYS = mudrix("profile_effect")
     val NAMEPLATE_KEYS = mudrix("nameplate")
     val FRAME_KEYS = mudrix("profile_frame")
     val IS_USER_KEYS = mudrix("is_user")
@@ -187,13 +189,8 @@ object ProfileFields {
     /** The activities that have not run out yet */
     fun live(activities: List<ProfileActivity>, now: Long = System.currentTimeMillis()) = activities.filter { it.expiresAt > now }
 
-    /** Only an id is read from a profile, never anything that could become a URL */
-    private fun cosmeticId(value: JsonElement?): String? {
-        val id = value.text()?.trim().orEmpty()
-        return id.takeIf { it.isNotEmpty() && it.length <= 128 && !it.contains("://") && !it.startsWith("{") }
-    }
-
-    fun parse(raw: JsonElement?): ExtendedProfile {
+    /** Only shipped ids or `mxc://` media are read from a profile, never anything that could become another URL */
+    private fun cosmetic(value: JsonElement?): CosmeticPacks.Value? = CosmeticPacks.parseValue(value)    fun parse(raw: JsonElement?): ExtendedProfile {
         val obj = raw as? JsonObject ?: return ExtendedProfile()
         val tz = obj[TZ].text()
         return ExtendedProfile(
@@ -202,9 +199,10 @@ object ProfileFields {
             timezone = tz?.takeIf { isValidTimeZone(it) },
             activities = parseActivities(first(obj, ACTIVITY_KEYS)),
             accent = normalizeHex(first(obj, ACCENT_KEYS).text()),
-            avatarDecoration = cosmeticId(first(obj, DECORATION_KEYS)),
-            nameplate = cosmeticId(first(obj, NAMEPLATE_KEYS)),
-            profileFrame = cosmeticId(first(obj, FRAME_KEYS)),
+            avatarDecoration = CosmeticPacks.parseString(first(obj, DECORATION_KEYS)),
+            nameplate = cosmetic(first(obj, NAMEPLATE_KEYS)),
+            profileFrame = cosmetic(first(obj, FRAME_KEYS)),
+            profileEffect = CosmeticPacks.parseString(first(obj, EFFECT_KEYS)),
             isMudrixUser = (first(obj, IS_USER_KEYS) as? JsonPrimitive)?.booleanOrNull == true,
         )
     }

@@ -1,6 +1,9 @@
 package org.wizardchat.android.ui.cosmetics
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,38 +28,47 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.delay
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import org.wizardchat.android.LocalMedia
+import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.ExtendedProfile
 import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Cosmetics
+import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.FrameArt
+import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Image as CosmeticImageSource
+import org.wizardchat.android.ui.cosmetics.CosmeticCatalog.NameplateArt
+import org.wizardchat.android.ui.room.AnimatedDrawable
 import org.wizardchat.core.WizardClient
 
-/** Other people's cosmetics, asked once per person for a few minutes (one request each) */
+/** Other people's profiles, asked once per person for a few minutes (one request each) */
 object ProfileCosmeticsCache {
     private const val TTL_MS = 5 * 60_000L
-    private class Entry(val at: Long, val value: Cosmetics)
+    private class Entry(val at: Long, val profile: ExtendedProfile)
 
     private val entries = ConcurrentHashMap<String, Entry>()
-    private val pending = ConcurrentHashMap<String, Deferred<Cosmetics?>>()
+    private val pending = ConcurrentHashMap<String, Deferred<ExtendedProfile?>>()
 
-    fun peek(userId: String): Cosmetics? = entries[userId]?.value
+    fun peek(userId: String): ExtendedProfile? = entries[userId]?.profile
 
     fun invalidate(userId: String) {
         entries.remove(userId)
     }
 
-    suspend fun get(client: WizardClient, userId: String, context: android.content.Context): Cosmetics? {
-        entries[userId]?.takeIf { System.currentTimeMillis() - it.at < TTL_MS }?.let { return it.value }
-        val request = CompletableDeferred<Cosmetics?>()
+    suspend fun get(client: WizardClient, userId: String): ExtendedProfile? {
+        entries[userId]?.takeIf { System.currentTimeMillis() - it.at < TTL_MS }?.let { return it.profile }
+        val request = CompletableDeferred<ExtendedProfile?>()
         val existing = pending.putIfAbsent(userId, request)
         if (existing != null) return existing.await()
         try {
-            val value = runCatching { client.profileFields(userId) }.getOrNull()
-                ?.let { CosmeticCatalog.resolve(context, ProfileFields.parse(it)) }
-                ?: Cosmetics()
+            val value = runCatching { client.profileFields(userId) }.getOrNull()?.let(ProfileFields::parse) ?: ExtendedProfile()
             entries[userId] = Entry(System.currentTimeMillis(), value)
             request.complete(value)
             return value
@@ -79,63 +91,111 @@ fun activityLine(activity: org.wizardchat.android.matrix.ProfileActivity): Strin
     return (if (activity.type == "playing") "🎮 " else "🎧 ") + text
 }
 
+/** A profile resolved against the shipped art and the viewer's choice to show pack cosmetics */
+@Composable
+fun resolveCosmetics(profile: ExtendedProfile?): Cosmetics? {
+    val context = LocalContext.current
+    val prefs = LocalPrefs.current
+    val showPacks = prefs.showCosmeticPacks
+    return remember(profile, showPacks) {
+        profile?.let { CosmeticCatalog.resolve(context, it, showPacks).takeIf { cosmetics -> !cosmetics.isEmpty } }
+    }
+}
+
 /** A person's cosmetics, loading in the background; null until known (or when they have none to show) */
 @Composable
 fun rememberCosmetics(userId: String?): Cosmetics? {
     val session = LocalSession.current
-    val context = LocalContext.current
-    var value by remember(userId) { mutableStateOf(userId?.let(ProfileCosmeticsCache::peek)) }
+    var profile by remember(userId) { mutableStateOf(userId?.let(ProfileCosmeticsCache::peek)) }
     LaunchedEffect(userId, session.client) {
         val client = session.client ?: return@LaunchedEffect
-        if (userId != null) value = ProfileCosmeticsCache.get(client, userId, context)
+        if (userId != null) profile = ProfileCosmeticsCache.get(client, userId)
     }
-    return value?.takeIf { !it.isEmpty }
+    return resolveCosmetics(profile)
 }
 
 /** An avatar with the person's decoration around it */
 @Composable
-fun CosmeticAvatar(userId: String?, name: String, url: String?, size: Dp, modifier: Modifier = Modifier) {
+fun CosmeticAvatar(
+    userId: String?,
+    name: String,
+    url: String?,
+    size: Dp,
+    modifier: Modifier = Modifier,
+    animateDecoration: Boolean = false,
+) {
     val cosmetics = rememberCosmetics(userId)
     Box(modifier.size(size), contentAlignment = Alignment.Center) {
         Avatar(name, url, size)
-        DecorationOverlay(cosmetics?.decoration, size)
+        DecorationOverlay(cosmetics?.decoration, size, animateDecoration)
+    }
+}
+
+/** The picture of a cosmetic, through the app's authenticated media loading; animated pictures play when asked */
+@Composable
+fun CosmeticImage(
+    image: CosmeticImageSource?,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Fit,
+    animate: Boolean = false,
+    width: Int = ART_WIDTH,
+) {
+    val media = LocalMedia.current
+    val prefs = LocalPrefs.current
+    val reduceMotion = prefs.reducesMotion(false)
+    var drawable by remember(image, animate) { mutableStateOf<Drawable?>(null) }
+    var bitmap by remember(image, width) {
+        mutableStateOf((image as? CosmeticImageSource.Asset)?.path?.let { CosmeticArt.cached(it, width) })
+    }
+    LaunchedEffect(image, animate, media, reduceMotion) {
+        when (image) {
+            is CosmeticImageSource.Asset -> if (bitmap == null) bitmap = CosmeticArt.bitmap(image.path, width)
+            is CosmeticImageSource.Media -> if (media != null) {
+                if (animate && !reduceMotion) {
+                    drawable = media.animated(JsonObject(mapOf("url" to JsonPrimitive(image.mxc))))
+                    (drawable as? android.graphics.drawable.AnimatedImageDrawable)?.start()
+                }
+                if (drawable == null) bitmap = media.thumbnail(image.mxc, width)
+            }
+            null -> Unit
+        }
+    }
+    when {
+        drawable != null -> AnimatedDrawable(drawable!!, fit = true, modifier = modifier)
+        bitmap != null -> Image(bitmap!!.asImageBitmap(), null, modifier, contentScale = contentScale)
     }
 }
 
 /** The decoration art, 120% of the avatar and centred on it (it may reach past the avatar's own bounds) */
 @Composable
-fun DecorationOverlay(id: String?, size: Dp) {
-    if (id == null) return
-    val path = "cosmetics/decorations/$id.svg"
+fun DecorationOverlay(image: CosmeticImageSource?, size: Dp, animate: Boolean = false) {
+    if (image == null) return
     val px = with(LocalDensity.current) { (size * DECORATION_SCALE).roundToPx() }
-    var bitmap by remember(path, px) { mutableStateOf(CosmeticArt.cached(path, px)) }
-    LaunchedEffect(path, px) {
-        if (bitmap == null) bitmap = CosmeticArt.bitmap(path, px)
-    }
-    bitmap?.let { Image(it.asImageBitmap(), null, Modifier.requiredSize(size * DECORATION_SCALE)) }
+    CosmeticImage(image, Modifier.requiredSize(size * DECORATION_SCALE), animate = animate, width = px)
 }
 
 private const val DECORATION_SCALE = 1.2f
 private const val ART_WIDTH = 720
 
-@Composable
-private fun rememberArt(path: String?, width: Int = ART_WIDTH): androidx.compose.ui.graphics.ImageBitmap? {
-    var bitmap by remember(path, width) { mutableStateOf(path?.let { CosmeticArt.cached(it, width) }) }
-    LaunchedEffect(path, width) {
-        if (path != null && bitmap == null) bitmap = CosmeticArt.bitmap(path, width)
-    }
-    return bitmap?.asImageBitmap()
-}
-
 /** Content on top of a nameplate: its art fills the row and fades in from the left, like on the web */
 @Composable
-fun NameplateBox(nameplate: CosmeticCatalog.Nameplate?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-    Box(modifier) {
-        val art = rememberArt(nameplate?.file?.let(CosmeticCatalog::assetPath))
-        if (art != null) {
-            Image(
-                art,
-                null,
+fun NameplateBox(nameplate: NameplateArt?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
+    val rgb = CosmeticCatalog.PALETTES[nameplate?.palette] ?: "0, 0, 0"
+    val tint = numberList(rgb)
+    Box(
+        if (nameplate == null) {
+            modifier
+        } else {
+            modifier.background(
+                Brush.horizontalGradient(
+                    listOf(Color(tint[0] / 255f, tint[1] / 255f, tint[2] / 255f, 0.2f), Color(tint[0] / 255f, tint[1] / 255f, tint[2] / 255f, 0.55f)),
+                ),
+            )
+        },
+    ) {
+        if (nameplate != null) {
+            CosmeticImage(
+                nameplate.image,
                 Modifier
                     .matchParentSize()
                     .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
@@ -144,26 +204,64 @@ fun NameplateBox(nameplate: CosmeticCatalog.Nameplate?, modifier: Modifier = Mod
                         drawRect(Brush.horizontalGradient(0f to Color.Transparent, 0.55f to Color.Black), blendMode = BlendMode.DstIn)
                     },
                 contentScale = ContentScale.Crop,
-                alignment = Alignment.Center,
+                animate = true,
             )
         }
         content()
     }
 }
 
-/** Content inside a profile frame: the back piece behind it, the top and bottom pieces over its edges */
+private fun numberList(rgb: String): List<Float> =
+    rgb.split(',').mapNotNull { it.trim().toFloatOrNull() }.let { if (it.size == 3) it else listOf(0f, 0f, 0f) }
+
+/** Content inside a profile frame: the back pieces behind it, the top and bottom ones over its edges */
 @Composable
-fun FrameBox(frame: CosmeticCatalog.Frame?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
+fun FrameBox(pieces: List<FrameArt>, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
     Box(modifier) {
-        fun piece(pos: String, layer: String) = frame?.pieces?.firstOrNull { it.pos == pos && it.layer == layer }?.file?.let(CosmeticCatalog::assetPath)
-        val back = rememberArt(piece("center", "back"))
-        val top = rememberArt(piece("top", "front"))
-        val bottom = rememberArt(piece("bottom", "front"))
-        val centerFront = rememberArt(piece("center", "front"))
-        if (back != null) Image(back, null, Modifier.matchParentSize(), contentScale = ContentScale.FillBounds)
+        pieces.filter { it.layer == "back" }.forEach { piece(it) }
         content()
-        if (centerFront != null) Image(centerFront, null, Modifier.matchParentSize(), contentScale = ContentScale.FillBounds)
-        if (top != null) Image(top, null, Modifier.fillMaxWidth().align(Alignment.TopCenter), contentScale = ContentScale.FillWidth)
-        if (bottom != null) Image(bottom, null, Modifier.fillMaxWidth().align(Alignment.BottomCenter), contentScale = ContentScale.FillWidth)
+        pieces.filter { it.layer != "back" }.forEach { piece(it) }
     }
+}
+
+@Composable
+private fun BoxScope.piece(piece: FrameArt) {
+    val alignment = when (piece.pos) {
+        "top" -> Alignment.TopCenter
+        "bottom" -> Alignment.BottomCenter
+        else -> Alignment.Center
+    }
+    val fit = if (piece.pos == "center") Modifier.matchParentSize() else Modifier.fillMaxWidth().align(alignment)
+    CosmeticImage(piece.image, fit, contentScale = if (piece.pos == "center") ContentScale.FillBounds else ContentScale.FillWidth, animate = true)
+}
+
+/** How long a pack effect's intro plays before its loop, when the intro cannot say */
+private const val INTRO_MS = 3000L
+
+/** The intro a pack effect opens with, looked up among the packs this account can see */
+@Composable
+fun rememberEffectIntro(effect: CosmeticImageSource?): String? {
+    val session = LocalSession.current
+    val mxc = (effect as? CosmeticImageSource.Media)?.mxc
+    var intro by remember(mxc) { mutableStateOf<String?>(null) }
+    LaunchedEffect(mxc, session.client) {
+        intro = mxc?.let { org.wizardchat.android.matrix.CosmeticPackStore.effectIntro(session, it) }
+    }
+    return intro
+}
+
+/** A pack effect as a looping overlay over a profile, opening with its intro when the pack has one */
+@Composable
+fun EffectOverlay(effect: CosmeticImageSource?, intro: String?, modifier: Modifier = Modifier) {
+    val media = effect as? CosmeticImageSource.Media ?: return
+    val introMedia = intro?.let(CosmeticImageSource::Media)
+    var introDone by remember(media.mxc) { mutableStateOf(introMedia == null) }
+    LaunchedEffect(media.mxc, introMedia) {
+        if (introMedia != null) {
+            delay(INTRO_MS)
+            introDone = true
+        }
+    }
+    val source = if (introDone) media else introMedia ?: media
+    CosmeticImage(source, modifier, contentScale = ContentScale.Crop, animate = true)
 }

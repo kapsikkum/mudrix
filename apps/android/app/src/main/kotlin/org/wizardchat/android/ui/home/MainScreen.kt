@@ -397,7 +397,8 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
             ) {
-                Avatar(
+                org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                    session.userId,
                     session.displayName ?: session.userId ?: "",
                     session.avatarUrl,
                     WZ.SizeAvatar.sm,

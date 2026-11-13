@@ -211,6 +211,7 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
                 avatarUrl,
                 WZ.SizeAvatar.lg,
                 modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f),
+                animateDecoration = true,
             )
         }
         AnimatedContent(

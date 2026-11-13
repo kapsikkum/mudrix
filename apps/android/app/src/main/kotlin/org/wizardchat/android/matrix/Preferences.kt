@@ -262,6 +262,10 @@ class AppPreferences(context: Context) {
     var showHomeserverSoftware by pref(defaults.getBoolean("showHomeserverSoftware", true), boolCodec("showHomeserverSoftware")) {
         putBoolean("showHomeserverSoftware", it)
     }
+    /** Draw the decorations, nameplates, frames and effects that come from packs, for everyone (the web's `showCosmeticPacks`) */
+    var showCosmeticPacks by pref(defaults.getBoolean("showCosmeticPacks", true), boolCodec("showCosmeticPacks")) {
+        putBoolean("showCosmeticPacks", it)
+    }
     var notificationBanners by pref(defaults.getBoolean("notificationBanners", true)) { putBoolean("notificationBanners", it) }
     var language by pref(
         defaults.getString("language", "") ?: "",

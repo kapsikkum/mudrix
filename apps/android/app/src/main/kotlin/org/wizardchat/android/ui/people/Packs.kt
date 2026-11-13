@@ -127,6 +127,7 @@ internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (ke
                     }
                 }
             }
+            roomCosmeticPacks(roomId)
         }
     }
 
