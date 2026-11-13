@@ -8364,6 +8364,8 @@ dependencies = [
  "tauri-plugin-window-state",
  "tauri-winrt-notification",
  "tokio",
+ "url",
+ "webview2-com",
  "windows 0.62.2",
  "windows-core",
  "wizardchat-core",

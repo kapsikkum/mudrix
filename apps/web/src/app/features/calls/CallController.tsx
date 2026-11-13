@@ -36,6 +36,7 @@ import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
 import { useScreenWakeLock } from './useScreenWakeLock';
 import { AloneNotice } from './AloneNotice';
 import { getMatrixClientOrNull, onSessionEnd } from '@/client/initMatrix';
+import { hideScreenShareBar, onScreenShareStop, showScreenShareBar } from '@/util/desktop';
 
 const LEAVE_CONFIRM_TIMEOUT_MS = 30_000;
 
@@ -57,6 +58,48 @@ const IDLE_UI = {
   isScreenSharing: false,
   isSpotlight: true,
 };
+
+/** Mirrors the call's screen-share state onto the desktop shell's floating share bar. */
+function useDesktopScreenShareBar(sharing: boolean, alive: boolean, toggleScreenshare: () => void) {
+  const { t } = useTranslation();
+  const shownRef = useRef(false);
+  const sharingRef = useRef(sharing);
+  sharingRef.current = sharing;
+  const toggleRef = useRef(toggleScreenshare);
+  toggleRef.current = toggleScreenshare;
+  const active = sharing && alive;
+
+  useEffect(() => {
+    if (active === shownRef.current) return;
+    shownRef.current = active;
+    if (active) {
+      showScreenShareBar({
+        title: t('call.sharingTitle'),
+        stop: t('call.stopShare'),
+        back: t('call.returnToCall'),
+      });
+    } else {
+      hideScreenShareBar();
+    }
+  }, [active, t]);
+
+  useEffect(
+    () => () => {
+      if (!shownRef.current) return;
+      shownRef.current = false;
+      hideScreenShareBar();
+    },
+    []
+  );
+
+  useEffect(
+    () =>
+      onScreenShareStop(() => {
+        if (sharingRef.current) toggleRef.current();
+      }),
+    []
+  );
+}
 
 function playParticipantSounds(previous: CallSnapshot, snap: CallSnapshot): void {
   if (previous.ring !== snap.ring) {
@@ -364,6 +407,8 @@ export function CallController() {
   }, [session, noiseSuppression, echoCancellation, autoGainControl]);
 
   const roomId = useAtomValue(callUiAtom).roomId;
+  const isScreenSharing = useAtomValue(callUiAtom).isScreenSharing;
+  useDesktopScreenShareBar(isScreenSharing, session !== null, toggleScreenshare);
   useEffect(() => {
     if (roomId === null || currentRoomId === roomId) return;
     setUi((prev) =>

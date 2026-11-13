@@ -10,6 +10,7 @@ import {
   type Placement,
 } from '@floating-ui/dom';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
+import { usePortalContainer } from '@/app/components/PortalContainer';
 import * as css from './Tooltip.css';
 
 interface TooltipProps {
@@ -53,17 +54,19 @@ export const Tooltip = memo(function Tooltip({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
   const coarse = useCoarsePointer();
+  const portalContainer = usePortalContainer();
 
   useEffect(() => {
     const onPointerDown = () => {
       lastPointerAtRef.current = Date.now();
     };
-    document.addEventListener('pointerdown', onPointerDown);
+    const doc = portalContainer.ownerDocument;
+    doc.addEventListener('pointerdown', onPointerDown);
     return () => {
-      document.removeEventListener('pointerdown', onPointerDown);
+      doc.removeEventListener('pointerdown', onPointerDown);
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, []);
+  }, [portalContainer]);
 
   useEffect(() => {
     if (!visible || !triggerRef.current || !tooltipRef.current) return;
@@ -211,7 +214,7 @@ export const Tooltip = memo(function Tooltip({
             {content}
             <div ref={arrowRef} className={css.arrow} />
           </div>,
-          document.body
+          portalContainer
         )}
     </>
   );

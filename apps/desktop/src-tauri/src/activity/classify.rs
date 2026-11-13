@@ -198,7 +198,7 @@ pub fn pe_product_name(path: &str) -> Option<String> {
         {
             let slice =
                 std::slice::from_raw_parts(trans_ptr as *const u16, (trans_len / 2) as usize);
-            for chunk in slice.chunks_exact(2) {
+            for chunk in slice.as_chunks::<2>().0 {
                 langs.push(format!("{:04x}{:04x}", chunk[0], chunk[1]));
             }
         }

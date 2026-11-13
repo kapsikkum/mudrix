@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   ArrowSquareInIcon,
   ArrowSquareOutIcon,
+  AppWindowIcon,
   ArrowsInIcon,
   ArrowsOutIcon,
   ChatTextIcon,
@@ -23,8 +24,8 @@ import { Tooltip } from '@/app/components/Tooltip';
 import { Popover } from '@/app/components/Popover';
 import {
   callActionsAtom,
-  callEffectiveViewAtom,
   callIsVoiceRoomAtom,
+  callPopoutOpenAtom,
   callUiAtom,
   callSessionAtom,
   showNonVideoParticipantsAtom,
@@ -40,12 +41,23 @@ import { DeviceControl } from './DeviceMenu';
 import { PushToTalkDot } from './PushToTalkDot';
 import { SoundboardButton } from '@/app/features/soundboard/SoundboardButton';
 import { useCallSnapshot } from './stage/useCallSnapshot';
+import { useCallView } from './useCallView';
+import { canOpenCallPopoutWindow, useToggleCallPopout } from './CallPopoutWindow';
+import { isTauriMobile } from '@/util/desktop';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import {
   watchActionsAtom,
   watchDialogOpenAtom,
   watchStateAtom,
 } from './watchTogether/watchTogether';
 import * as css from './CallControlBar.css';
+
+/**
+ * Phones and tablets have no room for a popout: the call already fills the screen. The main window's
+ * width means nothing while the call is in the pop-out window, so it is not asked then.
+ */
+const isMobileLayout = (poppedOut: boolean) =>
+  isTauriMobile() || (!poppedOut && window.matchMedia(PANEL_OVERLAY_QUERY).matches);
 
 const JOINING_SLOW_MS = 8_000;
 
@@ -64,7 +76,7 @@ export function CallControlBar() {
   const { t } = useTranslation();
   const ui = useAtomValue(callUiAtom);
   const actions = useAtomValue(callActionsAtom);
-  const view = useAtomValue(callEffectiveViewAtom);
+  const view = useCallView();
   const isVoiceCall = useAtomValue(callIsVoiceRoomAtom);
   const callSession = useAtomValue(callSessionAtom);
   const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
@@ -78,6 +90,8 @@ export function CallControlBar() {
   const openRoomChat = useSetAtom(openRoomChatAtom);
   const closeRoomChat = useSetAtom(closeRoomChatAtom);
   const returnToCall = useReturnToCall();
+  const popoutOpen = useAtomValue(callPopoutOpenAtom);
+  const popOut = useToggleCallPopout();
   const menuBtnRef = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const watching = !!useAtomValue(watchStateAtom);
@@ -234,6 +248,23 @@ export function CallControlBar() {
         dense
       >
         <div className={css.menu}>
+          {canOpenCallPopoutWindow() && !isMobileLayout(popoutOpen) && (
+            <button
+              type="button"
+              role="menuitemcheckbox"
+              className={css.menuItem}
+              aria-checked={popoutOpen}
+              onClick={() => {
+                popOut();
+                closeMenu();
+              }}
+            >
+              <AppWindowIcon size={16} />
+              <span className={css.menuItemLabel}>{t('call.popOutWindow')}</span>
+              <span className={css.menuItemSpacer} />
+            </button>
+          )}
+
           {(view === 'fullscreen' || view === 'docked') && (
             <button
               type="button"
@@ -266,7 +297,7 @@ export function CallControlBar() {
             </button>
           )}
 
-          {view === 'fullscreen' && !isVoiceCall && (
+          {view === 'fullscreen' && !isVoiceCall && !popoutOpen && (
             <button
               type="button"
               role="menuitem"

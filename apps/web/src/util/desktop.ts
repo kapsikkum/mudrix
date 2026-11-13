@@ -119,3 +119,35 @@ export function onDesktopActivity(cb: (activities: DesktopActivity[]) => void): 
     unlisten = null;
   };
 }
+
+/** Floating "you're sharing" bar shown by the desktop shell while a screen share is live. */
+export function showScreenShareBar(labels: { title: string; stop: string; back: string }): void {
+  if (!isTauriDesktop()) return;
+  invoke('show_screen_share_bar', labels).catch((err) =>
+    console.warn('[desktop] show_screen_share_bar failed', err)
+  );
+}
+
+export function hideScreenShareBar(): void {
+  if (!isTauriDesktop()) return;
+  invoke('hide_screen_share_bar').catch(() => {});
+}
+
+/** Fires when the user clicks Stop on the desktop screen-share bar. Returns an unsubscribe. */
+export function onScreenShareStop(cb: () => void): () => void {
+  if (!isTauriDesktop()) return () => {};
+  let disposed = false;
+  let unlisten: (() => void) | null = null;
+  import('@tauri-apps/api/event')
+    .then(({ listen }) => listen('screen-share-stop', () => cb()))
+    .then((fn) => {
+      if (disposed) fn();
+      else unlisten = fn;
+    })
+    .catch(() => {});
+  return () => {
+    disposed = true;
+    unlisten?.();
+    unlisten = null;
+  };
+}

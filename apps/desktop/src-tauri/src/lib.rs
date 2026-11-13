@@ -8,8 +8,10 @@ mod global_keys;
 mod keep_awake;
 mod links;
 mod loopback;
+mod popout;
 mod rpc;
 mod screen_share;
+mod screenshare;
 mod settings;
 mod shell;
 mod toast;
@@ -123,6 +125,7 @@ pub fn run() {
             tauri_plugin_window_state::Builder::default()
                 .with_filename(WINDOW_STATE_FILE)
                 .with_state_flags(shell::window_state_flags())
+                .with_denylist(&[screenshare::BAR_WINDOW, popout::POPOUT_WINDOW])
                 .build(),
         )
         .plugin(tauri_plugin_autostart::init(
@@ -156,6 +159,10 @@ pub fn run() {
             ) {
                 shell::check_fullscreen(window.app_handle());
             }
+            if matches!(event, tauri::WindowEvent::Destroyed) {
+                screenshare::close_bar(window.app_handle());
+                popout::close_popout(window.app_handle());
+            }
         })
         .setup(|app| {
             // Account stores (`StoreConfig.location`) are relative paths: keep them in app data
@@ -173,6 +180,10 @@ pub fn run() {
                 .find(|w| w.label == MAIN_WINDOW)
             {
                 let window = WebviewWindowBuilder::from_config(app, config)?;
+                let popout_handle = app.handle().clone();
+                let window = window.on_new_window(move |url, features| {
+                    popout::on_new_window(&popout_handle, url, features)
+                });
                 #[cfg(all(debug_assertions, windows))]
                 let window =
                     window.data_directory(app.path().app_local_data_dir()?.join("dev-webview"));
@@ -230,6 +241,7 @@ pub fn run() {
             global_keys::global_key_set,
             global_keys::global_keys_permission,
             keep_awake::keep_awake,
+            popout::hide_call_popout,
             update::update_ready,
             activity::set_activity_detection,
             activity::get_activity,
@@ -240,6 +252,10 @@ pub fn run() {
             screen_share::desktop_sources,
             screen_share::start_screen_capture,
             screen_share::stop_screen_capture,
+            screenshare::show_screen_share_bar,
+            screenshare::hide_screen_share_bar,
+            screenshare::screen_share_bar_stop,
+            screenshare::screen_share_bar_return,
         ])
         .build(tauri::generate_context!())
         .expect("error while running Mudrix");

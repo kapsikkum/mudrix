@@ -8,7 +8,11 @@ import {
   notificationBannersAtom,
 } from '@/app/store/atoms/settings';
 import { useSoundSettings } from '@/app/hooks/useSoundSettings';
-import { showBrowserNotification, playNotificationSound } from '@/app/hooks/useNotifications';
+import {
+  showBrowserNotification,
+  notificationAvatar,
+  playNotificationSound,
+} from '@/app/hooks/useNotifications';
 import type { Notification as CoreNotification } from '@wizardchat/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllRooms } from '@/app/data';
@@ -61,10 +65,14 @@ export function useClientNotifications() {
       const roomUrl = notification.isDirect
         ? `/dm/${encodeURIComponent(notification.roomId)}`
         : `/r/${encodeURIComponent(notification.roomId)}`;
-      showBrowserNotification(
-        `${senderName} in ${notification.roomName ?? notification.roomId}`,
-        body,
-        roomUrl
+      const title = `${senderName} in ${notification.roomName ?? notification.roomId}`;
+      // The desktop toast shows the sender's avatar where the web banner shows the logo.
+      const avatar =
+        mx && window.desktopAPI?.showNotification
+          ? notificationAvatar(mx, notification.roomId, notification.sender)
+          : Promise.resolve(null);
+      void avatar.then((png) =>
+        showBrowserNotification(title, body, roomUrl, undefined, undefined, png ?? undefined)
       );
     }
     // The window being looked at is quiet unless the person asked for sounds there too.

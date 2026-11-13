@@ -69,6 +69,12 @@ export const leavingCallRoomIdAtom = atom<string | null>(null);
 // The running call (LiveKit media plus the core's MatrixRTC session)
 export const callSessionAtom = atom<CallMedia | null>(null);
 
+/**
+ * Desktop: the call's interface is in a window of its own (see CallPopoutWindow). The call itself
+ * stays in the main window.
+ */
+export const callPopoutOpenAtom = atom(false);
+
 export const showNonVideoParticipantsAtom = atom(true);
 
 export const showOwnScreenShareAtom = atom(true);

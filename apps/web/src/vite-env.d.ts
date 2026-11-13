@@ -36,6 +36,8 @@ interface DesktopAPI {
     title: string;
     body: string;
     icon?: string;
+    /** The sender's avatar as PNG bytes; the Windows toast shows it in place of the app icon */
+    avatar?: Uint8Array;
     silent?: boolean;
     roomUrl?: string;
   }) => Promise<boolean>;
@@ -82,6 +84,10 @@ interface DesktopAPI {
   getPlatform?: () => string;
   setTitleBarTheme?: (background: string, foreground: string) => void;
   onFullscreenChange?: (cb: (fullscreen: boolean) => void) => () => void;
+  /** Closes the call's window of its own, if the shell has one open */
+  hideCallPopout?: () => void;
+  /** The call's window is gone, however it went; returns a stopper */
+  onCallPopoutClosed?: (cb: () => void) => () => void;
 }
 
 interface Window {

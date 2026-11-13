@@ -13,6 +13,7 @@ import {
   matchesComboDown,
   parseCombo,
 } from '@/app/features/keyboardShortcuts/keyCombo';
+import { callPopoutRootAtom } from './CallPopoutWindow';
 
 const RELEASE_DELAY_MS = 120;
 
@@ -23,6 +24,7 @@ export function usePushToTalk(setTransmitting: ((on: boolean) => unknown) | null
   const active = mode && !!setTransmitting && joined;
   const setHeld = useSetAtom(pushToTalkHeldAtom);
   const setStatus = useSetAtom(globalKeyStatusAtom);
+  const popoutRoot = useAtomValue(callPopoutRootAtom);
   const releaseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -78,21 +80,29 @@ export function usePushToTalk(setTransmitting: ((on: boolean) => unknown) | null
     const onKeyUp = (e: KeyboardEvent) => {
       if (useLocalKeys && isComboKeyUp(e, combo)) release();
     };
+    // The key is held in whichever window has focus: the app's, or the call's pop-out window.
+    const windows = [window];
+    const popout = popoutRoot?.ownerDocument.defaultView;
+    if (popout) windows.push(popout);
     const onBlur = () => {
       if (!useLocalKeys) return;
       setTimeout(() => {
-        if (!document.hasFocus()) release();
+        if (!windows.some((win) => win.document.hasFocus())) release();
       }, 0);
     };
 
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
-    window.addEventListener('blur', onBlur);
+    windows.forEach((win) => {
+      win.addEventListener('keydown', onKeyDown);
+      win.addEventListener('keyup', onKeyUp);
+      win.addEventListener('blur', onBlur);
+    });
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
-      window.removeEventListener('blur', onBlur);
+      windows.forEach((win) => {
+        win.removeEventListener('keydown', onKeyDown);
+        win.removeEventListener('keyup', onKeyUp);
+        win.removeEventListener('blur', onBlur);
+      });
       cleanupGlobal?.();
       void desktop?.setGlobalKey?.('pushToTalk', null);
       setStatus(({ pushToTalk: _, ...rest }) => rest);
@@ -100,5 +110,5 @@ export function usePushToTalk(setTransmitting: ((on: boolean) => unknown) | null
       releaseTimer.current = null;
       setHeld(false);
     };
-  }, [active, setTransmitting, keyCode, setHeld, setStatus]);
+  }, [active, setTransmitting, keyCode, setHeld, setStatus, popoutRoot]);
 }

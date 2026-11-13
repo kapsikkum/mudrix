@@ -25,8 +25,14 @@ function platform(): string {
 const takePendingRoom = () => invoke<string | null>('take_pending_room');
 
 export const desktopApi: DesktopAPI = {
-  showNotification: ({ title, body, icon, roomUrl }) =>
-    invoke<boolean>('show_notification', { title, body, icon, roomUrl }),
+  showNotification: ({ title, body, icon, avatar, roomUrl }) =>
+    invoke<boolean>('show_notification', {
+      title,
+      body,
+      icon,
+      avatar: avatar && Array.from(avatar),
+      roomUrl,
+    }),
   // A clicked notification leaves its room with the app until the UI takes it
   onOpenRoom(listener) {
     onDesktopEvent('open-room', () => {
@@ -57,6 +63,12 @@ export const desktopApi: DesktopAPI = {
     void invoke('set_unread_count', { total, highlight }).catch(() => {});
   },
   onFullscreenChange: (listener) => onDesktopEvent<boolean>('fullscreen-changed', listener),
+  // The call's window of its own is opened by the web app with window.open; the shell answers it
+  // and says when the window is gone, however it went
+  hideCallPopout() {
+    void invoke('hide_call_popout').catch(() => {});
+  },
+  onCallPopoutClosed: (listener) => onDesktopEvent('call-popout-closed', () => listener()),
   setGlobalKey: (id, code) => invoke('global_key_set', { id, code }),
   onGlobalKey: (listener) =>
     onDesktopEvent<{ id: string; down: boolean }>('global-key', ({ id, down }) =>

@@ -99,16 +99,61 @@ mod imp {
         }
     }
 
-    /// Send a toast under the app's own id. Clicking it brings the window back and opens the room.
+    /// Avatar files kept for toasts; older ones are deleted past this.
+    const AVATAR_CACHE_MAX: usize = 64;
+
+    /// The sender's avatar (PNG bytes from the web app) as a file, since an unpackaged app's toast
+    /// can only show a local image. Named by content, so a repeat sender reuses the file.
+    fn write_avatar(app: &AppHandle, png: &[u8]) -> Option<std::path::PathBuf> {
+        use std::hash::{Hash, Hasher};
+        if !png.starts_with(&[0x89, b'P', b'N', b'G']) {
+            return None;
+        }
+        let dir = app.path().app_local_data_dir().ok()?.join("toast-avatars");
+        std::fs::create_dir_all(&dir).ok()?;
+        let mut hasher = std::collections::hash_map::DefaultHasher::new();
+        png.hash(&mut hasher);
+        let path = dir.join(format!("{:016x}.png", hasher.finish()));
+        if !path.exists() {
+            std::fs::write(&path, png).ok()?;
+            prune_avatars(&dir);
+        }
+        Some(path)
+    }
+
+    fn prune_avatars(dir: &std::path::Path) {
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        let mut files: Vec<_> = entries
+            .flatten()
+            .filter_map(|e| Some((e.metadata().ok()?.modified().ok()?, e.path())))
+            .collect();
+        if files.len() <= AVATAR_CACHE_MAX {
+            return;
+        }
+        files.sort();
+        for (_, path) in &files[..files.len() - AVATAR_CACHE_MAX] {
+            let _ = std::fs::remove_file(path);
+        }
+    }
+
+    /// Send a toast as "Mudrix", with the sender's avatar in place of the app icon when given.
+    /// Clicking it brings the window back, which opens the room.
     pub fn show(
         app: &AppHandle,
         title: &str,
         body: &str,
+        avatar: Option<&[u8]>,
         room_url: Option<String>,
     ) -> Result<(), String> {
         let id = crate::dev::app_id(&app.config().identifier);
         let handle = app.clone();
-        tauri_winrt_notification::Toast::new(&id)
+        let mut toast = tauri_winrt_notification::Toast::new(&id);
+        if let Some(path) = avatar.and_then(|png| write_avatar(app, png)) {
+            toast = toast.icon(&path, tauri_winrt_notification::IconCrop::Circular, title);
+        }
+        toast
             .title(title)
             .text1(body)
             // Silent: the web app plays the chosen sound pack itself, so Windows' own chime

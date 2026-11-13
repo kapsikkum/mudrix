@@ -21,7 +21,6 @@ import { SoundboardTileChip } from '@/app/features/soundboard/SoundboardPersonUi
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { Tooltip } from '@/app/components/Tooltip';
 import {
-  callEffectiveViewAtom,
   callUiAtom,
   callSessionAtom,
   callShowReactionsAtom,
@@ -30,6 +29,7 @@ import {
 } from '@/app/store/atoms/call';
 import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { buildCallBackground } from '@/app/features/calls/callBackground';
+import { useCallView } from '../useCallView';
 import { useCallSnapshot } from './useCallSnapshot';
 import { TileAvatar } from './TileAvatar';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
@@ -470,7 +470,7 @@ export function CallStage() {
   const session = useAtomValue(callSessionAtom);
   const snapshot = useCallSnapshot();
   const [ui, setUi] = useAtom(callUiAtom);
-  const view = useAtomValue(callEffectiveViewAtom);
+  const view = useCallView();
   const theme = useAtomValue(effectiveThemeAtom);
   const [focusedKey, setFocusedKey] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState<UserMenuAnchor | null>(null);

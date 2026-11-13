@@ -10,11 +10,13 @@ export function useDismiss(ref: RefObject<HTMLElement | null>, onClose: () => vo
       e.stopPropagation();
       onClose();
     };
-    document.addEventListener('pointerdown', onPointerDown, true);
-    document.addEventListener('keydown', onKeyDown, true);
+    // The element may be in the call's window of its own, which is another document.
+    const doc = ref.current?.ownerDocument ?? document;
+    doc.addEventListener('pointerdown', onPointerDown, true);
+    doc.addEventListener('keydown', onKeyDown, true);
     return () => {
-      document.removeEventListener('pointerdown', onPointerDown, true);
-      document.removeEventListener('keydown', onKeyDown, true);
+      doc.removeEventListener('pointerdown', onPointerDown, true);
+      doc.removeEventListener('keydown', onKeyDown, true);
     };
   }, [ref, onClose]);
 }
