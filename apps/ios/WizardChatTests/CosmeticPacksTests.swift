@@ -138,15 +138,22 @@ final class CosmeticPacksTests: XCTestCase {
             "broadcast-hijack", "eevee-stars",
         ]
         XCTAssertEqual(CosmeticPacks.effectIds, webIds)
-        // The Android port draws every id but the sprite-strip effect; both lists are in web order.
-        XCTAssertEqual(CosmeticPacks.effectIds.filter(BuiltinEffectArt.draws), [
-            "falling-stars", "hearts", "snow", "sparkles", "claude-sparks", "bubbles", "confetti",
-            "fireflies", "autumn-leaves", "mud-splatter", "creeping-hands", "signal-intrusion",
-            "broadcast-hijack",
-        ])
+        // The port draws every web id, the sprite-strip effect included, in web order.
+        XCTAssertEqual(CosmeticPacks.effectIds.filter(BuiltinEffectArt.draws), webIds)
         XCTAssertTrue(BuiltinEffectArt.draws("creeping-hands"))
-        XCTAssertFalse(BuiltinEffectArt.draws("eevee-stars"))
+        XCTAssertTrue(BuiltinEffectArt.draws("eevee-stars"))
         XCTAssertFalse(BuiltinEffectArt.draws("not-an-effect"))
+    }
+
+    func testEeveeFramesFollowTheSpriteStripClock() {
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 0), 0)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 7.4 / 2), 62)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 7.4), 0)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 7.4 * 3), 0)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 7.4 + 0.1), 1)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: -0.1), 123)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 1.6), 27)
+        XCTAssertEqual(BuiltinEffectArt.eeveeFrame(at: 1.6, cycle: 0), 0)
     }
 
     func testProfileValuesAreReadInTheirStringAndObjectForms() {

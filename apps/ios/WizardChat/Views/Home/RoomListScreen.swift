@@ -543,6 +543,24 @@ struct RoomRow: View {
     }
     private var hasUnread: Bool { room.unreadCount > 0 || room.mentionCount > 0 }
 
+    /// The latest message, left out in the compact density as on Android
+    private var preview: String? {
+        guard prefs.uiDensity != .compact else { return nil }
+        return RoomPreview.line(room.lastMessage, isDirect: room.isDirect, labels: Self.previewLabels)
+    }
+
+    private static var previewLabels: RoomPreviewLabels {
+        RoomPreviewLabels(you: String(localized: "nav.you"),
+                          photo: String(localized: "timeline.photo"),
+                          video: String(localized: "timeline.summary.video"),
+                          audio: String(localized: "composer.voice.record"),
+                          file: String(localized: "composer.file"),
+                          sticker: String(localized: "room.preview.sticker"),
+                          poll: String(localized: "timeline.poll.title"),
+                          call: String(localized: "room.preview.call"),
+                          newMessage: String(localized: "common.newMessage"))
+    }
+
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
             if showsHashIcon {
@@ -566,6 +584,13 @@ struct RoomRow: View {
                     .font(.wizard(WZ.FontSize.lg, hasUnread ? .semibold : .regular))
                     .foregroundStyle(hasUnread ? theme.textPrimary : theme.textPrimary.opacity(0.85))
                     .lineLimit(1)
+                if let preview {
+                    Text(preview)
+                        .font(.wizard(WZ.FontSize.sm, hasUnread ? .medium : .regular))
+                        .foregroundStyle(hasUnread ? theme.textPrimary : theme.textMuted)
+                        .lineLimit(1)
+                        .sensitive()
+                }
                 if inCall {
                     ParticipantStack(roomId: room.id, userIds: room.callParticipants)
                 }

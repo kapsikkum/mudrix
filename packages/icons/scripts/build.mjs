@@ -2,13 +2,14 @@
 //   dist/apple/Icons.xcassets/ph-<name>-<weight>.symbolset  custom SF Symbols, so they size with
 //                                                            text, menus and labels like Apple's
 //   dist/android/drawable/ph_<name>_<weight>.xml             vector drawables
-//   dist/apple/Cosmetics.xcassets/cosmetic-*.imageset        the built-in cosmetics' SVG art for iOS
+//   dist/apple/Cosmetics.xcassets/cosmetic-*.imageset        the built-in cosmetics' art and effect strips for iOS
 //   dist/ios/cosmetics.json                                  their ids, palettes and frame pieces for iOS
 // Fails if an icon, weight or art file doesn't exist.
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pngSize, rasteriseSvg } from './svg-raster.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
@@ -103,7 +104,7 @@ ${paths}
 console.log(`icons: ${svgs.length} exported`);
 exportCosmetics();
 
-/** The built-in decorations, nameplates and frames from apps/web, as an iOS asset catalog and one JSON list */
+/** The built-in decorations, nameplates, frames and effect strips from apps/web, as an iOS catalog and one JSON list */
 function exportCosmetics() {
   const assets = join(root, '../../apps/web/public/assets');
   const manifests = join(root, '../../apps/web/src/util/builtinCosmetics');
@@ -119,17 +120,35 @@ function exportCosmetics() {
       return null;
     }
     const cleaned = cosmeticSvg(readFileSync(path, 'utf8'));
-    if (/<image\b/.test(cleaned)) {
-      console.log(`cosmetics: skipped ${file} (embedded bitmap; left out of the asset catalog)`);
-      return null;
-    }
     const original = svgSize(cleaned);
     if (!original) {
       problems.push(`no size in: ${file}`);
       return null;
     }
+    // CoreSVG leaves <image> out, so a plate that embeds a bitmap is composited to a raster
+    if (/<image\b/.test(cleaned)) {
+      images.set(name, { png: rasteriseSvg(cleaned, original.width, original.height) });
+      return original;
+    }
     const { svg, size } = scaledSvg(cleaned, original, maxWidth);
-    images.set(name, svg);
+    images.set(name, { svg });
+    return size;
+  };
+
+  const addRaster = (name, file) => {
+    if (images.has(name)) problems.push(`two cosmetics named ${name}`);
+    const path = join(assets, `${file}`.replace(/^assets\//, ''));
+    if (!existsSync(path)) {
+      problems.push(`no such art: ${file}`);
+      return null;
+    }
+    const png = readFileSync(path);
+    const size = pngSize(png);
+    if (!size) {
+      problems.push(`not a PNG: ${file}`);
+      return null;
+    }
+    images.set(name, { png });
     return size;
   };
 
@@ -184,6 +203,10 @@ function exportCosmetics() {
     return pieces.length ? [{ id: frame.id, name: frame.name ?? frame.id, pieces }] : [];
   });
 
+  // The strips of the `eevee-stars` effect, which the web app also loads from the same folder
+  addRaster('cosmetic-effects-eevee-anim', 'assets/effects/eevee-anim.png');
+  addRaster('cosmetic-effects-eevee-anim-shiny', 'assets/effects/eevee-anim-shiny.png');
+
   if (problems.length) {
     console.error(problems.join('\n'));
     process.exit(1);
@@ -192,18 +215,26 @@ function exportCosmetics() {
   const catalog = join(dist, 'apple/Cosmetics.xcassets');
   mkdirSync(catalog, { recursive: true });
   writeFileSync(join(catalog, 'Contents.json'), json({ info }));
-  for (const [name, svg] of images) {
+  for (const [name, art] of images) {
     const set = join(catalog, `${name}.imageset`);
     mkdirSync(set);
-    writeFileSync(join(set, 'art.svg'), svg);
-    writeFileSync(
-      join(set, 'Contents.json'),
-      json({
-        images: [{ filename: 'art.svg', idiom: 'universal' }],
-        info,
-        properties: { 'preserves-vector-representation': true },
-      })
-    );
+    if (art.png) {
+      writeFileSync(join(set, 'art.png'), art.png);
+      writeFileSync(
+        join(set, 'Contents.json'),
+        json({ images: [{ filename: 'art.png', idiom: 'universal' }], info })
+      );
+    } else {
+      writeFileSync(join(set, 'art.svg'), art.svg);
+      writeFileSync(
+        join(set, 'Contents.json'),
+        json({
+          images: [{ filename: 'art.svg', idiom: 'universal' }],
+          info,
+          properties: { 'preserves-vector-representation': true },
+        })
+      );
+    }
   }
 
   const ios = join(dist, 'ios');

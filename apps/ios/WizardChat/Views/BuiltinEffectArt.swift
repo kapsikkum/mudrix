@@ -29,11 +29,18 @@ struct BuiltinEffectPreview: View {
     }
 }
 
-/// The built-in effects that can be drawn as particles and how each one moves
+/// The built-in effects that can be drawn and how each one moves
 enum BuiltinEffectArt {
-    /// Whether an effect id is one of the drawn ones. `eevee-stars` needs the web's bitmap sprite
-    /// strip, so it is recognised as a built-in but drawn by neither this view nor the picker.
+    /// Whether an effect id is one of the drawn ones
     static func draws(_ id: String) -> Bool { specs[id] != nil || scenes[id] != nil }
+
+    /// The frame of the `eevee-stars` sprite strip showing `time` seconds into its loop
+    static func eeveeFrame(at time: Double, cycle: Double = 7.4, count: Int = 125) -> Int {
+        guard count > 0, cycle > 0, time.isFinite else { return 0 }
+        let position = time.truncatingRemainder(dividingBy: cycle) / cycle
+        let wrapped = position < 0 ? position + 1 : position
+        return min(count - 1, max(0, Int(wrapped * Double(count))))
+    }
 
     /// Draws one frame of an effect over a whole profile card
     static func draw(_ id: String, into context: GraphicsContext, size: CGSize, time: Double,
@@ -219,7 +226,7 @@ enum BuiltinEffectArt {
 
     /// The effects whose particles each pick their own shape and life, as the web's spawn functions do
     private enum Scene: Equatable {
-        case sparks, mud, hands, intrusion, hijack
+        case sparks, mud, hands, intrusion, hijack, eevee
     }
 
     private static let scenes: [String: (scene: Scene, count: Int)] = [
@@ -228,7 +235,18 @@ enum BuiltinEffectArt {
         "creeping-hands": (.hands, 8),
         "signal-intrusion": (.intrusion, 18),
         "broadcast-hijack": (.hijack, 16),
+        "eevee-stars": (.eevee, 14),
     ]
+
+    /// The animated Eevee strip: 125 frames of 49×47 pixels on one row, looping every 7.4 seconds
+    private static let eeveeStrips: (normal: CGImage?, shiny: CGImage?) = (
+        UIImage(named: "cosmetic-effects-eevee-anim")?.cgImage,
+        UIImage(named: "cosmetic-effects-eevee-anim-shiny")?.cgImage
+    )
+    private static let eeveeFrameWidth: CGFloat = 49
+    private static let eeveeFrameHeight: CGFloat = 47
+    private static let eeveeStarColors = ["#FEF08A", "#93C5FD", "#F9A8D4", "#A7F3D0", "#C4B5FD"]
+        .map { Color(hex: $0) }
 
     private static func drawScene(_ scene: (scene: Scene, count: Int), into context: GraphicsContext,
                                   width: Double, height: Double, time: Double, scale: CGFloat) {
@@ -248,6 +266,9 @@ enum BuiltinEffectArt {
         case .hijack:
             drawBroadcastHijack(count: scene.count, into: context, width: width, height: height,
                                 time: time, scale: scale)
+        case .eevee:
+            drawEeveeStars(count: scene.count, into: context, width: width, height: height,
+                           time: time, scale: scale)
         }
     }
 
@@ -727,6 +748,96 @@ enum BuiltinEffectArt {
         let second = rectangle(boxWidth * 0.16, -boxHeight * 0.18, boxWidth * 0.22,
                                boxHeight * 0.36).applying(move)
         context.fill(second, with: .color(pale.opacity(alpha)))
+    }
+
+    /// `eevee-stars`: the sprite Eevees of the web's strip, pixel hearts and twinkling stars
+    private static func drawEeveeStars(count: Int, into context: GraphicsContext, width: Double,
+                                       height: Double, time: Double, scale: CGFloat) {
+        for index in 0..<count {
+            let roll = noise(index, 1)
+            let phase = noise(index, 2) * .pi * 2
+            if roll < 0.36 {
+                let shiny = noise(index, 3) < 0.2
+                guard let strip = shiny ? eeveeStrips.shiny : eeveeStrips.normal else { continue }
+                let life = between(4.5...7.5, noise(index, 4))
+                let age = wrapped(time + noise(index, 5) * life, life)
+                let size = between(15...19, noise(index, 6)) * Double(scale)
+                let startX = between(26...max(26, width - 26), noise(index, 7))
+                let direction: Double = noise(index, 8) < 0.5 ? -1 : 1
+                let speed = between(8...16, noise(index, 9))
+                let x = wrapped(startX + time * direction * speed, width + 52) - 26
+                let y = between(28...max(28, height - 28), noise(index, 10))
+                let hop = -abs(sin(age * 5.2 + phase)) * 7
+                let tilt = sin(age * 5.2 + phase) * 0.08
+                let frame = eeveeFrame(at: age + phase)
+                let crop = CGRect(x: CGFloat(frame) * eeveeFrameWidth, y: 0,
+                                  width: eeveeFrameWidth, height: eeveeFrameHeight)
+                guard let sprite = strip.cropping(to: crop) else { continue }
+                let spriteHeight = size * 2.3
+                let spriteWidth = spriteHeight * Double(eeveeFrameWidth / eeveeFrameHeight)
+                var layer = context
+                layer.opacity = fading(age, life)
+                layer.translateBy(x: CGFloat(x), y: CGFloat(y + hop))
+                layer.rotate(by: .radians(tilt))
+                if direction > 0 { layer.scaleBy(x: -1, y: 1) }
+                layer.draw(Image(decorative: sprite, scale: 1),
+                           in: CGRect(x: -spriteWidth / 2, y: -spriteHeight / 2,
+                                      width: spriteWidth, height: spriteHeight))
+            } else if roll < 0.64 {
+                // A pixel heart bubbling up
+                let life = between(3.2...5.2, noise(index, 3))
+                let age = wrapped(time + noise(index, 4) * life, life)
+                let size = between(6.5...9.5, noise(index, 5)) * Double(scale)
+                let speed = between(14...24, noise(index, 6))
+                let x = between(14...max(14, width - 14), noise(index, 7))
+                let startY = between(0...height + 80, noise(index, 8))
+                let y = wrapped(startY - time * speed, height + 80) - 40
+                let bob = sin(time * 4 + phase) * 2
+                let unit = CGFloat(max(1.2, size * 0.22))
+                let move = CGAffineTransform(translationX: CGFloat(x), y: CGFloat(y + bob))
+                let alpha = fading(age, life)
+                var outline = Path()
+                outline.addRect(CGRect(x: unit, y: 0, width: 2 * unit, height: unit))
+                outline.addRect(CGRect(x: 4 * unit, y: 0, width: 2 * unit, height: unit))
+                outline.addRect(CGRect(x: 0, y: unit, width: 7 * unit, height: 2 * unit))
+                outline.addRect(CGRect(x: unit, y: 3 * unit, width: 5 * unit, height: unit))
+                outline.addRect(CGRect(x: 2 * unit, y: 4 * unit, width: 3 * unit, height: unit))
+                outline.addRect(CGRect(x: 3 * unit, y: 5 * unit, width: unit, height: unit))
+                context.fill(outline.applying(move),
+                             with: .color(Color(hex: "#140B06").opacity(alpha)))
+                var pink = Path()
+                pink.addRect(CGRect(x: unit, y: unit, width: 2 * unit, height: 2 * unit))
+                pink.addRect(CGRect(x: 4 * unit, y: unit, width: 2 * unit, height: 2 * unit))
+                pink.addRect(CGRect(x: 2 * unit, y: 2 * unit, width: 3 * unit, height: 2 * unit))
+                pink.addRect(CGRect(x: 3 * unit, y: 4 * unit, width: unit, height: unit))
+                context.fill(pink.applying(move),
+                             with: .color(Color(hex: "#FB7185").opacity(alpha)))
+                var shine = Path()
+                shine.addRect(CGRect(x: unit, y: unit, width: unit, height: unit))
+                context.fill(shine.applying(move),
+                             with: .color(Color(hex: "#FFE4E6").opacity(alpha)))
+            } else {
+                // A twinkling four-point star in one of the Eeveelution tints
+                let life = between(1.8...3.4, noise(index, 3))
+                let age = wrapped(time + noise(index, 4) * life, life)
+                let size = between(5.5...9.5, noise(index, 5)) * Double(scale)
+                let x = between(12...max(12, width - 12), noise(index, 6))
+                    + sin(time * 0.8 + phase) * 3
+                let y = between(12...max(12, height - 12), noise(index, 7))
+                    + cos(time * 0.5 + phase) * 3
+                let twinkle = 0.78 + 0.22 * sin(age * 4.5 + phase)
+                let tintIndex = Int(noise(index, 8) * Double(eeveeStarColors.count))
+                    % eeveeStarColors.count
+                let tint = eeveeStarColors[tintIndex]
+                let move = CGAffineTransform(translationX: CGFloat(x), y: CGFloat(y))
+                    .rotated(by: CGFloat(phase))
+                let alpha = fading(age, life)
+                let star = path(.sparkle, radius: CGFloat(size * twinkle)).applying(move)
+                context.fill(star, with: .color(tint.opacity(alpha)))
+                context.stroke(star, with: .color(Color(hex: "#5C3818").opacity(0.65 * alpha)),
+                               lineWidth: 1)
+            }
+        }
     }
 
     // MARK: Shapes and maths the scenes share
