@@ -11,11 +11,15 @@ struct RoomListScreen: View {
     @ObservedObject var roomList: RoomListModel
     let selection: SidebarSelection
     var onOpenInbox: (() -> Void)?
+    /// The Modern shell's Direct Messages pane: a header under the title instead of the top bar's + and inbox
+    var modernHeader = false
 
     @EnvironmentObject private var prefs: AppPreferences
     @ObservedObject private var mudrix = MudrixRoomStates.shared
     @Environment(\.theme) private var theme
     @State private var search = ""
+    @State private var searchOpen = false
+    @FocusState private var searchFocused: Bool
     @State private var leaving: RoomSummary?
     @State private var showNewRoom = false
     @State private var showNewMessage = false
@@ -30,7 +34,7 @@ struct RoomListScreen: View {
 
     private var title: String {
         switch selection {
-        case .home: return String(localized: "nav.home")
+        case .home: return modernHeader ? String(localized: "room.dm.directMessages") : String(localized: "nav.home")
         case .dms: return String(localized: "room.dm.directMessages")
         case .space(let id): return roomList.space(id: id)?.name ?? String(localized: "explore.typeSpace")
         }
@@ -56,6 +60,17 @@ struct RoomListScreen: View {
         room.isVoice || SpaceModern.isVoiceChannelFlagged(mudrix.state(room.id))
     }
 
+    /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox
+    private var dmPane: Bool { modernHeader && selection == .home }
+
+    /// The direct messages listed above the rooms without a space in that pane
+    private var dmRooms: [RoomSummary] {
+        guard dmPane, roomList.isLoaded else { return [] }
+        let rooms = roomList.rooms(for: .dms)
+        guard !search.isEmpty else { return rooms }
+        return rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }
+    }
+
     private var groups: [RoomGroup] {
         guard roomList.isLoaded else { return [] }
         let groups = roomList.groups(for: selection)
@@ -73,17 +88,30 @@ struct RoomListScreen: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             }
-            if selection == .home, search.isEmpty, roomList.isLoaded, let onOpenInbox {
+            if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded, let onOpenInbox {
                 HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox)
             }
-            if selection == .home, search.isEmpty, roomList.isLoaded {
+            if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded {
                 ActiveNowSection(roomList: roomList)
+            }
+            if !dmRooms.isEmpty {
+                Section {
+                    ForEach(dmRooms) { roomRow($0) }
+                } header: {
+                    Text(String(localized: "room.dm.directMessages").uppercased())
+                        .font(.wizard(WZ.FontSize.sm, .semibold))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, WZ.Space.space6)
+                        .padding(.bottom, WZ.Space.space2)
+                        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
+                }
             }
             if !roomList.isLoaded {
                 ForEach(0..<8, id: \.self) { _ in
                     SkeletonRow().listRowBackground(Color.clear).listRowSeparator(.hidden)
                 }
-            } else if groups.allSatisfy({ $0.rooms.isEmpty }) {
+            } else if dmRooms.isEmpty, groups.allSatisfy({ $0.rooms.isEmpty }) {
                 Text(search.isEmpty ? emptyText : "nav.noMatches")
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
@@ -118,6 +146,9 @@ struct RoomListScreen: View {
         .scrollContentBackground(.hidden)
         .background(theme.bgPrimary.ignoresSafeArea())
         .modifier(RootTitle(title: title, isRoot: spaceId == nil))
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if dmPane { dmHeader }
+        }
         // Under the title: iOS 26 would otherwise put it at the bottom, behind the tab island.
         // Typing searches everything, not just this list.
         .overlay {
@@ -125,34 +156,24 @@ struct RoomListScreen: View {
                 GlobalSearchResults(roomList: roomList, query: search)
             }
         }
-        .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: Text(String(localized: "nav.searchPlaceholder")))
+        .modifier(ListSearch(text: $search, enabled: !dmPane))
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
-                    if selection != .dms {
-                        Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
+            if !dmPane {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        newMenuItems
+                    } label: {
+                        Image("ph-plus-regular")
                     }
-                    if selection != .dms {
-                        Button { startNewSection(for: nil) } label: { Label(menu: String(localized: "room.sections.new"), icon: "ph-list-bullets-regular") }
-                        Button { reordering = true } label: { Label(menu: String(localized: "nav.reorderRooms"), icon: "ph-caret-up-down-regular") }
-                    }
-                    if spaceId != nil {
-                        Divider()
-                        Button { showSpaceSettings = true } label: { Label(menu: String(localized: "space.settingsTitle"), icon: "ph-gear-regular") }
-                    }
-                } label: {
-                    Image("ph-plus-regular")
+                    .accessibilityLabel(String(localized: "nav.new"))
                 }
-                .accessibilityLabel(String(localized: "nav.new"))
             }
             if reordering {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(String(localized: "common.done")) { reordering = false }.fontWeight(.semibold)
                 }
             }
-            if let onOpenInbox {
+            if !dmPane, let onOpenInbox {
                 ToolbarItem(placement: .topBarTrailing) {
                     InboxButton(roomList: roomList, action: onOpenInbox)
                 }
@@ -222,6 +243,81 @@ struct RoomListScreen: View {
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    private var newMenuItems: some View {
+        Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
+        if selection != .dms {
+            Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
+        }
+        if selection != .dms {
+            Button { startNewSection(for: nil) } label: { Label(menu: String(localized: "room.sections.new"), icon: "ph-list-bullets-regular") }
+            Button { reordering = true } label: { Label(menu: String(localized: "nav.reorderRooms"), icon: "ph-caret-up-down-regular") }
+        }
+        if spaceId != nil {
+            Divider()
+            Button { showSpaceSettings = true } label: { Label(menu: String(localized: "space.settingsTitle"), icon: "ph-gear-regular") }
+        }
+    }
+
+    /// The Direct Messages pane's toolbar, as on Android: search, inbox, a wide new message button and the accent +
+    private var dmHeader: some View {
+        VStack(spacing: WZ.Space.space2) {
+            HStack(spacing: WZ.Space.space3) {
+                RoundToolButton(icon: "ph-magnifying-glass-regular", label: String(localized: "common.search")) {
+                    searchOpen = true
+                    searchFocused = true
+                }
+                if let onOpenInbox {
+                    InboxButton(roomList: roomList, action: onOpenInbox, round: true)
+                }
+                Button { showNewMessage = true } label: {
+                    HStack(spacing: WZ.Space.space2) {
+                        Image("ph-chat-circle-regular")
+                            .font(.system(size: WZ.SizeIcon.sm))
+                            .foregroundStyle(theme.textPrimary)
+                        Text(String(localized: "common.newMessage"))
+                            .font(.wizard(WZ.FontSize.sm, .semibold))
+                            .foregroundStyle(theme.textPrimary)
+                            .lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)
+                    .background(theme.fill, in: Capsule())
+                }
+                .buttonStyle(.plain)
+                Menu {
+                    newMenuItems
+                } label: {
+                    Image("ph-plus-regular")
+                        .font(.system(size: WZ.SizeIcon.sm))
+                        .foregroundStyle(theme.textOnAccent)
+                        .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                        .background(theme.accent, in: Circle())
+                }
+                .accessibilityLabel(String(localized: "nav.new"))
+            }
+            if searchOpen {
+                HStack(spacing: WZ.Space.space2) {
+                    TextField(String(localized: "nav.searchPlaceholder"), text: $search)
+                        .font(.wizard(WZ.FontSize.lg))
+                        .foregroundStyle(theme.textPrimary)
+                        .focused($searchFocused)
+                        .onAppear { searchFocused = true }
+                        .padding(.horizontal, WZ.Space.space4)
+                        .frame(minHeight: WZ.Space.space11)
+                        .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+                    RoundToolButton(icon: "ph-x-regular", label: String(localized: "common.close")) {
+                        search = ""
+                        searchOpen = false
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, WZ.Space.space6)
+        .padding(.vertical, WZ.Space.space2)
+        .frame(maxWidth: .infinity)
+        .background(theme.bgPrimary)
     }
 
     private func roomRow(_ room: RoomSummary, modern: Bool = false) -> some View {
@@ -504,6 +600,7 @@ struct RoomListScreen: View {
 private struct InboxButton: View {
     @ObservedObject var roomList: RoomListModel
     let action: () -> Void
+    var round = false
     @Environment(\.theme) private var theme
 
     var body: some View {
@@ -511,6 +608,8 @@ private struct InboxButton: View {
         let badge = mentions || !roomList.invites.isEmpty
         Button(action: action) {
             Image("ph-tray-regular")
+                .frame(width: round ? WZ.Space.space9 : nil, height: round ? WZ.Space.space9 : nil)
+                .background { if round { Circle().fill(theme.fill) } }
                 .overlay(alignment: .topTrailing) {
                     if badge {
                         Circle()
@@ -521,6 +620,41 @@ private struct InboxButton: View {
                 }
         }
         .accessibilityLabel(String(localized: "inbox.title"))
+    }
+}
+
+private struct RoundToolButton: View {
+    let icon: String
+    let label: String
+    let action: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button(action: action) {
+            Image(icon)
+                .font(.system(size: WZ.SizeIcon.sm))
+                .foregroundStyle(theme.textPrimary)
+                .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                .background(theme.fill, in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+    }
+}
+
+/// The list's own search bar, left out of the Direct Messages pane (its header has a search button instead)
+private struct ListSearch: ViewModifier {
+    @Binding var text: String
+    let enabled: Bool
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if enabled {
+            content.searchable(text: $text, placement: .navigationBarDrawer(displayMode: .automatic),
+                               prompt: Text(String(localized: "nav.searchPlaceholder")))
+        } else {
+            content
+        }
     }
 }
 
@@ -562,6 +696,15 @@ struct RoomRow: View {
     }
 
     var body: some View {
+        if room.isDirect, let partner = room.dmUserId, !partner.isEmpty {
+            CosmeticName(userId: partner) { rowContent }
+        } else {
+            rowContent
+        }
+    }
+
+    /// The other person's nameplate, when they have one, is the row's whole background behind the avatar and text
+    private var rowContent: some View {
         HStack(spacing: WZ.Space.space5) {
             if showsHashIcon {
                 typeIcon(size: avatarSize * 0.45)

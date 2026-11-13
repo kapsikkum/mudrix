@@ -19,27 +19,22 @@ struct MainTabView: View {
     @State private var showCreateSpace = false
     @State private var showInbox = false
     @State private var showExplore = false
+    @State private var railSelection: SidebarSelection = .home
+    @State private var railPath: [Route] = []
     @State private var whatsNew: WhatsNew.Entry?
     @StateObject private var encryptionSetup = EncryptionSetupModel()
     @AppStorage(EncryptionSetupScreen.skippedKey) private var skippedVerificationDevice = ""
 
     var body: some View {
-        TabView(selection: Binding(get: { tab }, set: select)) {
-            tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
-            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
-            tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
-            SwiftUI.Tab(value: Tab.me) {
-                tabContent(.me).tint(theme.control)
-            } label: {
-                Group {
-                    if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
-                }
-                .accessibilityLabel(String(localized: "nav.you"))
+        Group {
+            if prefs.navigationStyle == .rail {
+                ModernShell(roomList: roomList, selection: $railSelection, path: $railPath,
+                            onOpenInbox: { showInbox = true }, onCreateSpace: { showCreateSpace = true },
+                            onExplore: { showExplore = true }, onOpenCall: openCall)
+            } else {
+                tabView
             }
         }
-        .tint(theme.accent)
-        .modifier(MinimizeTabBarOnScroll())
-        .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
         .task(id: "\(session.avatarUrl ?? "")|\(session.displayName ?? session.userId ?? "")") {
             profileIcon = await AvatarImage.circular(session.avatarUrl, name: session.displayName ?? session.userId ?? "",
                                                      media: session.media, theme: theme, side: WZ.SizeIcon.xl)
@@ -116,6 +111,25 @@ struct MainTabView: View {
                 if roomList.room(id: roomId) != nil { show(roomId) } else { showSpace(roomId) }
             }
         }
+    }
+
+    private var tabView: some View {
+        TabView(selection: Binding(get: { tab }, set: select)) {
+            tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
+            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
+            SwiftUI.Tab(value: Tab.me) {
+                tabContent(.me).tint(theme.control)
+            } label: {
+                Group {
+                    if let profileIcon { Image(uiImage: profileIcon) } else { Image.ph("user", .fill) }
+                }
+                .accessibilityLabel(String(localized: "nav.you"))
+            }
+        }
+        .tint(theme.accent)
+        .modifier(MinimizeTabBarOnScroll())
+        .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
     }
 
     private func tabItem(_ item: Tab, title: LocalizedStringKey, icon: String, unread: UnreadState) -> some TabContent<Tab> {
@@ -232,6 +246,15 @@ struct MainTabView: View {
 
     private func show(_ roomId: String) {
         let room = roomList.room(id: roomId)
+        if prefs.navigationStyle == .rail {
+            if room?.isDirect != true, let space = roomList.space(containing: roomId) {
+                railSelection = .space(space.id)
+            } else {
+                railSelection = .home
+            }
+            railPath = [.room(roomId)]
+            return
+        }
         if room?.isDirect == true {
             tab = .dms
             paths[.dms] = [.room(roomId)]
@@ -245,6 +268,11 @@ struct MainTabView: View {
     }
 
     private func showSpace(_ spaceId: String) {
+        if prefs.navigationStyle == .rail {
+            railSelection = .space(spaceId)
+            railPath = []
+            return
+        }
         tab = .spaces
         paths[.spaces] = [.space(spaceId)]
     }

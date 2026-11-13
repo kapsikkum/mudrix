@@ -18,6 +18,8 @@ struct RoomView: View {
     @State private var openThread: IdentifiedString?
     @State private var showThreads = false
     @State private var showJumpToDate = false
+    @State private var showMembers = false
+    @State private var showSearch = false
 
     @State private var backAnchorVisible = false
     @State private var isAtBottom = true
@@ -199,42 +201,27 @@ struct RoomView: View {
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { barWidth = $0 }
         .background(theme.bgSecondary.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(threadRoot == nil)
         .toolbarBackground(theme.bgSecondary, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 if threadRoot != nil {
                     ThreadTitle(room: room)
-                        .fixedSize()
-                        .padding(.horizontal, WZ.Space.space6)
-                        .padding(.vertical, WZ.Space.space2)
-                        .frame(minHeight: WZ.Space.space10)
-                        .floatingGlass(in: Capsule())
+                        .padding(.horizontal, WZ.Space.space2)
                 } else {
-                    Button { showInfo = true } label: {
-                        RoomTitle(room: room, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: 2))
-                            .fixedSize()
-                            .padding(.horizontal, WZ.Space.space6)
-                            .padding(.vertical, WZ.Space.space2)
-                            .frame(minHeight: WZ.Space.space10)
-                            .floatingGlass(in: Capsule())
-                            .contentShape(Capsule())
+                    HStack(spacing: WZ.Space.space2) {
+                        RoomBackButton(roomId: room.id)
+                        RoomChatTitle(room: room, partnerId: dmPartnerId, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: 3),
+                                      onTap: {
+                                          if let partnerId = dmPartnerId { profileUserId = partnerId } else { showInfo = true }
+                                      })
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(String(localized: "timeline.showsRoomInfoMembers"))
                 }
             }
             .glassBackgroundHidden()
             if threadRoot == nil {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { showThreads = true } label: {
-                        Image("ph-chat-dots-regular").foregroundStyle(theme.textPrimary)
-                    }
-                        .accessibilityLabel(String(localized: "timeline.threads"))
-                    Button { showJumpToDate = true } label: {
-                        Image("ph-calendar-blank-regular").foregroundStyle(theme.textPrimary)
-                    }
-                    .accessibilityLabel(String(localized: "room.jumpToDate.title"))
                     Menu {
                         Button { startCall(video: false) } label: {
                             Label(menu: String(localized: "timeline.voiceCall"), icon: "ph-phone-regular")
@@ -243,11 +230,35 @@ struct RoomView: View {
                             Label(menu: String(localized: "timeline.videoCall"), icon: "ph-video-camera-regular")
                         }
                     } label: {
-                        Label(String(localized: "call.startCall"), image: "ph-phone-regular").labelStyle(.iconOnly)
+                        Image("ph-phone-regular").foregroundStyle(theme.textPrimary)
                     }
                     .disabled(room.inCall || calls.isInCall(roomId: room.id))
                     .accessibilityLabel(String(localized: "call.startCall"))
+                    Button { showSearch = true } label: {
+                        Image("ph-magnifying-glass-regular").foregroundStyle(theme.textPrimary)
+                    }
+                    .accessibilityLabel(String(localized: "common.search"))
+                    Menu {
+                        if room.isDirect {
+                            Button { showInfo = true } label: {
+                                Label(String(localized: "room.info.title"), image: "ph-info-regular")
+                            }
+                        }
+                        Button { showMembers = true } label: {
+                            Label(String(localized: "common.members"), image: "ph-users-regular")
+                        }
+                        Button { showThreads = true } label: {
+                            Label(String(localized: "timeline.threads"), image: "ph-chat-dots-regular")
+                        }
+                        Button { showJumpToDate = true } label: {
+                            Label(String(localized: "room.jumpToDate.title"), image: "ph-calendar-blank-regular")
+                        }
+                    } label: {
+                        Image("ph-dots-three-bold").foregroundStyle(theme.textPrimary)
+                    }
+                    .accessibilityLabel(String(localized: "common.more"))
                 }
+                .glassBackgroundHidden()
             }
         }
         .navigationDestination(item: $openThread) { root in
@@ -256,6 +267,17 @@ struct RoomView: View {
         .sheet(isPresented: $showJumpToDate) {
             JumpToDateSheet(client: timeline.client, roomId: room.id) { eventId in notifier.eventToFocus = (room.id, eventId) }
                 .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showMembers) {
+            NavigationStack { MembersView(roomId: room.id) }
+        }
+        .sheet(isPresented: $showSearch) {
+            NavigationStack {
+                RoomSearchView(room: room, client: timeline.client) { eventId in
+                    showSearch = false
+                    notifier.eventToFocus = (room.id, eventId)
+                }
+            }
         }
         .sheet(isPresented: $showThreads) {
             ThreadListView(room: room, client: timeline.client) { root in
@@ -369,6 +391,9 @@ struct RoomView: View {
             }
         }
     }
+
+    /// The other person in a DM; the header opens their profile instead of the room info
+    private var dmPartnerId: String? { room.isDirect ? room.dmUserId : nil }
 
     private func startCall(video: Bool) {
         calls.showCallScreen = true
@@ -758,6 +783,127 @@ private struct ThreadTitle: View {
     }
 }
 
+/// Back in the chat header, with the mentions waiting in other rooms as a badge
+private struct RoomBackButton: View {
+    let roomId: String
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button { dismiss() } label: {
+            Image("ph-caret-left-bold")
+                .font(.system(size: WZ.SizeIcon.md, weight: .bold))
+                .foregroundStyle(theme.textPrimary)
+                .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                .overlay(alignment: .topTrailing) {
+                    if let roomList = session.roomList {
+                        MentionCountBadge(roomList: roomList, roomId: roomId)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(String(localized: "common.back"))
+    }
+}
+
+private struct MentionCountBadge: View {
+    @ObservedObject var roomList: RoomListModel
+    let roomId: String
+
+    var body: some View {
+        let count = roomList.mentionRooms.filter { $0.id != roomId }.reduce(0) { $0 + $1.mentionCount }
+        if count > 0 {
+            UnreadBadge(count: count, isMention: true)
+                .offset(x: WZ.Space.space2, y: -WZ.Space.space2)
+        }
+    }
+}
+
+/// Flat chat header title: avatar, bold name with a chevron, and one subtitle line. A DM shows the partner's
+/// status or presence (and their profile on tap); a room shows its member count (and room info on tap).
+private struct RoomChatTitle: View {
+    let room: RoomSummary
+    let partnerId: String?
+    let maxWidth: CGFloat
+    let onTap: () -> Void
+    @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+    @State private var partner: UserProfile?
+
+    private var status: String? {
+        guard let custom = partner?.customStatus else { return nil }
+        if let expiresAt = custom.expiresAt, Double(expiresAt) / 1000 < Date.now.timeIntervalSince1970 { return nil }
+        return custom.text
+    }
+
+    private var presence: String? {
+        guard prefs.showPresence, let state = partner?.presence?.state else { return nil }
+        switch state {
+        case .online: return String(localized: "presence.online")
+        case .unavailable: return String(localized: "presence.away")
+        case .offline: return String(localized: "presence.offline")
+        }
+    }
+
+    private var subtitle: String? {
+        if partnerId != nil { return status ?? presence }
+        if room.memberCount > 0 { return L10n.plural("room.settings.roles.memberCount", count: room.memberCount, room.memberCount) }
+        guard let topic = room.topic, !topic.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        return topic
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: WZ.Space.space3) {
+                avatar
+                VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                    HStack(spacing: WZ.Space.space2) {
+                        Text(room.displayName)
+                            .font(.wizard(WZ.FontSize.lg, .bold))
+                            .foregroundStyle(theme.textPrimary)
+                            .lineLimit(1)
+                        Image("ph-caret-right-bold")
+                            .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                    if let subtitle {
+                        Text(subtitle)
+                            .font(.wizard(WZ.FontSize.xs))
+                            .foregroundStyle(theme.textMuted)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            .frame(maxWidth: maxWidth, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(partnerId != nil ? String(localized: "call.viewProfile") : String(localized: "timeline.showsRoomInfoMembers"))
+        .task(id: partnerId) {
+            partner = nil
+            guard let partnerId else { return }
+            partner = await session.profile(of: partnerId)
+        }
+    }
+
+    @ViewBuilder
+    private var avatar: some View {
+        if let partnerId {
+            CosmeticAvatar(userId: partnerId, name: room.displayName, url: partner?.avatarUrl ?? room.dmUserAvatar, size: WZ.SizeAvatar.sm)
+        } else if prefs.showRoomAvatars || room.isDirect {
+            AvatarView(name: room.displayName, url: room.avatarUrl ?? room.dmUserAvatar, size: WZ.SizeAvatar.sm)
+        } else {
+            Image(room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-regular")
+                .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
+                .foregroundStyle(theme.textMuted)
+                .frame(width: WZ.SizeAvatar.sm, height: WZ.SizeAvatar.sm)
+                .background(theme.fill, in: Circle())
+        }
+    }
+}
+
 struct RoomTitle: View {
     let room: RoomSummary
     var maxWidth: CGFloat = WZ.Size.sidebar
@@ -1018,19 +1164,19 @@ struct MessageRow: View {
         .padding(.top, (entry.isGrouped || isCompact ? 1 : 6) * spacing)
         .padding(.bottom, (entry.isGrouped || isCompact ? 1 : 2) * spacing)
         .offset(x: swipe)
-        .background(alignment: .leading) {
-            if swipe > 8 {
+        .background(alignment: .trailing) {
+            if swipe < -8 {
                 Image("ph-arrow-bend-up-left-regular")
                     .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
-                    .foregroundStyle(swipe >= Self.replyThreshold ? theme.accent : theme.textMuted)
+                    .foregroundStyle(swipe <= -Self.replyThreshold ? theme.accent : theme.textMuted)
                     .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                     .background(theme.fill, in: Circle())
-                    .scaleEffect(min(swipe / Self.replyThreshold, 1))
-                    .padding(.leading, WZ.Space.space5)
+                    .scaleEffect(min(-swipe / Self.replyThreshold, 1))
+                    .padding(.trailing, WZ.Space.space5)
             }
         }
         .gesture(swipeToReply)
-        .sensoryFeedback(.impact(weight: .medium), trigger: swipe >= Self.replyThreshold)
+        .sensoryFeedback(.impact(weight: .medium), trigger: swipe <= -Self.replyThreshold)
     }
 
     /// Messages of only emoji are shown larger, like on the web
@@ -1068,9 +1214,9 @@ struct MessageRow: View {
     private var swipeToReply: SwipeToReplyGesture {
         SwipeToReplyGesture { dx in
             guard actions != nil, entry.canBeRepliedTo, entry.allowsActions, entry.itemKey != nil else { return }
-            swipe = min(max(dx, 0) * 0.6, Self.replyThreshold + 20)
+            swipe = max(min(dx, 0) * 0.6, -(Self.replyThreshold + 20))
         } onEnd: {
-            if swipe >= Self.replyThreshold { actions?.reply(entry) }
+            if swipe <= -Self.replyThreshold { actions?.reply(entry) }
             withAnimation(.spring(duration: WZ.MotionDuration.slow)) { swipe = 0 }
         }
     }
@@ -1216,7 +1362,7 @@ private struct MenuPressGesture: UIGestureRecognizerRepresentable {
     }
 }
 
-/// Starts only on a clearly sideways drag to the right, so vertical drags always scroll
+/// Starts only on a clearly sideways drag to the left, so vertical drags always scroll
 struct SwipeToReplyGesture: UIGestureRecognizerRepresentable {
     let onChange: (CGFloat) -> Void
     let onEnd: () -> Void
@@ -1241,7 +1387,7 @@ struct SwipeToReplyGesture: UIGestureRecognizerRepresentable {
         func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
             guard let pan = recognizer as? UIPanGestureRecognizer else { return true }
             let velocity = pan.velocity(in: pan.view)
-            return velocity.x > 0 && abs(velocity.x) > abs(velocity.y) * 1.6
+            return velocity.x < 0 && abs(velocity.x) > abs(velocity.y) * 1.6
         }
     }
 }

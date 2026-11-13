@@ -72,6 +72,9 @@ struct AppearanceSettings: View {
                           options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic"),
                                     (.compact, "settings.appearance.compact")])
                 SettingsDivider()
+                PickerRow(label: "settings.appearance.navigation.title", selection: $prefs.navigationStyle,
+                          options: [(.rail, "settings.appearance.navigation.modern"), (.classic, "settings.appearance.navigation.classic")])
+                SettingsDivider()
                 VStack(alignment: .leading, spacing: WZ.Space.space4) {
                     HStack {
                         Text(String(localized: "settings.appearance.textSize"))

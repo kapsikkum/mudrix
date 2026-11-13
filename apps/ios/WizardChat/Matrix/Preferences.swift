@@ -4,6 +4,8 @@ import UIKit
 import WizardChatCore
 
 enum MessageLayout: String, CaseIterable { case modern, classic, compact }
+/// The mobile shell: the space rail, or the earlier bottom tabs
+enum NavigationStyle: String, CaseIterable { case rail, classic }
 enum Density: String, CaseIterable { case compact, `default`, spacious }
 enum ReducedMotion: String, CaseIterable { case system, on, off }
 enum MediaVisibility: String, CaseIterable { case always, `private`, never }
@@ -61,6 +63,7 @@ final class AppPreferences: ObservableObject {
     static let languages = ["en", "de", "es", "fr", "it", "pt", "ru", "ja", "tr", "nl", "pl"]
 
     private static let layouts: Set<String> = ["classic", "modern", "compact"]
+    private static let navigationStyles: Set<String> = ["rail", "classic"]
 
     /// Names an earlier version of the base used, by the key they are now under
     private static let legacyKeys = ["sendTyping": "typingIndicators", "notificationSound": "notificationSounds"]
@@ -86,6 +89,7 @@ final class AppPreferences: ObservableObject {
     // choice is the phone layout, and until one is made it follows the main one
     @Published private(set) var mainMessageLayout: String
     @Published private(set) var phoneMessageLayout: String?
+    @Published private(set) var phoneNavigationStyle: String?
 
     @Published var chatFontSize: Double { didSet { save("chatFontSize", chatFontSize); syncIfNeeded() } }
     @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue); syncIfNeeded() } }
@@ -202,6 +206,9 @@ final class AppPreferences: ObservableObject {
         let phone = d.string(forKey: "messageLayoutMobile") ?? d.string(forKey: "messageLayout")
         phoneMessageLayout = Self.layouts.contains(phone ?? "") ? phone : nil
 
+        let navigation = d.string(forKey: "navigationStyle")
+        phoneNavigationStyle = Self.navigationStyles.contains(navigation ?? "") ? navigation : nil
+
         chatFontSize = d.object(forKey: "chatFontSize") as? Double ?? Self.defaultChatFontSize
         chatDensity = Self.stored(d, "chatDensity", .default)
         uiDensity = Self.stored(d, "uiDensity", .default)
@@ -285,6 +292,15 @@ final class AppPreferences: ObservableObject {
         }
     }
 
+    /// The shell in use on this device: the space rail unless the classic tabs were chosen
+    var navigationStyle: NavigationStyle {
+        get { phoneNavigationStyle == NavigationStyle.classic.rawValue ? .classic : .rail }
+        set {
+            setNavigationStyle(newValue.rawValue)
+            syncIfNeeded()
+        }
+    }
+
     var chatScale: CGFloat { CGFloat(chatFontSize / Self.defaultChatFontSize) }
 
     var chatSpacing: CGFloat {
@@ -330,6 +346,7 @@ final class AppPreferences: ObservableObject {
             stringKey("systemLightTheme", \.systemLightTheme, topLevel: false, allowed: { Themes.isValidName($0) }),
             layoutKey("messageLayout", mobile: false),
             layoutKey("messageLayoutMobile", mobile: true),
+            navigationKey(),
             languageKey(),
             numberKey("chatFontSize", \.chatFontSize, range: 8...40),
             enumKey("chatDensity", \.chatDensity),
@@ -505,6 +522,25 @@ final class AppPreferences: ObservableObject {
     private func setPhoneLayout(_ value: String) {
         phoneMessageLayout = value
         save("messageLayoutMobile", value)
+    }
+
+    private func navigationKey() -> Synced {
+        Synced(
+            key: "navigationStyle", topLevel: true,
+            read: { [unowned self] in self.phoneNavigationStyle.map { JSONValue.string($0) } },
+            normalise: { value in
+                if case .string(let text) = value, Self.navigationStyles.contains(text) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                guard case .string(let text) = value, Self.navigationStyles.contains(text) else { return }
+                if self.phoneNavigationStyle != text { self.setNavigationStyle(text) }
+            })
+    }
+
+    private func setNavigationStyle(_ value: String) {
+        phoneNavigationStyle = value
+        save("navigationStyle", value)
     }
 
     private func languageKey() -> Synced {

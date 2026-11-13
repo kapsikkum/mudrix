@@ -483,12 +483,16 @@ struct StatusText: View {
 
 private struct SettingsTitle: ViewModifier {
     let isTab: Bool
+    @Environment(\.dismiss) private var dismiss
 
     func body(content: Content) -> some View {
         if isTab {
             content.tabTitle(String(localized: "common.settings"))
         } else {
             content.navigationTitle(String(localized: "common.settings"))
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
+                }
         }
     }
 }

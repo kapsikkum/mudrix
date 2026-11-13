@@ -205,6 +205,8 @@ struct UserProfileSheet: View {
     let userId: String
     var roomId: String?
     var onChange: (() -> Void)?
+    /// Shown on your own profile, to open Settings from it
+    var onOpenSettings: (() -> Void)?
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
@@ -318,6 +320,12 @@ struct UserProfileSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
+                if isMe, let onOpenSettings {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button { onOpenSettings() } label: { Image("ph-gear-regular") }
+                            .accessibilityLabel(String(localized: "common.settings"))
+                    }
+                }
             }
             .alert(alertTitle, isPresented: Binding(get: { confirm != nil }, set: { if !$0 { confirm = nil } }),
                    presenting: confirm) { action in
