@@ -25,38 +25,9 @@ struct RoomGeneralView: View {
     var body: some View {
         ThemedForm {
             if let settings {
-                Section {
-                    if can("m.room.join_rules", settings) {
-                        PickerRow(label: "room.settings.security.access",
-                                  selection: Binding(get: { RoomAccess.of(settings.joinRule) },
-                                                     set: { option in Task { await setAccess(option, settings: settings) } }),
-                                  options: accessOptions(settings))
-                    }
-                    if can("m.room.history_visibility", settings) {
-                        PickerRow(label: "room.settings.security.messageHistory",
-                                  note: "room.settings.security.historyNote",
-                                  selection: Binding(get: { RoomHistory(rawValue: settings.historyVisibility) ?? .shared },
-                                                     set: { value in Task { await setHistory(value, settings: settings) } }),
-                                  options: RoomHistory.allCases.map { ($0, LocalizedStringKey($0.labelKey)) })
-                    }
-                } header: {
-                    Text(String(localized: "room.settings.security.title"))
-                }
-
+                securitySection(settings)
                 spacesSection
-
-                if can("m.room.tombstone", settings) {
-                    Section {
-                        Button { confirmUpgrade = true } label: {
-                            Label(String(localized: "room.upgrade.title"), image: "ph-arrow-circle-up-regular")
-                        }
-                        .disabled(busy)
-                    } header: {
-                        Text(String(localized: "room.upgrade.title"))
-                    } footer: {
-                        Text(L10n.format("room.upgrade.currentVersion", settings.roomVersion))
-                    }
-                }
+                upgradeSection(settings)
             } else {
                 Section { ProgressView().tint(theme.accent) }
             }
@@ -78,6 +49,55 @@ struct RoomGeneralView: View {
         .overlay(alignment: .top) { CopyToastView().padding(.top, WZ.Space.space2) }
     }
 
+    private func accessBinding(_ settings: RoomSettings) -> Binding<RoomAccess> {
+        Binding<RoomAccess>(get: { RoomAccess.of(settings.joinRule) },
+                            set: { option in Task { await setAccess(option, settings: settings) } })
+    }
+
+    private func historyBinding(_ settings: RoomSettings) -> Binding<RoomHistory> {
+        Binding<RoomHistory>(get: { RoomHistory(rawValue: settings.historyVisibility) ?? .shared },
+                             set: { value in Task { await setHistory(value, settings: settings) } })
+    }
+
+    private var historyOptions: [(RoomHistory, LocalizedStringKey)] {
+        RoomHistory.allCases.map { option in (option, LocalizedStringKey(option.labelKey)) }
+    }
+
+    @ViewBuilder
+    private func securitySection(_ settings: RoomSettings) -> some View {
+        Section {
+            if can("m.room.join_rules", settings) {
+                PickerRow<RoomAccess>(label: "room.settings.security.access",
+                                      selection: accessBinding(settings),
+                                      options: accessOptions(settings))
+            }
+            if can("m.room.history_visibility", settings) {
+                PickerRow<RoomHistory>(label: "room.settings.security.messageHistory",
+                                       note: "room.settings.security.historyNote",
+                                       selection: historyBinding(settings),
+                                       options: historyOptions)
+            }
+        } header: {
+            Text(String(localized: "room.settings.security.title"))
+        }
+    }
+
+    @ViewBuilder
+    private func upgradeSection(_ settings: RoomSettings) -> some View {
+        if can("m.room.tombstone", settings) {
+            Section {
+                Button { confirmUpgrade = true } label: {
+                    Label(String(localized: "room.upgrade.title"), image: "ph-arrow-circle-up-regular")
+                }
+                .disabled(busy)
+            } header: {
+                Text(String(localized: "room.upgrade.title"))
+            } footer: {
+                Text(L10n.format("room.upgrade.currentVersion", settings.roomVersion))
+            }
+        }
+    }
+
     /// Whether the person may send one kind of state event
     private func can(_ type: String, _ settings: RoomSettings) -> Bool {
         SpaceModern.canSendState(settings.powerLevels.object, creators: Set(settings.creators),
@@ -91,12 +111,16 @@ struct RoomGeneralView: View {
             .map { ($0, LocalizedStringKey($0.labelKey(rule: settings.joinRule))) }
     }
 
+    private func spaceName(_ spaceId: String) -> String {
+        spaces.first(where: { $0.id == spaceId })?.name ?? spaceId
+    }
+
     @ViewBuilder
     private var spacesSection: some View {
         Section {
             ForEach(parents, id: \.self) { spaceId in
                 HStack(spacing: WZ.Space.space5) {
-                    Label(spaces.first { $0.id == spaceId }?.name ?? spaceId, image: "ph-stack-regular")
+                    Label(spaceName(spaceId), image: "ph-stack-regular")
                         .lineLimit(1)
                     Spacer(minLength: 0)
                     if manageable.contains(spaceId) {
@@ -125,7 +149,7 @@ struct RoomGeneralView: View {
         } header: {
             Text(String(localized: "room.settings.spaces.title"))
         } footer: {
-            if parents.isEmpty { Text(String(localized: "room.settings.spaces.none")) }
+            Text(parents.isEmpty ? String(localized: "room.settings.spaces.none") : "")
         }
     }
 

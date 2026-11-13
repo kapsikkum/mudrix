@@ -141,7 +141,7 @@ struct CosmeticSettings: View {
     private func builtins(for kind: CosmeticKind) -> [String] {
         switch kind {
         case .decoration: return CosmeticPacks.decorationIds
-        case .effect: return CosmeticPacks.effectIds
+        case .effect: return CosmeticPacks.effectIds.filter(BuiltinEffectArt.draws)
         case .nameplate: return CosmeticPacks.nameplateIds
         case .profileFrame: return CosmeticPacks.frameIds
         }

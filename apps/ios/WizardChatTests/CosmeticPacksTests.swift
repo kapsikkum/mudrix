@@ -131,6 +131,24 @@ final class CosmeticPacksTests: XCTestCase {
         XCTAssertEqual(CosmeticPacks.resolve(.id("crown"), showPacks: true), .id("crown"))
     }
 
+    func testTheDrawnEffectIdsMatchTheNativePort() {
+        let webIds = [
+            "falling-stars", "hearts", "snow", "sparkles", "claude-sparks", "bubbles", "confetti",
+            "fireflies", "autumn-leaves", "mud-splatter", "creeping-hands", "signal-intrusion",
+            "broadcast-hijack", "eevee-stars",
+        ]
+        XCTAssertEqual(CosmeticPacks.effectIds, webIds)
+        // The Android port draws every id but the sprite-strip effect; both lists are in web order.
+        XCTAssertEqual(CosmeticPacks.effectIds.filter(BuiltinEffectArt.draws), [
+            "falling-stars", "hearts", "snow", "sparkles", "claude-sparks", "bubbles", "confetti",
+            "fireflies", "autumn-leaves", "mud-splatter", "creeping-hands", "signal-intrusion",
+            "broadcast-hijack",
+        ])
+        XCTAssertTrue(BuiltinEffectArt.draws("creeping-hands"))
+        XCTAssertFalse(BuiltinEffectArt.draws("eevee-stars"))
+        XCTAssertFalse(BuiltinEffectArt.draws("not-an-effect"))
+    }
+
     func testProfileValuesAreReadInTheirStringAndObjectForms() {
         XCTAssertEqual(CosmeticPacks.parseDecoration(.string("crown")), .id("crown"))
         XCTAssertEqual(CosmeticPacks.parseDecoration(.string(mxc("d"))), .id(mxc("d")))
