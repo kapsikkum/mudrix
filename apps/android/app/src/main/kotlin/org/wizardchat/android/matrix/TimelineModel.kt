@@ -17,6 +17,7 @@ import kotlin.math.roundToLong
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
@@ -76,6 +77,9 @@ data class PendingUpload(
         var nextId = 0L
     }
 }
+
+/** One file of a send, with the composer attachment it came from (null for the other senders) */
+data class OutgoingFile(val uri: Uri, val preview: Bitmap?, val uploadId: Long? = null)
 
 data class MessageMention(val label: String, val userId: String, val isOwn: Boolean)
 
@@ -244,6 +248,9 @@ class TimelineModel(
     var pinnedIds by mutableStateOf<Set<String>>(emptySet())
         private set
     var uploads by mutableStateOf<List<PendingUpload>>(emptyList())
+        private set
+    /** Where each composer attachment's background upload is, for its chip in the tray */
+    var uploadStates by mutableStateOf<Map<Long, UploadState>>(emptyMap())
         private set
     /** The membership and state changes of the timeline, as the audit log lists them; filled when asked for */
     var auditChanges by mutableStateOf<List<AuditLog.Change>>(emptyList())
@@ -431,7 +438,7 @@ class TimelineModel(
 
     /** Uploads a picked file (`content://` or `file://`) */
     suspend fun sendFile(uri: Uri, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) =
-        sendFiles(listOf(uri to null), caption, replyTo, spoiler)
+        sendFiles(listOf(OutgoingFile(uri, null)), caption, replyTo, spoiler)
 
     /** What is done to the files of one send before they upload */
     class SendPrep(
@@ -452,30 +459,98 @@ class TimelineModel(
 
     private class UploadCancelled : Exception()
 
+    private val uploadTracker = ComposerUploads()
+    private val uploadJobs = HashMap<Long, Job>()
+    private val uploadUris = HashMap<Long, Uri>()
+    private val uploadedFiles = HashMap<Long, UploadedFile>()
+
+    /** Uploads an attachment in the background as soon as it is added, so sending only waits for what is left */
+    fun preupload(id: Long, uri: Uri) {
+        val token = uploadTracker.start(id)
+        uploadUris[id] = uri
+        uploadJobs.remove(id)?.cancel()
+        publishUploads()
+        uploadJobs[id] = scope.launch { uploadInBackground(id, uri, token) }
+    }
+
+    /** Starts the background upload of an attachment again after it failed */
+    fun retryPreupload(id: Long) {
+        val uri = uploadUris[id] ?: return
+        val token = uploadTracker.retry(id) ?: return
+        uploadJobs.remove(id)?.cancel()
+        publishUploads()
+        uploadJobs[id] = scope.launch { uploadInBackground(id, uri, token) }
+    }
+
+    /** Stops and forgets an attachment's background upload (it was removed, or what is sent must be new bytes) */
+    fun cancelPreupload(id: Long) {
+        uploadJobs.remove(id)?.cancel()
+        uploadUris.remove(id)
+        uploadedFiles.remove(id)
+        uploadTracker.forget(id)
+        publishUploads()
+    }
+
+    private fun publishUploads() {
+        uploadStates = uploadTracker.snapshot()
+    }
+
+    private suspend fun uploadInBackground(id: Long, uri: Uri, token: Long) {
+        val timeline = timeline ?: return
+        try {
+            val bytes = readBytes(uri)
+            val mimetype = mimeTypeOf(uri)
+            val file = metadata(uri, bytes, mimetype, filenameOf(uri))
+            val uploaded = timeline.uploadFile(bytes, mimetype) { progress ->
+                if (progress.total <= 0) return@uploadFile
+                val fraction = progress.current.toFloat() / progress.total
+                scope.launch {
+                    uploadTracker.progress(id, token, fraction)
+                    publishUploads()
+                }
+            }
+            if (!uploadTracker.isCurrent(id, token)) return
+            uploadedFiles[id] = file.copy(source = uploaded)
+            uploadTracker.finish(id, token)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            uploadTracker.fail(id, token)
+        } finally {
+            if (uploadTracker.isCurrent(id, token)) publishUploads()
+        }
+    }
+
+    /** Waits for an attachment's background upload, if any; null when there is nothing to send as it is */
+    private suspend fun awaitUpload(id: Long): UploadedFile? {
+        uploadJobs[id]?.join()
+        return uploadedFiles[id]
+    }
+
     /** The caption and reply go with the first file */
     suspend fun sendFiles(
-        files: List<Pair<Uri, Bitmap?>>,
+        files: List<OutgoingFile>,
         caption: String? = null,
         replyTo: String? = null,
         spoiler: Boolean = false,
         prep: SendPrep? = null,
     ) {
         if (timeline == null) return
-        val mimeTypes = files.map { mimeTypeOf(it.first) }
+        val mimeTypes = files.map { mimeTypeOf(it.uri) }
         // Two or more pictures sent together are tagged so every client of ours shows them as one set
         val tags = GalleryTags.plan(mimeTypes, java.util.UUID.randomUUID().toString())
-        val pending = files.map { (uri, preview) ->
-            val mimetype = mimeTypeOf(uri)
+        val pending = files.map { file ->
+            val mimetype = mimeTypeOf(file.uri)
             PendingUpload(
-                preview = preview ?: if (mimetype.startsWith("image/")) decodePreview(uri) else null,
+                preview = file.preview ?: if (mimetype.startsWith("image/")) decodePreview(file.uri) else null,
                 isVideo = mimetype.startsWith("video/"),
-                filename = filenameOf(uri),
+                filename = filenameOf(file.uri),
             )
         }
         uploads = uploads + pending
         files.zip(pending).forEachIndexed { index, (file, item) ->
             upload(
-                file.first,
+                file,
                 item.id,
                 caption = if (index == 0) caption else null,
                 replyTo = if (index == 0) replyTo else null,
@@ -526,7 +601,7 @@ class TimelineModel(
     }
 
     private suspend fun upload(
-        uri: Uri,
+        file: OutgoingFile,
         id: Long,
         caption: String?,
         replyTo: String?,
@@ -538,13 +613,30 @@ class TimelineModel(
         val temporary = mutableListOf<File>()
         report {
             try {
+                val uri = file.uri
                 var source = uri
                 var mimetype = mimeTypeOf(uri)
                 var filename = filenameOf(uri)
                 var data: ByteArray? = null
 
-                val target = prep?.videoTargets?.get(uri)
-                if (target != null && mimetype.startsWith("video/")) {
+                val target = prep?.videoTargets?.get(uri)?.takeIf { mimetype.startsWith("video/") }
+                val image = prep?.image?.takeIf { imageWillProcess(mimetype, it) }
+                val uploadId = file.uploadId
+                val ready = if (uploadId != null && target == null && image == null) awaitUpload(uploadId) else null
+                if (uploadId != null) cancelPreupload(uploadId)
+                if (ready != null) {
+                    timeline.sendUploaded(
+                        ready.copy(
+                            caption = caption,
+                            spoiler = spoiler,
+                            replyTo = replyTo,
+                            extraContent = gallery?.let { GalleryTags.content(it) },
+                        ),
+                    )
+                    return@report
+                }
+
+                if (target != null) {
                     shrinkVideo(uri, id, target, filename)?.let { shrunk ->
                         temporary += shrunk
                         source = Uri.fromFile(shrunk)
@@ -552,8 +644,7 @@ class TimelineModel(
                         filename = shrunk.name
                     }
                 }
-                val image = prep?.image
-                if (image != null && mimetype.startsWith("image/")) {
+                if (image != null) {
                     val original = readBytes(source)
                     val prepared = try {
                         withContext(Dispatchers.Default) { ImagePrep.prepare(original, image) }
@@ -575,38 +666,19 @@ class TimelineModel(
                     throw IllegalStateException(L10n.format("attachment.fileTooLarge", FileSize.format(limit)))
                 }
 
-                var file = UploadedFile(
-                    source = JsonPrimitive(""),
-                    size = bytes.size.toLong(),
-                    filename = filename,
-                    mimetype = mimetype,
+                var uploaded = metadata(source, bytes, mimetype, filename)
+                uploaded = uploaded.copy(
                     caption = caption,
                     spoiler = spoiler,
-                    isAnimated = mimetype == "image/gif",
                     replyTo = replyTo,
                     extraContent = gallery?.let { GalleryTags.content(it) },
                 )
-                when {
-                    mimetype.startsWith("image/") -> MediaMetadata.imageSize(source)?.let { (w, h) ->
-                        file = file.copy(width = w.toLong(), height = h.toLong())
-                    }
-                    mimetype.startsWith("video/") -> {
-                        val video = MediaMetadata.video(source)
-                        file = file.copy(
-                            width = video.size?.first?.toLong(),
-                            height = video.size?.second?.toLong(),
-                            durationMs = video.duration?.let { (it * 1000).toLong() },
-                        )
-                    }
-                    mimetype.startsWith("audio/") ->
-                        file = file.copy(durationMs = MediaMetadata.duration(source)?.let { (it * 1000).toLong() })
-                }
-                val uploaded = timeline.uploadFile(bytes, mimetype) { progress ->
+                val source0 = timeline.uploadFile(bytes, mimetype) { progress ->
                     if (progress.total <= 0) return@uploadFile
                     val fraction = progress.current.toFloat() / progress.total
                     scope.launch { updateUpload(id) { it.copy(progress = fraction) } }
                 }
-                timeline.sendUploaded(file.copy(source = uploaded))
+                timeline.sendUploaded(uploaded.copy(source = source0))
             } catch (_: UploadCancelled) {
                 // The user stopped it: nothing to send, nothing to report
             } finally {
@@ -615,6 +687,33 @@ class TimelineModel(
                 }
             }
         }
+    }
+
+    /** What the message needs to know about a file, before it is uploaded */
+    private suspend fun metadata(uri: Uri, bytes: ByteArray, mimetype: String, filename: String): UploadedFile {
+        var file = UploadedFile(
+            source = JsonPrimitive(""),
+            size = bytes.size.toLong(),
+            filename = filename,
+            mimetype = mimetype,
+            isAnimated = mimetype == "image/gif",
+        )
+        when {
+            mimetype.startsWith("image/") -> MediaMetadata.imageSize(uri)?.let { (w, h) ->
+                file = file.copy(width = w.toLong(), height = h.toLong())
+            }
+            mimetype.startsWith("video/") -> {
+                val video = MediaMetadata.video(uri)
+                file = file.copy(
+                    width = video.size?.first?.toLong(),
+                    height = video.size?.second?.toLong(),
+                    durationMs = video.duration?.let { (it * 1000).toLong() },
+                )
+            }
+            mimetype.startsWith("audio/") ->
+                file = file.copy(durationMs = MediaMetadata.duration(uri)?.let { (it * 1000).toLong() })
+        }
+        return file
     }
 
     private suspend fun readBytes(uri: Uri): ByteArray = withContext(Dispatchers.IO) {

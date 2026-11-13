@@ -2,6 +2,7 @@ package org.wizardchat.android.ui.people
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,75 +22,60 @@ import org.wizardchat.android.matrix.MutualEntry
 import org.wizardchat.android.matrix.MutualRooms
 import org.wizardchat.android.matrix.MutualRoomsLookup
 import org.wizardchat.android.ui.Avatar
-import org.wizardchat.android.ui.GroupedRow
-import org.wizardchat.android.ui.GroupedSection
-import org.wizardchat.android.ui.L10n
-import org.wizardchat.android.ui.SheetTopBar
-import org.wizardchat.android.ui.BarTextButton
-import org.wizardchat.android.ui.WizardSheet
-import org.wizardchat.android.ui.home.LocalNavigator
+import org.wizardchat.android.ui.Note
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
-import org.wizardchat.android.ui.trPlural
 import org.wizardchat.tokens.WZ
 
-/** "3 mutual rooms · 1 mutual space" on a profile; tapping lists them. Nothing shows when the server can't tell or there are none. */
+/** The rooms and spaces this person shares with you, or null while unknown (the server may not know) */
 @Composable
-internal fun ProfileMutualRooms(userId: String, name: String) {
+internal fun rememberMutualRooms(userId: String, enabled: Boolean): MutualRooms? {
     val session = LocalSession.current
-    val navigator = LocalNavigator.current
-    val closeParents = LocalCloseParents.current
-    var mutual by remember(userId) { mutableStateOf<MutualRooms?>(null) }
-    var open by remember { mutableStateOf(false) }
-    LaunchedEffect(userId) {
+    var mutual by remember(userId, enabled) { mutableStateOf<MutualRooms?>(null) }
+    LaunchedEffect(userId, enabled) {
+        if (!enabled) return@LaunchedEffect
         val stored = session.client?.session ?: return@LaunchedEffect
         val list = session.roomList ?: return@LaunchedEffect
         val ids = MutualRoomsLookup.fetch(stored.homeserverUrl, stored.accessToken, userId) ?: return@LaunchedEffect
         mutual = MutualRoomsLookup.classify(ids, list.joinedRooms, list.spaces, list.graph)
     }
-    val found = mutual?.takeIf { !it.isEmpty } ?: return
-    val summary = listOfNotNull(
-        found.rooms.takeIf { it.isNotEmpty() }?.let { trPlural("profile.mutualRooms", it.size, it.size) },
-        found.spaces.takeIf { it.isNotEmpty() }?.let { trPlural("profile.mutualSpaces", it.size, it.size) },
-    ).joinToString(" · ")
-    GroupedSection {
-        GroupedRow(summary, icon = "users", onClick = { open = true })
+    return mutual
+}
+
+/** The mutual rooms of a profile: spaces first, then rooms, or the empty note (the web's mutual tab) */
+@Composable
+internal fun MutualRoomsList(found: MutualRooms?, onOpen: (entry: MutualEntry, isSpace: Boolean) -> Unit) {
+    if (found == null || found.isEmpty) {
+        Note(tr("profile.mutualEmpty"), Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space6))
+        return
     }
-    if (open) {
-        WizardSheet({ open = false }) {
-            SheetBar(
-                L10n.format("profile.mutualTitle", name),
-                trailing = { BarTextButton(tr("common.done"), { open = false }, bold = true) },
-            )
-            FormList {
-                if (found.spaces.isNotEmpty()) {
-                    item {
-                        GroupedSection(header = tr("profile.mutualSpacesHeading")) {
-                            found.spaces.forEach { entry ->
-                                MutualRow(entry) { open = false; closeParents(); navigator.openSpace(entry.id) }
-                            }
-                        }
-                    }
-                }
-                if (found.rooms.isNotEmpty()) {
-                    item {
-                        GroupedSection(header = tr("profile.mutualRoomsHeading")) {
-                            found.rooms.forEach { entry ->
-                                MutualRow(entry) { open = false; closeParents(); navigator.openRoom(entry.id) }
-                            }
-                        }
-                    }
-                }
-            }
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+        if (found.spaces.isNotEmpty()) {
+            MutualHeading(tr("profile.mutualSpacesHeading"))
+            found.spaces.forEach { entry -> MutualRow(entry) { onOpen(entry, true) } }
+        }
+        if (found.rooms.isNotEmpty()) {
+            MutualHeading(tr("profile.mutualRoomsHeading"))
+            found.rooms.forEach { entry -> MutualRow(entry) { onOpen(entry, false) } }
         }
     }
 }
 
 @Composable
+private fun MutualHeading(text: String) {
+    Text(
+        text,
+        Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
+        style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+        color = theme.textMuted,
+    )
+}
+
+@Composable
 private fun MutualRow(entry: MutualEntry, onClick: () -> Unit) {
     Row(
-        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space3),
+        Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {

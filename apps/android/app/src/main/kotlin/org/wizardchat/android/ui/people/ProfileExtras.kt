@@ -60,13 +60,12 @@ import org.wizardchat.tokens.WZ
 internal fun accentColor(accent: String?): Color? =
     accent?.let { runCatching { Color(android.graphics.Color.parseColor(it)) }.getOrNull() }
 
-/** Pronouns, local time, bio and what they are playing, under the name */
+/** Pronouns, bio and what they are playing, under the name (the web's card body) */
 @Composable
 internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
     var fullBio by remember { mutableStateOf(false) }
     val activities = ProfileFields.live(profile.activities)
-    val local = profile.timezone?.let { ProfileFields.localTime(it) }
-    if (profile.pronouns.isEmpty() && local == null && profile.bio.isEmpty() && activities.isEmpty()) return
+    if (profile.pronouns.isEmpty() && profile.bio.isEmpty() && activities.isEmpty()) return
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,22 +74,7 @@ internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
         if (profile.pronouns.isNotEmpty()) {
             Text(profile.pronouns.joinToString(", "), style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
         }
-        if (local != null) {
-            val (time, offset) = local
-            val hours = abs(offset)
-            val shown = if (hours % 1.0 == 0.0) "${hours.toInt()}" else "%.1f".format(hours)
-            val relative = when {
-                offset == 0.0 -> tr("profile.sameTime")
-                offset > 0 -> tr("profile.hoursAhead", shown)
-                else -> tr("profile.hoursBehind", shown)
-            }
-            Text(
-                "${time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))} · $relative",
-                style = wizardFont(WZ.FontSize.sm),
-                color = theme.textMuted,
-            )
-        }
-        activities.forEach { ActivityCard(it) }
+        ProfileActivities(activities)
         if (profile.bio.isNotEmpty()) {
             Column(
                 Modifier.fillMaxWidth().clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill).padding(WZ.Space.space4),
@@ -116,6 +100,34 @@ internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
             }
         }
     }
+}
+
+/** What the person is playing or listening to, as the cards the web shows on a profile */
+@Composable
+internal fun ProfileActivities(activities: List<ProfileActivity>) {
+    if (activities.isEmpty()) return
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+        activities.forEach { ActivityCard(it) }
+    }
+}
+
+/** The person's local time, with how far it is from yours (a row of the web's details tab) */
+@Composable
+internal fun ProfileLocalTime(profile: ExtendedProfile) {
+    val local = profile.timezone?.let { ProfileFields.localTime(it) } ?: return
+    val (time, offset) = local
+    val hours = abs(offset)
+    val shown = if (hours % 1.0 == 0.0) "${hours.toInt()}" else "%.1f".format(hours)
+    val relative = when {
+        offset == 0.0 -> tr("profile.sameTime")
+        offset > 0 -> tr("profile.hoursAhead", shown)
+        else -> tr("profile.hoursBehind", shown)
+    }
+    Text(
+        "${time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))} · $relative",
+        style = wizardFont(WZ.FontSize.md),
+        color = theme.textSecondary,
+    )
 }
 
 private const val BIO_CLAMP_LINES = 4

@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +47,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
@@ -89,6 +91,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.io.File
 import kotlinx.coroutines.Dispatchers
@@ -111,10 +114,15 @@ import org.wizardchat.android.media.VideoCompressor
 import org.wizardchat.android.media.VideoMeta
 import org.wizardchat.android.media.VideoPlan
 import org.wizardchat.android.media.VideoQuality
+import org.wizardchat.android.matrix.OutgoingFile
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.ScheduledMessages
 import org.wizardchat.android.matrix.TimelineModel
+import org.wizardchat.android.matrix.UploadState
+import org.wizardchat.android.matrix.UploadStatus
+import org.wizardchat.android.matrix.canPreupload
 import org.wizardchat.android.matrix.displayName
+import org.wizardchat.android.matrix.imageWillProcess
 import org.wizardchat.android.matrix.text
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.L10n
@@ -139,7 +147,7 @@ import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
 
 /** A file waiting in the composer's tray until the message is sent */
-class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boolean, val id: Long = nextId++) {
+class PendingAttachment(val file: File, val thumbnail: Bitmap?, val isVideo: Boolean, val mime: String, val id: Long = nextId++) {
     /** Length, size and bitrate of a video, once read; the size choices need them */
     var meta by mutableStateOf<VideoMeta?>(null)
 
@@ -232,6 +240,30 @@ fun ComposerView(
 
     fun setDraft(value: String) = draft.setTextAndPlaceCursorAtEnd(value)
 
+    /** Uploads an attachment in the background when its bytes are final, like the web composer; cancels one that no longer applies */
+    fun startPreupload(attachment: PendingAttachment) {
+        val limit = session.uploadLimit
+        val prep = ImagePrep.Options(prefs.photoStripMetadata, prefs.photoUploadSize.maxSide)
+            .takeIf { it.stripMetadata || it.maxSide != null }
+        val target = if (attachment.isVideo && VideoCompressor.isSupported) {
+            val quality = attachment.pick ?: VideoPlan.defaultQuality(uploadPrefs, attachment.file.length(), limit, true)
+            VideoPlan.qualityTarget(quality, uploadPrefs, limit)
+        } else {
+            null
+        }
+        val allowed = canPreupload(
+            size = attachment.file.length(),
+            maxUploadBytes = limit,
+            videoTarget = if (attachment.isVideo) target else null,
+            imageWillProcess = imageWillProcess(attachment.mime, prep),
+        )
+        if (allowed) {
+            timeline.preupload(attachment.id, Uri.fromFile(attachment.file))
+        } else {
+            timeline.cancelPreupload(attachment.id)
+        }
+    }
+
     fun addUri(uri: Uri, keepName: Boolean) {
         preparing += 1
         scope.launch {
@@ -247,8 +279,9 @@ fun ComposerView(
                 val original = if (keepName) displayName(context, uri) else null
                 val name = original ?: "${if (isVideo) "video" else if (isImage) "image" else "file"}-${System.currentTimeMillis()}.$ext"
                 val file = MediaMetadata.temporaryCopy(data, name)
-                val attachment = PendingAttachment(file, if (isImage) thumbnail(data) else null, isVideo)
+                val attachment = PendingAttachment(file, if (isImage) thumbnail(data) else null, isVideo, mime ?: "application/octet-stream")
                 attachments.add(attachment)
+                startPreupload(attachment)
                 if (isVideo) {
                     scope.launch {
                         val video = MediaMetadata.video(Uri.fromFile(file))
@@ -464,7 +497,7 @@ fun ComposerView(
             }.toMap()
             val image = ImagePrep.Options(prefs.photoStripMetadata, prefs.photoUploadSize.maxSide).takeIf { it.stripMetadata || it.maxSide != null }
             timeline.sendFiles(
-                pending.map { Uri.fromFile(it.file) to it.thumbnail },
+                pending.map { OutgoingFile(Uri.fromFile(it.file), it.thumbnail, it.id) },
                 caption = message.ifEmpty { null },
                 replyTo = reply,
                 prep = TimelineModel.SendPrep(image, videoTargets, session.knownUploadLimit),
@@ -661,7 +694,19 @@ fun ComposerView(
                         }
                     }
                     if (attachments.isNotEmpty() || preparing > 0) {
-                        AttachmentTray(attachments, preparing, uploadPrefs, session.uploadLimit) { attachment -> attachments.removeAll { it.id == attachment.id } }
+                        AttachmentTray(
+                            attachments = attachments,
+                            preparing = preparing,
+                            uploadPrefs = uploadPrefs,
+                            uploadLimit = session.uploadLimit,
+                            uploads = timeline.uploadStates,
+                            onRemove = { attachment ->
+                                timeline.cancelPreupload(attachment.id)
+                                attachments.removeAll { it.id == attachment.id }
+                            },
+                            onRetry = { attachment -> timeline.retryPreupload(attachment.id) },
+                            onQualityChange = ::startPreupload,
+                        )
                     }
                     if (formatting || (focused && hasSelection)) {
                         FormatBar(
@@ -930,7 +975,10 @@ private fun AttachmentTray(
     preparing: Int,
     uploadPrefs: VideoPlan.UploadPrefs,
     uploadLimit: Long,
+    uploads: Map<Long, UploadState>,
     onRemove: (PendingAttachment) -> Unit,
+    onRetry: (PendingAttachment) -> Unit,
+    onQualityChange: (PendingAttachment) -> Unit,
 ) {
     Row(
         Modifier
@@ -976,7 +1024,8 @@ private fun AttachmentTray(
                         PhIcon("x-circle", size = WZ.SizeIcon.md, tint = theme.textOnAccent, contentDescription = tr("common.remove"))
                     }
                 }
-                VideoQualityChip(attachment, uploadPrefs, uploadLimit)
+                VideoQualityChip(attachment, uploadPrefs, uploadLimit) { onQualityChange(attachment) }
+                UploadChip(uploads[attachment.id]) { onRetry(attachment) }
             }
         }
         repeat(preparing) {
@@ -995,12 +1044,40 @@ private fun AttachmentTray(
     }
 }
 
+/** The background upload of one attachment: how far it got, done, or failed with a way to try again */
+@Composable
+private fun UploadChip(state: UploadState?, onRetry: () -> Unit) {
+    when (state?.status) {
+        UploadStatus.Uploading -> {
+            val label = tr("attachment.uploading")
+            Box(
+                Modifier
+                    .width(72.dp)
+                    .height(WZ.Space.space1)
+                    .clip(CircleShape)
+                    .background(theme.fill)
+                    .semantics { contentDescription = label },
+            ) {
+                Box(Modifier.fillMaxWidth(state.progress).fillMaxHeight().background(theme.accent))
+            }
+        }
+        UploadStatus.Done -> PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.success, contentDescription = tr("common.done"))
+        UploadStatus.Failed -> Box(
+            Modifier.clip(CircleShape).clickable(onClick = onRetry).padding(WZ.Space.space1),
+            contentAlignment = Alignment.Center,
+        ) {
+            PhIcon("arrow-clockwise", PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.danger, contentDescription = tr("common.retry"))
+        }
+        null -> Unit
+    }
+}
+
 /**
  * What a video will be sent as, with its expected size, and a menu to change it. Only for videos the
  * settings or the server limit make worth shrinking, and only where the device can encode them.
  */
 @Composable
-private fun VideoQualityChip(attachment: PendingAttachment, prefs: VideoPlan.UploadPrefs, uploadLimit: Long) {
+private fun VideoQualityChip(attachment: PendingAttachment, prefs: VideoPlan.UploadPrefs, uploadLimit: Long, onChange: () -> Unit) {
     val size = attachment.file.length()
     // A video over the server limit can only be sent by shrinking it, so it always gets the choice
     if (!attachment.isVideo || !VideoCompressor.isSupported || (size < prefs.minBytes && size <= uploadLimit)) return
@@ -1024,7 +1101,10 @@ private fun VideoQualityChip(attachment: PendingAttachment, prefs: VideoPlan.Upl
             choice.quality == VideoQuality.Original -> "${name(choice.quality)} · ${FileSize.format(choiceSize)}"
             else -> "${name(choice.quality)} · ${L10n.format("attachment.qualityEstimate", FileSize.format(choiceSize))}"
         }
-        MenuItem(label, icon = if (choice.quality == chosen.quality) "check" else null) { attachment.pick = choice.quality }
+        MenuItem(label, icon = if (choice.quality == chosen.quality) "check" else null) {
+            attachment.pick = choice.quality
+            onChange()
+        }
     }
     val chosenSize = chosen.size
     val summary = if (chosen.quality != VideoQuality.Original && chosenSize != null) {

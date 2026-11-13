@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +35,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import java.io.ByteArrayOutputStream
@@ -47,6 +52,7 @@ import kotlinx.serialization.json.put
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ImagePacks
+import org.wizardchat.android.matrix.PackSize
 import org.wizardchat.android.matrix.canSendState
 import org.wizardchat.android.matrix.setStateEvent
 import org.wizardchat.android.matrix.stateEvents
@@ -332,6 +338,9 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                     }
                 }
             }
+            if (images.isNotEmpty()) {
+                item { PackSizeMeter(PackSize.contentBytes(content)) }
+            }
             item { ErrorText(error) }
         }
     }
@@ -347,6 +356,50 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
             onDismiss = { renaming = null },
             plain = true,
         )
+    }
+}
+
+/** The read-only size of a pack against the Matrix limit, with the web's warning and over-limit notes */
+@Composable
+private fun PackSizeMeter(bytes: Int) {
+    val level = PackSize.level(bytes)
+    val text = L10n.format("room.settings.emojis.sizeMeter", PackSize.formatKb(bytes), PackSize.formatKb(PackSize.BUDGET_BYTES))
+    val color = when (level) {
+        PackSize.Level.Over -> theme.danger
+        PackSize.Level.Near -> theme.warningColor
+        PackSize.Level.Ok -> theme.textSecondary
+    }
+    Column(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+    ) {
+        Text(text, style = wizardFont(WZ.FontSize.sm), color = color)
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(WZ.Space.space1)
+                .clip(CircleShape)
+                .background(theme.fill)
+                .semantics { contentDescription = text },
+        ) {
+            Box(
+                Modifier
+                    .fillMaxWidth((bytes.toFloat() / PackSize.BUDGET_BYTES).coerceIn(0f, 1f))
+                    .fillMaxHeight()
+                    .background(
+                        when (level) {
+                            PackSize.Level.Over -> theme.danger
+                            PackSize.Level.Near -> theme.warningColor
+                            PackSize.Level.Ok -> theme.accent
+                        },
+                    ),
+            )
+        }
+        when (level) {
+            PackSize.Level.Over -> Text(tr("room.settings.emojis.sizeOver"), style = wizardFont(WZ.FontSize.sm), color = theme.danger)
+            PackSize.Level.Near -> Text(tr("room.settings.emojis.sizeWarn"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
+            PackSize.Level.Ok -> Unit
+        }
     }
 }
 

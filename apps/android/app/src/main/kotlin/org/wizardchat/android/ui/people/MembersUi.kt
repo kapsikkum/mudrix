@@ -1,10 +1,15 @@
 package org.wizardchat.android.ui.people
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +22,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.launch
@@ -28,16 +35,21 @@ import org.wizardchat.android.matrix.ignore
 import org.wizardchat.android.matrix.profile
 import org.wizardchat.android.matrix.startDirectMessage
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.ConfirmDialog
 import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.MenuItem
+import org.wizardchat.android.ui.PrimaryButton
 import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.Spinner
+import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.WizardTopBar
+import org.wizardchat.android.ui.copyToClipboard
 import org.wizardchat.android.ui.home.LocalNavigator
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
@@ -219,6 +231,9 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
     var error by remember { mutableStateOf<String?>(null) }
     var reloads by remember { mutableIntStateOf(0) }
     val isMe = userId == session.userId
+    var tab by remember { mutableStateOf(ProfileTab.Details) }
+    var modMenu by remember { mutableStateOf(false) }
+    val mutual = rememberMutualRooms(userId, enabled = !isMe)
 
     LaunchedEffect(userId, roomId, reloads) {
         val client = session.client
@@ -366,66 +381,76 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
                     if (isMember) RoleBadge(level)
                     ProfileBadges(extended.isMudrixUser, software)
                     ProfileAbout(extended, name ?: userId)
+                    ProfileActions(
+                        isMe = isMe,
+                        busy = busy,
+                        canKick = canKick,
+                        canBan = canBan,
+                        modMenu = modMenu,
+                        onModMenu = { modMenu = it },
+                        onMessage = ::message,
+                        onCopyLink = { copyToClipboard("https://matrix.to/#/$userId", L10n.format("common.copied")) },
+                        onAction = { confirm = it },
+                    )
                 }
                 }
                 }
             }
-            if (!isMe) item { ProfileNote(userId) }
-            if (!isMe) item { ProfileVerification(userId) }
-            if (!isMe) item { ProfileMutualRooms(userId, name ?: userId) }
-            if (roomId != null && knocking && (canInviteHere || canReject)) {
-                item {
-                    GroupedSection(header = tr("room.members.pending")) {
-                        if (canInviteHere) {
-                            ActionRow(tr("common.accept"), "check", {
-                                answerKnock(true)
-                            }, enabled = !busy)
-                        }
-                        if (canInviteHere && canReject) RowDivider()
-                        if (canReject) {
-                            ActionRow(tr("room.members.reject"), "x-circle", {
-                                answerKnock(false)
-                            }, theme.danger, enabled = !busy)
-                        }
-                    }
-                }
-            }
-            if (roomId != null && isMember && rights.canChange(level, isMe)) {
-                item {
-                    GroupedSection {
-                        RoleMenu(roomId, userId, level, rights) {
-                            reloads++
-                            onChanged()
+            item { ProfileTabs(tab, if (mutual == null) 0 else mutual.rooms.size + mutual.spaces.size) { tab = it } }
+            when (tab) {
+                ProfileTab.Details -> {
+                    if (roomId != null && isMember && rights.canChange(level, isMe)) {
+                        item {
+                            GroupedSection {
+                                RoleMenu(roomId, userId, level, rights) {
+                                    reloads++
+                                    onChanged()
+                                }
+                            }
                         }
                     }
-                }
-            }
-            if (!isMe) {
-                item {
-                    GroupedSection {
-                        ActionRow(tr("composer.messageInput"), "chat-circle", ::message, enabled = !busy)
+                    if (extended.timezone != null) {
+                        item {
+                            GroupedSection {
+                                Box(Modifier.padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4)) {
+                                    ProfileLocalTime(extended)
+                                }
+                            }
+                        }
                     }
-                }
-            }
-            item {
-                GroupedSection {
-                    CopyRow(tr("profile.copyId"), "copy", userId)
-                    RowDivider()
-                    CopyRow(tr("common.copyLink"), "link-simple", "https://matrix.to/#/$userId")
-                }
-            }
-            if (!isMe) {
-                item {
-                    GroupedSection(footer = tr("room.members.ignoreHint")) {
-                        if (canKick) {
-                            ActionRow(tr("profile.kick"), "user-minus", { confirm = ProfileAction.Kick }, theme.danger)
+                    if (!isMe) item { ProfileVerification(userId) }
+                    if (!isMe) item { ProfileNote(userId) }
+                    item {
+                        GroupedSection {
+                            CopyRow(tr("profile.copyId"), "copy", userId)
                             RowDivider()
+                            CopyRow(tr("common.copyLink"), "link-simple", "https://matrix.to/#/$userId")
                         }
-                        if (canBan) {
-                            ActionRow(tr("room.members.ban"), "prohibit", { confirm = ProfileAction.Ban }, theme.danger)
-                            RowDivider()
+                    }
+                    if (roomId != null && knocking && (canInviteHere || canReject)) {
+                        item {
+                            GroupedSection(header = tr("room.members.pending")) {
+                                if (canInviteHere) {
+                                    ActionRow(tr("common.accept"), "check", {
+                                        answerKnock(true)
+                                    }, enabled = !busy)
+                                }
+                                if (canInviteHere && canReject) RowDivider()
+                                if (canReject) {
+                                    ActionRow(tr("room.members.reject"), "x-circle", {
+                                        answerKnock(false)
+                                    }, theme.danger, enabled = !busy)
+                                }
+                            }
                         }
-                        ActionRow(tr("profile.ignoreUser"), "eye-slash", { confirm = ProfileAction.Ignore }, theme.danger)
+                    }
+                }
+                ProfileTab.Activity -> item { ProfileActivities(ProfileFields.live(extended.activities)) }
+                ProfileTab.Mutual -> item {
+                    MutualRoomsList(mutual) { entry, isSpace ->
+                        onDismiss()
+                        closeParents()
+                        if (isSpace) navigator.openSpace(entry.id) else navigator.openRoom(entry.id)
                     }
                 }
             }
@@ -456,6 +481,93 @@ fun UserProfileSheet(userId: String, roomId: String?, onDismiss: () -> Unit, onC
             destructive = true,
             showField = action != ProfileAction.Ignore,
         )
+    }
+}
+
+/** The tabs of a profile, as the web's full profile splits its card */
+private enum class ProfileTab(val labelKey: String) {
+    Details("profile.tabs.details"),
+    Activity("profile.tabs.activity"),
+    Mutual("profile.tabs.mutualRooms"),
+}
+
+/** The tab strip under the header, the mutual one carrying how many rooms and spaces there are */
+@Composable
+private fun ProfileTabs(selected: ProfileTab, mutualCount: Int, onSelect: (ProfileTab) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space3)
+            .clip(CircleShape)
+            .background(theme.fill)
+            .padding(WZ.Space.space1),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+    ) {
+        ProfileTab.entries.forEach { tab ->
+            val active = tab == selected
+            Row(
+                Modifier
+                    .weight(1f)
+                    .height(WZ.Space.space10)
+                    .clip(CircleShape)
+                    .background(if (active) theme.bgTertiary else Color.Transparent)
+                    .clickable { onSelect(tab) },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterHorizontally),
+            ) {
+                Text(
+                    tr(tab.labelKey),
+                    style = wizardFont(WZ.FontSize.sm, if (active) FontWeight.SemiBold else FontWeight.Normal),
+                    color = if (active) theme.textPrimary else theme.textMuted,
+                    maxLines = 1,
+                )
+                if (tab == ProfileTab.Mutual && mutualCount > 0) {
+                    Text(
+                        if (mutualCount > 99) "99+" else "$mutualCount",
+                        Modifier.clip(CircleShape).background(if (active) theme.accent else theme.textMuted).padding(horizontal = WZ.Space.space2),
+                        style = wizardFont(WZ.FontSize.xs, FontWeight.Bold),
+                        color = theme.textOnAccent,
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** The header's buttons: message, copy the profile link, and the moderation menu (the web's card actions) */
+@Composable
+private fun ProfileActions(
+    isMe: Boolean,
+    busy: Boolean,
+    canKick: Boolean,
+    canBan: Boolean,
+    modMenu: Boolean,
+    onModMenu: (Boolean) -> Unit,
+    onMessage: () -> Unit,
+    onCopyLink: () -> Unit,
+    onAction: (ProfileAction) -> Unit,
+) {
+    Row(
+        Modifier.fillMaxWidth().padding(top = WZ.Space.space2),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (!isMe) PrimaryButton(tr("profile.message"), onMessage, Modifier.weight(1f), enabled = !busy)
+        BarButton("link-simple", tr("common.copyLink"), onCopyLink, tint = theme.textSecondary)
+        if (!isMe) {
+            Box {
+                BarButton("dots-three-vertical", tr("common.more"), { onModMenu(true) }, tint = theme.textSecondary)
+                WizardMenu(
+                    modMenu,
+                    { onModMenu(false) },
+                    buildList {
+                        if (canKick) add(MenuItem(tr("profile.kick"), "user-minus", destructive = true) { onAction(ProfileAction.Kick) })
+                        if (canBan) add(MenuItem(tr("room.members.ban"), "prohibit", destructive = true) { onAction(ProfileAction.Ban) })
+                        add(MenuItem(tr("profile.ignoreUser"), "eye-slash", destructive = true) { onAction(ProfileAction.Ignore) })
+                    },
+                )
+            }
+        }
     }
 }
 
